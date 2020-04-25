@@ -1,0 +1,295 @@
+﻿namespace Factory_Inventory
+{
+    partial class M_V1_cartonInwardForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.inputDate = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.billDate = new System.Windows.Forms.DateTimePicker();
+            this.billNumberTextbox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.totalWeightLabel = new System.Windows.Forms.Label();
+            this.dynamicWeightLabel = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.costLabel = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.factoryInventoryDataSet = new Factory_Inventory.FactoryInventoryDataSet();
+            this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.factoryInventoryDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridView1.Location = new System.Drawing.Point(442, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(695, 668);
+            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            this.dataGridView1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridView1_KeyPress);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 28);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 17);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Input Date";
+            // 
+            // inputDate
+            // 
+            this.inputDate.Enabled = false;
+            this.inputDate.Location = new System.Drawing.Point(12, 39);
+            this.inputDate.Name = "inputDate";
+            this.inputDate.Size = new System.Drawing.Size(200, 22);
+            this.inputDate.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 76);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 17);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Bill Date";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 136);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 17);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Bill Number";
+            // 
+            // billDate
+            // 
+            this.billDate.CustomFormat = " ";
+            this.billDate.Location = new System.Drawing.Point(12, 96);
+            this.billDate.Name = "billDate";
+            this.billDate.Size = new System.Drawing.Size(200, 22);
+            this.billDate.TabIndex = 8;
+            this.billDate.ValueChanged += new System.EventHandler(this.billDate_ValueChanged);
+            // 
+            // billNumberTextbox
+            // 
+            this.billNumberTextbox.Location = new System.Drawing.Point(12, 156);
+            this.billNumberTextbox.Name = "billNumberTextbox";
+            this.billNumberTextbox.Size = new System.Drawing.Size(200, 22);
+            this.billNumberTextbox.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 195);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(67, 17);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Company";
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(140, 504);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(111, 64);
+            this.saveButton.TabIndex = 14;
+            this.saveButton.Text = "Save Voucher";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // totalWeightLabel
+            // 
+            this.totalWeightLabel.AutoSize = true;
+            this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalWeightLabel.Location = new System.Drawing.Point(121, 575);
+            this.totalWeightLabel.Name = "totalWeightLabel";
+            this.totalWeightLabel.Size = new System.Drawing.Size(141, 25);
+            this.totalWeightLabel.TabIndex = 15;
+            this.totalWeightLabel.Text = "Total Weight ";
+            // 
+            // dynamicWeightLabel
+            // 
+            this.dynamicWeightLabel.AutoSize = true;
+            this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(121, 600);
+            this.dynamicWeightLabel.Name = "dynamicWeightLabel";
+            this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
+            this.dynamicWeightLabel.TabIndex = 16;
+            this.dynamicWeightLabel.Text = "0.0";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(15, 215);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(197, 24);
+            this.comboBox2.TabIndex = 18;
+            // 
+            // costLabel
+            // 
+            this.costLabel.AutoSize = true;
+            this.costLabel.Location = new System.Drawing.Point(12, 258);
+            this.costLabel.Name = "costLabel";
+            this.costLabel.Size = new System.Drawing.Size(80, 17);
+            this.costLabel.TabIndex = 19;
+            this.costLabel.Text = "Cost per kg";
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Quality,
+            this.Cost});
+            this.dataGridView2.Location = new System.Drawing.Point(12, 288);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersWidth = 51;
+            this.dataGridView2.RowTemplate.Height = 24;
+            this.dataGridView2.Size = new System.Drawing.Size(405, 210);
+            this.dataGridView2.TabIndex = 21;
+            // 
+            // Quality
+            // 
+            this.Quality.HeaderText = "Quality";
+            this.Quality.MinimumWidth = 6;
+            this.Quality.Name = "Quality";
+            this.Quality.ReadOnly = true;
+            this.Quality.Width = 125;
+            // 
+            // Cost
+            // 
+            this.Cost.HeaderText = "Price per kg";
+            this.Cost.MinimumWidth = 6;
+            this.Cost.Name = "Cost";
+            this.Cost.Width = 125;
+            // 
+            // factoryInventoryDataSet
+            // 
+            this.factoryInventoryDataSet.DataSetName = "FactoryInventoryDataSet";
+            this.factoryInventoryDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // cartonVoucherBindingSource
+            // 
+            this.cartonVoucherBindingSource.DataMember = "Carton_Voucher";
+            this.cartonVoucherBindingSource.DataSource = this.factoryInventoryDataSet;
+            // 
+            // carton_VoucherTableAdapter
+            // 
+            this.carton_VoucherTableAdapter.ClearBeforeFill = true;
+            // 
+            // M_V1_cartonInwardForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1139, 668);
+            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.costLabel);
+            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.dynamicWeightLabel);
+            this.Controls.Add(this.totalWeightLabel);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.billNumberTextbox);
+            this.Controls.Add(this.billDate);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.inputDate);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.dataGridView1);
+            this.Name = "M_V1_cartonInwardForm";
+            this.Text = "cartoonInwardForm";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.factoryInventoryDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DateTimePicker inputDate;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DateTimePicker billDate;
+        private System.Windows.Forms.TextBox billNumberTextbox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Label totalWeightLabel;
+        private System.Windows.Forms.Label dynamicWeightLabel;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label costLabel;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private FactoryInventoryDataSet factoryInventoryDataSet;
+        private System.Windows.Forms.BindingSource cartonVoucherBindingSource;
+        private FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter carton_VoucherTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quality;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
+    }
+}
