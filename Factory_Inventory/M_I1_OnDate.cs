@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
-    public partial class M_inventoryUC : UserControl
+    public partial class M_I1_OnDate : Form
     {
-        private DbConnect c;
-        public M_inventoryUC()
+        public M_I1_OnDate()
         {
             InitializeComponent();
-            this.c = new DbConnect();
         }
     }
 }

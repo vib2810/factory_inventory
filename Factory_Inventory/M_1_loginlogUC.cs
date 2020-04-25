@@ -11,10 +11,10 @@ using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
-    public partial class M_loginlogUC : UserControl
+    public partial class M_1_loginlogUC : UserControl
     {
         private DbConnect c;
-        public M_loginlogUC()
+        public M_1_loginlogUC()
         {
             InitializeComponent();
             this.c = new DbConnect();

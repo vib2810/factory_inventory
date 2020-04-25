@@ -395,7 +395,7 @@ GO
 /* Bill Numbers Voucher: 5 columns*/
 CREATE TABLE BillNos_Voucher
 (
-	Voucher_ID int NULL Primary Key Identity(1,1),
+	Voucher_ID int NOT NULL Primary Key Identity(1,1),
 	Date_Of_Input date NOT NULL,
 	Batch_No_Arr text NOT NULL,
 	Dyeing_Company_Name varchar(50) NOT NULL,
@@ -490,4 +490,15 @@ GO
 --	Fiscal_Year varchar(15) NOT NULL Primary Key,
 --	Highest_Batch_No int NOT NULL,
 --	Highest_Carton_Production_No varchar(20) NOT NULL,
+--);
+
+/*Opening Table*/
+/*Tray Active Table 15 columns*/
+--CREATE TABLE Opening_Stock(
+--	Fiscal_Year varchar(15) NOT NULL,
+--	Calculation_Date date NULL,
+--	Grey_Godown decimal(10,3) NOT NULL,
+--	Twist_Godown decimal(10,3) NOT NULL,
+--	Tray_Godown decimal(10,3) NOT NULL,
+--	Dyeing_Godown decimal(10,3) NOT NULL,
 --);

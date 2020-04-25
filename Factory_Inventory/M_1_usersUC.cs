@@ -11,12 +11,12 @@ using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
-    public partial class M_usersUC : UserControl
+    public partial class M_1_usersUC : UserControl
     {
         private DbConnect c;
         public string currentUser;
         //private int selectedRowIndex = -1;
-        public M_usersUC()
+        public M_1_usersUC()
         {
             InitializeComponent();
             this.c = new DbConnect();

@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class M_usersUC
+    partial class M_1_usersUC
     {
         /// <summary> 
         /// Required designer variable.

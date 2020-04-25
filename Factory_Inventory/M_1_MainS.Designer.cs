@@ -37,9 +37,9 @@ namespace Factory_Inventory
             this.loginLogButton = new System.Windows.Forms.Button();
             this.UsersButton = new System.Windows.Forms.Button();
             this.usernameLabel = new System.Windows.Forms.Label();
-            this.loginlogUC1 = new Factory_Inventory.M_loginlogUC();
-            this.usersUC1 = new Factory_Inventory.M_usersUC();
-            this.inventoryUC1 = new Factory_Inventory.M_inventoryUC();
+            this.loginlogUC1 = new Factory_Inventory.M_1_loginlogUC();
+            this.usersUC1 = new Factory_Inventory.M_1_usersUC();
+            this.inventoryUC1 = new Factory_Inventory.M_1_inventoryUC();
             this.vouchersUC1 = new Factory_Inventory.M_1_vouchersUC();
             this.SuspendLayout();
             // 
@@ -176,8 +176,8 @@ namespace Factory_Inventory
         private System.Windows.Forms.Button UsersButton;
         private System.Windows.Forms.Label usernameLabel;
         private M_1_vouchersUC vouchersUC1;
-        private M_inventoryUC inventoryUC1;
-        private M_usersUC usersUC1;
-        private M_loginlogUC loginlogUC1;
+        private M_1_inventoryUC inventoryUC1;
+        private M_1_usersUC usersUC1;
+        private M_1_loginlogUC loginlogUC1;
     }
 }
