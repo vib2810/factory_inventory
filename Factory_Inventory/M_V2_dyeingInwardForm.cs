@@ -32,6 +32,8 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private int voucherID;
         private bool addBill = false;
+        Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
+
         public M_V2_dyeingInwardForm(string mode)
         {
             if(mode== "dyeingInward")
@@ -110,9 +112,11 @@ namespace Factory_Inventory
                 this.inwardDate.Visible = false;
                 this.label1.Visible = false;
 
-                this.label7.Location = new System.Drawing.Point(24, 84);
-                this.billNumberTextbox.Location = new System.Drawing.Point(24, 104);
-                this.billcheckBox.Location = new System.Drawing.Point(139, 104);
+                this.label7.Location = new System.Drawing.Point(24, 74);
+                this.billNumberTextbox.Location = new System.Drawing.Point(24, 94);
+                this.billDate.Location = new System.Drawing.Point(24, 140);
+                this.label2.Location = new System.Drawing.Point(24, 120);
+                this.billcheckBox.Location = new System.Drawing.Point(139, 94);
                 this.saveButton.Enabled = false;
 
                 //Create drop-down Dyeing Company lists
@@ -246,6 +250,8 @@ namespace Factory_Inventory
                     this.loadBatchButton.Enabled = false;
                     this.saveButton.Enabled = false;
                     this.dataGridView1.ReadOnly = true;
+                    this.comboBox3.Enabled = false;
+
                 }
                 else
                 {
@@ -263,7 +269,7 @@ namespace Factory_Inventory
                 this.inwardDate.Value = Convert.ToDateTime(row["Inward_Date"].ToString());
                 this.dyeingCompanyCombobox.SelectedIndex = this.dyeingCompanyCombobox.FindStringExact(row["Dyeing_Company_Name"].ToString());
                 this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(row["Batch_Fiscal_Year"].ToString());
-
+                if(row["Bill_Date"].ToString() != null && row["Bill_Date"].ToString() != "") this.billDate.Value = Convert.ToDateTime(row["Bill_Date"].ToString());
 
                 if (int.Parse(row["Bill_No"].ToString()) == 0)
                 {
@@ -285,10 +291,25 @@ namespace Factory_Inventory
                 }
                 this.loadData(row["Dyeing_Company_Name"].ToString(), row["Batch_Fiscal_Year"].ToString());
                 dataGridView1.RowCount = batch_nos.Length + 1;
-
+                bool bill_editable = true;
                 for (int i = 0; i < batch_nos.Length; i++)
                 {
                     dataGridView1.Rows[i].Cells[1].Value = batch_nos[i];
+                    string bill_no = c.getColumnBatchNo("Bill_No", int.Parse(batch_nos[i]), this.comboBox3.SelectedItem.ToString());
+                    if(!(bill_no==null || bill_no == "0"))
+                    {
+                        this.batch_editable[batch_nos[i]] = false;
+                        DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
+                        dataGridView1.Rows[i].ReadOnly = true;
+                        r.DefaultCellStyle.BackColor = Color.Gray;
+                        bill_editable = false;
+                    }
+                }
+
+                if (!bill_editable)
+                {
+                    this.billcheckBox.Checked = true;
+                    this.billcheckBox.Enabled = false;
                 }
             }
             if (mode == "addBill")
@@ -313,9 +334,11 @@ namespace Factory_Inventory
                 this.loadBatchButton.Enabled = false;
                 this.comboBox3.Enabled = false;
 
-                this.label7.Location = new System.Drawing.Point(24, 84);
-                this.billNumberTextbox.Location = new System.Drawing.Point(24, 104);
-                this.billcheckBox.Location = new System.Drawing.Point(139, 104);
+                this.label7.Location = new System.Drawing.Point(24, 74);
+                this.billNumberTextbox.Location = new System.Drawing.Point(24, 94);
+                this.billDate.Location = new System.Drawing.Point(24, 140);
+                this.label2.Location = new System.Drawing.Point(24, 120);
+                this.billcheckBox.Location = new System.Drawing.Point(139, 94);
 
                 //DatagridView make
                 dataGridView1.Columns.Add("Sl_No", "Sl_No");
@@ -412,6 +435,7 @@ namespace Factory_Inventory
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
             this.billNumberTextbox.Enabled = false;
+            this.billDate.Enabled = false;
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -435,19 +459,18 @@ namespace Factory_Inventory
                     dynamicWeightLabel.Text = CellSum(2).ToString("F2");
                     return;
                 }
-                int batch_no= int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                int batch_no = int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                DataRow row = c.getRow_BatchNo(batch_no, this.comboBox3.SelectedItem.ToString());
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = row["Net_Weight"].ToString();
+                dataGridView1.Rows[e.RowIndex].Cells[3].Value = row["Colour"].ToString();
+                dataGridView1.Rows[e.RowIndex].Cells[4].Value = row["Quality"].ToString();
 
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = c.getColumnBatchNo("Net_Weight", batch_no);
-                dataGridView1.Rows[e.RowIndex].Cells[3].Value = c.getColumnBatchNo("Colour", batch_no);
-                dataGridView1.Rows[e.RowIndex].Cells[4].Value = c.getColumnBatchNo("Quality", batch_no);
-
-                if(this.addBill==true)
+                if (this.addBill==true)
                 {
                     float weight = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-                    float rate = float.Parse(c.getColumnBatchNo("Dyeing_Rate", batch_no));
+                    float rate = float.Parse(row["Dyeing_Rate"].ToString());
                     dataGridView1.Rows[e.RowIndex].Cells[5].Value = (weight * rate).ToString();
                 }
-
                 dynamicWeightLabel.Text = CellSum(2).ToString("F3");
 
             }
@@ -483,14 +506,6 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                 }
             }
-            //if (e.KeyCode == Keys.Enter &&
-            //   (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
-            //{
-            //    dataGridView1.BeginEdit(true);
-            //    ComboBox c = (ComboBox)dataGridView1.EditingControl;
-            //    c.DroppedDown = true;
-            //    e.Handled = true;
-            //}
             if (e.KeyCode == Keys.Tab &&
                (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2)))
             {
@@ -549,7 +564,11 @@ namespace Factory_Inventory
                 MessageBox.Show("Inward Date is in the future", "Error");
                 return;
             }
-
+            if(this.billDate.Value.Date > this.inputDate.Value.Date)
+            {
+                MessageBox.Show("Bill Date is in the future", "Error");
+                return;
+            }
             string batch_nos = "";
             int number = 0;
 
@@ -580,8 +599,13 @@ namespace Factory_Inventory
                 }
             }
             int sendbill_no = -1;
+            string send_bill_date = null;
             if (this.billcheckBox.Checked == true) sendbill_no = 0;
-            else sendbill_no = int.Parse(billNumberTextbox.Text.ToString());
+            else
+            {
+                sendbill_no = int.Parse(billNumberTextbox.Text.ToString());
+                send_bill_date = billDate.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+            }
             if (this.edit_form == true)
             {
                 if(this.addBill==true)
@@ -596,7 +620,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDate.Value, dyeingCompanyCombobox.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3.SelectedItem.ToString());
+                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDate.Value, dyeingCompanyCombobox.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3.SelectedItem.ToString(), send_bill_date);
                     if (edited == true)
                     {
                         disable_form_edit();
@@ -615,7 +639,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDate.Value, dyeingCompanyCombobox.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3.SelectedItem.ToString());
+                    bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDate.Value, dyeingCompanyCombobox.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3.SelectedItem.ToString(), send_bill_date);
                     if (added == true) disable_form_edit();
                     else return;
                 }
@@ -623,13 +647,48 @@ namespace Factory_Inventory
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int count = dataGridView1.SelectedRows.Count;
-            for (int i = 0; i < count; i++)
+            if(this.edit_form==true && this.addBill==false)
             {
-                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1) continue;
-                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                int count = dataGridView1.SelectedRows.Count;
+                Console.WriteLine("Count= " + count);
+                for (int i = 0; i < count; i++)
+                {
+                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                    {
+                        dataGridView1.SelectedRows[0].Selected = false;
+                        continue;
+                    }
+                    int rowindex = dataGridView1.SelectedRows[0].Index;
+                    string batch_no = dataGridView1.Rows[rowindex].Cells[1].Value.ToString();
+                    bool value = true;
+                    bool value2 = this.batch_editable.TryGetValue(batch_no, out value);
+                    if (value2 == true && value == false)
+                    {
+                        MessageBox.Show("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
+                        dataGridView1.Rows[rowindex].Selected = false;
+                        continue;
+                    }
+                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                    Console.WriteLine("Deleting row: " + rowindex);
+
+                }
+                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
             }
-            dynamicWeightLabel.Text = CellSum(2).ToString("F3");
+            else
+            {
+                int count = dataGridView1.SelectedRows.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                    {
+                        dataGridView1.SelectedRows[0].Selected = false;
+                        continue;
+                    }
+                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                }
+                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
+            }
+           
         }
         private float CellSum(int column)
         {
@@ -683,12 +742,16 @@ namespace Factory_Inventory
         }
         private void billcheckBox_CheckStateChanged(object sender, EventArgs e)
         {
-            if (billcheckBox.Checked == false) billNumberTextbox.Enabled = true;
-            else billNumberTextbox.Enabled = false;
-        }
-
-        private void dataGridView1_MouseDown(object sender, MouseEventArgs e)
-        { 
+            if (billcheckBox.Checked == false)
+            {
+                billNumberTextbox.Enabled = true;
+                billDate.Enabled = true;
+            }
+            else
+            {
+                billNumberTextbox.Enabled = false;
+                billDate.Enabled = false;
+            }
         }
 
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)

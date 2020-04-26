@@ -506,7 +506,11 @@ namespace Factory_Inventory
             int count = dataGridView1.SelectedRows.Count;
             for (int i = 0; i < count; i++)
             {
-                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1) continue;
+                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                {
+                    dataGridView1.SelectedRows[0].Selected = false;
+                    continue;
+                }
                 dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             }
             dynamicWeightLabel.Text = CellSum().ToString("F3");

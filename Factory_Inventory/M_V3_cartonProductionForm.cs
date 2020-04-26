@@ -394,17 +394,17 @@ namespace Factory_Inventory
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows[0].Index != dataGridView1.Rows.Count - 1)
+            int count = dataGridView1.SelectedRows.Count;
+            for (int i = 0; i < count; i++)
             {
-                int count = dataGridView1.SelectedRows.Count;
-                for (int i = 0; i < count; i++)
+                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
                 {
-                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1) continue;
-                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                    dataGridView1.SelectedRows[0].Selected = false;
+                    continue;
                 }
-                dynamicWeightLabel.Text = CellSum().ToString("F3");
-
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             }
+            dynamicWeightLabel.Text = CellSum().ToString("F3");
         }
         private float CellSum()
         {
