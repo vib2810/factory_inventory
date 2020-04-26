@@ -45,10 +45,12 @@
             this.dynamicEditableLabel = new System.Windows.Forms.Label();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label4 = new System.Windows.Forms.Label();
-            this.netwtTextbox = new System.Windows.Forms.TextBox();
+            this.batchnwtTextbox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.colourCombobox = new System.Windows.Forms.ComboBox();
             this.dyeingCompanyCombobox = new System.Windows.Forms.ComboBox();
             this.qualityCombobox = new System.Windows.Forms.ComboBox();
@@ -56,6 +58,7 @@
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -68,13 +71,11 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(716, 653);
             this.dataGridView1.TabIndex = 24;
-            this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged);
             this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint_1);
-            this.dataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView1_RowPrePaint);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
             // contextMenuStrip1
@@ -96,7 +97,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(27, 600);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(12, 653);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
             this.dynamicWeightLabel.TabIndex = 30;
@@ -106,15 +107,15 @@
             // 
             this.totalWeightLabel.AutoSize = true;
             this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(27, 575);
+            this.totalWeightLabel.Location = new System.Drawing.Point(12, 628);
             this.totalWeightLabel.Name = "totalWeightLabel";
-            this.totalWeightLabel.Size = new System.Drawing.Size(141, 25);
+            this.totalWeightLabel.Size = new System.Drawing.Size(157, 25);
             this.totalWeightLabel.TabIndex = 29;
-            this.totalWeightLabel.Text = "Total Weight ";
+            this.totalWeightLabel.Text = "Carton Weight ";
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(147, 508);
+            this.saveButton.Location = new System.Drawing.Point(146, 552);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(111, 64);
             this.saveButton.TabIndex = 28;
@@ -124,15 +125,15 @@
             // 
             // productionDate
             // 
-            this.productionDate.Location = new System.Drawing.Point(98, 80);
+            this.productionDate.Location = new System.Drawing.Point(13, 80);
             this.productionDate.Name = "productionDate";
-            this.productionDate.Size = new System.Drawing.Size(200, 22);
+            this.productionDate.Size = new System.Drawing.Size(209, 22);
             this.productionDate.TabIndex = 26;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(95, 60);
+            this.label1.Location = new System.Drawing.Point(10, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 17);
             this.label1.TabIndex = 25;
@@ -144,9 +145,9 @@
             // 
             // loadDataButton
             // 
-            this.loadDataButton.Location = new System.Drawing.Point(98, 284);
+            this.loadDataButton.Location = new System.Drawing.Point(13, 284);
             this.loadDataButton.Name = "loadDataButton";
-            this.loadDataButton.Size = new System.Drawing.Size(200, 38);
+            this.loadDataButton.Size = new System.Drawing.Size(209, 38);
             this.loadDataButton.TabIndex = 34;
             this.loadDataButton.Text = "Load Data";
             this.loadDataButton.UseVisualStyleBackColor = true;
@@ -155,15 +156,15 @@
             // inputDate
             // 
             this.inputDate.Enabled = false;
-            this.inputDate.Location = new System.Drawing.Point(98, 29);
+            this.inputDate.Location = new System.Drawing.Point(13, 29);
             this.inputDate.Name = "inputDate";
-            this.inputDate.Size = new System.Drawing.Size(200, 22);
+            this.inputDate.Size = new System.Drawing.Size(209, 22);
             this.inputDate.TabIndex = 36;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(95, 9);
+            this.label3.Location = new System.Drawing.Point(10, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 17);
             this.label3.TabIndex = 35;
@@ -172,7 +173,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(95, 114);
+            this.label6.Location = new System.Drawing.Point(13, 122);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 17);
             this.label6.TabIndex = 39;
@@ -190,34 +191,34 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(95, 170);
+            this.label4.Location = new System.Drawing.Point(10, 174);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 17);
             this.label4.TabIndex = 44;
             this.label4.Text = "Quality";
             // 
-            // netwtTextbox
+            // batchnwtTextbox
             // 
-            this.netwtTextbox.Enabled = false;
-            this.netwtTextbox.Location = new System.Drawing.Point(32, 668);
-            this.netwtTextbox.Name = "netwtTextbox";
-            this.netwtTextbox.ReadOnly = true;
-            this.netwtTextbox.Size = new System.Drawing.Size(200, 22);
-            this.netwtTextbox.TabIndex = 47;
+            this.batchnwtTextbox.Enabled = false;
+            this.batchnwtTextbox.Location = new System.Drawing.Point(162, 511);
+            this.batchnwtTextbox.Name = "batchnwtTextbox";
+            this.batchnwtTextbox.Size = new System.Drawing.Size(242, 22);
+            this.batchnwtTextbox.TabIndex = 47;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(29, 648);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(12, 514);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 17);
+            this.label5.Size = new System.Drawing.Size(103, 20);
             this.label5.TabIndex = 46;
-            this.label5.Text = "Net Weight";
+            this.label5.Text = "Total Weight";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(95, 227);
+            this.label7.Location = new System.Drawing.Point(13, 227);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 17);
             this.label7.TabIndex = 48;
@@ -226,17 +227,38 @@
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.ContextMenuStrip = this.contextMenuStrip2;
             this.dataGridView2.Location = new System.Drawing.Point(12, 328);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(392, 174);
             this.dataGridView2.TabIndex = 50;
+            this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
+            this.dataGridView2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellValueChanged);
+            this.dataGridView2.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView2_CurrentCellDirtyStateChanged);
+            this.dataGridView2.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView2_EditingControlShowing);
+            this.dataGridView2.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView2_RowPostPaint);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem1});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(123, 28);
+            // 
+            // deleteToolStripMenuItem1
+            // 
+            this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(122, 24);
+            this.deleteToolStripMenuItem1.Text = "Delete";
+            this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click_1);
             // 
             // colourCombobox
             // 
             this.colourCombobox.FormattingEnabled = true;
-            this.colourCombobox.Location = new System.Drawing.Point(98, 142);
+            this.colourCombobox.Location = new System.Drawing.Point(13, 142);
             this.colourCombobox.Name = "colourCombobox";
             this.colourCombobox.Size = new System.Drawing.Size(209, 24);
             this.colourCombobox.TabIndex = 51;
@@ -244,7 +266,7 @@
             // dyeingCompanyCombobox
             // 
             this.dyeingCompanyCombobox.FormattingEnabled = true;
-            this.dyeingCompanyCombobox.Location = new System.Drawing.Point(98, 247);
+            this.dyeingCompanyCombobox.Location = new System.Drawing.Point(13, 247);
             this.dyeingCompanyCombobox.Name = "dyeingCompanyCombobox";
             this.dyeingCompanyCombobox.Size = new System.Drawing.Size(209, 24);
             this.dyeingCompanyCombobox.TabIndex = 52;
@@ -252,7 +274,7 @@
             // qualityCombobox
             // 
             this.qualityCombobox.FormattingEnabled = true;
-            this.qualityCombobox.Location = new System.Drawing.Point(98, 190);
+            this.qualityCombobox.Location = new System.Drawing.Point(13, 194);
             this.qualityCombobox.Name = "qualityCombobox";
             this.qualityCombobox.Size = new System.Drawing.Size(209, 24);
             this.qualityCombobox.TabIndex = 53;
@@ -267,7 +289,7 @@
             this.Controls.Add(this.colourCombobox);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.netwtTextbox);
+            this.Controls.Add(this.batchnwtTextbox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dynamicEditableLabel);
@@ -283,11 +305,11 @@
             this.Controls.Add(this.label1);
             this.Name = "M_V3_cartonProductionForm";
             this.Text = "M_V3_cartoonProductionForm";
-            this.Load += new System.EventHandler(this.M_V3_cartonProductionForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -311,12 +333,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label dynamicEditableLabel;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox netwtTextbox;
+        private System.Windows.Forms.TextBox batchnwtTextbox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.ComboBox colourCombobox;
         private System.Windows.Forms.ComboBox dyeingCompanyCombobox;
         private System.Windows.Forms.ComboBox qualityCombobox;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
     }
 }

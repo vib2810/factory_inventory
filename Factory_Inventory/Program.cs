@@ -22,8 +22,9 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
             //c.temp();
-            DateTime d = new DateTime(2015, 3, 31);
-            Console.WriteLine(c.getFinancialYear(d));
+            string[] s = c.repeated_batch_csv("*3231678 2019-2020");
+            Console.WriteLine(s[0]);
+            Console.WriteLine(s[1]);
             while (true)
             {
                 Login f1 = new Login(c);

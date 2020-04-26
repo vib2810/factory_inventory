@@ -32,12 +32,14 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private int voucherID;
         private int batch_state;
+        DataTable dt;
         public M_V3_cartonProductionForm()
         {
             InitializeComponent();
             this.c = new DbConnect();
             this.batch_nos = new List<string>();
             this.saveButton.Enabled = false;
+            this.dt = new DataTable();
 
             //Create drop-down Colour list
             var dataSource1 = new List<string>();
@@ -92,14 +94,27 @@ namespace Factory_Inventory
             dataGridView1.Columns[1].Width = 250;
             //dataGridView1.Columns.Add("Weight", "Weight");
             //dataGridView1.Columns[2].ReadOnly = true;
-            //dataGridView1.RowCount = 10;
+            dataGridView1.RowCount = 10;
 
+            //Datagridview 2
+            dataGridView2.Columns.Add("Sl_No", "Sl_No");
+            dataGridView2.Columns[0].ReadOnly = true;
+            DataGridViewComboBoxColumn dgvCmb1 = new DataGridViewComboBoxColumn();
+            dgvCmb1.HeaderText = "Batch Number";
+            dgvCmb1.Items.Add("---Select---");
+            dgvCmb1.DataSource = this.batch_nos;
+            dgvCmb1.Name = "Batch Number";
+            dataGridView2.Columns.Insert(1, dgvCmb1);
+            dataGridView2.Columns[0].Width = 50;
+            dataGridView2.Columns[1].Width = 150;
+            dataGridView2.Columns.Add("Weight", "Weight");
         }
 
         public M_V3_cartonProductionForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
             
             InitializeComponent();
+            this.dt = new DataTable();
             this.edit_form = true;
             this.v1_history = v1_history;
             this.c = new DbConnect();
@@ -202,7 +217,7 @@ namespace Factory_Inventory
             {
                 //this.tray_no.Add(tray_no_this[i]);
             }
-            this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString());
+            this.loadData();
             dataGridView1.RowCount = tray_no_this.Length + 1;
 
             for (int i = 0; i < tray_no_this.Length; i++)
@@ -219,15 +234,6 @@ namespace Factory_Inventory
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
         }
-        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            if (e.Control is DataGridViewComboBoxEditingControl)
-            {
-                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
-                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
-                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
-            }
-        }
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 1 && e.RowIndex >= 0)
@@ -235,14 +241,13 @@ namespace Factory_Inventory
                 if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
                 {
                     dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
-                    dynamicWeightLabel.Text = CellSum().ToString("F3");
+                    dynamicWeightLabel.Text = CellSum1(2).ToString("F3");
                     return;
                 }
                 string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 float weight;
                 if(edit_form==true)
                 {
-                    Console.WriteLine("aaaaaaaaaaaaaaa"+tray_id_this[e.RowIndex]+"aaaaaaaaaaaa");
                     weight = c.getTrayWeight(int.Parse(tray_id_this[e.RowIndex]), this.batch_state);
                 }
                 else
@@ -252,14 +257,42 @@ namespace Factory_Inventory
                     
                 }
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = weight.ToString();
-                dynamicWeightLabel.Text = CellSum().ToString("F3");
+                dynamicWeightLabel.Text = CellSum1(2).ToString("F3");
             }
         }
-        private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
-                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+                for (int i = 0; i < dataGridView2.Rows.Count-1; i++)
+                {
+                    for (int j = i + 1; j < dataGridView2.Rows.Count-1; j++)
+                    {
+                        if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
+                        {
+                            MessageBox.Show("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
+                            dataGridView2.Rows[j].Cells[1].Value = "";
+                            dataGridView2.Rows[j].Cells[2].Value = "";
+                            return;
+                        }
+                    }
+                }
+                string batch = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                int index = -1;
+                for (int i = 0; i < this.batch_nos.Count; i++)
+                {
+                    if (this.batch_nos[i] == batch)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index != -1)
+                {
+                    dataGridView2.Rows[e.RowIndex].Cells[2].Value = dt.Rows[index]["Net_Weight"].ToString();
+                }
+                batchnwtTextbox.Text = CellSum2(2).ToString("F3");
             }
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
@@ -286,14 +319,6 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                 }
             }
-            //if (e.KeyCode == Keys.Enter &&
-            //   (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
-            //{
-            //    dataGridView1.BeginEdit(true);
-            //    ComboBox c = (ComboBox)dataGridView1.EditingControl;
-            //    c.DroppedDown = true;
-            //    e.Handled = true;
-            //}
             if (e.KeyCode == Keys.Tab &&
                (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2)))
             {
@@ -310,16 +335,7 @@ namespace Factory_Inventory
                 SendKeys.Send("{tab}");
             }
         }
-        private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
-        {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
-            {
-                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
-            }
-        }
-        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
@@ -404,9 +420,24 @@ namespace Factory_Inventory
                 }
                 dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             }
-            dynamicWeightLabel.Text = CellSum().ToString("F3");
+            dynamicWeightLabel.Text = CellSum1(3).ToString("F3");
         }
-        private float CellSum()
+        private void deleteToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            int count2 = dataGridView2.SelectedRows.Count;
+            for (int i = 0; i < count2; i++)
+            {
+                if (dataGridView2.SelectedRows[0].Index == dataGridView2.Rows.Count - 1)
+                {
+                    dataGridView2.SelectedRows[0].Selected = false;
+                    continue;
+                }
+                dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
+            }
+            batchnwtTextbox.Text = CellSum2(2).ToString("F3");
+        }
+
+        private float CellSum1(int col)
         {
             float sum = 0;
             try
@@ -417,8 +448,29 @@ namespace Factory_Inventory
                 }
                 for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                 {
-                    if (dataGridView1.Rows[i].Cells[2].Value != null)
-                        sum += float.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString());
+                    if (dataGridView1.Rows[i].Cells[col].Value != null)
+                        sum += float.Parse(dataGridView1.Rows[i].Cells[col].Value.ToString());
+                }
+                return sum;
+            }
+            catch
+            {
+                return sum;
+            }
+        }
+        private float CellSum2(int col)
+        {
+            float sum = 0;
+            try
+            {
+                if (dataGridView2.Rows.Count == 0)
+                {
+                    return sum;
+                }
+                for (int i = 0; i < dataGridView2.Rows.Count; ++i)
+                {
+                    if (dataGridView2.Rows[i].Cells[col].Value != null)
+                        sum += float.Parse(dataGridView2.Rows[i].Cells[col].Value.ToString());
                 }
                 return sum;
             }
@@ -444,67 +496,55 @@ namespace Factory_Inventory
                 MessageBox.Show("Select Dyeing Company Name", "Error");
                 return;
             }
-            string[] batch_nos_arr = c.getBatch_StateDyeingCompanyColourQuality(2, dyeingCompanyCombobox.SelectedItem.ToString(), colourCombobox.SelectedItem.ToString(), qualityCombobox.SelectedItem.ToString(), "");
-            //this.loadData(this.comboBox1.SelectedItem.ToString(), this.comboBox2.SelectedItem.ToString());
-            for(int i=0;i<batch_nos_arr.Length;i++)
-            {
-                this.batch_nos.Add(batch_nos_arr[i]);
-            }
+            this.loadData();
             this.loadDataButton.Enabled = false;
-            //this.comboBox1.Enabled = false;
+            this.colourCombobox.Enabled = false;
+            this.qualityCombobox.Enabled = false;
+            this.dyeingCompanyCombobox.Enabled = false;
             this.saveButton.Enabled = true;
-            //Datagridview 2
-            //dataGridView1.Columns.Add("Batch_No", "Batch_No");
-
-            DataGridViewComboBoxColumn dgvCmb1 = new DataGridViewComboBoxColumn();
-            dgvCmb1.HeaderText = "Batch Number";
-            dgvCmb1.Items.Add("---Select---");
-            for (int i = 0; i < this.batch_nos.Count; i++)
+        }
+        private void loadData()
+        {
+            this.dt = c.getBatchFiscalYearWeight_StateDyeingCompanyColourQuality(2, dyeingCompanyCombobox.SelectedItem.ToString(), colourCombobox.SelectedItem.ToString(), qualityCombobox.SelectedItem.ToString());
+            List<string> batch_no_arr = new List<string>();
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                dgvCmb1.Items.Add(this.batch_nos[i]);
+                batch_no_arr.Add(dt.Rows[i]["Batch_No"].ToString());
             }
-            dgvCmb1.Name = "Batch Number";
-            dataGridView2.Columns.Insert(0, dgvCmb1);
-            //dataGridView2.Columns.Add();
-
+            for (int i = 0; i < batch_no_arr.Count; i++)
+            {
+                for (int j = i + 1; j < batch_no_arr.Count; j++)
+                {
+                    if (dt.Rows[i]["Batch_No"].ToString() == dt.Rows[j]["Batch_No"].ToString())
+                    {
+                        batch_no_arr[i] = "*" + dt.Rows[i]["Batch_No"].ToString() + " " + dt.Rows[i]["Fiscal_Year"].ToString();
+                        batch_no_arr[j] = "*" + dt.Rows[j]["Batch_No"].ToString() + " " + dt.Rows[j]["Fiscal_Year"].ToString();
+                    }
+                }
+            }
+            for (int i = 0; i < batch_no_arr.Count; i++)
+            {
+                this.batch_nos.Add(batch_no_arr[i]);
+            }
+            if (this.edit_form == false) MessageBox.Show("Loaded Data");
         }
 
-        private void rateTextBox_TextChanged(object sender, EventArgs e)
+        private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-
+            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            {
+                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
         }
-
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            fillRate();
+            if (e.Control is DataGridViewComboBoxEditingControl)
+            {
+                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
+                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
+                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+            }
         }
-
-        private void fillRate()
-        {
-            //if (comboBox1.SelectedIndex == 0 || comboBox4.SelectedIndex == 0)
-            //{
-            //    rateTextBox.Text = "";
-            //    return;
-            //}
-            //float f = c.getDyeingRate(comboBox4.SelectedItem.ToString(), comboBox1.SelectedItem.ToString());
-            //if (f == -1F)
-            //{
-            //    rateTextBox.Text = "";
-            //    return;
-            //}
-            //rateTextBox.Text = (c.getDyeingRate(comboBox4.SelectedItem.ToString(), comboBox1.SelectedItem.ToString())).ToString();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            fillRate();
-        }
-
-        private void M_V3_cartonProductionForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
@@ -512,7 +552,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
-
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView1.IsCurrentCellDirty)
@@ -521,18 +560,39 @@ namespace Factory_Inventory
             }
         }
 
-        private void loadData(string quality, string company)
+        
+        private void dataGridView2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            DataTable d = c.getTrayStateQualityCompany(1, quality, company);
-            Console.WriteLine(d.Rows.Count);
-            for(int i=0; i<d.Rows.Count; i++)
+            if (e.RowIndex != dataGridView2.Rows.Count - 1)
             {
-               // Console.WriteLine(d.Rows[i][0].ToString());
-                //this.tray_no.Add(d.Rows[i][0].ToString());
-                //this.tray_id.Add(c.getTrayID(tray_no[i]).ToString());
-                //this.tray_id.Add(d.Rows[i][1].ToString());
+                dataGridView2.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
-            if (this.edit_form==false) MessageBox.Show("Loaded Data");
         }
+        private void dataGridView2_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is DataGridViewComboBoxEditingControl)
+            {
+                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
+                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
+                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+            }
+        }
+        private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.IsCurrentCellDirty)
+            {
+                dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+
+        private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView2.Rows[e.RowIndex].Selected = true;
+            }
+        }
+
     }
 }

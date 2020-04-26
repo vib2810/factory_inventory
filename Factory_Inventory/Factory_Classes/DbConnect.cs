@@ -66,6 +66,23 @@ namespace Factory_Inventory.Factory_Classes
             ans = ans.Take(ans.Length - 1).ToArray();
             return ans;
         }
+
+        public string[] repeated_batch_csv(string str)
+        {
+            string[] ans = str.Split(' ');
+            //ans = ans.Skip(1).ToArray();
+            ans[0] = ans[0].Substring(1, ans[0].Length - 1);
+            return ans;
+        }
+
+        public bool check_if_batch_repeated(string batch)
+        {
+            if(batch[0] == '*')
+            {
+                return true;
+            }
+            return false;
+        }
         public bool isPresentInColour(string colour, string quality)
         {
             try
@@ -138,10 +155,6 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 con.Open();
-                //DateTime start = new DateTime(financialyear[0], 4, 1);
-                //DateTime end = new DateTime(financialyear[1], 3, 31);
-                //string startdate = start.Date.ToString("yyyy-MM-dd");
-                //string enddate = end.Date.ToString("yyyy-MM-dd");
                 string sql = "SELECT COUNT(*) FROM " + tablename + " WHERE " + quantitycolumn + "=" + quantity + " AND Fiscal_Year='"+financialyear+"'";
                 DataTable dt = new DataTable();
                 SqlDataAdapter sda = new SqlDataAdapter(sql, con);
@@ -1955,6 +1968,25 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return batch_nos;
+        }
+        public DataTable getBatchFiscalYearWeight_StateDyeingCompanyColourQuality(int state, string dyeing_company, string colour, string quality)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No, Fiscal_Year, Net_Weight FROM Batch WHERE Batch_State=" + state + "", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getBatchFiscalYear_StateDyeingCompanyColourQuality) " + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt;
         }
         public string[] getTrayIDsFromBatch(int batch_no, string batch_fiscal_year)
         {
