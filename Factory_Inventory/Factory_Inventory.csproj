@@ -51,7 +51,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DGVPrinter.cs" />
     <Compile Include="FactoryInventoryDataSet.cs">
       <DependentUpon>FactoryInventoryDataSet.xsd</DependentUpon>
     </Compile>
