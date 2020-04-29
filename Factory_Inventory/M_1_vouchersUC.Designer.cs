@@ -37,6 +37,7 @@
             this.m_V3_voucherInput3UC1 = new Factory_Inventory.M_V3_voucherInput3UC();
             this.m_V2_voucherInput2UC1 = new Factory_Inventory.M_V2_voucherInput2UC();
             this.voucherInput1UC1 = new Factory_Inventory.M_V1_voucherInput1UC();
+            this.m_V4_printUC1 = new Factory_Inventory.M_V4_printUC();
             this.SuspendLayout();
             // 
             // voucherLabel
@@ -47,7 +48,6 @@
             this.voucherLabel.Size = new System.Drawing.Size(100, 17);
             this.voucherLabel.TabIndex = 0;
             this.voucherLabel.Text = "Voucher Menu";
-            this.voucherLabel.Click += new System.EventHandler(this.voucherLabel_Click);
             // 
             // button1
             // 
@@ -85,12 +85,13 @@
             // button4
             // 
             this.button4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button4.Location = new System.Drawing.Point(16, 228);
+            this.button4.Location = new System.Drawing.Point(16, 239);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(97, 34);
             this.button4.TabIndex = 4;
-            this.button4.Text = "button4";
+            this.button4.Text = "Print";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // editCNameQualityButton
             // 
@@ -110,7 +111,6 @@
             this.m_V3_voucherInput3UC1.Name = "m_V3_voucherInput3UC1";
             this.m_V3_voucherInput3UC1.Size = new System.Drawing.Size(483, 378);
             this.m_V3_voucherInput3UC1.TabIndex = 9;
-            this.m_V3_voucherInput3UC1.Load += new System.EventHandler(this.m_V3_voucherInput3UC1_Load);
             // 
             // m_V2_voucherInput2UC1
             // 
@@ -125,12 +125,19 @@
             this.voucherInput1UC1.Name = "voucherInput1UC1";
             this.voucherInput1UC1.Size = new System.Drawing.Size(483, 378);
             this.voucherInput1UC1.TabIndex = 6;
-            this.voucherInput1UC1.Load += new System.EventHandler(this.voucherInput1UC1_Load);
+            // 
+            // m_V4_printUC1
+            // 
+            this.m_V4_printUC1.Location = new System.Drawing.Point(136, 30);
+            this.m_V4_printUC1.Name = "m_V4_printUC1";
+            this.m_V4_printUC1.Size = new System.Drawing.Size(483, 378);
+            this.m_V4_printUC1.TabIndex = 10;
             // 
             // M_1_vouchersUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.m_V4_printUC1);
             this.Controls.Add(this.m_V3_voucherInput3UC1);
             this.Controls.Add(this.m_V2_voucherInput2UC1);
             this.Controls.Add(this.editCNameQualityButton);
@@ -158,5 +165,6 @@
         private System.Windows.Forms.Button editCNameQualityButton;
         private M_V2_voucherInput2UC m_V2_voucherInput2UC1;
         private M_V3_voucherInput3UC m_V3_voucherInput3UC1;
+        private M_V4_printUC m_V4_printUC1;
     }
 }

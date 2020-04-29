@@ -21,10 +21,8 @@ namespace Factory_Inventory
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
-            //c.temp();
-            string[] s = c.repeated_batch_csv("*3231678 2019-2020");
-            Console.WriteLine(s[0]);
-            Console.WriteLine(s[1]);
+            M_V4_printBatchDyeingForm f = new M_V4_printBatchDyeingForm();
+            Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);

@@ -36,9 +36,14 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(2, 2);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -65,7 +70,7 @@
             this.editDetailsButton.UseVisualStyleBackColor = true;
             this.editDetailsButton.Click += new System.EventHandler(this.editDetailsButton_Click);
             // 
-            // M_V1_history
+            // M_V_history
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -73,7 +78,7 @@
             this.Controls.Add(this.editDetailsButton);
             this.Controls.Add(this.viewDetailsButton);
             this.Controls.Add(this.dataGridView1);
-            this.Name = "M_V1_history";
+            this.Name = "M_V_history";
             this.Text = "History";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

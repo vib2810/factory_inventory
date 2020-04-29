@@ -460,7 +460,7 @@ namespace Factory_Inventory
                     return;
                 }
                 int batch_no = int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                DataRow row = c.getRow_BatchNo(batch_no, this.comboBox3.SelectedItem.ToString());
+                DataRow row = c.getBatchRow_BatchNo(batch_no, this.comboBox3.SelectedItem.ToString());
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = row["Net_Weight"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[3].Value = row["Colour"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[4].Value = row["Quality"].ToString();

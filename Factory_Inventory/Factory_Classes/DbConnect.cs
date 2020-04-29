@@ -59,6 +59,7 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
         }
+
         //Utility Functions
         public string[] csvToArray(string str)
         {
@@ -473,6 +474,7 @@ namespace Factory_Inventory.Factory_Classes
 
             }
         }
+
         public void deleteColour(string colour, string quality)
         { 
             try
@@ -629,7 +631,32 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
+        public float getSpringWeight(string spring)
+        {
+            //returns -1F if no rate found
+            DataTable dt = new DataTable(); //this is creating a virtual table
+            float ans = -1F;
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Spring_Weight FROM Spring WHERE Spring='" + spring+"'", con);
+                sda.Fill(dt);
+                if (dt.Rows.Count != 0)
+                {
+                    ans = float.Parse(dt.Rows[0][0].ToString());
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getSpringWeight) " + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
 
+            }
+            return ans;
+        }
 
         //Carton Voucher
         public bool addCartonVoucher(DateTime dtinput, DateTime dtbill, string billNumber, string quality, string quality_arr, string company, string cost, string cartonno, string weights, int number, float netweight)
@@ -1571,7 +1598,31 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-
+        public DataTable getTrayTable_TrayID(int tray_id)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Tray_Active WHERE Tray_ID=" + tray_id, con);
+                sda.Fill(dt);
+                if(dt.Rows.Count==0)
+                {
+                    SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * FROM Tray_History WHERE Tray_ID=" + tray_id, con);
+                    sda2.Fill(dt);
+                }
+                //Console.WriteLine("Got Data");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getTrayTable_TrayID) " + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt;
+        }
         //Tray voucher
         public bool addTrayVoucher(DateTime dtinput_date, DateTime dttray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight)
         {
@@ -2095,7 +2146,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
-        public DataRow getRow_BatchNo(int batch_no, string fiscal_year)
+        public DataRow getBatchRow_BatchNo(int batch_no, string fiscal_year)
         {
             DataTable dt = new DataTable();
             try
@@ -2106,7 +2157,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getRow_BatchNo) \n" + e.Message, "Exception");
+                MessageBox.Show("Could not connect to database (getBatchRow_BatchNo) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -2117,7 +2168,50 @@ namespace Factory_Inventory.Factory_Classes
             }
             return (DataRow)dt.Rows[0];
         }
+        public DataTable getBatchTable_BatchNo(int batch_no, string fiscal_year)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Batch_No=" + batch_no + " AND Fiscal_Year =  '" + fiscal_year + "'", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getBatchTable_BatchNo) \n" + e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
 
+            }
+            return dt;
+        }
+        public DataTable getBatchTable_State(int state)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Batch_State=" + state, con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getBatchTable_State) \n" + e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
 
         //Dye In Voucher
         public bool addDyeingInwardVoucher(DateTime dtinput_date, DateTime dtinward_date, string dyeing_company_name, int bill_no, string batch_no_arr, string batch_fiscal_year, string bill_date)
