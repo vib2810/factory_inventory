@@ -20,16 +20,12 @@ namespace Factory_Inventory
             this.c = new DbConnect();
             hide_all_UCs();
         }
-
-        private void voucherLabel_Click(object sender, EventArgs e)
-        {
-
-        }
         private void hide_all_UCs()
         {
             voucherInput1UC1.Hide();
             m_V2_voucherInput2UC1.Hide();
             m_V3_voucherInput3UC1.Hide();
+            m_V4_printUC1.Hide();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -42,11 +38,6 @@ namespace Factory_Inventory
         {
             editCNameQuality f = new editCNameQuality();
             f.Show();
-        }
-
-        private void voucherInput1UC1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void trayProductionButton_Click(object sender, EventArgs e)
@@ -63,9 +54,11 @@ namespace Factory_Inventory
             m_V3_voucherInput3UC1.BringToFront();
         }
 
-        private void m_V3_voucherInput3UC1_Load(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
-
+            hide_all_UCs();
+            m_V4_printUC1.Show();
+            m_V4_printUC1.BringToFront();
         }
     }
 }

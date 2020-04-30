@@ -22,9 +22,6 @@ namespace Factory_Inventory
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
-            //c.temp();
-            //M_V3_cartonProductionForm f = new M_V3_cartonProductionForm();
-            //Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);
