@@ -14,12 +14,12 @@ using FontStyle = System.Drawing.FontStyle;
 
 namespace Factory_Inventory
 {
-    public partial class printDyeingOutward : Form
+    public partial class M_V4_printDyeingOutward : Form
     {
         private DbConnect c;
         private int topmargin;
         private int lrmargin;
-        public printDyeingOutward(DataRow row)
+        public M_V4_printDyeingOutward(DataRow row)
         {
             InitializeComponent();
             this.c = new DbConnect();
