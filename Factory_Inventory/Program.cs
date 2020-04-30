@@ -21,6 +21,8 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            M_V4_printBatchDyeingForm f = new M_V4_printBatchDyeingForm();
+            Application.Run(f);
             DbConnect c = new DbConnect();
             while (true)
             {
