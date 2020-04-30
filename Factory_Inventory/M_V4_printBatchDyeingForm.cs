@@ -88,6 +88,7 @@ namespace Factory_Inventory
             if (result.Rows.Count==0)
             {
                 this.dt2.Clear();
+                this.dt2.Columns.Clear();
                 this.dt2.Columns.Add("Not Found");
                 this.dt2.Rows.Add("No Batch Found the the following details: Batch Number=" + batch_no + " and Financial Year=" + fiscal_year);
                 this.dataGridView2.Columns[0].Width = 800;
@@ -131,7 +132,7 @@ namespace Factory_Inventory
                     return;
                 }
                 DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
-                printDyeingOutward f = new printDyeingOutward(row);
+                M_V4_printDyeingOutward f = new M_V4_printDyeingOutward(row);
                 f.Show();
             }
             if (dataGridView2.SelectedRows.Count > 0)
@@ -143,7 +144,7 @@ namespace Factory_Inventory
                     return;
                 }
                 DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
-                printDyeingOutward f = new printDyeingOutward(row);
+                M_V4_printDyeingOutward f = new M_V4_printDyeingOutward(row);
                 f.Show();
             }
 

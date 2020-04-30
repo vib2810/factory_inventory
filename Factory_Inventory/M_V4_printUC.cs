@@ -23,22 +23,6 @@ namespace Factory_Inventory
             f.Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            M_V_history f = new M_V_history(1);
-            f.Show();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             
@@ -47,6 +31,12 @@ namespace Factory_Inventory
         private void button5_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            f.Show();
         }
     }
 }

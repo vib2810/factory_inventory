@@ -77,6 +77,12 @@
     <Compile Include="M_I1_temp.Designer.cs">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_V4_printCartonSlip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_V4_printCartonSlip.Designer.cs">
+      <DependentUpon>M_V4_printCartonSlip.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V4_printUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -256,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_I1_temp.resx">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V4_printCartonSlip.resx">
+      <DependentUpon>M_V4_printCartonSlip.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V4_printBatchDyeingForm.resx">
       <DependentUpon>M_V4_printBatchDyeingForm.cs</DependentUpon>

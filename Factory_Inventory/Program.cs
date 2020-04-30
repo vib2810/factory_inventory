@@ -21,6 +21,8 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            Application.Run(f);
             DbConnect c = new DbConnect();
             while (true)
             {

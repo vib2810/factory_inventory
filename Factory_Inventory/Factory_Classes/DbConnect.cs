@@ -2325,7 +2325,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
-
         public string getFiscalYear_BatchNoState(string batch_no, int state)
         {
             DataTable dt = new DataTable();
@@ -2347,7 +2346,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt.Rows[0][0].ToString();
         }
-
         public DataTable getBatchTable_State(int state)
         {
             DataTable dt = new DataTable();
@@ -2366,6 +2364,28 @@ namespace Factory_Inventory.Factory_Classes
             finally
             {
                 con.Close();
+            }
+            return dt;
+        }
+        public DataTable getBatchTable_BatchNoState(int batch_no, int state, string fiscal_year)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Batch_No=" + batch_no + " AND Fiscal_Year ='" + fiscal_year + "' AND Batch_State=" + state, con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getBatchTable_BatchNoState) \n" + e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+
             }
             return dt;
         }
@@ -2788,7 +2808,28 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        public DataTable getProductionVoucherTable_VoucherID(int voucherid)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Carton_Production_Voucher WHERE Voucher_ID=" + voucherid, con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getProductionVoucherTable_VoucherID) \n" + e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
 
+            }
+            return dt;
+        }
 
         //Carton Produced
         public bool addProducedCarton(string carton_no, int state, string productionDate, string quality, string colour, string batch_nos, string dyeingCompany,  float cartonWeight, int numberOfCones, float cone_weight, float grossWeight, float netWeight, string carton_financialYear, string batch_fiscal_years)
@@ -2846,6 +2887,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
+<<<<<<< HEAD
         public DataRow getProducedCartonRow(string carton_no, string fiscal_year)
         {
             DataTable dt = new DataTable();
@@ -2860,13 +2902,34 @@ namespace Factory_Inventory.Factory_Classes
                 MessageBox.Show("Could not connect to database (getProducedCartonRow) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
+=======
+        public float getCartonProducedWeight(string cartonno, string fiscal_year)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            float ans = -1F;
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight FROM Carton_Produced WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
+                sda.Fill(dt);
+                if (dt.Rows.Count != 0) ans = float.Parse(dt.Rows[0][0].ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not get weight (getCartonProducedWeight) \n" + e.Message, "Exception");
+>>>>>>> 571f11bbef113fb23333441b0f7055dfc0ae9ca5
             }
             finally
             {
                 con.Close();
+<<<<<<< HEAD
 
             }
             return (DataRow)dt.Rows[0];
+=======
+            }
+            return ans;
+>>>>>>> 571f11bbef113fb23333441b0f7055dfc0ae9ca5
         }
     }
 
