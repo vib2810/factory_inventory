@@ -52,6 +52,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.machineNoCombobox = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label2
@@ -157,7 +159,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(366, 373);
+            this.addButton.Location = new System.Drawing.Point(367, 396);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(101, 51);
             this.addButton.TabIndex = 9;
@@ -251,11 +253,30 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // machineNoCombobox
+            // 
+            this.machineNoCombobox.FormattingEnabled = true;
+            this.machineNoCombobox.Location = new System.Drawing.Point(367, 355);
+            this.machineNoCombobox.Name = "machineNoCombobox";
+            this.machineNoCombobox.Size = new System.Drawing.Size(121, 24);
+            this.machineNoCombobox.TabIndex = 14;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(242, 358);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(115, 17);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "Machine Number";
+            // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.machineNoCombobox);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.dynamicWeightLabel);
@@ -309,5 +330,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ComboBox machineNoCombobox;
+        private System.Windows.Forms.Label label11;
     }
 }

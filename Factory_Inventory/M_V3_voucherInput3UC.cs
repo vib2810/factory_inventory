@@ -25,7 +25,7 @@ namespace Factory_Inventory
 
         private void button2_Click(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(1);
+            M_V_history f = new M_V_history(8);
             f.Show();
         }
 

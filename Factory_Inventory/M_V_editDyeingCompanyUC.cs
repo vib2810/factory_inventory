@@ -39,14 +39,21 @@ namespace Factory_Inventory
                 int row = userDataView.SelectedRows[0].Index;
                 if (deleteUserCheckbox.Checked == true)
                 {
-                    c.deleteQC(userDataView.Rows[row].Cells[0].Value.ToString(),'d');
+                    c.deleteCustomer(userDataView.Rows[row].Cells[0].Value.ToString(), "Dyeing_Company_Names");
                 }
                 else
                 {
-                    c.editQC(editedQualityTextbox.Text, userDataView.Rows[row].Cells[0].Value.ToString(), 'd');
+                    if(editedQualityTextbox.Text=="" || editGSTINTextbox.Text=="" || editAddressTextbox.Text=="")
+                    {
+                        MessageBox.Show("Enter all the values", "Error");
+                        return;
+                    }
+                    c.editCustomer(editedQualityTextbox.Text, editGSTINTextbox.Text, editAddressTextbox.Text, userDataView.Rows[row].Cells[0].Value.ToString(), "Dyeing_Company_Names");
                 }
                 //this.selectedRowIndex = -1;
                 this.editedQualityTextbox.Text = "";
+                this.editGSTINTextbox.Text = "";
+                this.editAddressTextbox.Text = "";
                 this.deleteUserCheckbox.Checked = false;
                 loadDatabase();
             }
@@ -66,14 +73,22 @@ namespace Factory_Inventory
             if(e.RowIndex>=0)
             {
                 editedQualityTextbox.Text = userDataView.Rows[e.RowIndex].Cells[0].Value.ToString();
+                editGSTINTextbox.Text = userDataView.Rows[e.RowIndex].Cells[1].Value.ToString();
+                editAddressTextbox.Text = userDataView.Rows[e.RowIndex].Cells[2].Value.ToString();
             }
         }
 
         private void addQualityButton_Click(object sender, EventArgs e)
         {
-
-            c.addQC(newQualityTextbox.Text, 'd');
+            if (newQualityTextbox.Text == "" || addGSTINTextbox.Text == "" || addAddressTextbox.Text == "")
+            {
+                MessageBox.Show("Enter all the values", "Error");
+                return;
+            }
+            c.addCustomer(newQualityTextbox.Text, addGSTINTextbox.Text, addAddressTextbox.Text, "Dyeing_Company_Names");
             this.newQualityTextbox.Text = "";
+            this.addGSTINTextbox.Text = "";
+            this.addAddressTextbox.Text = "";
             loadDatabase();
 
         }

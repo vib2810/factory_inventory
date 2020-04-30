@@ -68,6 +68,23 @@ namespace Factory_Inventory
             this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            //Create drop-down Spring list
+            var dataSource4 = new List<string>();
+            dataSource4.Add("---Select---");
+            dataSource4.Add("1u");
+            dataSource4.Add("2u");
+            dataSource4.Add("3u");
+            dataSource4.Add("4u");
+            dataSource4.Add("1d");
+            dataSource4.Add("2d");
+            dataSource4.Add("3d");
+            dataSource4.Add("4d");
+            this.machineNoCombobox.DataSource = dataSource4;
+            this.machineNoCombobox.DisplayMember = "Machine_Number";
+            this.machineNoCombobox.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.machineNoCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.machineNoCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
 
             this.numberOfSpringsTextbox.Text = "18";
             this.comboBox3.SelectedIndex = 0;
@@ -124,6 +141,23 @@ namespace Factory_Inventory
             this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            //Create drop-down Spring list
+            var dataSource4 = new List<string>();
+            dataSource4.Add("---Select---");
+            dataSource4.Add("1u");
+            dataSource4.Add("2u");
+            dataSource4.Add("3u");
+            dataSource4.Add("4u");
+            dataSource4.Add("1d");
+            dataSource4.Add("2d");
+            dataSource4.Add("3d");
+            dataSource4.Add("4d");
+            this.machineNoCombobox.DataSource = dataSource4;
+            this.machineNoCombobox.DisplayMember = "Machine_Number";
+            this.machineNoCombobox.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.machineNoCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.machineNoCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
 
             this.tray_id = int.Parse(row["Tray_ID"].ToString());
             this.state = c.getTrayState(this.tray_id);
@@ -149,6 +183,7 @@ namespace Factory_Inventory
                 this.numberOfSpringsTextbox.Enabled = false;
                 this.traytareTextbox.Enabled = false;
                 this.grossWeightTextbox.Enabled = false;
+                this.machineNoCombobox.Enabled = false;
             }
             else
             {
@@ -161,6 +196,7 @@ namespace Factory_Inventory
                 this.numberOfSpringsTextbox.Enabled = true;
                 this.traytareTextbox.Enabled = true;
                 this.grossWeightTextbox.Enabled = true;
+                this.machineNoCombobox.Enabled = true;
             }
             this.dateTimePicker1.Value = Convert.ToDateTime(row["Input_Date"].ToString());
             this.dateTimePicker2.Value = Convert.ToDateTime(row["Tray_Production_Date"].ToString());
@@ -168,6 +204,7 @@ namespace Factory_Inventory
             this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(row["Spring"].ToString());
             this.comboBox1.SelectedIndex = this.comboBox1.FindStringExact(row["Quality"].ToString());
             this.comboBox2.SelectedIndex = this.comboBox2.FindStringExact(row["Company_Name"].ToString());
+            this.machineNoCombobox.SelectedIndex = this.machineNoCombobox.FindStringExact(row["Machine_No"].ToString());
             this.Voucher_ID = int.Parse(row["Voucher_ID"].ToString());
             this.numberOfSpringsTextbox.Text = row["Number_Of_Springs"].ToString();
             this.traytareTextbox.Text = row["Tray_Tare"].ToString();
@@ -226,16 +263,21 @@ namespace Factory_Inventory
                 MessageBox.Show("Issue Date is in the future", "Error");
                 return;
             }
+            if(this.machineNoCombobox.SelectedIndex==0)
+            {
+                MessageBox.Show("Enter Machine Number", "Error");
+                return;
+            }
             if (this.edit_form == false)
             {
-                bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePicker2.Value, trayNumberTextbox.Text, comboBox3.Text, int.Parse(numberOfSpringsTextbox.Text), float.Parse(traytareTextbox.Text), float.Parse(grossWeightTextbox.Text), comboBox1.Text, comboBox2.Text, dynamicLabelChange());
+                bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePicker2.Value, trayNumberTextbox.Text, comboBox3.Text, int.Parse(numberOfSpringsTextbox.Text), float.Parse(traytareTextbox.Text), float.Parse(grossWeightTextbox.Text), comboBox1.Text, comboBox2.Text, dynamicLabelChange(), machineNoCombobox.Text);
                 if (added == true) this.trayNumberTextbox.Text="";
                 else return;
             }
             else
             {
                 bool edited = false;
-                edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePicker2.Value, trayNumberTextbox.Text, this.old_tray_no, comboBox3.SelectedItem.ToString(), int.Parse(numberOfSpringsTextbox.Text), float.Parse(traytareTextbox.Text), float.Parse(grossWeightTextbox.Text), comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), dynamicLabelChange());
+                edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePicker2.Value, trayNumberTextbox.Text, this.old_tray_no, comboBox3.SelectedItem.ToString(), int.Parse(numberOfSpringsTextbox.Text), float.Parse(traytareTextbox.Text), float.Parse(grossWeightTextbox.Text), comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), dynamicLabelChange(), machineNoCombobox.Text);
                 if (edited == true)
                 {
                     disable_form_edit();

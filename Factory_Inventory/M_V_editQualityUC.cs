@@ -39,14 +39,20 @@ namespace Factory_Inventory
                 int row = userDataView.SelectedRows[0].Index;
                 if (deleteUserCheckbox.Checked == true)
                 {
-                    c.deleteQC(userDataView.Rows[row].Cells[0].Value.ToString(),'q');
+                    c.deleteQuality(userDataView.Rows[row].Cells[0].Value.ToString());
                 }
                 else
                 {
-                    c.editQC(editedQualityTextbox.Text, userDataView.Rows[row].Cells[0].Value.ToString(), 'q');
+                    if(editedQualityTextbox.Text=="" || editHSNNoTextbox.Text=="")
+                    {
+                        MessageBox.Show("Enter all values", "Error");
+                        return;
+                    }
+                    c.editQuality(editedQualityTextbox.Text, editHSNNoTextbox.Text, userDataView.Rows[row].Cells[0].Value.ToString());
                 }
                 //this.selectedRowIndex = -1;
                 this.editedQualityTextbox.Text = "";
+                editHSNNoTextbox.Text = "";
                 this.deleteUserCheckbox.Checked = false;
                 loadDatabase();
             }
@@ -66,14 +72,20 @@ namespace Factory_Inventory
             if(e.RowIndex>=0)
             {
                 editedQualityTextbox.Text = userDataView.Rows[e.RowIndex].Cells[0].Value.ToString();
+                editHSNNoTextbox.Text = userDataView.Rows[e.RowIndex].Cells[1].Value.ToString();
             }
         }
 
         private void addQualityButton_Click(object sender, EventArgs e)
         {
-
-            c.addQC(newQualityTextbox.Text, 'q');
+            if (newQualityTextbox.Text == "" || addHSNNoTextbox.Text == "")
+            {
+                MessageBox.Show("Enter all values", "Error");
+                return;
+            }
+            c.addQuality(newQualityTextbox.Text, addHSNNoTextbox.Text);
             this.newQualityTextbox.Text = "";
+            this.addHSNNoTextbox.Text = "";
             loadDatabase();
 
         }

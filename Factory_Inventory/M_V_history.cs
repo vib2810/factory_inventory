@@ -29,7 +29,8 @@ namespace Factory_Inventory
         private void viewDetailsButton_Click(object sender, EventArgs e)
         {
             int index = this.dataGridView1.SelectedRows[0].Index;
-            if (index >= this.dataGridView1.Rows.Count - 1)
+            Console.WriteLine(index);
+            if (index > this.dataGridView1.Rows.Count - 1)
             {
                 MessageBox.Show("Please select valid voucher", "Error");
             }
@@ -71,12 +72,17 @@ namespace Factory_Inventory
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "addBill");
                     f.Show();
                 }
+                if(this.vno == 8)
+                {
+                    M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, false, this);
+                    f.Show();
+                }
             }
         }
         private void editDetailsButton_Click(object sender, EventArgs e)
         {
             int index = this.dataGridView1.SelectedRows[0].Index;
-            if(index >= this.dataGridView1.Rows.Count-1)
+            if(index > this.dataGridView1.Rows.Count-1)
             {
                 MessageBox.Show("Please select valid voucher", "Error");
             }
@@ -116,6 +122,11 @@ namespace Factory_Inventory
                 if (this.vno == 7)
                 {
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "addBill");
+                    f.Show();
+                }
+                if (this.vno == 8)
+                {
+                    M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, true, this);
                     f.Show();
                 }
             }
@@ -182,6 +193,13 @@ namespace Factory_Inventory
             if (this.vno == 7)
             {
                 this.dt = c.getVoucherHistories("BillNos_Voucher");
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.DataSource = dt;
+                this.dataGridView1.Columns["Voucher_ID"].Visible = false;
+            }
+            if (this.vno == 8)
+            {
+                this.dt = c.getVoucherHistories("Carton_Production_Voucher");
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns["Voucher_ID"].Visible = false;

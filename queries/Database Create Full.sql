@@ -160,7 +160,8 @@ use FactoryData
 --	Tray_ID int NOT NULL Identity(1,1),
 --	Net_Weight decimal(7,3) NULL,
 --	Dyeing_Company_Name varchar(40) NULL,
---	Fiscal_Year varchar(15) NOT NULL
+--	Fiscal_Year varchar(15) NOT NULL,
+--  Machine_No varchar(5) NOT NULL
 
 --);
 
@@ -208,8 +209,8 @@ use FactoryData
 --	Tray_ID int NOT NULL Primary Key,
 --	Net_Weight decimal(7,3) NULL,
 --	Dyeing_Company_Name varchar(40) NOT NULL,
---	Fiscal_Year varchar(15) NOT NULL
-
+--	Fiscal_Year varchar(15) NOT NULL,
+--  Machine_No varchar(5) NOT NULL
 --);
 
 --GO
@@ -254,7 +255,8 @@ use FactoryData
 --	Company_Name varchar(50) NOT NULL,
 --	Input_Date date NULL,
 --	Net_Weight decimal(7,3) NULL,
---	Fiscal_Year varchar(15) NOT NULL
+--	Fiscal_Year varchar(15) NOT NULL,
+--  Machine_No varchar(5) NOT NULL
 
 --);
 
@@ -450,7 +452,9 @@ create table Carton_Production_Voucher
 	Net_Batch_Weight decimal(8,3) NOT NULL,
 	Net_Carton_Weight decimal(8,3) NOT NULL,
 	Oil_Gain decimal(5,2) NOT NULL,
-	Voucher_Closed tinyint NOT NULL  
+	Voucher_Closed tinyint NOT NULL,
+	Carton_Fiscal_Year varchar(20) NOT NULL,
+	Cone_Weight decimal(5,3) NOT NULL
 );
 
 GO
@@ -474,7 +478,7 @@ CREATE TABLE Carton_Produced
 	Number_Of_Cones int NOT NULL,
 	Cone_Weight decimal(6,3) NOT NULL,
 	Gross_Weight decimal(7,3) NOT NULL,
-	Net_weight decimal(7,3) NOT NULL,
+	Net_Weight decimal(7,3) NOT NULL,
 	Sale_Rate decimal(7,3) NULL,
 	Sale_Bill_Date date NULL,
 	Sale_Bill_No varchar(20) NULL,
@@ -503,17 +507,22 @@ CREATE TABLE Carton_Produced
 
 --/* Customers Table: 1 column*/
 --CREATE TABLE Customers(
---	Customers varchar(50) NOT NULL
+--	Customers varchar(50) NOT NULL,
+--  GSTIN varchar(50) NOT NULL,
+--  Customer_Address varchar(150) NOT NULL
 --);
 
 --/* Customers Table: 1 column*/
 --CREATE TABLE Dyeing_Company_Names(
---	Dyeing_Company_Names varchar(40) NOT NULL
+--	Dyeing_Company_Names varchar(40) NOT NULL,
+--  GSTIN varchar(50)  NOT NULL;
+--  Customer_Address varchar(150) NOT NULL;
 --);
 
 --/* Quality: 1 column*/
 --CREATE TABLE Quality(
---	Quality varchar(20) NOT NULL
+--	Quality varchar(20) NOT NULL,
+--  HSN_No varchar(15) NOT NULL
 --);
 
 --/*Spring: 2 columns*/

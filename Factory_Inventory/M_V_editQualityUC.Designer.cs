@@ -41,6 +41,10 @@
             this.deleteUserCheckbox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.addQualityButton = new System.Windows.Forms.Button();
+            this.editHSNNoTextbox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.addHSNNoTextbox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.userDataView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,7 +77,7 @@
             // 
             // confirmButton
             // 
-            this.confirmButton.Location = new System.Drawing.Point(19, 137);
+            this.confirmButton.Location = new System.Drawing.Point(19, 182);
             this.confirmButton.Name = "confirmButton";
             this.confirmButton.Size = new System.Drawing.Size(75, 23);
             this.confirmButton.TabIndex = 3;
@@ -92,9 +96,9 @@
             this.newPasswordLabel.AutoSize = true;
             this.newPasswordLabel.Location = new System.Drawing.Point(17, 45);
             this.newPasswordLabel.Name = "newPasswordLabel";
-            this.newPasswordLabel.Size = new System.Drawing.Size(93, 17);
+            this.newPasswordLabel.Size = new System.Drawing.Size(52, 17);
             this.newPasswordLabel.TabIndex = 6;
-            this.newPasswordLabel.Text = "Quality Name";
+            this.newPasswordLabel.Text = "Quality";
             // 
             // newConfirmPasswordLabel
             // 
@@ -108,7 +112,7 @@
             // newAccessLevelLabel
             // 
             this.newAccessLevelLabel.AutoSize = true;
-            this.newAccessLevelLabel.Location = new System.Drawing.Point(17, 90);
+            this.newAccessLevelLabel.Location = new System.Drawing.Point(17, 135);
             this.newAccessLevelLabel.Name = "newAccessLevelLabel";
             this.newAccessLevelLabel.Size = new System.Drawing.Size(29, 17);
             this.newAccessLevelLabel.TabIndex = 8;
@@ -131,7 +135,7 @@
             // deleteUserCheckbox
             // 
             this.deleteUserCheckbox.AutoSize = true;
-            this.deleteUserCheckbox.Location = new System.Drawing.Point(19, 110);
+            this.deleteUserCheckbox.Location = new System.Drawing.Point(19, 155);
             this.deleteUserCheckbox.Name = "deleteUserCheckbox";
             this.deleteUserCheckbox.Size = new System.Drawing.Size(119, 21);
             this.deleteUserCheckbox.TabIndex = 14;
@@ -150,7 +154,7 @@
             // 
             // addQualityButton
             // 
-            this.addQualityButton.Location = new System.Drawing.Point(20, 309);
+            this.addQualityButton.Location = new System.Drawing.Point(19, 367);
             this.addQualityButton.Name = "addQualityButton";
             this.addQualityButton.Size = new System.Drawing.Size(75, 23);
             this.addQualityButton.TabIndex = 16;
@@ -158,10 +162,46 @@
             this.addQualityButton.UseVisualStyleBackColor = true;
             this.addQualityButton.Click += new System.EventHandler(this.addQualityButton_Click);
             // 
+            // editHSNNoTextbox
+            // 
+            this.editHSNNoTextbox.Location = new System.Drawing.Point(20, 110);
+            this.editHSNNoTextbox.Name = "editHSNNoTextbox";
+            this.editHSNNoTextbox.Size = new System.Drawing.Size(144, 22);
+            this.editHSNNoTextbox.TabIndex = 18;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 90);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(91, 17);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "HSN Number";
+            // 
+            // addHSNNoTextbox
+            // 
+            this.addHSNNoTextbox.Location = new System.Drawing.Point(20, 326);
+            this.addHSNNoTextbox.Name = "addHSNNoTextbox";
+            this.addHSNNoTextbox.Size = new System.Drawing.Size(144, 22);
+            this.addHSNNoTextbox.TabIndex = 20;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 306);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(91, 17);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "HSN Number";
+            // 
             // editQuality
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.addHSNNoTextbox);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.editHSNNoTextbox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.addQualityButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.deleteUserCheckbox);
@@ -195,5 +235,9 @@
         private System.Windows.Forms.CheckBox deleteUserCheckbox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button addQualityButton;
+        private System.Windows.Forms.TextBox editHSNNoTextbox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox addHSNNoTextbox;
+        private System.Windows.Forms.Label label3;
     }
 }
