@@ -2887,7 +2887,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
-<<<<<<< HEAD
         public DataRow getProducedCartonRow(string carton_no, string fiscal_year)
         {
             DataTable dt = new DataTable();
@@ -2902,7 +2901,10 @@ namespace Factory_Inventory.Factory_Classes
                 MessageBox.Show("Could not connect to database (getProducedCartonRow) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
-=======
+            }
+            return (DataRow)dt.Rows[0];
+        }
+
         public float getCartonProducedWeight(string cartonno, string fiscal_year)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
@@ -2917,19 +2919,12 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 MessageBox.Show("Could not get weight (getCartonProducedWeight) \n" + e.Message, "Exception");
->>>>>>> 571f11bbef113fb23333441b0f7055dfc0ae9ca5
-            }
+        }
             finally
             {
                 con.Close();
-<<<<<<< HEAD
-
-            }
-            return (DataRow)dt.Rows[0];
-=======
             }
             return ans;
->>>>>>> 571f11bbef113fb23333441b0f7055dfc0ae9ca5
         }
     }
 
