@@ -40,45 +40,49 @@
             this.colourButton = new System.Windows.Forms.Button();
             this.editColour1 = new Factory_Inventory.editColour();
             this.editDyeingCompany1 = new Factory_Inventory.editDyeingCompany();
+            this.editCone1 = new Factory_Inventory.editCone();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // editQualityButton
             // 
-            this.editQualityButton.Location = new System.Drawing.Point(649, 12);
+            this.editQualityButton.Location = new System.Drawing.Point(649, 48);
             this.editQualityButton.Name = "editQualityButton";
-            this.editQualityButton.Size = new System.Drawing.Size(99, 47);
+            this.editQualityButton.Size = new System.Drawing.Size(99, 29);
             this.editQualityButton.TabIndex = 1;
-            this.editQualityButton.Text = "Edit/Add Quality";
+            this.editQualityButton.Text = "Quality";
             this.editQualityButton.UseVisualStyleBackColor = true;
             this.editQualityButton.Click += new System.EventHandler(this.editQualityButton_Click);
             // 
             // editCNameButton
             // 
-            this.editCNameButton.Location = new System.Drawing.Point(649, 76);
+            this.editCNameButton.Location = new System.Drawing.Point(649, 95);
             this.editCNameButton.Name = "editCNameButton";
-            this.editCNameButton.Size = new System.Drawing.Size(99, 47);
+            this.editCNameButton.Size = new System.Drawing.Size(99, 48);
             this.editCNameButton.TabIndex = 2;
-            this.editCNameButton.Text = "Edit/Add Company Name";
+            this.editCNameButton.Text = "Company Name";
             this.editCNameButton.UseVisualStyleBackColor = true;
             this.editCNameButton.Click += new System.EventHandler(this.editCNameButton_Click);
             // 
             // customerButton
             // 
-            this.customerButton.Location = new System.Drawing.Point(649, 142);
+            this.customerButton.Location = new System.Drawing.Point(649, 158);
             this.customerButton.Name = "customerButton";
-            this.customerButton.Size = new System.Drawing.Size(99, 47);
+            this.customerButton.Size = new System.Drawing.Size(99, 29);
             this.customerButton.TabIndex = 5;
-            this.customerButton.Text = "Edit/Add Customers";
+            this.customerButton.Text = "Customers";
             this.customerButton.UseVisualStyleBackColor = true;
             this.customerButton.Click += new System.EventHandler(this.customerButton_Click);
             // 
             // springButton
             // 
-            this.springButton.Location = new System.Drawing.Point(649, 205);
+            this.springButton.Location = new System.Drawing.Point(649, 203);
             this.springButton.Name = "springButton";
-            this.springButton.Size = new System.Drawing.Size(99, 47);
+            this.springButton.Size = new System.Drawing.Size(99, 29);
             this.springButton.TabIndex = 7;
-            this.springButton.Text = "Edit/Add Spring";
+            this.springButton.Text = "Spring";
             this.springButton.UseVisualStyleBackColor = true;
             this.springButton.Click += new System.EventHandler(this.springButton_Click);
             // 
@@ -113,21 +117,21 @@
             // 
             // dyeingCompanyButton
             // 
-            this.dyeingCompanyButton.Location = new System.Drawing.Point(649, 330);
+            this.dyeingCompanyButton.Location = new System.Drawing.Point(649, 295);
             this.dyeingCompanyButton.Name = "dyeingCompanyButton";
-            this.dyeingCompanyButton.Size = new System.Drawing.Size(99, 61);
+            this.dyeingCompanyButton.Size = new System.Drawing.Size(99, 48);
             this.dyeingCompanyButton.TabIndex = 9;
-            this.dyeingCompanyButton.Text = "Edit/Add Dyeing Company";
+            this.dyeingCompanyButton.Text = "Dyeing Company";
             this.dyeingCompanyButton.UseVisualStyleBackColor = true;
             this.dyeingCompanyButton.Click += new System.EventHandler(this.dyeingCompanyButton_Click);
             // 
             // colourButton
             // 
-            this.colourButton.Location = new System.Drawing.Point(649, 268);
+            this.colourButton.Location = new System.Drawing.Point(649, 248);
             this.colourButton.Name = "colourButton";
-            this.colourButton.Size = new System.Drawing.Size(99, 47);
+            this.colourButton.Size = new System.Drawing.Size(99, 29);
             this.colourButton.TabIndex = 10;
-            this.colourButton.Text = "Edit/Add Colour";
+            this.colourButton.Text = "Colour";
             this.colourButton.UseVisualStyleBackColor = true;
             this.colourButton.Click += new System.EventHandler(this.colourButton_Click);
             // 
@@ -145,11 +149,41 @@
             this.editDyeingCompany1.Size = new System.Drawing.Size(619, 393);
             this.editDyeingCompany1.TabIndex = 12;
             // 
+            // editCone1
+            // 
+            this.editCone1.Location = new System.Drawing.Point(0, -1);
+            this.editCone1.Name = "editCone1";
+            this.editCone1.Size = new System.Drawing.Size(619, 393);
+            this.editCone1.TabIndex = 13;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(649, 362);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(99, 29);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Cones";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(644, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 25);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Add/Edit:";
+            // 
             // editCNameQuality
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 404);
+            this.ClientSize = new System.Drawing.Size(765, 402);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.editCone1);
             this.Controls.Add(this.editDyeingCompany1);
             this.Controls.Add(this.editColour1);
             this.Controls.Add(this.colourButton);
@@ -165,6 +199,7 @@
             this.Name = "editCNameQuality";
             this.Text = "Edit";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -182,5 +217,9 @@
         private System.Windows.Forms.Button colourButton;
         private editColour editColour1;
         private editDyeingCompany editDyeingCompany1;
+        private editCone editCone1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
     }
 }

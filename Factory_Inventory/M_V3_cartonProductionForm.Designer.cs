@@ -32,18 +32,13 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dynamicWeightLabel = new System.Windows.Forms.Label();
-            this.totalWeightLabel = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
-            this.productionDate = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
             this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
             this.loadDataButton = new System.Windows.Forms.Button();
             this.inputDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dynamicEditableLabel = new System.Windows.Forms.Label();
-            this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.batchnwtTextbox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -54,25 +49,41 @@
             this.colourCombobox = new System.Windows.Forms.ComboBox();
             this.dyeingCompanyCombobox = new System.Windows.Forms.ComboBox();
             this.qualityCombobox = new System.Windows.Forms.ComboBox();
+            this.coneCombobox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.closedCheckbox = new System.Windows.Forms.CheckBox();
+            this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.cartonweight = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.financialYearCombobox = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.oilGainTextbox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.oilGainButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView1.Location = new System.Drawing.Point(421, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(385, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(716, 653);
+            this.dataGridView1.Size = new System.Drawing.Size(845, 653);
             this.dataGridView1.TabIndex = 24;
+            this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
-            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged);
             this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint_1);
@@ -93,51 +104,15 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // dynamicWeightLabel
-            // 
-            this.dynamicWeightLabel.AutoSize = true;
-            this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(12, 653);
-            this.dynamicWeightLabel.Name = "dynamicWeightLabel";
-            this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
-            this.dynamicWeightLabel.TabIndex = 30;
-            this.dynamicWeightLabel.Text = "0.0";
-            // 
-            // totalWeightLabel
-            // 
-            this.totalWeightLabel.AutoSize = true;
-            this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(12, 628);
-            this.totalWeightLabel.Name = "totalWeightLabel";
-            this.totalWeightLabel.Size = new System.Drawing.Size(157, 25);
-            this.totalWeightLabel.TabIndex = 29;
-            this.totalWeightLabel.Text = "Carton Weight ";
-            // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(146, 552);
+            this.saveButton.Location = new System.Drawing.Point(13, 603);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(111, 64);
+            this.saveButton.Size = new System.Drawing.Size(211, 47);
             this.saveButton.TabIndex = 28;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // productionDate
-            // 
-            this.productionDate.Location = new System.Drawing.Point(13, 80);
-            this.productionDate.Name = "productionDate";
-            this.productionDate.Size = new System.Drawing.Size(209, 22);
-            this.productionDate.TabIndex = 26;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 60);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(110, 17);
-            this.label1.TabIndex = 25;
-            this.label1.Text = "Production Date";
             // 
             // carton_VoucherTableAdapter
             // 
@@ -145,7 +120,7 @@
             // 
             // loadDataButton
             // 
-            this.loadDataButton.Location = new System.Drawing.Point(13, 284);
+            this.loadDataButton.Location = new System.Drawing.Point(13, 278);
             this.loadDataButton.Name = "loadDataButton";
             this.loadDataButton.Size = new System.Drawing.Size(209, 38);
             this.loadDataButton.TabIndex = 34;
@@ -173,7 +148,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 122);
+            this.label6.Location = new System.Drawing.Point(13, 65);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 17);
             this.label6.TabIndex = 39;
@@ -183,7 +158,7 @@
             // 
             this.dynamicEditableLabel.AutoSize = true;
             this.dynamicEditableLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicEditableLabel.Location = new System.Drawing.Point(42, 665);
+            this.dynamicEditableLabel.Location = new System.Drawing.Point(60, 628);
             this.dynamicEditableLabel.Name = "dynamicEditableLabel";
             this.dynamicEditableLabel.Size = new System.Drawing.Size(0, 25);
             this.dynamicEditableLabel.TabIndex = 43;
@@ -191,7 +166,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 174);
+            this.label4.Location = new System.Drawing.Point(10, 117);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 17);
             this.label4.TabIndex = 44;
@@ -199,17 +174,18 @@
             // 
             // batchnwtTextbox
             // 
-            this.batchnwtTextbox.Enabled = false;
-            this.batchnwtTextbox.Location = new System.Drawing.Point(162, 511);
+            this.batchnwtTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.batchnwtTextbox.Location = new System.Drawing.Point(119, 501);
             this.batchnwtTextbox.Name = "batchnwtTextbox";
-            this.batchnwtTextbox.Size = new System.Drawing.Size(242, 22);
+            this.batchnwtTextbox.ReadOnly = true;
+            this.batchnwtTextbox.Size = new System.Drawing.Size(221, 27);
             this.batchnwtTextbox.TabIndex = 47;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(12, 514);
+            this.label5.Location = new System.Drawing.Point(10, 508);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(103, 20);
             this.label5.TabIndex = 46;
@@ -218,7 +194,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 227);
+            this.label7.Location = new System.Drawing.Point(13, 170);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 17);
             this.label7.TabIndex = 48;
@@ -228,11 +204,11 @@
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.ContextMenuStrip = this.contextMenuStrip2;
-            this.dataGridView2.Location = new System.Drawing.Point(12, 328);
+            this.dataGridView2.Location = new System.Drawing.Point(12, 322);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(392, 174);
+            this.dataGridView2.Size = new System.Drawing.Size(363, 174);
             this.dataGridView2.TabIndex = 50;
             this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
             this.dataGridView2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellValueChanged);
@@ -258,7 +234,7 @@
             // colourCombobox
             // 
             this.colourCombobox.FormattingEnabled = true;
-            this.colourCombobox.Location = new System.Drawing.Point(13, 142);
+            this.colourCombobox.Location = new System.Drawing.Point(13, 85);
             this.colourCombobox.Name = "colourCombobox";
             this.colourCombobox.Size = new System.Drawing.Size(209, 24);
             this.colourCombobox.TabIndex = 51;
@@ -266,7 +242,7 @@
             // dyeingCompanyCombobox
             // 
             this.dyeingCompanyCombobox.FormattingEnabled = true;
-            this.dyeingCompanyCombobox.Location = new System.Drawing.Point(13, 247);
+            this.dyeingCompanyCombobox.Location = new System.Drawing.Point(13, 190);
             this.dyeingCompanyCombobox.Name = "dyeingCompanyCombobox";
             this.dyeingCompanyCombobox.Size = new System.Drawing.Size(209, 24);
             this.dyeingCompanyCombobox.TabIndex = 52;
@@ -274,16 +250,163 @@
             // qualityCombobox
             // 
             this.qualityCombobox.FormattingEnabled = true;
-            this.qualityCombobox.Location = new System.Drawing.Point(13, 194);
+            this.qualityCombobox.Location = new System.Drawing.Point(13, 137);
             this.qualityCombobox.Name = "qualityCombobox";
             this.qualityCombobox.Size = new System.Drawing.Size(209, 24);
             this.qualityCombobox.TabIndex = 53;
+            // 
+            // coneCombobox
+            // 
+            this.coneCombobox.FormattingEnabled = true;
+            this.coneCombobox.Location = new System.Drawing.Point(14, 571);
+            this.coneCombobox.Name = "coneCombobox";
+            this.coneCombobox.Size = new System.Drawing.Size(209, 24);
+            this.coneCombobox.TabIndex = 55;
+            this.coneCombobox.SelectedIndexChanged += new System.EventHandler(this.coneCombobox_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 551);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(89, 17);
+            this.label2.TabIndex = 54;
+            this.label2.Text = "Cone Weight";
+            // 
+            // closedCheckbox
+            // 
+            this.closedCheckbox.AutoSize = true;
+            this.closedCheckbox.Location = new System.Drawing.Point(244, 629);
+            this.closedCheckbox.Name = "closedCheckbox";
+            this.closedCheckbox.Size = new System.Drawing.Size(128, 21);
+            this.closedCheckbox.TabIndex = 59;
+            this.closedCheckbox.Text = "Close Batches?";
+            this.closedCheckbox.UseVisualStyleBackColor = true;
+            this.closedCheckbox.CheckedChanged += new System.EventHandler(this.closedCheckbox_CheckedChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(229, 574);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(27, 17);
+            this.label8.TabIndex = 62;
+            this.label8.Text = "gm";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(346, 505);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(26, 20);
+            this.label11.TabIndex = 64;
+            this.label11.Text = "kg";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(1203, 670);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(26, 20);
+            this.label12.TabIndex = 67;
+            this.label12.Text = "kg";
+            // 
+            // cartonweight
+            // 
+            this.cartonweight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cartonweight.Location = new System.Drawing.Point(976, 663);
+            this.cartonweight.Name = "cartonweight";
+            this.cartonweight.ReadOnly = true;
+            this.cartonweight.Size = new System.Drawing.Size(221, 27);
+            this.cartonweight.TabIndex = 66;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(839, 667);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(134, 20);
+            this.label13.TabIndex = 65;
+            this.label13.Text = "Total Net Weight";
+            // 
+            // financialYearCombobox
+            // 
+            this.financialYearCombobox.FormattingEnabled = true;
+            this.financialYearCombobox.Location = new System.Drawing.Point(14, 246);
+            this.financialYearCombobox.Name = "financialYearCombobox";
+            this.financialYearCombobox.Size = new System.Drawing.Size(209, 24);
+            this.financialYearCombobox.TabIndex = 71;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 226);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(98, 17);
+            this.label9.TabIndex = 70;
+            this.label9.Text = "Financial Year";
+            // 
+            // oilGainTextbox
+            // 
+            this.oilGainTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.oilGainTextbox.Location = new System.Drawing.Point(90, 663);
+            this.oilGainTextbox.Name = "oilGainTextbox";
+            this.oilGainTextbox.ReadOnly = true;
+            this.oilGainTextbox.Size = new System.Drawing.Size(221, 27);
+            this.oilGainTextbox.TabIndex = 73;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 670);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 20);
+            this.label1.TabIndex = 72;
+            this.label1.Text = "Oil Gain";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(317, 666);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(24, 20);
+            this.label10.TabIndex = 74;
+            this.label10.Text = "%";
+            // 
+            // oilGainButton
+            // 
+            this.oilGainButton.Location = new System.Drawing.Point(350, 666);
+            this.oilGainButton.Name = "oilGainButton";
+            this.oilGainButton.Size = new System.Drawing.Size(144, 24);
+            this.oilGainButton.TabIndex = 75;
+            this.oilGainButton.Text = "Calculate Oil Gain";
+            this.oilGainButton.UseVisualStyleBackColor = true;
+            this.oilGainButton.Click += new System.EventHandler(this.oilGainButton_Click);
             // 
             // M_V3_cartonProductionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1139, 707);
+            this.ClientSize = new System.Drawing.Size(1232, 702);
+            this.Controls.Add(this.oilGainButton);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.oilGainTextbox);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.financialYearCombobox);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.cartonweight);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.closedCheckbox);
+            this.Controls.Add(this.coneCombobox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.qualityCombobox);
             this.Controls.Add(this.dyeingCompanyCombobox);
             this.Controls.Add(this.colourCombobox);
@@ -298,18 +421,15 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.loadDataButton);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.dynamicWeightLabel);
-            this.Controls.Add(this.totalWeightLabel);
             this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.productionDate);
-            this.Controls.Add(this.label1);
             this.Name = "M_V3_cartonProductionForm";
             this.Text = "M_V3_cartoonProductionForm";
+            this.Load += new System.EventHandler(this.M_V3_cartonProductionForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,11 +440,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.Label dynamicWeightLabel;
-        private System.Windows.Forms.Label totalWeightLabel;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.DateTimePicker productionDate;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.BindingSource cartonVoucherBindingSource;
         private FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter carton_VoucherTableAdapter;
         private System.Windows.Forms.Button loadDataButton;
@@ -342,5 +458,19 @@
         private System.Windows.Forms.ComboBox qualityCombobox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
+        private System.Windows.Forms.ComboBox coneCombobox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox closedCheckbox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox cartonweight;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox financialYearCombobox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox oilGainTextbox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button oilGainButton;
     }
 }

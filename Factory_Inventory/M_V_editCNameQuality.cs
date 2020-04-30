@@ -25,6 +25,7 @@ namespace Factory_Inventory
             editSpring1.Hide();
             editColour1.Hide();
             editDyeingCompany1.Hide();
+            editCone1.Hide();
         }
         private void editQuality1_Load(object sender, EventArgs e)
         {
@@ -77,6 +78,15 @@ namespace Factory_Inventory
             editDyeingCompany1.Show();
             editDyeingCompany1.BringToFront();
             editDyeingCompany1.loadDatabase();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            hide_all_UCs();
+            editCone1.Show();
+            editCone1.BringToFront();
+            editCone1.loadDatabase();
+
         }
     }
 }

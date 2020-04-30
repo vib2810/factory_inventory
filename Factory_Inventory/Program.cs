@@ -9,6 +9,7 @@ namespace Factory_Inventory
 {
     static class Program
     {
+        
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -22,9 +23,8 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
             //c.temp();
-            string[] s = c.repeated_batch_csv("*3231678 2019-2020");
-            Console.WriteLine(s[0]);
-            Console.WriteLine(s[1]);
+            //M_V3_cartonProductionForm f = new M_V3_cartonProductionForm();
+            //Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);

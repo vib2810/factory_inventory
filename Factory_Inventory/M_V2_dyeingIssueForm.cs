@@ -124,7 +124,7 @@ namespace Factory_Inventory
 
         public M_V2_dyeingIssueForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
-            
+
             InitializeComponent();
             this.edit_form = true;
             this.v1_history = v1_history;
@@ -211,8 +211,8 @@ namespace Factory_Inventory
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
-            
-            this.batch_state = c.getBatchState(int.Parse(row["Batch_No"].ToString()));
+
+            this.batch_state = c.getBatchState(int.Parse(row["Batch_No"].ToString()), row["Batch_Financial_Year"].ToString());
             if (batch_state == 2)
             {
                 dynamicEditableLabel.Text = "This voucher is not editable as the Batch has gone for dyeing";
@@ -550,7 +550,7 @@ namespace Factory_Inventory
             }
             if(this.edit_form==false)
             {
-                int batch_no = c.getNextBatchNumber("Batch", issueDate.Value);
+                int batch_no = c.getNextBatchNumber("Highest_Batch_No", c.getFinancialYear(issueDate.Value));
                 if (batch_no == -1)
                 {
                     batchNumberTextbox.Text = "Error";

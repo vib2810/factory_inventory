@@ -131,6 +131,12 @@
     <Compile Include="M_V_editColour.Designer.cs">
       <DependentUpon>M_V_editColour.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_V_editConeUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="M_V_editConeUC.Designer.cs">
+      <DependentUpon>M_V_editConeUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V_editDyeingCompanyUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -259,6 +265,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_V_editColour.resx">
       <DependentUpon>M_V_editColour.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V_editConeUC.resx">
+      <DependentUpon>M_V_editConeUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V_editDyeingCompanyUC.resx">
       <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
