@@ -21,9 +21,16 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            M_V4_printCartonSlip f = new M_V4_printCartonSlip();
-            Application.Run(f);
             DbConnect c = new DbConnect();
+            string s = "123456789  (2019-2020)";
+            string[] str = c.repeated_batch_csv(s);
+            for(int i=0;i<str.Length;i++)
+            {
+                Console.WriteLine(str[i]);
+            }
+            Console.WriteLine(str.Length);
+            //M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            //Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);

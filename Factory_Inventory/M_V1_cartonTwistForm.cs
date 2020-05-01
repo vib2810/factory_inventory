@@ -46,11 +46,11 @@ namespace Factory_Inventory
             {
                 dataSource1.Add(d1.Rows[i][0].ToString());
             }
-            this.comboBox1.DataSource = dataSource1;
-            this.comboBox1.DisplayMember = "Quality";
-            this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox1CB.DataSource = dataSource1;
+            this.comboBox1CB.DisplayMember = "Quality";
+            this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             //this.comboBox1.
             var dataSource2 = new List<string>();
             DataTable d2 = c.getQC('c');
@@ -60,11 +60,11 @@ namespace Factory_Inventory
             {
                 dataSource2.Add(d2.Rows[i][0].ToString());
             }
-            this.comboBox2.DataSource = dataSource2;
-            this.comboBox2.DisplayMember = "Company_Names";
-            this.comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.DataSource = dataSource2;
+            this.comboBox2CB.DisplayMember = "Company_Names";
+            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             //Create drop-down lists
             var dataSource3 = new List<string>();
@@ -75,13 +75,13 @@ namespace Factory_Inventory
             {
                 dataSource3.Add(d3.Rows[i][0].ToString());
             }
-            this.comboBox3.DataSource = dataSource3;
-            this.comboBox3.DisplayMember = "Financial Year";
-            this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox3CB.DataSource = dataSource3;
+            this.comboBox3CB.DisplayMember = "Financial Year";
+            this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(c.getFinancialYear(this.issueDate.Value));
+            this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.issueDateDTP.Value));
 
 
             //DatagridView
@@ -117,11 +117,11 @@ namespace Factory_Inventory
             {
                 dataSource1.Add(d1.Rows[i][0].ToString());
             }
-            this.comboBox1.DataSource = dataSource1;
-            this.comboBox1.DisplayMember = "Quality";
-            this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox1CB.DataSource = dataSource1;
+            this.comboBox1CB.DisplayMember = "Quality";
+            this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             var dataSource2 = new List<string>();
             DataTable d2 = c.getQC('c');
@@ -131,11 +131,11 @@ namespace Factory_Inventory
             {
                 dataSource2.Add(d2.Rows[i][0].ToString());
             }
-            this.comboBox2.DataSource = dataSource2;
-            this.comboBox2.DisplayMember = "Company_Names";
-            this.comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.DataSource = dataSource2;
+            this.comboBox2CB.DisplayMember = "Company_Names";
+            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             //Create drop-down lists
             var dataSource3 = new List<string>();
@@ -146,13 +146,13 @@ namespace Factory_Inventory
             {
                 dataSource3.Add(d3.Rows[i][0].ToString());
             }
-            this.comboBox3.DataSource = dataSource3;
-            this.comboBox3.DisplayMember = "Financial Year";
-            this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox3CB.DataSource = dataSource3;
+            this.comboBox3CB.DisplayMember = "Financial Year";
+            this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(c.getFinancialYear(this.issueDate.Value));
+            this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.issueDateDTP.Value));
             
 
             //DatagridView
@@ -169,10 +169,10 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
-                this.issueDate.Enabled = false;
-                this.comboBox1.Enabled = false;
-                this.comboBox2.Enabled = false;
-                this.comboBox3.Enabled = false;
+                this.issueDateDTP.Enabled = false;
+                this.comboBox1CB.Enabled = false;
+                this.comboBox2CB.Enabled = false;
+                this.comboBox3CB.Enabled = false;
                 this.loadCartonButton.Enabled = false;
                 this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
@@ -180,32 +180,32 @@ namespace Factory_Inventory
 
             else
             {
-                this.issueDate.Enabled = true;
-                this.comboBox1.Enabled = false;
-                this.comboBox2.Enabled = false;
-                this.comboBox3.Enabled = false;
+                this.issueDateDTP.Enabled = true;
+                this.comboBox1CB.Enabled = false;
+                this.comboBox2CB.Enabled = false;
+                this.comboBox3CB.Enabled = false;
                 this.saveButton.Enabled = true;
                 this.dataGridView1.ReadOnly = false;
                 this.loadCartonButton.Enabled = false;
             }
 
-            this.issueDate.Value = Convert.ToDateTime(row["Date_Of_Issue"].ToString());
-            if (this.comboBox1.FindStringExact(row["Quality"].ToString()) == -1)
+            this.issueDateDTP.Value = Convert.ToDateTime(row["Date_Of_Issue"].ToString());
+            if (this.comboBox1CB.FindStringExact(row["Quality"].ToString()) == -1)
             {
                 dataSource1.Add(row["Quality"].ToString());
-                this.comboBox1.DataSource = null;
-                this.comboBox1.DataSource = dataSource1;
+                this.comboBox1CB.DataSource = null;
+                this.comboBox1CB.DataSource = dataSource1;
 
             }
-            this.comboBox1.SelectedIndex = this.comboBox1.FindStringExact(row["Quality"].ToString());
-            if (this.comboBox2.FindStringExact(row["Company_Name"].ToString()) == -1)
+            this.comboBox1CB.SelectedIndex = this.comboBox1CB.FindStringExact(row["Quality"].ToString());
+            if (this.comboBox2CB.FindStringExact(row["Company_Name"].ToString()) == -1)
             {
                 dataSource2.Add(row["Company_Name"].ToString());
-                this.comboBox2.DataSource = null;
-                this.comboBox2.DataSource = dataSource2;
+                this.comboBox2CB.DataSource = null;
+                this.comboBox2CB.DataSource = dataSource2;
 
             }
-            this.comboBox2.SelectedIndex = this.comboBox2.FindStringExact(row["Company_Name"].ToString());
+            this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
             this.voucherID = int.Parse(row["Voucher_ID"].ToString());
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
             Console.WriteLine("------------------");
@@ -251,8 +251,8 @@ namespace Factory_Inventory
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     return;
                 }
-                if (this.comboBox3.SelectedIndex <= 0) return;
-                DataTable dt = c.getCartonWeight(cartoon, this.comboBox3.SelectedItem.ToString());
+                if (this.comboBox3CB.SelectedIndex <= 0) return;
+                DataTable dt = c.getCartonWeight(cartoon, this.comboBox3CB.SelectedItem.ToString());
                 if (dt.Rows.Count <= 0) return;
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = dt.Rows[0][0];
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
@@ -311,12 +311,12 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if (comboBox1.SelectedIndex == 0)
+            if (comboBox1CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Quality", "Error");
                 return;
             }
-            if (comboBox2.SelectedIndex == 0)
+            if (comboBox2CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Company Name", "Error");
                 return;
@@ -326,7 +326,7 @@ namespace Factory_Inventory
                 MessageBox.Show("Please enter Carton Numbers", "Error");
                 return;
             }
-            if (this.inputDate.Value.Date < this.issueDate.Value.Date)
+            if (this.inputDate.Value.Date < this.issueDateDTP.Value.Date)
             {
                 MessageBox.Show("Issue Date is in the future", "Error");
                 return;
@@ -362,7 +362,7 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
-                bool added = c.addTwistVoucher(inputDate.Value, issueDate.Value, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), cartonno, number, this.comboBox3.SelectedItem.ToString());
+                bool added = c.addTwistVoucher(inputDate.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
                 if(added==false)
                 {
                     return;
@@ -374,7 +374,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited = c.editTwistVoucher(this.voucherID, issueDate.Value, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), cartonno, number, this.comboBox3.SelectedItem.ToString());
+                bool edited = c.editTwistVoucher(this.voucherID, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
                 if (edited == false)
                 {
                     return;
@@ -389,10 +389,10 @@ namespace Factory_Inventory
 
         public void disable_form_edit()
         {
-            this.issueDate.Enabled = false;
-            this.comboBox1.Enabled = false;
-            this.comboBox2.Enabled = false;
-            this.comboBox3.Enabled = false;
+            this.issueDateDTP.Enabled = false;
+            this.comboBox1CB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
+            this.comboBox3CB.Enabled = false;
             this.saveButton.Enabled = true;
             this.dataGridView1.ReadOnly = false;
             this.loadCartonButton.Enabled = false;
@@ -436,21 +436,21 @@ namespace Factory_Inventory
 
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 0)
+            if (comboBox1CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Quality", "Error");
                 return;
             }
-            if (comboBox2.SelectedIndex == 0)
+            if (comboBox2CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Company Name", "Error");
                 return;
             }
-            this.loadData(this.comboBox1.SelectedItem.ToString(), this.comboBox2.SelectedItem.ToString(), this.comboBox3.SelectedItem.ToString());
+            this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
             this.loadCartonButton.Enabled = false;
-            this.comboBox1.Enabled = false;
-            this.comboBox2.Enabled = false;
-            this.comboBox3.Enabled = false;
+            this.comboBox1CB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
+            this.comboBox3CB.Enabled = false;
         }
 
         private void loadData(string quality, string company, string fiscalyear)
@@ -477,6 +477,46 @@ namespace Factory_Inventory
             if (e.Button == MouseButtons.Right && e.RowIndex>=0)
             {
                 dataGridView1.Rows[e.RowIndex].Selected = true;
+            }
+        }
+
+        private void M_V1_cartonTwistForm_Load(object sender, EventArgs e)
+        {
+            var comboBoxes = this.Controls
+                  .OfType<ComboBox>()
+                  .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
             }
         }
     }

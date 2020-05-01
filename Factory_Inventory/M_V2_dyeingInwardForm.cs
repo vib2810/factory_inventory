@@ -53,11 +53,11 @@ namespace Factory_Inventory
                 {
                     dataSource3.Add(d3.Rows[i][0].ToString());
                 }
-                this.dyeingCompanyCombobox.DataSource = dataSource3;
-                this.dyeingCompanyCombobox.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCombobox.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.dyeingCompanyCB.DataSource = dataSource3;
+                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
+                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
                 //Create drop-down lists
                 var dataSource = new List<string>();
@@ -68,13 +68,13 @@ namespace Factory_Inventory
                 {
                     dataSource.Add(d.Rows[i][0].ToString());
                 }
-                this.comboBox3.DataSource = dataSource;
-                this.comboBox3.DisplayMember = "Financial Year";
-                this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.comboBox3CB.DataSource = dataSource;
+                this.comboBox3CB.DisplayMember = "Financial Year";
+                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-                this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(c.getFinancialYear(this.inwardDate.Value));
+                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
 
 
                 //DatagridView
@@ -106,17 +106,17 @@ namespace Factory_Inventory
                 this.batch_no = new List<string>();
                 this.batch_no.Add("");
 
-                this.billcheckBox.Enabled = false;
-                this.billcheckBox.Checked = false;
-                this.billNumberTextbox.Enabled = true;
-                this.inwardDate.Visible = false;
+                this.billcheckBoxCK.Enabled = false;
+                this.billcheckBoxCK.Checked = false;
+                this.billNumberTextboxTB.Enabled = true;
+                this.inwardDateDTP.Visible = false;
                 this.label1.Visible = false;
 
                 this.label7.Location = new System.Drawing.Point(24, 74);
-                this.billNumberTextbox.Location = new System.Drawing.Point(24, 94);
-                this.billDate.Location = new System.Drawing.Point(24, 140);
+                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
+                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
                 this.label2.Location = new System.Drawing.Point(24, 120);
-                this.billcheckBox.Location = new System.Drawing.Point(139, 94);
+                this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
                 this.saveButton.Enabled = false;
 
                 //Create drop-down Dyeing Company lists
@@ -128,11 +128,11 @@ namespace Factory_Inventory
                 {
                     dataSource3.Add(d3.Rows[i][0].ToString());
                 }
-                this.dyeingCompanyCombobox.DataSource = dataSource3;
-                this.dyeingCompanyCombobox.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCombobox.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.dyeingCompanyCB.DataSource = dataSource3;
+                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
+                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
                 //Create drop-down lists
                 var dataSource = new List<string>();
@@ -143,13 +143,13 @@ namespace Factory_Inventory
                 {
                     dataSource.Add(d.Rows[i][0].ToString());
                 }
-                this.comboBox3.DataSource = dataSource;
-                this.comboBox3.DisplayMember = "Financial Year";
-                this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.comboBox3CB.DataSource = dataSource;
+                this.comboBox3CB.DisplayMember = "Financial Year";
+                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-                this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(c.getFinancialYear(this.inwardDate.Value));
+                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
 
 
                 //DatagridView
@@ -197,11 +197,11 @@ namespace Factory_Inventory
                 {
                     dataSource3.Add(d3.Rows[i][0].ToString());
                 }
-                this.dyeingCompanyCombobox.DataSource = dataSource3;
-                this.dyeingCompanyCombobox.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCombobox.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.dyeingCompanyCB.DataSource = dataSource3;
+                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
+                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
                 //Create drop-down lists
                 var dataSource = new List<string>();
@@ -212,13 +212,13 @@ namespace Factory_Inventory
                 {
                     dataSource.Add(d.Rows[i][0].ToString());
                 }
-                this.comboBox3.DataSource = dataSource;
-                this.comboBox3.DisplayMember = "Financial Year";
-                this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.comboBox3CB.DataSource = dataSource;
+                this.comboBox3CB.DisplayMember = "Financial Year";
+                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-                this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(c.getFinancialYear(this.inwardDate.Value));
+                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
 
 
 
@@ -245,42 +245,42 @@ namespace Factory_Inventory
                 {
                     //this.edit_form = false;
                     this.inputDate.Enabled = false;
-                    this.inwardDate.Enabled = false;
-                    this.dyeingCompanyCombobox.Enabled = false;
+                    this.inwardDateDTP.Enabled = false;
+                    this.dyeingCompanyCB.Enabled = false;
                     this.loadBatchButton.Enabled = false;
                     this.saveButton.Enabled = false;
                     this.dataGridView1.ReadOnly = true;
-                    this.comboBox3.Enabled = false;
+                    this.comboBox3CB.Enabled = false;
 
                 }
                 else
                 {
                     //no option to edit company name and quality
-                    this.inwardDate.Enabled = true;
-                    this.dyeingCompanyCombobox.Enabled = false;
+                    this.inwardDateDTP.Enabled = true;
+                    this.dyeingCompanyCB.Enabled = false;
                     this.saveButton.Enabled = true;
                     this.loadBatchButton.Enabled = false;
                     this.dataGridView1.ReadOnly = false;
-                    this.comboBox3.Enabled = false;
+                    this.comboBox3CB.Enabled = false;
                 }
 
                 //Fill in required fields
                 this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-                this.inwardDate.Value = Convert.ToDateTime(row["Inward_Date"].ToString());
-                this.dyeingCompanyCombobox.SelectedIndex = this.dyeingCompanyCombobox.FindStringExact(row["Dyeing_Company_Name"].ToString());
-                this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(row["Batch_Fiscal_Year"].ToString());
-                if(row["Bill_Date"].ToString() != null && row["Bill_Date"].ToString() != "") this.billDate.Value = Convert.ToDateTime(row["Bill_Date"].ToString());
+                this.inwardDateDTP.Value = Convert.ToDateTime(row["Inward_Date"].ToString());
+                this.dyeingCompanyCB.SelectedIndex = this.dyeingCompanyCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
+                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Batch_Fiscal_Year"].ToString());
+                if(row["Bill_Date"].ToString() != null && row["Bill_Date"].ToString() != "") this.billDateDTP.Value = Convert.ToDateTime(row["Bill_Date"].ToString());
 
                 if (int.Parse(row["Bill_No"].ToString()) == 0)
                 {
-                    billcheckBox.Checked = true;
-                    billNumberTextbox.Enabled = false;
+                    billcheckBoxCK.Checked = true;
+                    billNumberTextboxTB.Enabled = false;
                 }
                 else
                 {
-                    billcheckBox.Checked = false;
-                    billNumberTextbox.Enabled = true;
-                    billNumberTextbox.Text = row["Bill_No"].ToString();
+                    billcheckBoxCK.Checked = false;
+                    billNumberTextboxTB.Enabled = true;
+                    billNumberTextboxTB.Text = row["Bill_No"].ToString();
                 }
 
                 this.voucherID = int.Parse(row["Voucher_ID"].ToString());
@@ -295,7 +295,7 @@ namespace Factory_Inventory
                 for (int i = 0; i < batch_nos.Length; i++)
                 {
                     dataGridView1.Rows[i].Cells[1].Value = batch_nos[i];
-                    string bill_no = c.getColumnBatchNo("Bill_No", int.Parse(batch_nos[i]), this.comboBox3.SelectedItem.ToString());
+                    string bill_no = c.getColumnBatchNo("Bill_No", int.Parse(batch_nos[i]), this.comboBox3CB.SelectedItem.ToString());
                     if(!(bill_no==null || bill_no == "0"))
                     {
                         this.batch_editable[batch_nos[i]] = false;
@@ -308,8 +308,8 @@ namespace Factory_Inventory
 
                 if (!bill_editable)
                 {
-                    this.billcheckBox.Checked = true;
-                    this.billcheckBox.Enabled = false;
+                    this.billcheckBoxCK.Checked = true;
+                    this.billcheckBoxCK.Enabled = false;
                 }
             }
             if (mode == "addBill")
@@ -325,20 +325,20 @@ namespace Factory_Inventory
                 this.batch_no.Add("");
 
                 //graphics placement
-                this.billcheckBox.Enabled = false;
-                this.billcheckBox.Checked = false;
-                this.billNumberTextbox.Enabled = true;
-                this.inwardDate.Visible = false;
+                this.billcheckBoxCK.Enabled = false;
+                this.billcheckBoxCK.Checked = false;
+                this.billNumberTextboxTB.Enabled = true;
+                this.inwardDateDTP.Visible = false;
                 this.label1.Visible = false;
-                this.dyeingCompanyCombobox.Enabled = false;
+                this.dyeingCompanyCB.Enabled = false;
                 this.loadBatchButton.Enabled = false;
-                this.comboBox3.Enabled = false;
+                this.comboBox3CB.Enabled = false;
 
                 this.label7.Location = new System.Drawing.Point(24, 74);
-                this.billNumberTextbox.Location = new System.Drawing.Point(24, 94);
-                this.billDate.Location = new System.Drawing.Point(24, 140);
+                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
+                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
                 this.label2.Location = new System.Drawing.Point(24, 120);
-                this.billcheckBox.Location = new System.Drawing.Point(139, 94);
+                this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
 
                 //DatagridView make
                 dataGridView1.Columns.Add("Sl_No", "Sl_No");
@@ -368,11 +368,11 @@ namespace Factory_Inventory
                 {
                     dataSource3.Add(d3.Rows[i][0].ToString());
                 }
-                this.dyeingCompanyCombobox.DataSource = dataSource3;
-                this.dyeingCompanyCombobox.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCombobox.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.dyeingCompanyCB.DataSource = dataSource3;
+                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
+                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
                 //Create drop-down lists
                 var dataSource = new List<string>();
@@ -383,13 +383,13 @@ namespace Factory_Inventory
                 {
                     dataSource.Add(d.Rows[i][0].ToString());
                 }
-                this.comboBox3.DataSource = dataSource;
-                this.comboBox3.DisplayMember = "Financial Year";
-                this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                this.comboBox3CB.DataSource = dataSource;
+                this.comboBox3CB.DisplayMember = "Financial Year";
+                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-                this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(c.getFinancialYear(this.inwardDate.Value));
+                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
 
 
                 //if only in view mode
@@ -398,15 +398,15 @@ namespace Factory_Inventory
                     this.inputDate.Enabled = false;
                     this.saveButton.Enabled = false;
                     this.dataGridView1.ReadOnly = true;
-                    this.billNumberTextbox.Enabled = false;
+                    this.billNumberTextboxTB.Enabled = false;
                 }
 
                 //Fill in required values
                 this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-                this.dyeingCompanyCombobox.SelectedIndex = this.dyeingCompanyCombobox.FindStringExact(row["Dyeing_Company_Name"].ToString());
-                this.billNumberTextbox.Text = row["Bill_No"].ToString();
+                this.dyeingCompanyCB.SelectedIndex = this.dyeingCompanyCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
+                this.billNumberTextboxTB.Text = row["Bill_No"].ToString();
                 this.voucherID = int.Parse(row["Voucher_ID"].ToString());
-                this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(row["Batch_Fiscal_Year"].ToString());
+                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Batch_Fiscal_Year"].ToString());
 
 
                 //Load data in datagridview dropdown
@@ -429,13 +429,13 @@ namespace Factory_Inventory
         public void disable_form_edit()
         {
             this.inputDate.Enabled = false;
-            this.inwardDate.Enabled = false;
-            this.dyeingCompanyCombobox.Enabled = false;
+            this.inwardDateDTP.Enabled = false;
+            this.dyeingCompanyCB.Enabled = false;
             this.loadBatchButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
-            this.billNumberTextbox.Enabled = false;
-            this.billDate.Enabled = false;
+            this.billNumberTextboxTB.Enabled = false;
+            this.billDateDTP.Enabled = false;
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -460,7 +460,7 @@ namespace Factory_Inventory
                     return;
                 }
                 int batch_no = int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                DataRow row = c.getBatchRow_BatchNo(batch_no, this.comboBox3.SelectedItem.ToString());
+                DataRow row = c.getBatchRow_BatchNo(batch_no, this.comboBox3CB.SelectedItem.ToString());
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = row["Net_Weight"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[3].Value = row["Colour"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[4].Value = row["Quality"].ToString();
@@ -532,21 +532,21 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if (dyeingCompanyCombobox.SelectedIndex == 0)
+            if (dyeingCompanyCB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Dyeing Company Name", "Error");
                 return;
             }
-            if((billNumberTextbox.Text==null || billNumberTextbox.Text=="") && billcheckBox.Checked==false)
+            if((billNumberTextboxTB.Text==null || billNumberTextboxTB.Text=="") && billcheckBoxCK.Checked==false)
             {
                 MessageBox.Show("Enter Bill Number", "Error");
                 return;
             }
-            if(billcheckBox.Checked==false)
+            if(billcheckBoxCK.Checked==false)
             {
                 try
                 {
-                    int.Parse(billNumberTextbox.Text);
+                    int.Parse(billNumberTextboxTB.Text);
                 }
                 catch
                 {
@@ -559,12 +559,12 @@ namespace Factory_Inventory
                 MessageBox.Show("Please enter Batch Numbers", "Error");
                 return;
             }
-            if (this.inputDate.Value.Date < this.inwardDate.Value.Date)
+            if (this.inputDate.Value.Date < this.inwardDateDTP.Value.Date)
             {
                 MessageBox.Show("Inward Date is in the future", "Error");
                 return;
             }
-            if(this.billDate.Value.Date > this.inputDate.Value.Date)
+            if(this.billDateDTP.Value.Date > this.inputDate.Value.Date)
             {
                 MessageBox.Show("Bill Date is in the future", "Error");
                 return;
@@ -600,17 +600,17 @@ namespace Factory_Inventory
             }
             int sendbill_no = -1;
             string send_bill_date = null;
-            if (this.billcheckBox.Checked == true) sendbill_no = 0;
+            if (this.billcheckBoxCK.Checked == true) sendbill_no = 0;
             else
             {
-                sendbill_no = int.Parse(billNumberTextbox.Text.ToString());
-                send_bill_date = billDate.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+                sendbill_no = int.Parse(billNumberTextboxTB.Text.ToString());
+                send_bill_date = billDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             }
             if (this.edit_form == true)
             {
                 if(this.addBill==true)
                 {
-                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCombobox.SelectedItem.ToString(), this.comboBox3.SelectedItem.ToString());
+                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
                     if (editbill == true)
                     {
                         disable_form_edit();
@@ -620,7 +620,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDate.Value, dyeingCompanyCombobox.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3.SelectedItem.ToString(), send_bill_date);
+                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date);
                     if (edited == true)
                     {
                         disable_form_edit();
@@ -633,13 +633,13 @@ namespace Factory_Inventory
             {
                 if(this.addBill==true)
                 {
-                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCombobox.SelectedItem.ToString(), this.comboBox3.SelectedItem.ToString());
+                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
                     if (addbill == true) disable_form_edit();
                     return;
                 }
                 else
                 {
-                    bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDate.Value, dyeingCompanyCombobox.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3.SelectedItem.ToString(), send_bill_date);
+                    bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date);
                     if (added == true) disable_form_edit();
                     else return;
                 }
@@ -713,21 +713,21 @@ namespace Factory_Inventory
         }
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
-            if (dyeingCompanyCombobox.SelectedIndex == 0)
+            if (dyeingCompanyCB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Enter Dyeing Company Name", "Error");
                 return;
             }
-            if(comboBox3.SelectedIndex==0)
+            if(comboBox3CB.SelectedIndex==0)
             {
                 MessageBox.Show("Please select Batch Financial Year", "Error");
                 return;
             }
-            this.loadData(this.dyeingCompanyCombobox.SelectedItem.ToString(), comboBox3.SelectedItem.ToString()); ;
+            this.loadData(this.dyeingCompanyCB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString()); ;
             this.loadBatchButton.Enabled = false;
-            this.dyeingCompanyCombobox.Enabled = false;
+            this.dyeingCompanyCB.Enabled = false;
             this.saveButton.Enabled = true;
-            this.comboBox3.Enabled = false;
+            this.comboBox3CB.Enabled = false;
         }
         private void loadData(string dyeing_company, string batch_fiscal_year)
         {
@@ -742,15 +742,15 @@ namespace Factory_Inventory
         }
         private void billcheckBox_CheckStateChanged(object sender, EventArgs e)
         {
-            if (billcheckBox.Checked == false)
+            if (billcheckBoxCK.Checked == false)
             {
-                billNumberTextbox.Enabled = true;
-                billDate.Enabled = true;
+                billNumberTextboxTB.Enabled = true;
+                billDateDTP.Enabled = true;
             }
             else
             {
-                billNumberTextbox.Enabled = false;
-                billDate.Enabled = false;
+                billNumberTextboxTB.Enabled = false;
+                billDateDTP.Enabled = false;
             }
         }
 
@@ -767,6 +767,46 @@ namespace Factory_Inventory
             if (dataGridView1.IsCurrentCellDirty)
             {
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
+        {
+            var comboBoxes = this.Controls
+                  .OfType<ComboBox>()
+                  .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
             }
         }
     }

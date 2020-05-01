@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -74,15 +75,16 @@ namespace Factory_Inventory.Factory_Classes
 
         public string[] repeated_batch_csv(string str)
         {
-            string[] ans = str.Split(' ');
+            string[] ans = str.Split('(');
             //ans = ans.Skip(1).ToArray();
-            ans[0] = ans[0].Substring(1, ans[0].Length - 1);
+            ans[0] = ans[0].Substring(0, ans[0].Length - 2);
+            ans[1] = ans[1].Substring(0, ans[1].Length - 1);
             return ans;
         }
 
         public bool check_if_batch_repeated(string batch)
         {
-            if(batch[0] == '*')
+            if(batch[batch.Length-1] == ')')
             {
                 return true;
             }
@@ -176,7 +178,99 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
+        
+        //Arrow Key Events
+        public void comboBoxEvent(ComboBox c)
+        {
+            c.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownCb);
+        }
+        private void KeyDownCb(object sender, KeyEventArgs e)
+        {
+            ComboBox c = sender as ComboBox;
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (c.DroppedDown == false)
+                {
+                    c.DroppedDown = true;
+                    e.Handled = true;
+                }
+                
+            }
+            arrowControl(c, sender, e);
+            e.Handled = true;
 
+            
+        }
+        public void textBoxEvent(TextBox t)
+        {
+            t.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownTb);
+        }
+        private void KeyDownTb(object sender, KeyEventArgs e)
+        {
+            TextBox t = sender as TextBox;
+            arrowControl(t, sender, e);
+            e.Handled = true;
+        }
+        public void DTPEvent(DateTimePicker dtp)
+        {
+            dtp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownDtp);
+        }
+        private void KeyDownDtp(object sender, KeyEventArgs e)
+        {
+            DateTimePicker dtp = sender as DateTimePicker;
+            arrowControl(dtp, sender, e);
+            e.Handled = true;
+        }
+        public void arrowControl(dynamic control, object sender, KeyEventArgs e)
+        {
+            Form f = control.FindForm();
+            dynamic x;
+            if (e.KeyCode == Keys.Up)
+            {
+                Console.WriteLine("Up");
+                x = f.GetNextControl((Control)sender, false);
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                Console.WriteLine("Down");
+                x = f.GetNextControl((Control)sender, true);
+            }
+            else
+            {
+                Console.WriteLine("Else");
+                return;
+            }
+            Console.WriteLine(x.TabIndex);
+            if (x.GetType().Name.ToString() == "Label")
+            {
+                Console.WriteLine("Label found");
+                return;
+            }
+            else if(x.Enabled==false)
+            {
+                return;
+            }
+            Graphics g = x.CreateGraphics();
+            g.DrawRectangle(Pens.Black, 0, 0, x.Width, x.Height);
+            x.Focus();
+            g.Dispose();
+        }
+        public void buttonEvent(Button b)
+        {
+            b.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PKeyDownB);
+            b.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownB);
+        }
+        private void KeyDownB(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine("button");
+            Button b = sender as Button;
+            arrowControl(b, sender, e);
+            e.Handled = true;
+        }
+        private void PKeyDownB(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down) e.IsInputKey = true;
+        }
 
         //Login Logout
         public void recordLogin(string user)
@@ -1885,7 +1979,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Dyeing_Issue_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Colour, Dyeing_Company_Name, Batch_No, Tray_No_Arr, Number_Of_Trays, Dyeing_Rate, Tray_ID_Arr, Fiscal_Year) VALUES ('" + inputDate + "','" + issueDate + "', '" + quality + "', '" + company_name + "', '" + colour + "' , '" + dyeing_company_name + "', " + batchno + ", '" + trayno + "', "+number+", "+rate+", '"+trayid+"', '"+fiscal_year+"')";
+                string sql = "INSERT INTO Dyeing_Issue_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Colour, Dyeing_Company_Name, Batch_No, Tray_No_Arr, Number_Of_Trays, Dyeing_Rate, Tray_ID_Arr, Batch_Fiscal_Year) VALUES ('" + inputDate + "','" + issueDate + "', '" + quality + "', '" + company_name + "', '" + colour + "' , '" + dyeing_company_name + "', " + batchno + ", '" + trayno + "', "+number+", "+rate+", '"+trayid+"', '"+fiscal_year+"')";
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
                 MessageBox.Show("Voucher Added Successfully", "Success");
@@ -1950,7 +2044,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Dyeing_Issue_Voucher Set Date_Of_Issue='"+issueDate+"', Quality='"+quality+"', Company_Name='"+company_name+"', Colour='"+colour+"', Dyeing_Company_Name='"+dyeing_company_name+"', Batch_No="+batchno+", Tray_No_Arr='"+trayno+"', Number_Of_Trays=" + number+" , Dyeing_Rate = "+rate+", Tray_ID_Arr='"+tray_id_arr+"', Fiscal_Year = '"+fiscal_year+"' WHERE Voucher_ID="+voucherID;
+                string sql = "UPDATE Dyeing_Issue_Voucher Set Date_Of_Issue='"+issueDate+"', Quality='"+quality+"', Company_Name='"+company_name+"', Colour='"+colour+"', Dyeing_Company_Name='"+dyeing_company_name+"', Batch_No="+batchno+", Tray_No_Arr='"+trayno+"', Number_Of_Trays=" + number+" , Dyeing_Rate = "+rate+", Tray_ID_Arr='"+tray_id_arr+"', Batch_Fiscal_Year = '"+fiscal_year+"' WHERE Voucher_ID="+voucherID;
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -2901,6 +2995,10 @@ namespace Factory_Inventory.Factory_Classes
                 MessageBox.Show("Could not connect to database (getProducedCartonRow) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
+            }
+            finally
+            {
+                con.Close();
             }
             return (DataRow)dt.Rows[0];
         }

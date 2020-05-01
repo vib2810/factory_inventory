@@ -248,14 +248,12 @@ namespace Factory_Inventory
 
             //DatagridView 1
             dataGridView1.Columns.Add("Sl_No", "Sl No");
-            dataGridView1.Columns[0].ReadOnly = true;
             dataGridView1.Columns.Add("Production_Date", "Production Date");
             dataGridView1.Columns.Add("Carton_Number", "Carton Number");
             dataGridView1.Columns.Add("Gross_Weight", "Gross Weight");
             dataGridView1.Columns.Add("Carton_Weight", "Carton Weight");
             dataGridView1.Columns.Add("Number_Of_Cones", "Number of Cones");
             dataGridView1.Columns.Add("Net_Weight", "Net Weight");
-            dataGridView1.Columns[6].ReadOnly = true;
 
             //Datagridview 2
             dataGridView2.Columns.Add("Sl_No", "Sl No");
@@ -274,13 +272,21 @@ namespace Factory_Inventory
             {
                 oilGainButton.Enabled = true;
             }
-
+            
+            this.colourCombobox.Enabled = false;
+            this.qualityCombobox.Enabled = false;
+            this.dyeingCompanyCombobox.Enabled = false;
+            this.financialYearCombobox.Enabled = false;
             if (isEditable == false)
             {
                 this.inputDate.Enabled = false;
                 this.loadDataButton.Enabled = false;
                 this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Enabled = true;
+                this.dataGridView1.ReadOnly = false;
+                dataGridView1.Columns[0].ReadOnly = true;
+                dataGridView1.Columns[6].ReadOnly = true;
             }
             else
             {
@@ -306,8 +312,8 @@ namespace Factory_Inventory
                 {
                     if (temp_batch_no_arr[i] == temp_batch_no_arr[j])
                     {
-                        show_batches[i] = "*" + temp_batch_no_arr[i] + " " + batch_fiscal_year_arr[i];
-                        show_batches[j] = "*" + temp_batch_no_arr[j] + " " + batch_fiscal_year_arr[j];
+                        show_batches[i] = temp_batch_no_arr[i] + "  (" + batch_fiscal_year_arr[i] + ")";
+                        show_batches[j] = temp_batch_no_arr[j] + "  (" + batch_fiscal_year_arr[j] + ")";
                     }
                 }
             }
@@ -344,6 +350,10 @@ namespace Factory_Inventory
             for (int i = 0; i < produced_cartons.Length; i++)
             {
                 DataRow carton_row = c.getProducedCartonRow(produced_cartons[i], row["Carton_Fiscal_Year"].ToString());
+                if(carton_row==null)
+                {
+                    continue;
+                }
                 string correctformat = Convert.ToDateTime(carton_row["Date_Of_Production"].ToString()).Date.ToString().Substring(0,10);
                 dataGridView1.Rows[i].Cells[1].Value = correctformat;
                 dataGridView1.Rows[i].Cells[2].Value = produced_cartons[i];
@@ -371,6 +381,10 @@ namespace Factory_Inventory
                 {
                     for (int j = i + 1; j < dataGridView2.Rows.Count - 1; j++)
                     {
+                        if (dataGridView2.Rows[i].Cells[1].Value == null || dataGridView2.Rows[j].Cells[1].Value==null)
+                        {
+                            continue;
+                        }
                         if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
                         {
                             MessageBox.Show("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
@@ -666,8 +680,8 @@ namespace Factory_Inventory
             else
             {
                 string[] years = financialYearCombobox.Text.Split('-');
-                DateTime dt = new DateTime(int.Parse(years[1]),31,3);
-                this.dataGridView1.Rows[0].Cells[1].Value = dt.Date.ToString().Substring(0, 10);
+                DateTime dt = new DateTime(int.Parse(years[1]),3,31);
+                this.dataGridView1.Rows[0].Cells[1].Value = dt.Date.ToString("dd-MM-yyyy").Substring(0, 10);
             }
 
             //set the first carton number in form
@@ -697,8 +711,8 @@ namespace Factory_Inventory
                 {
                     if (dt.Rows[i]["Batch_No"].ToString() == dt.Rows[j]["Batch_No"].ToString())
                     {
-                        batch_no_arr[i] = "*" + dt.Rows[i]["Batch_No"].ToString() + " " + dt.Rows[i]["Fiscal_Year"].ToString();
-                        batch_no_arr[j] = "*" + dt.Rows[j]["Batch_No"].ToString() + " " + dt.Rows[j]["Fiscal_Year"].ToString();
+                        batch_no_arr[i] = dt.Rows[i]["Batch_No"].ToString() + "  (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")";
+                        batch_no_arr[j] = dt.Rows[j]["Batch_No"].ToString() + "  (" + dt.Rows[j]["Fiscal_Year"].ToString() + ")";
                     }
                 }
             }

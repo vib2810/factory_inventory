@@ -212,7 +212,7 @@ namespace Factory_Inventory
             dataGridView1.RowCount = 10;
 
 
-            this.batch_state = c.getBatchState(int.Parse(row["Batch_No"].ToString()), row["Batch_Financial_Year"].ToString());
+            this.batch_state = c.getBatchState(int.Parse(row["Batch_No"].ToString()), row["Batch_Fiscal_Year"].ToString());
             if (batch_state == 2)
             {
                 dynamicEditableLabel.Text = "This voucher is not editable as the Batch has gone for dyeing";
@@ -254,7 +254,7 @@ namespace Factory_Inventory
             this.comboBox2.SelectedIndex = this.comboBox2.FindStringExact(row["Company_Name"].ToString());
             this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(row["Dyeing_Company_Name"].ToString());
             this.comboBox4.SelectedIndex = this.comboBox4.FindStringExact(row["Colour"].ToString());
-            this.old_fiscal_year = row["Fiscal_Year"].ToString();
+            this.old_fiscal_year = row["Batch_Fiscal_Year"].ToString();
             batchNumberTextbox.Text = row["Batch_No"].ToString();
 
             this.voucherID = int.Parse(row["Voucher_ID"].ToString());

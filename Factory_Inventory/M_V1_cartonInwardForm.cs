@@ -54,7 +54,7 @@ namespace Factory_Inventory
 
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataGridView2.Rows.Add(d1.Rows[i][0].ToString(),"");
+                dataGridView2.Rows.Add(d1.Rows[i][0].ToString(),"", "");
             }
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
@@ -77,13 +77,13 @@ namespace Factory_Inventory
             {
                 dataSource2.Add(d2.Rows[i][0].ToString());
             }
-            this.comboBox2.DataSource = dataSource2;
-            this.comboBox2.DisplayMember = "Company_Names";
-            this.comboBox2.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.comboBox2CB.DataSource = dataSource2;
+            this.comboBox2CB.DisplayMember = "Company_Names";
+            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
             inputDate.Enabled = false;
             this.edit_form = false;
-            this.comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
 
     }
 
@@ -117,7 +117,7 @@ namespace Factory_Inventory
             no_rep_d1 = no_rep_d1.Distinct().ToList();
             for (int i = 0; i < no_rep_d1.Count; i++)
             {
-                dataGridView2.Rows.Add(no_rep_d1[i], "");
+                dataGridView2.Rows.Add(no_rep_d1[i], "", "");
             }
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
@@ -135,24 +135,24 @@ namespace Factory_Inventory
             if (isEditable == false)
             {
                 this.inputDate.Enabled = false;
-                this.billDate.Enabled = false;
-                this.billNumberTextbox.Enabled = false;
-                this.comboBox2.Enabled = false;
+                this.billDateDTP.Enabled = false;
+                this.billNumberTextboxTB.Enabled = false;
+                this.comboBox2CB.Enabled = false;
                 this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView2.ReadOnly = true;
                 dataSource2.Add(row["Company_Name"].ToString());
-                this.comboBox2.DataSource = dataSource2;
-                this.comboBox2.DisplayMember = "Company_Names";
-                this.comboBox2.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+                this.comboBox2CB.DataSource = dataSource2;
+                this.comboBox2CB.DisplayMember = "Company_Names";
+                this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
             }
 
             else
             {
                 this.inputDate.Enabled = false;
-                this.billDate.Enabled = true;
-                this.billNumberTextbox.Enabled = true;
-                this.comboBox2.Enabled = true;
+                this.billDateDTP.Enabled = true;
+                this.billNumberTextboxTB.Enabled = true;
+                this.comboBox2CB.Enabled = true;
                 this.saveButton.Enabled = true;
 
                 //Create a drop-down list
@@ -163,27 +163,27 @@ namespace Factory_Inventory
                 {
                     dataSource2.Add(d2.Rows[i][0].ToString());
                 }
-                this.comboBox2.DataSource = dataSource2;
-                Console.WriteLine(this.comboBox2.FindStringExact(row["Company_Name"].ToString()));
-                if(this.comboBox2.FindStringExact(row["Company_Name"].ToString())==-1)
+                this.comboBox2CB.DataSource = dataSource2;
+                Console.WriteLine(this.comboBox2CB.FindStringExact(row["Company_Name"].ToString()));
+                if(this.comboBox2CB.FindStringExact(row["Company_Name"].ToString())==-1)
                 {
                     dataSource2.Add(row["Company_Name"].ToString());
-                    this.comboBox2.DataSource = null;
-                    this.comboBox2.DataSource = dataSource2;
+                    this.comboBox2CB.DataSource = null;
+                    this.comboBox2CB.DataSource = dataSource2;
 
                 }
-                this.comboBox2.DisplayMember = "Company_Names";
-                this.comboBox2.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
-                this.comboBox2.SelectedIndex = this.comboBox2.FindStringExact(row["Company_Name"].ToString());
+                this.comboBox2CB.DisplayMember = "Company_Names";
+                this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+                this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
             }
 
-            this.comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
 
             this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-            this.billDate.Value = Convert.ToDateTime(row["Date_Of_Billing"].ToString());
-            this.billNumberTextbox.Text = row["Bill_No"].ToString();
-            this.oldbillno = billNumberTextbox.Text;
+            this.billDateDTP.Value = Convert.ToDateTime(row["Date_Of_Billing"].ToString());
+            this.billNumberTextboxTB.Text = row["Bill_No"].ToString();
+            this.oldbillno = billNumberTextboxTB.Text;
             string[] quality = c.csvToArray(row["Quality"].ToString());
             string[] quality_arr = c.csvToArray(row["Quality_Arr"].ToString());
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
@@ -240,7 +240,7 @@ namespace Factory_Inventory
             }
             if(flag)
             {
-                comboBox2.Enabled = false;
+                comboBox2CB.Enabled = false;
             }
         }
 
@@ -376,12 +376,12 @@ namespace Factory_Inventory
                 MessageBox.Show("Enter Bill Date", "Error");
                 return;
             }
-            if (billNumberTextbox.Text == "")
+            if (billNumberTextboxTB.Text == "")
             {
                 MessageBox.Show("Enter Bill Number", "Error");
                 return;
             }
-            if (comboBox2.SelectedIndex == 0)
+            if (comboBox2CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Company Name", "Error");
                 return;
@@ -391,7 +391,7 @@ namespace Factory_Inventory
                 MessageBox.Show("Please enter Carton Numbers and Weights", "Error");
                 return;
             }
-            if(this.inputDate.Value.Date<this.billDate.Value.Date)
+            if(this.inputDate.Value.Date<this.billDateDTP.Value.Date)
             {
                 MessageBox.Show("Bill Date is in the future", "Error");
                 return;
@@ -496,13 +496,13 @@ namespace Factory_Inventory
             }
             if (this.edit_form==false)
             {
-                bool added=c.addCartonVoucher(inputDate.Value, billDate.Value, billNumberTextbox.Text, quality, quality_arr, this.comboBox2.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum());
+                bool added=c.addCartonVoucher(inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum());
                 if (added == true) disable_form_edit();
                 else return;
             }
             else
             {
-                bool edited=c.editCartonVoucher(this.oldbillno, inputDate.Value, billDate.Value, billNumberTextbox.Text, quality, quality_arr, this.comboBox2.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(), this.carton_editable);
+                bool edited=c.editCartonVoucher(this.oldbillno, inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(), this.carton_editable);
                 if (edited == true)
                 {
                     disable_form_edit();
@@ -514,9 +514,9 @@ namespace Factory_Inventory
         private void disable_form_edit()
         {
             this.inputDate.Enabled = false;
-            this.billDate.Enabled = false;
-            this.billNumberTextbox.Enabled = false;
-            this.comboBox2.Enabled = false;
+            this.billDateDTP.Enabled = false;
+            this.billNumberTextboxTB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
             this.dataGridView2.ReadOnly = true;
@@ -567,5 +567,46 @@ namespace Factory_Inventory
         {
             this.billDateChanged = true;
         }
+
+        private void M_V1_cartonInwardForm_Load(object sender, EventArgs e)
+        {
+            var comboBoxes = this.Controls
+      .OfType<ComboBox>()
+      .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
+            }
+        }
+
     }
 }

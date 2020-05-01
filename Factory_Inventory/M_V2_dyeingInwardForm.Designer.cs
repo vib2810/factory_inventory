@@ -35,7 +35,7 @@
             this.dynamicWeightLabel = new System.Windows.Forms.Label();
             this.totalWeightLabel = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
-            this.inwardDate = new System.Windows.Forms.DateTimePicker();
+            this.inwardDateDTP = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
@@ -43,14 +43,14 @@
             this.inputDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.billNumberTextbox = new System.Windows.Forms.TextBox();
+            this.billNumberTextboxTB = new System.Windows.Forms.TextBox();
             this.dynamicEditableLabel = new System.Windows.Forms.Label();
-            this.dyeingCompanyCombobox = new System.Windows.Forms.ComboBox();
+            this.dyeingCompanyCB = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.billcheckBox = new System.Windows.Forms.CheckBox();
+            this.billcheckBoxCK = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.billDate = new System.Windows.Forms.DateTimePicker();
+            this.comboBox3CB = new System.Windows.Forms.ComboBox();
+            this.billDateDTP = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -97,7 +97,7 @@
             this.dynamicWeightLabel.Location = new System.Drawing.Point(27, 552);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
-            this.dynamicWeightLabel.TabIndex = 30;
+            this.dynamicWeightLabel.TabIndex = 0;
             this.dynamicWeightLabel.Text = "0.0";
             // 
             // totalWeightLabel
@@ -107,7 +107,7 @@
             this.totalWeightLabel.Location = new System.Drawing.Point(27, 527);
             this.totalWeightLabel.Name = "totalWeightLabel";
             this.totalWeightLabel.Size = new System.Drawing.Size(117, 25);
-            this.totalWeightLabel.TabIndex = 29;
+            this.totalWeightLabel.TabIndex = 0;
             this.totalWeightLabel.Text = "Total Rate ";
             // 
             // saveButton
@@ -115,17 +115,17 @@
             this.saveButton.Location = new System.Drawing.Point(65, 460);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(111, 64);
-            this.saveButton.TabIndex = 28;
+            this.saveButton.TabIndex = 15;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // inwardDate
+            // inwardDateDTP
             // 
-            this.inwardDate.Location = new System.Drawing.Point(24, 97);
-            this.inwardDate.Name = "inwardDate";
-            this.inwardDate.Size = new System.Drawing.Size(200, 22);
-            this.inwardDate.TabIndex = 26;
+            this.inwardDateDTP.Location = new System.Drawing.Point(24, 97);
+            this.inwardDateDTP.Name = "inwardDateDTP";
+            this.inwardDateDTP.Size = new System.Drawing.Size(200, 22);
+            this.inwardDateDTP.TabIndex = 1;
             // 
             // label1
             // 
@@ -133,7 +133,7 @@
             this.label1.Location = new System.Drawing.Point(21, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 17);
-            this.label1.TabIndex = 25;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Inward Date";
             // 
             // carton_VoucherTableAdapter
@@ -145,7 +145,7 @@
             this.loadBatchButton.Location = new System.Drawing.Point(21, 291);
             this.loadBatchButton.Name = "loadBatchButton";
             this.loadBatchButton.Size = new System.Drawing.Size(200, 38);
-            this.loadBatchButton.TabIndex = 34;
+            this.loadBatchButton.TabIndex = 7;
             this.loadBatchButton.Text = "Load Batches";
             this.loadBatchButton.UseVisualStyleBackColor = true;
             this.loadBatchButton.Click += new System.EventHandler(this.loadCartonButton_Click);
@@ -156,7 +156,8 @@
             this.inputDate.Location = new System.Drawing.Point(24, 42);
             this.inputDate.Name = "inputDate";
             this.inputDate.Size = new System.Drawing.Size(200, 22);
-            this.inputDate.TabIndex = 36;
+            this.inputDate.TabIndex = 0;
+            this.inputDate.TabStop = false;
             // 
             // label3
             // 
@@ -164,7 +165,7 @@
             this.label3.Location = new System.Drawing.Point(21, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 17);
-            this.label3.TabIndex = 35;
+            this.label3.TabIndex = 0;
             this.label3.Text = "Input Date";
             // 
             // label7
@@ -173,16 +174,16 @@
             this.label7.Location = new System.Drawing.Point(21, 342);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 17);
-            this.label7.TabIndex = 41;
+            this.label7.TabIndex = 0;
             this.label7.Text = "Bill Number";
             // 
-            // billNumberTextbox
+            // billNumberTextboxTB
             // 
-            this.billNumberTextbox.Enabled = false;
-            this.billNumberTextbox.Location = new System.Drawing.Point(21, 362);
-            this.billNumberTextbox.Name = "billNumberTextbox";
-            this.billNumberTextbox.Size = new System.Drawing.Size(109, 22);
-            this.billNumberTextbox.TabIndex = 42;
+            this.billNumberTextboxTB.Enabled = false;
+            this.billNumberTextboxTB.Location = new System.Drawing.Point(21, 362);
+            this.billNumberTextboxTB.Name = "billNumberTextboxTB";
+            this.billNumberTextboxTB.Size = new System.Drawing.Size(109, 22);
+            this.billNumberTextboxTB.TabIndex = 9;
             // 
             // dynamicEditableLabel
             // 
@@ -193,13 +194,13 @@
             this.dynamicEditableLabel.Size = new System.Drawing.Size(0, 25);
             this.dynamicEditableLabel.TabIndex = 43;
             // 
-            // dyeingCompanyCombobox
+            // dyeingCompanyCB
             // 
-            this.dyeingCompanyCombobox.FormattingEnabled = true;
-            this.dyeingCompanyCombobox.Location = new System.Drawing.Point(24, 252);
-            this.dyeingCompanyCombobox.Name = "dyeingCompanyCombobox";
-            this.dyeingCompanyCombobox.Size = new System.Drawing.Size(200, 24);
-            this.dyeingCompanyCombobox.TabIndex = 45;
+            this.dyeingCompanyCB.FormattingEnabled = true;
+            this.dyeingCompanyCB.Location = new System.Drawing.Point(24, 252);
+            this.dyeingCompanyCB.Name = "dyeingCompanyCB";
+            this.dyeingCompanyCB.Size = new System.Drawing.Size(200, 24);
+            this.dyeingCompanyCB.TabIndex = 5;
             // 
             // label4
             // 
@@ -207,21 +208,21 @@
             this.label4.Location = new System.Drawing.Point(21, 232);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(115, 17);
-            this.label4.TabIndex = 44;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Dyeing Company";
             // 
-            // billcheckBox
+            // billcheckBoxCK
             // 
-            this.billcheckBox.AutoSize = true;
-            this.billcheckBox.Checked = true;
-            this.billcheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.billcheckBox.Location = new System.Drawing.Point(157, 362);
-            this.billcheckBox.Name = "billcheckBox";
-            this.billcheckBox.Size = new System.Drawing.Size(64, 21);
-            this.billcheckBox.TabIndex = 46;
-            this.billcheckBox.Text = "None";
-            this.billcheckBox.UseVisualStyleBackColor = true;
-            this.billcheckBox.CheckStateChanged += new System.EventHandler(this.billcheckBox_CheckStateChanged);
+            this.billcheckBoxCK.AutoSize = true;
+            this.billcheckBoxCK.Checked = true;
+            this.billcheckBoxCK.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.billcheckBoxCK.Location = new System.Drawing.Point(157, 362);
+            this.billcheckBoxCK.Name = "billcheckBoxCK";
+            this.billcheckBoxCK.Size = new System.Drawing.Size(64, 21);
+            this.billcheckBoxCK.TabIndex = 11;
+            this.billcheckBoxCK.Text = "None";
+            this.billcheckBoxCK.UseVisualStyleBackColor = true;
+            this.billcheckBoxCK.CheckStateChanged += new System.EventHandler(this.billcheckBox_CheckStateChanged);
             // 
             // label6
             // 
@@ -229,24 +230,24 @@
             this.label6.Location = new System.Drawing.Point(21, 167);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(206, 34);
-            this.label6.TabIndex = 48;
+            this.label6.TabIndex = 0;
             this.label6.Text = "Financial Year of Production of \nInward of Batches";
             // 
-            // comboBox3
+            // comboBox3CB
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(24, 203);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(200, 24);
-            this.comboBox3.TabIndex = 47;
+            this.comboBox3CB.FormattingEnabled = true;
+            this.comboBox3CB.Location = new System.Drawing.Point(24, 203);
+            this.comboBox3CB.Name = "comboBox3CB";
+            this.comboBox3CB.Size = new System.Drawing.Size(200, 24);
+            this.comboBox3CB.TabIndex = 3;
             // 
-            // billDate
+            // billDateDTP
             // 
-            this.billDate.Enabled = false;
-            this.billDate.Location = new System.Drawing.Point(21, 407);
-            this.billDate.Name = "billDate";
-            this.billDate.Size = new System.Drawing.Size(200, 22);
-            this.billDate.TabIndex = 50;
+            this.billDateDTP.Enabled = false;
+            this.billDateDTP.Location = new System.Drawing.Point(21, 407);
+            this.billDateDTP.Name = "billDateDTP";
+            this.billDateDTP.Size = new System.Drawing.Size(200, 22);
+            this.billDateDTP.TabIndex = 13;
             // 
             // label2
             // 
@@ -254,7 +255,7 @@
             this.label2.Location = new System.Drawing.Point(21, 387);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 17);
-            this.label2.TabIndex = 49;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Bill Date";
             // 
             // M_V2_dyeingInwardForm
@@ -262,15 +263,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1077, 581);
-            this.Controls.Add(this.billDate);
+            this.Controls.Add(this.billDateDTP);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.billcheckBox);
-            this.Controls.Add(this.dyeingCompanyCombobox);
+            this.Controls.Add(this.comboBox3CB);
+            this.Controls.Add(this.billcheckBoxCK);
+            this.Controls.Add(this.dyeingCompanyCB);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dynamicEditableLabel);
-            this.Controls.Add(this.billNumberTextbox);
+            this.Controls.Add(this.billNumberTextboxTB);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.inputDate);
             this.Controls.Add(this.label3);
@@ -279,10 +280,11 @@
             this.Controls.Add(this.dynamicWeightLabel);
             this.Controls.Add(this.totalWeightLabel);
             this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.inwardDate);
+            this.Controls.Add(this.inwardDateDTP);
             this.Controls.Add(this.label1);
             this.Name = "M_V2_dyeingInwardForm";
             this.Text = "M_V2_dyeingInwardForm";
+            this.Load += new System.EventHandler(this.M_V2_dyeingInwardForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).EndInit();
@@ -299,7 +301,7 @@
         private System.Windows.Forms.Label dynamicWeightLabel;
         private System.Windows.Forms.Label totalWeightLabel;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.DateTimePicker inwardDate;
+        private System.Windows.Forms.DateTimePicker inwardDateDTP;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.BindingSource cartonVoucherBindingSource;
         private FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter carton_VoucherTableAdapter;
@@ -307,14 +309,14 @@
         private System.Windows.Forms.DateTimePicker inputDate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox billNumberTextbox;
+        private System.Windows.Forms.TextBox billNumberTextboxTB;
         private System.Windows.Forms.Label dynamicEditableLabel;
-        private System.Windows.Forms.ComboBox dyeingCompanyCombobox;
+        private System.Windows.Forms.ComboBox dyeingCompanyCB;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox billcheckBox;
+        private System.Windows.Forms.CheckBox billcheckBoxCK;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.DateTimePicker billDate;
+        private System.Windows.Forms.ComboBox comboBox3CB;
+        private System.Windows.Forms.DateTimePicker billDateDTP;
         private System.Windows.Forms.Label label2;
     }
 }
