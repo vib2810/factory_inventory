@@ -3035,7 +3035,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return (DataRow)dt.Rows[0];
         }
-
         public float getCartonProducedWeight(string cartonno, string fiscal_year)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
@@ -3056,6 +3055,50 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return ans;
+        }
+        public int getCartonProducedPrint(string cartonno, string fiscal_year)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            int ans = -1;
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_Printed FROM Carton_Produced WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
+                sda.Fill(dt);
+                if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString()=="") ans = 0;
+                else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not get Print (getCartonProducedPrint) \n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ans;
+        }
+        public bool setCartonProducedPrint(string cartonno, string fiscal_year, int value)
+        {
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "UPDATE Carton_Produced SET Carton_Printed=" + value + " WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'";     
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not get weight (getCartonProducedPrint) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
         }
     }
 
