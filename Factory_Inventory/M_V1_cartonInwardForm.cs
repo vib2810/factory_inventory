@@ -86,7 +86,6 @@ namespace Factory_Inventory
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
 
     }
-
         public M_V1_cartonInwardForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
             InitializeComponent();
@@ -243,7 +242,6 @@ namespace Factory_Inventory
                 comboBox2CB.Enabled = false;
             }
         }
-
         private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Back)
@@ -274,7 +272,15 @@ namespace Factory_Inventory
                     }
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
-                dynamicWeightLabel.Text = CellSum().ToString("F3");
+                dynamicWeightLabel.Text = CellSum("").ToString("F3");
+                for(int i=0;i<dataGridView2.Rows.Count-1;i++)
+                {
+                    float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                    if(sum!=0F)
+                    {
+                        dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                    }
+                }
             }
             else
             {
@@ -298,7 +304,15 @@ namespace Factory_Inventory
                     }
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
-                dynamicWeightLabel.Text = CellSum().ToString("F3");
+                dynamicWeightLabel.Text = CellSum("").ToString("F3");
+                for (int i = 0; i < dataGridView2.Rows.Count-1; i++)
+                {
+                    float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                    if (sum != 0F)
+                    {
+                        dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                    }
+                }
             }
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -323,7 +337,18 @@ namespace Factory_Inventory
                             dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
                         }    
                     }
-                    dynamicWeightLabel.Text = CellSum().ToString("F3");
+                    dynamicWeightLabel.Text = CellSum("").ToString("F3");
+                    Console.WriteLine(dataGridView2.Rows.Count);
+                    for (int i = 0; i < dataGridView2.Rows.Count-1; i++)
+                    {
+                        float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                        if (sum != 0F)
+                        {
+                            dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                        }
+                    }
+
+
                 }
             }
             catch
@@ -347,25 +372,48 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
             }
         }
-        private float CellSum()
+        private float CellSum(string quality)
         {
             float sum = 0;
-            try
+            if(quality == "")
             {
-                if (dataGridView1.Rows.Count == 0)
+                try
+                {
+                    if (dataGridView1.Rows.Count == 0)
+                    {
+                        return sum;
+                    }
+                    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                    {
+                        if (dataGridView1.Rows[i].Cells[3].Value != null)
+                            sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
+                    }
+                    return sum;
+                }
+                catch
                 {
                     return sum;
                 }
-                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                {
-                    if (dataGridView1.Rows[i].Cells[3].Value != null)
-                        sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
-                }
-                return sum;
             }
-            catch
+            else
             {
-                return sum;
+                try
+                {
+                    if (dataGridView1.Rows.Count == 0)
+                    {
+                        return sum;
+                    }
+                    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                    {
+                        if (dataGridView1.Rows[i].Cells[3].Value != null && dataGridView1.Rows[i].Cells[1].Value.ToString()==quality)
+                            sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
+                    }
+                    return sum;
+                }
+                catch
+                {
+                    return sum;
+                }
             }
         }
         private void saveButton_Click(object sender, EventArgs e)
@@ -496,13 +544,13 @@ namespace Factory_Inventory
             }
             if (this.edit_form==false)
             {
-                bool added=c.addCartonVoucher(inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum());
+                bool added=c.addCartonVoucher(inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(""));
                 if (added == true) disable_form_edit();
                 else return;
             }
             else
             {
-                bool edited=c.editCartonVoucher(this.oldbillno, inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(), this.carton_editable);
+                bool edited=c.editCartonVoucher(this.oldbillno, inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(""), this.carton_editable);
                 if (edited == true)
                 {
                     disable_form_edit();
@@ -609,5 +657,19 @@ namespace Factory_Inventory
             this.billDateDTP.Focus();
         }
 
+        private void lockCartonsCK_CheckedChanged(object sender, EventArgs e)
+        {
+            if(this.lockCartonsCK.Checked==true)
+            {
+                dataGridView1.ReadOnly = true;
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
+            }
+            else
+            {
+                dataGridView1.ReadOnly = false;
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+            }
+            dataGridView1.EnableHeadersVisualStyles = false;
+        }
     }
 }

@@ -52,6 +52,7 @@
             this.factoryInventoryDataSet = new Factory_Inventory.FactoryInventoryDataSet();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
+            this.lockCartonsCK = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -154,7 +155,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(140, 504);
+            this.saveButton.Location = new System.Drawing.Point(73, 508);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(111, 64);
             this.saveButton.TabIndex = 9;
@@ -260,11 +261,23 @@
             // 
             this.carton_VoucherTableAdapter.ClearBeforeFill = true;
             // 
+            // lockCartonsCK
+            // 
+            this.lockCartonsCK.AutoSize = true;
+            this.lockCartonsCK.Location = new System.Drawing.Point(241, 531);
+            this.lockCartonsCK.Name = "lockCartonsCK";
+            this.lockCartonsCK.Size = new System.Drawing.Size(113, 21);
+            this.lockCartonsCK.TabIndex = 10;
+            this.lockCartonsCK.Text = "Lock Cartons";
+            this.lockCartonsCK.UseVisualStyleBackColor = true;
+            this.lockCartonsCK.CheckedChanged += new System.EventHandler(this.lockCartonsCK_CheckedChanged);
+            // 
             // M_V1_cartonInwardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1139, 668);
+            this.Controls.Add(this.lockCartonsCK);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.costLabel);
             this.Controls.Add(this.comboBox2CB);
@@ -316,5 +329,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quality;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
         private System.Windows.Forms.DataGridViewTextBoxColumn Weight;
+        private System.Windows.Forms.CheckBox lockCartonsCK;
     }
 }

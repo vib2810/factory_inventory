@@ -485,7 +485,8 @@ CREATE TABLE Carton_Produced
 	Sale_DO_No varchar(10) NULL,
 	Sale_DO_Date date NULL,
 	Customer_Name varchar(50) NULL,
-	Fiscal_Year varchar(15) NOT NULL
+	Fiscal_Year varchar(15) NOT NULL,
+	Carton_Printed tinyint NULL
 );
 
 
