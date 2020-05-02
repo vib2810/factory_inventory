@@ -414,6 +414,8 @@ namespace Factory_Inventory
                 Console.WriteLine(button.Name);
                 c.buttonEvent(button);
             }
+
+            this.dateTimePickerDTP.Focus();
         }
 
         private void numberOfSpringsTextbox_TextChanged(object sender, EventArgs e)

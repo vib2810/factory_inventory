@@ -46,19 +46,19 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.colourCombobox = new System.Windows.Forms.ComboBox();
-            this.dyeingCompanyCombobox = new System.Windows.Forms.ComboBox();
-            this.qualityCombobox = new System.Windows.Forms.ComboBox();
-            this.coneCombobox = new System.Windows.Forms.ComboBox();
+            this.colourComboboxCB = new System.Windows.Forms.ComboBox();
+            this.dyeingCompanyComboboxCB = new System.Windows.Forms.ComboBox();
+            this.qualityComboboxCB = new System.Windows.Forms.ComboBox();
+            this.coneComboboxCB = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.closedCheckbox = new System.Windows.Forms.CheckBox();
+            this.closedCheckboxCK = new System.Windows.Forms.CheckBox();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label8 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.cartonweight = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.financialYearCombobox = new System.Windows.Forms.ComboBox();
+            this.financialYearComboboxCB = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.oilGainTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -80,7 +80,8 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(845, 653);
-            this.dataGridView1.TabIndex = 24;
+            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
@@ -109,7 +110,7 @@
             this.saveButton.Location = new System.Drawing.Point(13, 603);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(211, 47);
-            this.saveButton.TabIndex = 28;
+            this.saveButton.TabIndex = 15;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
@@ -123,7 +124,7 @@
             this.loadDataButton.Location = new System.Drawing.Point(13, 278);
             this.loadDataButton.Name = "loadDataButton";
             this.loadDataButton.Size = new System.Drawing.Size(209, 38);
-            this.loadDataButton.TabIndex = 34;
+            this.loadDataButton.TabIndex = 11;
             this.loadDataButton.Text = "Load Data";
             this.loadDataButton.UseVisualStyleBackColor = true;
             this.loadDataButton.Click += new System.EventHandler(this.loadCartonButton_Click);
@@ -142,7 +143,7 @@
             this.label3.Location = new System.Drawing.Point(10, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 17);
-            this.label3.TabIndex = 35;
+            this.label3.TabIndex = 0;
             this.label3.Text = "Input Date";
             // 
             // label6
@@ -151,7 +152,7 @@
             this.label6.Location = new System.Drawing.Point(13, 65);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 17);
-            this.label6.TabIndex = 39;
+            this.label6.TabIndex = 0;
             this.label6.Text = "Colour";
             // 
             // dynamicEditableLabel
@@ -169,7 +170,7 @@
             this.label4.Location = new System.Drawing.Point(10, 117);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 17);
-            this.label4.TabIndex = 44;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Quality";
             // 
             // batchnwtTextbox
@@ -179,7 +180,8 @@
             this.batchnwtTextbox.Name = "batchnwtTextbox";
             this.batchnwtTextbox.ReadOnly = true;
             this.batchnwtTextbox.Size = new System.Drawing.Size(221, 27);
-            this.batchnwtTextbox.TabIndex = 47;
+            this.batchnwtTextbox.TabIndex = 0;
+            this.batchnwtTextbox.TabStop = false;
             // 
             // label5
             // 
@@ -188,7 +190,7 @@
             this.label5.Location = new System.Drawing.Point(10, 508);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(103, 20);
-            this.label5.TabIndex = 46;
+            this.label5.TabIndex = 0;
             this.label5.Text = "Total Weight";
             // 
             // label7
@@ -197,7 +199,7 @@
             this.label7.Location = new System.Drawing.Point(13, 170);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 17);
-            this.label7.TabIndex = 48;
+            this.label7.TabIndex = 0;
             this.label7.Text = "Dyeing Company";
             // 
             // dataGridView2
@@ -209,7 +211,8 @@
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(363, 174);
-            this.dataGridView2.TabIndex = 50;
+            this.dataGridView2.TabIndex = 0;
+            this.dataGridView2.TabStop = false;
             this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
             this.dataGridView2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellValueChanged);
             this.dataGridView2.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView2_CurrentCellDirtyStateChanged);
@@ -231,38 +234,38 @@
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click_1);
             // 
-            // colourCombobox
+            // colourComboboxCB
             // 
-            this.colourCombobox.FormattingEnabled = true;
-            this.colourCombobox.Location = new System.Drawing.Point(13, 85);
-            this.colourCombobox.Name = "colourCombobox";
-            this.colourCombobox.Size = new System.Drawing.Size(209, 24);
-            this.colourCombobox.TabIndex = 51;
+            this.colourComboboxCB.FormattingEnabled = true;
+            this.colourComboboxCB.Location = new System.Drawing.Point(13, 85);
+            this.colourComboboxCB.Name = "colourComboboxCB";
+            this.colourComboboxCB.Size = new System.Drawing.Size(209, 24);
+            this.colourComboboxCB.TabIndex = 1;
             // 
-            // dyeingCompanyCombobox
+            // dyeingCompanyComboboxCB
             // 
-            this.dyeingCompanyCombobox.FormattingEnabled = true;
-            this.dyeingCompanyCombobox.Location = new System.Drawing.Point(13, 190);
-            this.dyeingCompanyCombobox.Name = "dyeingCompanyCombobox";
-            this.dyeingCompanyCombobox.Size = new System.Drawing.Size(209, 24);
-            this.dyeingCompanyCombobox.TabIndex = 52;
+            this.dyeingCompanyComboboxCB.FormattingEnabled = true;
+            this.dyeingCompanyComboboxCB.Location = new System.Drawing.Point(13, 190);
+            this.dyeingCompanyComboboxCB.Name = "dyeingCompanyComboboxCB";
+            this.dyeingCompanyComboboxCB.Size = new System.Drawing.Size(209, 24);
+            this.dyeingCompanyComboboxCB.TabIndex = 5;
             // 
-            // qualityCombobox
+            // qualityComboboxCB
             // 
-            this.qualityCombobox.FormattingEnabled = true;
-            this.qualityCombobox.Location = new System.Drawing.Point(13, 137);
-            this.qualityCombobox.Name = "qualityCombobox";
-            this.qualityCombobox.Size = new System.Drawing.Size(209, 24);
-            this.qualityCombobox.TabIndex = 53;
+            this.qualityComboboxCB.FormattingEnabled = true;
+            this.qualityComboboxCB.Location = new System.Drawing.Point(13, 137);
+            this.qualityComboboxCB.Name = "qualityComboboxCB";
+            this.qualityComboboxCB.Size = new System.Drawing.Size(209, 24);
+            this.qualityComboboxCB.TabIndex = 3;
             // 
-            // coneCombobox
+            // coneComboboxCB
             // 
-            this.coneCombobox.FormattingEnabled = true;
-            this.coneCombobox.Location = new System.Drawing.Point(14, 571);
-            this.coneCombobox.Name = "coneCombobox";
-            this.coneCombobox.Size = new System.Drawing.Size(209, 24);
-            this.coneCombobox.TabIndex = 55;
-            this.coneCombobox.SelectedIndexChanged += new System.EventHandler(this.coneCombobox_SelectedIndexChanged);
+            this.coneComboboxCB.FormattingEnabled = true;
+            this.coneComboboxCB.Location = new System.Drawing.Point(14, 571);
+            this.coneComboboxCB.Name = "coneComboboxCB";
+            this.coneComboboxCB.Size = new System.Drawing.Size(209, 24);
+            this.coneComboboxCB.TabIndex = 13;
+            this.coneComboboxCB.SelectedIndexChanged += new System.EventHandler(this.coneCombobox_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -270,19 +273,20 @@
             this.label2.Location = new System.Drawing.Point(14, 551);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 17);
-            this.label2.TabIndex = 54;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Cone Weight";
             // 
-            // closedCheckbox
+            // closedCheckboxCK
             // 
-            this.closedCheckbox.AutoSize = true;
-            this.closedCheckbox.Location = new System.Drawing.Point(244, 629);
-            this.closedCheckbox.Name = "closedCheckbox";
-            this.closedCheckbox.Size = new System.Drawing.Size(128, 21);
-            this.closedCheckbox.TabIndex = 59;
-            this.closedCheckbox.Text = "Close Batches?";
-            this.closedCheckbox.UseVisualStyleBackColor = true;
-            this.closedCheckbox.CheckedChanged += new System.EventHandler(this.closedCheckbox_CheckedChanged);
+            this.closedCheckboxCK.AutoSize = true;
+            this.closedCheckboxCK.Location = new System.Drawing.Point(244, 629);
+            this.closedCheckboxCK.Name = "closedCheckboxCK";
+            this.closedCheckboxCK.Size = new System.Drawing.Size(128, 21);
+            this.closedCheckboxCK.TabIndex = 0;
+            this.closedCheckboxCK.TabStop = false;
+            this.closedCheckboxCK.Text = "Close Batches?";
+            this.closedCheckboxCK.UseVisualStyleBackColor = true;
+            this.closedCheckboxCK.CheckedChanged += new System.EventHandler(this.closedCheckbox_CheckedChanged);
             // 
             // label8
             // 
@@ -290,7 +294,7 @@
             this.label8.Location = new System.Drawing.Point(229, 574);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(27, 17);
-            this.label8.TabIndex = 62;
+            this.label8.TabIndex = 0;
             this.label8.Text = "gm";
             // 
             // label11
@@ -300,7 +304,7 @@
             this.label11.Location = new System.Drawing.Point(346, 505);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(26, 20);
-            this.label11.TabIndex = 64;
+            this.label11.TabIndex = 0;
             this.label11.Text = "kg";
             // 
             // label12
@@ -310,7 +314,7 @@
             this.label12.Location = new System.Drawing.Point(1203, 670);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(26, 20);
-            this.label12.TabIndex = 67;
+            this.label12.TabIndex = 0;
             this.label12.Text = "kg";
             // 
             // cartonweight
@@ -320,7 +324,8 @@
             this.cartonweight.Name = "cartonweight";
             this.cartonweight.ReadOnly = true;
             this.cartonweight.Size = new System.Drawing.Size(221, 27);
-            this.cartonweight.TabIndex = 66;
+            this.cartonweight.TabIndex = 0;
+            this.cartonweight.TabStop = false;
             // 
             // label13
             // 
@@ -329,16 +334,16 @@
             this.label13.Location = new System.Drawing.Point(839, 667);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(134, 20);
-            this.label13.TabIndex = 65;
+            this.label13.TabIndex = 0;
             this.label13.Text = "Total Net Weight";
             // 
-            // financialYearCombobox
+            // financialYearComboboxCB
             // 
-            this.financialYearCombobox.FormattingEnabled = true;
-            this.financialYearCombobox.Location = new System.Drawing.Point(14, 246);
-            this.financialYearCombobox.Name = "financialYearCombobox";
-            this.financialYearCombobox.Size = new System.Drawing.Size(209, 24);
-            this.financialYearCombobox.TabIndex = 71;
+            this.financialYearComboboxCB.FormattingEnabled = true;
+            this.financialYearComboboxCB.Location = new System.Drawing.Point(14, 246);
+            this.financialYearComboboxCB.Name = "financialYearComboboxCB";
+            this.financialYearComboboxCB.Size = new System.Drawing.Size(209, 24);
+            this.financialYearComboboxCB.TabIndex = 7;
             // 
             // label9
             // 
@@ -346,7 +351,7 @@
             this.label9.Location = new System.Drawing.Point(14, 226);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(98, 17);
-            this.label9.TabIndex = 70;
+            this.label9.TabIndex = 0;
             this.label9.Text = "Financial Year";
             // 
             // oilGainTextbox
@@ -356,7 +361,8 @@
             this.oilGainTextbox.Name = "oilGainTextbox";
             this.oilGainTextbox.ReadOnly = true;
             this.oilGainTextbox.Size = new System.Drawing.Size(221, 27);
-            this.oilGainTextbox.TabIndex = 73;
+            this.oilGainTextbox.TabIndex = 0;
+            this.oilGainTextbox.TabStop = false;
             // 
             // label1
             // 
@@ -365,7 +371,7 @@
             this.label1.Location = new System.Drawing.Point(12, 670);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 20);
-            this.label1.TabIndex = 72;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Oil Gain";
             // 
             // label10
@@ -375,7 +381,7 @@
             this.label10.Location = new System.Drawing.Point(317, 666);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 20);
-            this.label10.TabIndex = 74;
+            this.label10.TabIndex = 0;
             this.label10.Text = "%";
             // 
             // oilGainButton
@@ -383,7 +389,7 @@
             this.oilGainButton.Location = new System.Drawing.Point(350, 666);
             this.oilGainButton.Name = "oilGainButton";
             this.oilGainButton.Size = new System.Drawing.Size(144, 24);
-            this.oilGainButton.TabIndex = 75;
+            this.oilGainButton.TabIndex = 17;
             this.oilGainButton.Text = "Calculate Oil Gain";
             this.oilGainButton.UseVisualStyleBackColor = true;
             this.oilGainButton.Click += new System.EventHandler(this.oilGainButton_Click);
@@ -397,19 +403,19 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.oilGainTextbox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.financialYearCombobox);
+            this.Controls.Add(this.financialYearComboboxCB);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.cartonweight);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.closedCheckbox);
-            this.Controls.Add(this.coneCombobox);
+            this.Controls.Add(this.closedCheckboxCK);
+            this.Controls.Add(this.coneComboboxCB);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.qualityCombobox);
-            this.Controls.Add(this.dyeingCompanyCombobox);
-            this.Controls.Add(this.colourCombobox);
+            this.Controls.Add(this.qualityComboboxCB);
+            this.Controls.Add(this.dyeingCompanyComboboxCB);
+            this.Controls.Add(this.colourComboboxCB);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.batchnwtTextbox);
@@ -453,20 +459,20 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.ComboBox colourCombobox;
-        private System.Windows.Forms.ComboBox dyeingCompanyCombobox;
-        private System.Windows.Forms.ComboBox qualityCombobox;
+        private System.Windows.Forms.ComboBox colourComboboxCB;
+        private System.Windows.Forms.ComboBox dyeingCompanyComboboxCB;
+        private System.Windows.Forms.ComboBox qualityComboboxCB;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
-        private System.Windows.Forms.ComboBox coneCombobox;
+        private System.Windows.Forms.ComboBox coneComboboxCB;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox closedCheckbox;
+        private System.Windows.Forms.CheckBox closedCheckboxCK;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox cartonweight;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.ComboBox financialYearCombobox;
+        private System.Windows.Forms.ComboBox financialYearComboboxCB;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox oilGainTextbox;
         private System.Windows.Forms.Label label1;

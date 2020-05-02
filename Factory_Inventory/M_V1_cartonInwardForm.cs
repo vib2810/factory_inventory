@@ -567,7 +567,6 @@ namespace Factory_Inventory
         {
             this.billDateChanged = true;
         }
-
         private void M_V1_cartonInwardForm_Load(object sender, EventArgs e)
         {
             var comboBoxes = this.Controls
@@ -606,6 +605,8 @@ namespace Factory_Inventory
                 Console.WriteLine(button.Name);
                 c.buttonEvent(button);
             }
+
+            this.billDateDTP.Focus();
         }
 
     }

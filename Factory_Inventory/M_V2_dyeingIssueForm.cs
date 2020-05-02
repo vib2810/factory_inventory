@@ -50,11 +50,11 @@ namespace Factory_Inventory
             {
                 dataSource1.Add(d1.Rows[i][0].ToString());
             }
-            this.comboBox1.DataSource = dataSource1;
-            this.comboBox1.DisplayMember = "Quality";
-            this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox1CB.DataSource = dataSource1;
+            this.comboBox1CB.DisplayMember = "Quality";
+            this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
             //Create drop-down Company lists
@@ -66,11 +66,11 @@ namespace Factory_Inventory
             {
                 dataSource2.Add(d2.Rows[i][0].ToString());
             }
-            this.comboBox2.DataSource = dataSource2;
-            this.comboBox2.DisplayMember = "Company_Names";
-            this.comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.DataSource = dataSource2;
+            this.comboBox2CB.DisplayMember = "Company_Names";
+            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
 
@@ -83,11 +83,11 @@ namespace Factory_Inventory
             {
                 dataSource3.Add(d3.Rows[i][0].ToString());
             }
-            this.comboBox3.DataSource = dataSource3;
-            this.comboBox3.DisplayMember = "Dyeing_Company_Names";
-            this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox3CB.DataSource = dataSource3;
+            this.comboBox3CB.DisplayMember = "Dyeing_Company_Names";
+            this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
             //Create drop-down Colour lists
@@ -100,11 +100,11 @@ namespace Factory_Inventory
                 dataSource4.Add(d4.Rows[i][0].ToString());
             }
             List<string> final_list = dataSource4.Distinct().ToList();
-            this.comboBox4.DataSource = final_list;
-            this.comboBox4.DisplayMember = "Colours";
-            this.comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox4.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox4.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox4CB.DataSource = final_list;
+            this.comboBox4CB.DisplayMember = "Colours";
+            this.comboBox4CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
             //DatagridView
@@ -142,11 +142,11 @@ namespace Factory_Inventory
             {
                 dataSource1.Add(d1.Rows[i][0].ToString());
             }
-            this.comboBox1.DataSource = dataSource1;
-            this.comboBox1.DisplayMember = "Quality";
-            this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox1CB.DataSource = dataSource1;
+            this.comboBox1CB.DisplayMember = "Quality";
+            this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
             //Create drop-down Company lists
@@ -157,11 +157,11 @@ namespace Factory_Inventory
             {
                 dataSource2.Add(d2.Rows[i][0].ToString());
             }
-            this.comboBox2.DataSource = dataSource2;
-            this.comboBox2.DisplayMember = "Company_Names";
-            this.comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.DataSource = dataSource2;
+            this.comboBox2CB.DisplayMember = "Company_Names";
+            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
 
@@ -174,11 +174,11 @@ namespace Factory_Inventory
             {
                 dataSource3.Add(d3.Rows[i][0].ToString());
             }
-            this.comboBox3.DataSource = dataSource3;
-            this.comboBox3.DisplayMember = "Dyeing_Company_Names";
-            this.comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox3CB.DataSource = dataSource3;
+            this.comboBox3CB.DisplayMember = "Dyeing_Company_Names";
+            this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
             //Create drop-down Colour lists
@@ -191,11 +191,11 @@ namespace Factory_Inventory
                 dataSource4.Add(d4.Rows[i][0].ToString());
             }
             List<string> final_list = dataSource4.Distinct().ToList();
-            this.comboBox4.DataSource = final_list;
-            this.comboBox4.DisplayMember = "Colours";
-            this.comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox4.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox4.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox4CB.DataSource = final_list;
+            this.comboBox4CB.DisplayMember = "Colours";
+            this.comboBox4CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
             //DatagridView
@@ -225,37 +225,37 @@ namespace Factory_Inventory
             }
             if (isEditable == false)
             {
-                this.inputDate.Enabled = false;
-                this.issueDate.Enabled = false;
-                this.comboBox1.Enabled = false;
-                this.comboBox2.Enabled = false;
-                this.comboBox3.Enabled = false;
-                this.comboBox4.Enabled = false;
+                this.inputDateDTP.Enabled = false;
+                this.issueDateDTP.Enabled = false;
+                this.comboBox1CB.Enabled = false;
+                this.comboBox2CB.Enabled = false;
+                this.comboBox3CB.Enabled = false;
+                this.comboBox4CB.Enabled = false;
                 this.loadCartonButton.Enabled = false;
                 this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
-                this.rateTextBox.Enabled = false;
+                this.rateTextBoxTB.Enabled = false;
             }
             else
             { 
                 //no option to edit company name and quality
-                this.comboBox1.Enabled = false;
-                this.comboBox2.Enabled = false;
-                this.comboBox3.Enabled = true;
-                this.comboBox4.Enabled = true;
+                this.comboBox1CB.Enabled = false;
+                this.comboBox2CB.Enabled = false;
+                this.comboBox3CB.Enabled = true;
+                this.comboBox4CB.Enabled = true;
                 this.saveButton.Enabled = true;
                 this.loadCartonButton.Enabled = false;
                 this.dataGridView1.ReadOnly = false;
-                this.issueDate.Enabled = false;
+                this.issueDateDTP.Enabled = false;
             }
-            this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-            this.issueDate.Value = Convert.ToDateTime(row["Date_Of_Issue"].ToString());
-            this.comboBox1.SelectedIndex = this.comboBox1.FindStringExact(row["Quality"].ToString());
-            this.comboBox2.SelectedIndex = this.comboBox2.FindStringExact(row["Company_Name"].ToString());
-            this.comboBox3.SelectedIndex = this.comboBox3.FindStringExact(row["Dyeing_Company_Name"].ToString());
-            this.comboBox4.SelectedIndex = this.comboBox4.FindStringExact(row["Colour"].ToString());
+            this.inputDateDTP.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
+            this.issueDateDTP.Value = Convert.ToDateTime(row["Date_Of_Issue"].ToString());
+            this.comboBox1CB.SelectedIndex = this.comboBox1CB.FindStringExact(row["Quality"].ToString());
+            this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
+            this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Dyeing_Company_Name"].ToString());
+            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(row["Colour"].ToString());
             this.old_fiscal_year = row["Batch_Fiscal_Year"].ToString();
-            batchNumberTextbox.Text = row["Batch_No"].ToString();
+            batchNumberTextboxTB.Text = row["Batch_No"].ToString();
 
             this.voucherID = int.Parse(row["Voucher_ID"].ToString());
             this.tray_no_this = c.csvToArray(row["Tray_No_Arr"].ToString());
@@ -275,16 +275,16 @@ namespace Factory_Inventory
 
         public void disable_form_edit()
         {
-            this.inputDate.Enabled = false;
-            this.issueDate.Enabled = false;
-            this.comboBox1.Enabled = false;
-            this.comboBox2.Enabled = false;
-            this.comboBox3.Enabled = false;
-            this.comboBox4.Enabled = false;
+            this.inputDateDTP.Enabled = false;
+            this.issueDateDTP.Enabled = false;
+            this.comboBox1CB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
+            this.comboBox3CB.Enabled = false;
+            this.comboBox4CB.Enabled = false;
             this.loadCartonButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
-            this.rateTextBox.Enabled = false;
+            this.rateTextBoxTB.Enabled = false;
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -401,33 +401,33 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if (comboBox1.SelectedIndex == 0)
+            if (comboBox1CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Quality", "Error");
                 return;
             }
-            if (comboBox2.SelectedIndex == 0)
+            if (comboBox2CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Company Name", "Error");
                 return;
             }
-            if (comboBox3.SelectedIndex == 0)
+            if (comboBox3CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Dyeing Company Name", "Error");
                 return;
             }
-            if (comboBox4.SelectedIndex == 0)
+            if (comboBox4CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Colour", "Error");
                 return;
             }
-            if(batchNumberTextbox.Text==null || batchNumberTextbox.Text=="")
+            if(batchNumberTextboxTB.Text==null || batchNumberTextboxTB.Text=="")
             {
                 MessageBox.Show("Enter Batch Number", "Error");
             }
             try
             {
-                int.Parse(batchNumberTextbox.Text);
+                int.Parse(batchNumberTextboxTB.Text);
             }
             catch
             {
@@ -441,14 +441,14 @@ namespace Factory_Inventory
             }
             try
             {
-                float.Parse(rateTextBox.Text);
+                float.Parse(rateTextBoxTB.Text);
             }
             catch
             {
                 MessageBox.Show("Enter numeric rate only", "Error");
                 return;
             }
-            if (this.inputDate.Value.Date < this.issueDate.Value.Date)
+            if (this.inputDateDTP.Value.Date < this.issueDateDTP.Value.Date)
             {
                 MessageBox.Show("Issue Date is in the future", "Error");
                 return;
@@ -486,13 +486,13 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
-                bool added= c.addDyeingIssueVoucher(inputDate.Value, issueDate.Value, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), trayno, number, comboBox4.SelectedItem.ToString(), comboBox3.SelectedItem.ToString(), int.Parse(batchNumberTextbox.Text), trayid, CellSum(), float.Parse(rateTextBox.Text));
+                bool added= c.addDyeingIssueVoucher(inputDateDTP.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), trayno, number, comboBox4CB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString(), int.Parse(batchNumberTextboxTB.Text), trayid, CellSum(), float.Parse(rateTextBoxTB.Text));
                 if (added == true) disable_form_edit();
                 else return;
             }
             else
             {
-                bool edited=c.editDyeingIssueVoucher(this.voucherID, this.old_fiscal_year, inputDate.Value, issueDate.Value, comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString(), trayno, number, comboBox4.SelectedItem.ToString(), comboBox3.SelectedItem.ToString(), int.Parse(batchNumberTextbox.Text), trayid, CellSum(), float.Parse(rateTextBox.Text), trayid);
+                bool edited=c.editDyeingIssueVoucher(this.voucherID, this.old_fiscal_year, inputDateDTP.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), trayno, number, comboBox4CB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString(), int.Parse(batchNumberTextboxTB.Text), trayid, CellSum(), float.Parse(rateTextBoxTB.Text), trayid);
                 if (edited == true)
                 {
                     disable_form_edit();
@@ -538,34 +538,34 @@ namespace Factory_Inventory
         }
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 0)
+            if (comboBox1CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Quality", "Error");
                 return;
             }
-            if (comboBox2.SelectedIndex == 0)
+            if (comboBox2CB.SelectedIndex == 0)
             {
                 MessageBox.Show("Enter Select Company Name", "Error");
                 return;
             }
             if(this.edit_form==false)
             {
-                int batch_no = c.getNextBatchNumber("Highest_Batch_No", c.getFinancialYear(issueDate.Value));
+                int batch_no = c.getNextBatchNumber("Highest_Batch_No", c.getFinancialYear(issueDateDTP.Value));
                 if (batch_no == -1)
                 {
-                    batchNumberTextbox.Text = "Error";
+                    batchNumberTextboxTB.Text = "Error";
                 }
                 else
                 {
-                    batchNumberTextbox.Text = batch_no.ToString();
+                    batchNumberTextboxTB.Text = batch_no.ToString();
                 }
             }
-            this.loadData(this.comboBox1.SelectedItem.ToString(), this.comboBox2.SelectedItem.ToString());
+            this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString());
             this.loadCartonButton.Enabled = false;
-            this.comboBox1.Enabled = false;
-            this.comboBox2.Enabled = false;
+            this.comboBox1CB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
             this.saveButton.Enabled = true;
-            this.issueDate.Enabled = false; //because the next batch number is coming from the date
+            this.issueDateDTP.Enabled = false; //because the next batch number is coming from the date
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -575,18 +575,18 @@ namespace Factory_Inventory
 
         private void fillRate()
         {
-            if (comboBox1.SelectedIndex == 0 || comboBox4.SelectedIndex == 0)
+            if (comboBox1CB.SelectedIndex == 0 || comboBox4CB.SelectedIndex == 0)
             {
-                rateTextBox.Text = "";
+                rateTextBoxTB.Text = "";
                 return;
             }
-            float f = c.getDyeingRate(comboBox4.SelectedItem.ToString(), comboBox1.SelectedItem.ToString());
+            float f = c.getDyeingRate(comboBox4CB.SelectedItem.ToString(), comboBox1CB.SelectedItem.ToString());
             if (f == -1F)
             {
-                rateTextBox.Text = "";
+                rateTextBoxTB.Text = "";
                 return;
             }
-            rateTextBox.Text = (c.getDyeingRate(comboBox4.SelectedItem.ToString(), comboBox1.SelectedItem.ToString())).ToString();
+            rateTextBoxTB.Text = (c.getDyeingRate(comboBox4CB.SelectedItem.ToString(), comboBox1CB.SelectedItem.ToString())).ToString();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -608,6 +608,48 @@ namespace Factory_Inventory
             {
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
+        }
+
+        private void M_V2_dyeingIssueForm_Load(object sender, EventArgs e)
+        {
+            var comboBoxes = this.Controls
+                  .OfType<ComboBox>()
+                  .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
+            }
+
+            this.issueDateDTP.Focus();
         }
 
         private void loadData(string quality, string company)

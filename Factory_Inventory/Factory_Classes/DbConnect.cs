@@ -13,7 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 //using System.Windows;
 using System.Windows.Forms;
-
+using System.Windows.Input;
+using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
 
 namespace Factory_Inventory.Factory_Classes
 {
@@ -182,24 +183,50 @@ namespace Factory_Inventory.Factory_Classes
         //Arrow Key Events
         public void comboBoxEvent(ComboBox c)
         {
+            //c.SelectionChangeCommitted += new System.EventHandler(this.temp);
+            c.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PKeyDownCb);
             c.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownCb);
         }
+        //private void temp(object sender, )
+        int i = 0;
+        bool droppeddown = false;
         private void KeyDownCb(object sender, KeyEventArgs e)
         {
             ComboBox c = sender as ComboBox;
+            Console.WriteLine(c.DroppedDown + " kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
             if (e.KeyCode == Keys.Enter)
             {
-                if (c.DroppedDown == false)
+                i++;
+                Console.WriteLine("Enter pressed " + i);
+                if (c.DroppedDown == false && droppeddown==false)
                 {
+                    Console.WriteLine("dropping down");
                     c.DroppedDown = true;
                     e.Handled = true;
+                    return;
                 }
-                
+                else
+                {
+                    droppeddown = false;
+                }
             }
-            arrowControl(c, sender, e);
-            e.Handled = true;
-
-            
+            if (c.DroppedDown == true && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down))
+            {
+                return;
+            }
+            if(e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                arrowControl(c, sender, e);
+                e.Handled = true;
+            }
+        }
+        private void PKeyDownCb(object sender, PreviewKeyDownEventArgs e)
+        {
+            ComboBox c = sender as ComboBox;
+            if (e.KeyCode == Keys.Enter && c.DroppedDown == true)
+            {
+                droppeddown = true; //actually the combobox is dropped down(in 1st iteration and then closes in the second)
+            }
         }
         public void textBoxEvent(TextBox t)
         {
@@ -218,8 +245,11 @@ namespace Factory_Inventory.Factory_Classes
         private void KeyDownDtp(object sender, KeyEventArgs e)
         {
             DateTimePicker dtp = sender as DateTimePicker;
-            arrowControl(dtp, sender, e);
-            e.Handled = true;
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                arrowControl(dtp, sender, e);
+                e.Handled = true;
+            }
         }
         public void arrowControl(dynamic control, object sender, KeyEventArgs e)
         {
@@ -240,7 +270,10 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine("Else");
                 return;
             }
-            Console.WriteLine(x.TabIndex);
+            if(x==null)
+            {
+                return;
+            }
             if (x.GetType().Name.ToString() == "Label")
             {
                 Console.WriteLine("Label found");

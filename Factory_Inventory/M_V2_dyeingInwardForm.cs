@@ -808,6 +808,8 @@ namespace Factory_Inventory
                 Console.WriteLine(button.Name);
                 c.buttonEvent(button);
             }
+
+            this.inwardDateDTP.Focus();
         }
     }
 }

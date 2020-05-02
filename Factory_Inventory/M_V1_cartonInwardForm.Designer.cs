@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,12 +46,12 @@
             this.comboBox2CB = new System.Windows.Forms.ComboBox();
             this.costLabel = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.factoryInventoryDataSet = new Factory_Inventory.FactoryInventoryDataSet();
-            this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
             this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.factoryInventoryDataSet = new Factory_Inventory.FactoryInventoryDataSet();
+            this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -69,6 +69,7 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(695, 668);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.TabStop = false;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
@@ -200,14 +201,14 @@
             // 
             // dataGridView2
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Quality,
@@ -219,21 +220,8 @@
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(405, 210);
-            this.dataGridView2.TabIndex = 21;
-            // 
-            // factoryInventoryDataSet
-            // 
-            this.factoryInventoryDataSet.DataSetName = "FactoryInventoryDataSet";
-            this.factoryInventoryDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // cartonVoucherBindingSource
-            // 
-            this.cartonVoucherBindingSource.DataMember = "Carton_Voucher";
-            this.cartonVoucherBindingSource.DataSource = this.factoryInventoryDataSet;
-            // 
-            // carton_VoucherTableAdapter
-            // 
-            this.carton_VoucherTableAdapter.ClearBeforeFill = true;
+            this.dataGridView2.TabIndex = 0;
+            this.dataGridView2.TabStop = false;
             // 
             // Quality
             // 
@@ -257,6 +245,20 @@
             this.Weight.MinimumWidth = 6;
             this.Weight.Name = "Weight";
             this.Weight.ReadOnly = true;
+            // 
+            // factoryInventoryDataSet
+            // 
+            this.factoryInventoryDataSet.DataSetName = "FactoryInventoryDataSet";
+            this.factoryInventoryDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // cartonVoucherBindingSource
+            // 
+            this.cartonVoucherBindingSource.DataMember = "Carton_Voucher";
+            this.cartonVoucherBindingSource.DataSource = this.factoryInventoryDataSet;
+            // 
+            // carton_VoucherTableAdapter
+            // 
+            this.carton_VoucherTableAdapter.ClearBeforeFill = true;
             // 
             // M_V1_cartonInwardForm
             // 

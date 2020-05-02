@@ -63,7 +63,7 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(990, 288);
-            this.dataGridView1.TabIndex = 1;
+            this.dataGridView1.TabIndex = 0;
             this.dataGridView1.Click += new System.EventHandler(this.dataGridView1_Click);
             // 
             // label2
@@ -73,7 +73,7 @@
             this.label2.Location = new System.Drawing.Point(8, 357);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(200, 20);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Search By Batch Number";
             // 
             // dataGridView2
@@ -87,7 +87,7 @@
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(990, 110);
-            this.dataGridView2.TabIndex = 7;
+            this.dataGridView2.TabIndex = 0;
             this.dataGridView2.Click += new System.EventHandler(this.dataGridView2_Click);
             // 
             // batchnoTextbox
@@ -104,7 +104,7 @@
             this.label3.Location = new System.Drawing.Point(12, 383);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 17);
-            this.label3.TabIndex = 5;
+            this.label3.TabIndex = 0;
             this.label3.Text = "Batch Number";
             // 
             // fiscalCombobox
@@ -122,7 +122,7 @@
             this.label4.Location = new System.Drawing.Point(262, 383);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(98, 17);
-            this.label4.TabIndex = 8;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Financial Year";
             // 
             // searchButton
