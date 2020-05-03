@@ -54,6 +54,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.machineNoCB = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.qualityAfterTwistTB = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label2
@@ -148,6 +150,7 @@
             this.qualityCB.Name = "qualityCB";
             this.qualityCB.Size = new System.Drawing.Size(121, 24);
             this.qualityCB.TabIndex = 11;
+            this.qualityCB.SelectedIndexChanged += new System.EventHandler(this.qualityCB_SelectedIndexChanged);
             // 
             // companyNameCB
             // 
@@ -225,7 +228,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(510, 320);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(510, 353);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(54, 25);
             this.dynamicWeightLabel.TabIndex = 0;
@@ -235,7 +238,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(510, 289);
+            this.label10.Location = new System.Drawing.Point(510, 322);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(126, 25);
             this.label10.TabIndex = 0;
@@ -273,11 +276,31 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "Machine Number";
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(502, 279);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(90, 34);
+            this.label12.TabIndex = 1002;
+            this.label12.Text = "Quality After \n Twist";
+            // 
+            // qualityAfterTwistTB
+            // 
+            this.qualityAfterTwistTB.Enabled = false;
+            this.qualityAfterTwistTB.Location = new System.Drawing.Point(589, 284);
+            this.qualityAfterTwistTB.Name = "qualityAfterTwistTB";
+            this.qualityAfterTwistTB.Size = new System.Drawing.Size(122, 22);
+            this.qualityAfterTwistTB.TabIndex = 0;
+            this.qualityAfterTwistTB.TabStop = false;
+            // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.qualityAfterTwistTB);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.machineNoCB);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label1);
@@ -337,5 +360,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ComboBox machineNoCB;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox qualityAfterTwistTB;
     }
 }

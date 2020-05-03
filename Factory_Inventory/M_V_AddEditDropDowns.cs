@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class editCNameQuality : Form
+    public partial class M_V_AddEditDropDowns : Form
     {
-        public editCNameQuality()
+        public M_V_AddEditDropDowns()
         {
             InitializeComponent();
             hide_all_UCs();

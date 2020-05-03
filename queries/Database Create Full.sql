@@ -161,8 +161,8 @@ use FactoryData
 --	Net_Weight decimal(7,3) NULL,
 --	Dyeing_Company_Name varchar(40) NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
---  Machine_No varchar(5) NOT NULL
-
+--  Machine_No varchar(5) NOT NULL,
+--  Quality_Before_Twist varchar(20) NOT NULL
 --);
 
 --GO
@@ -210,7 +210,8 @@ use FactoryData
 --	Net_Weight decimal(7,3) NULL,
 --	Dyeing_Company_Name varchar(40) NOT NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
---  Machine_No varchar(5) NOT NULL
+--  Machine_No varchar(5) NOT NULL,
+-- Quality_Before_Twist varchar(20) NOT NULL
 --);
 
 --GO
@@ -256,8 +257,8 @@ use FactoryData
 --	Input_Date date NULL,
 --	Net_Weight decimal(7,3) NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
---  Machine_No varchar(5) NOT NULL
-
+--  Machine_No varchar(5) NOT NULL,
+--  Quality_Before_Twist varchar(20) NOT NULL
 --);
 
 --GO
@@ -337,6 +338,7 @@ use FactoryData
 --	Bill_Date date NULL,
 --	Voucher_ID int NULL,
 --  Printed tinyint NULL,
+--  Slip_No varchar(20) NULL
 --);
 
 --GO
@@ -373,7 +375,8 @@ use FactoryData
 --	Batch_No_Arr text NOT NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
 --	Batch_Fiscal_Year varchar(15) NOT NULL,
---	Bill_Date date NULL
+--	Bill_Date date NULL,
+--  Slip_No_Arr text NULL
 --);
 
 --GO
@@ -454,7 +457,9 @@ create table Carton_Production_Voucher
 	Oil_Gain decimal(5,2) NOT NULL,
 	Voucher_Closed tinyint NOT NULL,
 	Carton_Fiscal_Year varchar(20) NOT NULL,
-	Cone_Weight decimal(5,3) NOT NULL
+	Cone_Weight decimal(5,3) NOT NULL,
+	Date_Of_Production date NULL,
+	Grades_Arr text NOT NULL
 );
 
 GO
@@ -486,7 +491,8 @@ CREATE TABLE Carton_Produced
 	Sale_DO_Date date NULL,
 	Customer_Name varchar(50) NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-	Carton_Printed tinyint NULL
+	Carton_Printed tinyint NULL,
+	Grade varchar(10) NOT NULL;
 );
 
 
@@ -523,7 +529,9 @@ CREATE TABLE Carton_Produced
 --/* Quality: 1 column*/
 --CREATE TABLE Quality(
 --	Quality varchar(20) NOT NULL,
---  HSN_No varchar(15) NOT NULL
+--  HSN_No varchar(15) NOT NULL,
+--	Print_Colour varchar(10) NOT NULL,
+--  Quality_Before_Twist varchar(20) NOT NULL
 --);
 
 --/*Spring: 2 columns*/

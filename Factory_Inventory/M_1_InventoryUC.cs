@@ -43,7 +43,7 @@ namespace Factory_Inventory
 
         private void editCNameQualityButton_Click(object sender, EventArgs e)
         {
-            editCNameQuality f = new editCNameQuality();
+            M_V_AddEditDropDowns f = new M_V_AddEditDropDowns();
             f.Show();
         }
 

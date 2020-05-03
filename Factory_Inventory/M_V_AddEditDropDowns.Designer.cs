@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class editCNameQuality
+    partial class M_V_AddEditDropDowns
     {
         /// <summary>
         /// Required designer variable.
@@ -104,7 +104,7 @@
             // 
             this.editQuality1.Location = new System.Drawing.Point(0, -1);
             this.editQuality1.Name = "editQuality1";
-            this.editQuality1.Size = new System.Drawing.Size(628, 392);
+            this.editQuality1.Size = new System.Drawing.Size(628, 486);
             this.editQuality1.TabIndex = 3;
             this.editQuality1.Load += new System.EventHandler(this.editQuality1_Load);
             // 
@@ -176,11 +176,11 @@
             this.label1.TabIndex = 15;
             this.label1.Text = "Add/Edit:";
             // 
-            // editCNameQuality
+            // M_V_AddEditDropDowns
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 402);
+            this.ClientSize = new System.Drawing.Size(765, 503);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.editCone1);
@@ -196,8 +196,8 @@
             this.Controls.Add(this.editQuality1);
             this.Controls.Add(this.editCNameButton);
             this.Controls.Add(this.editQualityButton);
-            this.Name = "editCNameQuality";
-            this.Text = "Edit";
+            this.Name = "M_V_AddEditDropDowns";
+            this.Text = "M_V_AddEditDropDowns";
             this.ResumeLayout(false);
             this.PerformLayout();
 

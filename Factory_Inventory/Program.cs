@@ -29,9 +29,11 @@ namespace Factory_Inventory
                 Console.WriteLine(str[i]);
             }
             Console.WriteLine(str.Length);
+            //M_V_AddEditDropDowns f = new M_V_AddEditDropDowns();
             //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
-            M_V4_printCartonSlip f = new M_V4_printCartonSlip();
-            Application.Run(f);
+            // M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            //f = new M_V_editCNameQuality();
+             //Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);

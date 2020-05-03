@@ -118,6 +118,8 @@ namespace Factory_Inventory
             dataGridView1.Columns[1].Width = 250;
             dataGridView1.Columns.Add("Weight", "Weight");
             dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns.Add("Machine_Number", "Machine Number");
+            dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
         }
@@ -207,6 +209,8 @@ namespace Factory_Inventory
             dgvCmb.HeaderText = "Tray Number";
             dataGridView1.Columns.Insert(1, dgvCmb);
             dataGridView1.Columns[1].Width = 250;
+            dataGridView1.Columns.Add("Weight", "Weight");
+            dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.Columns.Add("Weight", "Weight");
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.RowCount = 10;
@@ -306,18 +310,19 @@ namespace Factory_Inventory
                     return;
                 }
                 string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                float weight;
+                DataTable dt;
                 if(edit_form==true)
                 {
-                    weight = c.getTrayWeight(int.Parse(tray_id_this[e.RowIndex]), this.batch_state);
+                    dt = c.getTrayWeightMachineNo(int.Parse(this.tray_id_this[e.RowIndex]), this.batch_state);
                 }
                 else
                 {
                     int trayid=c.getTrayID(trayno);
-                    weight = c.getTrayWeight(trayid, 1);
+                    dt =  c.getTrayWeightMachineNo(trayid, 1);
                     
                 }
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = weight.ToString("F3");
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = float.Parse(dt.Rows[0]["Net_Weight"].ToString()).ToString("F3");
+                this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = dt.Rows[0]["Machine_No"].ToString();
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
             }
         }

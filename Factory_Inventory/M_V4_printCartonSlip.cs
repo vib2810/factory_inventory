@@ -34,7 +34,7 @@ namespace Factory_Inventory
             this.c = new DbConnect();
 
             //Load Data
-            //Create drop-down lists
+            //Create drop-down lists 
             var dataSource = new List<string>();
             DataTable d = c.getQC('f');
             dataSource.Add("---Select---");
@@ -115,7 +115,7 @@ namespace Factory_Inventory
             dataGridView5.Columns["SlNo"].Width = 70;
             dataGridView5.Columns["Carton No."].Width = 70;
             dataGridView5.Columns["Net Weight"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView5.DefaultCellStyle.SelectionBackColor = Color.White;
+            dataGridView5.DefaultCellStyle.SelectionBackColor = Color.Empty;
             dataGridView5.DefaultCellStyle.SelectionForeColor = Color.Blue;
         }
 
@@ -299,10 +299,9 @@ namespace Factory_Inventory
                 { 
                     Console.WriteLine("Adding "+row.Cells[1].Value);
                     this.dataGridView5.Rows.Add("", row.Cells[1].Value, row.Cells[2].Value, row.Cells[3].Value);
-                    if (dataGridView4.SelectedRows[0].DefaultCellStyle.BackColor == printed_color)
-                        dataGridView5.Rows[dataGridView5.RowCount - 1].DefaultCellStyle.BackColor = printed_color;
+                    if (dataGridView4.SelectedRows[0].DefaultCellStyle.BackColor == printed_color) dataGridView5.Rows[dataGridView5.RowCount - 1].DefaultCellStyle.BackColor = printed_color;
+                    else dataGridView4.SelectedRows[0].DefaultCellStyle.BackColor = selected_color;
                 }
-                row.DefaultCellStyle.BackColor = Color.LightBlue;
                 dataGridView4.SelectedRows[0].Selected = false;
             }
         }
@@ -388,7 +387,7 @@ namespace Factory_Inventory
             {
                 DataGridViewRow row = dataGridView5.SelectedRows[0];
                 int index = ispresent(dataGridView4, row.Cells[1].Value.ToString(), 1, row.Cells[3].Value.ToString(), 3);
-                if (index >= 0 && dataGridView4.Rows[index].DefaultCellStyle.BackColor!=printed_color) dataGridView4.Rows[index].DefaultCellStyle.BackColor = Color.White;
+                if (index >= 0 && row.DefaultCellStyle.BackColor!=printed_color) dataGridView4.Rows[index].DefaultCellStyle.BackColor = Color.White;
                 dataGridView5.Rows.RemoveAt(dataGridView5.SelectedRows[0].Index);
             }
         }

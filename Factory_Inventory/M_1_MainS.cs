@@ -41,6 +41,7 @@ namespace Factory_Inventory
             inventoryUC1.Hide();
             usersUC1.Hide();
             loginlogUC1.Hide();
+            m_1_BackupRestoreUC1.Hide();
         }
         private void close_form()
         {
@@ -108,6 +109,13 @@ namespace Factory_Inventory
             loginlogUC1.Show();
             loginlogUC1.BringToFront();
             loginlogUC1.loadUserData();
+        }
+
+        private void backupRestoreButton_Click(object sender, EventArgs e)
+        {
+            hide_all_UCs();
+            m_1_BackupRestoreUC1.Show();
+            m_1_BackupRestoreUC1.BringToFront();
         }
     }
 }
