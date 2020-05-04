@@ -919,7 +919,41 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
+        public Color getQualityColour(string quality)
+        {
+            //returns -1F if no rate found
+            DataTable dt = new DataTable(); //this is creating a virtual table
+            Color col= Color.White;
+            try
+            { 
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Print_Colour FROM Quality WHERE Quality='" + quality+ "'", con);
+                sda.Fill(dt);
+                if (dt.Rows.Count != 0)
+                {
+                    if (dt.Rows[0][0].ToString()[0] >= 97 && dt.Rows[0][0].ToString()[0] <= 122)
+                    {
+                        col = System.Drawing.ColorTranslator.FromHtml("#" + dt.Rows[0][0].ToString());
+                    }
+                    else
+                    {
+                        col = System.Drawing.ColorTranslator.FromHtml(dt.Rows[0][0].ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getDyeingRate) " + e.Message, "Exception");
+                con.Close();
+                return Color.White;
+            }
+            finally
+            {
+                con.Close();
 
+            }
+            return col;
+        }
         //Carton Voucher
         public bool addCartonVoucher(DateTime dtinput, DateTime dtbill, string billNumber, string quality, string quality_arr, string company, string cost, string cartonno, string weights, int number, float netweight)
         {

@@ -56,7 +56,7 @@ namespace Factory_Inventory
             progressBar1.Value = 0;
             try
             {
-                Server dbServer = new Server(new ServerConnection(@"DESKTOP-MOUBPNG\MSSQLSERVER2019", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection("192.168.1.12, 1433", "sa", "Kdvghr2810@"));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
                 dbBackup.Devices.AddDevice(this.backupLoactionTB.Text, DeviceType.File);
                 dbBackup.Initialize = true;
@@ -125,7 +125,7 @@ namespace Factory_Inventory
             }
             try
             {
-                Server dbServer = new Server(new ServerConnection(@"DESKTOP-MOUBPNG\MSSQLSERVER2019", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection("192.168.1.12, 1433", "sa", "Kdvghr2810@"));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database };
                 string s = this.restoreLocationTB.Text;
                 dbBackup.Devices.AddDevice(s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + "restorebackup.bak", DeviceType.File); ;
@@ -142,7 +142,7 @@ namespace Factory_Inventory
             try
             {
 
-                Server dbServer = new Server(new ServerConnection(@"DESKTOP-MOUBPNG\MSSQLSERVER2019", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection("192.168.1.12, 1433", "sa", "Kdvghr2810@"));
                 Database db = dbServer.Databases[this.database];
                 dbServer.KillAllProcesses(db.Name);
                 db.DatabaseOptions.UserAccess = DatabaseUserAccess.Multiple;
