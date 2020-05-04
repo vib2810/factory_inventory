@@ -211,7 +211,7 @@ namespace Factory_Inventory
             this.numberOfSpringsTB.Text = row["Number_Of_Springs"].ToString();
             this.traytareTB.Text = row["Tray_Tare"].ToString();
             this.grossWeightTB.Text = row["Gross_Weight"].ToString();
-            this.qualityAfterTwistTB.Text = row["Quality"].ToString();
+            this.qualityBeforeTwistTB.Text = row["Quality"].ToString();
             this.old_tray_no = row["Tray_No"].ToString();
 
 
@@ -272,7 +272,7 @@ namespace Factory_Inventory
             }
             if (this.edit_form == false)
             {
-                bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text, qualityAfterTwistTB.Text);
+                bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text, qualityBeforeTwistTB.Text);
                 if (added == true)
                 {
                     this.trayNumberTB.Text = "";
@@ -285,7 +285,7 @@ namespace Factory_Inventory
             else
             {
                 bool edited = false;
-                edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityAfterTwistTB.Text);
+                edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text);
                 if (edited == true)
                 {
                     disable_form_edit();
@@ -424,11 +424,11 @@ namespace Factory_Inventory
         {
             if(this.qualityCB.SelectedIndex!=0)
             {
-                this.qualityAfterTwistTB.Text = this.d1.Rows[this.qualityCB.SelectedIndex - 1]["Quality_After_Twist"].ToString();
+                this.qualityBeforeTwistTB.Text = this.d1.Rows[this.qualityCB.SelectedIndex - 1]["Quality_Before_Twist"].ToString();
             }
             else
             {
-                this.qualityAfterTwistTB.Text = "";
+                this.qualityBeforeTwistTB.Text = "";
             }
 
         }

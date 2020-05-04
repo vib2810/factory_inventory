@@ -33,11 +33,11 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addPickColourTB = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.addQualityAfterTwistTB = new System.Windows.Forms.TextBox();
+            this.addQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.editPickColourTB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.editQualityAfterTwistTB = new System.Windows.Forms.TextBox();
+            this.editQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.addQualityButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -100,21 +100,21 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Colour";
             // 
-            // addQualityAfterTwistTB
+            // addQualityBeforeTwistTB
             // 
-            this.addQualityAfterTwistTB.Location = new System.Drawing.Point(13, 428);
-            this.addQualityAfterTwistTB.Name = "addQualityAfterTwistTB";
-            this.addQualityAfterTwistTB.Size = new System.Drawing.Size(148, 22);
-            this.addQualityAfterTwistTB.TabIndex = 19;
+            this.addQualityBeforeTwistTB.Location = new System.Drawing.Point(13, 428);
+            this.addQualityBeforeTwistTB.Name = "addQualityBeforeTwistTB";
+            this.addQualityBeforeTwistTB.Size = new System.Drawing.Size(148, 22);
+            this.addQualityBeforeTwistTB.TabIndex = 19;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(10, 408);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(121, 17);
+            this.label7.Size = new System.Drawing.Size(133, 17);
             this.label7.TabIndex = 0;
-            this.label7.Text = "Quality after Twist";
+            this.label7.Text = "Quality before Twist";
             // 
             // editPickColourTB
             // 
@@ -134,21 +134,21 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Print Colour";
             // 
-            // editQualityAfterTwistTB
+            // editQualityBeforeTwistTB
             // 
-            this.editQualityAfterTwistTB.Location = new System.Drawing.Point(15, 173);
-            this.editQualityAfterTwistTB.Name = "editQualityAfterTwistTB";
-            this.editQualityAfterTwistTB.Size = new System.Drawing.Size(147, 22);
-            this.editQualityAfterTwistTB.TabIndex = 7;
+            this.editQualityBeforeTwistTB.Location = new System.Drawing.Point(15, 173);
+            this.editQualityBeforeTwistTB.Name = "editQualityBeforeTwistTB";
+            this.editQualityBeforeTwistTB.Size = new System.Drawing.Size(147, 22);
+            this.editQualityBeforeTwistTB.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 154);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 17);
+            this.label2.Size = new System.Drawing.Size(133, 17);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Quality after Twist";
+            this.label2.Text = "Quality before Twist";
             // 
             // addQualityButton
             // 
@@ -305,11 +305,11 @@
             this.Controls.Add(this.addpickcolourButton);
             this.Controls.Add(this.addPickColourTB);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.addQualityAfterTwistTB);
+            this.Controls.Add(this.addQualityBeforeTwistTB);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.editPickColourTB);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.editQualityAfterTwistTB);
+            this.Controls.Add(this.editQualityBeforeTwistTB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.addQualityButton);
             this.Controls.Add(this.label1);
@@ -335,11 +335,11 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.TextBox addPickColourTB;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox addQualityAfterTwistTB;
+        private System.Windows.Forms.TextBox addQualityBeforeTwistTB;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox editPickColourTB;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox editQualityAfterTwistTB;
+        private System.Windows.Forms.TextBox editQualityBeforeTwistTB;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button addQualityButton;
         private System.Windows.Forms.Label label1;

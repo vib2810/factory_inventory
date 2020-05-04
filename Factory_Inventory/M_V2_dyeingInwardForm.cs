@@ -570,10 +570,21 @@ namespace Factory_Inventory
             {
                 for(int i=0;i<dataGridView1.Rows.Count-1;i++)
                 {
-                    if(dataGridView1.Rows[i].Cells[5].Value==null || dataGridView1.Rows[i].Cells[5].Value.ToString()=="")
+                    int sum = 0;
+                    if(dataGridView1.Rows[i].Cells[2].Value == null || dataGridView1.Rows[i].Cells[2].Value == "")
+                    {
+                        sum++;
+                    }
+                    if(dataGridView1.Rows[i].Cells[5].Value == null || dataGridView1.Rows[i].Cells[5].Value.ToString() == "")
+                    {
+                        sum++;
+                    }
+                    if(sum==1)
                     {
                         MessageBox.Show("Enter Slip Number in row " + (i + 1).ToString(), "Error");
+                        return;
                     }
+
                 }
             }
             if (dataGridView1.Rows[0].Cells[1].Value==null)
@@ -634,7 +645,7 @@ namespace Factory_Inventory
             {
                 if(this.addBill==true)
                 {
-                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
+                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
                     if (editbill == true)
                     {
                         disable_form_edit();
@@ -657,7 +668,7 @@ namespace Factory_Inventory
             {
                 if(this.addBill==true)
                 {
-                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
+                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
                     if (addbill == true) disable_form_edit();
                     return;
                 }
@@ -770,13 +781,19 @@ namespace Factory_Inventory
             {
                 billNumberTextboxTB.Enabled = true;
                 billDateDTP.Enabled = true;
-                this.dataGridView1.Rows[5].ReadOnly = true;
+                if(this.addBill==false)
+                {
+                    this.dataGridView1.Rows[5].ReadOnly = true;
+                }
             }
             else
             {
                 billNumberTextboxTB.Enabled = false;
                 billDateDTP.Enabled = false;
-                this.dataGridView1.Rows[5].ReadOnly = false;
+                if (this.addBill == false)
+                {
+                    this.dataGridView1.Rows[5].ReadOnly = true;
+                }
             }
         }
 

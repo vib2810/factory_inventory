@@ -551,7 +551,7 @@ namespace Factory_Inventory
                 {
                     production_dates += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
                     carton_nos += dataGridView1.Rows[i].Cells[2].Value.ToString() + ",";
-                    grades += dataGridView1.Rows[i].Cells[3].Value.ToString();
+                    grades += dataGridView1.Rows[i].Cells[3].Value.ToString() + ",";
                     gross_weights += dataGridView1.Rows[i].Cells[4].Value.ToString() + ",";
                     carton_weights += dataGridView1.Rows[i].Cells[5].Value.ToString() + ",";
                     number_of_cones+= dataGridView1.Rows[i].Cells[6].Value.ToString() + ",";

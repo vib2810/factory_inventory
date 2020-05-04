@@ -47,7 +47,7 @@ namespace Factory_Inventory
                 {
                     editPickColourTB.BackColor = System.Drawing.ColorTranslator.FromHtml(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
                 }
-                editQualityAfterTwistTB.Text = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                editQualityBeforeTwistTB.Text = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
             }
         }
 
@@ -56,7 +56,7 @@ namespace Factory_Inventory
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 this.addPickColourTB.BackColor = this.colorDialog1.Color;
-                this.add_colour_code = "#" + this.colorDialog1.Color.Name;
+                this.add_colour_code = this.colorDialog1.Color.Name;
             }
         }
 
@@ -72,18 +72,19 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    if (editedQualityTextboxTB.Text == "" || editHSNNoTB.Text == "" || this.edit_colour_code == "" || editQualityAfterTwistTB.Text == "")
+                    if (editedQualityTextboxTB.Text == "" || editHSNNoTB.Text == "" || this.edit_colour_code == "" || editQualityBeforeTwistTB.Text == "")
                     {
                         MessageBox.Show("Enter all values", "Error");
                         return;
                     }
-                    c.editQuality(editedQualityTextboxTB.Text, editHSNNoTB.Text, this.edit_colour_code, editQualityAfterTwistTB.Text, dataGridView1.Rows[row].Cells[0].Value.ToString());
+                    c.editQuality(editQualityBeforeTwistTB.Text, editHSNNoTB.Text, this.edit_colour_code, editedQualityTextboxTB.Text, dataGridView1.Rows[row].Cells[0].Value.ToString());
                 }
+                
                 //this.selectedRowIndex = -1;
                 this.editedQualityTextboxTB.Text = "";
                 editHSNNoTB.Text = "";
                 editPickColourTB.BackColor = Color.White;
-                editQualityAfterTwistTB.Text = "";
+                editQualityBeforeTwistTB.Text = "";
                 this.deleteUserCheckboxCK.Checked = false;
                 loadDatabase();
             }
@@ -94,16 +95,16 @@ namespace Factory_Inventory
 
         private void addQualityButton_Click_1(object sender, EventArgs e)
         {
-            if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.add_colour_code == "" || addQualityAfterTwistTB.Text == "")
+            if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.add_colour_code == "" || addQualityBeforeTwistTB.Text == "")
             {
                 MessageBox.Show("Enter all values", "Error");
                 return;
             }
-            c.addQuality(newQualityTextboxTB.Text, addHSNNoTB.Text, this.add_colour_code, this.addQualityAfterTwistTB.Text);
+            c.addQuality(addQualityBeforeTwistTB.Text, addHSNNoTB.Text, this.add_colour_code, this.newQualityTextboxTB.Text); 
             this.newQualityTextboxTB.Text = "";
             this.addHSNNoTB.Text = "";
             this.addPickColourTB.BackColor = Color.White;
-            this.addQualityAfterTwistTB.Text = "";
+            this.addQualityBeforeTwistTB.Text = "";
             loadDatabase();
         }
 

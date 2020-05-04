@@ -55,7 +55,7 @@
             this.machineNoCB = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.qualityAfterTwistTB = new System.Windows.Forms.TextBox();
+            this.qualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label2
@@ -279,27 +279,27 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(502, 279);
+            this.label12.Location = new System.Drawing.Point(502, 264);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(90, 34);
+            this.label12.Size = new System.Drawing.Size(134, 17);
             this.label12.TabIndex = 1002;
-            this.label12.Text = "Quality After \n Twist";
+            this.label12.Text = "Quality Before Twist";
             // 
-            // qualityAfterTwistTB
+            // qualityBeforeTwistTB
             // 
-            this.qualityAfterTwistTB.Enabled = false;
-            this.qualityAfterTwistTB.Location = new System.Drawing.Point(589, 284);
-            this.qualityAfterTwistTB.Name = "qualityAfterTwistTB";
-            this.qualityAfterTwistTB.Size = new System.Drawing.Size(122, 22);
-            this.qualityAfterTwistTB.TabIndex = 0;
-            this.qualityAfterTwistTB.TabStop = false;
+            this.qualityBeforeTwistTB.Enabled = false;
+            this.qualityBeforeTwistTB.Location = new System.Drawing.Point(505, 286);
+            this.qualityBeforeTwistTB.Name = "qualityBeforeTwistTB";
+            this.qualityBeforeTwistTB.Size = new System.Drawing.Size(122, 22);
+            this.qualityBeforeTwistTB.TabIndex = 0;
+            this.qualityBeforeTwistTB.TabStop = false;
             // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.qualityAfterTwistTB);
+            this.Controls.Add(this.qualityBeforeTwistTB);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.machineNoCB);
             this.Controls.Add(this.label11);
@@ -361,6 +361,6 @@
         private System.Windows.Forms.ComboBox machineNoCB;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox qualityAfterTwistTB;
+        private System.Windows.Forms.TextBox qualityBeforeTwistTB;
     }
 }
