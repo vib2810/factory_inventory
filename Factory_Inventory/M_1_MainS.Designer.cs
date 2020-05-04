@@ -37,10 +37,12 @@ namespace Factory_Inventory
             this.loginLogButton = new System.Windows.Forms.Button();
             this.UsersButton = new System.Windows.Forms.Button();
             this.usernameLabel = new System.Windows.Forms.Label();
+            this.backupRestoreButton = new System.Windows.Forms.Button();
             this.loginlogUC1 = new Factory_Inventory.M_1_loginlogUC();
             this.usersUC1 = new Factory_Inventory.M_1_usersUC();
             this.inventoryUC1 = new Factory_Inventory.M_1_inventoryUC();
             this.vouchersUC1 = new Factory_Inventory.M_1_vouchersUC();
+            this.m_1_BackupRestoreUC1 = new Factory_Inventory.M_1_BackupRestoreUC();
             this.SuspendLayout();
             // 
             // logOutButton
@@ -115,6 +117,16 @@ namespace Factory_Inventory
             this.usernameLabel.TabIndex = 0;
             this.usernameLabel.Text = "label1";
             // 
+            // backupRestoreButton
+            // 
+            this.backupRestoreButton.Location = new System.Drawing.Point(704, 221);
+            this.backupRestoreButton.Name = "backupRestoreButton";
+            this.backupRestoreButton.Size = new System.Drawing.Size(111, 46);
+            this.backupRestoreButton.TabIndex = 11;
+            this.backupRestoreButton.Text = "Backup and Restore";
+            this.backupRestoreButton.UseVisualStyleBackColor = true;
+            this.backupRestoreButton.Click += new System.EventHandler(this.backupRestoreButton_Click);
+            // 
             // loginlogUC1
             // 
             this.loginlogUC1.Location = new System.Drawing.Point(18, 44);
@@ -143,11 +155,20 @@ namespace Factory_Inventory
             this.vouchersUC1.Size = new System.Drawing.Size(671, 427);
             this.vouchersUC1.TabIndex = 7;
             // 
+            // m_1_BackupRestoreUC1
+            // 
+            this.m_1_BackupRestoreUC1.Location = new System.Drawing.Point(12, 45);
+            this.m_1_BackupRestoreUC1.Name = "m_1_BackupRestoreUC1";
+            this.m_1_BackupRestoreUC1.Size = new System.Drawing.Size(671, 427);
+            this.m_1_BackupRestoreUC1.TabIndex = 12;
+            // 
             // M_1_MainS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(848, 496);
+            this.Controls.Add(this.m_1_BackupRestoreUC1);
+            this.Controls.Add(this.backupRestoreButton);
             this.Controls.Add(this.loginlogUC1);
             this.Controls.Add(this.usersUC1);
             this.Controls.Add(this.inventoryUC1);
@@ -179,5 +200,7 @@ namespace Factory_Inventory
         private M_1_inventoryUC inventoryUC1;
         private M_1_usersUC usersUC1;
         private M_1_loginlogUC loginlogUC1;
+        private System.Windows.Forms.Button backupRestoreButton;
+        private M_1_BackupRestoreUC m_1_BackupRestoreUC1;
     }
 }

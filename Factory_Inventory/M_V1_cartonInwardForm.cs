@@ -54,7 +54,7 @@ namespace Factory_Inventory
 
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataGridView2.Rows.Add(d1.Rows[i][0].ToString(),"", "");
+                dataGridView2.Rows.Add(d1.Rows[i][3].ToString(),"", "");
             }
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
@@ -62,7 +62,7 @@ namespace Factory_Inventory
             dgvCmb.Items.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dgvCmb.Items.Add(d1.Rows[i][0].ToString());
+                dgvCmb.Items.Add(d1.Rows[i][3].ToString());
             }
             dgvCmb.Name = "Quality";
             dataGridView1.Columns.Insert(1, dgvCmb);
@@ -103,7 +103,7 @@ namespace Factory_Inventory
 
             //Initialize datagridview2
             DataTable d1 = c.getQC('q');
-            string[] quality_array = c.csvToArray(row["Quality"].ToString());
+            string[] quality_array = c.csvToArray(row["Quality_Before_Twist"].ToString());
             for(int i=0;i<quality_array.Length;i++)
             {
                 d1.Rows.Add(quality_array[i]);
@@ -111,7 +111,7 @@ namespace Factory_Inventory
             List<string> no_rep_d1 = new List<string>();
             for(int i=0;i<d1.Rows.Count;i++)
             {
-                no_rep_d1.Add(d1.Rows[i][0].ToString());
+                no_rep_d1.Add(d1.Rows[i][3].ToString());
             }
             no_rep_d1 = no_rep_d1.Distinct().ToList();
             for (int i = 0; i < no_rep_d1.Count; i++)

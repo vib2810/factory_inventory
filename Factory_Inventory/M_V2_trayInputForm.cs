@@ -19,14 +19,16 @@ namespace Factory_Inventory
         int Voucher_ID, state, tray_id;
         bool edit_form;
         string old_tray_no;
+        DataTable d1;  //stores quality table
+
         public M_V2_trayInputForm()
         {
             InitializeComponent();
             c = new DbConnect();
             //Create drop-down quality list
             var dataSource1 = new List<string>();
-            DataTable d1 = c.getQC('q');
-
+            this.d1 = c.getQC('q');
+            dataSource1.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
                 dataSource1.Add(d1.Rows[i][0].ToString());
@@ -98,8 +100,8 @@ namespace Factory_Inventory
 
             //Create drop-down quality list
             var dataSource1 = new List<string>();
-            DataTable d1 = c.getQC('q');
-
+            this.d1 = c.getQC('q');
+            dataSource1.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
                 dataSource1.Add(d1.Rows[i][0].ToString());
@@ -202,14 +204,14 @@ namespace Factory_Inventory
             this.dateTimePickerDTP.Value = Convert.ToDateTime(row["Tray_Production_Date"].ToString());
             this.trayNumberTB.Text = row["Tray_No"].ToString();
             this.springCB.SelectedIndex = this.springCB.FindStringExact(row["Spring"].ToString());
-            this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality"].ToString());
+            this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality_Before_Twist"].ToString());
             this.companyNameCB.SelectedIndex = this.companyNameCB.FindStringExact(row["Company_Name"].ToString());
             this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(row["Machine_No"].ToString());
             this.Voucher_ID = int.Parse(row["Voucher_ID"].ToString());
             this.numberOfSpringsTB.Text = row["Number_Of_Springs"].ToString();
             this.traytareTB.Text = row["Tray_Tare"].ToString();
             this.grossWeightTB.Text = row["Gross_Weight"].ToString();
-
+            this.qualityBeforeTwistTB.Text = row["Quality"].ToString();
             this.old_tray_no = row["Tray_No"].ToString();
 
 
@@ -270,7 +272,7 @@ namespace Factory_Inventory
             }
             if (this.edit_form == false)
             {
-                bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text);
+                bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text, qualityBeforeTwistTB.Text);
                 if (added == true)
                 {
                     this.trayNumberTB.Text = "";
@@ -283,7 +285,7 @@ namespace Factory_Inventory
             else
             {
                 bool edited = false;
-                edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text);
+                edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text);
                 if (edited == true)
                 {
                     disable_form_edit();
@@ -416,6 +418,19 @@ namespace Factory_Inventory
             }
 
             this.dateTimePickerDTP.Focus();
+        }
+
+        private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(this.qualityCB.SelectedIndex!=0)
+            {
+                this.qualityBeforeTwistTB.Text = this.d1.Rows[this.qualityCB.SelectedIndex - 1]["Quality_Before_Twist"].ToString();
+            }
+            else
+            {
+                this.qualityBeforeTwistTB.Text = "";
+            }
+
         }
 
         private void numberOfSpringsTextbox_TextChanged(object sender, EventArgs e)

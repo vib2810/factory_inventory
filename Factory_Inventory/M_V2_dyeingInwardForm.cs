@@ -89,7 +89,7 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
-
+                dataGridView1.Columns.Add("Slip Number", "Slip Number");
                 dataGridView1.Columns[2].ReadOnly = true;
                 dataGridView1.Columns[3].ReadOnly = true;
                 dataGridView1.Columns[4].ReadOnly = true;
@@ -161,12 +161,10 @@ namespace Factory_Inventory
                 dgvCmb.HeaderText = "Batch Number";
                 dataGridView1.Columns.Insert(1, dgvCmb);
                 dataGridView1.Columns[1].Width = 250;
-
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
                 dataGridView1.Columns.Add("Net Rate", "Net Rate");
-
                 dataGridView1.Columns[2].ReadOnly = true;
                 dataGridView1.Columns[3].ReadOnly = true;
                 dataGridView1.Columns[4].ReadOnly = true;
@@ -234,6 +232,7 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
+                dataGridView1.Columns.Add("Slip Number", "Slip Number");
 
                 dataGridView1.Columns[2].ReadOnly = true;
                 dataGridView1.Columns[3].ReadOnly = true;
@@ -262,6 +261,15 @@ namespace Factory_Inventory
                     this.loadBatchButton.Enabled = false;
                     this.dataGridView1.ReadOnly = false;
                     this.comboBox3CB.Enabled = false;
+                    if(row["Bill_No"].ToString()=="0")
+                    {
+                        this.billcheckBoxCK.Checked = true;
+                    }
+                    else
+                    {
+                        this.billcheckBoxCK.Checked = false;
+                    }
+                    this.billcheckBoxCK.Enabled = false;
                 }
 
                 //Fill in required fields
@@ -464,6 +472,10 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = row["Net_Weight"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[3].Value = row["Colour"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[4].Value = row["Quality"].ToString();
+                if(!(row["Slip_No"].ToString()==null || row["Slip_No"].ToString()==""))
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[5].Value = row["Slip_No"].ToString();
+                }
 
                 if (this.addBill==true)
                 {
@@ -554,6 +566,27 @@ namespace Factory_Inventory
                     return;
                 }
             }
+            else
+            {
+                for(int i=0;i<dataGridView1.Rows.Count-1;i++)
+                {
+                    int sum = 0;
+                    if(dataGridView1.Rows[i].Cells[2].Value == null || dataGridView1.Rows[i].Cells[2].Value == "")
+                    {
+                        sum++;
+                    }
+                    if(dataGridView1.Rows[i].Cells[5].Value == null || dataGridView1.Rows[i].Cells[5].Value.ToString() == "")
+                    {
+                        sum++;
+                    }
+                    if(sum==1)
+                    {
+                        MessageBox.Show("Enter Slip Number in row " + (i + 1).ToString(), "Error");
+                        return;
+                    }
+
+                }
+            }
             if (dataGridView1.Rows[0].Cells[1].Value==null)
             {
                 MessageBox.Show("Please enter Batch Numbers", "Error");
@@ -569,7 +602,7 @@ namespace Factory_Inventory
                 MessageBox.Show("Bill Date is in the future", "Error");
                 return;
             }
-            string batch_nos = "";
+            string batch_nos = "", slip_nos="";
             int number = 0;
 
             List<int> temp = new List<int>();
@@ -584,6 +617,7 @@ namespace Factory_Inventory
                 else
                 {
                     batch_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
+                    slip_nos += dataGridView1.Rows[i].Cells[5].Value.ToString() + ",";
                     number++;
 
                     //to check for all different batch_nos
@@ -605,12 +639,13 @@ namespace Factory_Inventory
             {
                 sendbill_no = int.Parse(billNumberTextboxTB.Text.ToString());
                 send_bill_date = billDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+                slip_nos = "";
             }
             if (this.edit_form == true)
             {
                 if(this.addBill==true)
                 {
-                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
+                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
                     if (editbill == true)
                     {
                         disable_form_edit();
@@ -620,7 +655,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date);
+                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos);
                     if (edited == true)
                     {
                         disable_form_edit();
@@ -633,13 +668,13 @@ namespace Factory_Inventory
             {
                 if(this.addBill==true)
                 {
-                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
+                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
                     if (addbill == true) disable_form_edit();
                     return;
                 }
                 else
                 {
-                    bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date);
+                    bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos);
                     if (added == true) disable_form_edit();
                     else return;
                 }
@@ -746,11 +781,19 @@ namespace Factory_Inventory
             {
                 billNumberTextboxTB.Enabled = true;
                 billDateDTP.Enabled = true;
+                if(this.addBill==false)
+                {
+                    this.dataGridView1.Rows[5].ReadOnly = true;
+                }
             }
             else
             {
                 billNumberTextboxTB.Enabled = false;
                 billDateDTP.Enabled = false;
+                if (this.addBill == false)
+                {
+                    this.dataGridView1.Rows[5].ReadOnly = true;
+                }
             }
         }
 

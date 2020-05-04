@@ -44,7 +44,7 @@ namespace Factory_Inventory
 
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][0].ToString());
+                dataSource1.Add(d1.Rows[i][3].ToString());
             }
             this.comboBox1CB.DataSource = dataSource1;
             this.comboBox1CB.DisplayMember = "Quality";
@@ -132,7 +132,7 @@ namespace Factory_Inventory
 
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][0].ToString());
+                dataSource1.Add(d1.Rows[i][3].ToString());
             }
             this.comboBox1CB.DataSource = dataSource1;
             this.comboBox1CB.DisplayMember = "Quality";

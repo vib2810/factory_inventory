@@ -56,11 +56,11 @@
             // 
             this.userLabel.AutoSize = true;
             this.userLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userLabel.Location = new System.Drawing.Point(53, 0);
+            this.userLabel.Location = new System.Drawing.Point(24, 0);
             this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(135, 25);
+            this.userLabel.Size = new System.Drawing.Size(201, 25);
             this.userLabel.TabIndex = 1;
-            this.userLabel.Text = "Edit Customer";
+            this.userLabel.Text = "Edit Dyeing Company";
             this.userLabel.Click += new System.EventHandler(this.userLabel_Click);
             // 
             // userDataView
@@ -101,18 +101,18 @@
             this.newPasswordLabel.AutoSize = true;
             this.newPasswordLabel.Location = new System.Drawing.Point(17, 25);
             this.newPasswordLabel.Name = "newPasswordLabel";
-            this.newPasswordLabel.Size = new System.Drawing.Size(109, 17);
+            this.newPasswordLabel.Size = new System.Drawing.Size(156, 17);
             this.newPasswordLabel.TabIndex = 6;
-            this.newPasswordLabel.Text = "Customer Name";
+            this.newPasswordLabel.Text = "Dyeing Company Name";
             // 
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
             this.newConfirmPasswordLabel.Location = new System.Drawing.Point(14, 229);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
-            this.newConfirmPasswordLabel.Size = new System.Drawing.Size(106, 17);
+            this.newConfirmPasswordLabel.Size = new System.Drawing.Size(194, 17);
             this.newConfirmPasswordLabel.TabIndex = 7;
-            this.newConfirmPasswordLabel.Text = "Enter Customer";
+            this.newConfirmPasswordLabel.Text = "Enter Dyeing Company Name";
             // 
             // newAccessLevelLabel
             // 
@@ -151,11 +151,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(53, 202);
+            this.label1.Location = new System.Drawing.Point(28, 202);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 25);
+            this.label1.Size = new System.Drawing.Size(204, 25);
             this.label1.TabIndex = 15;
-            this.label1.Text = "Add Customer";
+            this.label1.Text = "Add Dyeing Company";
             // 
             // addQualityButton
             // 
@@ -231,7 +231,7 @@
             this.label7.TabIndex = 27;
             this.label7.Text = "Address";
             // 
-            // editCustomer
+            // editDyeingCompany
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -255,7 +255,7 @@
             this.Controls.Add(this.userDataView);
             this.Controls.Add(this.userLabel);
             this.Name = "editDyeingCompany";
-            this.Size = new System.Drawing.Size(619, 393);
+            this.Size = new System.Drawing.Size(619, 486);
             ((System.ComponentModel.ISupportInitialize)(this.userDataView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
