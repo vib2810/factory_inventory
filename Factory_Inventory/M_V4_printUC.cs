@@ -25,7 +25,8 @@ namespace Factory_Inventory
 
         private void button6_Click(object sender, EventArgs e)
         {
-            
+            M_V4_printBatchReport f = new M_V4_printBatchReport();
+            f.Show();
         }
 
         private void button5_Click(object sender, EventArgs e)

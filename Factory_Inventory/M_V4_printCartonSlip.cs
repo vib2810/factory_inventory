@@ -54,7 +54,7 @@ namespace Factory_Inventory
 
             DataTable dyeing_batches = c.getBatchTable_State(3);
             dataGridView1.DataSource = dyeing_batches;
-            if (dyeing_batches.Rows.Count != 0)
+            if (true)
             {
                 dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Batch_No"].Visible = true;
@@ -432,7 +432,7 @@ namespace Factory_Inventory
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "GROSS WT:", basic_size, 'l', 1, 0);
             write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Gross_Weight"].ToString(), basic_size, 'l', 0, 1) + gap;
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "GRADE:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), "grade", basic_size, 'l', 0, 1) + gap;
+            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Grade"].ToString(), basic_size, 'l', 0, 1) + gap;
 
             string tare_wt = (float.Parse(carton_data["Carton_Weight"].ToString()) + int.Parse(carton_data["Number_Of_Cones"].ToString()) * float.Parse(carton_data["Cone_Weight"].ToString()) * 0.001F).ToString("F3");
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "TARE WT:", basic_size, 'l', 1, 0);
@@ -440,10 +440,15 @@ namespace Factory_Inventory
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "SHADE:", basic_size, 'l', 1, 0);
             write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Colour"].ToString(), basic_size, 'l', 0, 1) + gap;
 
+            string[] batches = c.csvToArray(carton_data["Batch_No_Arr"].ToString());
+            string batch_nos = "";
+            for (int i = 0; i < batches.Length; i++) batch_nos += batches[i] + ", ";
+            batch_nos += batches[batches.Length - 1];
+            
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "NET WT:", basic_size, 'l', 1, 0);
             write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), float.Parse(carton_data["Net_Weight"].ToString()).ToString("F3"), basic_size, 'l', 0, 1)+gap;
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "BATCH NO:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Batch_No_Arr"].ToString(), basic_size, 'l', 0, 1) + gap;
+            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), batch_nos, basic_size, 'l', 0, 1) + gap;
             write_height += write(e, x, y+height-20, width, "Note: Please do not mix two different Batches", basic_size, 'c', 0) + 4;
             //write(e, x+(int)(0.05 * width), write_height, (int)(0.15 * width), "QUALITY:", basic_size, 'l', 1, 0);
             //write(e, x+(int)(0.20 * width), write_height, (int)(0.25 * width), carton_data["Quality"].ToString(), basic_size, 'l', 0, 1);

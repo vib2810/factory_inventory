@@ -46,7 +46,7 @@ namespace Factory_Inventory
                 DataTable dtemp= c.getTrayTable_TrayID(int.Parse(tray_ids[i]));
                 float spring_wt = c.getSpringWeight(dtemp.Rows[0]["Spring"].ToString())*int.Parse(dtemp.Rows[0]["Number_Of_Springs"].ToString());
                 net_wt += float.Parse(dtemp.Rows[0]["Net_Weight"].ToString());
-                dt.Rows.Add(i+1, dtemp.Rows[0]["Tray_No"].ToString(), dtemp.Rows[0]["Gross_Weight"].ToString(), dtemp.Rows[0]["Tray_Tare"].ToString(), "mn1", dtemp.Rows[0]["Number_of_Springs"].ToString(), spring_wt,dtemp.Rows[0]["Net_Weight"].ToString());
+                dt.Rows.Add(i+1, dtemp.Rows[0]["Tray_No"].ToString(), dtemp.Rows[0]["Gross_Weight"].ToString(), dtemp.Rows[0]["Tray_Tare"].ToString(), dtemp.Rows[0]["Machine_No"].ToString(), dtemp.Rows[0]["Number_of_Springs"].ToString(), spring_wt,dtemp.Rows[0]["Net_Weight"].ToString());
             }
 
             dt.Rows.Add("", "", "", "", "", "", "Net Weight", net_wt);

@@ -87,7 +87,7 @@ namespace Factory_Inventory
             };
             if (dialog.Show(Handle))
             {
-                this.backupLoactionTB.Text = dialog.FileName + @"\" + this.database + "("+ DateTime.Now.ToString()+ ")" + ".bak";
+                this.backupLoactionTB.Text = dialog.FileName + @"\" + this.database + "("+ DateTime.Now.ToString().Replace(":", "-") + ")" + ".bak";
             }
         }
 

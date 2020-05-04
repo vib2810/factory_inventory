@@ -23,8 +23,7 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
             //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
-            M_V4_printBatchReport f = new M_V4_printBatchReport();
-            Application.Run(f);
+
             while (true)
             {
                 Login f1 = new Login(c);
