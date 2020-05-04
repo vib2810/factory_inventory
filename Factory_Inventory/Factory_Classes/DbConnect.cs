@@ -1887,6 +1887,33 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
+        public int getTraySprings(int tray_id)
+        {
+            int ans = -1;
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Number_of_Springs FROM Tray_History WHERE Tray_ID=" + tray_id + "", con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                if(dt.Rows.Count==0)
+                {
+                    SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Number_of_Springs FROM Tray_Active WHERE Tray_ID=" + tray_id + "", con);
+                    sda2.Fill(dt);
+                }
+                if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not get tray springs (getTraySprings) \n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ans;
+        }
+        
         //Tray voucher
         public bool addTrayVoucher(DateTime dtinput_date, DateTime dttray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string machine_no)
         {
