@@ -176,6 +176,12 @@
     <Compile Include="M_I1_temp.Designer.cs">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_V3_cartonSalesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_V3_cartonSalesForm.Designer.cs">
+      <DependentUpon>M_V3_cartonSalesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V4_printBatchReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -371,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_I1_temp.resx">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V3_cartonSalesForm.resx">
+      <DependentUpon>M_V3_cartonSalesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V4_printBatchReport.resx">
       <DependentUpon>M_V4_printBatchReport.cs</DependentUpon>

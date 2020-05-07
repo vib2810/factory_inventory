@@ -42,13 +42,10 @@ namespace Factory_Inventory
             this.editQualityCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.editQualityCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
-
-        
-
         public void loadDatabase()
         {
             DataTable d = c.getQC('l');
-            userDataView.DataSource = d;
+            dataGridView1.DataSource = d;
             //Create drop-down lists
             var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
@@ -70,17 +67,16 @@ namespace Factory_Inventory
             this.editQualityCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.editQualityCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
-
-
         private void confirmButton_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                int row = userDataView.SelectedRows[0].Index;
+                int row = dataGridView1.SelectedRows[0].Index;
                 if (deleteUserCheckbox.Checked == true)
                 {
-                    c.deleteColour(userDataView.Rows[row].Cells[0].Value.ToString(), userDataView.Rows[row].Cells[1].Value.ToString());
+                    c.deleteColour(dataGridView1.Rows[row].Cells[0].Value.ToString(), dataGridView1.Rows[row].Cells[1].Value.ToString());
                 }
                 else
                 {
@@ -97,12 +93,12 @@ namespace Factory_Inventory
                     try
                     {
                         float.Parse(editDyeingRateTexbox.Text);
-                        c.editColour(editedQualityTextbox.Text, userDataView.Rows[row].Cells[0].Value.ToString(), float.Parse(editDyeingRateTexbox.Text), editQualityCombobox.SelectedItem.ToString(), userDataView.Rows[row].Cells[1].Value.ToString());
+                        c.editColour(editedQualityTextbox.Text, dataGridView1.Rows[row].Cells[0].Value.ToString(), float.Parse(editDyeingRateTexbox.Text), editQualityCombobox.SelectedItem.ToString(), dataGridView1.Rows[row].Cells[1].Value.ToString());
                     }
                     catch
                     {
                         MessageBox.Show("Please enter numeric dyeing rate value only", "Error");
-                        editDyeingRateTexbox.Text = userDataView.Rows[row].Cells[2].Value.ToString();
+                        editDyeingRateTexbox.Text = dataGridView1.Rows[row].Cells[2].Value.ToString();
                         return;
                     }
                 }
@@ -119,23 +115,19 @@ namespace Factory_Inventory
             }
             
         }
-
-
         private void userDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-
         private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex>=0 && e.ColumnIndex>=0)
             {
-                editedQualityTextbox.Text = userDataView.Rows[e.RowIndex].Cells[0].Value.ToString();
-                editDyeingRateTexbox.Text = userDataView.Rows[e.RowIndex].Cells[2].Value.ToString();
-                this.editQualityCombobox.SelectedIndex = this.editQualityCombobox.FindStringExact(userDataView.Rows[e.RowIndex].Cells[1].Value.ToString());
+                editedQualityTextbox.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                editDyeingRateTexbox.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                this.editQualityCombobox.SelectedIndex = this.editQualityCombobox.FindStringExact(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             }
         }
-
         private void addQualityButton_Click(object sender, EventArgs e)
         {
             if (c.isPresentInColour(newQualityTextbox.Text, addQualityCombobox.SelectedItem.ToString()) == true)
@@ -167,7 +159,6 @@ namespace Factory_Inventory
             loadDatabase();
 
         }
-
         private void userLabel_Click(object sender, EventArgs e)
         {
 

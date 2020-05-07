@@ -71,7 +71,7 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(383, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(485, 506);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellClick);
@@ -323,7 +323,7 @@
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.dataGridView1);
             this.Name = "editQuality";
-            this.Size = new System.Drawing.Size(619, 486);
+            this.Size = new System.Drawing.Size(721, 506);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -24,15 +24,11 @@ namespace Factory_Inventory
             this.edit_colour_code = "";
             this.add_colour_code = "";
         }
-
-        
-
         public void loadDatabase()
         {
             DataTable d = c.getQC('q');
             dataGridView1.DataSource = d;
         }
-
         private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex>=0)
@@ -47,10 +43,10 @@ namespace Factory_Inventory
                 {
                     editPickColourTB.BackColor = System.Drawing.ColorTranslator.FromHtml(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
                 }
+                this.edit_colour_code = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
                 editQualityBeforeTwistTB.Text = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
             }
         }
-
         private void addpickcolourButton_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
@@ -59,12 +55,12 @@ namespace Factory_Inventory
                 this.add_colour_code = this.colorDialog1.Color.Name;
             }
         }
-
         private void confirmButton_Click_1(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
+                if (dataGridView1.SelectedRows.Count <= 0) return;
                 int row = dataGridView1.SelectedRows[0].Index;
                 if (deleteUserCheckboxCK.Checked == true)
                 {
@@ -92,7 +88,6 @@ namespace Factory_Inventory
             {
             }
         }
-
         private void addQualityButton_Click_1(object sender, EventArgs e)
         {
             if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.add_colour_code == "" || addQualityBeforeTwistTB.Text == "")
@@ -107,7 +102,6 @@ namespace Factory_Inventory
             this.addQualityBeforeTwistTB.Text = "";
             loadDatabase();
         }
-
         private void editpickcolourButton_Click(object sender, EventArgs e)
         {
             if(colorDialog1.ShowDialog()==DialogResult.OK)

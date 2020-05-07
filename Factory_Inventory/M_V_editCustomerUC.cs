@@ -15,31 +15,27 @@ namespace Factory_Inventory
     {
         private DbConnect c;
         public string currentUser;
-        //private int selectedRowIndex = -1;
         public editCustomer()
         {
             InitializeComponent();
             this.c = new DbConnect();
         }
-
-        
-
         public void loadDatabase()
         {
             DataTable d = c.getQC('C');
-            userDataView.DataSource = d;
+            dataGridView1.DataSource = d;
         }
-
-
         private void confirmButton_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                int row = userDataView.SelectedRows[0].Index;
+                int row = dataGridView1.SelectedRows[0].Index;
                 if (deleteUserCheckbox.Checked == true)
                 {
-                    c.deleteCustomer(userDataView.Rows[row].Cells[0].Value.ToString(), "Customers");
+                    c.deleteCustomer(dataGridView1.Rows[row].Cells[0].Value.ToString(), "Customers");
                 }
                 else
                 {
@@ -48,7 +44,7 @@ namespace Factory_Inventory
                         MessageBox.Show("Enter all the values", "Error");
                         return;
                     }
-                    c.editCustomer(editedQualityTextbox.Text, editGSTINTextbox.Text, editAddressTextbox.Text, userDataView.Rows[row].Cells[0].Value.ToString(), "Customers");
+                    c.editCustomer(editedQualityTextbox.Text, editGSTINTextbox.Text, editAddressTextbox.Text, dataGridView1.Rows[row].Cells[0].Value.ToString(), "Customers");
                 }
                 //this.selectedRowIndex = -1;
                 this.editedQualityTextbox.Text = "";
@@ -62,22 +58,19 @@ namespace Factory_Inventory
             }
             
         }
-
         private void userDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-
         private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex>=0)
             {
-                editedQualityTextbox.Text = userDataView.Rows[e.RowIndex].Cells[0].Value.ToString();
-                editGSTINTextbox.Text = userDataView.Rows[e.RowIndex].Cells[1].Value.ToString();
-                editAddressTextbox.Text = userDataView.Rows[e.RowIndex].Cells[2].Value.ToString();
+                editedQualityTextbox.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                editGSTINTextbox.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                editAddressTextbox.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
             }
         }
-
         private void addQualityButton_Click(object sender, EventArgs e)
         {
             if (newQualityTextbox.Text == "" || addGSTINTextbox.Text == "" || addAddressTextbox.Text == "")
@@ -92,7 +85,6 @@ namespace Factory_Inventory
             loadDatabase();
 
         }
-
         private void userLabel_Click(object sender, EventArgs e)
         {
 

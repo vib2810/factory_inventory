@@ -48,7 +48,7 @@
             // 
             // editQualityButton
             // 
-            this.editQualityButton.Location = new System.Drawing.Point(649, 48);
+            this.editQualityButton.Location = new System.Drawing.Point(757, 48);
             this.editQualityButton.Name = "editQualityButton";
             this.editQualityButton.Size = new System.Drawing.Size(99, 29);
             this.editQualityButton.TabIndex = 1;
@@ -58,7 +58,7 @@
             // 
             // editCNameButton
             // 
-            this.editCNameButton.Location = new System.Drawing.Point(649, 95);
+            this.editCNameButton.Location = new System.Drawing.Point(757, 95);
             this.editCNameButton.Name = "editCNameButton";
             this.editCNameButton.Size = new System.Drawing.Size(99, 48);
             this.editCNameButton.TabIndex = 2;
@@ -68,7 +68,7 @@
             // 
             // customerButton
             // 
-            this.customerButton.Location = new System.Drawing.Point(649, 158);
+            this.customerButton.Location = new System.Drawing.Point(757, 158);
             this.customerButton.Name = "customerButton";
             this.customerButton.Size = new System.Drawing.Size(99, 29);
             this.customerButton.TabIndex = 5;
@@ -78,7 +78,7 @@
             // 
             // springButton
             // 
-            this.springButton.Location = new System.Drawing.Point(649, 203);
+            this.springButton.Location = new System.Drawing.Point(757, 203);
             this.springButton.Name = "springButton";
             this.springButton.Size = new System.Drawing.Size(99, 29);
             this.springButton.TabIndex = 7;
@@ -88,36 +88,36 @@
             // 
             // editCustomer1
             // 
-            this.editCustomer1.Location = new System.Drawing.Point(0, -1);
+            this.editCustomer1.Location = new System.Drawing.Point(0, 5);
             this.editCustomer1.Name = "editCustomer1";
-            this.editCustomer1.Size = new System.Drawing.Size(619, 393);
+            this.editCustomer1.Size = new System.Drawing.Size(721, 506);
             this.editCustomer1.TabIndex = 6;
             // 
             // editCompany1
             // 
-            this.editCompany1.Location = new System.Drawing.Point(0, -1);
+            this.editCompany1.Location = new System.Drawing.Point(0, 5);
             this.editCompany1.Name = "editCompany1";
-            this.editCompany1.Size = new System.Drawing.Size(619, 393);
+            this.editCompany1.Size = new System.Drawing.Size(721, 506);
             this.editCompany1.TabIndex = 4;
             // 
             // editQuality1
             // 
-            this.editQuality1.Location = new System.Drawing.Point(0, -1);
+            this.editQuality1.Location = new System.Drawing.Point(0, 5);
             this.editQuality1.Name = "editQuality1";
-            this.editQuality1.Size = new System.Drawing.Size(628, 486);
+            this.editQuality1.Size = new System.Drawing.Size(721, 506);
             this.editQuality1.TabIndex = 3;
             this.editQuality1.Load += new System.EventHandler(this.editQuality1_Load);
             // 
             // editSpring1
             // 
-            this.editSpring1.Location = new System.Drawing.Point(0, -1);
+            this.editSpring1.Location = new System.Drawing.Point(0, 5);
             this.editSpring1.Name = "editSpring1";
-            this.editSpring1.Size = new System.Drawing.Size(619, 393);
+            this.editSpring1.Size = new System.Drawing.Size(721, 506);
             this.editSpring1.TabIndex = 8;
             // 
             // dyeingCompanyButton
             // 
-            this.dyeingCompanyButton.Location = new System.Drawing.Point(649, 295);
+            this.dyeingCompanyButton.Location = new System.Drawing.Point(757, 295);
             this.dyeingCompanyButton.Name = "dyeingCompanyButton";
             this.dyeingCompanyButton.Size = new System.Drawing.Size(99, 48);
             this.dyeingCompanyButton.TabIndex = 9;
@@ -127,7 +127,7 @@
             // 
             // colourButton
             // 
-            this.colourButton.Location = new System.Drawing.Point(649, 248);
+            this.colourButton.Location = new System.Drawing.Point(757, 248);
             this.colourButton.Name = "colourButton";
             this.colourButton.Size = new System.Drawing.Size(99, 29);
             this.colourButton.TabIndex = 10;
@@ -137,28 +137,28 @@
             // 
             // editColour1
             // 
-            this.editColour1.Location = new System.Drawing.Point(0, -1);
+            this.editColour1.Location = new System.Drawing.Point(0, 5);
             this.editColour1.Name = "editColour1";
-            this.editColour1.Size = new System.Drawing.Size(619, 393);
+            this.editColour1.Size = new System.Drawing.Size(721, 506);
             this.editColour1.TabIndex = 11;
             // 
             // editDyeingCompany1
             // 
-            this.editDyeingCompany1.Location = new System.Drawing.Point(0, -1);
+            this.editDyeingCompany1.Location = new System.Drawing.Point(0, 5);
             this.editDyeingCompany1.Name = "editDyeingCompany1";
-            this.editDyeingCompany1.Size = new System.Drawing.Size(619, 393);
+            this.editDyeingCompany1.Size = new System.Drawing.Size(721, 506);
             this.editDyeingCompany1.TabIndex = 12;
             // 
             // editCone1
             // 
-            this.editCone1.Location = new System.Drawing.Point(0, -1);
+            this.editCone1.Location = new System.Drawing.Point(0, 5);
             this.editCone1.Name = "editCone1";
-            this.editCone1.Size = new System.Drawing.Size(619, 393);
+            this.editCone1.Size = new System.Drawing.Size(721, 506);
             this.editCone1.TabIndex = 13;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(649, 362);
+            this.button1.Location = new System.Drawing.Point(757, 362);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(99, 29);
             this.button1.TabIndex = 14;
@@ -170,7 +170,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(644, 9);
+            this.label1.Location = new System.Drawing.Point(752, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 25);
             this.label1.TabIndex = 15;
@@ -180,7 +180,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 503);
+            this.ClientSize = new System.Drawing.Size(881, 503);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.editCone1);

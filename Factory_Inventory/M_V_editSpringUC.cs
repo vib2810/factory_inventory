@@ -21,18 +21,14 @@ namespace Factory_Inventory
             InitializeComponent();
             this.c = new DbConnect();
         }
-
-        
-
         public void loadDatabase()
         {
             DataTable d = c.getQC('s');
             userDataView.DataSource = d;
         }
-
-
         private void confirmButton_Click(object sender, EventArgs e)
         {
+            if (userDataView.SelectedRows.Count <= 0) return;
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -71,12 +67,10 @@ namespace Factory_Inventory
             }
             
         }
-
         private void userDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-
         private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex>=0)
@@ -86,7 +80,6 @@ namespace Factory_Inventory
             }
             
         }
-
         private void addQualityButton_Click(object sender, EventArgs e)
         {
 
@@ -111,17 +104,14 @@ namespace Factory_Inventory
             loadDatabase();
 
         }
-
         private void userLabel_Click(object sender, EventArgs e)
         {
 
         }
-
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         private void label3_Click(object sender, EventArgs e)
         {
 

@@ -719,7 +719,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Quality SET Quality='" + quality_after_twist + "', HSN_No='" + hsn_no+ "', Print_Colour='"+print_colour+"', Quality_Before_Twist='"+name+"' WHERE Quality= '" + quality_after_twist + "'";
+                string sql = "UPDATE Quality SET Quality='" + quality_after_twist + "', HSN_No='" + hsn_no+ "', Print_Colour='"+print_colour+"', Quality_Before_Twist='"+name+"' WHERE Quality= '" + oldname + "'";
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }

@@ -28,7 +28,7 @@ namespace Factory_Inventory
         int printed_pages=0;
         Color selected_color = Color.SeaGreen;
         Color printed_color= Color.LawnGreen;
-
+        float net_carton_wt = 0;
         public M_V4_printBatchReport()
         {
             InitializeComponent();
@@ -219,6 +219,7 @@ namespace Factory_Inventory
                 for(int j=0; j<10; j++)
                     dt4.Rows.Add(j + i*j+ 1, carton_nos[i], carton["Number_Of_Cones"], float.Parse(carton["Gross_Weight"].ToString()).ToString("F3"), tare_wt, float.Parse(carton["Net_Weight"].ToString()).ToString("F3"), carton["Grade"]);
             }
+            this.net_carton_wt = float.Parse(voucher.Rows[0]["Net_Carton_Weight"].ToString());
             dt4.Rows.Add("", "Total Cones", total_cones, "", "Net Weight" , voucher.Rows[0]["Net_Carton_Weight"], "");
 
             dataGridView4.DataSource = this.dt4;
@@ -334,10 +335,10 @@ namespace Factory_Inventory
             batch_nos += dataGridView3.Rows[dataGridView3.Rows.Count-1].Cells[1].Value;
 
             int gap = 0;
-            write(e, (int)(0.00 * page_width)+lrmargin, write_height, (int)(0.15 * page_width), "Batch Numbers:", basic_size, 'l', 1, 0);
+            write(e, (int)(0.00 * page_width)+lrmargin, write_height, (int)(0.15 * page_width), "Batch Number(s):", basic_size, 'l', 1, 0);
             write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.60 * page_width), batch_nos, basic_size, 'l', 0, 1);
-            write(e, (int)(0.75 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), "Quality:", basic_size, 'r', 1, 0);
-            write_height += write(e, (int)(0.875 * page_width)+lrmargin, write_height, (int)(0.125 * page_width), qualityTB.Text, basic_size, 'l', 0, 1) + gap;
+            write(e, (int)(0.75 * page_width) + lrmargin, write_height, (int)(0.08 * page_width), "Quality:", basic_size, 'r', 1, 0);
+            write_height += write(e, (int)(0.83 * page_width)+lrmargin, write_height, (int)(0.17 * page_width), qualityTB.Text, basic_size, 'l', 0, 1) + gap;
             
             write(e, (int)(0.00 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Dyeing Company:", basic_size, 'l', 1, 0);
             write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.25 * page_width), dyeingCompanyTB.Text, basic_size, 'l', 0, 1);
@@ -347,10 +348,12 @@ namespace Factory_Inventory
             write_height+= write(e, (int)(0.875 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), springTB.Text, basic_size, 'l', 0, 1)+gap;
 
             write(e, (int)(0.00 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Date of Production:", basic_size, 'l', 1, 0);
-            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.25 * page_width), dopTB.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.40 * page_width) + lrmargin, write_height, (int)(0.20 * page_width), "Combined Batch Wt:", basic_size, 'r', 1, 0);
-            write(e, (int)(0.60 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), batchwtTB.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.75 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), "Oil Gain(%)", basic_size, 'r', 1, 0);
+            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), dopTB.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.25 * page_width) + lrmargin, write_height, (int)(0.18 * page_width), "Combined Batch Wt:", basic_size, 'r', 1, 0);
+            write(e, (int)(0.43 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), batchwtTB.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.53 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Weight Gain(kg):", basic_size, 'r', 1, 0);
+            write(e, (int)(0.68 * page_width) + lrmargin, write_height, (int)(0.095 * page_width), (this.net_carton_wt- float.Parse(batchwtTB.Text)).ToString("F3") , basic_size, 'l', 0, 1);
+            write(e, (int)(0.775 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), "Oil Gain(%)", basic_size, 'r', 1, 0);
             write_height += write(e, (int)(0.875 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), oilgainTB.Text, basic_size, 'l', 0, 1) + gap;
             write_height += 3;
 

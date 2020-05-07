@@ -434,7 +434,7 @@ namespace Factory_Inventory
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "GRADE:", basic_size, 'l', 1, 0);
             write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Grade"].ToString(), basic_size, 'l', 0, 1) + gap;
 
-            string tare_wt = (float.Parse(carton_data["Carton_Weight"].ToString()) + int.Parse(carton_data["Number_Of_Cones"].ToString()) * float.Parse(carton_data["Cone_Weight"].ToString()) * 0.001F).ToString("F3");
+            string tare_wt = (float.Parse(carton_data["Carton_Weight"].ToString()) + int.Parse(carton_data["Number_Of_Cones"].ToString()) * float.Parse(carton_data["Cone_Weight"].ToString())).ToString("F3");
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "TARE WT:", basic_size, 'l', 1, 0);
             write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), tare_wt, basic_size, 'l', 0, 1)+gap;
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "SHADE:", basic_size, 'l', 1, 0);
@@ -442,7 +442,7 @@ namespace Factory_Inventory
 
             string[] batches = c.csvToArray(carton_data["Batch_No_Arr"].ToString());
             string batch_nos = "";
-            for (int i = 0; i < batches.Length; i++) batch_nos += batches[i] + ", ";
+            for (int i = 0; i < batches.Length-1; i++) batch_nos += batches[i] + ", ";
             batch_nos += batches[batches.Length - 1];
             
             write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "NET WT:", basic_size, 'l', 1, 0);
@@ -472,6 +472,7 @@ namespace Factory_Inventory
             //write_height += write(e, x + (int)(0.70 * width), write_height, (int)(0.25 * width), carton_data["Batch_No_Arr"].ToString(), basic_size, 'l', 0, 1)+gap;
             Color color = c.getQualityColour(carton_data["Quality"].ToString());
             Brush brush = new SolidBrush(color);
+            e.Graphics.DrawRectangle(Pens.Black, x + (int)(0.25 * width), y + height - 100, (int)(0.5 * width), 60);
             e.Graphics.FillRectangle(brush, x+ (int)(0.25 * width), y + height - 100, (int)(0.5*width), 60);
             return 0;
         }
