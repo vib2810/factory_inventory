@@ -470,8 +470,9 @@ namespace Factory_Inventory
             //write(e, x + (int)(0.20 * width), write_height, (int)(0.25 * width), float.Parse(carton_data["Net_Weight"].ToString()).ToString("F3"), basic_size, 'l', 0, 1);
             //write(e, x + (int)(0.45 * width), write_height, (int)(0.25 * width), "BATCH NO:", basic_size, 'r', 1, 0);
             //write_height += write(e, x + (int)(0.70 * width), write_height, (int)(0.25 * width), carton_data["Batch_No_Arr"].ToString(), basic_size, 'l', 0, 1)+gap;
-
-
+            Color color = c.getQualityColour(carton_data["Quality"].ToString());
+            Brush brush = new SolidBrush(color);
+            e.Graphics.FillRectangle(brush, x+ (int)(0.25 * width), y + height - 100, (int)(0.5*width), 60);
             return 0;
         }
         int drawDGV(int write_height, System.Drawing.Printing.PrintPageEventArgs e)
