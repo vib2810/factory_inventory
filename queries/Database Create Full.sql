@@ -1,7 +1,9 @@
-use FactoryData
-/* Carton */
+--create database FactoryInventory
 
-/*Carton Table: 12 Columns*/
+use FactoryInventory
+--/* Carton */
+
+--/*Carton Table: 12 Columns*/
 --CREATE TABLE Carton (
 --	Carton_No varchar(20) NOT NULL,
 --	Carton_State int NOT NULL,
@@ -46,7 +48,7 @@ use FactoryData
 --)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 --GO
 
---/*Carton Voucher Table: 12 columns*/
+/*Carton Voucher Table: 12 columns*/
 --CREATE TABLE Carton_Voucher (
 --	Voucher_ID int NOT NULL Identity(1,1),
 --	Date_Of_Input date NOT NULL,
@@ -79,8 +81,8 @@ use FactoryData
 
 --/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
---/*Twist Voucher*/
---/*Twist Voucher Table: 6 columns*/
+/*Twist Voucher*/
+/*Twist Voucher Table: 6 columns*/
 --CREATE TABLE Twist_Voucher(
 --	Voucher_ID int NOT NULL Identity(1,1) Primary Key,
 --	Date_Of_Input date NOT NULL,
@@ -110,8 +112,8 @@ use FactoryData
 --/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
---/*Sales Voucher*/
---/*Sales Voucher Table: 8 columns*/
+/*Sales Voucher*/
+/*Sales Voucher Table: 8 columns*/
 --CREATE TABLE Sales_Voucher(
 --	Voucher_ID int NOT NULL Identity(1,1) Primary Key,
 --	Date_Of_Input date NOT NULL,
@@ -315,10 +317,10 @@ use FactoryData
 
 --/* Batch */
 --/*14 columns*/
-/* State 1: Produced. In dyeing
-   State 2: Recieved from dyeing. Waiting for production
-   State 3: Produced. Waiting for sale
-*/
+--/* State 1: Produced. In dyeing
+--   State 2: Recieved from dyeing. Waiting for production
+--   State 3: Produced. Waiting for sale
+--*/
 --CREATE TABLE Batch (
 --	Batch_No int NOT NULL,
 --	Colour varchar(20) NOT NULL,
@@ -406,7 +408,7 @@ use FactoryData
 --/* Bill Numbers Voucher: 5 columns*/
 --CREATE TABLE BillNos_Voucher
 --(
---	Voucher_ID int NULL Primary Key Identity(1,1),
+--	Voucher_ID int NOT NULL Primary Key Identity(1,1),
 --	Date_Of_Input date NOT NULL,
 --	Batch_No_Arr text NOT NULL,
 --	Dyeing_Company_Name varchar(50) NOT NULL,
@@ -438,69 +440,72 @@ use FactoryData
 --GO
 
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+--/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/*Carton Production Voucher */
-/* Carton Production Voucher :  13 columns*/
-create table Carton_Production_Voucher
-(
-	Voucher_ID int NOT NULL Primary Key Identity(1,1),
-	Date_Of_Input date NOT NULL,
-	Colour varchar(20) NOT NULL,
-	Quality varchar(20) NOT NULL,
-	Dyeing_Company_Name varchar(50) NOT NULL,
-	Batch_No_Arr text NOT NULL,
-	Carton_No_Production_Arr text NULL,
-	Fiscal_Year varchar(20) NOT NULL,
-	Net_Batch_Weight decimal(8,3) NOT NULL,
-	Net_Carton_Weight decimal(8,3) NOT NULL,
-	Oil_Gain decimal(5,2) NOT NULL,
-	Voucher_Closed tinyint NOT NULL,
-	Carton_Fiscal_Year varchar(20) NOT NULL,
-	Cone_Weight decimal(5,3) NOT NULL,
-	Date_Of_Production date NULL,
-	Grades_Arr text NOT NULL
-);
+--/*Carton Production Voucher */
+--/* Carton Production Voucher :  13 columns*/
+--create table Carton_Production_Voucher
+--(
+--	Voucher_ID int NOT NULL Primary Key Identity(1,1),
+--	Date_Of_Input date NOT NULL,
+--	Colour varchar(20) NOT NULL,
+--	Quality varchar(20) NOT NULL,
+--	Dyeing_Company_Name varchar(50) NOT NULL,
+--	Batch_No_Arr text NOT NULL,
+--	Carton_No_Production_Arr text NULL,
+--	Fiscal_Year varchar(20) NOT NULL,
+--	Net_Batch_Weight decimal(8,3) NOT NULL,
+--	Net_Carton_Weight decimal(8,3) NOT NULL,
+--	Oil_Gain decimal(5,2) NOT NULL,
+--	Voucher_Closed tinyint NOT NULL,
+--	Carton_Fiscal_Year varchar(20) NOT NULL,
+--	Cone_Weight decimal(5,3) NOT NULL,
+--	Date_Of_Production date NULL,
+--	Grades_Arr text NOT NULL,
+--	Batch_Fiscal_Year_Arr text NOT NULL
+--);
 
-GO
-CREATE NONCLUSTERED INDEX [Voucher_ID] ON [dbo].[Carton_Production_Voucher]
-(
-	[Voucher_ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-GO
+--GO
+--CREATE NONCLUSTERED INDEX [Voucher_ID] ON [dbo].[Carton_Production_Voucher]
+--(
+--	[Voucher_ID] ASC
+--)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+--GO
 
-/* Carton Produced :  19 columns*/
-CREATE TABLE Carton_Produced
-(
-	Carton_No varchar(20) NOT NULL,
-	Carton_State int NOT NULL,
-	Date_Of_Production date NOT NULL,
-	Quality varchar(20) NOT NULL,
-	Colour varchar(20) NOT NULL,
-	Batch_No_Arr text NOT NULL,
-	Dyeing_Company_Name varchar(50) NOT NULL,
-	Carton_Weight decimal(7,3) NOT NULL,
-	Number_Of_Cones int NOT NULL,
-	Cone_Weight decimal(6,3) NOT NULL,
-	Gross_Weight decimal(7,3) NOT NULL,
-	Net_Weight decimal(7,3) NOT NULL,
-	Sale_Rate decimal(7,3) NULL,
-	Sale_Bill_Date date NULL,
-	Sale_Bill_No varchar(20) NULL,
-	Sale_DO_No varchar(10) NULL,
-	Sale_DO_Date date NULL,
-	Customer_Name varchar(50) NULL,
-	Fiscal_Year varchar(15) NOT NULL,
-	Carton_Printed tinyint NULL,
-	Grade varchar(10) NOT NULL;
-);
+--/* Carton Produced :  19 columns*/
+--CREATE TABLE Carton_Produced
+--(
+--	Carton_No varchar(20) NOT NULL,
+--	Carton_State int NOT NULL,
+--	Date_Of_Production date NOT NULL,
+--	Quality varchar(20) NOT NULL,
+--	Colour varchar(20) NOT NULL,
+--	Batch_No_Arr text NOT NULL,
+--	Dyeing_Company_Name varchar(50) NOT NULL,
+--	Carton_Weight decimal(7,3) NOT NULL,
+--	Number_Of_Cones int NOT NULL,
+--	Cone_Weight decimal(6,3) NOT NULL,
+--	Gross_Weight decimal(7,3) NOT NULL,
+--	Net_Weight decimal(7,3) NOT NULL,
+--	Sale_Rate decimal(7,3) NULL,
+--	Sale_Bill_Date date NULL,
+--	Sale_Bill_No varchar(20) NULL,
+--	Sale_DO_No varchar(10) NULL,
+--	Sale_DO_Date date NULL,
+--	Customer_Name varchar(50) NULL,
+--	Fiscal_Year varchar(15) NOT NULL,
+--	Carton_Printed tinyint NULL,
+--	Grade varchar(10) NOT NULL,
+--	Date_Of_Sale date NULL,
+--  Batch_Fiscal_Year_Arr text NOT NULL
+--);
 
 
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+--/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/* Utility Tables*/
-/* Colours Table: 3 columns*/
+--/* Utility Tables*/
+--/* Colours Table: 3 columns*/
 --CREATE TABLE Colours (
 --	Colours varchar(20) NOT NULL,
 --	Quality varchar(20) NOT NULL,
@@ -522,8 +527,8 @@ CREATE TABLE Carton_Produced
 --/* Customers Table: 1 column*/
 --CREATE TABLE Dyeing_Company_Names(
 --	Dyeing_Company_Names varchar(40) NOT NULL,
---  GSTIN varchar(50)  NOT NULL;
---  Customer_Address varchar(150) NOT NULL;
+--  GSTIN varchar(50)  NOT NULL,
+--  Customer_Address varchar(150) NOT NULL
 --);
 
 --/* Quality: 1 column*/

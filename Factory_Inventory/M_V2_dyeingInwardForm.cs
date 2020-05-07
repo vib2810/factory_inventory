@@ -554,19 +554,7 @@ namespace Factory_Inventory
                 MessageBox.Show("Enter Bill Number", "Error");
                 return;
             }
-            if(billcheckBoxCK.Checked==false)
-            {
-                try
-                {
-                    int.Parse(billNumberTextboxTB.Text);
-                }
-                catch
-                {
-                    MessageBox.Show("Enter numeric Bill Number only", "Error");
-                    return;
-                }
-            }
-            else
+            if(billcheckBoxCK.Checked==true)
             {
                 for(int i=0;i<dataGridView1.Rows.Count-1;i++)
                 {
@@ -617,7 +605,10 @@ namespace Factory_Inventory
                 else
                 {
                     batch_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
-                    slip_nos += dataGridView1.Rows[i].Cells[5].Value.ToString() + ",";
+                    if (this.billcheckBoxCK.Checked == true)
+                    {
+                        slip_nos += dataGridView1.Rows[i].Cells[5].Value.ToString() + ",";
+                    }
                     number++;
 
                     //to check for all different batch_nos
@@ -632,12 +623,12 @@ namespace Factory_Inventory
 
                 }
             }
-            int sendbill_no = -1;
+            string sendbill_no = "-1";
             string send_bill_date = null;
-            if (this.billcheckBoxCK.Checked == true) sendbill_no = 0;
+            if (this.billcheckBoxCK.Checked == true) sendbill_no = "0";
             else
             {
-                sendbill_no = int.Parse(billNumberTextboxTB.Text.ToString());
+                sendbill_no = billNumberTextboxTB.Text.ToString();
                 send_bill_date = billDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
                 slip_nos = "";
             }

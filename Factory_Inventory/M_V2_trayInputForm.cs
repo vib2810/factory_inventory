@@ -204,14 +204,14 @@ namespace Factory_Inventory
             this.dateTimePickerDTP.Value = Convert.ToDateTime(row["Tray_Production_Date"].ToString());
             this.trayNumberTB.Text = row["Tray_No"].ToString();
             this.springCB.SelectedIndex = this.springCB.FindStringExact(row["Spring"].ToString());
-            this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality_Before_Twist"].ToString());
+            this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality"].ToString());
             this.companyNameCB.SelectedIndex = this.companyNameCB.FindStringExact(row["Company_Name"].ToString());
             this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(row["Machine_No"].ToString());
             this.Voucher_ID = int.Parse(row["Voucher_ID"].ToString());
             this.numberOfSpringsTB.Text = row["Number_Of_Springs"].ToString();
             this.traytareTB.Text = row["Tray_Tare"].ToString();
             this.grossWeightTB.Text = row["Gross_Weight"].ToString();
-            this.qualityBeforeTwistTB.Text = row["Quality"].ToString();
+            this.qualityBeforeTwistTB.Text = row["Quality_Before_Twist"].ToString();
             this.old_tray_no = row["Tray_No"].ToString();
 
 
@@ -422,7 +422,7 @@ namespace Factory_Inventory
 
         private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.qualityCB.SelectedIndex!=0)
+            if(this.qualityCB.SelectedIndex>0)
             {
                 this.qualityBeforeTwistTB.Text = this.d1.Rows[this.qualityCB.SelectedIndex - 1]["Quality_Before_Twist"].ToString();
             }
