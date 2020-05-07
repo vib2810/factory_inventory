@@ -230,10 +230,13 @@ namespace Factory_Inventory
                     if(carton_state==2)
                     {
                         r.DefaultCellStyle.BackColor = Color.Gray;
+                        r.DefaultCellStyle.SelectionBackColor = Color.Gray;
+
                     }
                     else if(carton_state==3)
                     {
                         r.DefaultCellStyle.BackColor = Color.Green;
+                        r.DefaultCellStyle.SelectionBackColor = Color.Green;
                     }
                 }
             }
@@ -656,7 +659,6 @@ namespace Factory_Inventory
 
             this.billDateDTP.Focus();
         }
-
         private void lockCartonsCK_CheckedChanged(object sender, EventArgs e)
         {
             if(this.lockCartonsCK.Checked==true)

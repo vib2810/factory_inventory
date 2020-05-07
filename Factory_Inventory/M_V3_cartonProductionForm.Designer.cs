@@ -63,7 +63,6 @@
             this.oilGainTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.oilGainButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -182,6 +181,7 @@
             this.batchnwtTextbox.Size = new System.Drawing.Size(221, 27);
             this.batchnwtTextbox.TabIndex = 0;
             this.batchnwtTextbox.TabStop = false;
+            this.batchnwtTextbox.TextChanged += new System.EventHandler(this.batchnwtTextbox_TextChanged);
             // 
             // label5
             // 
@@ -286,7 +286,6 @@
             this.closedCheckboxCK.TabStop = false;
             this.closedCheckboxCK.Text = "Close Batches?";
             this.closedCheckboxCK.UseVisualStyleBackColor = true;
-            this.closedCheckboxCK.CheckedChanged += new System.EventHandler(this.closedCheckbox_CheckedChanged);
             // 
             // label8
             // 
@@ -326,6 +325,7 @@
             this.cartonweight.Size = new System.Drawing.Size(221, 27);
             this.cartonweight.TabIndex = 0;
             this.cartonweight.TabStop = false;
+            this.cartonweight.TextChanged += new System.EventHandler(this.cartonweight_TextChanged);
             // 
             // label13
             // 
@@ -384,22 +384,11 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "%";
             // 
-            // oilGainButton
-            // 
-            this.oilGainButton.Location = new System.Drawing.Point(350, 666);
-            this.oilGainButton.Name = "oilGainButton";
-            this.oilGainButton.Size = new System.Drawing.Size(144, 24);
-            this.oilGainButton.TabIndex = 17;
-            this.oilGainButton.Text = "Calculate Oil Gain";
-            this.oilGainButton.UseVisualStyleBackColor = true;
-            this.oilGainButton.Click += new System.EventHandler(this.oilGainButton_Click);
-            // 
             // M_V3_cartonProductionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1232, 702);
-            this.Controls.Add(this.oilGainButton);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.oilGainTextbox);
             this.Controls.Add(this.label1);
@@ -477,6 +466,5 @@
         private System.Windows.Forms.TextBox oilGainTextbox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button oilGainButton;
     }
 }

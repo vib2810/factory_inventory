@@ -203,10 +203,37 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns["Voucher_ID"].Visible = false;
+                if (this.vno == 8 && dataGridView1.Rows.Count >= 1)
+                {
+                    if (dataGridView1.Rows[0].Cells[10].Value.ToString() == "1")
+                    {
+                        this.editDetailsButton.Enabled = false;
+                    }
+                    else
+                    {
+                        this.editDetailsButton.Enabled = true;
+                    }
+                }
             }
 
 
         }
 
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if(this.vno==8 && dataGridView1.CurrentRow.Index>=0)
+            {
+                Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
+                if(dataGridView1.CurrentRow.Cells[10].Value.ToString()=="1")
+                {
+                    this.editDetailsButton.Enabled = false;
+                }
+                else
+                {
+                    this.editDetailsButton.Enabled = true;
+                }
+            }
+           
+        }
     }
 }
