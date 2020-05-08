@@ -67,14 +67,14 @@ namespace Factory_Inventory
 
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 if (deleteUserCheckbox.Checked == true)
                 {
                     if (this.currentUser == usernameTextbox.Text)
                     {
-                        MessageBox.Show("Cannot delete self user", "Error");
+                        c.ErrorBox("Cannot delete self user", "Error");
                     }
                     else
                     {
@@ -85,14 +85,14 @@ namespace Factory_Inventory
                 {
                     if (passwordTextbox.Text != conformPasswordTextbox.Text)
                     {
-                        MessageBox.Show("Passwords Do Not Match", "Error");
+                        c.ErrorBox("Passwords Do Not Match", "Error");
                         return;
                     }
                     else
                     {
                        if(this.comboBox1.SelectedIndex==0)
                         {
-                            MessageBox.Show("Access Level Cannot be left empty","Error");
+                            c.ErrorBox("Access Level Cannot be left empty", "Error");
                             return;
                         }
                        else

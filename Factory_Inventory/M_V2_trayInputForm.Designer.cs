@@ -56,6 +56,9 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.qualityBeforeTwistTB = new System.Windows.Forms.TextBox();
+            this.springWeightTB = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label2
@@ -294,11 +297,41 @@
             this.qualityBeforeTwistTB.TabIndex = 0;
             this.qualityBeforeTwistTB.TabStop = false;
             // 
+            // springWeightTB
+            // 
+            this.springWeightTB.Enabled = false;
+            this.springWeightTB.Location = new System.Drawing.Point(505, 141);
+            this.springWeightTB.Name = "springWeightTB";
+            this.springWeightTB.Size = new System.Drawing.Size(122, 22);
+            this.springWeightTB.TabIndex = 0;
+            this.springWeightTB.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(502, 119);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(97, 17);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Spring Weight";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(628, 144);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(16, 17);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "g";
+            // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.springWeightTB);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.qualityBeforeTwistTB);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.machineNoCB);
@@ -362,5 +395,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox qualityBeforeTwistTB;
+        private System.Windows.Forms.TextBox springWeightTB;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
     }
 }

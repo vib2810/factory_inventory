@@ -1,4 +1,5 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Microsoft.SqlServer.Management.SqlParser.Parser;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,6 +33,30 @@ namespace Factory_Inventory
                     .Any(x => x.ColumnIndex == 1))
             {
                 SendKeys.Send("{Enter}");
+                return false;
+            }
+
+            if(keyData == Keys.F2)
+            {
+                Console.WriteLine("dgv1");
+                this.dataGridView1.Focus();
+                this.ActiveControl = dataGridView1;
+                this.dataGridView1.CurrentCell = dataGridView1[2, 0];
+                return false;
+            }
+            if(keyData==Keys.F3)
+            {
+                Console.WriteLine("cb");
+                this.coneComboboxCB.Focus();
+                this.ActiveControl = coneComboboxCB;
+                return false;
+            }
+            if (keyData == Keys.F1)
+            {
+                Console.WriteLine("dgv2");
+                this.dataGridView2.Focus();
+                this.ActiveControl = dataGridView2;
+                this.dataGridView2.CurrentCell = dataGridView2[1, 0];
                 return false;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -170,8 +195,10 @@ namespace Factory_Inventory
             dataGridView2.Columns[0].Width = 50;
             dataGridView2.Columns[1].Width = 150;
             dataGridView2.Columns.Add("Weight", "Weight");
-        }
 
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
+        }
         public M_V3_cartonProductionForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
 
@@ -419,7 +446,10 @@ namespace Factory_Inventory
 
             //highest carton number;
             this.highest_carton_no = c.getNextBatchNumber("Highest_Carton_Production_No", this.financialYearComboboxCB.Text);
+            Console.WriteLine("Constructor: "+this.highest_carton_no.ToString());
 
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
         }
         public void disable_form_edit()
@@ -427,6 +457,8 @@ namespace Factory_Inventory
             this.inputDate.Enabled = false;
             this.loadDataButton.Enabled = false;
             this.saveButton.Enabled = false;
+            this.dataGridView1.Enabled = false;
+            this.dataGridView2.Enabled = false;
             this.dataGridView1.ReadOnly = true;
             this.dataGridView2.ReadOnly = true;
             this.qualityComboboxCB.Enabled = false;
@@ -451,7 +483,7 @@ namespace Factory_Inventory
                         }
                         if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
                         {
-                            MessageBox.Show("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
+                            c.ErrorBox("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
                             dataGridView2.Rows[j].Cells[1].Value = "";
                             dataGridView2.Rows[j].Cells[2].Value = "";
                             return;
@@ -524,9 +556,7 @@ namespace Factory_Inventory
                 //    SendKeys.Send("{tab}");
                 //    return;
                 //}
-                Console.WriteLine("Row number: " + rowindex_tab);
-                Console.WriteLine("Total Rows: " + dataGridView1.Rows.Count);
-                if(dataGridView1.Rows.Count-2==rowindex_tab)
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
@@ -542,13 +572,15 @@ namespace Factory_Inventory
                 }
                 if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
                 {
-                    dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no++;
+                    Console.WriteLine("gere");
+                    dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no;
+                    Console.WriteLine(this.highest_carton_no);
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) &&  this.edit_form==false)
+                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
-                if(c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
+                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[3].Value = dataGridView1.Rows[rowindex_tab].Cells[3].Value;
                 }
@@ -576,8 +608,6 @@ namespace Factory_Inventory
                 //    SendKeys.Send("{tab}");
                 //    return;
                 //}
-                Console.WriteLine("Row number: " + rowindex_tab);
-                Console.WriteLine("Total Rows: " + dataGridView1.Rows.Count);
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
@@ -611,7 +641,7 @@ namespace Factory_Inventory
                 SendKeys.Send("{tab}");
                 SendKeys.Send("{tab}");
             }
-            if (e.KeyCode==Keys.Enter && dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1))
+            if (e.KeyCode == Keys.Enter && dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1))
             {
                 try
                 {
@@ -643,23 +673,31 @@ namespace Factory_Inventory
                 }
 
             }
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 3) || this.edit_cmd_send == true))
+            {
+                dataGridView1.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView1.EditingControl;
+                c.DroppedDown = true;
+                e.Handled = true;
+            }
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
             if (coneComboboxCB.SelectedIndex == 0)
             {
-                MessageBox.Show("Select Cone Weight", "Error");
+                c.ErrorBox("Select Cone Weight", "Error");
                 return;
             }
             if (dataGridView1.Rows[0].Cells[1].Value==null)
             {
-                MessageBox.Show("Please enter values", "Error");
+                c.ErrorBox("Please enter values", "Error");
                 return;
             }
             if ((float.Parse(cartonweight.Text) - float.Parse(batchnwtTextbox.Text) < 0F) && closedCheckboxCK.Checked==true)
             {
-                MessageBox.Show("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
+                c.ErrorBox("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
                 return;
             }
 
@@ -686,10 +724,10 @@ namespace Factory_Inventory
                 }
                 else if(sum!=6)
                 {
-                    MessageBox.Show("Missing values in " + (i + 1).ToString() + " row", "Error");
+                    c.ErrorBox("Missing values in " + (i + 1).ToString() + " row", "Error");
                     return;
                 }
-                ComboBox c = (ComboBox)dataGridView1.EditingControl;
+                ComboBox cbox = (ComboBox)dataGridView1.EditingControl;
                 if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "")
                 {
                     continue;
@@ -712,7 +750,7 @@ namespace Factory_Inventory
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        MessageBox.Show("Carton Nos repeated at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Carton Nos repeated at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
@@ -778,7 +816,7 @@ namespace Factory_Inventory
                     bool value2 = this.carton_editable.TryGetValue(carton_no, out value);
                     if (value2 == true && value == false)
                     {
-                        MessageBox.Show("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
+                        c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
                         dataGridView1.Rows[rowindex].Selected = false;
                         continue;
                     }
@@ -847,17 +885,17 @@ namespace Factory_Inventory
         {
             if (colourComboboxCB.SelectedIndex == 0)
             {
-                MessageBox.Show("Select Colour Number", "Error");
+                c.ErrorBox("Select Colour Number", "Error");
                 return;
             }
             if (qualityComboboxCB.SelectedIndex == 0)
             {
-                MessageBox.Show("Select Quality", "Error");
+                c.ErrorBox("Select Quality", "Error");
                 return;
             }
             if (dyeingCompanyComboboxCB.SelectedIndex == 0)
             {
-                MessageBox.Show("Select Dyeing Company Name", "Error");
+                c.ErrorBox("Select Dyeing Company Name", "Error");
                 return;
             }
             this.loadData();
@@ -914,7 +952,10 @@ namespace Factory_Inventory
             {
                 this.batch_nos.Add(batch_no_arr[i]);
             }
-            if (this.edit_form == false) MessageBox.Show("Loaded Data");
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded "+dt.Rows.Count.ToString()+" Batches");
+            }
         }
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -966,7 +1007,7 @@ namespace Factory_Inventory
                 }
                 catch
                 {
-                    MessageBox.Show("Please Enter Decimal Gross Weight");
+                    c.ErrorBox("Please Enter Decimal Gross Weight", "Error");
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Selected = true;
                     return;
@@ -980,7 +1021,7 @@ namespace Factory_Inventory
                 }
                 catch
                 {
-                    MessageBox.Show("Please Enter Decimal Carton Weight");
+                    c.ErrorBox("Please Enter Decimal Carton Weight", "Error");
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Selected = true;
                     return;
@@ -994,7 +1035,7 @@ namespace Factory_Inventory
                 }
                 catch
                 {
-                    MessageBox.Show("Please Enter Integer Number of Cones");
+                    c.ErrorBox("Please Enter Integer Number of Cones", "Error");
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Selected = true;
                     return;
@@ -1039,7 +1080,7 @@ namespace Factory_Inventory
             
             if(net_weight < 0)
             {
-                MessageBox.Show("Net Weight ("+net_weight.ToString()+") should be positive only. Please check your entries");
+                c.ErrorBox("Net Weight ("+net_weight.ToString()+") should be positive only. Please check your entries", "Error");
                 for(int i=3;i<=6;i++)
                 {
                     dataGridView1.Rows[row_index].Cells[i].Value = "";
@@ -1055,7 +1096,7 @@ namespace Factory_Inventory
             Console.WriteLine("dtp value chnager");
             if (this.financialYearComboboxCB.Text != c.getFinancialYear(dtp.Value))
             {
-                MessageBox.Show("Carton Production Date has to be of the same financial year as Entered", "Error");
+                c.ErrorBox("Carton Production Date has to be of the same financial year as Entered", "Error");
                 dtp.Value = DateTime.Today;
                 return;
             }
@@ -1130,12 +1171,12 @@ namespace Factory_Inventory
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (e.Control is DataGridViewComboBoxEditingControl)
-            {
-                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
-                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
-                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
-            }
+            //if (e.Control is DataGridViewComboBoxEditingControl)
+            //{
+            //    ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
+            //    ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
+            //    ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+            //}
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -1170,13 +1211,14 @@ namespace Factory_Inventory
         private void oilGainButton_Calculate()
         {
             float net_weight, batch_weight;
+            Console.WriteLine(batchnwtTextbox.Text);
             try
             {
                 batch_weight = float.Parse(batchnwtTextbox.Text);
             }
             catch
             {
-                MessageBox.Show("Incorrect Net Batch Weight", "Error");
+                oilGainTextbox.Text = "Incorrect Net Batch Weight";
                 return;
             }
             try
@@ -1185,12 +1227,12 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Incorrect Net Carton Weight", "Error");
+                oilGainTextbox.Text = "Incorrect Net Carton Weight";
                 return;
             }
             if(net_weight-batch_weight<0F)
             {
-                //MessageBox.Show("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
+                oilGainTextbox.Text = "Net Carton Wt < Net Batch Wt";
                 return;
             }
             oilGainTextbox.Text = ((net_weight - batch_weight) / batch_weight * 100F).ToString("F2");

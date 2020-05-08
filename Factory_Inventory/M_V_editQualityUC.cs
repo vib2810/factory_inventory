@@ -57,7 +57,7 @@ namespace Factory_Inventory
         }
         private void confirmButton_Click_1(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 if (dataGridView1.SelectedRows.Count <= 0) return;
@@ -70,7 +70,7 @@ namespace Factory_Inventory
                 {
                     if (editedQualityTextboxTB.Text == "" || editHSNNoTB.Text == "" || this.edit_colour_code == "" || editQualityBeforeTwistTB.Text == "")
                     {
-                        MessageBox.Show("Enter all values", "Error");
+                        c.ErrorBox("Enter all values", "Error");
                         return;
                     }
                     c.editQuality(editQualityBeforeTwistTB.Text, editHSNNoTB.Text, this.edit_colour_code, editedQualityTextboxTB.Text, dataGridView1.Rows[row].Cells[0].Value.ToString());
@@ -92,7 +92,7 @@ namespace Factory_Inventory
         {
             if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.add_colour_code == "" || addQualityBeforeTwistTB.Text == "")
             {
-                MessageBox.Show("Enter all values", "Error");
+                c.ErrorBox("Enter all values", "Error");
                 return;
             }
             c.addQuality(addQualityBeforeTwistTB.Text, addHSNNoTB.Text, this.add_colour_code, this.newQualityTextboxTB.Text); 

@@ -42,6 +42,7 @@
             this.restoreButton = new System.Windows.Forms.Button();
             this.browseRestoreButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.backupLoactionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // backupStatusLabel
@@ -153,10 +154,19 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // backupLoactionLabel
+            // 
+            this.backupLoactionLabel.AutoSize = true;
+            this.backupLoactionLabel.Location = new System.Drawing.Point(118, 176);
+            this.backupLoactionLabel.Name = "backupLoactionLabel";
+            this.backupLoactionLabel.Size = new System.Drawing.Size(0, 17);
+            this.backupLoactionLabel.TabIndex = 12;
+            // 
             // M_1_BackupRestoreUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.backupLoactionLabel);
             this.Controls.Add(this.browseRestoreButton);
             this.Controls.Add(this.restoreStatusLabel);
             this.Controls.Add(this.progressBar2);
@@ -192,5 +202,6 @@
         private System.Windows.Forms.Button restoreButton;
         private System.Windows.Forms.Button browseRestoreButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label backupLoactionLabel;
     }
 }

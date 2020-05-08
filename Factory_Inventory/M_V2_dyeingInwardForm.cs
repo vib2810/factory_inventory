@@ -23,6 +23,21 @@ namespace Factory_Inventory
                 SendKeys.Send("{Tab}");
                 return false;
             }
+            if (keyData == Keys.F2)
+            {
+                Console.WriteLine("dgv1");
+                this.dataGridView1.Focus();
+                this.ActiveControl = dataGridView1;
+                this.dataGridView1.CurrentCell = dataGridView1[0, 0];
+                return false;
+            }
+            if (keyData == Keys.F3)
+            {
+                Console.WriteLine("cb");
+                this.saveButton.Focus();
+                this.ActiveControl = saveButton;
+                return false;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private DbConnect c;
@@ -89,12 +104,15 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
+                dataGridView1.Columns.Add("Net Rate", "Net Rate");
                 dataGridView1.Columns.Add("Slip Number", "Slip Number");
                 dataGridView1.Columns[2].ReadOnly = true;
                 dataGridView1.Columns[3].ReadOnly = true;
                 dataGridView1.Columns[4].ReadOnly = true;
 
                 dataGridView1.RowCount = 10;
+
+                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
             }
             if(mode == "addBill")
@@ -171,6 +189,8 @@ namespace Factory_Inventory
                 dataGridView1.Columns[5].ReadOnly = true;
 
                 dataGridView1.RowCount = 10;
+
+                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
         }
         public M_V2_dyeingInwardForm(DataRow row, bool isEditable, M_V_history v1_history, string mode)
@@ -232,8 +252,8 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
+                dataGridView1.Columns.Add("Net Rate", "Net Rate");
                 dataGridView1.Columns.Add("Slip Number", "Slip Number");
-
                 dataGridView1.Columns[2].ReadOnly = true;
                 dataGridView1.Columns[3].ReadOnly = true;
                 dataGridView1.Columns[4].ReadOnly = true;
@@ -319,6 +339,7 @@ namespace Factory_Inventory
                     this.billcheckBoxCK.Checked = true;
                     this.billcheckBoxCK.Enabled = false;
                 }
+                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
             if (mode == "addBill")
             {
@@ -431,6 +452,7 @@ namespace Factory_Inventory
                 {
                     dataGridView1.Rows[i].Cells[1].Value = batch_nos[i];
                 }
+                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
         }
 
@@ -463,8 +485,9 @@ namespace Factory_Inventory
                     dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
                     dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
                     dataGridView1.Rows[e.RowIndex].Cells[4].Value = null;
-                    if(this.addBill==true) dataGridView1.Rows[e.RowIndex].Cells[5].Value = null;
-                    dynamicWeightLabel.Text = CellSum(2).ToString("F2");
+                    dataGridView1.Rows[e.RowIndex].Cells[5].Value = null;
+                    if (this.addBill == false) dataGridView1.Rows[e.RowIndex].Cells[6].Value = null;
+                    dynamicWeightLabel.Text = CellSum(5).ToString("F2");
                     return;
                 }
                 int batch_no = int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
@@ -472,18 +495,15 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = row["Net_Weight"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[3].Value = row["Colour"].ToString();
                 dataGridView1.Rows[e.RowIndex].Cells[4].Value = row["Quality"].ToString();
-                if(!(row["Slip_No"].ToString()==null || row["Slip_No"].ToString()==""))
+                dataGridView1.Rows[e.RowIndex].Cells[5].Value = float.Parse(row["Net_Weight"].ToString()) * float.Parse(row["Dyeing_Rate"].ToString());
+                if(this.addBill==false)
                 {
-                    dataGridView1.Rows[e.RowIndex].Cells[5].Value = row["Slip_No"].ToString();
+                    if (!(row["Slip_No"].ToString() == null || row["Slip_No"].ToString() == ""))
+                    {
+                        dataGridView1.Rows[e.RowIndex].Cells[6].Value = row["Slip_No"].ToString();
+                    }
                 }
-
-                if (this.addBill==true)
-                {
-                    float weight = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-                    float rate = float.Parse(row["Dyeing_Rate"].ToString());
-                    dataGridView1.Rows[e.RowIndex].Cells[5].Value = (weight * rate).ToString();
-                }
-                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
+                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
 
             }
         }
@@ -509,6 +529,11 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
+                }
                 if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
                 {
                     dataGridView1.Rows.Add();
@@ -527,11 +552,24 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
+                }
                 if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
                 {
                     dataGridView1.Rows.Add();
                 }
                 SendKeys.Send("{tab}");
+            }
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            {
+                dataGridView1.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView1.EditingControl;
+                c.DroppedDown = true;
+                e.Handled = true;
             }
         }
         private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -546,48 +584,48 @@ namespace Factory_Inventory
             //checks
             if (dyeingCompanyCB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Dyeing Company Name", "Error");
+                c.ErrorBox("Enter Select Dyeing Company Name", "Error");
                 return;
             }
             if((billNumberTextboxTB.Text==null || billNumberTextboxTB.Text=="") && billcheckBoxCK.Checked==false)
             {
-                MessageBox.Show("Enter Bill Number", "Error");
+                c.ErrorBox("Enter Bill Number", "Error");
                 return;
             }
-            if(billcheckBoxCK.Checked==true)
+            if(billcheckBoxCK.Checked==true && this.addBill==false)
             {
                 for(int i=0;i<dataGridView1.Rows.Count-1;i++)
                 {
                     int sum = 0;
-                    if(dataGridView1.Rows[i].Cells[2].Value == null || dataGridView1.Rows[i].Cells[2].Value == "")
+                    if(!c.isCellNullOrEmpty(this.dataGridView1, i, 2))
                     {
                         sum++;
                     }
-                    if(dataGridView1.Rows[i].Cells[5].Value == null || dataGridView1.Rows[i].Cells[5].Value.ToString() == "")
+                    if(!c.isCellNullOrEmpty(this.dataGridView1, i, 6))
                     {
                         sum++;
                     }
                     if(sum==1)
                     {
-                        MessageBox.Show("Enter Slip Number in row " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Enter Slip Number in row " + (i + 1).ToString(), "Error");
                         return;
                     }
 
                 }
             }
-            if (dataGridView1.Rows[0].Cells[1].Value==null)
+            if (!c.isCellNullOrEmpty(this.dataGridView1, 0, 1))
             {
-                MessageBox.Show("Please enter Batch Numbers", "Error");
+                c.ErrorBox("Please enter Batch Numbers", "Error");
                 return;
             }
             if (this.inputDate.Value.Date < this.inwardDateDTP.Value.Date)
             {
-                MessageBox.Show("Inward Date is in the future", "Error");
+                c.ErrorBox("Inward Date is in the future", "Error");
                 return;
             }
             if(this.billDateDTP.Value.Date > this.inputDate.Value.Date)
             {
-                MessageBox.Show("Bill Date is in the future", "Error");
+                c.ErrorBox("Bill Date is in the future", "Error");
                 return;
             }
             string batch_nos = "", slip_nos="";
@@ -598,16 +636,16 @@ namespace Factory_Inventory
             {
 
                 //ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "")
+                if (!c.isCellNullOrEmpty(this.dataGridView1, i, 1))
                 {
                     continue;
                 }
                 else
                 {
                     batch_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
-                    if (this.billcheckBoxCK.Checked == true)
+                    if (this.billcheckBoxCK.Checked == true && this.addBill==false)
                     {
-                        slip_nos += dataGridView1.Rows[i].Cells[5].Value.ToString() + ",";
+                        slip_nos += dataGridView1.Rows[i].Cells[6].Value.ToString() + ",";
                     }
                     number++;
 
@@ -617,7 +655,7 @@ namespace Factory_Inventory
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        MessageBox.Show("Please Enter Distinct Tray Nos at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Please Enter Distinct Tray Nos at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
@@ -690,7 +728,7 @@ namespace Factory_Inventory
                     bool value2 = this.batch_editable.TryGetValue(batch_no, out value);
                     if (value2 == true && value == false)
                     {
-                        MessageBox.Show("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
+                        c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
                         dataGridView1.Rows[rowindex].Selected = false;
                         continue;
                     }
@@ -698,7 +736,7 @@ namespace Factory_Inventory
                     Console.WriteLine("Deleting row: " + rowindex);
 
                 }
-                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
+                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
             }
             else
             {
@@ -712,7 +750,7 @@ namespace Factory_Inventory
                     }
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
-                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
+                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
             }
            
         }
@@ -727,13 +765,19 @@ namespace Factory_Inventory
                 }
                 for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                 {
-                    if (dataGridView1.Rows[i].Cells[column].Value != null)
+                    if (c.isCellNullOrEmpty(this.dataGridView1, i, column))
+                    {
+                        //float dyeing_rate = float.Parse(c.getColumnBatchNo("Dyeing_Rate", int.Parse(this.dataGridView1.Rows[i].Cells[1].Value.ToString()), this.comboBox3CB.Text));
+                        //Console.WriteLine(dyeing_rate.ToString());
+                        //sum += float.Parse(dataGridView1.Rows[i].Cells[column].Value.ToString())*dyeing_rate;
                         sum += float.Parse(dataGridView1.Rows[i].Cells[column].Value.ToString());
+                    }
                 }
                 return sum;
             }
             catch
             {
+                Console.WriteLine("Excep");
                 return sum;
             }
         }
@@ -741,12 +785,12 @@ namespace Factory_Inventory
         {
             if (dyeingCompanyCB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Enter Dyeing Company Name", "Error");
+                c.ErrorBox("Enter Enter Dyeing Company Name", "Error");
                 return;
             }
             if(comboBox3CB.SelectedIndex==0)
             {
-                MessageBox.Show("Please select Batch Financial Year", "Error");
+                c.ErrorBox("Please select Batch Financial Year", "Error");
                 return;
             }
             this.loadData(this.dyeingCompanyCB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString()); ;
@@ -764,7 +808,10 @@ namespace Factory_Inventory
             {
                 this.batch_no.Add(d[i]);
             }
-            if (this.edit_form==false) MessageBox.Show("Loaded Data");
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded "+d.Length.ToString()+" Batches");
+            }
         }
         private void billcheckBox_CheckStateChanged(object sender, EventArgs e)
         {
@@ -774,7 +821,7 @@ namespace Factory_Inventory
                 billDateDTP.Enabled = true;
                 if(this.addBill==false)
                 {
-                    this.dataGridView1.Rows[5].ReadOnly = true;
+                    this.dataGridView1.Rows[6].ReadOnly = true;
                 }
             }
             else
@@ -783,7 +830,7 @@ namespace Factory_Inventory
                 billDateDTP.Enabled = false;
                 if (this.addBill == false)
                 {
-                    this.dataGridView1.Rows[5].ReadOnly = true;
+                    this.dataGridView1.Rows[6].ReadOnly = true;
                 }
             }
         }

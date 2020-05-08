@@ -32,7 +32,7 @@ namespace Factory_Inventory
             Console.WriteLine(index);
             if (index > this.dataGridView1.Rows.Count - 1)
             {
-                MessageBox.Show("Please select valid voucher", "Error");
+                c.ErrorBox("Please select valid voucher", "Error");
             }
             else
             {
@@ -84,7 +84,7 @@ namespace Factory_Inventory
             int index = this.dataGridView1.SelectedRows[0].Index;
             if(index > this.dataGridView1.Rows.Count-1)
             {
-                MessageBox.Show("Please select valid voucher", "Error");
+                c.ErrorBox("Please select valid voucher", "Error");
             }
             else
             {

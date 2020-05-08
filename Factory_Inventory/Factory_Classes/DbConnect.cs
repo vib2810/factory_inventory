@@ -43,35 +43,19 @@ namespace Factory_Inventory.Factory_Classes
             this.con = new SqlConnection(@"Data Source=192.168.1.12, 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
         }
 
-        public void temp()
+        public string RandomString(int size, bool lowerCase)
         {
-            try
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char ch;
+            for (int i = 0; i < size; i++)
             {
-                con.Open();
-                List<string> sqls = new List<string>();
-                sqls.Add("INSERT INTO temp2 values ('36/34 bdd', 1.23)");
-                sqls.Add("INSERT INTO temp2 values ('36/34 tex', 2.47)");
-                sqls.Add("INSERT INTO temp2 values ('q3_333', 4.78)");
-                sqls.Add("INSERT INTO temp2 values ('q4_444', 2.789 )");
-                sqls.Add("INSERT INTO temp2 values ('q5_555', 9.235 )");
-                Random r = new Random();
-                for (int i = 0; i < 100000; i++)
-                {
-                    int a = r.Next(0, 4);
-                    SqlDataAdapter adapter = new SqlDataAdapter();
-                    adapter.InsertCommand = new SqlCommand(sqls[a], con);
-                    adapter.InsertCommand.ExecuteNonQuery();
-                }
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
             }
-            catch (Exception e)
-            {
-                MessageBox.Show("Could not add temp (addUser) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            if (lowerCase)
+                return builder.ToString().ToLower();
+            return builder.ToString();
         }
         //Utility Functions
         public string[] csvToArray(string str)
@@ -117,7 +101,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch(Exception e)
             {
-                MessageBox.Show("Error (isPresentColour)\n" + e.Message, "Exception");
+                this.ErrorBox("Error (isPresentColour)\n" + e.Message, "Exception");
             }
             finally
             {
@@ -136,7 +120,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch
             {
-                MessageBox.Show("Could not connect to database (getVoucherHistories)", "Exception");
+                this.ErrorBox("Could not connect to database (getVoucherHistories)", "Exception");
             }
             finally
             {
@@ -184,7 +168,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch(Exception e)
             {
-                MessageBox.Show("Error (getCount_FinancialYear):\n" + e.Message, "Exception");
+                this.ErrorBox("Error (getCount_FinancialYear):\n" + e.Message, "Exception");
             }
             finally
             {
@@ -213,10 +197,14 @@ namespace Factory_Inventory.Factory_Classes
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
-        public void SuccessBox(string message, string title)
+        public void SuccessBox(string message, string title="")
         {
-            MessageBox.Show(message, title, MessageBoxButtons.OK);
-            return;
+            SuccessBox s = new SuccessBox(message, title);
+        }
+        public void SetGridViewSortState(DataGridView dgv, DataGridViewColumnSortMode sortMode)
+        {
+            foreach (DataGridViewColumn col in dgv.Columns)
+                col.SortMode = sortMode;
         }
         //Arrow Key Events
         public void comboBoxEvent(ComboBox c)
@@ -369,7 +357,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Login record error", "Exception");
+                this.ErrorBox("Login record error", "Exception");
             }
             finally
             {
@@ -399,13 +387,13 @@ namespace Factory_Inventory.Factory_Classes
                 }
                 else
                 {
-                    MessageBox.Show("Invalid username or password");
+                    this.ErrorBox("Invalid username or password", "Error");
                     ans = 0;
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (checkLogin) \n"+e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (checkLogin) \n"+e.Message, "Exception");
             }
             finally
             {
@@ -431,7 +419,7 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 ans = 0;
-                MessageBox.Show("Could not add user (addUser) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add user (addUser) \n" + e.Message, "Exception");
             }
 
             finally
@@ -451,7 +439,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch
             {
-                MessageBox.Show("Could not connect to database (getUserData)", "Exception");
+                this.ErrorBox("Could not connect to database (getUserData)", "Exception");
             }
             finally
             {
@@ -469,11 +457,11 @@ namespace Factory_Inventory.Factory_Classes
                 string sql = "DELETE FROM Users WHERE Username='" + username + "'";
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("User deleted", "Success");
+                this.SuccessBox("User deleted");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not delete user (deleteUser)", "Exception");
+                this.ErrorBox("Could not delete user (deleteUser)", "Exception");
             }
 
             finally
@@ -492,19 +480,19 @@ namespace Factory_Inventory.Factory_Classes
                 if (password == "")
                 {
                     sql = "UPDATE Users AccessLevel = " + access + "  WHERE Username='" + username + "'";
-                    MessageBox.Show("Access Level Updated", "Success");
+                    this.SuccessBox("Access Level Updated");
                 }
                 else
                 {
                     sql = "UPDATE Users SET PasswordHash = HASHBYTES('SHA', '" + password + "') , AccessLevel = " + access + "  WHERE Username='" + username + "'";
-                    MessageBox.Show("Password/Access Level Updated", "Success");
+                    this.SuccessBox("Password/Access Level Updated");
                 }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit user (updateUser)", "Exception");
+                this.ErrorBox("Could not edit user (updateUser)", "Exception");
             }
 
             finally
@@ -523,7 +511,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch
             {
-                MessageBox.Show("Could not connect to database (getUserLog)", "Exception");
+                this.ErrorBox("Could not connect to database (getUserLog)", "Exception");
             }
             finally
             {
@@ -562,7 +550,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add " + tablename + " (addQC) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add " + tablename + " (addQC) \n" + e.Message, "Exception");
             }
 
             finally
@@ -582,7 +570,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add Spring (addSpring) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add Spring (addSpring) \n" + e.Message, "Exception");
             }
 
             finally
@@ -602,7 +590,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add Quality (addQuality) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add Quality (addQuality) \n" + e.Message, "Exception");
             }
 
             finally
@@ -622,7 +610,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add Colour (addColour) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add Colour (addColour) \n" + e.Message, "Exception");
             }
 
             finally
@@ -658,7 +646,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not delete " + tablename + " (deleteQC) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not delete " + tablename + " (deleteQC) \n" + e.Message, "Exception");
             }
 
             finally
@@ -679,7 +667,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add (addCustomer) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add (addCustomer) \n" + e.Message, "Exception");
             }
 
             finally
@@ -700,7 +688,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not delete (deleteCustomer) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not delete (deleteCustomer) \n" + e.Message, "Exception");
             }
 
             finally
@@ -722,7 +710,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not delete (deleteQuality) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not delete (deleteQuality) \n" + e.Message, "Exception");
             }
 
             finally
@@ -743,7 +731,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit (editCustomer) " + e.Message, "Exception");
+                this.ErrorBox("Could not edit (editCustomer) " + e.Message, "Exception");
             }
 
             finally
@@ -763,7 +751,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit (editCustomer) " + e.Message, "Exception");
+                this.ErrorBox("Could not edit (editCustomer) " + e.Message, "Exception");
             }
 
             finally
@@ -784,7 +772,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not delete colour (deleteColour) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not delete colour (deleteColour) \n" + e.Message, "Exception");
             }
 
             finally
@@ -820,7 +808,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit (editQC) "+ e.Message, "Exception");
+                this.ErrorBox("Could not edit (editQC) "+ e.Message, "Exception");
             }
 
             finally
@@ -840,7 +828,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit spring (editSpring) " + e.Message, "Exception");
+                this.ErrorBox("Could not edit spring (editSpring) " + e.Message, "Exception");
             }
 
             finally
@@ -860,7 +848,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit colour (editColour) " + e.Message, "Exception");
+                this.ErrorBox("Could not edit colour (editColour) " + e.Message, "Exception");
             }
 
             finally
@@ -896,7 +884,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch(Exception e)
             {
-                MessageBox.Show("Could not connect to database (getQC) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getQC) " + e.Message, "Exception");
             }
             finally
             {
@@ -922,7 +910,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getDyeingRate) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getDyeingRate) " + e.Message, "Exception");
             }
             finally
             {
@@ -948,7 +936,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getSpringWeight) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getSpringWeight) " + e.Message, "Exception");
             }
             finally
             {
@@ -981,7 +969,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getDyeingRate) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getDyeingRate) " + e.Message, "Exception");
                 con.Close();
                 return Color.White;
             }
@@ -1005,7 +993,7 @@ namespace Factory_Inventory.Factory_Classes
                 int count = this.getCount_FinancialYear("Carton", financialyear, "Carton_No", carton_no[i]);
                 if(count>0)
                 {
-                    MessageBox.Show("Carton number " + carton_no[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + financialyear, "Error");
+                    this.ErrorBox("Carton number " + carton_no[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + financialyear, "Error");
                     return false;
                 }
             }
@@ -1037,7 +1025,7 @@ namespace Factory_Inventory.Factory_Classes
                     {
                         removeCarton(added_carton[i], financialyear, "Carton");
                     }
-                    MessageBox.Show("Carton Number: " + carton_no[index] + " at Row: " + (index + 1).ToString() + " was already added to the Database. Could not add voucher", "Error");
+                    this.ErrorBox("Carton Number: " + carton_no[index] + " at Row: " + (index + 1).ToString() + " was already added to the Database. Could not add voucher", "Error");
                     return false;
                 }
                 con.Open();
@@ -1046,17 +1034,17 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (SqlException e)
             {
                 if(e.Number==2627)
                 {
-                    MessageBox.Show("Bill Number Already Exists", "Exception");
+                    this.ErrorBox("Bill Number Already Exists", "Exception");
                 }
                 else
                 {
-                    MessageBox.Show("Could not add carton voucher (addCartonVoucher) \n" + e.Message, "Exception");
+                    this.ErrorBox("Could not add carton voucher (addCartonVoucher) \n" + e.Message, "Exception");
                 }
                 con.Close();
                 for (int i = 0; i < added_carton.Count; i++)
@@ -1117,7 +1105,7 @@ namespace Factory_Inventory.Factory_Classes
                         int count = this.getCount_FinancialYear("Carton", financialyear, "Carton_No", carton_no[i]);
                         if (count > 0)
                         {
-                            MessageBox.Show("Carton number " + carton_no[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + financialyear, "Error");
+                            this.ErrorBox("Carton number " + carton_no[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + financialyear, "Error");
                             return false;
                         }
                     }
@@ -1140,7 +1128,7 @@ namespace Factory_Inventory.Factory_Classes
                             DateTime sale = Convert.ToDateTime(dt.Rows[0]["Date_Of_Sale"].ToString());
                             if(dtbill>sale)
                             {
-                                MessageBox.Show("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                                this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + "),", "Error");
                                 return false;
                             }
                         }
@@ -1149,7 +1137,7 @@ namespace Factory_Inventory.Factory_Classes
                             DateTime issue = Convert.ToDateTime(dt.Rows[0]["Date_Of_Issue"].ToString());
                             if (dtbill > issue)
                             {
-                                MessageBox.Show("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Issue (" + issue.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + ")", "Error");
+                                this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Issue (" + issue.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + ")", "Error");
                                 return false;
                             }
                         }
@@ -1194,11 +1182,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Edited Successfully", "Success");
+                this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit carton voucher (editCartonVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit carton voucher (editCartonVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1225,7 +1213,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not update Carton (updateCarton)", "Exception");
+                this.ErrorBox("Could not update Carton (updateCarton)", "Exception");
             }
             finally
             {
@@ -1247,7 +1235,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add carton (addCarton) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add carton (addCarton) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1270,7 +1258,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not delete Carton_No" + no + " (removeCarton) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not delete Carton_No" + no + " (removeCarton) \n" + e.Message, "Exception");
             }
 
             finally
@@ -1278,61 +1266,54 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-        //send carton has 3 overloads.
-        //1) to enter update just the carton number and state 
-        public void sendCarton(string cartonno, int state, string carton_fiscal_year)
+        public void sendCartonTwist(string cartonno, int state, string date, string carton_fiscal_year)
         {
             try
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Carton SET Carton_State=" +state+ " WHERE Carton_No= '" + cartonno+ "' AND Fiscal_Year ='"+carton_fiscal_year+"'";
+                string sql;
+                if(date == null)
+                {
+                    sql= "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue=NULL WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                }
+                else
+                {
+                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue='" + date + "' WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit Carton State (sendCarton1)", "Exception");
+                this.ErrorBox("Could not edit Carton State (sendCarton) " + e.Message, "Exception");
             }
             finally
             {
                 con.Close();
             }
         }
-        //2) other one to enter issue date too while adding twist voucher
-        public void sendCarton(string cartonno, int state, string date, string carton_fiscal_year)
+        public void sendCartonSale(string cartonno, int state, string date, float sell_cost, string carton_fiscal_year)
         {
             try
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue='" + date + "' WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='"+carton_fiscal_year+"'";
+                string sql;
+                if(date==null && sell_cost==-1F)
+                {
+                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Sale=NULL, Sell_Cost=NULL WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                }
+                else
+                {
+                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Sale='" + date + "', Sell_Cost=" + sell_cost + " WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit Carton State (sendCarton) " + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
-        //3) other one to enter selling date and sell cost too while adding twist voucher
-        public void sendCarton(string cartonno, int state, string date, float sell_cost, string carton_fiscal_year)
-        {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Sale='" + date + "', Sell_Cost="+sell_cost+" WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Could not edit Carton State (sendCarton) " + e.Message, "Exception");
+                this.ErrorBox("Could not edit Carton State (sendCarton) " + e.Message, "Exception");
             }
             finally
             {
@@ -1350,7 +1331,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch(Exception e)
             {
-                MessageBox.Show("Could not connect to database (getCartonStateQualityCompany) "+e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getCartonStateQualityCompany) "+e.Message, "Exception");
             }
             finally
             {
@@ -1369,7 +1350,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get weight (getCartonWeight) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get weight (getCartonWeight) \n" + e.Message, "Exception");
             }
             finally
             {
@@ -1391,7 +1372,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getCartonState) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getCartonState) " + e.Message, "Exception");
             }
             finally
             {
@@ -1419,7 +1400,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
                 if (dtissue < bill)
                 {
-                    MessageBox.Show("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -1427,7 +1408,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 for (int i = 0; i < number; i++)
                 {
-                    this.sendCarton(carton_no[i], 2, issueDate, carton_fiscal_year);
+                    this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year);
                 }
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
@@ -1435,11 +1416,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add carton voucher (addTwistVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add carton voucher (addTwistVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1466,7 +1447,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
                 if (dtissue < bill)
                 {
-                    MessageBox.Show("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -1482,24 +1463,24 @@ namespace Factory_Inventory.Factory_Classes
                 string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
                 for (int i = 0; i < old_carton_nos.Length; i++)
                 {
-                    this.sendCarton(old_carton_nos[i],1, carton_fiscal_year);
+                    this.sendCartonTwist(old_carton_nos[i],1, null ,carton_fiscal_year);
                 }
                 //Add all New Cartons
 
                 for (int i = 0; i < carton_no.Length; i++)
                 {
-                    this.sendCarton(carton_no[i], 2, carton_fiscal_year);
+                    this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year);
                 }
                 con.Open();
                 string sql = "UPDATE Twist_Voucher SET Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Fiscal_Year = '"+fiscal_year+"' WHERE Voucher_ID='" + voucherID + "'";
                 //Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Edited Successfully", "Success");
+                this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit twist voucher (editTwistVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit twist voucher (editTwistVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1530,7 +1511,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
                 if (dtissue < bill)
                 {
-                    MessageBox.Show("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString() + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString() + "),", "Error");
                     return false;
                 }
             }
@@ -1538,7 +1519,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 for (int i = 0; i < number; i++)
                 {
-                    this.sendCarton(carton_no[i], 3, issueDate, sell_cost, carton_fiscal_year);
+                    this.sendCartonSale(carton_no[i], 3, issueDate, sell_cost, carton_fiscal_year);
                 }
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
@@ -1546,11 +1527,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add carton voucher (addSalesVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add carton voucher (addSalesVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1577,7 +1558,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
                 if (dtissue < bill)
                 {
-                    MessageBox.Show("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -1593,24 +1574,24 @@ namespace Factory_Inventory.Factory_Classes
                 string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
                 for (int i = 0; i < old_carton_nos.Length; i++)
                 {
-                    this.sendCarton(old_carton_nos[i], 1, carton_fiscal_year);
+                    this.sendCartonSale(old_carton_nos[i], 1 , null, -1F, carton_fiscal_year);
                 }
 
                 //Add all New Cartons
                 for (int i = 0; i < carton_no.Length; i++)
                 {
-                    this.sendCarton(carton_no[i], 3, carton_fiscal_year);
+                    this.sendCartonSale(carton_no[i], 3, issueDate, sell_cost , carton_fiscal_year);
                 }
                 con.Open();
                 string sql = "UPDATE Sales_Voucher SET Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Customer='"+customer+"', Selling_Price="+sell_cost+", Fiscal_Year='"+fiscal_year+"'  WHERE Voucher_ID='" + voucherID + "'";
                 //Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Edited Successfully", "Success");
+                this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit sales voucher (editSalesVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit sales voucher (editSalesVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1643,7 +1624,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add tray voucher (addTrayVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add tray voucher (addTrayVoucher) \n" + e.Message, "Exception");
             }
             finally
             {
@@ -1665,7 +1646,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not check tray (checkTray) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not check tray (checkTray) \n" + e.Message, "Exception");
             }
 
             finally
@@ -1688,7 +1669,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not check tray (checkTray) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not check tray (checkTray) \n" + e.Message, "Exception");
             }
 
             finally
@@ -1711,7 +1692,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get tray id tray (getTrayID) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get tray id tray (getTrayID) \n" + e.Message, "Exception");
             }
 
             finally
@@ -1782,7 +1763,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not free tray(freeTray) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not free tray(freeTray) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1849,7 +1830,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not unfree tray(unfreeTray) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not unfree tray(unfreeTray) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -1879,7 +1860,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get weight (getTrayWeightMachineNo) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get weight (getTrayWeightMachineNo) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -1901,7 +1882,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getTrayStateQualityCompany) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getTrayStateQualityCompany) " + e.Message, "Exception");
             }
             finally
             {
@@ -1928,7 +1909,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit tray state (changeTrayState) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit tray state (changeTrayState) \n" + e.Message, "Exception");
             }
 
             finally
@@ -1953,7 +1934,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getTrayTable_TrayID) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getTrayTable_TrayID) " + e.Message, "Exception");
             }
             finally
             {
@@ -1979,7 +1960,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get tray springs (getTraySprings) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get tray springs (getTraySprings) \n" + e.Message, "Exception");
             }
             finally
             {
@@ -1998,7 +1979,7 @@ namespace Factory_Inventory.Factory_Classes
             int tray_state = getTrayState(tray_no);
             if (tray_state==1 || tray_state== 2)
             {
-                MessageBox.Show("Tray " + tray_no.ToString() + " is already in use", "Error");
+                this.ErrorBox("Tray " + tray_no.ToString() + " is already in use", "Error");
                 return false;
             }
             //insert into Tray_Active and get unique tray_id
@@ -2012,11 +1993,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add tray voucher (addTrayVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add tray voucher (addTrayVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2037,7 +2018,7 @@ namespace Factory_Inventory.Factory_Classes
             int tray_state = getTrayState(new_tray_no);
             if (tray_state != -1 && old_tray_no != new_tray_no)
             {
-                MessageBox.Show("Tray " + new_tray_no.ToString() + " is already in use", "Error");
+                this.ErrorBox("Tray " + new_tray_no.ToString() + " is already in use", "Error");
                 return false;
             }
             //insert into Tray_Voucher with unique tray_id
@@ -2057,11 +2038,11 @@ namespace Factory_Inventory.Factory_Classes
                 sda.InsertCommand = new SqlCommand(sql, con);
                 sda.InsertCommand.ExecuteNonQuery();
 
-                MessageBox.Show("Voucher Edited Successfully", "Success");
+                this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit tray voucher (editTrayVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit tray voucher (editTrayVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2092,7 +2073,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime prod = Convert.ToDateTime(dt.Rows[0]["Tray_Production_Date"].ToString());
                 if (dtissueDate < prod)
                 {
-                    MessageBox.Show("Tray Number: " + tray_nos[i] + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissueDate.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Tray Number: " + tray_nos[i] + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissueDate.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -2116,11 +2097,11 @@ namespace Factory_Inventory.Factory_Classes
                 string sql = "INSERT INTO Dyeing_Issue_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Colour, Dyeing_Company_Name, Batch_No, Tray_No_Arr, Number_Of_Trays, Dyeing_Rate, Tray_ID_Arr, Batch_Fiscal_Year) VALUES ('" + inputDate + "','" + issueDate + "', '" + quality + "', '" + company_name + "', '" + colour + "' , '" + dyeing_company_name + "', " + batchno + ", '" + trayno + "', "+number+", "+rate+", '"+trayid+"', '"+fiscal_year+"')";
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add dyeing issue voucher (addTrayVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add dyeing issue voucher (addTrayVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2148,7 +2129,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime prod = Convert.ToDateTime(dt.Rows[0]["Tray_Production_Date"].ToString());
                 if (dtissueDate < prod)
                 {
-                    MessageBox.Show("Tray Number: " + tray_nos[i] + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissueDate.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Tray Number: " + tray_nos[i] + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissueDate.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -2182,11 +2163,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Updated Successfully", "Success");
+                this.SuccessBox("Voucher Updated Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit dyeing issue voucher (editDyeingIssueVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit dyeing issue voucher (editDyeingIssueVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2227,7 +2208,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch(Exception e)
             {
-                MessageBox.Show("Cannot get next batch number (getNextBatchNumber)\n" + e.Message, "Exception");
+                this.ErrorBox("Cannot get next batch number (getNextBatchNumber)\n" + e.Message, "Exception");
             }
             finally
             {
@@ -2252,7 +2233,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not Batch (addBatch) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not Batch (addBatch) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2278,7 +2259,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getBatchState) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getBatchState) \n" + e.Message, "Exception");
             }
             finally
             {
@@ -2314,7 +2295,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit Batch State (sendBatchStateDate)", "Exception");
+                this.ErrorBox("Could not edit Batch State (sendBatchStateDate)", "Exception");
             }
             finally
             {
@@ -2334,7 +2315,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not Batch (addBatch) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not Batch (addBatch) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2375,7 +2356,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getBatch_StateDyeingCompanyColourQuality) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getBatch_StateDyeingCompanyColourQuality) " + e.Message, "Exception");
             }
             finally
             {
@@ -2394,7 +2375,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getBatchFiscalYear_StateDyeingCompanyColourQuality) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getBatchFiscalYear_StateDyeingCompanyColourQuality) " + e.Message, "Exception");
             }
             finally
             {
@@ -2419,7 +2400,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get tray ids tray (getTrayIDs) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get tray ids tray (getTrayIDs) \n" + e.Message, "Exception");
             }
 
             finally
@@ -2447,7 +2428,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get batch nos (getBatchesWithBillNo) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get batch nos (getBatchesWithBillNo) \n" + e.Message, "Exception");
             }
 
             finally
@@ -2477,7 +2458,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add BillNo (addBillNo)", "Exception");
+                this.ErrorBox("Could not add BillNo (addBillNo)", "Exception");
             }
             finally
             {
@@ -2500,7 +2481,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getColumnBatchNo) "+column+"\n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getColumnBatchNo) "+column+"\n" + e.Message, "Exception");
             }
             finally
             {
@@ -2520,7 +2501,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getBatchRow_BatchNo) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getBatchRow_BatchNo) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -2542,7 +2523,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getBatchTable_BatchNo) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getBatchTable_BatchNo) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -2561,12 +2542,18 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 SqlDataAdapter sda = new SqlDataAdapter("SELECT Fiscal_Year FROM Batch WHERE Batch_No=" + batch_no + " AND Batch_State =  '" + state + "'", con);
                 sda.Fill(dt);
+                if(dt.Rows.Count<=0)
+                {
+                    con.Close();
+                    return null;
+                }
+
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getFiscalYear_BatchNoState) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getFiscalYear_BatchNoState) \n" + e.Message, "Exception");
                 con.Close();
-                return "";
+                return null; ;
             }
             finally
             {
@@ -2585,7 +2572,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getBatchTable_State) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getBatchTable_State) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -2606,7 +2593,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getBatchTable_BatchNoState) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getBatchTable_BatchNoState) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -2645,7 +2632,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime outDate = Convert.ToDateTime(dt.Rows[0]["Dyeing_Out_Date"].ToString());
                 if (dtinward_date < outDate)
                 {
-                    MessageBox.Show("Batch Number: " + batchnos[i] + " at row " + (i + 1).ToString() + " has Date of Issue to Dyeing (" + outDate.Date.ToString("dd-MM-yyyy") + ") earlier than given Inward date (" + dtinward_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Batch Number: " + batchnos[i] + " at row " + (i + 1).ToString() + " has Date of Issue to Dyeing (" + outDate.Date.ToString("dd-MM-yyyy") + ") earlier than given Inward date (" + dtinward_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -2685,11 +2672,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add Dyeing Inward Voucher (addDyeingInwardVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add Dyeing Inward Voucher (addDyeingInwardVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2725,7 +2712,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime outDate = Convert.ToDateTime(dt.Rows[0]["Dyeing_Out_Date"].ToString());
                 if (dtinward_date < outDate)
                 {
-                    MessageBox.Show("Batch Number: " + batchnos[i] + " at row " + (i + 1).ToString() + " has Date of Issue to Dyeing (" + outDate.Date.ToString("dd-MM-yyyy") + ") earlier than given Inward date (" + dtinward_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Batch Number: " + batchnos[i] + " at row " + (i + 1).ToString() + " has Date of Issue to Dyeing (" + outDate.Date.ToString("dd-MM-yyyy") + ") earlier than given Inward date (" + dtinward_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -2785,11 +2772,11 @@ namespace Factory_Inventory.Factory_Classes
                 }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Edited Successfully", "Success");
+                this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit Dyeing Inward Voucher (editDyeingInwardVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit Dyeing Inward Voucher (editDyeingInwardVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2821,11 +2808,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add Dyeing Inward Voucher (addDyeingInwardVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add Dyeing Inward Voucher (addDyeingInwardVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2870,11 +2857,11 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                MessageBox.Show("Voucher Updated Successfully", "Success");
+                this.SuccessBox("Voucher Updated Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not update Dyeing Inward Voucher (editBillNosVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not update Dyeing Inward Voucher (editBillNosVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2905,7 +2892,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 if(isCartonPresent(cartonNos[i], carton_financialYear))
                 {
-                    MessageBox.Show("Carton Number (" + cartonNos[i] + ") in row " + (i + 1).ToString() + " is already there in its financial year (" + carton_financialYear + "). Please add new carton number", "Error");
+                    this.ErrorBox("Carton Number (" + cartonNos[i] + ") in row " + (i + 1).ToString() + " is already there in its financial year (" + carton_financialYear + "). Please add new carton number", "Error");
                     return false;
                 }
             }
@@ -2942,7 +2929,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime prod = DateTime.Parse(productionDates[i]);
                 if (dtinputDate < prod)
                 {
-                    MessageBox.Show("Carton Number: " + cartonNos[i] + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " after given Date of Input (" + dtinputDate.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Carton Number: " + cartonNos[i] + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " after given Date of Input (" + dtinputDate.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
                 if(int.Parse(cartonNos[i])>max_carton_no)
@@ -3022,11 +3009,11 @@ namespace Factory_Inventory.Factory_Classes
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
                 
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not add carton production voucher (addCartonProductionVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add carton production voucher (addCartonProductionVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -3065,7 +3052,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not send Batch (sendBatch_StateVoucherID) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not send Batch (sendBatch_StateVoucherID) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -3086,7 +3073,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getProductionVoucherTable_VoucherID) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getProductionVoucherTable_VoucherID) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -3136,11 +3123,15 @@ namespace Factory_Inventory.Factory_Classes
                     int count = this.getCount_FinancialYear("Carton_Produced", financialYear, "Carton_No", carton_no[i]);
                     if (count > 0)
                     {
-                        MessageBox.Show("Carton number " + carton_no[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + financialYear, "Error");
+                        this.ErrorBox("Carton number " + carton_no[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + financialYear, "Error");
                         return false;
                     }
                 }
             }
+
+            Console.WriteLine("selected2");
+
+
             string[] production_dates = this.csvToArray(production_dates_arr);
             /*<Check if sale date of cartons in state 2 is >= production date>*/
             for (int i = 0; i < carton_no.Length; i++)
@@ -3158,11 +3149,14 @@ namespace Factory_Inventory.Factory_Classes
                     DateTime production_date = Convert.ToDateTime(production_dates[i]);
                     if (production_date > sale)
                     {
-                        MessageBox.Show("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Production (" + production_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                        this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Production (" + production_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
                         return false;
                     }
                 }
             }
+
+            Console.WriteLine("selected3");
+
             //Remove cartons with state 1 in the old voucher
             for (int i = 0; i < old_carton_nos.Length; i++)
             {
@@ -3174,6 +3168,9 @@ namespace Factory_Inventory.Factory_Classes
                     this.removeCarton(old_carton_nos[i], financialYear, "Carton_Produced");
                 }
             }
+
+            Console.WriteLine("selected4");
+
             string[] grossWeights = this.csvToArray(gross_weights_arr);
             string[] cartonWeights = this.csvToArray(carton_weights_arr);
             string[] numberOfCones = this.csvToArray(number_of_cones_arr);
@@ -3201,12 +3198,20 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     pair thisbatch = new pair();
                     thisbatch.batch_no = tempBatchNos[i];
-                    thisbatch.fiscal_year = this.getFiscalYear_BatchNoState(tempBatchNos[i], 2);
+                    string batch_finyear = this.getFiscalYear_BatchNoState(tempBatchNos[i], 2);
+                    if(batch_finyear == null)
+                    {
+                        batch_finyear = this.getFiscalYear_BatchNoState(tempBatchNos[i], 3);
+                    }
+                    thisbatch.fiscal_year = batch_finyear;
                     batches.Add(thisbatch);
                     batches_to_add += tempBatchNos[i] + ",";
                     batches_fiscal_years += thisbatch.fiscal_year + ",";
                 }
             }
+
+            Console.WriteLine("selected5");
+
             //Add all New Cartons with state 1
             for (int i = 0; i < carton_no.Length; i++)
             {
@@ -3216,13 +3221,16 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     DateTime temp = DateTime.Parse(production_dates[i]);
                     string correct_format_date = temp.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                    bool batch_added = addProducedCarton(carton_no[i], 1, correct_format_date, quality, colour, batches_to_add, dyeing_company_name, float.Parse(cartonWeights[i])/1000F, int.Parse(numberOfCones[i]), float.Parse(cone_weight)/1000F, float.Parse(grossWeights[i]), float.Parse(netWeights[i]), financialYear, batches_fiscal_years, grades[i]);
+                    bool batch_added = addProducedCarton(carton_no[i], 1, correct_format_date, quality, colour, batches_to_add, dyeing_company_name, float.Parse(cartonWeights[i]), int.Parse(numberOfCones[i]), float.Parse(cone_weight)/1000F, float.Parse(grossWeights[i]), float.Parse(netWeights[i]), financialYear, batches_fiscal_years, grades[i]);
                     if (batch_added == false)
                     {
                         return false;
                     }
                 }
             }
+
+            Console.WriteLine("selected6");
+
 
             //Get highest carton number
             int max_carton_no = int.Parse(carton_no[0]);
@@ -3233,6 +3241,9 @@ namespace Factory_Inventory.Factory_Classes
                     max_carton_no = int.Parse(carton_no[i]);
                 }
             }
+
+            Console.WriteLine("selected7");
+
 
             //Get Max carton production dates
             DateTime max = DateTime.Parse(production_dates[0]);
@@ -3250,6 +3261,9 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
 
+            Console.WriteLine("selected8");
+
+
             //Remove old batches
             for (int i = 0; i < old_batch_nos.Length; i++)
             {
@@ -3263,8 +3277,11 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
 
+            Console.WriteLine("selected9");
+
+
             //Add new batches
-            for(int i=0;i<batches.Count;i++)
+            for (int i=0;i<batches.Count;i++)
             {
                 bool flag = this.sendBatch_StateVoucherIDProductionDate(batches[i], 3, voucherID, max, addDate);
                 if (!flag)
@@ -3272,6 +3289,9 @@ namespace Factory_Inventory.Factory_Classes
                     return false;
                 }
             }
+
+            Console.WriteLine("selected10");
+
 
             try
             {
@@ -3292,6 +3312,8 @@ namespace Factory_Inventory.Factory_Classes
                 adapter.InsertCommand.ExecuteNonQuery();
                 con.Close();
 
+                Console.WriteLine("selected11");
+
                 con.Open();
                 //Get higest carton number in this financial year
                 SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Highest_Carton_Production_No FROM Fiscal_Year WHERE Fiscal_Year='" + financialYear + "'", con);
@@ -3300,7 +3322,10 @@ namespace Factory_Inventory.Factory_Classes
                 int old_max_carton_no = int.Parse(dt.Rows[0][0].ToString());
                 con.Close();
 
-                if(old_max_carton_no<max_carton_no)
+                Console.WriteLine("selected12");
+
+
+                if (old_max_carton_no<max_carton_no)
                 {
                     con.Open();
                     //Enter max carton number in Fiscal Year Table
@@ -3310,11 +3335,13 @@ namespace Factory_Inventory.Factory_Classes
                     con.Close();
                 }
 
-                MessageBox.Show("Voucher Added Successfully", "Success");
+                Console.WriteLine("selected13");
+
+                this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not edit carton production voucher (editCartonProductionVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not edit carton production voucher (editCartonProductionVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -3339,7 +3366,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not Carton Produced (addCartonProduced) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not Carton Produced (addCartonProduced) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -3371,7 +3398,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not check carton(isCartonPresent) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not check carton(isCartonPresent) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -3392,7 +3419,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not connect to database (getProducedCartonRow) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getProducedCartonRow) \n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -3415,7 +3442,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get weight (getCartonProducedWeight) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get weight (getCartonProducedWeight) \n" + e.Message, "Exception");
         }
             finally
             {
@@ -3437,7 +3464,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get Print (getCartonProducedPrint) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get Print (getCartonProducedPrint) \n" + e.Message, "Exception");
             }
             finally
             {
@@ -3457,7 +3484,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not get weight (getCartonProducedPrint) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not get weight (getCartonProducedPrint) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }

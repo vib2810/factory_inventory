@@ -1,4 +1,5 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Microsoft.SqlServer.Management.SqlParser.Parser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -80,7 +81,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please Enter Numeric Batch Number");
+                c.ErrorBox("Please Enter Numeric Batch Number", "Error");
                 return;
             }
             fiscal_year = fiscalCombobox.Text;
@@ -128,7 +129,7 @@ namespace Factory_Inventory
                 int index = this.dataGridView1.SelectedRows[0].Index;
                 if (index >= this.dataGridView1.Rows.Count - 1)
                 {
-                    MessageBox.Show("Please select valid voucher", "Error");
+                    c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
                 DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
@@ -140,7 +141,7 @@ namespace Factory_Inventory
                 int index = this.dataGridView2.SelectedRows[0].Index;
                 if (index >= this.dataGridView2.Rows.Count - 1)
                 {
-                    MessageBox.Show("Please select valid voucher", "Error");
+                    c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
                 DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;

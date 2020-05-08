@@ -25,6 +25,29 @@ namespace Factory_Inventory
                 SendKeys.Send("{Tab}");
                 return false;
             }
+            if (keyData == Keys.F2)
+            {
+                Console.WriteLine("dgv1");
+                this.dataGridView1.Focus();
+                this.ActiveControl = dataGridView1;
+                this.dataGridView1.CurrentCell = dataGridView1[2, 0];
+                return false;
+            }
+            if (keyData == Keys.F3)
+            {
+                Console.WriteLine("cb");
+                this.billDateDTP.Focus();
+                this.ActiveControl = billDateDTP;
+                return false;
+            }
+            if (keyData == Keys.F1)
+            {
+                Console.WriteLine("dgv2");
+                this.dataGridView2.Focus();
+                this.ActiveControl = dataGridView2;
+                this.dataGridView2.CurrentCell = dataGridView2[1, 0];
+                return false;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private DbConnect c;
@@ -84,6 +107,9 @@ namespace Factory_Inventory
             this.edit_form = false;
             this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
     }
         public M_V1_cartonInwardForm(DataRow row, bool isEditable, M_V_history v1_history)
@@ -219,7 +245,7 @@ namespace Factory_Inventory
                 int carton_state = c.getCartonState(this_carton_no, carton_financial_year);
                 if (carton_state == -1)
                 {
-                    MessageBox.Show("Critical Error, Carton Not found: " + this_carton_no, "Error");
+                    c.ErrorBox("Critical Error, Carton Not found: " + this_carton_no, "Error");
                 }
                 else if(carton_state!=1)
                 {
@@ -244,6 +270,9 @@ namespace Factory_Inventory
             {
                 comboBox2CB.Enabled = false;
             }
+
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
         }
         private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -301,7 +330,7 @@ namespace Factory_Inventory
                     bool value2 = this.carton_editable.TryGetValue(carton_no, out value);
                     if (value2 == true && value == false)
                     {
-                        MessageBox.Show("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
+                        c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
                         dataGridView1.Rows[rowindex].Selected = false;
                         continue;
                     }
@@ -336,7 +365,7 @@ namespace Factory_Inventory
                         Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString());
                         if(Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString())>=100.00)
                         {
-                            MessageBox.Show("Weight should be less than 100", "Error");
+                            c.ErrorBox("Weight should be less than 100", "Error");                           
                             dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
                         }    
                     }
@@ -356,7 +385,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter numeric Weight value only", "Error");
+                c.ErrorBox("Please enter numeric Weight value only", "Error");
                 dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
             }
             try
@@ -371,7 +400,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter numeric Carton No only", "Error");
+                c.ErrorBox("Please enter numeric Carton No only", "Error");
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
             }
         }
@@ -422,29 +451,24 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if (this.billDateChanged == false)
-            {
-                MessageBox.Show("Enter Bill Date", "Error");
-                return;
-            }
             if (billNumberTextboxTB.Text == "")
             {
-                MessageBox.Show("Enter Bill Number", "Error");
+                c.ErrorBox("Enter Bill Number", "Error");
                 return;
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Company Name", "Error");
+                c.ErrorBox("Enter Select Company Name", "Error");
                 return;
             }
             if (dataGridView1.Rows.Count < 0)
             {
-                MessageBox.Show("Please enter Carton Numbers and Weights", "Error");
+                c.ErrorBox("Please enter Carton Numbers and Weights", "Error");
                 return;
             }
             if(this.inputDate.Value.Date<this.billDateDTP.Value.Date)
             {
-                MessageBox.Show("Bill Date is in the future", "Error");
+                c.ErrorBox("Bill Date is in the future", "Error");
                 return;
             }
 
@@ -475,7 +499,7 @@ namespace Factory_Inventory
                     }
                     catch
                     {
-                        MessageBox.Show("Enter valid cost for Quality " + dataGridView2.Rows[i].Cells[0].Value, "Error");
+                        c.ErrorBox("Enter valid cost for Quality " + dataGridView2.Rows[i].Cells[0].Value, "Error");
                         disable_form_edit();
                         return;
                     }
@@ -506,7 +530,7 @@ namespace Factory_Inventory
                     count++;
                 if (count == 1 || count == 2)
                 {
-                    MessageBox.Show("Error at row " + (i + 1).ToString(), "Error");
+                    c.ErrorBox("Error at row " + (i + 1).ToString(), "Error");
                     return;
                 }
                 else
@@ -528,7 +552,7 @@ namespace Factory_Inventory
                         }
                         if (activated_qualities[index] == false)
                         {
-                            MessageBox.Show("Please enter cost for " + dataGridView1.Rows[i].Cells[1].Value.ToString(), "Error");
+                            c.ErrorBox("Please enter cost for " + dataGridView1.Rows[i].Cells[1].Value.ToString(), "Error");
                             return;
                         }
                         quality_arr += index2 + ",";
@@ -539,7 +563,7 @@ namespace Factory_Inventory
                         bool allDifferent = distinctBytes.Count == temp.Count;
                         if (allDifferent == false)
                         {
-                            MessageBox.Show("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
+                            c.ErrorBox("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
                             return;
                         }
                     }
@@ -587,15 +611,20 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
+                }
                 if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
                 {
                     dataGridView1.Rows.Add();
                 }
-                if (dataGridView1.Rows[rowindex_tab].Cells[1].Value != null)
+                if (c.isCellNullOrEmpty(dataGridView1, rowindex_tab, 1))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (dataGridView1.Rows[rowindex_tab].Cells[2].Value != null)
+                if (c.isCellNullOrEmpty(dataGridView1, rowindex_tab, 2))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }

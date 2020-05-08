@@ -227,7 +227,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter numeric tray number", "Error");
+                c.ErrorBox("Please enter numeric tray number", "Error");
                 return;
             }
 
@@ -237,7 +237,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter correct number of springs", "Error");
+                c.ErrorBox("Please enter correct number of springs", "Error");
                 return;
             }
 
@@ -247,7 +247,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter correct Tray Tare", "Error");
+                c.ErrorBox("Please enter correct Tray Tare", "Error");
                 return;
             }
 
@@ -257,17 +257,17 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter correct gross weight", "Error");
+                c.ErrorBox("Please enter correct gross weight", "Error");
                 return;
             }
             if (this.dateTimePicker1.Value.Date < this.dateTimePickerDTP.Value.Date)
             {
-                MessageBox.Show("Issue Date is in the future", "Error");
+                c.ErrorBox("Issue Date is in the future", "Error");
                 return;
             }
             if(this.machineNoCB.SelectedIndex==0)
             {
-                MessageBox.Show("Enter Machine Number", "Error");
+                c.ErrorBox("Enter Machine Number", "Error");
                 return;
             }
             if (this.edit_form == false)
@@ -305,6 +305,7 @@ namespace Factory_Inventory
             this.numberOfSpringsTB.Enabled = false;
             this.traytareTB.Enabled = false;
             this.grossWeightTB.Enabled = false;
+            this.machineNoCB.Enabled = false;
         }
 
         private float dynamicLabelChange()
@@ -362,6 +363,7 @@ namespace Factory_Inventory
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             dynamicLabelChange();
+            this.springWeightTB.Text = (c.getSpringWeight(this.springCB.Text) * 1000F).ToString(); ;
         }
 
         private void M_V2_trayInputForm_KeyDown(object sender, KeyEventArgs e)

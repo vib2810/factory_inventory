@@ -362,32 +362,32 @@ namespace Factory_Inventory
 
             if (comboBox1CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Quality", "Error");
+                c.ErrorBox("Enter Select Quality", "Error");
                 return;
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Company Name", "Error");
+                c.ErrorBox("Enter Select Company Name", "Error");
                 return;
             }
             if (dataGridView1.Rows[0].Cells[1].Value==null)
             {
-                MessageBox.Show("Please enter Carton Numbers", "Error");
+                c.ErrorBox("Please enter Carton Numbers", "Error");
                 return;
             }
             if(comboBox3CB.SelectedIndex==0)
             {
-                MessageBox.Show("Enter Select Customer Name", "Error");
+                c.ErrorBox("Enter Select Customer Name", "Error");
                 return;
             }
             if (sellingPriceTextboxTB.Text == null)
             {
-                MessageBox.Show("Enter Select selling price", "Error");
+                c.ErrorBox("Enter Select selling price", "Error");
                 return;
             }
             if (sellingPriceTextboxTB.Text == "")
             {
-                MessageBox.Show("Enter Select selling price", "Error");
+                c.ErrorBox("Enter Select selling price", "Error");
                 return;
             }
             try
@@ -396,17 +396,17 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter numeric selling price only", "Error");
+                c.ErrorBox("Please enter numeric selling price only", "Error");
                 return;
             }
             if(inputDate.Value.Date<issueDateDTP.Value.Date)
             {
-                MessageBox.Show("Issue Date is in the future", "Error");
+                c.ErrorBox("Issue Date is in the future", "Error");
                 return;
             }
             if(this.comboBox3CB.FindStringExact(this.comboBox3CB.Text)==-1)
             {
-                MessageBox.Show("Select valid customer", "Error");
+                c.ErrorBox("Select valid customer", "Error");
                 this.comboBox3CB.SelectedIndex = 0;
                 return;
             }
@@ -430,7 +430,7 @@ namespace Factory_Inventory
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        MessageBox.Show("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
@@ -517,12 +517,12 @@ namespace Factory_Inventory
         {
             if (comboBox1CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Quality", "Error");
+                c.ErrorBox("Enter Select Quality", "Error");
                 return;
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Company Name", "Error");
+                c.ErrorBox("Enter Select Company Name", "Error");
                 return;
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox4CB.SelectedItem.ToString());
@@ -540,7 +540,7 @@ namespace Factory_Inventory
             {
                 this.carton_data.Add(d.Rows[i][0].ToString());
             }
-            if(this.edit_form==false) MessageBox.Show("Loaded Data");
+            if(this.edit_form==false) c.SuccessBox("Loaded Data");
         }
 
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
