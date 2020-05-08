@@ -206,6 +206,18 @@ namespace Factory_Inventory.Factory_Classes
             foreach (DataGridViewColumn col in dgv.Columns)
                 col.SortMode = sortMode;
         }
+        public void printDataTable(DataTable d)
+        {
+            Console.WriteLine("Printing");
+            for(int i=0; i<d.Rows.Count; i++)
+            {
+                for(int j=0; j<d.Columns.Count; j++)
+                {
+                    Console.Write(d.Rows[i][j].ToString() + " ");
+                }
+                Console.Write("\n");
+            }
+        }
         //Arrow Key Events
         public void comboBoxEvent(ComboBox c)
         {
@@ -979,6 +991,33 @@ namespace Factory_Inventory.Factory_Classes
 
             }
             return col;
+        }
+        public string getBeforeQuality(string new_quality)
+        {
+            string ans="";
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Quality_Before_Twist FROM Quality WHERE Quality='" + new_quality + "'", con);
+                DataTable dt = new DataTable(); //this is creating a virtual table
+                sda.Fill(dt);
+                if (dt.Rows.Count != 0)
+                {
+                    ans = dt.Rows[0][0].ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getBeforeQuality) " + e.Message, "Exception");
+                con.Close();
+                return ans;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return ans;
         }
         //Carton Voucher
         public bool addCartonVoucher(DateTime dtinput, DateTime dtbill, string billNumber, string quality, string quality_arr, string company, string cost, string cartonno, string weights, int number, float netweight)
@@ -3715,14 +3754,20 @@ namespace Factory_Inventory.Factory_Classes
                 SqlDataAdapter sdat2 = new SqlDataAdapter(sql, con);
                 sdat2.Fill(dtt2);
                 Console.WriteLine(sql);
+                con.Close();
+                this.printDataTable(dt);
+                this.printDataTable(dtt1);
+                this.printDataTable(dtt2);
 
-                for(int i=0; i<dtt1.Rows.Count; i++)
+                for (int i=0; i<dtt1.Rows.Count; i++)
                 {
                     bool found = false;
-                    for(int j=0; j<dt.Rows.Count; j++)
+                    string old_quality = this.getBeforeQuality(dtt1.Rows[i][0].ToString());
+                    for (int j=0; j<dt.Rows.Count; j++)
                     {
-                        if(dt.Rows[j][0].ToString()== dtt1.Rows[i][0].ToString())
+                        if(dt.Rows[j][0].ToString()== old_quality)
                         {
+                            //found at the jth row
                             found = true;
                             dt.Rows[j][1] = float.Parse(dt.Rows[j][1].ToString()) - float.Parse(dtt1.Rows[i][1].ToString());
                             break;
@@ -3730,15 +3775,16 @@ namespace Factory_Inventory.Factory_Classes
                     }
                     if(found==false)
                     {
-                        dt.Rows.Add(dtt1.Rows[i][0].ToString(), (-float.Parse(dtt1.Rows[i][1].ToString())).ToString());
+                        dt.Rows.Add(old_quality, (-float.Parse(dtt1.Rows[i][1].ToString())).ToString());
                     }
                 }
                 for (int i = 0; i < dtt2.Rows.Count; i++)
                 {
                     bool found = false;
+                    string old_quality = this.getBeforeQuality(dtt2.Rows[i][0].ToString());
                     for (int j = 0; j < dt.Rows.Count; j++)
                     {
-                        if (dt.Rows[j][0].ToString() == dtt2.Rows[i][0].ToString())
+                        if (dt.Rows[j][0].ToString() == old_quality)
                         {
                             found = true;
                             dt.Rows[j][1] = float.Parse(dt.Rows[j][1].ToString()) - float.Parse(dtt2.Rows[i][1].ToString());
@@ -3747,9 +3793,10 @@ namespace Factory_Inventory.Factory_Classes
                     }
                     if (found == false)
                     {
-                        dt.Rows.Add(dtt2.Rows[i][0].ToString(), (-float.Parse(dtt2.Rows[i][1].ToString())).ToString());
+                        dt.Rows.Add(old_quality, (-float.Parse(dtt2.Rows[i][1].ToString())).ToString());
                     }
                 }
+                this.printDataTable(dt);
             }
             catch (Exception e)
             {
