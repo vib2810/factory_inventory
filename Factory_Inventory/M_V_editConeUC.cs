@@ -29,7 +29,7 @@ namespace Factory_Inventory
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;
 
-            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 int row = dataGridView1.SelectedRows[0].Index;
@@ -45,7 +45,7 @@ namespace Factory_Inventory
                     }
                     catch
                     {
-                        MessageBox.Show("Cone weight should be numerical","Error");
+                        c.ErrorBox("Cone weight should be numerical", "Error");
                         return;
                     }
                     c.editQC(editedQualityTextbox.Text, dataGridView1.Rows[row].Cells[0].Value.ToString(), 'n');
@@ -79,7 +79,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Cone weight should be numerical", "Error");
+                c.ErrorBox("Cone weight should be numerical", "Error");
                 return;
             }
             c.addQC(newQualityTextbox.Text, 'n');

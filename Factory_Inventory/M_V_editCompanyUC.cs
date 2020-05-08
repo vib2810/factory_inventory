@@ -28,7 +28,7 @@ namespace Factory_Inventory
         private void confirmButton_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;
-            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 int row = dataGridView1.SelectedRows[0].Index;

@@ -127,7 +127,7 @@ namespace Factory_Inventory
         {
             if (dataGridView5.RowCount== 0)
             {
-                MessageBox.Show("Please Select Cartons to Print");
+                c.ErrorBox("Please Select Cartons to Print", "Error");
                 return;
             }
             this.cartons_to_print.Clear();
@@ -160,7 +160,7 @@ namespace Factory_Inventory
                 int index = this.dataGridView1.SelectedRows[0].Index;
                 if (index >= this.dataGridView1.Rows.Count)
                 {
-                    MessageBox.Show("Please select valid voucher", "Error");
+                    c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
                 DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
@@ -172,7 +172,7 @@ namespace Factory_Inventory
                 int index = this.dataGridView2.SelectedRows[0].Index;
                 if (index >= this.dataGridView2.Rows.Count - 1)
                 {
-                    MessageBox.Show("Please select valid voucher", "Error");
+                    c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
                 DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
@@ -181,7 +181,7 @@ namespace Factory_Inventory
             }
             if (batch_no == -1 || voucher_id == -1)
             {
-                MessageBox.Show("Invalid Batch, couldnt fetch voucher");
+                c.ErrorBox("Invalid Batch, couldnt fetch voucher", "Error");
             }
             DataTable voucher = c.getProductionVoucherTable_VoucherID(voucher_id);
 
@@ -245,7 +245,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please Enter Numeric Batch Number");
+                c.ErrorBox("Please Enter Numeric Batch Number", "Error");
                 return;
             }
             fiscal_year = fiscalCombobox.Text;

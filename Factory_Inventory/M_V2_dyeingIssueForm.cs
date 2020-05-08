@@ -22,6 +22,21 @@ namespace Factory_Inventory
                 SendKeys.Send("{Tab}");
                 return false;
             }
+            if (keyData == Keys.F2)
+            {
+                Console.WriteLine("dgv1");
+                this.dataGridView1.Focus();
+                this.ActiveControl = dataGridView1;
+                this.dataGridView1.CurrentCell = dataGridView1[0, 0];
+                return false;
+            }
+            if (keyData == Keys.F3)
+            {
+                Console.WriteLine("cb");
+                this.comboBox4CB.Focus();
+                this.ActiveControl = comboBox4CB;
+                return false;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private DbConnect c;
@@ -121,6 +136,8 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Machine_Number", "Machine Number");
             dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.RowCount = 10;
+
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
         }
 
@@ -275,6 +292,8 @@ namespace Factory_Inventory
             {
                 dataGridView1.Rows[i].Cells[1].Value = tray_no_this[i];
             }
+
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
 
         public void disable_form_edit()
@@ -346,7 +365,12 @@ namespace Factory_Inventory
                 if (rowindex_tab < 0)
                 {
                     SendKeys.Send("{tab}");
-                    return;
+                    return;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
                 }
                 if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
                 {
@@ -354,6 +378,8 @@ namespace Factory_Inventory
                 }
                 if (edit_cmd_local == false)
                 {
+                    SendKeys.Send("{tab}");
+                    SendKeys.Send("{tab}");
                     SendKeys.Send("{tab}");
                 }
             }
@@ -374,11 +400,44 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
+                }
                 if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
                 {
                     dataGridView1.Rows.Add();
                 }
                 SendKeys.Send("{tab}");
+            }
+            if (e.KeyCode == Keys.Tab &&
+               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 3)))
+            {
+                int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
+                if (rowindex_tab < 0)
+                {
+                    SendKeys.Send("{tab}");
+                    return;
+                }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
+                }
+                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
+                {
+                    dataGridView1.Rows.Add();
+                }
+                SendKeys.Send("{tab}");
+            }
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            {
+                dataGridView1.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView1.EditingControl;
+                c.DroppedDown = true;
+                e.Handled = true;
             }
         }
         private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -408,27 +467,27 @@ namespace Factory_Inventory
             //checks
             if (comboBox1CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Quality", "Error");
+                c.ErrorBox("Enter Select Quality", "Error");
                 return;
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Company Name", "Error");
+                c.ErrorBox("Enter Select Company Name", "Error");
                 return;
             }
             if (comboBox3CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Dyeing Company Name", "Error");
+                c.ErrorBox("Enter Select Dyeing Company Name", "Error");
                 return;
             }
             if (comboBox4CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Colour", "Error");
+                c.ErrorBox("Enter Select Colour", "Error");
                 return;
             }
             if(batchNumberTextboxTB.Text==null || batchNumberTextboxTB.Text=="")
             {
-                MessageBox.Show("Enter Batch Number", "Error");
+                c.ErrorBox("Enter Batch Number", "Error");
             }
             try
             {
@@ -436,12 +495,12 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Enter numeric Batch Number only", "Error");
+                c.ErrorBox("Enter numeric Batch Number only", "Error");
                 return;
             }
             if (dataGridView1.Rows[0].Cells[1].Value==null)
             {
-                MessageBox.Show("Please enter Tray Numbers", "Error");
+                c.ErrorBox("Please enter Tray Numbers", "Error");
                 return;
             }
             try
@@ -450,12 +509,12 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Enter numeric rate only", "Error");
+                c.ErrorBox("Enter numeric rate only", "Error");
                 return;
             }
             if (this.inputDateDTP.Value.Date < this.issueDateDTP.Value.Date)
             {
-                MessageBox.Show("Issue Date is in the future", "Error");
+                c.ErrorBox("Issue Date is in the future", "Error");
                 return;
             }
             string trayno = "", trayid="";
@@ -482,7 +541,7 @@ namespace Factory_Inventory
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        MessageBox.Show("Please Enter Distinct Tray Nos at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Please Enter Distinct Tray Nos at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
@@ -545,12 +604,12 @@ namespace Factory_Inventory
         {
             if (comboBox1CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Quality", "Error");
+                c.ErrorBox("Enter Select Quality", "Error");
                 return;
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Company Name", "Error");
+                c.ErrorBox("Enter Select Company Name", "Error");
                 return;
             }
             if(this.edit_form==false)
@@ -657,6 +716,34 @@ namespace Factory_Inventory
             this.issueDateDTP.Focus();
         }
 
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 1 && e.RowIndex >= 0)
+            {
+                if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
+                    dynamicWeightLabel.Text = CellSum().ToString("F3");
+                    return;
+                }
+                string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                DataTable dt;
+                if (edit_form == true)
+                {
+                    dt = c.getTrayWeightMachineNo(int.Parse(this.tray_id_this[e.RowIndex]), this.batch_state);
+                }
+                else
+                {
+                    int trayid = c.getTrayID(trayno);
+                    dt = c.getTrayWeightMachineNo(trayid, 1);
+
+                }
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = float.Parse(dt.Rows[0]["Net_Weight"].ToString()).ToString("F3");
+                this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = dt.Rows[0]["Machine_No"].ToString();
+                dynamicWeightLabel.Text = CellSum().ToString("F3");
+            }
+        }
+
         private void loadData(string quality, string company)
         {
             DataTable d = c.getTrayStateQualityCompany(1, quality, company);
@@ -665,7 +752,10 @@ namespace Factory_Inventory
             {
                 this.tray_no.Add(d.Rows[i][0].ToString());
             }
-            if (this.edit_form==false) MessageBox.Show("Loaded Data");
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded "+d.Rows.Count.ToString()+" Trays");
+            }
         }
     }
 }

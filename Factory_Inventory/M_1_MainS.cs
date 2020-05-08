@@ -62,7 +62,7 @@ namespace Factory_Inventory
         {
             if(this.close_from_code!=true)
             {
-                DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     this.logout = true;

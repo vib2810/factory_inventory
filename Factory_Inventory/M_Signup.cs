@@ -66,19 +66,19 @@ namespace Factory_Inventory
                 int AccessLevel = this.comboBox1.SelectedIndex;
                 if(this.comboBox1.SelectedIndex==0)
                 {
-                    MessageBox.Show("Select Access Level", "Error");
+                    c.ErrorBox("Select Access Level", "Error");
                     return;
                 }
                 int ans=c.addUser(username, password, AccessLevel);
                 if(ans==1)
                 {
-                    MessageBox.Show("User added successfully", "Success");
+                    c.SuccessBox("User added successfully");
                     this.Close();
                 }
             }
             else
             {
-                MessageBox.Show("Passwords Do Not Match/Password Empty", "Error");
+                c.ErrorBox("Passwords Do Not Match/Password Empty", "Error");
             }
         }
 

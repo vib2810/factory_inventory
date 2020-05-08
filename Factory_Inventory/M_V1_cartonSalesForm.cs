@@ -22,6 +22,21 @@ namespace Factory_Inventory
                 SendKeys.Send("{Tab}");
                 return false;
             }
+            if (keyData == Keys.F2)
+            {
+                Console.WriteLine("dgv1");
+                this.dataGridView1.Focus();
+                this.ActiveControl = dataGridView1;
+                this.dataGridView1.CurrentCell = dataGridView1[0, 0];
+                return false;
+            }
+            if (keyData == Keys.F3)
+            {
+                Console.WriteLine("cb");
+                this.comboBox3CB.Focus();
+                this.ActiveControl = comboBox3CB;
+                return false;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private DbConnect c;
@@ -113,6 +128,8 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Weight", "Weight");
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.RowCount = 10;
+
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
         }
 
@@ -265,6 +282,8 @@ namespace Factory_Inventory
             {
                 dataGridView1.Rows[i].Cells[1].Value = carton_no[i];
             }
+
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -318,6 +337,11 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
+                }
                 if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
                 {
                     dataGridView1.Rows.Add();
@@ -336,11 +360,24 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    dataGridView1.Rows.Add(row);
+                }
                 if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
                 {
                     dataGridView1.Rows.Add();
                 }
                 SendKeys.Send("{tab}");
+            }
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            {
+                dataGridView1.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView1.EditingControl;
+                c.DroppedDown = true;
+                e.Handled = true;
             }
         }
 
@@ -362,32 +399,32 @@ namespace Factory_Inventory
 
             if (comboBox1CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Quality", "Error");
+                c.ErrorBox("Enter Select Quality", "Error");
                 return;
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Company Name", "Error");
+                c.ErrorBox("Enter Select Company Name", "Error");
                 return;
             }
             if (dataGridView1.Rows[0].Cells[1].Value==null)
             {
-                MessageBox.Show("Please enter Carton Numbers", "Error");
+                c.ErrorBox("Please enter Carton Numbers", "Error");
                 return;
             }
             if(comboBox3CB.SelectedIndex==0)
             {
-                MessageBox.Show("Enter Select Customer Name", "Error");
+                c.ErrorBox("Enter Select Customer Name", "Error");
                 return;
             }
             if (sellingPriceTextboxTB.Text == null)
             {
-                MessageBox.Show("Enter Select selling price", "Error");
+                c.ErrorBox("Enter Select selling price", "Error");
                 return;
             }
             if (sellingPriceTextboxTB.Text == "")
             {
-                MessageBox.Show("Enter Select selling price", "Error");
+                c.ErrorBox("Enter Select selling price", "Error");
                 return;
             }
             try
@@ -396,17 +433,17 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter numeric selling price only", "Error");
+                c.ErrorBox("Please enter numeric selling price only", "Error");
                 return;
             }
             if(inputDate.Value.Date<issueDateDTP.Value.Date)
             {
-                MessageBox.Show("Issue Date is in the future", "Error");
+                c.ErrorBox("Issue Date is in the future", "Error");
                 return;
             }
             if(this.comboBox3CB.FindStringExact(this.comboBox3CB.Text)==-1)
             {
-                MessageBox.Show("Select valid customer", "Error");
+                c.ErrorBox("Select valid customer", "Error");
                 this.comboBox3CB.SelectedIndex = 0;
                 return;
             }
@@ -430,7 +467,7 @@ namespace Factory_Inventory
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        MessageBox.Show("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
@@ -517,12 +554,12 @@ namespace Factory_Inventory
         {
             if (comboBox1CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Quality", "Error");
+                c.ErrorBox("Enter Select Quality", "Error");
                 return;
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                MessageBox.Show("Enter Select Company Name", "Error");
+                c.ErrorBox("Enter Select Company Name", "Error");
                 return;
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox4CB.SelectedItem.ToString());
@@ -540,7 +577,10 @@ namespace Factory_Inventory
             {
                 this.carton_data.Add(d.Rows[i][0].ToString());
             }
-            if(this.edit_form==false) MessageBox.Show("Loaded Data");
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded "+d.Rows.Count.ToString()+" Cartons");
+            }
         }
 
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)

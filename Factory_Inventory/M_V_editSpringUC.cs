@@ -29,7 +29,7 @@ namespace Factory_Inventory
         private void confirmButton_Click(object sender, EventArgs e)
         {
             if (userDataView.SelectedRows.Count <= 0) return;
-            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 int row = userDataView.SelectedRows[0].Index;
@@ -41,7 +41,7 @@ namespace Factory_Inventory
                 {
                     if (editedQualityTextbox.Text == null || editedQualityTextbox.Text == "")
                     {
-                        MessageBox.Show("Please enter spring number", "Error");
+                        c.ErrorBox("Please enter spring number", "Error");
                         return;
                     }
                     try
@@ -51,7 +51,7 @@ namespace Factory_Inventory
                     }
                     catch
                     {
-                        MessageBox.Show("Please enter numeric weight value only", "Error");
+                        c.ErrorBox("Please enter numeric weight value only", "Error");
                         editSpringWeightTextbox.Text = userDataView.Rows[row].Cells[1].Value.ToString();
                         return;
                     }
@@ -85,7 +85,7 @@ namespace Factory_Inventory
 
             if (newQualityTextbox.Text == null || newQualityTextbox.Text == "")
             {
-                MessageBox.Show("Please enter spring number", "Error");
+                c.ErrorBox("Please enter spring number", "Error");
                 return;
             }
             try
@@ -95,7 +95,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Please enter numeric weight value only", "Error");
+                c.ErrorBox("Please enter numeric weight value only", "Error");
                 addSpringWeightTextbox.Text = "";
                 return;
             }

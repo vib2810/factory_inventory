@@ -70,7 +70,7 @@ namespace Factory_Inventory
         private void confirmButton_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;
-            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 int row = dataGridView1.SelectedRows[0].Index;
@@ -82,12 +82,12 @@ namespace Factory_Inventory
                 {
                     if (editedQualityTextbox.Text == null || editedQualityTextbox.Text == "")
                     {
-                        MessageBox.Show("Please enter colour", "Error");
+                        c.ErrorBox("Please enter colour", "Error");
                         return;
                     }
                     if (editQualityCombobox.SelectedIndex==0)
                     {
-                        MessageBox.Show("Please select quality", "Error");
+                        c.ErrorBox("Please select quality", "Error");
                         return;
                     }
                     try
@@ -97,7 +97,7 @@ namespace Factory_Inventory
                     }
                     catch
                     {
-                        MessageBox.Show("Please enter numeric dyeing rate value only", "Error");
+                        c.ErrorBox("Please enter numeric dyeing rate value only", "Error");
                         editDyeingRateTexbox.Text = dataGridView1.Rows[row].Cells[2].Value.ToString();
                         return;
                     }
@@ -132,17 +132,17 @@ namespace Factory_Inventory
         {
             if (c.isPresentInColour(newQualityTextbox.Text, addQualityCombobox.SelectedItem.ToString()) == true)
             {
-                MessageBox.Show("Entry Already Present", "Error");
+                c.ErrorBox("Entry Already Present", "Error");
                 return;
             }
             if (newQualityTextbox.Text == null || newQualityTextbox.Text == "")
             {
-                MessageBox.Show("Please enter colour", "Error");
+                c.ErrorBox("Please enter colour", "Error");
                 return;
             }
             if (addQualityCombobox.SelectedIndex == 0)
             {
-                MessageBox.Show("Please select quality", "Error");
+                c.ErrorBox("Please select quality", "Error");
                 return;
             }
             try
@@ -152,7 +152,7 @@ namespace Factory_Inventory
             }
             catch
             {
-                MessageBox.Show("Enter numeric Dyeing Rate only", "Error");
+                c.ErrorBox("Enter numeric Dyeing Rate only", "Error");
                 addDyeingRateTexbox.Text = "";
                 return;
             }

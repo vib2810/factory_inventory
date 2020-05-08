@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using MyCoolCompany.Shuriken;
+using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
@@ -17,9 +18,12 @@ namespace Factory_Inventory
     {
         public string database="FactoryData";
         public bool wait = false;
+        public string backupname;
+        public DbConnect c;
         public M_1_BackupRestoreUC()
         {
             InitializeComponent();
+            c = new DbConnect(); 
         }
 
         private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
@@ -50,7 +54,7 @@ namespace Factory_Inventory
         {
             if(this.backupLoactionTB.Text==string.Empty)
             {
-                MessageBox.Show("Please select backup loaction", "Error");
+                c.ErrorBox("Please select backup loaction", "Error");
                 return;
             }
             progressBar1.Value = 0;
@@ -58,15 +62,17 @@ namespace Factory_Inventory
             {
                 Server dbServer = new Server(new ServerConnection("192.168.1.12, 1433", "sa", "Kdvghr2810@"));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
-                dbBackup.Devices.AddDevice(this.backupLoactionTB.Text, DeviceType.File);
+                dbBackup.Devices.AddDevice(this.backupLoactionTB.Text + this.database + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + ".bak", DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbBackup_PercentComplete;
                 dbBackup.Complete += DbBackup_Complete;
                 dbBackup.SqlBackupAsync(dbServer);
+                this.backupLoactionLabel.Text += "Backup stored as: "+this.database + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + ".bak";
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                c.ErrorBox(ex.Message, "Error");
+
             }
         }
 
@@ -87,7 +93,7 @@ namespace Factory_Inventory
             };
             if (dialog.Show(Handle))
             {
-                this.backupLoactionTB.Text = dialog.FileName + @"\" + this.database + "("+ DateTime.Now.ToString().Replace(":", "-") + ")" + ".bak";
+                this.backupLoactionTB.Text = dialog.FileName + @"\";
             }
         }
 
@@ -120,7 +126,7 @@ namespace Factory_Inventory
         {
             if (this.restoreLocationTB.Text == string.Empty)
             {
-                MessageBox.Show("Please select restore file", "Error");
+                c.ErrorBox("Please select restore file", "Error");
                 return;
             }
             try
@@ -136,7 +142,8 @@ namespace Factory_Inventory
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                c.ErrorBox(ex.Message, "Error");
+
             }
             progressBar2.Value = 0;
             try
@@ -156,7 +163,8 @@ namespace Factory_Inventory
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                c.ErrorBox(ex.Message, "Error");
+
             }
         }
 

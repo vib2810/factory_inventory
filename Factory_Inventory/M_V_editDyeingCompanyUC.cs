@@ -30,7 +30,7 @@ namespace Factory_Inventory
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;
 
-            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 int row = dataGridView1.SelectedRows[0].Index;
@@ -42,7 +42,7 @@ namespace Factory_Inventory
                 {
                     if(editedQualityTextbox.Text=="" || editGSTINTextbox.Text=="" || editAddressTextbox.Text=="")
                     {
-                        MessageBox.Show("Enter all the values", "Error");
+                        c.ErrorBox("Enter all the values", "Error");
                         return;
                     }
                     c.editCustomer(editedQualityTextbox.Text, editGSTINTextbox.Text, editAddressTextbox.Text, dataGridView1.Rows[row].Cells[0].Value.ToString(), "Dyeing_Company_Names");
@@ -76,7 +76,7 @@ namespace Factory_Inventory
         {
             if (newQualityTextbox.Text == "" || addGSTINTextbox.Text == "" || addAddressTextbox.Text == "")
             {
-                MessageBox.Show("Enter all the values", "Error");
+                c.ErrorBox("Enter all the values", "Error");
                 return;
             }
             c.addCustomer(newQualityTextbox.Text, addGSTINTextbox.Text, addAddressTextbox.Text, "Dyeing_Company_Names");
