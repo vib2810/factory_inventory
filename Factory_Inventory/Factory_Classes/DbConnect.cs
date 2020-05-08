@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Management.SqlParser.Parser;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
@@ -39,31 +40,37 @@ namespace Factory_Inventory.Factory_Classes
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryInventory;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
             
             //Connection string for Vob's laptop
-            this.con = new SqlConnection(@"Data Source=192.168.1.38, 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
+            this.con = new SqlConnection(@"Data Source=192.168.1.12, 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
         }
 
         public void temp()
         {
-            for(int i=2019;i<2060;i++)
+            try
             {
-                string fy = i.ToString() + "-" + (i + 1).ToString();
-                try
+                con.Open();
+                List<string> sqls = new List<string>();
+                sqls.Add("INSERT INTO temp2 values ('36/34 bdd', 1.23)");
+                sqls.Add("INSERT INTO temp2 values ('36/34 tex', 2.47)");
+                sqls.Add("INSERT INTO temp2 values ('q3_333', 4.78)");
+                sqls.Add("INSERT INTO temp2 values ('q4_444', 2.789 )");
+                sqls.Add("INSERT INTO temp2 values ('q5_555', 9.235 )");
+                Random r = new Random();
+                for (int i = 0; i < 100000; i++)
                 {
-                    con.Open();
+                    int a = r.Next(0, 4);
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    string sql = "INSERT INTO Fiscal_Year_Data VALUES ('" + fy + "', 0 ,0)";
-                    adapter.InsertCommand = new SqlCommand(sql, con);
+                    adapter.InsertCommand = new SqlCommand(sqls[a], con);
                     adapter.InsertCommand.ExecuteNonQuery();
                 }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Could not add temp (addUser) \n" + e.Message, "Exception");
-                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not add temp (addUser) \n" + e.Message, "Exception");
+            }
 
-                finally
-                {
-                    con.Close();
-                }
+            finally
+            {
+                con.Close();
             }
         }
         //Utility Functions
@@ -154,6 +161,14 @@ namespace Factory_Inventory.Factory_Classes
                 ans.Add((year));
             }
             return (ans[0].ToString()+"-"+ans[1].ToString());
+        }
+        public List<int> getFinancialYearArr(string fiscal_year)
+        {
+            List<int> ans = new List<int>();
+            string[] years = fiscal_year.Split('-');
+            ans.Add(int.Parse(years[0]));
+            ans.Add(int.Parse(years[1]));
+            return ans;
         }
         public int getCount_FinancialYear(string tablename, string financialyear, string quantitycolumn, string quantity)
         {
@@ -3451,6 +3466,360 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return true;
+        }
+        
+        //Inventory
+        public DataTable getInventoryCarton(DateTime d)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                string date = d.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+                string sql = "SELECT * FROM Carton WHERE Date_Of_Billing <= '"+date+ "' AND ((Date_Of_Issue IS NULL AND Date_Of_Sale IS Null) OR (Date_Of_Issue IS NULL AND Date_Of_Sale >= '" + date + "') OR (Date_Of_Sale IS NULL AND Date_Of_Issue >= '" + date + "')) ORDER BY Date_Of_Billing DESC";
+                Console.WriteLine(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                sda.Fill(dt);
+            }
+            catch
+            {
+                MessageBox.Show("Could not connect to database (getInventoryCarton)", "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
+        public float getTwistStock(DateTime d)
+        {
+            float ans = -1F;
+            string fiscal_year = this.getFinancialYear(d);
+            List<int> fiscal_year_arr = this.getFinancialYearArr(fiscal_year);
+            string prev_fiscal_year = (fiscal_year_arr[0] - 1).ToString() + "-" + (fiscal_year_arr[0]).ToString();
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Is_Set, Twist_Stock FROM Fiscal_Year WHERE Fiscal_Year='" +prev_fiscal_year+"'", con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count == 0)
+                {
+                    //case raw calculate
+                    Console.WriteLine("getTwistStock raw");
+                    ans = this.getTwistStockFiscalYear(fiscal_year, d);
+                }
+                else
+                {
+                    int is_set = int.Parse(dt.Rows[0][0].ToString());
+                    float previous_twist_stock=-0F;
+                    if (is_set == 0)
+                    {
+                        Console.WriteLine("getTwistStock calculating for previous year "+prev_fiscal_year);
+                        this.calculateTwistStock(prev_fiscal_year);
+                        con.Open();
+                        SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Is_Set, Twist_Stock FROM Fiscal_Year WHERE Fiscal_Year='" + prev_fiscal_year + "'", con);
+                        DataTable dt2 = new DataTable();
+                        sda.Fill(dt2);
+                        con.Close();
+                        if (int.Parse(dt2.Rows[0][0].ToString()) == 0)
+                        {
+                            ErrorBox("Fatal error in getTwistStock", "Error");
+                            con.Close();
+                            return ans;
+                        }
+                        previous_twist_stock = float.Parse(dt2.Rows[0][1].ToString());
+                    }
+                    else previous_twist_stock = float.Parse(dt.Rows[0][1].ToString());
+                    Console.WriteLine("getTwistStock set previous year ka" + prev_fiscal_year+" prev stock="+previous_twist_stock);
+                    ans = previous_twist_stock + this.getTwistStockFiscalYear(fiscal_year, d);
+                }
+            }
+            catch(Exception e)
+            {
+                ErrorBox("Could not connect to database (getTwistStock) \n"+ e.Message , "Exception");
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return ans;
+        }
+        public void calculateTwistStock(string fiscal_year)
+        {
+            Console.WriteLine("calculateTwistStock for " +fiscal_year);
+            List<int> fiscal_year_arr = this.getFinancialYearArr(fiscal_year);
+            string prev_fiscal_year = (fiscal_year_arr[0] - 1).ToString() + "-" + (fiscal_year_arr[0]).ToString();
+            float twist_stock = 0F;
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Is_Set, Twist_Stock FROM Fiscal_Year WHERE Fiscal_Year='" + prev_fiscal_year + "'", con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count == 0)
+                {
+                    //this is the last financial_year in the list
+                    Console.WriteLine("calculateTwistStock last fiscal year" + fiscal_year);
+                    twist_stock = this.getTwistStockFiscalYear(fiscal_year, DateTime.MinValue);
+                }
+                else
+                {
+                    int is_set = int.Parse(dt.Rows[0][0].ToString());
+                    if (is_set == 1) //previous stock exists
+                    {
+                        Console.WriteLine("calculateTwistStock Previous stock exists " + fiscal_year);
+                        float prev_stock = float.Parse(dt.Rows[0][1].ToString());
+                        twist_stock= prev_stock+ this.getTwistStockFiscalYear(fiscal_year, new DateTime());
+                    }
+                    else if (is_set == 0) //previous stock doesnt exist
+                    {
+                        Console.WriteLine("calculateTwistStock Previous stock doesnt exist " + fiscal_year);
+                        //calculate for previous, then for now
+                        con.Close();
+                        this.calculateTwistStock(prev_fiscal_year);
+                        this.calculateTwistStock(fiscal_year);
+                        return;
+                    }
+                }
+                //set this as twist stock
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "UPDATE Fiscal_Year SET Twist_Stock=" + twist_stock + ", Is_Set=1 WHERE Fiscal_Year='" + fiscal_year + "'";
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+                con.Close();
+            }
+            catch(Exception e)
+            {
+                ErrorBox("Could not connect to database (calculateTwistStock)" +e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+        public float getTwistStockFiscalYear(string fiscal_year, DateTime d)
+        {
+            //calculates the twist_stock from start date to d(end of year if d is default)
+            List<int> fiscal_year_arr = this.getFinancialYearArr(fiscal_year);
+            if(d!=DateTime.MinValue)
+            {
+                if (this.getFinancialYear(d) != fiscal_year)
+                {
+                    this.ErrorBox("getTwistStock Break", "Error");
+                }
+            }
+
+            DateTime start = new DateTime(fiscal_year_arr[0], 4, 1);
+            DateTime end = new DateTime(fiscal_year_arr[1], 3, 31);
+            if (d != DateTime.MinValue) end = d;
+            Console.WriteLine("getTwistStockFiscalYear start=" + start.Date + " End=" + end.Date);
+            float net_carton_wt = 0F, net_tray_wt = 0F;
+            try
+            {
+                con.Open();
+                //get all cartons gone to twist between this time, and trays produced in this time
+                string sql = "SELECT SUM(Carton_Weight) FROM Carton WHERE Date_Of_Issue>='" + start.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND Date_Of_Issue<='" + end.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'";
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                Console.WriteLine(sql);
+
+                sql = "SELECT SUM(Net_Weight) FROM Tray_History WHERE Tray_Production_Date>='" + start.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND Tray_Production_Date<='" + end.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'";
+                SqlDataAdapter sdat1 = new SqlDataAdapter(sql, con);
+                DataTable dtt1 = new DataTable();
+                sdat1.Fill(dtt1);
+                Console.WriteLine(sql);
+
+                sql = "SELECT SUM(Net_Weight) FROM Tray_Active WHERE Tray_Production_Date>='" + start.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND Tray_Production_Date<='" + end.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'";
+                SqlDataAdapter sdat2 = new SqlDataAdapter(sql, con);
+                DataTable dtt2 = new DataTable();
+                sdat2.Fill(dtt2);
+                Console.WriteLine(sql);
+                Console.WriteLine(dt.Rows[0][0].ToString());
+                Console.WriteLine(dtt1.Rows[0][0].ToString());
+                Console.WriteLine(dtt2.Rows[0][0].ToString());
+
+                float value;
+                if (float.TryParse(dt.Rows[0][0].ToString(), out value)==true ) net_carton_wt += float.Parse(dt.Rows[0][0].ToString());
+                if (float.TryParse(dtt1.Rows[0][0].ToString(), out value) == true) net_tray_wt += float.Parse(dtt1.Rows[0][0].ToString());
+                if (float.TryParse(dtt2.Rows[0][0].ToString(), out value) == true) net_tray_wt += float.Parse(dtt2.Rows[0][0].ToString());
+                Console.WriteLine("Net carton wt=" + net_carton_wt + " net tray wt=" + net_tray_wt);
+            }
+            catch(Exception e)
+            {
+                ErrorBox("Could not connect to database (getTwistStockFiscalYear)\n"+e.Message, "Exception");
+                con.Close();
+                return 0F;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return net_carton_wt - net_tray_wt;
+        }
+        public DataTable getTwistStock2(DateTime d)
+        {
+            DataTable dt = new DataTable();
+            DataTable dtt1 = new DataTable();
+            DataTable dtt2 = new DataTable();
+            try
+            {
+                con.Open();
+                //get all cartons gone to twist between this time, and trays produced in this time
+                string sql = "SELECT Quality, SUM(Carton_Weight) FROM Carton WHERE Date_Of_Issue<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10)+"'  GROUP BY QUALITY";
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                sda.Fill(dt);
+                Console.WriteLine(sql);
+
+                sql = "SELECT Quality, SUM(Net_Weight) FROM Tray_History WHERE Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' GROUP BY QUALITY";
+                SqlDataAdapter sdat1 = new SqlDataAdapter(sql, con);
+                sdat1.Fill(dtt1);
+                Console.WriteLine(sql);
+
+                sql = "SELECT Quality, SUM(Net_Weight) FROM Tray_Active WHERE Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' GROUP BY QUALITY";
+                SqlDataAdapter sdat2 = new SqlDataAdapter(sql, con);
+                sdat2.Fill(dtt2);
+                Console.WriteLine(sql);
+
+                for(int i=0; i<dtt1.Rows.Count; i++)
+                {
+                    bool found = false;
+                    for(int j=0; j<dt.Rows.Count; j++)
+                    {
+                        if(dt.Rows[j][0].ToString()== dtt1.Rows[i][0].ToString())
+                        {
+                            found = true;
+                            dt.Rows[j][1] = float.Parse(dt.Rows[j][1].ToString()) - float.Parse(dtt1.Rows[i][1].ToString());
+                            break;
+                        }
+                    }
+                    if(found==false)
+                    {
+                        dt.Rows.Add(dtt1.Rows[i][0].ToString(), (-float.Parse(dtt1.Rows[i][1].ToString())).ToString());
+                    }
+                }
+                for (int i = 0; i < dtt2.Rows.Count; i++)
+                {
+                    bool found = false;
+                    for (int j = 0; j < dt.Rows.Count; j++)
+                    {
+                        if (dt.Rows[j][0].ToString() == dtt2.Rows[i][0].ToString())
+                        {
+                            found = true;
+                            dt.Rows[j][1] = float.Parse(dt.Rows[j][1].ToString()) - float.Parse(dtt2.Rows[i][1].ToString());
+                            break;
+                        }
+                    }
+                    if (found == false)
+                    {
+                        dt.Rows.Add(dtt2.Rows[i][0].ToString(), (-float.Parse(dtt2.Rows[i][1].ToString())).ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorBox("Could not connect to database (getTwistStockFiscalYear)\n" + e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt;
+        }
+        public DataTable getInventoryTray(DateTime d)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            DataTable dt2 = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_No, Tray_Production_Date, Dyeing_Out_Date,  Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist FROM Tray_Active WHERE Tray_Production_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
+                sda.Fill(dt);
+                SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Tray_No, Tray_Production_Date, Dyeing_Out_Date,  Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist FROM Tray_History WHERE Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
+                sda2.Fill(dt2);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getInventoryTray)\n"+e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            DataTable ans = dt.Copy();
+            ans.Merge(dt2);
+            return ans;
+        }
+        public DataTable getInventoryDyeingBatch(DateTime d)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Dyeing_Out_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_In_Date>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'  OR Dyeing_In_Date IS NULL) ORDER BY Dyeing_Out_Date", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getInventoryDyeingBatch)\n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
+        public DataTable getInventoryConningBatch(DateTime d)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Dyeing_In_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Date_Of_Production>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Date_Of_Production IS NULL) ORDER BY Dyeing_In_Date", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getInventoryConningBatch)\n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
+        public DataTable getInventoryCartonProduced(DateTime d)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Carton_Produced WHERE Date_Of_Production <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Date_Of_Sale>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Date_Of_Sale IS NULL) ORDER BY Date_Of_Production", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not connect to database (getInventoryCartonProduced)\n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
         }
     }
 

@@ -35,9 +35,14 @@ use FactoryInventory
 --GO
 
 --GO
---CREATE NONCLUSTERED INDEX [Date_Of_Input] ON [dbo].[Carton]
+--CREATE NONCLUSTERED INDEX [Date_Of_Billing] ON [dbo].[Carton]
 --(
---	[Date_Of_Input] ASC
+--	[Date_Of_Billing] DESC
+--)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+--GO
+--CREATE NONCLUSTERED INDEX [Date_Of_Issue] ON [dbo].[Carton]
+--(
+--	[Date_Of_Issue] DESC
 --)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 --GO
 
@@ -573,6 +578,8 @@ use FactoryInventory
 --	Fiscal_Year varchar(15) NOT NULL Primary Key,
 --	Highest_Batch_No int NOT NULL,
 --	Highest_Carton_Production_No varchar(20) NOT NULL,
+--	Twist_Stock decimal(12,3) NULL,
+--	Is_Set tinyint NULL
 --);
 
 --create table Cones
