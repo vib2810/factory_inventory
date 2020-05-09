@@ -1397,6 +1397,25 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
+        public DataTable getCartonTable(string cartonno, string fiscal_year)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Carton WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not get weight (getCartonTable) \n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt;
+        }
         public int getCartonState(string carton_no, string fiscal_year)
         {
             //Returns -1 if carton not found
@@ -1966,6 +1985,8 @@ namespace Factory_Inventory.Factory_Classes
                 sda.Fill(dt);
                 if(dt.Rows.Count==0)
                 {
+                    dt.Clear();
+                    dt.Columns.Clear();
                     SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * FROM Tray_History WHERE Tray_ID=" + tray_id, con);
                     sda2.Fill(dt);
                 }

@@ -23,7 +23,7 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
             //c.temp();
-            M_I1_OnDate f = new M_I1_OnDate();
+            Display_Carton_Produced f = new Display_Carton_Produced(c.getProducedCartonRow("16","2020-2021"));
             //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
             //M_V_history f = new M_V_history(8);
             //M_V4_printCartonSlip f = new M_V4_printCartonSlip();

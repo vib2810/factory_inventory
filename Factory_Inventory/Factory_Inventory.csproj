@@ -144,6 +144,24 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Display_Carton_Produced.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display_Carton_Produced.Designer.cs">
+      <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display_Carton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display_Carton.Designer.cs">
+      <DependentUpon>Display_Carton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display_Batch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display_Batch.Designer.cs">
+      <DependentUpon>Display_Batch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Display_Tray.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -383,6 +401,15 @@
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectFolderDialogBox.cs" />
+    <EmbeddedResource Include="Display_Carton_Produced.resx">
+      <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display_Carton.resx">
+      <DependentUpon>Display_Carton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display_Batch.resx">
+      <DependentUpon>Display_Batch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Display_Tray.resx">
       <DependentUpon>Display_Tray.cs</DependentUpon>
     </EmbeddedResource>

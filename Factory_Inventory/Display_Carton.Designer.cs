@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class Display_Tray
+    partial class Display_Carton
     {
         /// <summary>
         /// Required designer variable.
@@ -35,10 +35,6 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -47,14 +43,6 @@
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textBox13 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -69,8 +57,8 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.textBox19 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -79,9 +67,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(17, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 38);
+            this.label1.Size = new System.Drawing.Size(221, 38);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Tray";
+            this.label1.Text = "Carton Inward";
             // 
             // textBox1
             // 
@@ -97,18 +85,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(41, 241);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(143, 17);
+            this.label2.Size = new System.Drawing.Size(95, 17);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Tray Production Date";
+            this.label2.Text = "Date of Billing";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(41, 146);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 17);
+            this.label3.Size = new System.Drawing.Size(64, 17);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Spring";
+            this.label3.Text = "Buy Cost";
             // 
             // textBox2
             // 
@@ -124,9 +112,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(201, 145);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(126, 17);
+            this.label4.Size = new System.Drawing.Size(112, 17);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Number of Springs";
+            this.label4.Text = "Sell Cost(If Sold)";
             // 
             // textBox3
             // 
@@ -136,42 +124,6 @@
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(147, 22);
             this.textBox3.TabIndex = 5;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(201, 323);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(71, 17);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Tray Tare";
-            // 
-            // textBox4
-            // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox4.Location = new System.Drawing.Point(204, 343);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(147, 22);
-            this.textBox4.TabIndex = 7;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(41, 323);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(94, 17);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "Gross Weight";
-            // 
-            // textBox5
-            // 
-            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox5.Location = new System.Drawing.Point(44, 343);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(147, 22);
-            this.textBox5.TabIndex = 15;
             // 
             // label7
             // 
@@ -214,9 +166,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(364, 241);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(131, 17);
+            this.label9.Size = new System.Drawing.Size(135, 17);
             this.label9.TabIndex = 10;
-            this.label9.Text = "Dyeing Inward Date";
+            this.label9.Text = "Date of Sale(If Sold)";
             // 
             // textBox8
             // 
@@ -232,9 +184,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(201, 241);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(143, 17);
+            this.label10.Size = new System.Drawing.Size(91, 17);
             this.label10.TabIndex = 24;
-            this.label10.Text = "Dyeing Outward Date";
+            this.label10.Text = "Date of Issue";
             // 
             // textBox9
             // 
@@ -245,82 +197,10 @@
             this.textBox9.Size = new System.Drawing.Size(147, 22);
             this.textBox9.TabIndex = 23;
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(364, 146);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(98, 17);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "Batch Number";
-            // 
-            // textBox10
-            // 
-            this.textBox10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox10.Location = new System.Drawing.Point(366, 166);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.ReadOnly = true;
-            this.textBox10.Size = new System.Drawing.Size(147, 22);
-            this.textBox10.TabIndex = 21;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(201, 415);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(54, 17);
-            this.label12.TabIndex = 20;
-            this.label12.Text = "Tray ID";
-            // 
-            // textBox11
-            // 
-            this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox11.Location = new System.Drawing.Point(204, 435);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.ReadOnly = true;
-            this.textBox11.Size = new System.Drawing.Size(147, 22);
-            this.textBox11.TabIndex = 19;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(364, 323);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(78, 17);
-            this.label13.TabIndex = 18;
-            this.label13.Text = "Net Weight";
-            // 
-            // textBox12
-            // 
-            this.textBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox12.Location = new System.Drawing.Point(366, 344);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.ReadOnly = true;
-            this.textBox12.Size = new System.Drawing.Size(147, 22);
-            this.textBox12.TabIndex = 17;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(522, 146);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(156, 17);
-            this.label14.TabIndex = 32;
-            this.label14.Text = "Dyeing Company Name";
-            // 
-            // textBox13
-            // 
-            this.textBox13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox13.Location = new System.Drawing.Point(525, 166);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.ReadOnly = true;
-            this.textBox13.Size = new System.Drawing.Size(183, 22);
-            this.textBox13.TabIndex = 31;
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(202, 464);
+            this.label15.Location = new System.Drawing.Point(201, 415);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(78, 17);
             this.label15.TabIndex = 30;
@@ -329,7 +209,7 @@
             // textBox14
             // 
             this.textBox14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox14.Location = new System.Drawing.Point(203, 484);
+            this.textBox14.Location = new System.Drawing.Point(202, 435);
             this.textBox14.Name = "textBox14";
             this.textBox14.ReadOnly = true;
             this.textBox14.Size = new System.Drawing.Size(147, 22);
@@ -340,9 +220,9 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(522, 92);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(115, 17);
+            this.label16.Size = new System.Drawing.Size(80, 17);
             this.label16.TabIndex = 28;
-            this.label16.Text = "Machine Number";
+            this.label16.Text = "Bill Number";
             // 
             // textBox15
             // 
@@ -358,9 +238,9 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(41, 415);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(134, 17);
+            this.label17.Size = new System.Drawing.Size(89, 17);
             this.label17.TabIndex = 26;
-            this.label17.Text = "Quality Before Twist";
+            this.label17.Text = "Date of Input";
             // 
             // textBox16
             // 
@@ -376,9 +256,9 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(41, 92);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(91, 17);
+            this.label18.Size = new System.Drawing.Size(104, 17);
             this.label18.TabIndex = 34;
-            this.label18.Text = "Tray Number";
+            this.label18.Text = "Carton Number";
             // 
             // textBox17
             // 
@@ -393,7 +273,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(39, 385);
+            this.label19.Location = new System.Drawing.Point(39, 386);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(121, 25);
             this.label19.TabIndex = 35;
@@ -434,9 +314,9 @@
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(363, 415);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(74, 17);
+            this.label23.Size = new System.Drawing.Size(87, 17);
             this.label23.TabIndex = 40;
-            this.label23.Text = "Tray State";
+            this.label23.Text = "Carton State";
             // 
             // textBox18
             // 
@@ -447,31 +327,29 @@
             this.textBox18.Size = new System.Drawing.Size(183, 22);
             this.textBox18.TabIndex = 39;
             // 
-            // label24
+            // textBox5
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(38, 464);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(138, 17);
-            this.label24.TabIndex = 42;
-            this.label24.Text = "Batch Financial Year";
+            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox5.Location = new System.Drawing.Point(44, 344);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(147, 22);
+            this.textBox5.TabIndex = 15;
             // 
-            // textBox19
+            // label6
             // 
-            this.textBox19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox19.Location = new System.Drawing.Point(42, 484);
-            this.textBox19.Name = "textBox19";
-            this.textBox19.ReadOnly = true;
-            this.textBox19.Size = new System.Drawing.Size(147, 22);
-            this.textBox19.TabIndex = 41;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(41, 324);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(98, 17);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Carton Weight";
             // 
-            // Display_Tray
+            // Display_Carton
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 525);
-            this.Controls.Add(this.label24);
-            this.Controls.Add(this.textBox19);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.textBox18);
             this.Controls.Add(this.label22);
@@ -480,8 +358,6 @@
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.textBox17);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.textBox13);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.textBox14);
             this.Controls.Add(this.label16);
@@ -490,12 +366,6 @@
             this.Controls.Add(this.textBox16);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBox9);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.textBox10);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.textBox12);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label7);
@@ -504,8 +374,6 @@
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
@@ -513,9 +381,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
-            this.Name = "Display_Tray";
+            this.Name = "Display_Carton";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Display_Tray";
+            this.Text = "Display_Carton";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -530,10 +398,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Label label8;
@@ -542,14 +406,6 @@
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.Label label16;
@@ -564,7 +420,7 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox textBox18;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label6;
     }
 }
