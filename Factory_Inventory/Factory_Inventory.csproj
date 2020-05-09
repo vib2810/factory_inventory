@@ -144,6 +144,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FactoryDataDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FactoryDataDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="FactoryInventoryDataSet.cs">
       <DependentUpon>FactoryInventoryDataSet.xsd</DependentUpon>
     </Compile>
@@ -489,6 +494,17 @@
     <EmbeddedResource Include="M_1_vouchersUC.resx">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="FactoryDataDataSet.xsc">
+      <DependentUpon>FactoryDataDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="FactoryDataDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FactoryDataDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="FactoryDataDataSet.xss">
+      <DependentUpon>FactoryDataDataSet.xsd</DependentUpon>
+    </None>
     <None Include="FactoryInventoryDataSet.xsc">
       <DependentUpon>FactoryInventoryDataSet.xsd</DependentUpon>
     </None>
