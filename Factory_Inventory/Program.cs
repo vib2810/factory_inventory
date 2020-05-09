@@ -23,11 +23,11 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
             //c.temp();
-            Display_Carton_Produced f = new Display_Carton_Produced(c.getProducedCartonRow("16","2020-2021"));
             //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
             //M_V_history f = new M_V_history(8);
             //M_V4_printCartonSlip f = new M_V4_printCartonSlip();
-            //Application.Run(f);
+            M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");
+            Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);
