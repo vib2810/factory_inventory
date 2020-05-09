@@ -17,7 +17,12 @@ namespace Factory_Inventory
         {
             if (keyData == Keys.Enter)
             {
-                this.button1.PerformClick(); ;
+                this.button1.PerformClick();
+                return false;
+            }
+            if(keyData==Keys.V)
+            {
+                this.button2.PerformClick();
                 return false;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -41,7 +46,15 @@ namespace Factory_Inventory
         }
         private void deselect_dgvs(object sender, EventArgs e)
         {
-            DataGridView dgv = sender as DataGridView; 
+            DataGridView dgv = sender as DataGridView;
+            if (dgv == dataGridView2)
+            {
+                this.button2.Enabled = false;
+            }
+            else
+            {
+                this.button2.Enabled = true;
+            }
             if (dataGridView1.SelectedRows.Count != 0 && dataGridView1 != dgv) dataGridView1.SelectedRows[0].Selected = false;
             if (dataGridView2.SelectedRows.Count != 0 && dataGridView2 != dgv) dataGridView2.SelectedRows[0].Selected = false;
             if (dataGridView3.SelectedRows.Count != 0 && dataGridView3 != dgv) dataGridView3.SelectedRows[0].Selected = false;
@@ -52,6 +65,34 @@ namespace Factory_Inventory
         private void dgvEvent(DataGridView dgv)
         {
             dgv.Click += new EventHandler(this.deselect_dgvs);
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if(this.dataGridView1.SelectedRows.Count!=0)
+            {
+                Display_Carton dc = new Display_Carton((dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row);
+                dc.Show();
+            }
+            else if (this.dataGridView3.SelectedRows.Count != 0)
+            {
+                Display_Tray dt = new Display_Tray((dataGridView3.Rows[dataGridView3.CurrentRow.Index].DataBoundItem as DataRowView).Row);
+                dt.Show();
+            }
+            else if (this.dataGridView4.SelectedRows.Count!= 0)
+            {
+                Display_Batch db = new Display_Batch((dataGridView4.Rows[dataGridView4.CurrentRow.Index].DataBoundItem as DataRowView).Row);
+                db.Show();
+            }
+            else if (this.dataGridView5.SelectedRows.Count!=0)
+            {
+                Display_Batch db = new Display_Batch((dataGridView5.Rows[dataGridView5.CurrentRow.Index].DataBoundItem as DataRowView).Row);
+                db.Show();
+            }
+            else if (this.dataGridView6.SelectedRows.Count!= 0)
+            {
+                Display_Carton_Produced dcp = new Display_Carton_Produced((dataGridView6.Rows[dataGridView6.CurrentRow.Index].DataBoundItem as DataRowView).Row);
+                dcp.Show();
+            }
         }
         public M_I1_OnDate()
         {
@@ -164,6 +205,8 @@ namespace Factory_Inventory
                     trays_to_show.Rows.Add(this.trays.Rows[i].ItemArray);
                 }
 
+
+
             }
             dataGridView3.DataSource = trays_to_show;
 
@@ -266,6 +309,15 @@ namespace Factory_Inventory
                 }
             }
             dataGridView6.DataSource = cartonproduced_to_show;
+
+            var dgvs = this.Controls
+      .OfType<DataGridView>()
+      .Where(x => x.Name.StartsWith("dataGridView"));
+
+            foreach (var dgv in dgvs)
+            {
+                dgv.SelectedRows[0].Selected = false;
+            }
 
             prev_load_date = this.dateTimePicker1.Value;
         }
