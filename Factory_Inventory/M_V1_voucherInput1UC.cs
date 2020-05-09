@@ -19,6 +19,15 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V1_cartonInwardForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
             M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
             f.Show();
         }
@@ -31,6 +40,15 @@ namespace Factory_Inventory
 
         private void button4_Click(object sender, EventArgs e)
         {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V1_cartonTwistForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
             M_V1_cartonTwistForm f = new M_V1_cartonTwistForm();
             f.Show();
         }
@@ -43,6 +61,15 @@ namespace Factory_Inventory
 
         private void button6_Click(object sender, EventArgs e)
         {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V1_cartonSalesForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
             M_V1_cartonSalesForm f = new M_V1_cartonSalesForm();
             f.Show();
         }

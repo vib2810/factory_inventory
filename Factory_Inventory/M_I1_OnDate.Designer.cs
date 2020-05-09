@@ -53,6 +53,8 @@
             this.factoryDataDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.allQualityCK = new System.Windows.Forms.CheckBox();
             this.allColourCK = new System.Windows.Forms.CheckBox();
+            this.allCompanyCK = new System.Windows.Forms.CheckBox();
+            this.dataGridView9 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
@@ -64,6 +66,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.factoryDataDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qualityBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factoryDataDataSetBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView9)).BeginInit();
             this.SuspendLayout();
             // 
             // dateTimePicker1
@@ -108,6 +111,7 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(540, 430);
             this.dataGridView1.TabIndex = 3;
             // 
@@ -122,6 +126,7 @@
             this.dataGridView3.RowHeadersWidth = 51;
             this.dataGridView3.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView3.RowTemplate.Height = 24;
+            this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView3.Size = new System.Drawing.Size(540, 430);
             this.dataGridView3.TabIndex = 5;
             // 
@@ -138,6 +143,7 @@
             this.dataGridView4.RowHeadersWidth = 51;
             this.dataGridView4.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView4.RowTemplate.Height = 24;
+            this.dataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView4.Size = new System.Drawing.Size(540, 430);
             this.dataGridView4.TabIndex = 6;
             // 
@@ -154,6 +160,7 @@
             this.dataGridView5.RowHeadersWidth = 51;
             this.dataGridView5.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView5.RowTemplate.Height = 24;
+            this.dataGridView5.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView5.Size = new System.Drawing.Size(540, 430);
             this.dataGridView5.TabIndex = 7;
             // 
@@ -168,6 +175,7 @@
             this.dataGridView6.RowHeadersWidth = 51;
             this.dataGridView6.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView6.RowTemplate.Height = 24;
+            this.dataGridView6.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView6.Size = new System.Drawing.Size(540, 430);
             this.dataGridView6.TabIndex = 8;
             // 
@@ -250,6 +258,7 @@
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView2.RowTemplate.Height = 24;
+            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(540, 430);
             this.dataGridView2.TabIndex = 16;
             // 
@@ -266,7 +275,8 @@
             this.dataGridView7.RowHeadersWidth = 51;
             this.dataGridView7.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView7.RowTemplate.Height = 24;
-            this.dataGridView7.Size = new System.Drawing.Size(215, 430);
+            this.dataGridView7.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView7.Size = new System.Drawing.Size(215, 279);
             this.dataGridView7.TabIndex = 17;
             // 
             // dataGridView8
@@ -275,14 +285,15 @@
             this.dataGridView8.AllowUserToDeleteRows = false;
             this.dataGridView8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridView8.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView8.Location = new System.Drawing.Point(12, 557);
+            this.dataGridView8.Location = new System.Drawing.Point(12, 401);
             this.dataGridView8.MultiSelect = false;
             this.dataGridView8.Name = "dataGridView8";
             this.dataGridView8.RowHeadersVisible = false;
             this.dataGridView8.RowHeadersWidth = 51;
             this.dataGridView8.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView8.RowTemplate.Height = 24;
-            this.dataGridView8.Size = new System.Drawing.Size(215, 429);
+            this.dataGridView8.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView8.Size = new System.Drawing.Size(215, 279);
             this.dataGridView8.TabIndex = 18;
             // 
             // factoryDataDataSet
@@ -320,7 +331,7 @@
             // 
             this.allColourCK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.allColourCK.AutoSize = true;
-            this.allColourCK.Location = new System.Drawing.Point(12, 533);
+            this.allColourCK.Location = new System.Drawing.Point(12, 377);
             this.allColourCK.Name = "allColourCK";
             this.allColourCK.Size = new System.Drawing.Size(45, 21);
             this.allColourCK.TabIndex = 20;
@@ -328,12 +339,43 @@
             this.allColourCK.UseVisualStyleBackColor = true;
             this.allColourCK.CheckedChanged += new System.EventHandler(this.allColourCK_CheckedChanged);
             // 
+            // allCompanyCK
+            // 
+            this.allCompanyCK.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.allCompanyCK.AutoSize = true;
+            this.allCompanyCK.Location = new System.Drawing.Point(12, 684);
+            this.allCompanyCK.Name = "allCompanyCK";
+            this.allCompanyCK.Size = new System.Drawing.Size(45, 21);
+            this.allCompanyCK.TabIndex = 22;
+            this.allCompanyCK.Text = "All";
+            this.allCompanyCK.UseVisualStyleBackColor = true;
+            this.allCompanyCK.CheckedChanged += new System.EventHandler(this.allCompanyCK_CheckedChanged);
+            // 
+            // dataGridView9
+            // 
+            this.dataGridView9.AllowUserToAddRows = false;
+            this.dataGridView9.AllowUserToDeleteRows = false;
+            this.dataGridView9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.dataGridView9.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView9.Location = new System.Drawing.Point(12, 708);
+            this.dataGridView9.MultiSelect = false;
+            this.dataGridView9.Name = "dataGridView9";
+            this.dataGridView9.RowHeadersVisible = false;
+            this.dataGridView9.RowHeadersWidth = 51;
+            this.dataGridView9.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridView9.RowTemplate.Height = 24;
+            this.dataGridView9.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView9.Size = new System.Drawing.Size(215, 279);
+            this.dataGridView9.TabIndex = 21;
+            // 
             // M_I1_OnDate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1902, 1033);
+            this.Controls.Add(this.allCompanyCK);
+            this.Controls.Add(this.dataGridView9);
             this.Controls.Add(this.allColourCK);
             this.Controls.Add(this.allQualityCK);
             this.Controls.Add(this.dataGridView8);
@@ -370,6 +412,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.factoryDataDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.qualityBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factoryDataDataSetBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView9)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -401,5 +444,7 @@
         private System.Windows.Forms.BindingSource factoryDataDataSetBindingSource;
         private System.Windows.Forms.CheckBox allQualityCK;
         private System.Windows.Forms.CheckBox allColourCK;
+        private System.Windows.Forms.CheckBox allCompanyCK;
+        private System.Windows.Forms.DataGridView dataGridView9;
     }
 }

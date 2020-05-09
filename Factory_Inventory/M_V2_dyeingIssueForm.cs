@@ -631,7 +631,6 @@ namespace Factory_Inventory
             this.saveButton.Enabled = true;
             this.issueDateDTP.Enabled = false; //because the next batch number is coming from the date
         }
-
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             fillRate();
