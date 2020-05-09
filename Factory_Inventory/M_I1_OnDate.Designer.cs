@@ -118,6 +118,7 @@
             // 
             // dataGridView3
             // 
+            this.dataGridView3.AllowUserToAddRows = false;
             this.dataGridView3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView3.Location = new System.Drawing.Point(1349, 95);
@@ -167,6 +168,7 @@
             // 
             // dataGridView6
             // 
+            this.dataGridView6.AllowUserToAddRows = false;
             this.dataGridView6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView6.Location = new System.Drawing.Point(1349, 557);

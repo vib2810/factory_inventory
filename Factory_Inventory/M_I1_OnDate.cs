@@ -149,9 +149,6 @@ namespace Factory_Inventory
                 if(prev_company!=company)
                 {
                     twist_stock_to_show.Rows.Add();
-                    i--;
-                    prev_company = company;
-                    continue;
                 }
                 int flag = 0;
                 for (int j = 0; j < this.dataGridView7.Rows.Count; j++)
@@ -316,7 +313,10 @@ namespace Factory_Inventory
 
             foreach (var dgv in dgvs)
             {
-                dgv.SelectedRows[0].Selected = false;
+                if(dgv.SelectedRows.Count!=0)
+                {
+                    dgv.SelectedRows[0].Selected = false;
+                }
             }
 
             prev_load_date = this.dateTimePicker1.Value;
