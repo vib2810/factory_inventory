@@ -48,6 +48,8 @@ namespace Factory_Inventory
 
             this.dataGridView7.Columns.Add("Quality", "Quality");
             this.dataGridView7.Columns[0].Width = 135;
+            this.dataGridView7.Columns[0].ReadOnly= true;
+
             DataGridViewCheckBoxColumn dgvCmb1 = new DataGridViewCheckBoxColumn();
             dgvCmb1.ValueType = typeof(bool);
             dgvCmb1.Name = "Chk";
@@ -72,6 +74,8 @@ namespace Factory_Inventory
             
             this.dataGridView8.Columns.Add("Colour", "Colour");
             this.dataGridView8.Columns[0].Width = 135;
+            this.dataGridView8.Columns[0].ReadOnly = true;
+
             DataGridViewCheckBoxColumn dgvCmb = new DataGridViewCheckBoxColumn();
             dgvCmb.ValueType = typeof(bool);
             dgvCmb.Name = "Chk";
