@@ -450,7 +450,6 @@ namespace Factory_Inventory
                 c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
         }
-
         public void disable_form_edit()
         {
             this.inputDate.Enabled = false;
@@ -842,7 +841,6 @@ namespace Factory_Inventory
                 }
             }
         }
-
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
@@ -850,7 +848,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
-
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView1.IsCurrentCellDirty)
@@ -858,7 +855,6 @@ namespace Factory_Inventory
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-
         private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
         {
             var comboBoxes = this.Controls
