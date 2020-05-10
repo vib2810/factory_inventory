@@ -597,11 +597,11 @@ namespace Factory_Inventory
                 for(int i=0;i<dataGridView1.Rows.Count-1;i++)
                 {
                     int sum = 0;
-                    if(!c.isCellNullOrEmpty(this.dataGridView1, i, 2))
+                    if(!c.isCellNotNullOrEmpty(this.dataGridView1, i, 2))
                     {
                         sum++;
                     }
-                    if(!c.isCellNullOrEmpty(this.dataGridView1, i, 6))
+                    if(!c.isCellNotNullOrEmpty(this.dataGridView1, i, 6))
                     {
                         sum++;
                     }
@@ -613,7 +613,7 @@ namespace Factory_Inventory
 
                 }
             }
-            if (!c.isCellNullOrEmpty(this.dataGridView1, 0, 1))
+            if (!c.isCellNotNullOrEmpty(this.dataGridView1, 0, 1))
             {
                 c.ErrorBox("Please enter Batch Numbers", "Error");
                 return;
@@ -636,7 +636,7 @@ namespace Factory_Inventory
             {
 
                 //ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                if (!c.isCellNullOrEmpty(this.dataGridView1, i, 1))
+                if (!c.isCellNotNullOrEmpty(this.dataGridView1, i, 1))
                 {
                     continue;
                 }
@@ -765,7 +765,7 @@ namespace Factory_Inventory
                 }
                 for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                 {
-                    if (c.isCellNullOrEmpty(this.dataGridView1, i, column))
+                    if (c.isCellNotNullOrEmpty(this.dataGridView1, i, column))
                     {
                         //float dyeing_rate = float.Parse(c.getColumnBatchNo("Dyeing_Rate", int.Parse(this.dataGridView1.Rows[i].Cells[1].Value.ToString()), this.comboBox3CB.Text));
                         //Console.WriteLine(dyeing_rate.ToString());

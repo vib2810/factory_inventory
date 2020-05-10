@@ -16,6 +16,7 @@ namespace Factory_Inventory
         {
             InitializeComponent();
             this.Select();
+            if (Carton == null) return;
             this.textBox17.Text = Carton["Carton_No"].ToString();
             this.textBox6.Text = Carton["Quality"].ToString();
             this.textBox7.Text = Carton["Customer_Name"].ToString();

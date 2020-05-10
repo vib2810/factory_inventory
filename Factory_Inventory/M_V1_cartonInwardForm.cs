@@ -57,6 +57,7 @@ namespace Factory_Inventory
         private string oldbillno;
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
         private M_V_history v1_history;
+        bool inputerror1 = false; //to stop movement of tab in non numeric weight etc, not done yet
 
         public M_V1_cartonInwardForm()
         {
@@ -89,6 +90,7 @@ namespace Factory_Inventory
             }
             dgvCmb.Name = "Quality";
             dataGridView1.Columns.Insert(1, dgvCmb);
+            dataGridView1.Columns[1].Width=150;
 
 
 
@@ -154,7 +156,8 @@ namespace Factory_Inventory
             }
             dgvCmb.Name = "Quality";
             dataGridView1.Columns.Insert(1, dgvCmb);
-            
+            dataGridView1.Columns[1].Width=150;
+
             var dataSource2 = new List<string>();
 
             if (isEditable == false)
@@ -305,14 +308,22 @@ namespace Factory_Inventory
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
                 dynamicWeightLabel.Text = CellSum("").ToString("F3");
+                float net_rate = 0F;
                 for(int i=0;i<dataGridView2.Rows.Count-1;i++)
                 {
                     float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
                     if(sum!=0F)
                     {
                         dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                        if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                        {
+                            dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                            net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                        }
+                        else dataGridView2.Rows[i].Cells[3].Value = null;
                     }
                 }
+                label4.Text = net_rate.ToString();
             }
             else
             {
@@ -337,14 +348,22 @@ namespace Factory_Inventory
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
                 dynamicWeightLabel.Text = CellSum("").ToString("F3");
+                float net_rate = 0F;
                 for (int i = 0; i < dataGridView2.Rows.Count-1; i++)
                 {
                     float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
                     if (sum != 0F)
                     {
                         dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                        if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                        {
+                            dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                            net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                        }
+                        else dataGridView2.Rows[i].Cells[3].Value = null;
                     }
                 }
+                label4.Text = net_rate.ToString();
             }
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -370,23 +389,33 @@ namespace Factory_Inventory
                         }    
                     }
                     dynamicWeightLabel.Text = CellSum("").ToString("F3");
-                    Console.WriteLine(dataGridView2.Rows.Count);
+                    float net_rate = 0F;
                     for (int i = 0; i < dataGridView2.Rows.Count-1; i++)
                     {
                         float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
                         if (sum != 0F)
                         {
                             dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                            if(c.isCellNotNullOrEmpty(dataGridView2, i, 1)==true)
+                            {
+                                dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                                net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                            }
+                            else dataGridView2.Rows[i].Cells[3].Value = null;
                         }
                     }
-
-
+                    label4.Text = net_rate.ToString();
                 }
             }
-            catch
+            catch(Exception x)
             {
-                c.ErrorBox("Please enter numeric Weight value only", "Error");
+                c.ErrorBox("Please enter numeric Weight value only\n"+x.Message, "Error");
                 dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
+                this.inputerror1 = true;
+                SendKeys.Send("{up}");
+                SendKeys.Send("{right}");
+                SendKeys.Send("{right}");
+                SendKeys.Send("{right}");
             }
             try
             {
@@ -402,6 +431,11 @@ namespace Factory_Inventory
             {
                 c.ErrorBox("Please enter numeric Carton No only", "Error");
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
+                this.inputerror1 = true;
+                SendKeys.Send("{up}");
+                SendKeys.Send("{right}");
+                SendKeys.Send("{right}");
+                SendKeys.Send("{right}");
             }
         }
         private float CellSum(string quality)
@@ -437,6 +471,7 @@ namespace Factory_Inventory
                     }
                     for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                     {
+                        if (c.isCellNotNullOrEmpty(dataGridView1, i, 1) == false) continue;
                         if (dataGridView1.Rows[i].Cells[3].Value != null && dataGridView1.Rows[i].Cells[1].Value.ToString()==quality)
                             sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
                     }
@@ -598,6 +633,8 @@ namespace Factory_Inventory
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            Console.WriteLine("Inside keydown");
+
             if (e.KeyCode == Keys.Tab &&
                 (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 3) || this.edit_cmd_send == true))
             {
@@ -615,16 +652,14 @@ namespace Factory_Inventory
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
+                    dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1];
+                    return;
                 }
-                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
-                {
-                    dataGridView1.Rows.Add();
-                }
-                if (c.isCellNullOrEmpty(dataGridView1, rowindex_tab, 1))
+                if (c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab, 1)==true && c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.isCellNullOrEmpty(dataGridView1, rowindex_tab, 2))
+                if (c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab, 2)==true && c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab+1, 2)==false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
@@ -701,6 +736,60 @@ namespace Factory_Inventory
                 dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
             }
             dataGridView1.EnableHeadersVisualStyles = false;
+        }
+
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 1 && e.RowIndex >= 0)
+                {
+                    if (dataGridView2.Rows[e.RowIndex].Cells[1].Value != null)
+                    {
+                        Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    }
+                    float net_rate = 0F;
+                    for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+                    {
+                        float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                        if (sum != 0F)
+                        {
+                            dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                            if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                            {
+                                dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                                net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                            }
+                            else dataGridView2.Rows[i].Cells[3].Value = null;
+
+                        }
+                    }
+                    label4.Text = net_rate.ToString();
+                }
+            }
+            catch (Exception x)
+            {
+                c.ErrorBox("Please enter numeric Rate value only\n" + x.Message, "Error");
+                dataGridView2.Rows[e.RowIndex].Cells[1].Value = null;
+                //update label4
+                float net_rate = 0F;
+                for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+                {
+                    float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                    if (sum != 0F)
+                    {
+                        dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                        if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                        {
+                            dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                            net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                        }
+                        else dataGridView2.Rows[i].Cells[3].Value = null;
+                    }
+                }
+                label4.Text = net_rate.ToString();
+                dataGridView2.CurrentCell =dataGridView2.Rows[e.RowIndex].Cells[1];
+            }
         }
     }
 }

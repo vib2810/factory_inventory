@@ -566,21 +566,21 @@ namespace Factory_Inventory
                     Console.WriteLine("This case");
                     return;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 1))
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 1))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
                 {
                     Console.WriteLine("gere");
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no;
                     Console.WriteLine(this.highest_carton_no);
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[3].Value = dataGridView1.Rows[rowindex_tab].Cells[3].Value;
                 }
@@ -618,19 +618,19 @@ namespace Factory_Inventory
                     Console.WriteLine("This case");
                     return;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 1))
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 1))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no++;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
+                if (c.isCellNotNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[3].Value = dataGridView1.Rows[rowindex_tab].Cells[3].Value;
                 }
