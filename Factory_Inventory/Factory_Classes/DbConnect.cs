@@ -176,7 +176,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
-        public bool isCellNullOrEmpty(DataGridView dgv, int rowIndex, int columnIndex)
+        public bool isCellNotNullOrEmpty(DataGridView dgv, int rowIndex, int columnIndex)
         {
             if(rowIndex>=dgv.Rows.Count || columnIndex>=dgv.Columns.Count || rowIndex<0 || columnIndex<0)
             {
@@ -3489,6 +3489,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Close();
             }
+            if (dt.Rows.Count == 0) return null;
             return (DataRow)dt.Rows[0];
         }
         public float getCartonProducedWeight(string cartonno, string fiscal_year)
