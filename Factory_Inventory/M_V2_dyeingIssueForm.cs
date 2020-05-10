@@ -13,12 +13,13 @@ namespace Factory_Inventory
         {
             if (keyData == Keys.Tab &&
                 dataGridView1.EditingControl != null &&
-                msg.HWnd == dataGridView1.EditingControl.Handle &&
+                //msg.HWnd == dataGridView1.EditingControl.Handle &&
                 dataGridView1.SelectedCells
                     .Cast<DataGridViewCell>()
-                    .Any(x => x.ColumnIndex == 3))
+                    .Any(x => x.ColumnIndex == 1))
             {
                 this.edit_cmd_send = true;
+                Console.WriteLine("Sending process tab");
                 SendKeys.Send("{Tab}");
                 return false;
             }
@@ -354,8 +355,9 @@ namespace Factory_Inventory
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            int col_ind = dataGridView1.SelectedCells[0].ColumnIndex;
             if (e.KeyCode == Keys.Tab &&
-                (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+                ((col_ind != 0) || this.edit_cmd_send == true))
             {
                 bool edit_cmd_local = this.edit_cmd_send;
                 this.edit_cmd_send = false;
@@ -372,44 +374,22 @@ namespace Factory_Inventory
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
                 }
-                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
+                if(col_ind==1)
                 {
-                    dataGridView1.Rows.Add();
-                }
-                if (edit_cmd_local == false)
-                {
+                    Console.WriteLine("Col 1"+ edit_cmd_local);
+
                     SendKeys.Send("{tab}");
-                    SendKeys.Send("{tab}");
-                    SendKeys.Send("{tab}");
+                    if (edit_cmd_local == true)
+                    {
+                        SendKeys.Send("{tab}");
+                    }
                 }
-            }
-            //if (e.KeyCode == Keys.Enter &&
-            //   (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
-            //{
-            //    dataGridView1.BeginEdit(true);
-            //    ComboBox c = (ComboBox)dataGridView1.EditingControl;
-            //    c.DroppedDown = true;
-            //    e.Handled = true;
-            //}
-            if (e.KeyCode == Keys.Tab &&
-               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2)))
-            {
-                int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                if (rowindex_tab < 0)
+                if (col_ind == 2)
                 {
+                    Console.WriteLine("Col 2" );
+                    
                     SendKeys.Send("{tab}");
-                    return;
                 }
-                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
-                {
-                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
-                    dataGridView1.Rows.Add(row);
-                }
-                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
-                {
-                    dataGridView1.Rows.Add();
-                }
-                SendKeys.Send("{tab}");
             }
             if (e.KeyCode == Keys.Tab &&
                (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 3)))
@@ -631,7 +611,6 @@ namespace Factory_Inventory
             this.saveButton.Enabled = true;
             this.issueDateDTP.Enabled = false; //because the next batch number is coming from the date
         }
-
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             fillRate();

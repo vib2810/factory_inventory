@@ -19,6 +19,15 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V3_cartonProductionForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
             M_V3_cartonProductionForm f = new M_V3_cartonProductionForm();
             f.Show();
         }

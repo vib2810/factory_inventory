@@ -165,11 +165,12 @@ use FactoryInventory
 --	Tray_State int NOT NULL,
 --	Batch_No int NULL,
 --	Tray_ID int NOT NULL Identity(1,1),
---	Net_Weight decimal(7,3) NULL,
+--	Net_Weight decimal(7,3) NOT NULL,
 --	Dyeing_Company_Name varchar(40) NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
 --  Machine_No varchar(5) NOT NULL,
---  Quality_Before_Twist varchar(20) NOT NULL
+--  Quality_Before_Twist varchar(20) NOT NULL,
+--  Batch_Fiscal_Year varchar(15) NULL
 --);
 
 --GO
@@ -214,11 +215,12 @@ use FactoryInventory
 --	Dyeing_Out_Date date NOT NULL,
 --	Batch_No int NOT NULL,
 --	Tray_ID int NOT NULL Primary Key,
---	Net_Weight decimal(7,3) NULL,
+--	Net_Weight decimal(7,3) NOT NULL,
 --	Dyeing_Company_Name varchar(40) NOT NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
 --  Machine_No varchar(5) NOT NULL,
--- Quality_Before_Twist varchar(20) NOT NULL
+-- Quality_Before_Twist varchar(20) NOT NULL,
+-- Batch_Fiscal_Year varchar(15) NOT NULL
 --);
 
 --GO
@@ -262,7 +264,7 @@ use FactoryInventory
 --	Quality varchar(20) NOT NULL,
 --	Company_Name varchar(50) NOT NULL,
 --	Input_Date date NULL,
---	Net_Weight decimal(7,3) NULL,
+--	Net_Weight decimal(7,3) NOT NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
 --  Machine_No varchar(5) NOT NULL,
 --  Quality_Before_Twist varchar(20) NOT NULL

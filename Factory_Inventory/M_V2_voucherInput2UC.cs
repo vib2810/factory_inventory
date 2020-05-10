@@ -24,6 +24,15 @@ namespace Factory_Inventory
 
         private void trayVoucherButton_Click_1(object sender, EventArgs e)
         {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V2_trayInputForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
             M_V2_trayInputForm f = new M_V2_trayInputForm();
             f.Show();
         }
@@ -36,6 +45,15 @@ namespace Factory_Inventory
 
         private void button4_Click(object sender, EventArgs e)
         {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V2_dyeingIssueForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
             M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm();
             f.Show();
         }

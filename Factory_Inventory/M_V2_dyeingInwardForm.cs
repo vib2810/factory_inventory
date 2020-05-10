@@ -14,10 +14,10 @@ namespace Factory_Inventory
         {
             if (keyData == Keys.Tab &&
                 dataGridView1.EditingControl != null &&
-                msg.HWnd == dataGridView1.EditingControl.Handle &&
+                //msg.HWnd == dataGridView1.EditingControl.Handle &&
                 dataGridView1.SelectedCells
                     .Cast<DataGridViewCell>()
-                    .Any(x => x.ColumnIndex == 3))
+                    .Any(x => x.ColumnIndex == 1))
             {
                 this.edit_cmd_send = true;
                 SendKeys.Send("{Tab}");
@@ -99,8 +99,6 @@ namespace Factory_Inventory
                 dgvCmb.DataSource = this.batch_no;
                 dgvCmb.HeaderText = "Batch Number";
                 dataGridView1.Columns.Insert(1, dgvCmb);
-                dataGridView1.Columns[1].Width = 250;
-                
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
@@ -178,7 +176,6 @@ namespace Factory_Inventory
 
                 dgvCmb.HeaderText = "Batch Number";
                 dataGridView1.Columns.Insert(1, dgvCmb);
-                dataGridView1.Columns[1].Width = 250;
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
@@ -247,7 +244,6 @@ namespace Factory_Inventory
                 dgvCmb.DataSource = this.batch_no;
                 dgvCmb.HeaderText = "Batch Number";
                 dataGridView1.Columns.Insert(1, dgvCmb);
-                dataGridView1.Columns[1].Width = 250;
 
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
@@ -376,7 +372,6 @@ namespace Factory_Inventory
                 dgvCmb.DataSource = this.batch_no;
                 dgvCmb.HeaderText = "Batch Number";
                 dataGridView1.Columns.Insert(1, dgvCmb);
-                dataGridView1.Columns[1].Width = 250;
 
                 dataGridView1.Columns.Add("Weight", "Weight");
                 dataGridView1.Columns.Add("Colour", "Colour");
@@ -516,8 +511,9 @@ namespace Factory_Inventory
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            int col = dataGridView1.SelectedCells[0].ColumnIndex;
             if (e.KeyCode == Keys.Tab &&
-                (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+               ( (col!=0) || this.edit_cmd_send == true))
             {
                 bool edit_cmd_local = this.edit_cmd_send;
                 this.edit_cmd_send = false;
@@ -529,39 +525,51 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
-                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                if (dataGridView1.Rows.Count - 2 == rowindex_tab && ((col==6 && this.addBill==false)|| (col == 5 && this.addBill == true)))
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
                 }
-                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
+                if(col==1)
                 {
-                    dataGridView1.Rows.Add();
+                    Console.WriteLine("col1 " + edit_cmd_local);
+                    SendKeys.Send("{tab}");
+                    if (edit_cmd_local == true)
+                    {
+                        SendKeys.Send("{tab}");
+                    }
                 }
-                if (edit_cmd_local == false)
+                if(col==2)
                 {
+                    Console.WriteLine("col2");
                     SendKeys.Send("{tab}");
                 }
-            }
-            if (e.KeyCode == Keys.Tab &&
-               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2)))
-            {
-                int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                if (rowindex_tab < 0)
+                if(col==3)
                 {
+                    Console.WriteLine("col3");
                     SendKeys.Send("{tab}");
-                    return;
                 }
-                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
+                if (col == 4)
                 {
-                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
-                    dataGridView1.Rows.Add(row);
+                    Console.WriteLine("col4");
+                    SendKeys.Send("{tab}");
                 }
-                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
+                if (col == 5 && this.addBill == true)
                 {
-                    dataGridView1.Rows.Add();
+                    Console.WriteLine("col4");
+                    SendKeys.Send("{tab}");
                 }
-                SendKeys.Send("{tab}");
+                if (col == 5 && this.addBill == false && this.billcheckBoxCK.Checked==false)
+                {
+                    Console.WriteLine("col5 no slip");
+                    SendKeys.Send("{tab}");
+                }
+                if (col == 6 && this.addBill==false)
+                {
+                    Console.WriteLine("col4");
+                    SendKeys.Send("{tab}");
+                }
+
             }
             if (e.KeyCode == Keys.Enter &&
                (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
