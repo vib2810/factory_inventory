@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_V1_cartonSalesForm : Form
+    public partial class M_VC_cartonSalesForm : Form
     {
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -46,7 +46,7 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private int voucherID;
         private string tablename;
-        public M_V1_cartonSalesForm(string form)
+        public M_VC_cartonSalesForm(string form)
         {
             InitializeComponent();
             this.c = new DbConnect();
@@ -153,7 +153,7 @@ namespace Factory_Inventory
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
         }
-        public M_V1_cartonSalesForm(DataRow row, bool isEditable, M_V_history v1_history, string form)
+        public M_VC_cartonSalesForm(DataRow row, bool isEditable, M_V_history v1_history, string form)
         {
             InitializeComponent();
             this.edit_form = true;

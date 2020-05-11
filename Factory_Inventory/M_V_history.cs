@@ -49,7 +49,7 @@ namespace Factory_Inventory
                 }
                 if(this.vno == 3)
                 {
-                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, false, this, "Carton");
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton");
                     f.Show();
                 }
                 if(this.vno==4)
@@ -79,7 +79,7 @@ namespace Factory_Inventory
                 }
                 if (this.vno == 9)
                 {
-                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, false, this, "Carton_Produced");
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton_Produced");
                     f.Show();
                 }
             }
@@ -106,7 +106,7 @@ namespace Factory_Inventory
                 }
                 if(this.vno==3)
                 {
-                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, true, this, "Carton");
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton");
                     f.Show();
                 }
                 if (this.vno == 4)
@@ -136,7 +136,7 @@ namespace Factory_Inventory
                 }
                 if (this.vno == 9)
                 {
-                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, true, this, "Carton_Produced");
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton_Produced");
                     f.Show();
                 }
             }

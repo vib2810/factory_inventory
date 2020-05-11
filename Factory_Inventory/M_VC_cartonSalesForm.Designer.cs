@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class M_V1_cartonSalesForm
+    partial class M_VC_cartonSalesForm
     {
         /// <summary>
         /// Required designer variable.

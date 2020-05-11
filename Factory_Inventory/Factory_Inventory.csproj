@@ -211,6 +211,12 @@
     <Compile Include="M_I1_temp.Designer.cs">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_VC_addBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_VC_addBill.Designer.cs">
+      <DependentUpon>M_VC_addBill.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V4_printBatchReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -259,11 +265,11 @@
     <Compile Include="M_V2_trayInputForm.Designer.cs">
       <DependentUpon>M_V2_trayInputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_V1_cartonSalesForm.cs">
+    <Compile Include="M_VC_cartonSalesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="M_V1_cartonSalesForm.Designer.cs">
-      <DependentUpon>M_V1_cartonSalesForm.cs</DependentUpon>
+    <Compile Include="M_VC_cartonSalesForm.Designer.cs">
+      <DependentUpon>M_VC_cartonSalesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="M_V1_cartonTwistForm.cs">
       <SubType>Form</SubType>
@@ -422,6 +428,9 @@
     <EmbeddedResource Include="M_I1_temp.resx">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="M_VC_addBill.resx">
+      <DependentUpon>M_VC_addBill.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="M_V4_printBatchReport.resx">
       <DependentUpon>M_V4_printBatchReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -449,8 +458,8 @@
     <EmbeddedResource Include="M_V2_trayInputForm.resx">
       <DependentUpon>M_V2_trayInputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_V1_cartonSalesForm.resx">
-      <DependentUpon>M_V1_cartonSalesForm.cs</DependentUpon>
+    <EmbeddedResource Include="M_VC_cartonSalesForm.resx">
+      <DependentUpon>M_VC_cartonSalesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V1_cartonTwistForm.resx">
       <DependentUpon>M_V1_cartonTwistForm.cs</DependentUpon>

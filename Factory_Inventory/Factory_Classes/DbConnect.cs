@@ -1604,6 +1604,20 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
+                con.Close();
+
+                con.Open();
+                //Enter max carton number in Fiscal Year Table
+                if(type=="0")
+                {
+                    sql = "UPDATE Fiscal_Year SET Highest_0_DO_Production_No=" + sale_do_no + " WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                }
+                else if(type=="1")
+                {
+                    sql = "UPDATE Fiscal_Year SET Highest_1_DO_Production_No=" + sale_do_no + " WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                }
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
                 this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
@@ -1664,6 +1678,43 @@ namespace Factory_Inventory.Factory_Classes
                 //Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
+
+                con.Open();
+                //Get higest do number in this financial year
+                DataTable dt = new DataTable();
+                if (type=="0")
+                {
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Highest_0_DO_No FROM Fiscal_Year WHERE Fiscal_Year='" + carton_fiscal_year + "'", con);
+                    sda1.Fill(dt);
+                }
+                else if(type=="1")
+                {
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Highest_1_DO_No FROM Fiscal_Year WHERE Fiscal_Year='" + carton_fiscal_year + "'", con);
+                    sda1.Fill(dt);
+                }
+                int old_max_do_no = int.Parse(dt.Rows[0][0].ToString());
+                con.Close();
+
+                Console.WriteLine("selected12");
+
+
+                if (old_max_do_no < int.Parse(sale_do_no))
+                {
+                    con.Open();
+                    //Enter max carton number in Fiscal Year Table
+                    if(type=="0")
+                    {
+                        sql = "UPDATE Fiscal_Year SET Highest_0_DO_No=" + sale_do_no + " WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                    }
+                    else if(type=="1")
+                    {
+                        sql = "UPDATE Fiscal_Year SET Highest_1_DO_No=" + sale_do_no + " WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                    }
+                    adapter.InsertCommand = new SqlCommand(sql, con);
+                    adapter.InsertCommand.ExecuteNonQuery();
+                    con.Close();
+                }
+
                 this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
