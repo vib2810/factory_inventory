@@ -1267,7 +1267,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 Console.WriteLine("Carton no:" + carton_no);
-                string sql = "INSERT INTO Carton (Carton_No, Carton_State, Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Company_Name, Carton_Weight, Buy_Cost, Fiscal_Year) VALUES ('" + carton_no + "', " + state + " , '" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + company + "', " + carton_weight + " , " + buy_cost + ", '"+fiscal_year+"')";
+                string sql = "INSERT INTO Carton (Carton_No, Carton_State, Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Company_Name, Net_Weight, Buy_Cost, Fiscal_Year) VALUES ('" + carton_no + "', " + state + " , '" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + company + "', " + carton_weight + " , " + buy_cost + ", '"+fiscal_year+"')";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1404,7 +1404,6 @@ namespace Factory_Inventory.Factory_Classes
                     SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight,Colour FROM Carton_Produced WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
                     sda.Fill(dt);
                 }
-                
             }
             catch (Exception e)
             {
@@ -3834,7 +3833,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 //get all cartons gone to twist between this time, and trays produced in this time
-                string sql = "SELECT Company_Name, Quality, SUM(Carton_Weight) FROM Carton WHERE Date_Of_Issue<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10)+"'  GROUP BY QUALITY, Company_Name";
+                string sql = "SELECT Company_Name, Quality, SUM(Net_Weight) FROM Carton WHERE Date_Of_Issue<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10)+"'  GROUP BY QUALITY, Company_Name";
                 SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 sda.Fill(dt);
                 Console.WriteLine(sql);
@@ -3894,7 +3893,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                ErrorBox("Could not connect to database (getTwistStockFiscalYear)\n" + e.Message, "Exception");
+                ErrorBox("Could not connect to database (getTwistStock2)\n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }

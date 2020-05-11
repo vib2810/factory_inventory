@@ -24,7 +24,7 @@ namespace Factory_Inventory
                 this.textBox18.Text = Carton["Carton_State"].ToString();
             }
             else this.textBox18.Text = "Carton Has Been Processed";
-            this.textBox5.Text = Carton["Carton_Weight"].ToString();
+            this.textBox5.Text = Carton["Net_Weight"].ToString();
             this.textBox1.Text = Carton["Date_Of_Billing"].ToString().Substring(0, 10);
             string dyeing_in = Carton["Date_Of_Sale"].ToString();
             if (dyeing_in != "") this.textBox8.Text = dyeing_in.Substring(0, 10);
@@ -34,7 +34,7 @@ namespace Factory_Inventory
             this.textBox14.Text = Carton["Fiscal_Year"].ToString();
             this.textBox15.Text = Carton["Bill_No"].ToString();
             this.textBox2.Text = Carton["Buy_Cost"].ToString();
-            this.textBox3.Text = Carton["Sell_Cost"].ToString();
+            this.textBox3.Text = Carton["Sale_Rate"].ToString();
         }
     }
 }
