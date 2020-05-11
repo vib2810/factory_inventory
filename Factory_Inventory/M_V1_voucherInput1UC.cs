@@ -70,7 +70,7 @@ namespace Factory_Inventory
                     return;
                 }
             }
-            M_V1_cartonSalesForm f = new M_V1_cartonSalesForm();
+            M_V1_cartonSalesForm f = new M_V1_cartonSalesForm("Carton");
             f.Show();
         }
 

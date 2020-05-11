@@ -45,12 +45,25 @@ namespace Factory_Inventory
         private List<string> carton_data;           //List that stores carton numbers from SQL
         private M_V_history v1_history;
         private int voucherID;
-        public M_V1_cartonSalesForm()
+        private string tablename;
+        public M_V1_cartonSalesForm(string form)
         {
             InitializeComponent();
             this.c = new DbConnect();
             this.carton_data = new List<string>();
             this.carton_data.Add("");
+            this.tablename = form;
+
+            //Create frop down type list
+            List<string> dataSource = new List<string>();
+            dataSource.Add("---Select---");
+            dataSource.Add("0");
+            dataSource.Add("1");
+            this.typeCB.DataSource = dataSource;
+            this.typeCB.DisplayMember = "Type";
+            this.typeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             //Create drop-down quality list
             var dataSource1 = new List<string>();
@@ -77,6 +90,7 @@ namespace Factory_Inventory
             {
                 dataSource2.Add(d2.Rows[i][0].ToString());
             }
+            dataSource2.Add("Self");
             this.comboBox2CB.DataSource = dataSource2;
             this.comboBox2CB.DisplayMember = "Company_Names";
             this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
@@ -113,7 +127,7 @@ namespace Factory_Inventory
             this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(c.getFinancialYear(this.issueDateDTP.Value));
+            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(c.getFinancialYear(this.saleDateDTP.Value));
 
 
             //DatagridView
@@ -124,16 +138,22 @@ namespace Factory_Inventory
 
             dgvCmb.HeaderText = "Carton Number";
             dataGridView1.Columns.Insert(1, dgvCmb);
-            dataGridView1.Columns[1].Width = 250;
             dataGridView1.Columns.Add("Weight", "Weight");
             dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns.Add("Shade", "Shade");
+            dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.RowCount = 10;
+
+            if(this.tablename=="Carton_Produced")
+            {
+                this.comboBox2CB.SelectedIndex= this.comboBox2CB.FindStringExact("Self");
+                this.comboBox2CB.Enabled = false;
+            }
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
         }
-
-        public M_V1_cartonSalesForm(DataRow row, bool isEditable, M_V_history v1_history)
+        public M_V1_cartonSalesForm(DataRow row, bool isEditable, M_V_history v1_history, string form)
         {
             InitializeComponent();
             this.edit_form = true;
@@ -141,12 +161,23 @@ namespace Factory_Inventory
             this.c = new DbConnect();
             this.carton_data = new List<string>();
             this.carton_data.Add("");
+            this.tablename = form;
+
+            //Create frop down type list
+            List<string> dataSource = new List<string>();
+            dataSource.Add("---Select---");
+            dataSource.Add("0");
+            dataSource.Add("1");
+            this.typeCB.DataSource = dataSource;
+            this.typeCB.DisplayMember = "Type";
+            this.typeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             //Create drop-down list for quality
             var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
             dataSource1.Add("---Select---");
-
             for (int i = 0; i < d1.Rows.Count; i++)
             {
                 dataSource1.Add(d1.Rows[i][3].ToString());
@@ -166,6 +197,7 @@ namespace Factory_Inventory
             {
                 dataSource2.Add(d2.Rows[i][0].ToString());
             }
+            dataSource2.Add("Self");
             this.comboBox2CB.DataSource = dataSource2;
             this.comboBox2CB.DisplayMember = "Company_Names";
             this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
@@ -202,7 +234,7 @@ namespace Factory_Inventory
             this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(c.getFinancialYear(this.issueDateDTP.Value));
+            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(c.getFinancialYear(this.saleDateDTP.Value));
 
 
             //DatagridView
@@ -213,13 +245,14 @@ namespace Factory_Inventory
             dgvCmb.HeaderText = "Carton Number";
             dgvCmb.DataSource = this.carton_data;
             dataGridView1.Columns.Insert(1, dgvCmb);
-            dataGridView1.Columns[1].Width = 250;
             dataGridView1.Columns.Add("Weight", "Weight");
+            dataGridView1.Columns.Add("Shade", "Shade");
+            dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.Columns[2].ReadOnly = true;
 
             if (isEditable == false)
             {
-                this.issueDateDTP.Enabled = false;
+                this.saleDateDTP.Enabled = false;
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;
                 this.comboBox3CB.Enabled = false;
@@ -227,19 +260,25 @@ namespace Factory_Inventory
                 this.loadCartonButton.Enabled = false;
                 this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
-                this.sellingPriceTextboxTB.Enabled = false;
+                this.rateTextboxTB.Enabled = false;
+                this.typeCB.Enabled = false;
+                this.saleDONoTB.Enabled = false;
             }
             else
             {
-                this.issueDateDTP.Enabled = true;
+                this.saleDateDTP.Enabled = true;
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;
                 this.comboBox4CB.Enabled = false;
                 this.saveButton.Enabled = true;
                 this.dataGridView1.ReadOnly = false;
+                this.saleDONoTB.Enabled = false;
+                this.loadCartonButton.Enabled = false;
+                this.typeCB.Enabled = false;
             }
 
-            this.issueDateDTP.Value = Convert.ToDateTime(row["Date_Of_Issue"].ToString());
+            this.saleDateDTP.Value = Convert.ToDateTime(row["Date_Of_Sale"].ToString());
+            this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
             if (this.comboBox1CB.FindStringExact(row["Quality"].ToString()) == -1)
             {
                 dataSource1.Add(row["Quality"].ToString());
@@ -266,8 +305,8 @@ namespace Factory_Inventory
             }
             this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Customer"].ToString());
             this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
-
-            this.sellingPriceTextboxTB.Text = row["Selling_Price"].ToString();
+            this.saleDONoTB.Text = row["Sale_DO_No"].ToString();
+            this.rateTextboxTB.Text = row["Sale_Rate"].ToString();
 
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
             for(int i=0; i<carton_no.Length; i++)
@@ -285,7 +324,6 @@ namespace Factory_Inventory
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
-
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (e.Control is DataGridViewComboBoxEditingControl)
@@ -295,25 +333,32 @@ namespace Factory_Inventory
                 ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
             }
         }
-
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 1 && e.RowIndex >= 0)
             {
-                if(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
+                if(!c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
                 {
                     dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
-                    dynamicWeightLabel.Text = CellSum().ToString("F3");
+                    dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = null;
+                    this.totalWeightLabel.Text = CellSum().ToString("F3");
                     return;
                 }
                 string cartoon = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 if (this.comboBox4CB.SelectedIndex <= 0) return;
-                DataTable dt = c.getCartonWeight(cartoon, this.comboBox4CB.SelectedItem.ToString());
+                DataTable dt = c.getCartonWeightShade(cartoon, this.comboBox4CB.SelectedItem.ToString(), this.tablename);
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = dt.Rows[0][0];
-                dynamicWeightLabel.Text = CellSum().ToString("F3");
+                if(this.tablename=="Carton")
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = "White";
+                }
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = dt.Rows[0][1];
+                }
+                this.totalWeightTB.Text = CellSum().ToString("F3");
             }
         }
-
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             if (e.RowIndex != dataGridView1.Rows.Count - 1)
@@ -321,7 +366,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
-
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab &&
@@ -380,7 +424,6 @@ namespace Factory_Inventory
                 e.Handled = true;
             }
         }
-
         private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             if (e.RowIndex != dataGridView1.Rows.Count - 1)
@@ -388,15 +431,14 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
-
-        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        { 
-        }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-
+            if(typeCB.SelectedIndex==0)
+            {
+                c.ErrorBox("Enter type of sale", "Error");
+                return;
+            }
             if (comboBox1CB.SelectedIndex == 0)
             {
                 c.ErrorBox("Enter Select Quality", "Error");
@@ -417,26 +459,26 @@ namespace Factory_Inventory
                 c.ErrorBox("Enter Select Customer Name", "Error");
                 return;
             }
-            if (sellingPriceTextboxTB.Text == null)
+            if (rateTextboxTB.Text == null)
             {
                 c.ErrorBox("Enter Select selling price", "Error");
                 return;
             }
-            if (sellingPriceTextboxTB.Text == "")
+            if (rateTextboxTB.Text == "")
             {
                 c.ErrorBox("Enter Select selling price", "Error");
                 return;
             }
             try
             {
-                float.Parse(sellingPriceTextboxTB.Text);
+                float.Parse(rateTextboxTB.Text);
             }
             catch
             {
                 c.ErrorBox("Please enter numeric selling price only", "Error");
                 return;
             }
-            if(inputDate.Value.Date<issueDateDTP.Value.Date)
+            if(inputDate.Value.Date<saleDateDTP.Value.Date)
             {
                 c.ErrorBox("Issue Date is in the future", "Error");
                 return;
@@ -453,7 +495,7 @@ namespace Factory_Inventory
             List<int> temp = new List<int>();
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
-                if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "")
+                if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1))
                 {
                     continue;
                 }
@@ -476,7 +518,7 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
-                bool added = c.addSalesVoucher(inputDate.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, comboBox3CB.SelectedItem.ToString(), float.Parse(sellingPriceTextboxTB.Text), comboBox4CB.SelectedItem.ToString());
+                bool added = c.addSalesVoucher(inputDate.Value, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename);
                 if (added == false)
                 {
                     return;
@@ -488,7 +530,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited = c.editSalesVoucher(this.voucherID, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, comboBox3CB.SelectedItem.ToString(), float.Parse(sellingPriceTextboxTB.Text), comboBox4CB.SelectedItem.ToString());
+                bool edited = c.editSalesVoucher(this.voucherID, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename);
                 if (edited == false)
                 {
                     return;
@@ -500,10 +542,9 @@ namespace Factory_Inventory
                 }
             }
         }
-
         public void disable_form_edit()
         {
-            this.issueDateDTP.Enabled = false;
+            this.saleDateDTP.Enabled = false;
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;
             this.comboBox3CB.Enabled = false;
@@ -511,9 +552,9 @@ namespace Factory_Inventory
             this.loadCartonButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
-            this.sellingPriceTextboxTB.Enabled = false;
+            this.rateTextboxTB.Enabled = false;
+            this.typeCB.Enabled = false;
         }
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count = dataGridView1.SelectedRows.Count;
@@ -526,7 +567,7 @@ namespace Factory_Inventory
                 }
                 dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             }
-            dynamicWeightLabel.Text = CellSum().ToString("F3");
+            this.totalWeightTB.Text = CellSum().ToString("F3");
         }
         private float CellSum()
         {
@@ -549,7 +590,6 @@ namespace Factory_Inventory
                 return sum;
             }
         }
-
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
             if (comboBox1CB.SelectedIndex == 0)
@@ -568,11 +608,10 @@ namespace Factory_Inventory
             this.comboBox2CB.Enabled = false;
             this.comboBox4CB.Enabled = false;
         }
-
         //Used to get carton numbers given quality, company and state
         private void loadData(string quality, string company, string carton_financial_year)
         {
-            DataTable d = c.getCartonStateQualityCompany(1, quality, company, carton_financial_year);          //returns carton numbers
+            DataTable d = c.getCartonStateQualityCompany(1, quality, company, carton_financial_year, this.tablename);          //returns carton numbers
             for(int i=0; i<d.Rows.Count; i++)
             {
                 this.carton_data.Add(d.Rows[i][0].ToString());
@@ -582,7 +621,6 @@ namespace Factory_Inventory
                 c.SuccessBox("Loaded "+d.Rows.Count.ToString()+" Cartons");
             }
         }
-
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView1.IsCurrentCellDirty)
@@ -590,7 +628,6 @@ namespace Factory_Inventory
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
@@ -598,7 +635,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
-
         private void M_V1_cartonSalesForm_Load(object sender, EventArgs e)
         {
             var comboBoxes = this.Controls
@@ -638,7 +674,61 @@ namespace Factory_Inventory
                 c.buttonEvent(button);
             }
 
-            this.issueDateDTP.Focus();
+            this.saleDateDTP.Focus();
+        }
+        private void amountTB_Value()
+        {
+            float rate, weight;
+            try
+            {
+                rate = float.Parse(this.rateTextboxTB.Text);
+            }
+            catch
+            {
+                amountTB.Text = "Enter numeric rate";
+                return;
+            }
+            try
+            {
+                weight = float.Parse(this.totalWeightTB.Text);
+            }
+            catch
+            {
+                amountTB.Text = "";
+                return;
+            }
+            this.amountTB.Text = (rate * weight).ToString("F2");
+        }
+        private void totalWeightTB_TextChanged(object sender, EventArgs e)
+        {
+            this.amountTB_Value();
+        }
+        private void rateTextboxTB_TextChanged(object sender, EventArgs e)
+        {
+            this.amountTB_Value();
+        }
+        private void saleDONoTB_Value()
+        {
+            if (this.typeCB.SelectedIndex == 1)
+            {
+                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_0_DO_No", this.comboBox4CB.Text).ToString();
+            }
+            else if (this.typeCB.SelectedIndex == 2)
+            {
+                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_1_DO_No", this.comboBox4CB.Text).ToString();
+            }
+            else
+            {
+                this.saleDONoTB.Text = "";
+            }
+        }
+        private void typeCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.saleDONoTB_Value();
+        }
+        private void comboBox4CB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.saleDONoTB_Value();
         }
     }
 }

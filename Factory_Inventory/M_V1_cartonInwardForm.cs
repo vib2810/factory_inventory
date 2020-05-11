@@ -131,7 +131,7 @@ namespace Factory_Inventory
 
             //Initialize datagridview2
             DataTable d1 = c.getQC('q');
-            string[] quality_array = c.csvToArray(row["Quality_Before_Twist"].ToString());
+            string[] quality_array = c.csvToArray(row["Quality"].ToString());
             for(int i=0;i<quality_array.Length;i++)
             {
                 d1.Rows.Add(quality_array[i]);
@@ -315,7 +315,7 @@ namespace Factory_Inventory
                     if(sum!=0F)
                     {
                         dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                        if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                        if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
                         {
                             dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
                             net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
@@ -355,7 +355,7 @@ namespace Factory_Inventory
                     if (sum != 0F)
                     {
                         dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                        if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                        if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
                         {
                             dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
                             net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
@@ -396,7 +396,7 @@ namespace Factory_Inventory
                         if (sum != 0F)
                         {
                             dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                            if(c.isCellNotNullOrEmpty(dataGridView2, i, 1)==true)
+                            if(c.Cell_Not_NullOrEmpty(dataGridView2, i, 1)==true)
                             {
                                 dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
                                 net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
@@ -471,7 +471,7 @@ namespace Factory_Inventory
                     }
                     for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                     {
-                        if (c.isCellNotNullOrEmpty(dataGridView1, i, 1) == false) continue;
+                        if (c.Cell_Not_NullOrEmpty(dataGridView1, i, 1) == false) continue;
                         if (dataGridView1.Rows[i].Cells[3].Value != null && dataGridView1.Rows[i].Cells[1].Value.ToString()==quality)
                             sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
                     }
@@ -655,11 +655,11 @@ namespace Factory_Inventory
                     dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1];
                     return;
                 }
-                if (c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab, 1)==true && c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)
+                if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 1)==true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab, 2)==true && c.isCellNotNullOrEmpty(dataGridView1, rowindex_tab+1, 2)==false)
+                if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 2)==true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab+1, 2)==false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
@@ -755,7 +755,7 @@ namespace Factory_Inventory
                         if (sum != 0F)
                         {
                             dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                            if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                            if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
                             {
                                 dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
                                 net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
@@ -779,7 +779,7 @@ namespace Factory_Inventory
                     if (sum != 0F)
                     {
                         dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                        if (c.isCellNotNullOrEmpty(dataGridView2, i, 1) == true)
+                        if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
                         {
                             dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
                             net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());

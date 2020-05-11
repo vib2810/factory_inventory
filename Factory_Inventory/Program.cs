@@ -23,7 +23,8 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
             //c.temp();
-            M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
+            //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
+            M_V1_cartonSalesForm f = new M_V1_cartonSalesForm("Carton");
             Application.Run(f);
             while (true)
             {

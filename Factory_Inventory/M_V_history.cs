@@ -49,7 +49,7 @@ namespace Factory_Inventory
                 }
                 if(this.vno == 3)
                 {
-                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, false, this);
+                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, false, this, "Carton");
                     f.Show();
                 }
                 if(this.vno==4)
@@ -77,6 +77,11 @@ namespace Factory_Inventory
                     M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, false, this);
                     f.Show();
                 }
+                if (this.vno == 9)
+                {
+                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, false, this, "Carton_Produced");
+                    f.Show();
+                }
             }
         }
         private void editDetailsButton_Click(object sender, EventArgs e)
@@ -101,7 +106,7 @@ namespace Factory_Inventory
                 }
                 if(this.vno==3)
                 {
-                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, true, this);
+                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, true, this, "Carton");
                     f.Show();
                 }
                 if (this.vno == 4)
@@ -127,6 +132,11 @@ namespace Factory_Inventory
                 if (this.vno == 8)
                 {
                     M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, true, this);
+                    f.Show();
+                }
+                if (this.vno == 9)
+                {
+                    M_V1_cartonSalesForm f = new M_V1_cartonSalesForm(row, true, this, "Carton_Produced");
                     f.Show();
                 }
             }
@@ -164,6 +174,7 @@ namespace Factory_Inventory
                 //this.dt = c.getSalesVoucherHistory();
                 this.dt = c.getVoucherHistories("Sales_Voucher");
                 this.dataGridView1.ReadOnly = true;
+                this.remove_sales_columns();
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns["Carton_No_Arr"].Visible = false;
             }
@@ -215,10 +226,33 @@ namespace Factory_Inventory
                     }
                 }
             }
-
-
+            if (this.vno == 9)
+            {
+                //this.dt = c.getSalesVoucherHistory();
+                this.dt = c.getVoucherHistories("Sales_Voucher");
+                this.dataGridView1.ReadOnly = true;
+                this.remove_sales_columns();
+                this.dataGridView1.DataSource = dt;
+                this.dataGridView1.Columns["Carton_No_Arr"].Visible = false;
+            }
         }
-
+        private void remove_sales_columns()
+        {
+            int rows = this.dt.Rows.Count;
+            for(int i=0;i<rows;i++)
+            {
+                if(this.vno==3 && this.dt.Rows[i]["Tablename"].ToString()=="Carton_Produced")
+                {
+                    this.dt.Rows[i].Delete();
+                    i--;
+                }
+                else if (this.vno == 9 && this.dt.Rows[i]["Tablename"].ToString() == "Carton")
+                {
+                    this.dt.Rows[i].Delete();
+                    i--;
+                }
+            }
+        }
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if(this.vno==8 && dataGridView1.CurrentRow.Index>=0)

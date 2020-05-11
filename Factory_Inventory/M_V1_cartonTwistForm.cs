@@ -271,7 +271,7 @@ namespace Factory_Inventory
                     return;
                 }
                 if (this.comboBox3CB.SelectedIndex <= 0) return;
-                DataTable dt = c.getCartonWeight(cartoon, this.comboBox3CB.SelectedItem.ToString());
+                DataTable dt = c.getCartonWeightShade(cartoon, this.comboBox3CB.SelectedItem.ToString(), "Carton");
                 if (dt.Rows.Count <= 0) return;
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = dt.Rows[0][0];
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
@@ -492,7 +492,7 @@ namespace Factory_Inventory
 
         private void loadData(string quality, string company, string fiscalyear)
         {
-            DataTable d = c.getCartonStateQualityCompany(1, quality, company, fiscalyear);
+            DataTable d = c.getCartonStateQualityCompany(1, quality, company, fiscalyear, "Carton");
             Console.WriteLine(d.Rows.Count);
             for(int i=0; i<d.Rows.Count; i++)
             {
