@@ -432,10 +432,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric Carton No only", "Error");
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
                 this.inputerror1 = true;
-                SendKeys.Send("{up}");
-                SendKeys.Send("{right}");
-                SendKeys.Send("{right}");
-                SendKeys.Send("{right}");
+                SendKeys.Send("{left}");
             }
         }
         private float CellSum(string quality)
