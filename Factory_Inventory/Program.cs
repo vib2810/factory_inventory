@@ -23,7 +23,7 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnect c = new DbConnect();
             //c.temp();
-            M_I1_OnDate f = new M_I1_OnDate();
+            M_V1_cartonSalesForm f = new M_V1_cartonSalesForm("Carton");
             Application.Run(f);
             while (true)
             {

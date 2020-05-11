@@ -14,10 +14,14 @@ use FactoryInventory
 --	Company_Name varchar(50) NOT NULL,
 --	Carton_Weight decimal(7,3) NOT NULL,
 --	Buy_Cost decimal(7,3) NOT NULL,
---	Sell_Cost decimal(7,3) NULL,
+--	Sale_Rate decimal(7,3) NULL,
 --	Date_Of_Issue date NULL,
 --	Date_Of_Sale date NULL,
---	Fiscal_Year varchar(15) NOT NULL
+--	Fiscal_Year varchar(15) NOT NULL,
+--  Sale_DO_No varchar(10) NULL,
+--  Sale_Bill_No varchar(10) NULL,
+--  Sale_Bill_Date date NULL,
+--  Type_Of_Sale int NOT NULL
 --);
 
 --GO
@@ -130,7 +134,10 @@ use FactoryInventory
 --	Carton_No_Arr text NOT NULL,
 --	Number_of_Cartons int NOT NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
---	Carton_Fiscal_Year varchar(15) NOT NULL
+--	Carton_Fiscal_Year varchar(15) NOT NULL,
+--  Tablename varchar(20) NOT NULL,
+--  Type_Of_Sale int NOT NULL,
+--  Sale_DO_No varchar(20) NOT NULL
 --);
 
 --GO
@@ -498,13 +505,14 @@ use FactoryInventory
 --	Sale_Bill_Date date NULL,
 --	Sale_Bill_No varchar(20) NULL,
 --	Sale_DO_No varchar(10) NULL,
---	Sale_DO_Date date NULL,
 --	Customer_Name varchar(50) NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
 --	Carton_Printed tinyint NULL,
 --	Grade varchar(10) NOT NULL,
 --	Date_Of_Sale date NULL,
---  Batch_Fiscal_Year_Arr text NOT NULL
+--  Batch_Fiscal_Year_Arr text NOT NULL,
+--  Company_Name varchar(10) NOT NULL,
+--  Type_Of_Sale int NOT NULL
 --);
 
 
@@ -580,8 +588,8 @@ use FactoryInventory
 --	Fiscal_Year varchar(15) NOT NULL Primary Key,
 --	Highest_Batch_No int NOT NULL,
 --	Highest_Carton_Production_No varchar(20) NOT NULL,
---	Twist_Stock decimal(12,3) NULL,
---	Is_Set tinyint NULL
+--	Highest_0_DO_Number int NOT NULL,
+--	Highest_1_DO_Number int NOT NULL,
 --);
 
 --create table Cones
