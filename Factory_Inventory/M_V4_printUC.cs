@@ -19,7 +19,7 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
-            M_V4_printBatchDyeingForm f = new M_V4_printBatchDyeingForm();
+            M_V4_printDyeingOutward f = new M_V4_printDyeingOutward();
             f.Show();
         }
 
@@ -29,14 +29,15 @@ namespace Factory_Inventory
             f.Show();
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void button2_Click_1(object sender, EventArgs e)
         {
             M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            f.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            M_V4_printDO f = new M_V4_printDO();
             f.Show();
         }
     }

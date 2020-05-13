@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_V4_printBatchDyeingForm : Form
+    public partial class M_V4_printDyeingOutward : Form
     {
         private DbConnect c;
         DataTable dt2= new DataTable();
-        public M_V4_printBatchDyeingForm()
+        public M_V4_printDyeingOutward()
         {
             InitializeComponent();
             this.c = new DbConnect();
@@ -73,11 +73,15 @@ namespace Factory_Inventory
 
         private void searchButton_Click(object sender, EventArgs e)
         {
+            search_batch();
+        }
+        private void search_batch()
+        {
             int batch_no;
             string fiscal_year;
             try
             {
-                batch_no= int.Parse(batchnoTextbox.Text);
+                batch_no = int.Parse(batchnoTextbox.Text);
             }
             catch
             {
@@ -86,7 +90,7 @@ namespace Factory_Inventory
             }
             fiscal_year = fiscalCombobox.Text;
             DataTable result = c.getBatchTable_BatchNo(batch_no, fiscal_year);
-            if (result.Rows.Count==0)
+            if (result.Rows.Count == 0)
             {
                 this.dt2.Clear();
                 this.dt2.Columns.Clear();
@@ -97,11 +101,11 @@ namespace Factory_Inventory
             }
             else
             {
-                this.dt2= result;
+                this.dt2 = result;
                 this.dataGridView2.DataSource = dt2;
                 dataGridView2.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView2.Columns["Batch_No"].Visible = true;
-                this.dataGridView2.Columns["Batch_No"].HeaderText= "Batch Number";
+                this.dataGridView2.Columns["Batch_No"].HeaderText = "Batch Number";
                 this.dataGridView2.Columns["Colour"].Visible = true;
                 this.dataGridView2.Columns["Quality"].Visible = true;
                 this.dataGridView2.Columns["Dyeing_Company_Name"].Visible = true;
@@ -111,7 +115,7 @@ namespace Factory_Inventory
                 this.dataGridView2.Columns["Fiscal_Year"].Visible = true;
 
                 this.dataGridView2.Columns["Dyeing_Company_Name"].Width = 150;
-                this.dataGridView2.Columns["Dyeing_Out_Date"].Width= 150;
+                this.dataGridView2.Columns["Dyeing_Out_Date"].Width = 150;
 
                 this.dataGridView2.Columns["Fiscal_Year"].HeaderText = "Financial Year";
                 this.dataGridView2.Columns["Number_Of_Trays"].HeaderText = "Number of Trays";
@@ -127,25 +131,25 @@ namespace Factory_Inventory
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int index = this.dataGridView1.SelectedRows[0].Index;
-                if (index >= this.dataGridView1.Rows.Count - 1)
+                if (index > this.dataGridView1.Rows.Count - 1)
                 {
                     c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
                 DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
-                M_V4_printDyeingOutward f = new M_V4_printDyeingOutward(row);
+                printDyeingOutward f = new printDyeingOutward(row);
                 f.Show();
             }
             if (dataGridView2.SelectedRows.Count > 0)
             {
                 int index = this.dataGridView2.SelectedRows[0].Index;
-                if (index >= this.dataGridView2.Rows.Count - 1)
+                if (index > this.dataGridView2.Rows.Count - 1)
                 {
                     c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
                 DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
-                M_V4_printDyeingOutward f = new M_V4_printDyeingOutward(row);
+                printDyeingOutward f = new printDyeingOutward(row);
                 f.Show();
             }
 
@@ -160,6 +164,11 @@ namespace Factory_Inventory
         private void dataGridView2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
+        }
+
+        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) search_batch();
         }
     }
 }

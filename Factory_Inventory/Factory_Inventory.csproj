@@ -211,6 +211,12 @@
     <Compile Include="M_I1_temp.Designer.cs">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_V4_printDO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_V4_printDO.Designer.cs">
+      <DependentUpon>M_V4_printDO.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_VC_addBill.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -283,11 +289,11 @@
     <Compile Include="M_V1_cartonInwardForm.Designer.cs">
       <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_V4_printBatchDyeingForm.cs">
+    <Compile Include="M_V4_printDyeingOutward.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="M_V4_printBatchDyeingForm.Designer.cs">
-      <DependentUpon>M_V4_printBatchDyeingForm.cs</DependentUpon>
+    <Compile Include="M_V4_printDyeingOutward.Designer.cs">
+      <DependentUpon>M_V4_printDyeingOutward.cs</DependentUpon>
     </Compile>
     <Compile Include="M_V_editColour.cs">
       <SubType>UserControl</SubType>
@@ -362,6 +368,12 @@
     <Compile Include="M_1_MainS.Designer.cs">
       <DependentUpon>M_1_MainS.cs</DependentUpon>
     </Compile>
+    <Compile Include="printDO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="printDO.Designer.cs">
+      <DependentUpon>printDO.cs</DependentUpon>
+    </Compile>
     <Compile Include="printDyeingOutward.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -428,6 +440,9 @@
     <EmbeddedResource Include="M_I1_temp.resx">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="M_V4_printDO.resx">
+      <DependentUpon>M_V4_printDO.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="M_VC_addBill.resx">
       <DependentUpon>M_VC_addBill.cs</DependentUpon>
     </EmbeddedResource>
@@ -437,8 +452,8 @@
     <EmbeddedResource Include="M_V4_printCartonSlip.resx">
       <DependentUpon>M_V4_printCartonSlip.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_V4_printBatchDyeingForm.resx">
-      <DependentUpon>M_V4_printBatchDyeingForm.cs</DependentUpon>
+    <EmbeddedResource Include="M_V4_printDyeingOutward.resx">
+      <DependentUpon>M_V4_printDyeingOutward.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V4_printUC.resx">
       <DependentUpon>M_V4_printUC.cs</DependentUpon>
@@ -502,6 +517,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_MainS.resx">
       <DependentUpon>M_1_MainS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="printDO.resx">
+      <DependentUpon>printDO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="printDyeingOutward.resx">
       <DependentUpon>printDyeingOutward.cs</DependentUpon>

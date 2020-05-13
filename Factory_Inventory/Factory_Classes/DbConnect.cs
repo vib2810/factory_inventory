@@ -58,6 +58,7 @@ namespace Factory_Inventory.Factory_Classes
                 return builder.ToString().ToLower();
             return builder.ToString();
         }
+        
         //Utility Functions
         public string[] csvToArray(string str)
         {
@@ -219,6 +220,7 @@ namespace Factory_Inventory.Factory_Classes
                 Console.Write("\n");
             }
         }
+        
         //Arrow Key Events
         public void comboBoxEvent(ComboBox c)
         {
@@ -1438,6 +1440,25 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
+        public DataRow getCartonRow(string cartonno, string fiscal_year)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Carton WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not get weight (getCartonTable) \n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt.Rows[0];
+        }
         public int getCartonState(string carton_no, string fiscal_year)
         {
             //Returns -1 if carton not found
@@ -1735,6 +1756,88 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        public int getDOPrint(string dono, string fiscal_year)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            int ans = -1;
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Printed FROM Sales_Voucher WHERE Sale_DO_No='" + dono + "' AND Fiscal_Year='" + fiscal_year + "'", con);
+                sda.Fill(dt);
+                if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString() == "") ans = 0;
+                else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not get Print (getDOPrint) \n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ans;
+        }
+        public bool setDOPrint(string dono, string fiscal_year, int value)
+        {
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "UPDATE Sales_Voucher SET Printed=" + value + " WHERE Sale_DO_No='" + dono + "' AND Fiscal_Year='" + fiscal_year + "'";
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not get weight (setDOPrint) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+        public DataTable getDOTable(string fiscal_year, int type)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Sales_Voucher WHERE Type_Of_Sale=" + type + " AND Fiscal_Year='" + fiscal_year + "'", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not get weight (getDOTable) \n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt;
+        }
+        public DataTable getDOTable(string fiscal_year, string do_no)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Sales_Voucher WHERE Sale_DO_No='" + do_no + "' AND Fiscal_Year='" + fiscal_year + "'", con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not get weight (getDOTable2) \n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt;
+        }
 
         //Add Bill to Sales Voucher
         public string[] getDO_QualityFiscalYearType(string quality, string do_fiscal_year, string type, string tablename)
@@ -1901,6 +2004,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        
         //Tray
         public int addTrayActive(string tray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string fiscal_year, string machine_no, string quality_before_twist)
         {

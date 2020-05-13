@@ -14,55 +14,62 @@ using FontStyle = System.Drawing.FontStyle;
 
 namespace Factory_Inventory
 {
-    public partial class printDyeingOutward : Form
+    public partial class printDO : Form
     {
         private DbConnect c;
         private int topmargin;
         private int lrmargin;
-        public printDyeingOutward(DataRow row)
+        public printDO(DataRow row)
         {
             InitializeComponent();
             this.c = new DbConnect();
             if (row.Table.Columns.Count < 3) return;
-            this.batchnoTextbox.Text = row["Batch_No"].ToString();
-            //this.dateTimePicker1.Value = Convert.ToDateTime(row["Input_Date"].ToString());
-            this.outDateTextbox.Text = row["Dyeing_Out_Date"].ToString().Substring(0,10);
-            this.customerNameTextbox.Text = row["Dyeing_Company_Name"].ToString();
+            if(row["Type_Of_Sale"].ToString()=="0")
+            {
+                label3.Visible = false;
+                label5.Visible = false;
+                label6.Visible = false;
+                this.label1.Location = new System.Drawing.Point(47, 128);
+            }
+            this.donoTextbox.Text = row["Sale_DO_No"].ToString();
+            this.saleDateTextbox.Text = row["Date_Of_Sale"].ToString().Substring(0,10);
+            this.customerNameTextbox.Text = row["Customer"].ToString();
             this.qualityTextbox.Text = row["Quality"].ToString();
-            this.shadeTextbox.Text = row["Colour"].ToString();
-            this.netwtTextbox.Text = row["Net_Weight"].ToString();
-            string[] tray_ids = c.csvToArray(row["Tray_ID_Arr"].ToString());
+            float sale_rate = float.Parse(this.qualityTextbox.Text = row["Sale_Rate"].ToString());
+            float net_weight = float.Parse(this.qualityTextbox.Text = row["Net_Weight"].ToString());
+            this.amountTextbox.Text = (sale_rate*net_weight).ToString("F2");
+            this.netwtTextbox.Text = net_weight.ToString("F3");
+            this.rateTB.Text = sale_rate.ToString("F2");
+
+            string[] carton_nos= c.csvToArray(row["Carton_No_Arr"].ToString());
+            string cartonfisc = row["Carton_Fiscal_Year"].ToString();
+            string table = row["Tablename"].ToString();
             DataTable dt = new DataTable();
             dt.Columns.Add("Sl No");
-            dt.Columns.Add("Tray No.");
-            dt.Columns.Add("Gross Wt");
-            dt.Columns.Add("Tray Wt");
-            dt.Columns.Add("MNo");
-            dt.Columns.Add("Springs");
-            dt.Columns.Add("Spring Wt");
-            dt.Columns.Add("Net Wt");
+            dt.Columns.Add("Carton No.");
+            dt.Columns.Add("Shade");
+            dt.Columns.Add("Net Wt.");
             float net_wt = 0F;
-            for (int i=0; i<tray_ids.Length; i++)
+            for (int i = 0; i < carton_nos.Length; i++)
             {
-                DataTable dtemp= c.getTrayTable_TrayID(int.Parse(tray_ids[i]));
-                float spring_wt = c.getSpringWeight(dtemp.Rows[0]["Spring"].ToString())*int.Parse(dtemp.Rows[0]["Number_Of_Springs"].ToString());
-                net_wt += float.Parse(dtemp.Rows[0]["Net_Weight"].ToString());
-                dt.Rows.Add(i+1, dtemp.Rows[0]["Tray_No"].ToString(), dtemp.Rows[0]["Gross_Weight"].ToString(), dtemp.Rows[0]["Tray_Tare"].ToString(), dtemp.Rows[0]["Machine_No"].ToString(), dtemp.Rows[0]["Number_of_Springs"].ToString(), spring_wt,dtemp.Rows[0]["Net_Weight"].ToString());
+                DataRow dtemp;
+                string colour = "Grey";
+                if (table == "Carton") dtemp = c.getCartonRow(carton_nos[i], cartonfisc);
+                else
+                {
+                    dtemp = c.getProducedCartonRow(carton_nos[i], cartonfisc);
+                    colour = dtemp["Colour"].ToString();
+                }
+                net_wt += float.Parse(dtemp["Net_Weight"].ToString());
+                dt.Rows.Add(i + 1, dtemp["Carton_No"].ToString(), colour, dtemp["Net_Weight"].ToString());
             }
 
-            dt.Rows.Add("", "", "", "", "", "", "Net Weight", net_wt);
+            dt.Rows.Add("", "", "Net Weight", net_wt);
             dataGridView1.DataSource = dt;
             int weight_width = 100;
             dataGridView1.Columns["Sl No"].Width = 70;
-            dataGridView1.Columns["Tray No."].Width = 100;
-            dataGridView1.Columns["Gross Wt"].Width = weight_width;
-            dataGridView1.Columns["Tray Wt"].Width = weight_width;
-            dataGridView1.Columns["MNo"].Width = 50;
-            dataGridView1.Columns["Springs"].Width = 50;
-            dataGridView1.Columns["Spring Wt"].Width = weight_width;
-            dataGridView1.Columns["Net Wt"].Width = weight_width;
-            dataGridView1.Columns["Net Wt"].AutoSizeMode= DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
@@ -112,39 +119,39 @@ namespace Factory_Inventory
         {
             //inputs write_height(not including the margin)
             //returns the next write height(not including the margin)
-            int basic_size = 8;
-            int header_size_sub = 5;
+            //int basic_size = 8;
+            //int header_size_sub = 5;
 
-            write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
-            write_height += write(e, -1, write_height, 0, "Krishana Sales and Industries", basic_size + 6, 'c', 1) - header_size_sub - 3;
-            write_height += write(e, -1, write_height, 0, "550/1, Datta Galli, M. Vadgaon, Belgavi", basic_size + 2, 'c', 1) - header_size_sub;
-            write_height += write(e, -1, write_height, 0, "(GSTIN No. 29AIOPM5869K1Z8)", basic_size + 2, 'c', 1);
+            //write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
+            //write_height += write(e, -1, write_height, 0, "Krishana Sales and Industries", basic_size + 6, 'c', 1) - header_size_sub - 3;
+            //write_height += write(e, -1, write_height, 0, "550/1, Datta Galli, M. Vadgaon, Belgavi", basic_size + 2, 'c', 1) - header_size_sub;
+            //write_height += write(e, -1, write_height, 0, "(GSTIN No. 29AIOPM5869K1Z8)", basic_size + 2, 'c', 1);
 
-            int current_width = e.PageBounds.Width - 2 * lrmargin;
-            //first row
-            write(e, 0, write_height, (int)(0.15 * current_width), "Invoice Number: ", basic_size, 'l', 1);
-            write(e, (int)(0.15 * current_width), write_height, (int)(0.15 * current_width), this.batchnoTextbox.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.50 * current_width), write_height, (int)(0.25 * current_width), "Invoice Date: ", basic_size, 'r', 1);
-            write_height += write(e, (int)(0.75 * current_width), write_height, (int)(0.25 * current_width), this.outDateTextbox.Text, basic_size, 'r', 0, 1);
-            //second row
-            write(e, 0, write_height, (int)(0.25 * current_width), "Customer Name: ", basic_size, 'l', 1);
-            write_height += write(e, (int)(0.25 * current_width), write_height, (int)(0.75 * current_width), this.customerNameTextbox.Text, basic_size, 'l', 0, 1);
-            //third row
-            write(e, 0, write_height, (int)(0.25 * current_width), "Customer Address: ", basic_size, 'l', 1);
-            write_height += write(e, (int)(0.25 * current_width), write_height, (int)(0.75 * current_width), this.customerAddressTextbox.Text, basic_size, 'l', 0, 1);
-            //fourth row
-            write(e, 0, write_height, (int)(0.20 * current_width), "Customer GSTIN: ", basic_size, 'l', 1);
-            write(e, (int)(0.20 * current_width), write_height, (int)(0.45 * current_width), this.customergstin.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.65 * current_width), write_height, (int)(0.20 * current_width), "HSN Number: ", basic_size, 'r', 1);
-            write_height += write(e, (int)(0.85 * current_width), write_height, (int)(0.15 * current_width), this.hsnnumber.Text, basic_size, 'r', 0, 1);
-            //fifth row
-            write(e, 0, write_height, (int)(0.10 * current_width), "Quality: ", basic_size, 'l', 1);
-            write(e, (int)(0.10 * current_width), write_height, (int)(0.23 * current_width), this.qualityTextbox.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.33 * current_width), write_height, (int)(0.10 * current_width), "Shade: ", basic_size, 'r', 1);
-            write(e, (int)(0.43 * current_width), write_height, (int)(0.23 * current_width), this.shadeTextbox.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.66 * current_width), write_height, (int)(0.20 * current_width), "Net Weight: ", basic_size, 'r', 1);
-            write_height += write(e, (int)(0.86 * current_width), write_height, (int)(0.14 * current_width), this.netwtTextbox.Text, basic_size, 'r', 0, 1);
-            Console.WriteLine("inside writeheight "+ write_height);
+            //int current_width = e.PageBounds.Width - 2 * lrmargin;
+            ////first row
+            //write(e, 0, write_height, (int)(0.15 * current_width), "Invoice Number: ", basic_size, 'l', 1);
+            //write(e, (int)(0.15 * current_width), write_height, (int)(0.15 * current_width), this.donoTextbox.Text, basic_size, 'l', 0, 1);
+            //write(e, (int)(0.50 * current_width), write_height, (int)(0.25 * current_width), "Invoice Date: ", basic_size, 'r', 1);
+            //write_height += write(e, (int)(0.75 * current_width), write_height, (int)(0.25 * current_width), this.saleDateTextbox.Text, basic_size, 'r', 0, 1);
+            ////second row
+            //write(e, 0, write_height, (int)(0.25 * current_width), "Customer Name: ", basic_size, 'l', 1);
+            //write_height += write(e, (int)(0.25 * current_width), write_height, (int)(0.75 * current_width), this.customerNameTextbox.Text, basic_size, 'l', 0, 1);
+            ////third row
+            //write(e, 0, write_height, (int)(0.25 * current_width), "Customer Address: ", basic_size, 'l', 1);
+            //write_height += write(e, (int)(0.25 * current_width), write_height, (int)(0.75 * current_width), this.customerAddressTextbox.Text, basic_size, 'l', 0, 1);
+            ////fourth row
+            //write(e, 0, write_height, (int)(0.20 * current_width), "Customer GSTIN: ", basic_size, 'l', 1);
+            //write(e, (int)(0.20 * current_width), write_height, (int)(0.45 * current_width), this.customergstin.Text, basic_size, 'l', 0, 1);
+            //write(e, (int)(0.65 * current_width), write_height, (int)(0.20 * current_width), "HSN Number: ", basic_size, 'r', 1);
+            //write_height += write(e, (int)(0.85 * current_width), write_height, (int)(0.15 * current_width), this.hsnnumber.Text, basic_size, 'r', 0, 1);
+            ////fifth row
+            //write(e, 0, write_height, (int)(0.10 * current_width), "Quality: ", basic_size, 'l', 1);
+            //write(e, (int)(0.10 * current_width), write_height, (int)(0.23 * current_width), this.qualityTextbox.Text, basic_size, 'l', 0, 1);
+            //write(e, (int)(0.33 * current_width), write_height, (int)(0.10 * current_width), "Shade: ", basic_size, 'r', 1);
+            //write(e, (int)(0.43 * current_width), write_height, (int)(0.23 * current_width), this.amountTextbox.Text, basic_size, 'l', 0, 1);
+            //write(e, (int)(0.66 * current_width), write_height, (int)(0.20 * current_width), "Net Weight: ", basic_size, 'r', 1);
+            //write_height += write(e, (int)(0.86 * current_width), write_height, (int)(0.14 * current_width), this.netwtTextbox.Text, basic_size, 'r', 0, 1);
+            //Console.WriteLine("inside writeheight "+ write_height);
             return write_height;
         }
         int drawDGV(int write_height, System.Drawing.Printing.PrintPageEventArgs e)
@@ -238,29 +245,89 @@ namespace Factory_Inventory
             write_height = write_header(write_height, e);
             write_height = drawDGV(write_height, e);
             write(e, (int)(0.75 * current_width), 2*rect_height - 25, (int)(0.25 * current_width), "Signature", 9, 'c', 1);
-            //if (height > e.MarginBounds.Height)
-            //{
-            //    height = 100;
-            //    width = 100;
-            //    e.HasMorePages = true;
-            //    return;
-            //}
-            //e.Graphics.DrawImage(bmp,
-            //             (e.PageBounds.Width - bmp.Width) / 2,
-            //             (e.PageBounds.Height - bmp.Height) / 2,
-            //             bmp.Width,
-            //             bmp.Height);
         }
-        Bitmap bmp;
         private void button1_Click(object sender, EventArgs e)
         {
             printPreviewDialog1.ShowDialog();
+        }
 
-            //Graphics g = this.CreateGraphics();
-            //bmp = new Bitmap(this.Size.Width, this.Size.Height, g);
-            //Graphics mg = Graphics.FromImage(bmp);
-            //mg.CopyFromScreen(this.Location.X, this.Location.Y, 0, 0, this.Size);
-            //printPreviewDialog1.ShowDialog();
+        private void printDO_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void qualityTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void netwtTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void amountTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void customerNameTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saleDateTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void donoTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rateTB_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

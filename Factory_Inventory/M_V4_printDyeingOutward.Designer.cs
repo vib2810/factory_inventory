@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class M_V4_printBatchDyeingForm
+    partial class M_V4_printDyeingOutward
     {
         /// <summary>
         /// Required designer variable.
@@ -54,6 +54,9 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 48);
             this.dataGridView1.MultiSelect = false;
@@ -78,6 +81,9 @@
             // 
             // dataGridView2
             // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.AllowUserToResizeRows = false;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Location = new System.Drawing.Point(12, 408);
             this.dataGridView2.MultiSelect = false;
@@ -96,6 +102,7 @@
             this.batchnoTextbox.Name = "batchnoTextbox";
             this.batchnoTextbox.Size = new System.Drawing.Size(125, 22);
             this.batchnoTextbox.TabIndex = 4;
+            this.batchnoTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.batchnoTextbox_KeyDown);
             // 
             // label3
             // 
@@ -145,7 +152,7 @@
             this.printButton.UseVisualStyleBackColor = true;
             this.printButton.Click += new System.EventHandler(this.printButton_Click);
             // 
-            // M_V4_printBatchDyeingForm
+            // M_V4_printDyeingOutward
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -160,7 +167,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
-            this.Name = "M_V4_printBatchDyeingForm";
+            this.Name = "M_V4_printDyeingOutward";
             this.Text = "M_V4_printBatchDyeing";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
