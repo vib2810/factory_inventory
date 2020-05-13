@@ -26,8 +26,8 @@ namespace Factory_Inventory
             //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
             //M_V_history f = new M_V_history(8);
             //M_V4_printCartonSlip f = new M_V4_printCartonSlip();
-            M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");
-            Application.Run(f);
+            //M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");
+            //Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);
