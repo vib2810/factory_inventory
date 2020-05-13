@@ -24,8 +24,6 @@ namespace Factory_Inventory
             DbConnect c = new DbConnect();
             //c.temp();
             //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
-            M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton");
-            Application.Run(f);
             while (true)
             {
                 Login f1 = new Login(c);

@@ -37,6 +37,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -111,9 +113,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(242, 286);
+            this.button5.Location = new System.Drawing.Point(233, 286);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(150, 59);
+            this.button5.Size = new System.Drawing.Size(150, 38);
             this.button5.TabIndex = 7;
             this.button5.Text = "History";
             this.button5.UseVisualStyleBackColor = true;
@@ -121,18 +123,40 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(86, 286);
+            this.button6.Location = new System.Drawing.Point(77, 286);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(150, 59);
+            this.button6.Size = new System.Drawing.Size(150, 38);
             this.button6.TabIndex = 6;
             this.button6.Text = "Add New Voucher";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(286, 330);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(120, 38);
+            this.button7.TabIndex = 21;
+            this.button7.Text = "History";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(53, 330);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(227, 38);
+            this.button8.TabIndex = 20;
+            this.button8.Text = "Add Bill No to Pending DOs";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // M_V1_voucherInput1UC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button6);
@@ -160,5 +184,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }

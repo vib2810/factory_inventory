@@ -244,7 +244,6 @@
             this.comboBox4CB.Name = "comboBox4CB";
             this.comboBox4CB.Size = new System.Drawing.Size(200, 24);
             this.comboBox4CB.TabIndex = 3;
-            this.comboBox4CB.SelectedIndexChanged += new System.EventHandler(this.comboBox4CB_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -262,7 +261,6 @@
             this.typeCB.Name = "typeCB";
             this.typeCB.Size = new System.Drawing.Size(200, 24);
             this.typeCB.TabIndex = 2;
-            this.typeCB.SelectedIndexChanged += new System.EventHandler(this.typeCB_SelectedIndexChanged);
             // 
             // label6
             // 

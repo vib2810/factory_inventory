@@ -19,9 +19,8 @@ use FactoryInventory
 --	Date_Of_Sale date NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
 --  Sale_DO_No varchar(10) NULL,
---  Sale_Bill_No varchar(10) NULL,
---  Sale_Bill_Date date NULL,
---  Type_Of_Sale int NOT NULL
+--  Type_Of_Sale int NOT NULL,
+--  DO_Fiscal_Year varchar(15) NULL
 --);
 
 --GO
@@ -137,7 +136,10 @@ use FactoryInventory
 --	Carton_Fiscal_Year varchar(15) NOT NULL,
 --  Tablename varchar(20) NOT NULL,
 --  Type_Of_Sale int NOT NULL,
---  Sale_DO_No varchar(20) NOT NULL
+--  Sale_DO_No varchar(20) NOT NULL,
+--  Net_Weight decimal(7,3) NOT NULL,
+--  Sale_Bill_Date date Null,
+--  Sale_Bill_No varchar(20) Null
 --);
 
 --GO
@@ -432,6 +434,25 @@ use FactoryInventory
 --	Bill_Date date NULL,
 --);
 
+/*Sale Bill Number Voucher*/
+--create table SalesBillNosVoucher
+--(
+--	Date_Of_Input date NOT NULL,
+--	Sale_Bill_Date date NOT NULL,
+--	DO_No_Arr text NOT NULL,
+--	Quality varchar(50) NOT NULL,
+--	DO_Fiscal_Year varchar(15) NOT NULL,
+--	Fiscal_Year varchar(15) NOT NULL,
+--	Type_Of_Sale int NOT NULL,
+--	Sale_Bill_No varchar(20) NOT NULL,
+--	Sale_Bill_Weight decimal(10,3) NOT NULL,
+--	Sale_Bill_Amount decimal(11,2) NOT NULL,
+--	Sale_Bill_Weight_Calc decimal(10,3) NOT NULL,
+--	Sale_Bill_Amount_Calc decimal(11,2) NOT NULL,
+--  Tablename varchar(20) NOT NULL,
+--  Voucher_ID int NOT NULL Primary Key Identity(1,1)
+--);
+
 --GO
 --CREATE NONCLUSTERED INDEX [Voucher_ID] ON [dbo].[BillNos_Voucher]
 --(
@@ -502,8 +523,6 @@ use FactoryInventory
 --	Gross_Weight decimal(7,3) NOT NULL,
 --	Net_Weight decimal(7,3) NOT NULL,
 --	Sale_Rate decimal(7,3) NULL,
---	Sale_Bill_Date date NULL,
---	Sale_Bill_No varchar(20) NULL,
 --	Sale_DO_No varchar(10) NULL,
 --	Customer_Name varchar(50) NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
@@ -512,7 +531,8 @@ use FactoryInventory
 --	Date_Of_Sale date NULL,
 --  Batch_Fiscal_Year_Arr text NOT NULL,
 --  Company_Name varchar(10) NOT NULL,
---  Type_Of_Sale int NOT NULL
+--  Type_Of_Sale int NOT NULL,
+--  DO_Fiscal_Year varchar(15) NULL
 --);
 
 
@@ -588,8 +608,8 @@ use FactoryInventory
 --	Fiscal_Year varchar(15) NOT NULL Primary Key,
 --	Highest_Batch_No int NOT NULL,
 --	Highest_Carton_Production_No varchar(20) NOT NULL,
---	Highest_0_DO_Number int NOT NULL,
---	Highest_1_DO_Number int NOT NULL,
+--	Highest_0_DO_Number varchar(10) NOT NULL,
+--	Highest_1_DO_Number varchar(10) NOT NULL,
 --);
 
 --create table Cones

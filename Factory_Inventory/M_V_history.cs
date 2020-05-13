@@ -82,6 +82,16 @@ namespace Factory_Inventory
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton_Produced");
                     f.Show();
                 }
+                if(this.vno==10)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton");
+                    f.Show();
+                }
+                if (this.vno == 11)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton_Produced");
+                    f.Show();
+                }
             }
         }
         private void editDetailsButton_Click(object sender, EventArgs e)
@@ -137,6 +147,16 @@ namespace Factory_Inventory
                 if (this.vno == 9)
                 {
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton_Produced");
+                    f.Show();
+                }
+                if (this.vno == 10)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton");
+                    f.Show();
+                }
+                if (this.vno == 11)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton_Produced");
                     f.Show();
                 }
             }
@@ -235,18 +255,34 @@ namespace Factory_Inventory
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns["Carton_No_Arr"].Visible = false;
             }
+            if (this.vno == 10)
+            {
+                this.dt = c.getVoucherHistories("SalesBillNos_Voucher");
+                this.dataGridView1.ReadOnly = true;
+                this.remove_sales_columns();
+                this.dataGridView1.DataSource = dt;
+            }
+            if (this.vno == 11)
+            {
+                this.dt = c.getVoucherHistories("SalesBillNos_Voucher");
+                this.remove_sales_columns();
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.DataSource = dt;
+            }
         }
         private void remove_sales_columns()
         {
             int rows = this.dt.Rows.Count;
+            if (rows == 0)
+                return;
             for(int i=0;i<rows;i++)
             {
-                if(this.vno==3 && this.dt.Rows[i]["Tablename"].ToString()=="Carton_Produced")
+                if((this.vno==3 || this.vno==10) && this.dt.Rows[i]["Tablename"].ToString()=="Carton_Produced")
                 {
                     this.dt.Rows[i].Delete();
                     i--;
                 }
-                else if (this.vno == 9 && this.dt.Rows[i]["Tablename"].ToString() == "Carton")
+                else if ((this.vno == 9 || this.vno==11) && this.dt.Rows[i]["Tablename"].ToString() == "Carton")
                 {
                     this.dt.Rows[i].Delete();
                     i--;

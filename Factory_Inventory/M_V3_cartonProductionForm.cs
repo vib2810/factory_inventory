@@ -445,7 +445,7 @@ namespace Factory_Inventory
             this.batchnwtTextbox.Text = this.CellSum2(2).ToString("F3");
 
             //highest carton number;
-            this.highest_carton_no = c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text);
+            this.highest_carton_no = int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
             Console.WriteLine("Constructor: "+this.highest_carton_no.ToString());
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
@@ -914,7 +914,7 @@ namespace Factory_Inventory
             }
 
             //set the first carton number in form
-            int next_carton_no = c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text);
+            int next_carton_no =int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
             dataGridView1.Rows[0].Cells[2].Value = next_carton_no;
 
             //enable and disable 

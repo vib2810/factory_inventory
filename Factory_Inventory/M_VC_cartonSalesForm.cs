@@ -72,7 +72,14 @@ namespace Factory_Inventory
 
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][3].ToString());
+                if (this.tablename == "Carton")
+                {
+                    dataSource1.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
+                }
+                else if (this.tablename == "Carton_Produced")
+                {
+                    dataSource1.Add(d1.Rows[i]["Quality"].ToString());
+                }
             }
             this.comboBox1CB.DataSource = dataSource1;
             this.comboBox1CB.DisplayMember = "Quality";
@@ -148,6 +155,8 @@ namespace Factory_Inventory
             {
                 this.comboBox2CB.SelectedIndex= this.comboBox2CB.FindStringExact("Self");
                 this.comboBox2CB.Enabled = false;
+                this.comboBox2CB.TabIndex = 0;
+                this.comboBox2CB.TabStop = false;
             }
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
@@ -180,7 +189,14 @@ namespace Factory_Inventory
             dataSource1.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][3].ToString());
+                if (this.tablename == "Carton")
+                {
+                    dataSource1.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
+                }
+                else if (this.tablename == "Carton_Produced")
+                {
+                    dataSource1.Add(d1.Rows[i]["Quality"].ToString());
+                }
             }
             this.comboBox1CB.DataSource = dataSource1;
             this.comboBox1CB.DisplayMember = "Quality";
@@ -518,7 +534,7 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
-                bool added = c.addSalesVoucher(inputDate.Value, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename);
+                bool added = c.addSalesVoucher(inputDate.Value, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename, float.Parse(this.totalWeightTB.Text));
                 if (added == false)
                 {
                     return;
@@ -530,7 +546,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited = c.editSalesVoucher(this.voucherID, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename);
+                bool edited = c.editSalesVoucher(this.voucherID, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename,  float.Parse(this.totalWeightTB.Text));
                 if (edited == false)
                 {
                     return;
@@ -604,9 +620,12 @@ namespace Factory_Inventory
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox4CB.SelectedItem.ToString());
             this.loadCartonButton.Enabled = false;
+            this.typeCB.Enabled = false;
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;
             this.comboBox4CB.Enabled = false;
+            this.saleDateDTP.Enabled = false;
+            this.saleDONoTB_Value();
         }
         //Used to get carton numbers given quality, company and state
         private void loadData(string quality, string company, string carton_financial_year)
@@ -711,24 +730,16 @@ namespace Factory_Inventory
         {
             if (this.typeCB.SelectedIndex == 1)
             {
-                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_0_DO_No", this.comboBox4CB.Text).ToString();
+                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_0_DO_No", this.comboBox4CB.Text);
             }
             else if (this.typeCB.SelectedIndex == 2)
             {
-                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_1_DO_No", this.comboBox4CB.Text).ToString();
+                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_1_DO_No", this.comboBox4CB.Text);
             }
             else
             {
                 this.saleDONoTB.Text = "";
             }
-        }
-        private void typeCB_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.saleDONoTB_Value();
-        }
-        private void comboBox4CB_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.saleDONoTB_Value();
         }
     }
 }

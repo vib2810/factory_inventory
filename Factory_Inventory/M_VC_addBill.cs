@@ -43,423 +43,225 @@ namespace Factory_Inventory
         private DbConnect c;
         private bool edit_cmd_send = false;
         private bool edit_form = false;
-        private List<string> batch_no;
+        private List<string> do_no;
         private M_V_history v1_history;
         private int voucherID;
-        private bool addBill = false;
+        private string tablename;
         Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
 
-        public M_VC_addBill(string mode)
+        public M_VC_addBill(string form)
         {
-            if(mode== "dyeingInward")
+            InitializeComponent();
+            this.Name = "Add Bill";
+            this.tablename = form;
+            this.c = new DbConnect();
+            this.do_no = new List<string>();
+            this.do_no.Add("");
+
+            //Create frop down type list
+            List<string> dataSource = new List<string>();
+            dataSource.Add("---Select---");
+            dataSource.Add("0");
+            dataSource.Add("1");
+            this.typeCB.DataSource = dataSource;
+            this.typeCB.DisplayMember = "Type";
+            this.typeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            //Create drop-down lists
+            var dataSource1 = new List<string>();
+            DataTable d = c.getQC('f');
+            dataSource1.Add("---Select---");
+
+            for (int i = 0; i < d.Rows.Count; i++)
             {
-                InitializeComponent();
-                this.c = new DbConnect();
-                this.batch_no = new List<string>();
-                this.batch_no.Add("");
-                this.saveButton.Enabled = false;
-
-                //Create drop-down Dyeing Company lists
-                var dataSource3 = new List<string>();
-                DataTable d3 = c.getQC('d');
-                dataSource3.Add("---Select---");
-
-                for (int i = 0; i < d3.Rows.Count; i++)
-                {
-                    dataSource3.Add(d3.Rows[i][0].ToString());
-                }
-                this.dyeingCompanyCB.DataSource = dataSource3;
-                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                //Create drop-down lists
-                var dataSource = new List<string>();
-                DataTable d = c.getQC('f');
-                dataSource.Add("---Select---");
-
-                for (int i = 0; i < d.Rows.Count; i++)
-                {
-                    dataSource.Add(d.Rows[i][0].ToString());
-                }
-                this.comboBox3CB.DataSource = dataSource;
-                this.comboBox3CB.DisplayMember = "Financial Year";
-                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
-
-
-                //DatagridView
-                dataGridView1.Columns.Add("Sl_No", "Sl_No");
-                dataGridView1.Columns[0].ReadOnly = true;
-                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-                dgvCmb.DataSource = this.batch_no;
-                dgvCmb.HeaderText = "Batch Number";
-                dataGridView1.Columns.Insert(1, dgvCmb);
-                dataGridView1.Columns.Add("Weight", "Weight");
-                dataGridView1.Columns.Add("Colour", "Colour");
-                dataGridView1.Columns.Add("Quality", "Quality");
-                dataGridView1.Columns.Add("Net Rate", "Net Rate");
-                dataGridView1.Columns.Add("Slip Number", "Slip Number");
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
-
-                dataGridView1.RowCount = 10;
-
-                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
-
+                dataSource1.Add(d.Rows[i][0].ToString());
             }
-            if(mode == "addBill")
+            this.financialYearCB.DataSource = dataSource1;
+            this.financialYearCB.DisplayMember = "Financial Year";
+            this.financialYearCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.financialYearCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.financialYearCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(c.getFinancialYear(this.inputDate.Value));
+
+            //Create drop-down Quality lists
+            var dataSource3 = new List<string>();
+            DataTable d3 = c.getQC('q');
+            dataSource3.Add("---Select---");
+
+            for (int i = 0; i < d3.Rows.Count; i++)
             {
-                InitializeComponent();
-                this.Name = "Add Bill Numbers";
-                this.addBill = true;
-                this.c = new DbConnect();
-                this.batch_no = new List<string>();
-                this.batch_no.Add("");
-
-                this.billcheckBoxCK.Enabled = false;
-                this.billcheckBoxCK.Checked = false;
-                this.billNumberTextboxTB.Enabled = true;
-                this.inwardDateDTP.Visible = false;
-                this.label1.Visible = false;
-
-                this.label7.Location = new System.Drawing.Point(24, 74);
-                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
-                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
-                this.label2.Location = new System.Drawing.Point(24, 120);
-                this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
-                this.saveButton.Enabled = false;
-
-                //Create drop-down Dyeing Company lists
-                var dataSource3 = new List<string>();
-                DataTable d3 = c.getQC('d');
-                dataSource3.Add("---Select---");
-
-                for (int i = 0; i < d3.Rows.Count; i++)
+                if (this.tablename == "Carton")
                 {
-                    dataSource3.Add(d3.Rows[i][0].ToString());
+                    dataSource3.Add(d3.Rows[i]["Quality_Before_Twist"].ToString());
                 }
-                this.dyeingCompanyCB.DataSource = dataSource3;
-                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                //Create drop-down lists
-                var dataSource = new List<string>();
-                DataTable d = c.getQC('f');
-                dataSource.Add("---Select---");
-
-                for (int i = 0; i < d.Rows.Count; i++)
+                else if (this.tablename == "Carton_Produced")
                 {
-                    dataSource.Add(d.Rows[i][0].ToString());
+                    dataSource3.Add(d3.Rows[i]["Quality"].ToString());
                 }
-                this.comboBox3CB.DataSource = dataSource;
-                this.comboBox3CB.DisplayMember = "Financial Year";
-                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
-
-
-                //DatagridView
-                dataGridView1.Columns.Add("Sl_No", "Sl_No");
-                dataGridView1.Columns[0].ReadOnly = true;
-                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-                dgvCmb.DataSource = this.batch_no;
-
-                dgvCmb.HeaderText = "Batch Number";
-                dataGridView1.Columns.Insert(1, dgvCmb);
-                dataGridView1.Columns.Add("Weight", "Weight");
-                dataGridView1.Columns.Add("Colour", "Colour");
-                dataGridView1.Columns.Add("Quality", "Quality");
-                dataGridView1.Columns.Add("Net Rate", "Net Rate");
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
-                dataGridView1.Columns[5].ReadOnly = true;
-
-                dataGridView1.RowCount = 10;
-
-                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
+            this.qualityCB.DataSource = dataSource3;
+            this.qualityCB.DisplayMember = "Quality";
+            this.qualityCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.qualityCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            //DatagridView
+            dataGridView1.Columns.Add("Sl_No", "Sl_No");
+            dataGridView1.Columns[0].ReadOnly = true;
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            dgvCmb.DataSource = this.do_no;
+            dgvCmb.HeaderText = "DO Number";
+            dataGridView1.Columns.Insert(1, dgvCmb);
+            dataGridView1.Columns.Add("DO Weight", "DO Weight");
+            dataGridView1.Columns.Add("DO Amount", "DO Amount");
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.RowCount = 10;
+
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
-        public M_VC_addBill(DataRow row, bool isEditable, M_V_history v1_history, string mode)
+        public M_VC_addBill(DataRow row, bool isEditable, M_V_history v1_history, string form)
         {
-            if (mode == "dyeingInward")
+            InitializeComponent();
+            //common initializations
+            this.Name = "Add Bill";
+            this.tablename = form;
+            this.edit_form = true;
+            this.v1_history = v1_history;
+            this.c = new DbConnect();
+            this.do_no = new List<string>();
+            this.do_no.Add("");
+
+            //Create frop down type list
+            List<string> dataSource = new List<string>();
+            dataSource.Add("---Select---");
+            dataSource.Add("0");
+            dataSource.Add("1");
+            this.typeCB.DataSource = dataSource;
+            this.typeCB.DisplayMember = "Type";
+            this.typeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            //Create drop-down lists
+            var dataSource1 = new List<string>();
+            DataTable d = c.getQC('f');
+            dataSource1.Add("---Select---");
+
+            for (int i = 0; i < d.Rows.Count; i++)
             {
-                InitializeComponent();
-                this.edit_form = true;
-                this.v1_history = v1_history;
-                this.c = new DbConnect();
-                this.batch_no = new List<string>();
-                this.batch_no.Add("");
+                dataSource1.Add(d.Rows[i][0].ToString());
+            }
+            this.financialYearCB.DataSource = dataSource1;
+            this.financialYearCB.DisplayMember = "Financial Year";
+            this.financialYearCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.financialYearCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.financialYearCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(c.getFinancialYear(this.inputDate.Value));
+
+            //Create drop-down Quality lists
+            var dataSource3 = new List<string>();
+            DataTable d3 = c.getQC('q');
+            dataSource3.Add("---Select---");
+
+            for (int i = 0; i < d3.Rows.Count; i++)
+            {
+                if(this.tablename=="Carton")
+                {
+                    dataSource3.Add(d3.Rows[i]["Quality_Before_Twist"].ToString());
+                }
+                else if(this.tablename=="Carton_Produced")
+                {
+                    dataSource3.Add(d3.Rows[i]["Quality"].ToString());
+                }
+            }
+            this.qualityCB.DataSource = dataSource3;
+            this.qualityCB.DisplayMember = "Quality";
+            this.qualityCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.qualityCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            //DatagridView make
+            dataGridView1.Columns.Add("Sl_No", "Sl_No");
+            dataGridView1.Columns[0].ReadOnly = true;
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            //List<string> final_list = this.do_no.Distinct().ToList();
+            dgvCmb.HeaderText = "DO Number";
+            dataGridView1.Columns.Insert(1, dgvCmb);
+            dataGridView1.Columns.Add("DO Weight", "DO Weight");
+            dataGridView1.Columns.Add("DO Amount", "DO Amount");
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+
+            //if only in view mode
+            if (isEditable == false)
+            {
+                this.typeCB.Enabled = false;
+                this.billDateDTP.Enabled = false;
+                this.financialYearCB.Enabled = false;
+                this.qualityCB.Enabled = false;
+                this.loadDOButton.Enabled = false;
+                this.billWeightTB.Enabled = false;
+                this.billAmountTB.Enabled = false;
+                this.inputDate.Enabled = false;
                 this.saveButton.Enabled = false;
-
-
-                //Create drop-down Dyeing Company lists
-                var dataSource3 = new List<string>();
-                DataTable d3 = c.getQC('d');
-                dataSource3.Add("---Select---");
-
-                for (int i = 0; i < d3.Rows.Count; i++)
-                {
-                    dataSource3.Add(d3.Rows[i][0].ToString());
-                }
-                this.dyeingCompanyCB.DataSource = dataSource3;
-                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                //Create drop-down lists
-                var dataSource = new List<string>();
-                DataTable d = c.getQC('f');
-                dataSource.Add("---Select---");
-
-                for (int i = 0; i < d.Rows.Count; i++)
-                {
-                    dataSource.Add(d.Rows[i][0].ToString());
-                }
-                this.comboBox3CB.DataSource = dataSource;
-                this.comboBox3CB.DisplayMember = "Financial Year";
-                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
-
-
-
-                //DatagridView make
-                dataGridView1.Columns.Add("Sl_No", "Sl_No");
-                dataGridView1.Columns[0].ReadOnly = true;
-                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-                dgvCmb.DataSource = this.batch_no;
-                dgvCmb.HeaderText = "Batch Number";
-                dataGridView1.Columns.Insert(1, dgvCmb);
-
-                dataGridView1.Columns.Add("Weight", "Weight");
-                dataGridView1.Columns.Add("Colour", "Colour");
-                dataGridView1.Columns.Add("Quality", "Quality");
-                dataGridView1.Columns.Add("Net Rate", "Net Rate");
-                dataGridView1.Columns.Add("Slip Number", "Slip Number");
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
-                dataGridView1.RowCount = 10;
-
-                //if form is only view-only
-                if (isEditable == false)
-                {
-                    //this.edit_form = false;
-                    this.inputDate.Enabled = false;
-                    this.inwardDateDTP.Enabled = false;
-                    this.dyeingCompanyCB.Enabled = false;
-                    this.loadBatchButton.Enabled = false;
-                    this.saveButton.Enabled = false;
-                    this.dataGridView1.ReadOnly = true;
-                    this.comboBox3CB.Enabled = false;
-
-                }
-                else
-                {
-                    //no option to edit company name and quality
-                    this.inwardDateDTP.Enabled = true;
-                    this.dyeingCompanyCB.Enabled = false;
-                    this.saveButton.Enabled = true;
-                    this.loadBatchButton.Enabled = false;
-                    this.dataGridView1.ReadOnly = false;
-                    this.comboBox3CB.Enabled = false;
-                    if(row["Bill_No"].ToString()=="0")
-                    {
-                        this.billcheckBoxCK.Checked = true;
-                    }
-                    else
-                    {
-                        this.billcheckBoxCK.Checked = false;
-                    }
-                    this.billcheckBoxCK.Enabled = false;
-                }
-
-                //Fill in required fields
-                this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-                this.inwardDateDTP.Value = Convert.ToDateTime(row["Inward_Date"].ToString());
-                this.dyeingCompanyCB.SelectedIndex = this.dyeingCompanyCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Batch_Fiscal_Year"].ToString());
-                if(row["Bill_Date"].ToString() != null && row["Bill_Date"].ToString() != "") this.billDateDTP.Value = Convert.ToDateTime(row["Bill_Date"].ToString());
-
-                if (int.Parse(row["Bill_No"].ToString()) == 0)
-                {
-                    billcheckBoxCK.Checked = true;
-                    billNumberTextboxTB.Enabled = false;
-                }
-                else
-                {
-                    billcheckBoxCK.Checked = false;
-                    billNumberTextboxTB.Enabled = true;
-                    billNumberTextboxTB.Text = row["Bill_No"].ToString();
-                }
-
-                this.voucherID = int.Parse(row["Voucher_ID"].ToString());
-                string[] batch_nos = c.csvToArray(row["Batch_No_Arr"].ToString());
-                for (int i = 0; i < batch_nos.Length; i++)
-                {
-                    this.batch_no.Add(batch_nos[i]);
-                }
-                this.loadData(row["Dyeing_Company_Name"].ToString(), row["Batch_Fiscal_Year"].ToString());
-                dataGridView1.RowCount = batch_nos.Length + 1;
-                bool bill_editable = true;
-                for (int i = 0; i < batch_nos.Length; i++)
-                {
-                    dataGridView1.Rows[i].Cells[1].Value = batch_nos[i];
-                    string bill_no = c.getColumnBatchNo("Bill_No", int.Parse(batch_nos[i]), this.comboBox3CB.SelectedItem.ToString());
-                    if(!(bill_no==null || bill_no == "0"))
-                    {
-                        this.batch_editable[batch_nos[i]] = false;
-                        DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
-                        dataGridView1.Rows[i].ReadOnly = true;
-                        r.DefaultCellStyle.BackColor = Color.Gray;
-                        bill_editable = false;
-                    }
-                }
-
-                if (!bill_editable)
-                {
-                    this.billcheckBoxCK.Checked = true;
-                    this.billcheckBoxCK.Enabled = false;
-                }
-                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+                this.dataGridView1.ReadOnly = true;
+                this.billNumberTextboxTB.Enabled = false;
             }
-            if (mode == "addBill")
+            else
             {
-                InitializeComponent();
-                //common initializations
-                this.Name = "Add Bill Numbers";
-                this.addBill = true;
-                this.edit_form = true;
-                this.v1_history = v1_history;
-                this.c = new DbConnect();
-                this.batch_no = new List<string>();
-                this.batch_no.Add("");
-
-                //graphics placement
-                this.billcheckBoxCK.Enabled = false;
-                this.billcheckBoxCK.Checked = false;
-                this.billNumberTextboxTB.Enabled = true;
-                this.inwardDateDTP.Visible = false;
-                this.label1.Visible = false;
-                this.dyeingCompanyCB.Enabled = false;
-                this.loadBatchButton.Enabled = false;
-                this.comboBox3CB.Enabled = false;
-
-                this.label7.Location = new System.Drawing.Point(24, 74);
-                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
-                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
-                this.label2.Location = new System.Drawing.Point(24, 120);
-                this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
-
-                //DatagridView make
-                dataGridView1.Columns.Add("Sl_No", "Sl_No");
-                dataGridView1.Columns[0].ReadOnly = true;
-                DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-                dgvCmb.DataSource = this.batch_no;
-                dgvCmb.HeaderText = "Batch Number";
-                dataGridView1.Columns.Insert(1, dgvCmb);
-
-                dataGridView1.Columns.Add("Weight", "Weight");
-                dataGridView1.Columns.Add("Colour", "Colour");
-                dataGridView1.Columns.Add("Quality", "Quality");
-                dataGridView1.Columns.Add("Net Rate", "Net Rate");
-
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
-                dataGridView1.Columns[5].ReadOnly = true;
-
-                //Create drop-down Dyeing Company lists
-                var dataSource3 = new List<string>();
-                DataTable d3 = c.getQC('d');
-                dataSource3.Add("---Select---");
-
-                for (int i = 0; i < d3.Rows.Count; i++)
-                {
-                    dataSource3.Add(d3.Rows[i][0].ToString());
-                }
-                this.dyeingCompanyCB.DataSource = dataSource3;
-                this.dyeingCompanyCB.DisplayMember = "Dyeing_Company_Names";
-                this.dyeingCompanyCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.dyeingCompanyCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.dyeingCompanyCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                //Create drop-down lists
-                var dataSource = new List<string>();
-                DataTable d = c.getQC('f');
-                dataSource.Add("---Select---");
-
-                for (int i = 0; i < d.Rows.Count; i++)
-                {
-                    dataSource.Add(d.Rows[i][0].ToString());
-                }
-                this.comboBox3CB.DataSource = dataSource;
-                this.comboBox3CB.DisplayMember = "Financial Year";
-                this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
-
-
-                //if only in view mode
-                if (isEditable == false)
-                {
-                    this.inputDate.Enabled = false;
-                    this.saveButton.Enabled = false;
-                    this.dataGridView1.ReadOnly = true;
-                    this.billNumberTextboxTB.Enabled = false;
-                }
-
-                //Fill in required values
-                this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-                this.dyeingCompanyCB.SelectedIndex = this.dyeingCompanyCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
-                this.billNumberTextboxTB.Text = row["Bill_No"].ToString();
-                this.voucherID = int.Parse(row["Voucher_ID"].ToString());
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Batch_Fiscal_Year"].ToString());
-
-
-                //Load data in datagridview dropdown
-                this.loadData(row["Dyeing_Company_Name"].ToString(), row["Batch_Fiscal_Year"].ToString());
-                //Load previous data
-                string[] batch_nos = c.csvToArray(row["Batch_No_Arr"].ToString());
-                for(int i=0; i<batch_nos.Length; i++)
-                {
-                    this.batch_no.Add(batch_nos[i]);
-                }
-                dataGridView1.RowCount = batch_nos.Length + 1;
-                //Fill data in datagridview
-                for (int i = 0; i < batch_nos.Length; i++)
-                {
-                    dataGridView1.Rows[i].Cells[1].Value = batch_nos[i];
-                }
-                c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+                this.typeCB.Enabled = false;
+                this.financialYearCB.Enabled = false;
+                this.qualityCB.Enabled = false;
+                this.loadDOButton.Enabled = false;
             }
+
+            //Fill in required values
+            this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
+            this.billDateDTP.Value = Convert.ToDateTime(row["Sale_Bill_Date"].ToString());
+            this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality"].ToString());
+            this.billNumberTextboxTB.Text = row["Sale_Bill_No"].ToString();
+            this.voucherID = int.Parse(row["Voucher_ID"].ToString());
+            this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(row["DO_Fiscal_Year"].ToString());
+            this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
+            this.billWeightTB.Text = row["Sale_Bill_Weight"].ToString();
+            this.billAmountTB.Text = row["Sale_Bill_Amount"].ToString();
+            this.netDOWeightTB.Text = row["Sale_Bill_Weight_Calc"].ToString();
+            this.netDOAmountTB.Text = row["Sale_Bill_Amount_Calc"].ToString();
+
+
+            //Load data in datagridview dropdown
+            this.loadData(row["Quality"].ToString(), row["DO_Fiscal_Year"].ToString(), row["Type_Of_Sale"].ToString());
+            //Load previous data
+            string[] do_nos = c.csvToArray(row["DO_No_Arr"].ToString());
+            for(int i=0; i<do_nos.Length; i++)
+            {
+                this.do_no.Add(do_nos[i]);
+            }
+            dataGridView1.RowCount = do_nos.Length + 1;
+            //Fill data in datagridview
+            for (int i = 0; i < do_nos.Length; i++)
+            {
+                dataGridView1.Rows[i].Cells[1].Value = do_nos[i];
+            }
+            dgvCmb.DataSource = this.do_no;
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         public void disable_form_edit()
         {
             this.inputDate.Enabled = false;
-            this.inwardDateDTP.Enabled = false;
-            this.dyeingCompanyCB.Enabled = false;
-            this.loadBatchButton.Enabled = false;
+            this.qualityCB.Enabled = false;
+            this.loadDOButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
             this.billNumberTextboxTB.Enabled = false;
             this.billDateDTP.Enabled = false;
+            this.billWeightTB.Enabled = false;
+            this.billAmountTB.Enabled = false;
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -476,29 +278,18 @@ namespace Factory_Inventory
             {
                 if(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
                 {
-                    dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
-                    dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
-                    dataGridView1.Rows[e.RowIndex].Cells[4].Value = null;
-                    dataGridView1.Rows[e.RowIndex].Cells[5].Value = null;
-                    if (this.addBill == false) dataGridView1.Rows[e.RowIndex].Cells[6].Value = null;
-                    dynamicWeightLabel.Text = CellSum(5).ToString("F2");
+                    dataGridView1.Rows[e.RowIndex].Cells["DO Weight"].Value = null;
+                    dataGridView1.Rows[e.RowIndex].Cells["DO Amount"].Value = null;
+                    this.netDOWeightTB.Text = CellSum(2).ToString("F3");
+                    this.netDOAmountTB.Text = CellSum(3).ToString("F2");
                     return;
                 }
-                int batch_no = int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                DataRow row = c.getBatchRow_BatchNo(batch_no, this.comboBox3CB.SelectedItem.ToString());
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = row["Net_Weight"].ToString();
-                dataGridView1.Rows[e.RowIndex].Cells[3].Value = row["Colour"].ToString();
-                dataGridView1.Rows[e.RowIndex].Cells[4].Value = row["Quality"].ToString();
-                dataGridView1.Rows[e.RowIndex].Cells[5].Value = float.Parse(row["Net_Weight"].ToString()) * float.Parse(row["Dyeing_Rate"].ToString());
-                if(this.addBill==false)
-                {
-                    if (!(row["Slip_No"].ToString() == null || row["Slip_No"].ToString() == ""))
-                    {
-                        dataGridView1.Rows[e.RowIndex].Cells[6].Value = row["Slip_No"].ToString();
-                    }
-                }
-                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
-
+                string do_no = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                DataRow row = c.getSalesRow(do_no, this.financialYearCB.SelectedItem.ToString());
+                dataGridView1.Rows[e.RowIndex].Cells["DO Weight"].Value = row["Net_Weight"].ToString();
+                dataGridView1.Rows[e.RowIndex].Cells["DO Amount"].Value = (float.Parse(row["Sale_Rate"].ToString())*float.Parse(row["Net_Weight"].ToString())).ToString("F2");
+                this.netDOWeightTB.Text = CellSum(2).ToString("F3");
+                this.netDOAmountTB.Text = CellSum(3).ToString("F2");
             }
         }
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -524,11 +315,11 @@ namespace Factory_Inventory
                     SendKeys.Send("{tab}");
                     return;
                 }
-                if (dataGridView1.Rows.Count - 2 == rowindex_tab && ((col==6 && this.addBill==false)|| (col == 5 && this.addBill == true)))
-                {
-                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
-                    dataGridView1.Rows.Add(row);
-                }
+                //if (dataGridView1.Rows.Count - 2 == rowindex_tab && ((col==6 && this.addBill==false)|| (col == 5 && this.addBill == true)))
+                //{
+                //    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                //    dataGridView1.Rows.Add(row);
+                //}
                 if(col==1)
                 {
                     Console.WriteLine("col1 " + edit_cmd_local);
@@ -553,21 +344,21 @@ namespace Factory_Inventory
                     Console.WriteLine("col4");
                     SendKeys.Send("{tab}");
                 }
-                if (col == 5 && this.addBill == true)
-                {
-                    Console.WriteLine("col4");
-                    SendKeys.Send("{tab}");
-                }
-                if (col == 5 && this.addBill == false && this.billcheckBoxCK.Checked==false)
-                {
-                    Console.WriteLine("col5 no slip");
-                    SendKeys.Send("{tab}");
-                }
-                if (col == 6 && this.addBill==false)
-                {
-                    Console.WriteLine("col4");
-                    SendKeys.Send("{tab}");
-                }
+                //if (col == 5 && this.addBill == true)
+                //{
+                //    Console.WriteLine("col4");
+                //    SendKeys.Send("{tab}");
+                //}
+                //if (col == 5 && this.addBill == false && this.billcheckBoxCK.Checked==false)
+                //{
+                //    Console.WriteLine("col5 no slip");
+                //    SendKeys.Send("{tab}");
+                //}
+                //if (col == 6 && this.addBill==false)
+                //{
+                //    Console.WriteLine("col4");
+                //    SendKeys.Send("{tab}");
+                //}
 
             }
             if (e.KeyCode == Keys.Enter &&
@@ -589,177 +380,93 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if (dyeingCompanyCB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Enter Select Dyeing Company Name", "Error");
-                return;
-            }
-            if((billNumberTextboxTB.Text==null || billNumberTextboxTB.Text=="") && billcheckBoxCK.Checked==false)
-            {
-                c.ErrorBox("Enter Bill Number", "Error");
-                return;
-            }
-            if(billcheckBoxCK.Checked==true && this.addBill==false)
-            {
-                for(int i=0;i<dataGridView1.Rows.Count-1;i++)
-                {
-                    int sum = 0;
-                    if(!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 2))
-                    {
-                        sum++;
-                    }
-                    if(!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 6))
-                    {
-                        sum++;
-                    }
-                    if(sum==1)
-                    {
-                        c.ErrorBox("Enter Slip Number in row " + (i + 1).ToString(), "Error");
-                        return;
-                    }
-
-                }
-            }
             if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, 0, 1))
             {
-                c.ErrorBox("Please enter Batch Numbers", "Error");
+                c.ErrorBox("Please enter DO Numbers", "Error");
                 return;
             }
-            if (this.inputDate.Value.Date < this.inwardDateDTP.Value.Date)
+            try
             {
-                c.ErrorBox("Inward Date is in the future", "Error");
-                return;
+                float.Parse(this.billWeightTB.Text);
             }
-            if(this.billDateDTP.Value.Date > this.inputDate.Value.Date)
+            catch
             {
-                c.ErrorBox("Bill Date is in the future", "Error");
+                c.ErrorBox("Enter numeric bill weight", "Error");
                 return;
             }
-            string batch_nos = "", slip_nos="";
-            int number = 0;
-
-            List<int> temp = new List<int>();
+            try
+            {
+                float.Parse(this.billAmountTB.Text);
+            }
+            catch
+            {
+                c.ErrorBox("Enter numeric bill amount", "Error");
+                return;
+            }
+            if (Math.Abs(Double.Parse(billWeightTB.Text)-Double.Parse(netDOWeightTB.Text))>1D)
+            {
+                c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
+                return;
+            }
+            if (Math.Abs(Double.Parse(billAmountTB.Text) - Double.Parse(netDOAmountTB.Text)) > 50D)
+            {
+                c.ErrorBox("Bill Amount is does not match total DO Amount", "Error");
+                return;
+            }
+            string do_nos = "";
+            List<string> temp = new List<string>();
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
-
-                //ComboBox c = (ComboBox)dataGridView1.EditingControl;
                 if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1))
                 {
                     continue;
                 }
                 else
                 {
-                    batch_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
-                    if (this.billcheckBoxCK.Checked == true && this.addBill==false)
-                    {
-                        slip_nos += dataGridView1.Rows[i].Cells[6].Value.ToString() + ",";
-                    }
-                    number++;
-
-                    //to check for all different batch_nos
-                    temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
-                    var distinctBytes = new HashSet<int>(temp);
+                    do_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
+                    //to check for all different do_nos
+                    temp.Add(dataGridView1.Rows[i].Cells[1].Value.ToString());
+                    var distinctBytes = new HashSet<string>(temp);
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        c.ErrorBox("Please Enter Distinct Tray Nos at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Please Enter Distinct DO Numbers at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
                 }
             }
-            string sendbill_no = "-1";
-            string send_bill_date = null;
-            if (this.billcheckBoxCK.Checked == true) sendbill_no = "0";
-            else
+            if(this.edit_form==true)
             {
-                sendbill_no = billNumberTextboxTB.Text.ToString();
-                send_bill_date = billDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                slip_nos = "";
-            }
-            if (this.edit_form == true)
-            {
-                if(this.addBill==true)
+                bool editbill = c.editSalesBillNosVoucher(this.voucherID, inputDate.Value, billDateDTP.Value,  do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
+                if (editbill == true)
                 {
-                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
-                    if (editbill == true)
-                    {
-                        disable_form_edit();
-                        this.v1_history.loadData();
-                    }
-                    return;
+                    disable_form_edit();
+                    this.v1_history.loadData();
                 }
-                else
-                {
-                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos);
-                    if (edited == true)
-                    {
-                        disable_form_edit();
-                        this.v1_history.loadData();
-                    }
-                    else return;
-                }
+                return;
             }
             else
             {
-                if(this.addBill==true)
-                {
-                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
-                    if (addbill == true) disable_form_edit();
-                    return;
-                }
-                else
-                {
-                    bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos);
-                    if (added == true) disable_form_edit();
-                    else return;
-                }
+                bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
+                if (addbill == true) disable_form_edit();
+                return;
             }
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(this.edit_form==true && this.addBill==false)
+            int count = dataGridView1.SelectedRows.Count;
+            for (int i = 0; i < count; i++)
             {
-                int count = dataGridView1.SelectedRows.Count;
-                Console.WriteLine("Count= " + count);
-                for (int i = 0; i < count; i++)
+                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
                 {
-                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
-                    {
-                        dataGridView1.SelectedRows[0].Selected = false;
-                        continue;
-                    }
-                    int rowindex = dataGridView1.SelectedRows[0].Index;
-                    string batch_no = dataGridView1.Rows[rowindex].Cells[1].Value.ToString();
-                    bool value = true;
-                    bool value2 = this.batch_editable.TryGetValue(batch_no, out value);
-                    if (value2 == true && value == false)
-                    {
-                        c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
-                        dataGridView1.Rows[rowindex].Selected = false;
-                        continue;
-                    }
-                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-                    Console.WriteLine("Deleting row: " + rowindex);
-
+                    dataGridView1.SelectedRows[0].Selected = false;
+                    continue;
                 }
-                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             }
-            else
-            {
-                int count = dataGridView1.SelectedRows.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
-                    {
-                        dataGridView1.SelectedRows[0].Selected = false;
-                        continue;
-                    }
-                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-                }
-                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
-            }
-           
+            this.netDOWeightTB.Text = CellSum(2).ToString("F3");
+            this.netDOAmountTB.Text = CellSum(3).ToString("F2");
         }
         private float CellSum(int column)
         {
@@ -790,55 +497,38 @@ namespace Factory_Inventory
         }
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
-            if (dyeingCompanyCB.SelectedIndex == 0)
+            if (qualityCB.SelectedIndex == 0)
             {
-                c.ErrorBox("Enter Enter Dyeing Company Name", "Error");
+                c.ErrorBox("Enter Quality", "Error");
                 return;
             }
-            if(comboBox3CB.SelectedIndex==0)
+            if(financialYearCB.SelectedIndex==0)
             {
                 c.ErrorBox("Please select Batch Financial Year", "Error");
                 return;
             }
-            this.loadData(this.dyeingCompanyCB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString()); ;
-            this.loadBatchButton.Enabled = false;
-            this.dyeingCompanyCB.Enabled = false;
+            if(typeCB.SelectedIndex==0)
+            {
+                c.ErrorBox("Please select type of DOs", "Error");
+                return;
+            }
+            this.loadData(this.qualityCB.SelectedItem.ToString(), financialYearCB.SelectedItem.ToString(), this.typeCB.Text); ;
+            this.loadDOButton.Enabled = false;
+            this.qualityCB.Enabled = false;
             this.saveButton.Enabled = true;
-            this.comboBox3CB.Enabled = false;
+            this.financialYearCB.Enabled = false;
+            this.typeCB.Enabled = false;
         }
-        private void loadData(string dyeing_company, string batch_fiscal_year)
+        private void loadData(string quality, string do_fiscal_year, string type)
         {
-            string[] d = null;
-            if (this.addBill == true) d = c.getBatchesWithBillNoDyeingCompanyName(0, dyeing_company, batch_fiscal_year);
-            else d = c.getBatch_StateDyeingCompanyColourQuality(1, dyeing_company, null, null, batch_fiscal_year);
+            string[] d = c.getDO_QualityFiscalYearType(quality, do_fiscal_year, type, this.tablename);
             for(int i=0; i<d.Length; i++)
             {
-                this.batch_no.Add(d[i]);
+                this.do_no.Add(d[i]);
             }
             if (this.edit_form == false)
             {
-                c.SuccessBox("Loaded "+d.Length.ToString()+" Batches");
-            }
-        }
-        private void billcheckBox_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (billcheckBoxCK.Checked == false)
-            {
-                billNumberTextboxTB.Enabled = true;
-                billDateDTP.Enabled = true;
-                if(this.addBill==false)
-                {
-                    this.dataGridView1.Rows[6].ReadOnly = true;
-                }
-            }
-            else
-            {
-                billNumberTextboxTB.Enabled = false;
-                billDateDTP.Enabled = false;
-                if (this.addBill == false)
-                {
-                    this.dataGridView1.Rows[6].ReadOnly = true;
-                }
+                c.SuccessBox("Loaded "+d.Length.ToString()+" DOs");
             }
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -894,7 +584,7 @@ namespace Factory_Inventory
                 c.buttonEvent(button);
             }
 
-            this.inwardDateDTP.Focus();
+            this.billDateDTP.Focus();
         }
     }
 }
