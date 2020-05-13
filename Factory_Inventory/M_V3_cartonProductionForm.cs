@@ -445,7 +445,7 @@ namespace Factory_Inventory
             this.batchnwtTextbox.Text = this.CellSum2(2).ToString("F3");
 
             //highest carton number;
-            this.highest_carton_no = c.getNextBatchNumber("Highest_Carton_Production_No", this.financialYearComboboxCB.Text);
+            this.highest_carton_no = int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
             Console.WriteLine("Constructor: "+this.highest_carton_no.ToString());
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
@@ -566,21 +566,21 @@ namespace Factory_Inventory
                     Console.WriteLine("This case");
                     return;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 1))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 1))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
                 {
                     Console.WriteLine("gere");
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no;
                     Console.WriteLine(this.highest_carton_no);
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 3))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[3].Value = dataGridView1.Rows[rowindex_tab].Cells[3].Value;
                 }
@@ -618,19 +618,19 @@ namespace Factory_Inventory
                     Console.WriteLine("This case");
                     return;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 1))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 1))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no++;
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
-                if (c.isCellNullOrEmpty(this.dataGridView1, rowindex_tab, 3))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 3))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[3].Value = dataGridView1.Rows[rowindex_tab].Cells[3].Value;
                 }
@@ -914,7 +914,7 @@ namespace Factory_Inventory
             }
 
             //set the first carton number in form
-            int next_carton_no = c.getNextBatchNumber("Highest_Carton_Production_No", this.financialYearComboboxCB.Text);
+            int next_carton_no =int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
             dataGridView1.Rows[0].Cells[2].Value = next_carton_no;
 
             //enable and disable 

@@ -594,7 +594,7 @@ namespace Factory_Inventory
             }
             if(this.edit_form==false)
             {
-                int batch_no = c.getNextBatchNumber("Highest_Batch_No", c.getFinancialYear(issueDateDTP.Value));
+                int batch_no = int.Parse(c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(issueDateDTP.Value)));
                 if (batch_no == -1)
                 {
                     batchNumberTextboxTB.Text = "Error";

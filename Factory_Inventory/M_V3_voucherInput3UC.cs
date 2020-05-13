@@ -50,12 +50,29 @@ namespace Factory_Inventory
 
         private void button6_Click(object sender, EventArgs e)
         {
-            
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_VC_cartonSalesForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
+            M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
+            f.Show();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            
+            M_V_history f = new M_V_history(9);
+            f.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            M_VC_addBill f = new M_VC_addBill("Carton_Produced");
+            f.Show();
         }
     }
 }

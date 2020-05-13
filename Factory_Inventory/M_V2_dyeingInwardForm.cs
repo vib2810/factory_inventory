@@ -450,7 +450,6 @@ namespace Factory_Inventory
                 c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
         }
-
         public void disable_form_edit()
         {
             this.inputDate.Enabled = false;
@@ -605,11 +604,11 @@ namespace Factory_Inventory
                 for(int i=0;i<dataGridView1.Rows.Count-1;i++)
                 {
                     int sum = 0;
-                    if(!c.isCellNullOrEmpty(this.dataGridView1, i, 2))
+                    if(!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 2))
                     {
                         sum++;
                     }
-                    if(!c.isCellNullOrEmpty(this.dataGridView1, i, 6))
+                    if(!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 6))
                     {
                         sum++;
                     }
@@ -621,7 +620,7 @@ namespace Factory_Inventory
 
                 }
             }
-            if (!c.isCellNullOrEmpty(this.dataGridView1, 0, 1))
+            if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, 0, 1))
             {
                 c.ErrorBox("Please enter Batch Numbers", "Error");
                 return;
@@ -644,7 +643,7 @@ namespace Factory_Inventory
             {
 
                 //ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                if (!c.isCellNullOrEmpty(this.dataGridView1, i, 1))
+                if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1))
                 {
                     continue;
                 }
@@ -773,7 +772,7 @@ namespace Factory_Inventory
                 }
                 for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                 {
-                    if (c.isCellNullOrEmpty(this.dataGridView1, i, column))
+                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, i, column))
                     {
                         //float dyeing_rate = float.Parse(c.getColumnBatchNo("Dyeing_Rate", int.Parse(this.dataGridView1.Rows[i].Cells[1].Value.ToString()), this.comboBox3CB.Text));
                         //Console.WriteLine(dyeing_rate.ToString());
@@ -842,7 +841,6 @@ namespace Factory_Inventory
                 }
             }
         }
-
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
@@ -850,7 +848,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
-
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView1.IsCurrentCellDirty)
@@ -858,7 +855,6 @@ namespace Factory_Inventory
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-
         private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
         {
             var comboBoxes = this.Controls

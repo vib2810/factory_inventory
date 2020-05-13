@@ -43,7 +43,7 @@ namespace Factory_Inventory
 
         private void button6_Click(object sender, EventArgs e)
         {
-            M_V1_cartonSalesForm f = new M_V1_cartonSalesForm();
+            M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton");
             f.Show();
         }
 
