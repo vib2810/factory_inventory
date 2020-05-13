@@ -11,6 +11,7 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
@@ -217,6 +218,13 @@ namespace Factory_Inventory.Factory_Classes
                     Console.Write(d.Rows[i][j].ToString() + " ");
                 }
                 Console.Write("\n");
+            }
+        }
+        public void auto_adjust_dgv(DataGridView dgv)
+        {
+            for (int i = 0; i < dgv.Columns.Count; i++)
+            {
+                dgv.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
         //Arrow Key Events
