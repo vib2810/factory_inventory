@@ -139,7 +139,8 @@ use FactoryInventory
 --  Sale_DO_No varchar(20) NOT NULL,
 --  Net_Weight decimal(7,3) NOT NULL,
 --  Sale_Bill_Date date Null,
---  Sale_Bill_No varchar(20) Null
+--  Sale_Bill_No varchar(20) Null,
+--  Printed tinyint NOT NULL
 --);
 
 --GO
