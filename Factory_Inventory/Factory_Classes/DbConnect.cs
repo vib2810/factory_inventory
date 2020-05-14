@@ -37,12 +37,12 @@ namespace Factory_Inventory.Factory_Classes
         {
             //Connection string for Gaurang's Laptop
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
-            
+
             //Connection string for old Database
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryInventory;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
-            
+            string ip_address = Global.ipaddress;
             //Connection string for Vob's laptop
-            this.con = new SqlConnection(@"Data Source=192.168.1.12, 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
+            this.con = new SqlConnection(@"Data Source="+ip_address+", 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
         }
 
         public string RandomString(int size, bool lowerCase)

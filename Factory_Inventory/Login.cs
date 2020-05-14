@@ -14,16 +14,26 @@ namespace Factory_Inventory
 {
     public partial class Login : Form
     {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                this.button1.PerformClick();
+                return false;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         public int access=0;
         DbConnect c;
         public string username;
         private bool close_from_code = false;
-        public Login(DbConnect input)
+        public Login()
         {
-            this.c = input;
+            InitializeComponent();
+            Console.WriteLine("before setting: " + this.iptextbox.Text.Replace(" ", ""));
+            this.c = new DbConnect();
             this.FormClosing += new FormClosingEventHandler(Login_FormClosing);
             this.CenterToScreen();
-            InitializeComponent();
         }
 
 
@@ -34,6 +44,12 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (this.iptextbox.Text != "Default")
+            {
+                Console.WriteLine("setting: " + this.iptextbox.Text.Replace(" ", ""));
+                Global.ipaddress = this.iptextbox.Text.Replace(" ", "");
+            }
+            this.c = new DbConnect();
             this.access=this.c.checkLogin(textBox1.Text, textBox2.Text);
             if(this.access==1)
             {
