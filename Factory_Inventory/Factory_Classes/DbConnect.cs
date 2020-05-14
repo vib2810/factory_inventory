@@ -3365,7 +3365,7 @@ namespace Factory_Inventory.Factory_Classes
                 string sql;
                 if(addDate)
                 {
-                    if(voucher_id==0)
+                    if(voucher_id==-1)
                     {
                         sql = "UPDATE Batch SET Batch_State=" + state + ", Voucher_ID = NULL, Date_Of_Production=NULL WHERE Batch_No='" + int.Parse(batch.batch_no) + "' AND Fiscal_Year='" + batch.fiscal_year + "'";
                     }
@@ -3603,7 +3603,7 @@ namespace Factory_Inventory.Factory_Classes
                 pair batch;
                 batch.batch_no = old_batch_nos[i];
                 batch.fiscal_year = old_batch_fiscal_years[i];
-                bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, 0, max, true);
+                bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, max, true);
                 if (!flag)
                 {
                     return false;

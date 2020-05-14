@@ -19,7 +19,7 @@ use FactoryInventory
 --	Date_Of_Sale date NULL,
 --	Fiscal_Year varchar(15) NOT NULL,
 --  Sale_DO_No varchar(10) NULL,
---  Type_Of_Sale int NOT NULL,
+--  Type_Of_Sale int NULL,
 --  DO_Fiscal_Year varchar(15) NULL
 --);
 
@@ -532,7 +532,7 @@ use FactoryInventory
 --	Date_Of_Sale date NULL,
 --  Batch_Fiscal_Year_Arr text NOT NULL,
 --  Company_Name varchar(10) NOT NULL,
---  Type_Of_Sale int NOT NULL,
+--  Type_Of_Sale int NULL,
 --  DO_Fiscal_Year varchar(15) NULL
 --);
 
