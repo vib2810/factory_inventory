@@ -24,6 +24,7 @@ namespace Factory_Inventory
         {
             InitializeComponent();
             c = new DbConnect(); 
+            this.backupLoactionTB.Text = @"D:\Temp\";
         }
 
         private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
@@ -62,7 +63,7 @@ namespace Factory_Inventory
             {
                 Server dbServer = new Server(new ServerConnection(Global.ipaddress+", 1433", "sa", "Kdvghr2810@"));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
-                string backup_location = this.backupLoactionTB.Text + this.database + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + ".bak";
+                string backup_location = this.backupLoactionTB.Text + this.database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/','-') + ")" + ".bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbBackup_PercentComplete;
@@ -134,7 +135,7 @@ namespace Factory_Inventory
                 Server dbServer = new Server(new ServerConnection(Global.ipaddress + ", 1433", "sa", "Kdvghr2810@"));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database };
                 string s = this.restoreLocationTB.Text;
-                string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + "restorebackup.bak";
+                string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + "restorebackup.bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbRestore_PercentComplete;

@@ -356,14 +356,14 @@ namespace Factory_Inventory
             }
             else if (this.dataGridView4.SelectedRows.Count!= 0)
             {
-                if (this.dgvstates[2] == 1)
+                if (this.dgvstates[3] == 1)
                 {
                     Display_Batch db = new Display_Batch((dataGridView4.Rows[dataGridView4.CurrentRow.Index].DataBoundItem as DataRowView).Row);
                     db.Show();
                 }
                 else
                 {
-                    dataGridView3.DataSource = this.to_show_details[3];
+                    dataGridView4.DataSource = this.to_show_details[3];
                     this.dgvstates[3] = 1;
                 }
             }
@@ -417,7 +417,7 @@ namespace Factory_Inventory
             }
             else if (this.dataGridView4.SelectedRows.Count != 0)
             {
-                if (this.dgvstates[2] == 1)
+                if (this.dgvstates[3] == 1)
                 {
                     dataGridView4.DataSource = this.to_show_summary[3];
                     this.dgvstates[3] = 0;
