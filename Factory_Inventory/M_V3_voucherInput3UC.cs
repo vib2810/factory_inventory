@@ -74,5 +74,11 @@ namespace Factory_Inventory
             M_VC_addBill f = new M_VC_addBill("Carton_Produced");
             f.Show();
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            M_V_history f = new M_V_history(11);
+            f.Show();
+        }
     }
 }

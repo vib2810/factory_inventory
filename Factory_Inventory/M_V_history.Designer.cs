@@ -31,6 +31,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.viewDetailsButton = new System.Windows.Forms.Button();
             this.editDetailsButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,11 +72,21 @@
             this.editDetailsButton.UseVisualStyleBackColor = true;
             this.editDetailsButton.Click += new System.EventHandler(this.editDetailsButton_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1008, 426);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(332, 17);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Bill Number 0 means\nno bill number has\nbeen given";
+            // 
             // M_V_history
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1149, 555);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.editDetailsButton);
             this.Controls.Add(this.viewDetailsButton);
             this.Controls.Add(this.dataGridView1);
@@ -83,6 +94,7 @@
             this.Text = "History";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -91,5 +103,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button viewDetailsButton;
         private System.Windows.Forms.Button editDetailsButton;
+        private System.Windows.Forms.Label label1;
     }
 }
