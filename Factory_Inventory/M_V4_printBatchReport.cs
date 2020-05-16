@@ -126,14 +126,6 @@ namespace Factory_Inventory
             this.printed_pages = 0;
             printPreviewDialog1.ShowDialog();
         }
-        private void dataGridView1_Click(object sender, EventArgs e)
-        {
-            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
-        }
-        private void dataGridView2_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
-        }
         private void load_batch()
         {
             int batch_no = -1;
@@ -197,11 +189,13 @@ namespace Factory_Inventory
                 for (int j = 0; j < batch_tray_ids.Length; j++) tray_ids.Add(batch_tray_ids[i]);
             }
             dataGridView3.DataSource = this.dt3;
-            Console.WriteLine(dataGridView3.Rows.Count);
             this.dataGridView3.RowsDefaultCellStyle.BackColor = Color.White;
-            DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[0];
-            r.DefaultCellStyle.BackColor = selected_color;
-            r.DefaultCellStyle.SelectionBackColor = selected_color;
+            if(batch_index>=0)
+            {
+                DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[0];
+                r.DefaultCellStyle.BackColor = Color.Gray;
+                r.DefaultCellStyle.SelectionBackColor = Color.Gray;
+            }
             if (this.dataGridView3.SelectedRows.Count >= 0) this.dataGridView3.Rows[0].Selected = false;
 
             //dt4
@@ -216,13 +210,14 @@ namespace Factory_Inventory
                 int cones = int.Parse(carton["Number_Of_Cones"].ToString());
                 total_cones += cones;
                 string tare_wt = (float.Parse(carton["Carton_Weight"].ToString()) + cones* float.Parse(carton["Cone_Weight"].ToString())).ToString("F3");
-                for(int j=0; j<10; j++)
-                    dt4.Rows.Add(j + i*j+ 1, carton_nos[i], carton["Number_Of_Cones"], float.Parse(carton["Gross_Weight"].ToString()).ToString("F3"), tare_wt, float.Parse(carton["Net_Weight"].ToString()).ToString("F3"), carton["Grade"]);
+                dt4.Rows.Add(i+1, carton_nos[i], carton["Number_Of_Cones"], float.Parse(carton["Gross_Weight"].ToString()).ToString("F3"), tare_wt, float.Parse(carton["Net_Weight"].ToString()).ToString("F3"), carton["Grade"]);
             }
             this.net_carton_wt = float.Parse(voucher.Rows[0]["Net_Carton_Weight"].ToString());
             dt4.Rows.Add("", "Total Cones", total_cones, "", "Net Weight" , voucher.Rows[0]["Net_Carton_Weight"], "");
 
             dataGridView4.DataSource = this.dt4;
+            dataGridView4.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+
             if (this.dataGridView4.SelectedRows.Count >= 0) this.dataGridView4.Rows[0].Selected = false;
 
             //fill the textboxes
@@ -300,6 +295,7 @@ namespace Factory_Inventory
         {
             load_batch();
         }
+       
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             //Page setup
@@ -518,6 +514,14 @@ namespace Factory_Inventory
                 g.DrawRectangle(Pens.Black, x, y, width, newFont.Height + 5);
             }
             return newFont.Height + 7;
+        }
+        private void dataGridView1_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
+        }
+        private void dataGridView2_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
         }
     }
 }

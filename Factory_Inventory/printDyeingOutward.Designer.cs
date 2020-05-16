@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(M_V4_printDyeingOutward));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(printDyeingOutward));
             this.label1 = new System.Windows.Forms.Label();
             this.batchnoTextbox = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -286,9 +286,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(456, 248);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(91, 17);
+            this.label14.Size = new System.Drawing.Size(74, 17);
             this.label14.TabIndex = 22;
-            this.label14.Text = "HSN Number";
+            this.label14.Text = "HSN Code";
             // 
             // button1
             // 

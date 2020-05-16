@@ -1033,6 +1033,29 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
+        public DataTable getTableRow(string tablename, string where)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM "+tablename+" WHERE "+where, con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getTableRow) "+tablename+" where "+where+" \n"+ e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
+
         //Carton Voucher
         public bool addCartonVoucher(DateTime dtinput, DateTime dtbill, string billNumber, string quality, string quality_arr, string company, string cost, string cartonno, string weights, int number, float netweight)
         {
@@ -1250,8 +1273,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-
-
 
         //Carton
         public void updateCarton(string cartonno, string old_fiscal_year, string billDate, string billNumber, float buy_cost, string financialyear)

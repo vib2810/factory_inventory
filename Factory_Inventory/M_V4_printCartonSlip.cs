@@ -103,7 +103,7 @@ namespace Factory_Inventory
             dataGridView4.Columns["SlNo"].Width = 70;
             dataGridView4.Columns["Carton No."].Width = 70;
             dataGridView4.Columns["Net Weight"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView4.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridView4.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView4.DefaultCellStyle.SelectionForeColor = Color.Blue;
 
             dataGridView5.RowHeadersVisible = false;
@@ -115,7 +115,7 @@ namespace Factory_Inventory
             dataGridView5.Columns["SlNo"].Width = 70;
             dataGridView5.Columns["Carton No."].Width = 70;
             dataGridView5.Columns["Net Weight"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView5.DefaultCellStyle.SelectionBackColor = Color.Empty;
+            dataGridView5.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView5.DefaultCellStyle.SelectionForeColor = Color.Blue;
         }
 
@@ -132,10 +132,11 @@ namespace Factory_Inventory
             }
             this.cartons_to_print.Clear();
             this.cartons_to_print_fiscal_year.Clear();
+            int rows = dataGridView5.Rows.Count;
             for (int i = 0; i < dataGridView5.RowCount; i++)
             {
-                int carton = int.Parse(dataGridView5.Rows[i].Cells[dataGridView5.Columns["Carton No."].Index].Value.ToString());
-                string fiscal_year = dataGridView5.Rows[i].Cells[dataGridView5.Columns["Financial Year"].Index].Value.ToString();
+                int carton = int.Parse(dataGridView5.Rows[rows-i-1].Cells[dataGridView5.Columns["Carton No."].Index].Value.ToString());
+                string fiscal_year = dataGridView5.Rows[rows-i-1].Cells[dataGridView5.Columns["Financial Year"].Index].Value.ToString();
                 this.cartons_to_print.Add(carton);
                 this.cartons_to_print_fiscal_year.Add(fiscal_year);
                 c.setCartonProducedPrint(carton.ToString(), fiscal_year, 1);
@@ -199,8 +200,14 @@ namespace Factory_Inventory
             dataGridView3.DataSource = this.dt3;
             Console.WriteLine(dataGridView3.Rows.Count);
             this.dataGridView3.RowsDefaultCellStyle.BackColor = Color.White;
-            DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[0];
-            r.DefaultCellStyle.BackColor = selected_color;
+            this.dataGridView3.RowsDefaultCellStyle.SelectionBackColor = Color.White;
+
+            if(batch_index>=0)
+            {
+                DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[batch_index];
+                r.DefaultCellStyle.BackColor = Color.Gray;
+                r.DefaultCellStyle.SelectionBackColor = Color.Gray;
+            }
             if (this.dataGridView3.SelectedRows.Count >= 0) this.dataGridView3.Rows[0].Selected = false;
 
             //dt4
@@ -215,9 +222,14 @@ namespace Factory_Inventory
                 if (ispresent(dataGridView5, carton_nos[i], 1, this.carton_fiscal_year, 3) >=0 )
                 {
                     dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
+                    dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.LightBlue;
                 }
                 int printed = c.getCartonProducedPrint(carton_nos[i], this.carton_fiscal_year);
-                if (printed > 0) dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.BackColor = printed_color;
+                if (printed > 0)
+                {
+                    dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.BackColor = printed_color;
+                    dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = printed_color;
+                }
             }
             if (this.dataGridView4.SelectedRows.Count >= 0) this.dataGridView4.Rows[0].Selected = false;
         }
@@ -295,14 +307,23 @@ namespace Factory_Inventory
             for (int i=0; i<count; i++)
             {
                 DataGridViewRow row = dataGridView4.SelectedRows[0];
-                if (ispresent(dataGridView5, row.Cells[1].Value.ToString(), 1, row.Cells[3].Value.ToString(), 3)==-1)
-                { 
-                    Console.WriteLine("Adding "+row.Cells[1].Value);
+                if (ispresent(dataGridView5, row.Cells[1].Value.ToString(), 1, row.Cells[3].Value.ToString(), 3) == -1)
+                {
+                    Console.WriteLine("Adding " + row.Cells[1].Value);
                     this.dataGridView5.Rows.Add("", row.Cells[1].Value, row.Cells[2].Value, row.Cells[3].Value);
-                    if (dataGridView4.SelectedRows[0].DefaultCellStyle.BackColor == printed_color) dataGridView5.Rows[dataGridView5.RowCount - 1].DefaultCellStyle.BackColor = printed_color;
-                    else dataGridView4.SelectedRows[0].DefaultCellStyle.BackColor = selected_color;
+                    if (dataGridView4.SelectedRows[0].DefaultCellStyle.BackColor == printed_color)
+                    {
+                        dataGridView5.Rows[dataGridView5.RowCount - 1].DefaultCellStyle.BackColor = printed_color;
+                        dataGridView5.Rows[dataGridView5.RowCount - 1].DefaultCellStyle.SelectionBackColor = printed_color;
+                    }
+                    else
+                    {
+                        //set selected rows in dgv4 
+                        dataGridView4.SelectedRows[0].DefaultCellStyle.BackColor = selected_color;
+                        dataGridView4.SelectedRows[0].DefaultCellStyle.SelectionBackColor = selected_color;
+                    }
+                    dataGridView4.SelectedRows[0].Selected = false;
                 }
-                dataGridView4.SelectedRows[0].Selected = false;
             }
         }
         private void button1_Click(object sender, EventArgs e)
@@ -387,7 +408,11 @@ namespace Factory_Inventory
             {
                 DataGridViewRow row = dataGridView5.SelectedRows[0];
                 int index = ispresent(dataGridView4, row.Cells[1].Value.ToString(), 1, row.Cells[3].Value.ToString(), 3);
-                if (index >= 0 && row.DefaultCellStyle.BackColor!=printed_color) dataGridView4.Rows[index].DefaultCellStyle.BackColor = Color.White;
+                if (index >= 0 && row.DefaultCellStyle.BackColor != printed_color)
+                {
+                    dataGridView4.Rows[index].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView4.Rows[index].DefaultCellStyle.SelectionBackColor= Color.White;
+                }
                 dataGridView5.Rows.RemoveAt(dataGridView5.SelectedRows[0].Index);
             }
         }
@@ -419,39 +444,39 @@ namespace Factory_Inventory
             write_height += write(e, x, write_height, width, "MOHTA GROUP", basic_size + 8, 'c', 0) + 5;
 
             //main
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "QUALITY:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Quality"].ToString(), basic_size, 'l', 0, 1)+gap;
-            write(e, x + (int)(0.05* width), write_height, (int)(0.25 * width), "CARTON NO:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Carton_No"].ToString(), basic_size, 'l', 0, 1) + gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "CARTON NO:", basic_size + 2, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), carton_data["Carton_No"].ToString(), basic_size + 4, 'l', 0, 1) + gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "QUALITY:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int) (0.60 * width), carton_data["Quality"].ToString(), basic_size, 'l', 0, 1)+gap;
+            
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "CHEESE:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), carton_data["Number_Of_Cones"].ToString(), basic_size, 'l', 0, 1) + gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "DATE:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), carton_data["Date_Of_Production"].ToString().Substring(0, 10), basic_size, 'l', 0, 1) + gap;
 
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "CHEESE:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Number_Of_Cones"].ToString(), basic_size, 'l', 0, 1) + gap;
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "DATE:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Date_Of_Production"].ToString().Substring(0, 10), basic_size, 'l', 0, 1) + gap;
-
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "GROSS WT:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Gross_Weight"].ToString(), basic_size, 'l', 0, 1) + gap;
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "GRADE:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Grade"].ToString(), basic_size, 'l', 0, 1) + gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "GROSS WT:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), carton_data["Gross_Weight"].ToString(), basic_size, 'l', 0, 1) + gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "GRADE:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), carton_data["Grade"].ToString(), basic_size, 'l', 0, 1) + gap;
 
             string tare_wt = (float.Parse(carton_data["Carton_Weight"].ToString()) + int.Parse(carton_data["Number_Of_Cones"].ToString()) * float.Parse(carton_data["Cone_Weight"].ToString())).ToString("F3");
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "TARE WT:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), tare_wt, basic_size, 'l', 0, 1)+gap;
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "SHADE:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), carton_data["Colour"].ToString(), basic_size, 'l', 0, 1) + gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "TARE WT:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), tare_wt, basic_size, 'l', 0, 1)+gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "SHADE:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), carton_data["Colour"].ToString(), basic_size, 'l', 0, 1) + gap;
 
             string[] batches = c.csvToArray(carton_data["Batch_No_Arr"].ToString());
             string batch_nos = "";
             for (int i = 0; i < batches.Length-1; i++) batch_nos += batches[i] + ", ";
             batch_nos += batches[batches.Length - 1];
             
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "NET WT:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), float.Parse(carton_data["Net_Weight"].ToString()).ToString("F3"), basic_size, 'l', 0, 1)+gap;
-            write(e, x + (int)(0.05 * width), write_height, (int)(0.25 * width), "BATCH NO:", basic_size, 'l', 1, 0);
-            write_height += write(e, x + (int)(0.30 * width), write_height, (int)(0.65 * width), batch_nos, basic_size, 'l', 0, 1) + gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "NET WT:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), float.Parse(carton_data["Net_Weight"].ToString()).ToString("F3"), basic_size, 'l', 0, 1)+gap;
+            write(e, x + (int)(0.05 * width), write_height, (int)(0.35 * width), "BATCH NO:", basic_size, 'l', 1, 0);
+            write_height += write(e, x + (int)(0.35 * width), write_height, (int)(0.60 * width), batch_nos, basic_size, 'l', 0, 1) + gap;
             write_height += write(e, x, y+height-20, width, "Note: Please do not mix two different Batches", basic_size, 'c', 0) + 4;
             //write(e, x+(int)(0.05 * width), write_height, (int)(0.15 * width), "QUALITY:", basic_size, 'l', 1, 0);
-            //write(e, x+(int)(0.20 * width), write_height, (int)(0.25 * width), carton_data["Quality"].ToString(), basic_size, 'l', 0, 1);
+            //write(e, x+(int)(0.20 * width), write_height, (int)(0.35 * width), carton_data["Quality"].ToString(), basic_size, 'l', 0, 1);
             //write(e, x+(int)(0.45 * width), write_height, (int)(0.25 * width), "CARTON NO:", basic_size, 'r', 1, 0);
             //write_height+= write(e, x+(int)(0.70 * width), write_height, (int)(0.25 * width), carton_data["Carton_No"].ToString(), basic_size, 'l', 0, 1)+gap;
 
