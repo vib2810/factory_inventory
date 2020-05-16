@@ -380,11 +380,11 @@ namespace Factory_Inventory
                     if (dataGridView1.Rows[e.RowIndex].Cells[3].Value != null)
                     {
                         Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString());
-                        if(Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString())>=100.00)
+                        if(Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString()) >= 100.00)
                         {
-                            c.ErrorBox("Weight should be less than 100", "Error");                           
+                            c.ErrorBox("Weight should be less than 100", "Error");
                             dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
-                        }    
+                        }
                     }
                     dynamicWeightLabel.Text = CellSum("").ToString("F3");
                     float net_rate = 0F;

@@ -38,10 +38,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.netwtTextbox = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.amountTextbox = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.qualityTextbox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -57,7 +53,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 128);
+            this.label1.Location = new System.Drawing.Point(27, 126);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 17);
             this.label1.TabIndex = 0;
@@ -68,7 +64,7 @@
             this.donoTextbox.Location = new System.Drawing.Point(142, 123);
             this.donoTextbox.Name = "donoTextbox";
             this.donoTextbox.ReadOnly = true;
-            this.donoTextbox.Size = new System.Drawing.Size(164, 22);
+            this.donoTextbox.Size = new System.Drawing.Size(205, 22);
             this.donoTextbox.TabIndex = 1;
             // 
             // dataGridView1
@@ -155,54 +151,22 @@
             this.label7.Text = "|| Shri ||";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // netwtTextbox
-            // 
-            this.netwtTextbox.Location = new System.Drawing.Point(459, 184);
-            this.netwtTextbox.Name = "netwtTextbox";
-            this.netwtTextbox.ReadOnly = true;
-            this.netwtTextbox.Size = new System.Drawing.Size(102, 22);
-            this.netwtTextbox.TabIndex = 15;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(372, 187);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(78, 17);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "Net Weight";
-            // 
-            // amountTextbox
-            // 
-            this.amountTextbox.Location = new System.Drawing.Point(260, 184);
-            this.amountTextbox.Name = "amountTextbox";
-            this.amountTextbox.ReadOnly = true;
-            this.amountTextbox.Size = new System.Drawing.Size(104, 22);
-            this.amountTextbox.TabIndex = 13;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(198, 187);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(56, 17);
-            this.label10.TabIndex = 12;
-            this.label10.Text = "Amount";
-            // 
             // qualityTextbox
             // 
-            this.qualityTextbox.Location = new System.Drawing.Point(459, 151);
+            this.qualityTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.qualityTextbox.Location = new System.Drawing.Point(142, 185);
             this.qualityTextbox.Name = "qualityTextbox";
             this.qualityTextbox.ReadOnly = true;
-            this.qualityTextbox.Size = new System.Drawing.Size(102, 22);
+            this.qualityTextbox.Size = new System.Drawing.Size(199, 27);
             this.qualityTextbox.TabIndex = 17;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(403, 154);
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(27, 188);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(52, 17);
+            this.label11.Size = new System.Drawing.Size(61, 20);
             this.label11.TabIndex = 16;
             this.label11.Text = "Quality";
             // 
@@ -236,7 +200,7 @@
             this.customerNameTextbox.Location = new System.Drawing.Point(142, 153);
             this.customerNameTextbox.Name = "customerNameTextbox";
             this.customerNameTextbox.ReadOnly = true;
-            this.customerNameTextbox.Size = new System.Drawing.Size(222, 22);
+            this.customerNameTextbox.Size = new System.Drawing.Size(419, 22);
             this.customerNameTextbox.TabIndex = 11;
             // 
             // label8
@@ -250,19 +214,20 @@
             // 
             // rateTB
             // 
-            this.rateTB.Location = new System.Drawing.Point(73, 184);
+            this.rateTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rateTB.Location = new System.Drawing.Point(459, 185);
             this.rateTB.Name = "rateTB";
             this.rateTB.ReadOnly = true;
-            this.rateTB.Size = new System.Drawing.Size(102, 22);
+            this.rateTB.Size = new System.Drawing.Size(102, 27);
             this.rateTB.TabIndex = 19;
-            this.rateTB.TextChanged += new System.EventHandler(this.rateTB_TextChanged);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(27, 187);
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(409, 188);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(38, 17);
+            this.label12.Size = new System.Drawing.Size(44, 20);
             this.label12.TabIndex = 18;
             this.label12.Text = "Rate";
             // 
@@ -276,10 +241,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.qualityTextbox);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.netwtTextbox);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.amountTextbox);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.customerNameTextbox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -311,10 +272,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox netwtTextbox;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox amountTextbox;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox qualityTextbox;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button button1;

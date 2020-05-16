@@ -31,6 +31,11 @@ namespace Factory_Inventory
             this.qualityTextbox.Text = row["Quality"].ToString();
             this.shadeTextbox.Text = row["Colour"].ToString();
             this.netwtTextbox.Text = row["Net_Weight"].ToString();
+            DataTable dyeing_company = c.getTableRow("Dyeing_Company_Names", "Dyeing_Company_Names='" + row["Dyeing_Company_Name"].ToString()+"'");
+            this.customerAddressTextbox.Text = dyeing_company.Rows[0]["Customer_Address"].ToString();
+            this.customergstin.Text = dyeing_company.Rows[0]["GSTIN"].ToString();
+            DataTable quality= c.getTableRow("Quality", "Quality='" + row["Quality"].ToString()+"'");
+            this.hsnnumber.Text = quality.Rows[0]["HSN_No"].ToString();
             string[] tray_ids = c.csvToArray(row["Tray_ID_Arr"].ToString());
             DataTable dt = new DataTable();
             dt.Columns.Add("Sl No");
@@ -62,8 +67,10 @@ namespace Factory_Inventory
             dataGridView1.Columns["Spring Wt"].Width = weight_width;
             dataGridView1.Columns["Net Wt"].Width = weight_width;
             dataGridView1.Columns["Net Wt"].AutoSizeMode= DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+
         }
 
         private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr='c', int bold=0, int drawrect=0)
