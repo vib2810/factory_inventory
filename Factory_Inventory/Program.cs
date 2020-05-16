@@ -21,7 +21,7 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Global.ipaddress = "192.168.1.38";
+            Global.ipaddress = "192.168.1.35";
             DbConnect c = new DbConnect();
             //c.temp();
             //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
