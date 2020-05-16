@@ -144,7 +144,7 @@ namespace Factory_Inventory
             //Create drop-down Fiscal Year lists
             var dataSource5 = new List<string>();
             DataTable d5 = c.getQC('f');
-            dataSource4.Add("---Select---");
+            dataSource5.Add("---Select---");
 
             for (int i = 0; i < d5.Rows.Count; i++)
             {

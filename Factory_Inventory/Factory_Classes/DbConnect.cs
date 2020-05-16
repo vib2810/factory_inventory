@@ -2806,9 +2806,23 @@ namespace Factory_Inventory.Factory_Classes
             DataTable dt = new DataTable(); //this is creating a virtual table  
             try
             {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No, Fiscal_Year, Net_Weight FROM Batch WHERE Batch_State=" + state + " AND Dyeing_Company_Name='"+dyeing_company+"' AND Colour='"+colour+"' AND Quality='"+quality+"' ", con);
-                sda.Fill(dt);
+                if(dyeing_company==null)
+                {
+                    con.Open();
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No, Fiscal_Year FROM Batch WHERE Batch_State=" + state + "", con);
+                    sda.Fill(dt);
+                }
+                else
+                {
+                    con.Open();
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No, Fiscal_Year, Net_Weight FROM Batch WHERE Batch_State=" + state + " AND Dyeing_Company_Name='" + dyeing_company + "' AND Colour='" + colour + "' AND Quality='" + quality + "' ", con);
+                    sda.Fill(dt);
+                }
+                if(dt.Rows.Count==0)
+                {
+                    return null;
+                }
+                
             }
             catch (Exception e)
             {
@@ -3026,6 +3040,28 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Batch_No=" + batch_no + " AND Fiscal_Year ='" + fiscal_year + "' AND Batch_State=" + state, con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getBatchTable_BatchNoState) \n" + e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
+        public DataTable getBatches_State(int state)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No FROM Batch WHERE Batch_State=" + state, con);
                 sda.Fill(dt);
             }
             catch (Exception e)

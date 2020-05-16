@@ -17,10 +17,14 @@ namespace Factory_Inventory
         DataTable spring_table;
         M_V_history v1_history;
         int Voucher_ID, state, tray_id;
-        bool edit_form;
+        bool edit_form, redyeing=false;
         string old_tray_no;
+        public int dummyint = 0;
+        public bool closed = false;
+        public DataTable tray_details = new DataTable();
         DataTable d1;  //stores quality table
-
+        public bool finished = false;
+        public DataGridView issuesource = new DataGridView();
         public M_V2_trayInputForm()
         {
             InitializeComponent();
@@ -216,6 +220,99 @@ namespace Factory_Inventory
 
 
         }
+        public M_V2_trayInputForm(string input_date, string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, DataGridView d)
+        {
+            InitializeComponent();
+            this.issuesource = d;
+            c = new DbConnect();
+            //Create drop-down quality list
+            var dataSource1 = new List<string>();
+            this.d1 = c.getQC('q');
+            dataSource1.Add("---Select---");
+            for (int i = 0; i < d1.Rows.Count; i++)
+            {
+                dataSource1.Add(d1.Rows[i][0].ToString());
+            }
+            this.qualityCB.DataSource = dataSource1;
+            this.qualityCB.DisplayMember = "Quality";
+            this.qualityCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.qualityCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+
+            //Create drop-down Company list
+            var dataSource2 = new List<string>();
+            DataTable d2 = c.getQC('c');
+
+            for (int i = 0; i < d2.Rows.Count; i++)
+            {
+                dataSource2.Add(d2.Rows[i][0].ToString());
+            }
+            this.companyNameCB.DataSource = dataSource2;
+            this.companyNameCB.DisplayMember = "Company_Names";
+            this.companyNameCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.companyNameCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.companyNameCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+
+            //Create drop-down Spring list
+            spring_table = new DataTable();
+            var dataSource3 = new List<string>();
+            this.spring_table = c.getQC('s');
+
+            for (int i = 0; i < spring_table.Rows.Count; i++)
+            {
+                dataSource3.Add(spring_table.Rows[i][0].ToString());
+            }
+            this.springCB.DataSource = dataSource3;
+            this.springCB.DisplayMember = "Spring";
+            this.springCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.springCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.springCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+
+            //Create drop-down Spring list
+            var dataSource4 = new List<string>();
+            dataSource4.Add("---Select---");
+            dataSource4.Add("1u");
+            dataSource4.Add("2u");
+            dataSource4.Add("3u");
+            dataSource4.Add("4u");
+            dataSource4.Add("1d");
+            dataSource4.Add("2d");
+            dataSource4.Add("3d");
+            dataSource4.Add("4d");
+            this.machineNoCB.DataSource = dataSource4;
+            this.machineNoCB.DisplayMember = "Machine_Number";
+            this.machineNoCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.machineNoCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.machineNoCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            this.tray_details.Columns.Add("Date_Of_Input");
+            this.tray_details.Columns.Add("Date_Of_Production");
+            this.tray_details.Columns.Add("Tray_No");
+            this.tray_details.Columns.Add("Spring");
+            this.tray_details.Columns.Add("No_Of_Springs");
+            this.tray_details.Columns.Add("Tray_Tare");
+            this.tray_details.Columns.Add("Gross_Weight");
+            this.tray_details.Columns.Add("Quality");
+            this.tray_details.Columns.Add("Company_Name");
+            this.tray_details.Columns.Add("Machine_No");
+
+            if (input_date!=null) this.dateTimePicker1.Value = this.dateTimePicker1.Value = Convert.ToDateTime(input_date);
+            if (production_date != null) this.dateTimePickerDTP.Value = this.dateTimePickerDTP.Value = Convert.ToDateTime(production_date);
+            if (tray_no != null) this.trayNumberTB.Text = tray_no;
+            if (spring != null) this.springCB.SelectedIndex = this.springCB.FindStringExact(spring);
+            if (no_of_springs != -1) this.numberOfSpringsTB.Text = no_of_springs.ToString();
+            if (tray_tare != -1F) this.traytareTB.Text = tray_tare.ToString();
+            if (gross_weight != -1F) this.grossWeightTB.Text = gross_weight.ToString();
+            if (quality != null) this.qualityCB.SelectedIndex= this.qualityCB.FindStringExact(quality);
+            if (company_name != null) this.companyNameCB.SelectedIndex = this.companyNameCB.FindStringExact(company_name);
+            if (machine_no != null) this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(machine_no);
+
+            this.addButton.Text = "Add Tray";
+            this.redyeing = true;
+        }
 
         private void addButton_Click(object sender, EventArgs e)
         {
@@ -270,29 +367,55 @@ namespace Factory_Inventory
                 c.ErrorBox("Enter Machine Number", "Error");
                 return;
             }
-            if (this.edit_form == false)
+            if(this.redyeing==true)
             {
-                bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text, qualityBeforeTwistTB.Text);
-                if (added == true)
-                {
-                    this.trayNumberTB.Text = "";
-                    this.grossWeightTB.Text = "";
-                    this.traytareTB.Text = "";
-                    this.trayNumberTB.Focus();
-                }
-                else return;
+                DataRow row = tray_details.NewRow();
+                row["Date_Of_Input"] = this.dateTimePicker1.Value.Date.ToString().Substring(0, 10);
+                row["Date_Of_Production"] = this.dateTimePickerDTP.Value.Date.ToString().Substring(0, 10);
+                row["Tray_No"] = (this.trayNumberTB.Text);
+                row["Spring"] = (this.springCB.Text);
+                row["No_Of_Springs"] = (this.numberOfSpringsTB.Text);
+                row["Tray_Tare"] = (this.traytareTB.Text);
+                row["Gross_Weight"] = (this.grossWeightTB.Text);
+                row["Quality"] = (this.qualityCB.Text);
+                row["Company_Name"] = (this.companyNameCB.Text);
+                row["Machine_No"] = (this.machineNoCB.Text);
+                this.tray_details.Rows.Add(row);
+                this.trayNumberTB.Text = "";
+                this.grossWeightTB.Text = "";
+                this.traytareTB.Text = "";
+                this.trayNumberTB.Focus();
+                dummyint++;
+                this.issuesource.DataSource = this.tray_details;
+                this.finished = true;
             }
             else
             {
-                bool edited = false;
-                edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text);
-                if (edited == true)
+                if (this.edit_form == false)
                 {
-                    disable_form_edit();
-                    this.v1_history.loadData();
+                    bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text, qualityBeforeTwistTB.Text);
+                    if (added == true)
+                    {
+                        this.trayNumberTB.Text = "";
+                        this.grossWeightTB.Text = "";
+                        this.traytareTB.Text = "";
+                        this.trayNumberTB.Focus();
+                    }
+                    else return;
                 }
-                else return;
+                else
+                {
+                    bool edited = false;
+                    edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text);
+                    if (edited == true)
+                    {
+                        disable_form_edit();
+                        this.v1_history.loadData();
+                    }
+                    else return;
+                }
             }
+            
         }
         public void disable_form_edit()
         {
@@ -420,6 +543,11 @@ namespace Factory_Inventory
             }
 
             this.dateTimePickerDTP.Focus();
+        }
+
+        private void M_V2_trayInputForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.closed = true;
         }
 
         private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)

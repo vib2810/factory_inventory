@@ -80,5 +80,11 @@ namespace Factory_Inventory
             M_V_history f = new M_V_history(11);
             f.Show();
         }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm();
+            f.Show();
+        }
     }
 }

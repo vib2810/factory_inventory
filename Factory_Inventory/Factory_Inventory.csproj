@@ -218,6 +218,12 @@
     <Compile Include="M_I1_temp.Designer.cs">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_V3_issueToReDyeingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_V3_issueToReDyeingForm.Designer.cs">
+      <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V4_printDO.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -449,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_I1_temp.resx">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V3_issueToReDyeingForm.resx">
+      <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V4_printDO.resx">
       <DependentUpon>M_V4_printDO.cs</DependentUpon>
