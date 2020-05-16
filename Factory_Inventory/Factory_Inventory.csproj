@@ -200,6 +200,12 @@
     <Compile Include="M_1_inventoryUC.Designer.cs">
       <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_I1_FromToDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_I1_FromToDate.Designer.cs">
+      <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_I1_OnDate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -422,6 +428,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_inventoryUC.resx">
       <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_I1_FromToDate.resx">
+      <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_I1_OnDate.resx">
       <DependentUpon>M_I1_OnDate.cs</DependentUpon>

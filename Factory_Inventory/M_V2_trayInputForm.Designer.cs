@@ -290,18 +290,18 @@
             // 
             // qualityBeforeTwistTB
             // 
-            this.qualityBeforeTwistTB.Enabled = false;
             this.qualityBeforeTwistTB.Location = new System.Drawing.Point(505, 286);
             this.qualityBeforeTwistTB.Name = "qualityBeforeTwistTB";
+            this.qualityBeforeTwistTB.ReadOnly = true;
             this.qualityBeforeTwistTB.Size = new System.Drawing.Size(122, 22);
             this.qualityBeforeTwistTB.TabIndex = 0;
             this.qualityBeforeTwistTB.TabStop = false;
             // 
             // springWeightTB
             // 
-            this.springWeightTB.Enabled = false;
             this.springWeightTB.Location = new System.Drawing.Point(505, 141);
             this.springWeightTB.Name = "springWeightTB";
+            this.springWeightTB.ReadOnly = true;
             this.springWeightTB.Size = new System.Drawing.Size(122, 22);
             this.springWeightTB.TabIndex = 0;
             this.springWeightTB.TabStop = false;

@@ -1,32 +1,9 @@
-use FactoryData
-/*Drop all tables*/
+use FactoryInventory
+--Drop all tables
+DECLARE @sql NVARCHAR(max)=''
 
-/*Utility Tables*/
---drop table Colours;
---drop table Company_Names;
---drop table Dyeing_Company_Names;
---drop table [dbo].[Log];
---drop table Quality;
---drop table Spring;
---drop table Customers;
---drop table Users;
---drop table Fiscal_Year;
+SELECT @sql += ' Drop table ' + QUOTENAME(TABLE_SCHEMA) + '.'+ QUOTENAME(TABLE_NAME) + '; '
+FROM   INFORMATION_SCHEMA.TABLES
+WHERE  TABLE_TYPE = 'BASE TABLE'
 
-/*Carton*/
---drop table Carton_Voucher;
---drop table Twist_Voucher;
---drop table Sales_Voucher;
---drop table Carton;
-
-/*Tray and Batch*/
---drop table Tray_Voucher;
---drop table Tray_Active;
---drop table Tray_History;
-drop table Dyeing_Issue_Voucher;
-drop table Dyeing_Inward_Voucher;
-drop table BillNos_Voucher;
-drop table Batch;
-
-/*Carton Production*/
---drop table Carton_Production_Voucher;
---drop table Carton_Produced;
+Exec Sp_executesql @sql

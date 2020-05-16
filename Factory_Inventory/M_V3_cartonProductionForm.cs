@@ -679,6 +679,8 @@ namespace Factory_Inventory
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
                 c.DroppedDown = true;
+                SendKeys.Send("{down}");
+                SendKeys.Send("{up}");
                 e.Handled = true;
             }
         }
@@ -1093,7 +1095,6 @@ namespace Factory_Inventory
         }
         private void dtp_ValueChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("dtp value chnager");
             if (this.financialYearComboboxCB.Text != c.getFinancialYear(dtp.Value))
             {
                 c.ErrorBox("Carton Production Date has to be of the same financial year as Entered", "Error");
@@ -1171,12 +1172,12 @@ namespace Factory_Inventory
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            //if (e.Control is DataGridViewComboBoxEditingControl)
-            //{
-            //    ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
-            //    ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
-            //    ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
-            //}
+            if (e.Control is DataGridViewComboBoxEditingControl)
+            {
+                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
+                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
+                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+            }
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {

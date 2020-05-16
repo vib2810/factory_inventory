@@ -271,9 +271,9 @@
             // 
             // netDOAmountTB
             // 
-            this.netDOAmountTB.Enabled = false;
             this.netDOAmountTB.Location = new System.Drawing.Point(20, 583);
             this.netDOAmountTB.Name = "netDOAmountTB";
+            this.netDOAmountTB.ReadOnly = true;
             this.netDOAmountTB.Size = new System.Drawing.Size(179, 22);
             this.netDOAmountTB.TabIndex = 0;
             this.netDOAmountTB.TabStop = false;
@@ -289,9 +289,9 @@
             // 
             // netDOWeightTB
             // 
-            this.netDOWeightTB.Enabled = false;
             this.netDOWeightTB.Location = new System.Drawing.Point(20, 538);
             this.netDOWeightTB.Name = "netDOWeightTB";
+            this.netDOWeightTB.ReadOnly = true;
             this.netDOWeightTB.Size = new System.Drawing.Size(179, 22);
             this.netDOWeightTB.TabIndex = 0;
             this.netDOWeightTB.TabStop = false;

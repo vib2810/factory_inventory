@@ -11,12 +11,26 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
+ 
     public partial class M_V_history : Form
     {
         DbConnect c;
         DataTable dt;
         private int vno = 0;
-
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.V)
+            {
+                this.viewDetailsButton.PerformClick(); ;
+                return false;
+            }
+            if (keyData == Keys.E)
+            {
+                this.editDetailsButton.PerformClick();
+                return false;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         public M_V_history(int vno)
         {
             InitializeComponent();

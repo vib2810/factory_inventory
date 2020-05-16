@@ -21,14 +21,14 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Global.ipaddress = "192.168.1.38";
+            Global.ipaddress = "192.168.1.12";
             DbConnect c = new DbConnect();
             //c.temp();
-            //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
+            M_I1_FromToDate f = new M_I1_FromToDate();
             //1M_V_history f = new M_V_history(8);
             //M_V4_printCartonSlip f = new M_V4_printCartonSlip();
             //M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");
-            //Application.Run(f);
+            Application.Run(f);
 
             while (true)
             {
