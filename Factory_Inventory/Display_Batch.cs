@@ -16,6 +16,8 @@ namespace Factory_Inventory
         {
             InitializeComponent();
             this.Select();
+            if (Batch.Table.Columns.Count <= 4)
+                return;
             this.textBox17.Text = Batch["Batch_No"].ToString();
             this.textBox6.Text = Batch["Quality"].ToString();
             this.textBox7.Text = Batch["Company_Name"].ToString();

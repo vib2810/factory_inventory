@@ -824,7 +824,7 @@ namespace Factory_Inventory
         {
             if (billcheckBoxCK.Checked == false)
             {
-                billNumberTextboxTB.Enabled = true;
+                billNumberTextboxTB.ReadOnly = false;
                 billDateDTP.Enabled = true;
                 if(this.addBill==false)
                 {
@@ -833,7 +833,7 @@ namespace Factory_Inventory
             }
             else
             {
-                billNumberTextboxTB.Enabled = false;
+                billNumberTextboxTB.ReadOnly = true;
                 billDateDTP.Enabled = false;
                 if (this.addBill == false)
                 {
@@ -896,5 +896,6 @@ namespace Factory_Inventory
 
             this.inwardDateDTP.Focus();
         }
+
     }
 }

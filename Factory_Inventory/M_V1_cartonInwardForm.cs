@@ -104,16 +104,15 @@ namespace Factory_Inventory
             }
             this.comboBox2CB.DataSource = dataSource2;
             this.comboBox2CB.DisplayMember = "Company_Names";
-            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
-            inputDate.Enabled = false;
-            this.edit_form = false;
-            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
-
-    }
+            inputDate.Enabled = false;
+            this.edit_form = false;
+        }
         public M_V1_cartonInwardForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
             InitializeComponent();
@@ -172,7 +171,6 @@ namespace Factory_Inventory
                 dataSource2.Add(row["Company_Name"].ToString());
                 this.comboBox2CB.DataSource = dataSource2;
                 this.comboBox2CB.DisplayMember = "Company_Names";
-                this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
             }
 
             else
@@ -201,12 +199,12 @@ namespace Factory_Inventory
 
                 }
                 this.comboBox2CB.DisplayMember = "Company_Names";
-                this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
                 this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
             }
 
-            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
             this.billDateDTP.Value = Convert.ToDateTime(row["Date_Of_Billing"].ToString());

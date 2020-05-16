@@ -182,9 +182,9 @@
             // 
             // billNumberTextboxTB
             // 
-            this.billNumberTextboxTB.Enabled = false;
             this.billNumberTextboxTB.Location = new System.Drawing.Point(21, 362);
             this.billNumberTextboxTB.Name = "billNumberTextboxTB";
+            this.billNumberTextboxTB.ReadOnly = true;
             this.billNumberTextboxTB.Size = new System.Drawing.Size(109, 22);
             this.billNumberTextboxTB.TabIndex = 9;
             // 

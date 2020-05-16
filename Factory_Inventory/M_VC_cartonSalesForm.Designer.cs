@@ -291,9 +291,9 @@
             // 
             // totalWeightTB
             // 
-            this.totalWeightTB.Enabled = false;
             this.totalWeightTB.Location = new System.Drawing.Point(22, 604);
             this.totalWeightTB.Name = "totalWeightTB";
+            this.totalWeightTB.ReadOnly = true;
             this.totalWeightTB.Size = new System.Drawing.Size(182, 22);
             this.totalWeightTB.TabIndex = 0;
             this.totalWeightTB.TabStop = false;
@@ -301,9 +301,9 @@
             // 
             // amountTB
             // 
-            this.amountTB.Enabled = false;
             this.amountTB.Location = new System.Drawing.Point(22, 649);
             this.amountTB.Name = "amountTB";
+            this.amountTB.ReadOnly = true;
             this.amountTB.Size = new System.Drawing.Size(182, 22);
             this.amountTB.TabIndex = 0;
             this.amountTB.TabStop = false;
@@ -338,7 +338,7 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "kg";
             // 
-            // M_V1_cartonSalesForm
+            // M_VC_cartonSalesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -370,7 +370,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1CB);
             this.Controls.Add(this.label2);
-            this.Name = "M_V1_cartonSalesForm";
+            this.Name = "M_VC_cartonSalesForm";
             this.Text = "M_V1_salesForm";
             this.Load += new System.EventHandler(this.M_V1_cartonSalesForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
