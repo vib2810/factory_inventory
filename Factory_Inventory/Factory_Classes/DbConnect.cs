@@ -228,6 +228,7 @@ namespace Factory_Inventory.Factory_Classes
                 dgv.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
+
         //Arrow Key Events
         public void comboBoxEvent(ComboBox c)
         {

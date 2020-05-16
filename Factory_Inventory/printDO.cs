@@ -29,7 +29,7 @@ namespace Factory_Inventory
                 label3.Visible = false;
                 label5.Visible = false;
                 label6.Visible = false;
-                this.label1.Location = new System.Drawing.Point(47, 128);
+                this.label7.Location = new System.Drawing.Point(268, 48);
             }
             this.donoTextbox.Text = row["Sale_DO_No"].ToString();
             this.saleDateTextbox.Text = row["Date_Of_Sale"].ToString().Substring(0,10);
@@ -66,55 +66,13 @@ namespace Factory_Inventory
 
             dt.Rows.Add("", "", "Net Weight", net_wt);
             dataGridView1.DataSource = dt;
-            int weight_width = 100;
             dataGridView1.Columns["Sl No"].Width = 70;
-            
+            c.auto_adjust_dgv(dataGridView1);
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
-        private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr='c', int bold=0, int drawrect=0)
-        {
-            Graphics g=e.Graphics;
-            StringFormat format = new StringFormat();
-            format.LineAlignment = StringAlignment.Center;
-            if (width==0)
-            {
-                format.Alignment = StringAlignment.Center;
-            }
-            else if(lr=='l')
-            {
-                format.Alignment = StringAlignment.Near;
-            }
-            else if(lr=='r')
-            {
-                format.Alignment = StringAlignment.Far;
-            }
-            else if (lr == 'c')
-            {
-                format.Alignment = StringAlignment.Center;
-            }
-
-            SolidBrush myBrush = new SolidBrush(Color.Black);
-            Font newFont;
-            if (bold==1)
-            {
-                newFont = new Font(dataGridView1.Font.FontFamily, size, FontStyle.Bold);
-            }
-            else
-            {
-                newFont= new Font(dataGridView1.Font.FontFamily, size, dataGridView1.Font.Style);
-            }
-            if (width == 0) width = e.PageBounds.Width - 2 * lrmargin;
-            if (x == -1) x = lrmargin;
-            else x = x + lrmargin;
-            g.DrawString(text, newFont, myBrush, new RectangleF(x, topmargin+y, width, newFont.Height+5), format);
-            if(drawrect==1)
-            {
-                g.DrawRectangle(Pens.Black, x, topmargin + y, width, newFont.Height + 5);
-            }
-            return newFont.Height + 7;
-        }
+        
         int write_header(int write_height, System.Drawing.Printing.PrintPageEventArgs e)
         {
             //inputs write_height(not including the margin)
@@ -250,85 +208,51 @@ namespace Factory_Inventory
         {
             printPreviewDialog1.ShowDialog();
         }
-
-        private void printDO_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void qualityTextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void netwtTextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void amountTextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void customerNameTextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saleDateTextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void donoTextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void rateTB_TextChanged(object sender, EventArgs e)
         {
 
+        }
+        private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr = 'c', int bold = 0, int drawrect = 0)
+        {
+            Graphics g = e.Graphics;
+            StringFormat format = new StringFormat();
+            format.LineAlignment = StringAlignment.Center;
+            if (width == 0)
+            {
+                format.Alignment = StringAlignment.Center;
+            }
+            else if (lr == 'l')
+            {
+                format.Alignment = StringAlignment.Near;
+            }
+            else if (lr == 'r')
+            {
+                format.Alignment = StringAlignment.Far;
+            }
+            else if (lr == 'c')
+            {
+                format.Alignment = StringAlignment.Center;
+            }
+
+            SolidBrush myBrush = new SolidBrush(Color.Black);
+            Font newFont;
+            if (bold == 1)
+            {
+                newFont = new Font(dataGridView1.Font.FontFamily, size, FontStyle.Bold);
+            }
+            else
+            {
+                newFont = new Font(dataGridView1.Font.FontFamily, size, dataGridView1.Font.Style);
+            }
+            if (width == 0) width = e.PageBounds.Width - 2 * lrmargin;
+            if (x == -1) x = lrmargin;
+            else x = x + lrmargin;
+            g.DrawString(text, newFont, myBrush, new RectangleF(x, topmargin + y, width, newFont.Height + 5), format);
+            if (drawrect == 1)
+            {
+                g.DrawRectangle(Pens.Black, x, topmargin + y, width, newFont.Height + 5);
+            }
+            return newFont.Height + 7;
         }
     }
 }
