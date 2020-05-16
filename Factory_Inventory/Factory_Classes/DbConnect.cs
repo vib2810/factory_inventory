@@ -37,12 +37,12 @@ namespace Factory_Inventory.Factory_Classes
         {
             //Connection string for Gaurang's Laptop
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
-            
+
             //Connection string for old Database
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryInventory;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
-            
+            string ip_address = Global.ipaddress;
             //Connection string for Vob's laptop
-            this.con = new SqlConnection(@"Data Source=192.168.1.12, 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
+            this.con = new SqlConnection(@"Data Source="+ip_address+", 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
         }
 
         public string RandomString(int size, bool lowerCase)
@@ -2135,8 +2135,11 @@ namespace Factory_Inventory.Factory_Classes
                 int trayid = int.Parse(dt.Rows[0]["Tray_ID"].ToString());
                 //Change date in correct format
                 string productiondate = dt.Rows[0]["Tray_Production_Date"].ToString().Substring(0, 10);
+                productiondate = productiondate.Replace('/', '-');
+                Console.WriteLine(productiondate);
                 DateTime d = DateTime.ParseExact(productiondate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 productiondate = d.ToString("MM-dd-yyyy");
+                Console.WriteLine(productiondate);
 
                 string trayno = dt.Rows[0]["Tray_No"].ToString();
                 string spring = dt.Rows[0]["Spring"].ToString();
@@ -2148,10 +2151,15 @@ namespace Factory_Inventory.Factory_Classes
                 string Dyeing_Company_Name = dt.Rows[0]["Dyeing_Company_Name"].ToString();
                 //Change date in correct format
                 string Dyeing_In_Date = dt.Rows[0]["Dyeing_In_Date"].ToString().Substring(0, 10);
+                Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
+                Console.WriteLine(Dyeing_In_Date);
                 d = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 Dyeing_In_Date = d.ToString("MM-dd-yyyy");
+                Console.WriteLine(Dyeing_In_Date);
+
                 //Change date in correct format
                 string Dyeing_Out_Date = dt.Rows[0]["Dyeing_Out_Date"].ToString().Substring(0, 10);
+                Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
                 d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
 
@@ -2163,6 +2171,7 @@ namespace Factory_Inventory.Factory_Classes
                 string batch_fiscal_year = dt.Rows[0]["Batch_Fiscal_Year"].ToString();
                 //Put that row in Tray_History
                 sql = "INSERT INTO Tray_History (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', '" + Dyeing_In_Date + "', '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", '"+fiscal_year+"', '"+machine_no+"', '"+quality_before_twist+"', '"+batch_fiscal_year+"')";
+                Console.WriteLine(sql);
                 sda.InsertCommand = new SqlCommand(sql, con);
                 sda.InsertCommand.ExecuteNonQuery();
                 //Remove that row from Tray_Active
@@ -2212,6 +2221,7 @@ namespace Factory_Inventory.Factory_Classes
                 string Dyeing_Company_Name = dt.Rows[0]["Dyeing_Company_Name"].ToString();
                 //Change date in correct format
                 string Dyeing_Out_Date = dt.Rows[0]["Dyeing_Out_Date"].ToString().Substring(0, 10);
+                Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
                 d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
                 int Batch_No = int.Parse(dt.Rows[0]["Batch_No"].ToString());
@@ -3459,7 +3469,7 @@ namespace Factory_Inventory.Factory_Classes
                 string sql;
                 if(addDate)
                 {
-                    if(voucher_id==0)
+                    if(voucher_id==-1)
                     {
                         sql = "UPDATE Batch SET Batch_State=" + state + ", Voucher_ID = NULL, Date_Of_Production=NULL WHERE Batch_No='" + int.Parse(batch.batch_no) + "' AND Fiscal_Year='" + batch.fiscal_year + "'";
                     }
@@ -3697,7 +3707,7 @@ namespace Factory_Inventory.Factory_Classes
                 pair batch;
                 batch.batch_no = old_batch_nos[i];
                 batch.fiscal_year = old_batch_fiscal_years[i];
-                bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, 0, max, true);
+                bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, max, true);
                 if (!flag)
                 {
                     return false;

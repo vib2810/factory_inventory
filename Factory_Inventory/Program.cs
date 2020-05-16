@@ -9,7 +9,7 @@ namespace Factory_Inventory
 {
     static class Program
     {
-        
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -21,17 +21,24 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Global.ipaddress = "192.168.1.35";
             DbConnect c = new DbConnect();
-            M_V4_printDO f = new M_V4_printDO();
-            Application.Run(f);
+            //c.temp();
+            //M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
+            //1M_V_history f = new M_V_history(8);
+            //M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            //M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");
+            //Application.Run(f);
+
             while (true)
             {
-                Login f1 = new Login(c);
+                Login f1 = new Login();
                 Application.Run(f1);
+                c = new DbConnect();
                 if (f1.access == 1)
                 {
                     c.recordLogin(f1.username);
-                    Console.WriteLine(f1.username);
+                    Console.WriteLine(Global.ipaddress);
                     M_1_MainS ms = new M_1_MainS(c, f1.username, "Super User");
                     Application.Run(ms);
                     if (ms.logout == true)

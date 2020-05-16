@@ -24,6 +24,7 @@ namespace Factory_Inventory
         {
             InitializeComponent();
             c = new DbConnect(); 
+            this.backupLoactionTB.Text = @"D:\Temp\";
         }
 
         private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
@@ -60,19 +61,19 @@ namespace Factory_Inventory
             progressBar1.Value = 0;
             try
             {
-                Server dbServer = new Server(new ServerConnection("192.168.1.12, 1433", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection(Global.ipaddress+", 1433", "sa", "Kdvghr2810@"));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
-                dbBackup.Devices.AddDevice(this.backupLoactionTB.Text + this.database + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + ".bak", DeviceType.File);
+                string backup_location = this.backupLoactionTB.Text + this.database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/','-') + ")" + ".bak";
+                dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbBackup_PercentComplete;
                 dbBackup.Complete += DbBackup_Complete;
                 dbBackup.SqlBackupAsync(dbServer);
-                this.backupLoactionLabel.Text += "Backup stored as: "+this.database + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + ".bak";
+                this.backupLoactionLabel.Text += "Backup stored as: "+ backup_location;
             }
             catch (Exception ex)
             {
                 c.ErrorBox(ex.Message, "Error");
-
             }
         }
 
@@ -131,10 +132,11 @@ namespace Factory_Inventory
             }
             try
             {
-                Server dbServer = new Server(new ServerConnection("192.168.1.12, 1433", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection(Global.ipaddress + ", 1433", "sa", "Kdvghr2810@"));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database };
                 string s = this.restoreLocationTB.Text;
-                dbBackup.Devices.AddDevice(s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-") + ")" + "restorebackup.bak", DeviceType.File); ;
+                string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + "restorebackup.bak";
+                dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbRestore_PercentComplete;
                 dbBackup.Complete += DbRestore_Complete;
@@ -143,13 +145,12 @@ namespace Factory_Inventory
             catch (Exception ex)
             {
                 c.ErrorBox(ex.Message, "Error");
-
             }
             progressBar2.Value = 0;
             try
             {
 
-                Server dbServer = new Server(new ServerConnection("192.168.1.12, 1433", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection(Global.ipaddress +", 1433", "sa", "Kdvghr2810@"));
                 Database db = dbServer.Databases[this.database];
                 dbServer.KillAllProcesses(db.Name);
                 db.DatabaseOptions.UserAccess = DatabaseUserAccess.Multiple;
@@ -159,12 +160,10 @@ namespace Factory_Inventory
                 dbRestore.PercentComplete += DbRestore_PercentComplete;
                 dbRestore.Complete += DbRestore_Complete;
                 dbRestore.SqlRestoreAsync(dbServer);
-
             }
             catch (Exception ex)
             {
                 c.ErrorBox(ex.Message, "Error");
-
             }
         }
 

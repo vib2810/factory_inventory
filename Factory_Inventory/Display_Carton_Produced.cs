@@ -26,13 +26,13 @@ namespace Factory_Inventory
             
             string prod = Carton["Date_Of_Production"].ToString();
             if (prod != "") this.textBox1.Text = prod.Substring(0, 10);
-            string dyeing_in = Carton["Sale_Bill_Date"].ToString();
-            if (dyeing_in != "") this.textBox22.Text = dyeing_in.Substring(0, 10);
+            //string dyeing_in = Carton["Sale_Bill_Date"].ToString();
+            //if (dyeing_in != "") this.textBox22.Text = dyeing_in.Substring(0, 10);
             string dyeing_out = Carton["Date_Of_Sale"].ToString();
             if (dyeing_out != "") this.textBox9.Text = dyeing_out.Substring(0, 10);
             this.textBox18.Text = Carton["Carton_State"].ToString();
-            string billdate = Carton["Sale_DO_Date"].ToString();
-            if (billdate != "") this.textBox4.Text = billdate.Substring(0, 10);
+            //string billdate = Carton["Sale_DO_Date"].ToString();
+            //if (billdate != "") this.textBox4.Text = billdate.Substring(0, 10);
             
             this.textBox5.Text = Carton["Gross_Weight"].ToString();
             this.textBox2.Text = Carton["Carton_Weight"].ToString();
@@ -45,7 +45,7 @@ namespace Factory_Inventory
             this.textBox11.Text = Carton["Batch_Fiscal_Year_Arr"].ToString();
             this.textBox24.Text = Carton["Sale_Rate"].ToString();
             this.textBox21.Text = Carton["Sale_DO_No"].ToString();
-            this.textBox23.Text = Carton["Sale_Bill_No"].ToString();
+            //this.textBox23.Text = Carton["Sale_Bill_No"].ToString();
         }
 
         private void Display_Carton_Produced_Load(object sender, EventArgs e)

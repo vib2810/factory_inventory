@@ -356,14 +356,14 @@ namespace Factory_Inventory
             }
             else if (this.dataGridView4.SelectedRows.Count!= 0)
             {
-                if (this.dgvstates[2] == 1)
+                if (this.dgvstates[3] == 1)
                 {
                     Display_Batch db = new Display_Batch((dataGridView4.Rows[dataGridView4.CurrentRow.Index].DataBoundItem as DataRowView).Row);
                     db.Show();
                 }
                 else
                 {
-                    dataGridView3.DataSource = this.to_show_details[3];
+                    dataGridView4.DataSource = this.to_show_details[3];
                     this.dgvstates[3] = 1;
                 }
             }
@@ -376,7 +376,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    dataGridView3.DataSource = this.to_show_details[4];
+                    dataGridView5.DataSource = this.to_show_details[4];
                     this.dgvstates[4] = 1;
                 }
             }
@@ -389,7 +389,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    dataGridView3.DataSource = this.to_show_details[5];
+                    dataGridView6.DataSource = this.to_show_details[5];
                     this.dgvstates[5] = 1;
                 }
             }
@@ -417,9 +417,9 @@ namespace Factory_Inventory
             }
             else if (this.dataGridView4.SelectedRows.Count != 0)
             {
-                if (this.dgvstates[2] == 1)
+                if (this.dgvstates[3] == 1)
                 {
-                    dataGridView3.DataSource = this.to_show_summary[3];
+                    dataGridView4.DataSource = this.to_show_summary[3];
                     this.dgvstates[3] = 0;
                     set_summary_column_widths(dataGridView4);
                 }
@@ -428,7 +428,7 @@ namespace Factory_Inventory
             {
                 if (this.dgvstates[4] == 1)
                 {
-                    dataGridView3.DataSource = this.to_show_summary[4];
+                    dataGridView5.DataSource = this.to_show_summary[4];
                     this.dgvstates[4] = 0;
                     set_summary_column_widths(dataGridView5);
                 }
@@ -437,7 +437,7 @@ namespace Factory_Inventory
             {
                 if (this.dgvstates[5] == 1)
                 { 
-                    dataGridView3.DataSource = this.to_show_summary[5];
+                    dataGridView6.DataSource = this.to_show_summary[5];
                     set_summary_column_widths(dataGridView6);
                     this.dgvstates[5] = 0;
                 }
