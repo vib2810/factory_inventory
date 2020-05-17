@@ -66,7 +66,7 @@ namespace Factory_Inventory
 
         private void M_V3_issueToReDyeingForm_Load(object sender, EventArgs e)
         {
-            
+            this.Location = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Width/16, Screen.PrimaryScreen.Bounds.Height/8);
         }
 
         private void loadButton_Click(object sender, EventArgs e)
@@ -114,21 +114,17 @@ namespace Factory_Inventory
         {
             
             f = new M_V2_trayInputForm(null, null, null, "135", 18, -1F, -1F, this.qualityTB.Text, this.companyNameTB.Text, null, dataGridView1);
+            f.Location = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Width/2, Screen.PrimaryScreen.Bounds.Height/8);
             f.ShowDialog();
             this.all_trays = f.tray_details;
-            Console.WriteLine(this.all_trays.Rows.Count);
-            //Console.WriteLine("hi");
-            //if(this.prev!=f.dummyint)
-            //{
-            //    Console.WriteLine("add clicked");
-            //    this.prev = f.dummyint;
-            //    this.addTrayButton.PerformClick();
-            //}
-            //if (f.closed==true)
-            //{
-            //    return;
-            //}
-            //List<string> tray_details = f.tray_details;
+        }
+
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            {
+                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
         }
 
         private void redyeingColourCB_SelectedIndexChanged(object sender, EventArgs e)

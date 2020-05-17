@@ -140,7 +140,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(352, 25);
             this.label5.TabIndex = 7;
-            this.label5.Text = "550/1, Datta Galli, M. Vadgaon, Belgavi";
+            this.label5.Text = "550/1, Datta Galli, M. Vadgaon, Belagavi";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label6

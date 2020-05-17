@@ -124,7 +124,7 @@ namespace Factory_Inventory
 
             write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
             write_height += write(e, -1, write_height, 0, "Krishana Sales and Industries", basic_size + 6, 'c', 1) - header_size_sub - 3;
-            write_height += write(e, -1, write_height, 0, "550/1, Datta Galli, M. Vadgaon, Belgavi", basic_size + 2, 'c', 1) - header_size_sub;
+            write_height += write(e, -1, write_height, 0, "550/1, Datta Galli, M. Vadgaon, Belagavi", basic_size + 2, 'c', 1) - header_size_sub;
             write_height += write(e, -1, write_height, 0, "(GSTIN No. 29AIOPM5869K1Z8)", basic_size + 2, 'c', 1);
 
             int current_width = e.PageBounds.Width - 2 * lrmargin;

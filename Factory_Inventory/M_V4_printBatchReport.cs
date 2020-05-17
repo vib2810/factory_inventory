@@ -323,7 +323,7 @@ namespace Factory_Inventory
             write_height += write(e, lrmargin, write_height, page_width, "||Shri||", basic_size, 'c', 0) + header_spacing;
             write_height += write(e, lrmargin, write_height, page_width, "BATCH FINAL REPORT", basic_size + 6, 'c', 0) + header_spacing-2;
             write_height += write(e, lrmargin, write_height, page_width, "KRISHANA SALES AND INDUSRIES", basic_size + 8, 'c', 0) + header_spacing;
-            write_height += write(e, lrmargin, write_height, page_width, "550/1, Datta Galli, M. Vadgaon, Belgavi", basic_size + 2, 'c', 1) +header_spacing;
+            write_height += write(e, lrmargin, write_height, page_width, "550/1, Datta Galli, M. Vadgaon, Belagavi", basic_size + 2, 'c', 1) +header_spacing;
             write_height += write(e, lrmargin, write_height, page_width, "(GSTIN No. 29AIOPM5869K1Z8)", basic_size + 2, 'c', 1);
 
             string batch_nos = "";

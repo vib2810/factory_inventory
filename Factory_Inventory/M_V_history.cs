@@ -191,19 +191,19 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Bill_No"].DisplayIndex = 0;
                 this.dataGridView1.Columns["Bill_No"].HeaderText = "Bill Number";
                 this.dataGridView1.Columns["Date_Of_Billing"].Visible = true;
-                this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Date_Of_Billing"].HeaderText = "Bill Date";
                 this.dataGridView1.Columns["Company_Name"].Visible = true;
-                this.dataGridView1.Columns["Company_Name"].DisplayIndex = 2;
+                this.dataGridView1.Columns["Company_Name"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Company_Name"].HeaderText = "Company Name";
                 this.dataGridView1.Columns["Net_Weight"].Visible = true;
-                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 6;
                 this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
                 this.dataGridView1.Columns["Number_of_Cartons"].Visible = true;
-                this.dataGridView1.Columns["Number_of_Cartons"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Number_of_Cartons"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Number_of_Cartons"].HeaderText = "Number of Cartons";
                 this.dataGridView1.Columns["Fiscal_Year"].Visible = true;
-                this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 5;
+                this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
                 c.auto_adjust_dgv(this.dataGridView1);
 

@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,7 +24,6 @@ namespace Factory_Inventory
         public bool closed = false;
         public DataTable tray_details = new DataTable();
         DataTable d1;  //stores quality table
-        public bool finished = false;
         public DataGridView issuesource = new DataGridView();
         public M_V2_trayInputForm()
         {
@@ -312,8 +312,9 @@ namespace Factory_Inventory
 
             this.addButton.Text = "Add Tray";
             this.redyeing = true;
+            if(d.Rows.Count!=0) this.tray_details = (DataTable)d.DataSource;
+            this.StartPosition= FormStartPosition.Manual;
         }
-
         private void addButton_Click(object sender, EventArgs e)
         {
             //checks
@@ -327,7 +328,6 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric tray number", "Error");
                 return;
             }
-
             try
             {
                 int.Parse(numberOfSpringsTB.Text);
@@ -337,7 +337,6 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter correct number of springs", "Error");
                 return;
             }
-
             try
             {
                 float.Parse(traytareTB.Text);
@@ -347,7 +346,6 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter correct Tray Tare", "Error");
                 return;
             }
-
             try
             {
                 float.Parse(grossWeightTB.Text);
@@ -370,6 +368,8 @@ namespace Factory_Inventory
             if(this.redyeing==true)
             {
                 DataRow row = tray_details.NewRow();
+                row.Table.Columns.Add("Sl No");
+                row["Sl No"] = this.issuesource.Rows.Count+1;
                 row["Date_Of_Input"] = this.dateTimePicker1.Value.Date.ToString().Substring(0, 10);
                 row["Date_Of_Production"] = this.dateTimePickerDTP.Value.Date.ToString().Substring(0, 10);
                 row["Tray_No"] = (this.trayNumberTB.Text);
@@ -380,6 +380,9 @@ namespace Factory_Inventory
                 row["Quality"] = (this.qualityCB.Text);
                 row["Company_Name"] = (this.companyNameCB.Text);
                 row["Machine_No"] = (this.machineNoCB.Text);
+                row.Table.Columns.Add("Net_Weight");
+                row["Net_Weight"] = dynamicLabelChange();
+
                 this.tray_details.Rows.Add(row);
                 this.trayNumberTB.Text = "";
                 this.grossWeightTB.Text = "";
@@ -387,7 +390,18 @@ namespace Factory_Inventory
                 this.trayNumberTB.Focus();
                 dummyint++;
                 this.issuesource.DataSource = this.tray_details;
-                this.finished = true;
+                this.issuesource.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.issuesource.Columns["Sl No"].Visible = true;
+                this.issuesource.Columns["Sl No"].DisplayIndex=0;
+                this.issuesource.Columns["Sl No"].Width= 80;
+                this.issuesource.Columns["Tray_No"].Visible = true;
+                this.issuesource.Columns["Tray_No"].HeaderText= "Tray No";
+                this.issuesource.Columns["Tray_No"].DisplayIndex = 2;
+                this.issuesource.Columns["Quality"].Visible = true;
+                this.issuesource.Columns["Quality"].DisplayIndex = 4;
+                this.issuesource.Columns["Quality"].Width= 150;
+                this.issuesource.Columns["Net_Weight"].Visible = true;
+                this.issuesource.Columns["Net_Weight"].DisplayIndex = 6;
             }
             else
             {
@@ -430,7 +444,6 @@ namespace Factory_Inventory
             this.grossWeightTB.Enabled = false;
             this.machineNoCB.Enabled = false;
         }
-
         private float dynamicLabelChange()
         {
             float gross_weight, tray_tare;
@@ -477,18 +490,15 @@ namespace Factory_Inventory
             dynamicWeightLabel.Text=(gross_weight - tray_tare - number_of_springs * spring_weight).ToString()+" kg";
             return (gross_weight - tray_tare - number_of_springs * spring_weight);
         }
-
         private void grossWeightTextbox_TextChanged(object sender, EventArgs e)
         {
             dynamicLabelChange();
         }
-
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             dynamicLabelChange();
             this.springWeightTB.Text = (c.getSpringWeight(this.springCB.Text) * 1000F).ToString(); ;
         }
-
         private void M_V2_trayInputForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Up)
@@ -502,7 +512,6 @@ namespace Factory_Inventory
                 this.SelectNextControl((Control)sender, true, true, true, true);
             }
         }
-
         private void M_V2_trayInputForm_Load(object sender, EventArgs e)
         {
             var comboBoxes = this.Controls
@@ -544,12 +553,10 @@ namespace Factory_Inventory
 
             this.dateTimePickerDTP.Focus();
         }
-
         private void M_V2_trayInputForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.closed = true;
         }
-
         private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(this.qualityCB.SelectedIndex>0)
@@ -562,17 +569,13 @@ namespace Factory_Inventory
             }
 
         }
-
         private void numberOfSpringsTextbox_TextChanged(object sender, EventArgs e)
         {
             dynamicLabelChange();
         }
-
         private void traytareTextbox_TextChanged(object sender, EventArgs e)
         {
             dynamicLabelChange();
         }
     }
-
-
 }

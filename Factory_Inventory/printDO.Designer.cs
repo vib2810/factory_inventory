@@ -118,9 +118,9 @@
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(137, 64);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(352, 25);
+            this.label5.Size = new System.Drawing.Size(363, 25);
             this.label5.TabIndex = 7;
-            this.label5.Text = "550/1, Datta Galli, M. Vadgaon, Belgavi";
+            this.label5.Text = "550/1, Datta Galli, M. Vadgaon, Belagavi";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label6
@@ -157,7 +157,7 @@
             this.qualityTextbox.Location = new System.Drawing.Point(142, 185);
             this.qualityTextbox.Name = "qualityTextbox";
             this.qualityTextbox.ReadOnly = true;
-            this.qualityTextbox.Size = new System.Drawing.Size(199, 27);
+            this.qualityTextbox.Size = new System.Drawing.Size(205, 27);
             this.qualityTextbox.TabIndex = 17;
             // 
             // label11

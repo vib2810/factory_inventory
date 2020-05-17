@@ -78,7 +78,7 @@ namespace Factory_Inventory
 
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataGridView2.Rows.Add(d1.Rows[i][3].ToString(),"", "");
+                dataGridView2.Rows.Add(d1.Rows[i]["Quality_Before_Twist"].ToString(),"", "");
             }
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
@@ -91,8 +91,6 @@ namespace Factory_Inventory
             dgvCmb.Name = "Quality";
             dataGridView1.Columns.Insert(1, dgvCmb);
             dataGridView1.Columns[1].Width=150;
-
-
 
             //Create a drop-down list
             var dataSource2 = new List<string>();
@@ -130,17 +128,17 @@ namespace Factory_Inventory
 
             //Initialize datagridview2
             DataTable d1 = c.getQC('q');
+            Console.WriteLine("Get QC" + d1.Rows.Count);
             string[] quality_array = c.csvToArray(row["Quality"].ToString());
-            for(int i=0;i<quality_array.Length;i++)
-            {
-                d1.Rows.Add(quality_array[i]);
-            }
             List<string> no_rep_d1 = new List<string>();
-            for(int i=0;i<d1.Rows.Count;i++)
+            for (int i=0;i<quality_array.Length;i++)
             {
-                no_rep_d1.Add(d1.Rows[i][3].ToString());
+                no_rep_d1.Add(quality_array[i]);
             }
-            no_rep_d1 = no_rep_d1.Distinct().ToList();
+            for (int i = 0; i <d1.Rows.Count; i++)
+            {
+                no_rep_d1.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
+            }
             for (int i = 0; i < no_rep_d1.Count; i++)
             {
                 dataGridView2.Rows.Add(no_rep_d1[i], "", "");
@@ -220,11 +218,8 @@ namespace Factory_Inventory
             //Load Data into DataGridView2
             for (int i=0;i<quality.Length;i++)
             {
-                for(int j=0;j<dataGridView2.Rows.Count-1;j++)
+                for(int j=0;j<dataGridView2.Rows.Count;j++)
                 {
-                    Console.WriteLine(quality[i]);
-                    Console.WriteLine(dataGridView2.Rows[j].Cells[0].Value.ToString());
-                    Console.WriteLine("-----------------");
                     if (quality[i]==dataGridView2.Rows[j].Cells[0].Value.ToString())
                     {
                         dataGridView2.Rows[j].Cells[1].Value = buy_cost[i];
@@ -305,23 +300,7 @@ namespace Factory_Inventory
                     }
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
-                dynamicWeightLabel.Text = CellSum("").ToString("F3");
-                float net_rate = 0F;
-                for(int i=0;i<dataGridView2.Rows.Count-1;i++)
-                {
-                    float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                    if(sum!=0F)
-                    {
-                        dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                        if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
-                        {
-                            dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                            net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
-                        }
-                        else dataGridView2.Rows[i].Cells[3].Value = null;
-                    }
-                }
-                label4.Text = net_rate.ToString();
+                update_weights_rates();
             }
             else
             {
@@ -345,23 +324,7 @@ namespace Factory_Inventory
                     }
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
-                dynamicWeightLabel.Text = CellSum("").ToString("F3");
-                float net_rate = 0F;
-                for (int i = 0; i < dataGridView2.Rows.Count-1; i++)
-                {
-                    float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                    if (sum != 0F)
-                    {
-                        dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                        if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
-                        {
-                            dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                            net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
-                        }
-                        else dataGridView2.Rows[i].Cells[3].Value = null;
-                    }
-                }
-                label4.Text = net_rate.ToString();
+                update_weights_rates();
             }
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -371,8 +334,32 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
+        void update_weights_rates()
+        {
+            dynamicWeightLabel.Text = CellSum("").ToString("F3");
+            float net_rate = 0F;
+            for (int i = 0; i < dataGridView2.Rows.Count; i++)
+            {
+                float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                if (sum != 0F)
+                {
+                    dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                    if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
+                    {
+                        dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                        net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                    }
+                    else dataGridView2.Rows[i].Cells[3].Value = null;
+                }
+            }
+            label4.Text = net_rate.ToString();
+        }
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if(e.RowIndex>=0 && (e.ColumnIndex==1||e.ColumnIndex==3))
+            {
+                update_weights_rates();
+            }
             try
             {
                 if (e.ColumnIndex == 3 && e.RowIndex >= 0)
@@ -386,23 +373,6 @@ namespace Factory_Inventory
                             dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
                         }
                     }
-                    dynamicWeightLabel.Text = CellSum("").ToString("F3");
-                    float net_rate = 0F;
-                    for (int i = 0; i < dataGridView2.Rows.Count-1; i++)
-                    {
-                        float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                        if (sum != 0F)
-                        {
-                            dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                            if(c.Cell_Not_NullOrEmpty(dataGridView2, i, 1)==true)
-                            {
-                                dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                                net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
-                            }
-                            else dataGridView2.Rows[i].Cells[3].Value = null;
-                        }
-                    }
-                    label4.Text = net_rate.ToString();
                 }
             }
             catch(Exception x)
@@ -509,7 +479,7 @@ namespace Factory_Inventory
             
             //Fill activated qualities and check validity
             List<bool> activated_qualities= new List<bool>();
-            for(int i=0; i<dataGridView2.Rows.Count-1; i++)
+            for(int i=0; i<dataGridView2.Rows.Count; i++)
             {
                 if(dataGridView2.Rows[i].Cells[1].Value == null)
                 {
@@ -571,7 +541,7 @@ namespace Factory_Inventory
                         string q = dataGridView1.Rows[i].Cells[1].Value.ToString();
                         int index = -1;
                         int index2 = -1;
-                        for (int j = 0; j < dataGridView2.Rows.Count - 1; j++)
+                        for (int j = 0; j < dataGridView2.Rows.Count; j++)
                         {
                             if (activated_qualities[j] == true) index2++;
                             if (q == dataGridView2.Rows[j].Cells[0].Value.ToString())
@@ -648,6 +618,14 @@ namespace Factory_Inventory
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
                     dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1];
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 1) == true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)
+                    {
+                        dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
+                    }
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 2) == true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 2) == false)
+                    {
+                        dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
+                    }
                     return;
                 }
                 if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 1)==true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)
@@ -743,23 +721,7 @@ namespace Factory_Inventory
                     {
                         Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
                     }
-                    float net_rate = 0F;
-                    for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
-                    {
-                        float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                        if (sum != 0F)
-                        {
-                            dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                            if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
-                            {
-                                dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                                net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
-                            }
-                            else dataGridView2.Rows[i].Cells[3].Value = null;
-
-                        }
-                    }
-                    label4.Text = net_rate.ToString();
+                    update_weights_rates();
                 }
             }
             catch (Exception x)
@@ -767,22 +729,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric Rate value only\n" + x.Message, "Error");
                 dataGridView2.Rows[e.RowIndex].Cells[1].Value = null;
                 //update label4
-                float net_rate = 0F;
-                for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
-                {
-                    float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                    if (sum != 0F)
-                    {
-                        dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                        if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
-                        {
-                            dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                            net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
-                        }
-                        else dataGridView2.Rows[i].Cells[3].Value = null;
-                    }
-                }
-                label4.Text = net_rate.ToString();
+                update_weights_rates();
                 dataGridView2.CurrentCell =dataGridView2.Rows[e.RowIndex].Cells[1];
             }
         }
