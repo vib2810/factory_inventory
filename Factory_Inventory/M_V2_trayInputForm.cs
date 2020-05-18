@@ -23,8 +23,11 @@ namespace Factory_Inventory
         public int dummyint = 0;
         public bool closed = false;
         public DataTable tray_details = new DataTable();
+        public M_V3_issueToReDyeingForm form; 
         DataTable d1;  //stores quality table
         public DataGridView issuesource = new DataGridView();
+        private bool edit_reyeing_tray = false;
+        private int edit_redyeing_tray_index;
         public M_V2_trayInputForm()
         {
             InitializeComponent();
@@ -220,10 +223,11 @@ namespace Factory_Inventory
 
 
         }
-        public M_V2_trayInputForm(string input_date, string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, DataGridView d)
+        public M_V2_trayInputForm(string input_date, string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, int edit_row_index, M_V3_issueToReDyeingForm f)
         {
             InitializeComponent();
-            this.issuesource = d;
+            this.issuesource = f.dataGridView1;
+            this.form = f;
             c = new DbConnect();
             //Create drop-down quality list
             var dataSource1 = new List<string>();
@@ -288,16 +292,20 @@ namespace Factory_Inventory
             this.machineNoCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.machineNoCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            this.tray_details.Columns.Add("Date_Of_Input");
-            this.tray_details.Columns.Add("Date_Of_Production");
-            this.tray_details.Columns.Add("Tray_No");
+            this.tray_details.Columns.Add("Sl No");
+            this.tray_details.Columns.Add("Date Of Input");
+            this.tray_details.Columns.Add("Date Of Production");
+            this.tray_details.Columns.Add("Tray No");
             this.tray_details.Columns.Add("Spring");
-            this.tray_details.Columns.Add("No_Of_Springs");
-            this.tray_details.Columns.Add("Tray_Tare");
-            this.tray_details.Columns.Add("Gross_Weight");
+            this.tray_details.Columns.Add("No Of Springs");
+            this.tray_details.Columns.Add("Tray Tare");
+            this.tray_details.Columns.Add("Gross Weight");
             this.tray_details.Columns.Add("Quality");
-            this.tray_details.Columns.Add("Company_Name");
-            this.tray_details.Columns.Add("Machine_No");
+            this.tray_details.Columns.Add("Company Name");
+            this.tray_details.Columns.Add("Machine No");
+            this.tray_details.Columns.Add("Net Weight");
+            this.tray_details.Columns.Add("Quality Before Twist");
+
 
             if (input_date!=null) this.dateTimePicker1.Value = this.dateTimePicker1.Value = Convert.ToDateTime(input_date);
             if (production_date != null) this.dateTimePickerDTP.Value = this.dateTimePickerDTP.Value = Convert.ToDateTime(production_date);
@@ -307,13 +315,22 @@ namespace Factory_Inventory
             if (tray_tare != -1F) this.traytareTB.Text = tray_tare.ToString();
             if (gross_weight != -1F) this.grossWeightTB.Text = gross_weight.ToString();
             if (quality != null) this.qualityCB.SelectedIndex= this.qualityCB.FindStringExact(quality);
+            this.qualityCB.Enabled = false;
             if (company_name != null) this.companyNameCB.SelectedIndex = this.companyNameCB.FindStringExact(company_name);
+            this.companyNameCB.Enabled = false;
             if (machine_no != null) this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(machine_no);
 
             this.addButton.Text = "Add Tray";
             this.redyeing = true;
-            if(d.Rows.Count!=0) this.tray_details = (DataTable)d.DataSource;
-            this.StartPosition= FormStartPosition.Manual;
+            if (this.issuesource.Rows.Count != 0) this.tray_details = (DataTable)this.issuesource.DataSource;
+            this.StartPosition = FormStartPosition.Manual;
+
+            if (edit_row_index!=-1)
+            {
+                this.edit_reyeing_tray = true;
+                this.addButton.Text = "Conform Edit";
+                this.edit_redyeing_tray_index = edit_row_index;
+            }
         }
         private void addButton_Click(object sender, EventArgs e)
         {
@@ -357,7 +374,7 @@ namespace Factory_Inventory
             }
             if (this.dateTimePicker1.Value.Date < this.dateTimePickerDTP.Value.Date)
             {
-                c.ErrorBox("Issue Date is in the future", "Error");
+                c.ErrorBox("Production Date is in the future", "Error");
                 return;
             }
             if(this.machineNoCB.SelectedIndex==0)
@@ -365,43 +382,91 @@ namespace Factory_Inventory
                 c.ErrorBox("Enter Machine Number", "Error");
                 return;
             }
+            if(dynamicLabelChange()<=0F)
+            {
+                c.ErrorBox("Net Weight cannot be negative or zero", "Error");
+                return;
+            }
             if(this.redyeing==true)
             {
+                if(this.dateTimePickerDTP.Value.Date > this.form.issueDateDTP.Value.Date)
+                {
+                    c.ErrorBox("Tray production date cannot be ahead of Redyeing issue date", "Error");
+                    return;
+                }
                 DataRow row = tray_details.NewRow();
-                row.Table.Columns.Add("Sl No");
-                row["Sl No"] = this.issuesource.Rows.Count+1;
-                row["Date_Of_Input"] = this.dateTimePicker1.Value.Date.ToString().Substring(0, 10);
-                row["Date_Of_Production"] = this.dateTimePickerDTP.Value.Date.ToString().Substring(0, 10);
-                row["Tray_No"] = (this.trayNumberTB.Text);
+                if(this.edit_reyeing_tray == false)
+                {
+                    row["Sl No"] = this.issuesource.Rows.Count + 1;
+                }
+                else
+                {
+                    row["Sl No"] = this.edit_redyeing_tray_index + 1;
+                }
+                row["Date Of Input"] = this.dateTimePicker1.Value.Date.ToString().Substring(0, 10);
+                row["Date Of Production"] = this.dateTimePickerDTP.Value.Date.ToString().Substring(0, 10);
+                row["Tray No"] = (this.trayNumberTB.Text);
                 row["Spring"] = (this.springCB.Text);
-                row["No_Of_Springs"] = (this.numberOfSpringsTB.Text);
-                row["Tray_Tare"] = (this.traytareTB.Text);
-                row["Gross_Weight"] = (this.grossWeightTB.Text);
+                row["No Of Springs"] = (this.numberOfSpringsTB.Text);
+                row["Tray Tare"] = (this.traytareTB.Text);
+                row["Gross Weight"] = (this.grossWeightTB.Text);
                 row["Quality"] = (this.qualityCB.Text);
-                row["Company_Name"] = (this.companyNameCB.Text);
-                row["Machine_No"] = (this.machineNoCB.Text);
-                row.Table.Columns.Add("Net_Weight");
-                row["Net_Weight"] = dynamicLabelChange();
+                row["Company Name"] = (this.companyNameCB.Text);
+                row["Machine No"] = (this.machineNoCB.Text);
+                row["Net Weight"] = dynamicLabelChange();
+                row["Quality Before Twist"] = this.qualityBeforeTwistTB.Text;
 
-                this.tray_details.Rows.Add(row);
-                this.trayNumberTB.Text = "";
-                this.grossWeightTB.Text = "";
-                this.traytareTB.Text = "";
-                this.trayNumberTB.Focus();
-                dummyint++;
+                for (int i = 0; i < this.issuesource.Rows.Count; i++)
+                {
+                    if (this.issuesource.Rows[i].Cells["Tray No"].Value.ToString() == row["Tray No"].ToString())
+                    {
+                        c.ErrorBox("Repeated tray number in row " + (i + 1).ToString(), "Error");
+                        return;
+                    }
+                }
+                DataTable dttray = c.getTableRow("Tray_Active", "Tray_No='" + row["Tray No"].ToString() + "'");
+                if(dttray.Rows.Count!=0)
+                {
+                    c.ErrorBox("Tray number "+row["Tray No"].ToString()+" is already in use", "Error");
+                    return;
+                }
+                if(this.edit_reyeing_tray == true)
+                {
+                    this.tray_details.Rows[this.edit_redyeing_tray_index].Delete();
+                    this.tray_details.Rows.InsertAt(row, this.edit_redyeing_tray_index);
+                }
+                else
+                {
+                    this.tray_details.Rows.Add(row);
+                    this.trayNumberTB.Text = "";
+                    this.grossWeightTB.Text = "";
+                    this.traytareTB.Text = "";
+                    this.trayNumberTB.Focus();
+                }
+
                 this.issuesource.DataSource = this.tray_details;
+                if(this.issuesource.SelectedRows.Count>=0)
+                {
+                    this.issuesource.SelectedRows[0].Selected = false;
+                }
                 this.issuesource.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.issuesource.Columns["Sl No"].Visible = true;
                 this.issuesource.Columns["Sl No"].DisplayIndex=0;
                 this.issuesource.Columns["Sl No"].Width= 80;
-                this.issuesource.Columns["Tray_No"].Visible = true;
-                this.issuesource.Columns["Tray_No"].HeaderText= "Tray No";
-                this.issuesource.Columns["Tray_No"].DisplayIndex = 2;
+                this.issuesource.Columns["Tray No"].Visible = true;
+                this.issuesource.Columns["Tray No"].HeaderText= "Tray No";
+                this.issuesource.Columns["Tray No"].DisplayIndex = 2;
                 this.issuesource.Columns["Quality"].Visible = true;
                 this.issuesource.Columns["Quality"].DisplayIndex = 4;
                 this.issuesource.Columns["Quality"].Width= 150;
-                this.issuesource.Columns["Net_Weight"].Visible = true;
-                this.issuesource.Columns["Net_Weight"].DisplayIndex = 6;
+                this.issuesource.Columns["Net Weight"].Visible = true;
+                this.issuesource.Columns["Net Weight"].DisplayIndex = 6;
+                c.auto_adjust_dgv(this.issuesource);
+                this.form.CellSum();
+                if (this.edit_reyeing_tray == true)
+                {
+                    this.Close();
+                }
             }
             else
             {

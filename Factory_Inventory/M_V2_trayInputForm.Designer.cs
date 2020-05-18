@@ -360,7 +360,6 @@
             this.Controls.Add(this.label2);
             this.Name = "M_V2_trayInputForm";
             this.Text = "Form1";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.M_V2_trayInputForm_FormClosing);
             this.Load += new System.EventHandler(this.M_V2_trayInputForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.M_V2_trayInputForm_KeyDown);

@@ -18,9 +18,9 @@ CREATE TABLE Carton (
 	Date_Of_Issue date NULL,
 	Date_Of_Sale date NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-  Sale_DO_No varchar(10) NULL,
-  Type_Of_Sale int NULL,
-  DO_Fiscal_Year varchar(15) NULL
+    Sale_DO_No varchar(10) NULL,
+    Type_Of_Sale int NULL,
+    DO_Fiscal_Year varchar(15) NULL
 );
 
 GO
@@ -177,9 +177,10 @@ CREATE TABLE Tray_Active(
 	Net_Weight decimal(7,3) NOT NULL,
 	Dyeing_Company_Name varchar(40) NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-  Machine_No varchar(5) NOT NULL,
-  Quality_Before_Twist varchar(20) NOT NULL,
-  Batch_Fiscal_Year varchar(15) NULL
+    Machine_No varchar(5) NOT NULL,
+    Quality_Before_Twist varchar(20) NOT NULL,
+    Batch_Fiscal_Year varchar(15) NULL,
+    Redyeing tinyint NULL
 );
 
 GO
@@ -227,9 +228,10 @@ CREATE TABLE Tray_History(
 	Net_Weight decimal(7,3) NOT NULL,
 	Dyeing_Company_Name varchar(40) NOT NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-  Machine_No varchar(5) NOT NULL,
- Quality_Before_Twist varchar(20) NOT NULL,
- Batch_Fiscal_Year varchar(15) NOT NULL
+    Machine_No varchar(5) NOT NULL,
+    Quality_Before_Twist varchar(20) NOT NULL,
+    Batch_Fiscal_Year varchar(15) NOT NULL,
+    Redyeing tinyint NULL
 );
 
 GO
@@ -275,8 +277,8 @@ CREATE TABLE Tray_Voucher(
 	Input_Date date NULL,
 	Net_Weight decimal(7,3) NOT NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-  Machine_No varchar(5) NOT NULL,
-  Quality_Before_Twist varchar(20) NOT NULL
+    Machine_No varchar(5) NOT NULL,
+    Quality_Before_Twist varchar(20) NOT NULL
 );
 
 GO
@@ -344,7 +346,7 @@ CREATE TABLE Batch (
 	Dyeing_In_Date date NULL,
 	Dyeing_Out_Date date NOT NULL,
 	Date_Of_Packing date NULL,
-	Tray_ID_Arr text NOT NULL,
+	Tray_ID_Arr text NULL,
 	Net_Weight decimal(7,3) NOT NULL,
 	Quality varchar(20) NOT NULL,
 	Company_Name varchar(50) NOT NULL,
@@ -355,8 +357,9 @@ CREATE TABLE Batch (
 	Fiscal_Year varchar(15) NOT NULL,
 	Bill_Date date NULL,
 	Voucher_ID int NULL,
-  Printed tinyint NULL,
-  Slip_No varchar(20) NULL
+    Printed tinyint NULL,
+    Slip_No varchar(20) NULL,
+    Redyeing varchar(30) NULL
 );
 
 GO
@@ -473,6 +476,21 @@ CREATE NONCLUSTERED INDEX [Bill_Date] ON [dbo].[BillNos_Voucher]
 	[Bill_Date] DESC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*Redyeing Voucher*/
+create table Redyeing_Voucher
+(
+	Voucher_ID int NOT NULL Primary Key Identity(1,1),
+	Date_Of_Input date NOT NULL,
+	Date_Of_Issue date NOT NULL,
+	Old_Batch_No int NOT NULL,
+	Old_Batch_Fiscal_Year varchar(20),
+	Non_Redyeing_Batch_No int NOT NULL,
+	Non_Redyeing_Batch_Fiscal_Year varchar(20) NOT NULL,
+	Redyeing_Batch_No int NOT NULL,
+	Redyeing_Batch_Fiscal_Year varchar(20) NOT NULL,
+)
 
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

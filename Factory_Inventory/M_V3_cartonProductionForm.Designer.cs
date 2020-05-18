@@ -222,6 +222,7 @@
             this.dataGridView2.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView2_CurrentCellDirtyStateChanged);
             this.dataGridView2.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView2_EditingControlShowing);
             this.dataGridView2.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView2_RowPostPaint);
+            this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView2_KeyDown);
             // 
             // contextMenuStrip2
             // 
@@ -354,9 +355,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(14, 226);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(98, 17);
+            this.label9.Size = new System.Drawing.Size(144, 17);
             this.label9.TabIndex = 0;
-            this.label9.Text = "Financial Year";
+            this.label9.Text = "Carton Financial Year";
             // 
             // oilGainTextbox
             // 

@@ -73,7 +73,7 @@
             this.batchNoCB.Location = new System.Drawing.Point(16, 147);
             this.batchNoCB.Name = "batchNoCB";
             this.batchNoCB.Size = new System.Drawing.Size(197, 24);
-            this.batchNoCB.TabIndex = 5;
+            this.batchNoCB.TabIndex = 3;
             // 
             // label1
             // 
@@ -121,15 +121,19 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(240, 37);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(502, 323);
-            this.dataGridView1.TabIndex = 8;
+            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.TabStop = false;
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             // 
             // nonRedyeingBatchNoTB
@@ -141,7 +145,7 @@
             this.nonRedyeingBatchNoTB.Name = "nonRedyeingBatchNoTB";
             this.nonRedyeingBatchNoTB.ReadOnly = true;
             this.nonRedyeingBatchNoTB.Size = new System.Drawing.Size(194, 22);
-            this.nonRedyeingBatchNoTB.TabIndex = 11;
+            this.nonRedyeingBatchNoTB.TabIndex = 0;
             this.nonRedyeingBatchNoTB.TabStop = false;
             // 
             // label5
@@ -158,7 +162,7 @@
             this.loadButton.Location = new System.Drawing.Point(16, 188);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(197, 47);
-            this.loadButton.TabIndex = 7;
+            this.loadButton.TabIndex = 5;
             this.loadButton.Text = "Load";
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
@@ -181,7 +185,7 @@
             this.batchWeightTB.Name = "batchWeightTB";
             this.batchWeightTB.ReadOnly = true;
             this.batchWeightTB.Size = new System.Drawing.Size(195, 22);
-            this.batchWeightTB.TabIndex = 14;
+            this.batchWeightTB.TabIndex = 0;
             this.batchWeightTB.TabStop = false;
             // 
             // label9
@@ -190,7 +194,7 @@
             this.label9.Location = new System.Drawing.Point(236, 475);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(193, 17);
-            this.label9.TabIndex = 180;
+            this.label9.TabIndex = 0;
             this.label9.Text = "Non Re-Dyeing Batch Weight";
             // 
             // nonRedyeingBatchWeightTB
@@ -202,7 +206,7 @@
             this.nonRedyeingBatchWeightTB.Name = "nonRedyeingBatchWeightTB";
             this.nonRedyeingBatchWeightTB.ReadOnly = true;
             this.nonRedyeingBatchWeightTB.Size = new System.Drawing.Size(194, 22);
-            this.nonRedyeingBatchWeightTB.TabIndex = 17;
+            this.nonRedyeingBatchWeightTB.TabIndex = 0;
             this.nonRedyeingBatchWeightTB.TabStop = false;
             // 
             // label10
@@ -235,7 +239,7 @@
             this.rateTextBoxTB.Name = "rateTextBoxTB";
             this.rateTextBoxTB.ReadOnly = true;
             this.rateTextBoxTB.Size = new System.Drawing.Size(74, 24);
-            this.rateTextBoxTB.TabIndex = 13;
+            this.rateTextBoxTB.TabIndex = 9;
             this.rateTextBoxTB.TabStop = false;
             // 
             // label12
@@ -254,7 +258,7 @@
             this.redyeingColourCB.Location = new System.Drawing.Point(776, 167);
             this.redyeingColourCB.Name = "redyeingColourCB";
             this.redyeingColourCB.Size = new System.Drawing.Size(120, 24);
-            this.redyeingColourCB.TabIndex = 11;
+            this.redyeingColourCB.TabIndex = 7;
             this.redyeingColourCB.SelectedIndexChanged += new System.EventHandler(this.redyeingColourCB_SelectedIndexChanged);
             // 
             // label14
@@ -284,7 +288,7 @@
             this.redyeingBatchWeightTB.Name = "redyeingBatchWeightTB";
             this.redyeingBatchWeightTB.ReadOnly = true;
             this.redyeingBatchWeightTB.Size = new System.Drawing.Size(200, 22);
-            this.redyeingBatchWeightTB.TabIndex = 28;
+            this.redyeingBatchWeightTB.TabIndex = 0;
             this.redyeingBatchWeightTB.TabStop = false;
             // 
             // label17
@@ -305,7 +309,7 @@
             this.redyeingBatchNoTB.Name = "redyeingBatchNoTB";
             this.redyeingBatchNoTB.ReadOnly = true;
             this.redyeingBatchNoTB.Size = new System.Drawing.Size(200, 22);
-            this.redyeingBatchNoTB.TabIndex = 31;
+            this.redyeingBatchNoTB.TabIndex = 0;
             this.redyeingBatchNoTB.TabStop = false;
             // 
             // label18
@@ -326,7 +330,7 @@
             this.colourTB.Name = "colourTB";
             this.colourTB.ReadOnly = true;
             this.colourTB.Size = new System.Drawing.Size(195, 22);
-            this.colourTB.TabIndex = 33;
+            this.colourTB.TabIndex = 0;
             this.colourTB.TabStop = false;
             // 
             // label19
@@ -347,7 +351,7 @@
             this.qualityTB.Name = "qualityTB";
             this.qualityTB.ReadOnly = true;
             this.qualityTB.Size = new System.Drawing.Size(194, 22);
-            this.qualityTB.TabIndex = 35;
+            this.qualityTB.TabIndex = 0;
             this.qualityTB.TabStop = false;
             // 
             // label20
@@ -378,7 +382,7 @@
             this.dyeingCompanyNameTB.Name = "dyeingCompanyNameTB";
             this.dyeingCompanyNameTB.ReadOnly = true;
             this.dyeingCompanyNameTB.Size = new System.Drawing.Size(194, 22);
-            this.dyeingCompanyNameTB.TabIndex = 38;
+            this.dyeingCompanyNameTB.TabIndex = 0;
             this.dyeingCompanyNameTB.TabStop = false;
             // 
             // addTrayButton
@@ -387,7 +391,7 @@
             this.addTrayButton.Location = new System.Drawing.Point(776, 257);
             this.addTrayButton.Name = "addTrayButton";
             this.addTrayButton.Size = new System.Drawing.Size(200, 47);
-            this.addTrayButton.TabIndex = 15;
+            this.addTrayButton.TabIndex = 11;
             this.addTrayButton.Text = "Add Tray";
             this.addTrayButton.UseVisualStyleBackColor = true;
             this.addTrayButton.Click += new System.EventHandler(this.addTrayButton_Click);
@@ -398,9 +402,10 @@
             this.editTrayButton.Location = new System.Drawing.Point(776, 313);
             this.editTrayButton.Name = "editTrayButton";
             this.editTrayButton.Size = new System.Drawing.Size(200, 47);
-            this.editTrayButton.TabIndex = 17;
+            this.editTrayButton.TabIndex = 13;
             this.editTrayButton.Text = "Edit Tray";
             this.editTrayButton.UseVisualStyleBackColor = true;
+            this.editTrayButton.Click += new System.EventHandler(this.editTrayButton_Click);
             // 
             // saveButton
             // 
@@ -408,9 +413,10 @@
             this.saveButton.Location = new System.Drawing.Point(779, 432);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(197, 85);
-            this.saveButton.TabIndex = 19;
+            this.saveButton.TabIndex = 15;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // label4
             // 
@@ -418,7 +424,7 @@
             this.label4.Location = new System.Drawing.Point(14, 425);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(108, 17);
-            this.label4.TabIndex = 181;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Company Name";
             // 
             // companyNameTB
@@ -430,7 +436,7 @@
             this.companyNameTB.Name = "companyNameTB";
             this.companyNameTB.ReadOnly = true;
             this.companyNameTB.Size = new System.Drawing.Size(194, 22);
-            this.companyNameTB.TabIndex = 182;
+            this.companyNameTB.TabIndex = 0;
             this.companyNameTB.TabStop = false;
             // 
             // M_V3_issueToReDyeingForm
@@ -491,10 +497,10 @@
         private System.Windows.Forms.ComboBox batchNoCB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker inputDateDTP;
-        private System.Windows.Forms.DateTimePicker issueDateDTP;
+        public System.Windows.Forms.DateTimePicker issueDateDTP;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox nonRedyeingBatchNoTB;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button loadButton;

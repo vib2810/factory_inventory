@@ -755,7 +755,6 @@ namespace Factory_Inventory
                         c.ErrorBox("Carton Nos repeated at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
-
                 }
             }
             string batch_nos = "";
@@ -940,14 +939,7 @@ namespace Factory_Inventory
             {
                 for (int i = 0; i < batch_no_arr.Count; i++)
                 {
-                    for (int j = i + 1; j < batch_no_arr.Count; j++)
-                    {
-                        if (dt.Rows[i]["Batch_No"].ToString() == dt.Rows[j]["Batch_No"].ToString())
-                        {
-                            batch_no_arr[i] = dt.Rows[i]["Batch_No"].ToString() + "  (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")";
-                            batch_no_arr[j] = dt.Rows[j]["Batch_No"].ToString() + "  (" + dt.Rows[j]["Fiscal_Year"].ToString() + ")";
-                        }
-                    }
+                    batch_no_arr[i] = dt.Rows[i]["Batch_No"].ToString() + "  (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")";
                 }
             }
             for (int i = 0; i < batch_no_arr.Count; i++)
@@ -1245,6 +1237,20 @@ namespace Factory_Inventory
         private void cartonweight_TextChanged(object sender, EventArgs e)
         {
             this.oilGainButton_Calculate();
+        }
+
+        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            {
+                dataGridView2.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView2.EditingControl;
+                c.DroppedDown = true;
+                SendKeys.Send("{down}");
+                SendKeys.Send("{up}");
+                e.Handled = true;
+            }
         }
         private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
