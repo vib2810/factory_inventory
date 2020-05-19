@@ -23,7 +23,7 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             Global.ipaddress = "192.168.1.12";
             DbConnect c = new DbConnect();
-            M_V_history f = new M_V_history(1);
+            M_V_history f = new M_V_history(2);
             Application.Run(f);
 
             while (true)

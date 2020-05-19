@@ -43,7 +43,7 @@ namespace Factory_Inventory
             loadData();
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
         }
-        private bool _firstLoaded=true; 
+        public bool _firstLoaded=true; 
         private void DataGridView1_VisibleChanged(object sender, EventArgs e)
         {
             if (_firstLoaded && dataGridView1.Visible)
@@ -549,8 +549,11 @@ namespace Factory_Inventory
                 c.auto_adjust_dgv(this.dataGridView1);
             }
             #endregion
-        }
-        private DataTable remove_sales_rows()
+            _firstLoaded = true;
+            dataGridView1.Visible = false;
+            dataGridView1.Visible = true;
+    }
+    private DataTable remove_sales_rows()
         {
             int rows = this.dt.Rows.Count;
             if (rows == 0)

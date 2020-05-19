@@ -44,7 +44,7 @@ namespace Factory_Inventory
         private bool edit_form = false;
         private List<string> carton_data;
         private M_V_history v1_history;
-        private int voucherID;
+        private int voucher_id;
         public M_V1_cartonTwistForm()
         {
             InitializeComponent();
@@ -186,6 +186,7 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
+                this.deleteButton.Visible = true;
                 this.issueDateDTP.Enabled = false;
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;
@@ -223,7 +224,7 @@ namespace Factory_Inventory
 
             }
             this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
-            this.voucherID = int.Parse(row["Voucher_ID"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
             Console.WriteLine("------------------");
             for(int i=0; i<carton_no.Length; i++)
@@ -411,7 +412,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited = c.editTwistVoucher(this.voucherID, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
+                bool edited = c.editTwistVoucher(this.voucher_id, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
                 if (edited == false)
                 {
                     return;
@@ -560,6 +561,26 @@ namespace Factory_Inventory
             }
 
             this.issueDateDTP.Focus();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteTwistVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
         }
     }
 }

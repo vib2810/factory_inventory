@@ -48,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox3CB = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.deleteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -101,7 +102,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(19, 511);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(19, 398);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
             this.dynamicWeightLabel.TabIndex = 0;
@@ -111,7 +112,7 @@
             // 
             this.totalWeightLabel.AutoSize = true;
             this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(19, 486);
+            this.totalWeightLabel.Location = new System.Drawing.Point(19, 373);
             this.totalWeightLabel.Name = "totalWeightLabel";
             this.totalWeightLabel.Size = new System.Drawing.Size(141, 25);
             this.totalWeightLabel.TabIndex = 0;
@@ -119,9 +120,9 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(67, 406);
+            this.saveButton.Location = new System.Drawing.Point(63, 515);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(111, 64);
+            this.saveButton.Size = new System.Drawing.Size(111, 56);
             this.saveButton.TabIndex = 13;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -218,11 +219,24 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Financial Year of Date of \nInward of Cartons";
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(63, 442);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(111, 56);
+            this.deleteButton.TabIndex = 0;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete Voucher";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // M_V1_cartonTwistForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 583);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBox3CB);
             this.Controls.Add(this.inputDate);
@@ -270,5 +284,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox3CB;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button deleteButton;
     }
 }
