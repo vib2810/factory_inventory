@@ -140,7 +140,8 @@ CREATE TABLE Sales_Voucher(
     Net_Weight decimal(7,3) NOT NULL,
     Sale_Bill_Date date Null,
     Sale_Bill_No varchar(20) Null,
-    Printed tinyint NOT NULL
+    Printed tinyint NULL,
+	Deleted tinyint NULL
 );
 
 GO
@@ -315,7 +316,8 @@ CREATE TABLE Dyeing_Issue_Voucher(
 	Batch_No int NOT NULL,
 	Dyeing_Rate decimal(5,2) NOT NULL,
 	Tray_ID_Arr text NOT NULL,
-	Fiscal_Year varchar(15) NOT NULL
+	Fiscal_Year varchar(15) NOT NULL,
+	Deleted tinyint NULL
 
 );
 
@@ -399,7 +401,8 @@ CREATE TABLE Dyeing_Inward_Voucher(
 	Fiscal_Year varchar(15) NOT NULL,
 	Batch_Fiscal_Year varchar(15) NOT NULL,
 	Bill_Date date NULL,
-  Slip_No_Arr text NULL
+  Slip_No_Arr text NULL,
+  Deleted tinyint NULL
 );
 
 GO
@@ -437,6 +440,7 @@ CREATE TABLE BillNos_Voucher
 	Fiscal_Year varchar(15) NOT NULL,
 	Batch_Fiscal_Year varchar(15) NOT NULL,
 	Bill_Date date NULL,
+	Deleted tinyint NULL
 );
 
 /*Sale Bill Number Voucher*/
@@ -455,7 +459,8 @@ create table SalesBillNosVoucher
 	Sale_Bill_Weight_Calc decimal(10,3) NOT NULL,
 	Sale_Bill_Amount_Calc decimal(11,2) NOT NULL,
   Tablename varchar(20) NOT NULL,
-  Voucher_ID int NOT NULL Primary Key Identity(1,1)
+  Voucher_ID int NOT NULL Primary Key Identity(1,1),
+  Deleted tinyint NULL
 );
 
 GO
@@ -491,6 +496,7 @@ create table Redyeing_Voucher
 	Non_Redyeing_Batch_No int NOT NULL,
 	Redyeing_Batch_No int NOT NULL,
 	Redyeing_Batch_Fiscal_Year varchar(20) NOT NULL,
+	Deleted tinyint NULL
 )
 
 
@@ -516,7 +522,8 @@ create table Carton_Production_Voucher
 	Cone_Weight decimal(5,3) NOT NULL,
 	Date_Of_Production date NULL,
 	Grades_Arr text NOT NULL,
-	Batch_Fiscal_Year_Arr text NOT NULL
+	Batch_Fiscal_Year_Arr text NOT NULL,
+	Deleted tinyint NULL
 );
 
 GO

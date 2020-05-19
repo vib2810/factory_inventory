@@ -63,6 +63,7 @@
             this.oilGainTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -389,11 +390,21 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "%";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(25, 709);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(0, 25);
+            this.label14.TabIndex = 0;
+            // 
             // M_V3_cartonProductionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1232, 702);
+            this.ClientSize = new System.Drawing.Size(1232, 748);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.oilGainTextbox);
             this.Controls.Add(this.label1);
@@ -471,5 +482,6 @@
         private System.Windows.Forms.TextBox oilGainTextbox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label14;
     }
 }

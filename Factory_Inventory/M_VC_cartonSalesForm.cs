@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -44,8 +45,9 @@ namespace Factory_Inventory
         private bool edit_form = false;               //True if form is being edited
         private List<string> carton_data;           //List that stores carton numbers from SQL
         private M_V_history v1_history;
-        private int voucherID;
+        private int voucher_id;
         private string tablename;
+        private bool view_only = false;
         public M_VC_cartonSalesForm(string form)
         {
             InitializeComponent();
@@ -268,17 +270,19 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
+                this.saveButton.Text = "Delete Voucher";
+                this.view_only = true;
                 this.saleDateDTP.Enabled = false;
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;
                 this.comboBox3CB.Enabled = false;
                 this.comboBox4CB.Enabled = false;
                 this.loadCartonButton.Enabled = false;
-                this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
                 this.rateTextboxTB.Enabled = false;
                 this.typeCB.Enabled = false;
                 this.saleDONoTB.Enabled = false;
+                this.dataGridView1.Enabled = false;
             }
             else
             {
@@ -311,7 +315,7 @@ namespace Factory_Inventory
 
             }
             this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
-            this.voucherID = int.Parse(row["Voucher_ID"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             if (this.comboBox3CB.FindStringExact(row["Customer"].ToString()) == -1)
             {
                 dataSource3.Add(row["Customer"].ToString());
@@ -339,6 +343,13 @@ namespace Factory_Inventory
             }
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+
+            if(row["Sale_Bill_No"].ToString()!="")
+            {
+                this.label10.Text = "This DO cannot be edited/deleted as its bill as already been made. Delete/Edit its bill first";
+                this.label10.ForeColor = Color.Red;
+                this.disable_form_edit();
+            }
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -449,6 +460,11 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if(this.view_only==true)
+            {
+                this.delete_voucher();
+                return;
+            }
             //checks
             if(typeCB.SelectedIndex==0)
             {
@@ -546,7 +562,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited = c.editSalesVoucher(this.voucherID, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename,  float.Parse(this.totalWeightTB.Text));
+                bool edited = c.editSalesVoucher(this.voucher_id, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename,  float.Parse(this.totalWeightTB.Text));
                 if (edited == false)
                 {
                     return;
@@ -558,6 +574,27 @@ namespace Factory_Inventory
                 }
             }
         }
+
+        private void delete_voucher()
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteSalesVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+
         public void disable_form_edit()
         {
             this.saleDateDTP.Enabled = false;
@@ -570,6 +607,7 @@ namespace Factory_Inventory
             this.dataGridView1.ReadOnly = true;
             this.rateTextboxTB.Enabled = false;
             this.typeCB.Enabled = false;
+            this.dataGridView1.Enabled = false;
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
