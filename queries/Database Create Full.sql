@@ -70,8 +70,8 @@ CREATE TABLE Carton_Voucher (
 	Carton_Weight_Arr text NOT NULL,
 	Net_Weight decimal(10,3) NOT NULL,
 	Buy_Cost text NOT NULL,
-	Fiscal_Year varchar(15) NOT NULL
-
+	Fiscal_Year varchar(15) NOT NULL, 
+	Deleted tinyint NULL
 );
 
 CREATE NONCLUSTERED INDEX [Date_Of_Input] ON [dbo].[Carton_Voucher]

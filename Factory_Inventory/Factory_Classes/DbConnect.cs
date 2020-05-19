@@ -118,7 +118,7 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM "+tablename+" ORDER BY Voucher_ID DESC", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT TOP 200 * FROM "+tablename+" ORDER BY Voucher_ID DESC", con);
                 sda.Fill(dt);
             }
             catch(Exception e)
@@ -1137,7 +1137,7 @@ namespace Factory_Inventory.Factory_Classes
             return true;
 
         }
-        public bool editCartonVoucher(string oldbillno, DateTime dtinput, DateTime dtbill, string billNumber, string quality, string quality_arr, string company, string cost, string cartonno, string weights, int number, float netweight, Dictionary<string, bool> carton_editable)
+        public bool editCartonVoucher(int voucher_id, DateTime dtinput, DateTime dtbill, string billNumber, string quality, string quality_arr, string company, string cost, string cartonno, string weights, int number, float netweight, Dictionary<string, bool> carton_editable)
         {
             string inputDate = dtinput.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string billDate = dtbill.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -1151,7 +1151,7 @@ namespace Factory_Inventory.Factory_Classes
 
                 //Get all carton_nos which were previously present
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Fiscal_Year FROM Carton_Voucher WHERE Bill_No='" + oldbillno + "'", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Fiscal_Year FROM Carton_Voucher WHERE Voucher_ID=" + voucher_id, con);
                 DataTable old = new DataTable();
                 sda.Fill(old);
                 con.Close();
@@ -1254,7 +1254,7 @@ namespace Factory_Inventory.Factory_Classes
 
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Carton_Voucher SET Date_Of_Billing='" + billDate + "', Bill_No='" + billNumber + "', Quality='" + quality + "', Quality_Arr='" + quality_arr + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Carton_Weight_Arr='" + weights + "', Net_Weight=" + netweight + ", Buy_Cost='" + cost + "', Fiscal_Year='" + financialyear+"' WHERE Bill_No='" + oldbillno + "'";
+                string sql = "UPDATE Carton_Voucher SET Date_Of_Billing='" + billDate + "', Bill_No='" + billNumber + "', Quality='" + quality + "', Quality_Arr='" + quality_arr + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Carton_Weight_Arr='" + weights + "', Net_Weight=" + netweight + ", Buy_Cost='" + cost + "', Fiscal_Year='" + financialyear+ "' WHERE Voucher_ID=" + voucher_id;
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1267,6 +1267,46 @@ namespace Factory_Inventory.Factory_Classes
                 return false;
             }
 
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+        public bool deleteCartonVoucher(int voucher_id)
+        {
+            try
+            {
+                //Get cartons in voucher
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Fiscal_Year FROM Carton_Voucher WHERE Voucher_ID=" + voucher_id, con);
+                DataTable old = new DataTable();
+                sda.Fill(old);
+                string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
+                string old_fiscal_year = old.Rows[0][1].ToString();
+                
+                //delete all rows from carton voucher
+                string carton_in= old.Rows[0][0].ToString();
+                carton_in = carton_in.Substring(0, carton_in.Length - 1);
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "DELETE FROM Carton WHERE Carton_No IN (" + carton_in + ") AND Fiscal_Year='" + old_fiscal_year + "'";
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+                Console.WriteLine(sql);
+
+                //update deleted column in carton_voucher
+                SqlDataAdapter adapter2 = new SqlDataAdapter();
+                sql = "UPDATE Carton_Voucher SET Deleted=1 WHERE Voucher_ID="+voucher_id;
+                adapter2.InsertCommand = new SqlCommand(sql, con);
+                adapter2.InsertCommand.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete carton voucher (deleteCartonVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
             finally
             {
                 con.Close();

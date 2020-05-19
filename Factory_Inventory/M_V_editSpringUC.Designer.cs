@@ -130,12 +130,14 @@
             // 
             this.editedQualityTextbox.Location = new System.Drawing.Point(20, 65);
             this.editedQualityTextbox.Name = "editedQualityTextbox";
+            this.editedQualityTextbox.ReadOnly = true;
             this.editedQualityTextbox.Size = new System.Drawing.Size(144, 22);
             this.editedQualityTextbox.TabIndex = 12;
             // 
             // deleteUserCheckbox
             // 
             this.deleteUserCheckbox.AutoSize = true;
+            this.deleteUserCheckbox.Enabled = false;
             this.deleteUserCheckbox.Location = new System.Drawing.Point(19, 155);
             this.deleteUserCheckbox.Name = "deleteUserCheckbox";
             this.deleteUserCheckbox.Size = new System.Drawing.Size(116, 21);
@@ -167,6 +169,7 @@
             // 
             this.editSpringWeightTextbox.Location = new System.Drawing.Point(20, 110);
             this.editSpringWeightTextbox.Name = "editSpringWeightTextbox";
+            this.editSpringWeightTextbox.ReadOnly = true;
             this.editSpringWeightTextbox.Size = new System.Drawing.Size(144, 22);
             this.editSpringWeightTextbox.TabIndex = 18;
             // 

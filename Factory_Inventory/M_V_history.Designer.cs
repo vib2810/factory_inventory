@@ -44,7 +44,6 @@
             this.dataGridView1.Location = new System.Drawing.Point(2, 2);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -77,9 +76,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(1008, 426);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(332, 17);
+            this.label1.Size = new System.Drawing.Size(138, 51);
             this.label1.TabIndex = 3;
             this.label1.Text = "Bill Number 0 means\nno bill number has\nbeen given";
+            this.label1.Visible = false;
             // 
             // M_V_history
             // 

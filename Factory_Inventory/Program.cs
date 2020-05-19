@@ -25,7 +25,7 @@ namespace Factory_Inventory
             //Global.ipaddress = "192.168.1.35";
             DbConnect c = new DbConnect();
             //c.temp();
-            M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm();
+            M_V_history f = new M_V_history(1);
             //1M_V_history f = new M_V_history(8);
             //M_V4_printCartonSlip f = new M_V4_printCartonSlip();
             //M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");

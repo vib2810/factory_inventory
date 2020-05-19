@@ -38,10 +38,37 @@ namespace Factory_Inventory
             this.dt = new DataTable();
             this.vno = vno;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
+            //dataGridView1.DefaultCellStyle.BackColor = Color.Green;
             this.label1.Visible = false;
             loadData();
+            dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
         }
+        private bool _firstLoaded=true; 
+        private void DataGridView1_VisibleChanged(object sender, EventArgs e)
+        {
+            if (_firstLoaded && dataGridView1.Visible)
+            {
+                _firstLoaded = false;
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    try
+                    {
+                        string deleted = dataGridView1.Rows[i].Cells["Deleted"].Value.ToString();
+                        if (deleted == "1")
+                        {
+                            Console.WriteLine("Setting for " + i);
+                            foreach (DataGridViewCell c in dataGridView1.Rows[i].Cells)
+                            {
+                                c.Style.BackColor = Color.Red;
+                                c.Style.SelectionBackColor = Color.Red;
+                            }
 
+                        }
+                    }
+                    catch (Exception x) { Console.WriteLine("ERROR: " + x.Message); }
+                }
+            }
+        }
         private void viewDetailsButton_Click(object sender, EventArgs e)
         {
             int index = this.dataGridView1.SelectedRows[0].Index;
@@ -177,9 +204,9 @@ namespace Factory_Inventory
                 }
             }
         }
-        
         public void loadData()
         {
+            #region
             if (this.vno == 1)
             {
                 //this.dt = c.getCartonVoucherHistory();
@@ -206,8 +233,6 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
                 c.auto_adjust_dgv(this.dataGridView1);
-
-
             }
             if (this.vno == 2)
             {
@@ -483,6 +508,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
                 c.auto_adjust_dgv(this.dataGridView1);
             }
+            #endregion
         }
         private DataTable remove_sales_rows()
         {
@@ -506,7 +532,24 @@ namespace Factory_Inventory
         }
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            if(this.vno==8 && dataGridView1.CurrentRow.Index>=0)
+            if (dataGridView1.CurrentRow.Index < 0) return;
+            DataRow row = (dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row;
+            try
+            {
+                string deleted = row["Deleted"].ToString();
+                if (deleted == "1")
+                {
+                    this.viewDetailsButton.Enabled = false;
+                    this.editDetailsButton.Enabled = false;
+                }
+                else
+                {
+                    this.viewDetailsButton.Enabled = true;
+                    this.editDetailsButton.Enabled = true;
+                }
+            }
+            catch(Exception x) { Console.WriteLine("ERROR: " + x.Message); }
+            if (this.vno==8 && dataGridView1.CurrentRow.Index>=0)
             {
                 Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
                 if(dataGridView1.CurrentRow.Cells[10].Value.ToString()=="1")

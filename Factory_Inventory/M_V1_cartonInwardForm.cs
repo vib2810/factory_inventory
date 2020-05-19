@@ -55,6 +55,7 @@ namespace Factory_Inventory
         private bool edit_cmd_send = false;
         private bool edit_form = false;
         private string oldbillno;
+        private int voucher_id = -1;
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
         private M_V_history v1_history;
         bool inputerror1 = false; //to stop movement of tab in non numeric weight etc, not done yet
@@ -139,6 +140,7 @@ namespace Factory_Inventory
             {
                 no_rep_d1.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
             }
+            no_rep_d1 = no_rep_d1.Distinct().ToList();
             for (int i = 0; i < no_rep_d1.Count; i++)
             {
                 dataGridView2.Rows.Add(no_rep_d1[i], "", "");
@@ -204,6 +206,7 @@ namespace Factory_Inventory
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
             this.billDateDTP.Value = Convert.ToDateTime(row["Date_Of_Billing"].ToString());
             this.billNumberTextboxTB.Text = row["Bill_No"].ToString();
@@ -253,7 +256,6 @@ namespace Factory_Inventory
                     {
                         r.DefaultCellStyle.BackColor = Color.Gray;
                         r.DefaultCellStyle.SelectionBackColor = Color.Gray;
-
                     }
                     else if(carton_state==3)
                     {
@@ -262,11 +264,15 @@ namespace Factory_Inventory
                     }
                 }
             }
-            if(flag)
+            if (flag)
             {
                 comboBox2CB.Enabled = false;
             }
-
+            else if(isEditable==false)
+            {
+                //enable delete if none of the cartons are in states 2 or 3
+                this.deleteButton.Visible = true;
+            }
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
         }
@@ -577,7 +583,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited=c.editCartonVoucher(this.oldbillno, inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(""), this.carton_editable);
+                bool edited=c.editCartonVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(""), this.carton_editable);
                 if (edited == true)
                 {
                     disable_form_edit();
@@ -710,7 +716,6 @@ namespace Factory_Inventory
             }
             dataGridView1.EnableHeadersVisualStyles = false;
         }
-
         private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -731,6 +736,24 @@ namespace Factory_Inventory
                 //update label4
                 update_weights_rates();
                 dataGridView2.CurrentCell =dataGridView2.Rows[e.RowIndex].Cells[1];
+            }
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteCartonVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.deleteButton.Enabled = false;
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return; 
             }
         }
     }

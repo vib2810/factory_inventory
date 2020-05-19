@@ -85,7 +85,7 @@
             // addPickColourTB
             // 
             this.addPickColourTB.Enabled = false;
-            this.addPickColourTB.Location = new System.Drawing.Point(13, 383);
+            this.addPickColourTB.Location = new System.Drawing.Point(13, 396);
             this.addPickColourTB.Name = "addPickColourTB";
             this.addPickColourTB.Size = new System.Drawing.Size(149, 22);
             this.addPickColourTB.TabIndex = 0;
@@ -94,7 +94,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 363);
+            this.label6.Location = new System.Drawing.Point(12, 376);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 17);
             this.label6.TabIndex = 0;
@@ -102,7 +102,7 @@
             // 
             // addQualityBeforeTwistTB
             // 
-            this.addQualityBeforeTwistTB.Location = new System.Drawing.Point(13, 428);
+            this.addQualityBeforeTwistTB.Location = new System.Drawing.Point(13, 441);
             this.addQualityBeforeTwistTB.Name = "addQualityBeforeTwistTB";
             this.addQualityBeforeTwistTB.Size = new System.Drawing.Size(148, 22);
             this.addQualityBeforeTwistTB.TabIndex = 19;
@@ -110,7 +110,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 408);
+            this.label7.Location = new System.Drawing.Point(10, 421);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(133, 17);
             this.label7.TabIndex = 0;
@@ -119,7 +119,7 @@
             // editPickColourTB
             // 
             this.editPickColourTB.Enabled = false;
-            this.editPickColourTB.Location = new System.Drawing.Point(15, 128);
+            this.editPickColourTB.Location = new System.Drawing.Point(15, 133);
             this.editPickColourTB.Name = "editPickColourTB";
             this.editPickColourTB.Size = new System.Drawing.Size(147, 22);
             this.editPickColourTB.TabIndex = 0;
@@ -128,7 +128,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 110);
+            this.label3.Location = new System.Drawing.Point(12, 115);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 17);
             this.label3.TabIndex = 0;
@@ -136,15 +136,16 @@
             // 
             // editQualityBeforeTwistTB
             // 
-            this.editQualityBeforeTwistTB.Location = new System.Drawing.Point(15, 173);
+            this.editQualityBeforeTwistTB.Location = new System.Drawing.Point(15, 178);
             this.editQualityBeforeTwistTB.Name = "editQualityBeforeTwistTB";
+            this.editQualityBeforeTwistTB.ReadOnly = true;
             this.editQualityBeforeTwistTB.Size = new System.Drawing.Size(147, 22);
             this.editQualityBeforeTwistTB.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 154);
+            this.label2.Location = new System.Drawing.Point(12, 159);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(133, 17);
             this.label2.TabIndex = 0;
@@ -152,9 +153,9 @@
             // 
             // addQualityButton
             // 
-            this.addQualityButton.Location = new System.Drawing.Point(150, 456);
+            this.addQualityButton.Location = new System.Drawing.Point(12, 469);
             this.addQualityButton.Name = "addQualityButton";
-            this.addQualityButton.Size = new System.Drawing.Size(75, 23);
+            this.addQualityButton.Size = new System.Drawing.Size(75, 28);
             this.addQualityButton.TabIndex = 21;
             this.addQualityButton.Text = "Add";
             this.addQualityButton.UseVisualStyleBackColor = true;
@@ -164,7 +165,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(48, 246);
+            this.label1.Location = new System.Drawing.Point(10, 261);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(114, 25);
             this.label1.TabIndex = 0;
@@ -173,7 +174,8 @@
             // deleteUserCheckboxCK
             // 
             this.deleteUserCheckboxCK.AutoSize = true;
-            this.deleteUserCheckboxCK.Location = new System.Drawing.Point(14, 222);
+            this.deleteUserCheckboxCK.Enabled = false;
+            this.deleteUserCheckboxCK.Location = new System.Drawing.Point(14, 227);
             this.deleteUserCheckboxCK.Name = "deleteUserCheckboxCK";
             this.deleteUserCheckboxCK.Size = new System.Drawing.Size(119, 21);
             this.deleteUserCheckboxCK.TabIndex = 11;
@@ -182,14 +184,15 @@
             // 
             // editedQualityTextboxTB
             // 
-            this.editedQualityTextboxTB.Location = new System.Drawing.Point(15, 40);
+            this.editedQualityTextboxTB.Location = new System.Drawing.Point(15, 45);
             this.editedQualityTextboxTB.Name = "editedQualityTextboxTB";
+            this.editedQualityTextboxTB.ReadOnly = true;
             this.editedQualityTextboxTB.Size = new System.Drawing.Size(144, 22);
             this.editedQualityTextboxTB.TabIndex = 1;
             // 
             // newQualityTextboxTB
             // 
-            this.newQualityTextboxTB.Location = new System.Drawing.Point(13, 293);
+            this.newQualityTextboxTB.Location = new System.Drawing.Point(13, 306);
             this.newQualityTextboxTB.Name = "newQualityTextboxTB";
             this.newQualityTextboxTB.Size = new System.Drawing.Size(144, 22);
             this.newQualityTextboxTB.TabIndex = 13;
@@ -197,7 +200,7 @@
             // newAccessLevelLabel
             // 
             this.newAccessLevelLabel.AutoSize = true;
-            this.newAccessLevelLabel.Location = new System.Drawing.Point(12, 202);
+            this.newAccessLevelLabel.Location = new System.Drawing.Point(12, 207);
             this.newAccessLevelLabel.Name = "newAccessLevelLabel";
             this.newAccessLevelLabel.Size = new System.Drawing.Size(29, 17);
             this.newAccessLevelLabel.TabIndex = 0;
@@ -206,7 +209,7 @@
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(9, 273);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(9, 286);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(52, 17);
             this.newConfirmPasswordLabel.TabIndex = 0;
@@ -215,7 +218,7 @@
             // newPasswordLabel
             // 
             this.newPasswordLabel.AutoSize = true;
-            this.newPasswordLabel.Location = new System.Drawing.Point(12, 21);
+            this.newPasswordLabel.Location = new System.Drawing.Point(12, 26);
             this.newPasswordLabel.Name = "newPasswordLabel";
             this.newPasswordLabel.Size = new System.Drawing.Size(52, 17);
             this.newPasswordLabel.TabIndex = 0;
@@ -223,9 +226,9 @@
             // 
             // confirmButton
             // 
-            this.confirmButton.Location = new System.Drawing.Point(150, 202);
+            this.confirmButton.Location = new System.Drawing.Point(155, 217);
             this.confirmButton.Name = "confirmButton";
-            this.confirmButton.Size = new System.Drawing.Size(75, 23);
+            this.confirmButton.Size = new System.Drawing.Size(75, 31);
             this.confirmButton.TabIndex = 9;
             this.confirmButton.Text = "Confirm";
             this.confirmButton.UseVisualStyleBackColor = true;
@@ -235,7 +238,7 @@
             // 
             this.userLabel.AutoSize = true;
             this.userLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userLabel.Location = new System.Drawing.Point(48, 1);
+            this.userLabel.Location = new System.Drawing.Point(10, 5);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(111, 25);
             this.userLabel.TabIndex = 0;
@@ -243,7 +246,7 @@
             // 
             // addpickcolourButton
             // 
-            this.addpickcolourButton.Location = new System.Drawing.Point(168, 382);
+            this.addpickcolourButton.Location = new System.Drawing.Point(168, 395);
             this.addpickcolourButton.Name = "addpickcolourButton";
             this.addpickcolourButton.Size = new System.Drawing.Size(62, 23);
             this.addpickcolourButton.TabIndex = 17;
@@ -253,7 +256,7 @@
             // 
             // editpickcolourButton
             // 
-            this.editpickcolourButton.Location = new System.Drawing.Point(168, 127);
+            this.editpickcolourButton.Location = new System.Drawing.Point(168, 132);
             this.editpickcolourButton.Name = "editpickcolourButton";
             this.editpickcolourButton.Size = new System.Drawing.Size(62, 23);
             this.editpickcolourButton.TabIndex = 5;
@@ -263,7 +266,7 @@
             // 
             // addHSNNoTB
             // 
-            this.addHSNNoTB.Location = new System.Drawing.Point(14, 338);
+            this.addHSNNoTB.Location = new System.Drawing.Point(14, 351);
             this.addHSNNoTB.Name = "addHSNNoTB";
             this.addHSNNoTB.Size = new System.Drawing.Size(147, 22);
             this.addHSNNoTB.TabIndex = 15;
@@ -271,7 +274,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(11, 318);
+            this.label4.Location = new System.Drawing.Point(11, 331);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 17);
             this.label4.TabIndex = 0;
@@ -279,7 +282,7 @@
             // 
             // editHSNNoTB
             // 
-            this.editHSNNoTB.Location = new System.Drawing.Point(15, 85);
+            this.editHSNNoTB.Location = new System.Drawing.Point(15, 90);
             this.editHSNNoTB.Name = "editHSNNoTB";
             this.editHSNNoTB.Size = new System.Drawing.Size(147, 22);
             this.editHSNNoTB.TabIndex = 3;
@@ -287,7 +290,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 65);
+            this.label5.Location = new System.Drawing.Point(12, 70);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(91, 17);
             this.label5.TabIndex = 0;
