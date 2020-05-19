@@ -223,7 +223,7 @@ namespace Factory_Inventory
 
 
         }
-        public M_V2_trayInputForm(string input_date, string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, int edit_row_index, M_V3_issueToReDyeingForm f)
+        public M_V2_trayInputForm(string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, int edit_row_index, M_V3_issueToReDyeingForm f)
         {
             InitializeComponent();
             this.issuesource = f.dataGridView1;
@@ -293,7 +293,6 @@ namespace Factory_Inventory
             this.machineNoCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             this.tray_details.Columns.Add("Sl No");
-            this.tray_details.Columns.Add("Date Of Input");
             this.tray_details.Columns.Add("Date Of Production");
             this.tray_details.Columns.Add("Tray No");
             this.tray_details.Columns.Add("Spring");
@@ -307,7 +306,6 @@ namespace Factory_Inventory
             this.tray_details.Columns.Add("Quality Before Twist");
 
 
-            if (input_date!=null) this.dateTimePicker1.Value = this.dateTimePicker1.Value = Convert.ToDateTime(input_date);
             if (production_date != null) this.dateTimePickerDTP.Value = this.dateTimePickerDTP.Value = Convert.ToDateTime(production_date);
             if (tray_no != null) this.trayNumberTB.Text = tray_no;
             if (spring != null) this.springCB.SelectedIndex = this.springCB.FindStringExact(spring);
@@ -335,7 +333,6 @@ namespace Factory_Inventory
         private void addButton_Click(object sender, EventArgs e)
         {
             //checks
-
             try
             {
                 int.Parse(trayNumberTB.Text);
@@ -403,7 +400,6 @@ namespace Factory_Inventory
                 {
                     row["Sl No"] = this.edit_redyeing_tray_index + 1;
                 }
-                row["Date Of Input"] = this.dateTimePicker1.Value.Date.ToString().Substring(0, 10);
                 row["Date Of Production"] = this.dateTimePickerDTP.Value.Date.ToString().Substring(0, 10);
                 row["Tray No"] = (this.trayNumberTB.Text);
                 row["Spring"] = (this.springCB.Text);
@@ -445,7 +441,7 @@ namespace Factory_Inventory
                 }
 
                 this.issuesource.DataSource = this.tray_details;
-                if(this.issuesource.SelectedRows.Count>=0)
+                if(this.issuesource.SelectedRows.Count>0)
                 {
                     this.issuesource.SelectedRows[0].Selected = false;
                 }

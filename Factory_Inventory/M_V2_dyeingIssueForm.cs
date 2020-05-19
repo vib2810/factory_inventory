@@ -141,7 +141,6 @@ namespace Factory_Inventory
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
         }
-
         public M_V2_dyeingIssueForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
 
@@ -296,7 +295,6 @@ namespace Factory_Inventory
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
-
         public void disable_form_edit()
         {
             this.inputDateDTP.Enabled = false;
