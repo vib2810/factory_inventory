@@ -2575,6 +2575,42 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        public bool deleteTrayVoucher(int voucher_id)
+        {
+            //insert into Tray_Voucher with unique tray_id
+            try
+            {
+
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                SqlDataAdapter sda = new SqlDataAdapter();
+                string sql = "UPDATE Tray_Voucher SET Deleted=1 WHERE Voucher_ID='" + voucher_id + "'";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Tray_ID FROM Tray_Voucher WHERE Voucher_ID='" + voucher_id + "'", con);
+                sda1.Fill(dt);
+
+                sql = "DELETE FROM Tray_Active WHERE Tray_ID='" + dt.Rows[0]["Tray_ID"].ToString() + "'";
+                Console.WriteLine(sql);
+                sda.InsertCommand = new SqlCommand(sql, con);
+                sda.InsertCommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete tray voucher (deleteTrayVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
 
 
         //Dyenig Issue Voucher
