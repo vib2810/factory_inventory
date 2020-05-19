@@ -1383,21 +1383,22 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-        public void sendCartonTwist(string cartonno, int state, string date, string carton_fiscal_year)
+        public void sendCartonTwist(string cartonno, int state, string date_of_issue, string carton_fiscal_year)
         {
             try
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 string sql;
-                if(date == null)
+                if(date_of_issue == null)
                 {
-                    sql= "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue=NULL WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql= "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue=NULL WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
                 else
                 {
-                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue='" + date + "' WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue='" + date_of_issue + "' WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
+                Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }
@@ -1604,6 +1605,40 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        public bool deleteTwistVoucher(int voucherID)
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                //Send all Previous Cartons to state 1
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Carton_Fiscal_Year FROM Twist_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+                DataTable old = new DataTable();
+                sda.Fill(old);
+                con.Close();
+                string old_carton_nos = old.Rows[0]["Carton_No_Arr"].ToString();
+                string carton_fiscal_year = old.Rows[0]["Carton_Fiscal_Year"].ToString();
+                this.sendCartonTwist(old_carton_nos.Substring(0, old_carton_nos.Length-1), 1, null ,carton_fiscal_year);
+               
+                con.Open();
+                string sql = "UPDATE Twist_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucherID;
+                //Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not Delete twist voucher (deleteTwistVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
         public bool editTwistVoucher(int voucherID, DateTime dtissue, string quality, string company, string cartonno, int number, string carton_fiscal_year)
         {
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -1636,7 +1671,7 @@ namespace Factory_Inventory.Factory_Classes
                 string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
                 for (int i = 0; i < old_carton_nos.Length; i++)
                 {
-                    this.sendCartonTwist(old_carton_nos[i],1, null ,carton_fiscal_year);
+                    this.sendCartonTwist(old_carton_nos[i], 1, null, carton_fiscal_year);
                 }
                 //Add all New Cartons
 
@@ -1645,7 +1680,7 @@ namespace Factory_Inventory.Factory_Classes
                     this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year);
                 }
                 con.Open();
-                string sql = "UPDATE Twist_Voucher SET Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Fiscal_Year = '"+fiscal_year+"' WHERE Voucher_ID='" + voucherID + "'";
+                string sql = "UPDATE Twist_Voucher SET Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Fiscal_Year = '" + fiscal_year + "' WHERE Voucher_ID='" + voucherID + "'";
                 //Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1664,7 +1699,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-
 
         //Sales voucher
         public bool addSalesVoucher(DateTime dtinput, DateTime dtissue, string type, string quality, string company, string cartonno, string customer, float sell_cost, string carton_fiscal_year, string sale_do_no, string tablename, float net_weight)
@@ -2700,7 +2734,46 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        
+        public bool deleteDyeingIssueVoucher(int voucherID)
+        {
+            return true;
+            ////delete batch
+            //updateBatch(batchno, colour, dyeing_company_name, issueDate, trayid, net_wt, quality, company_name, number, rate, fiscal_year, old_fiscal_year);
+
+            ////Send all previous trays in Tray_Active to state 1, clearing batch_no, dyeing_company_name, dyeing_issue_date
+            //con.Open();
+            //SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_No_Arr FROM Dyeing_Issue_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+            //DataTable old = new DataTable();
+            //sda.Fill(old);
+            //con.Close();
+            //string[] old_tray_nos = this.csvToArray(old.Rows[0][0].ToString());
+            //for (int i = 0; i < old_tray_nos.Length; i++)
+            //{
+            //    this.sendTraytoDyeing(old_tray_nos[i], 1, null, null, 0, null);
+            //}
+
+            //try
+            //{
+            //    con.Open();
+            //    SqlDataAdapter adapter = new SqlDataAdapter();
+            //    string sql = "UPDATE Dyeing_Issue_Voucher Set Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company_name + "', Colour='" + colour + "', Dyeing_Company_Name='" + dyeing_company_name + "', Batch_No=" + batchno + ", Tray_No_Arr='" + trayno + "', Number_Of_Trays=" + number + " , Dyeing_Rate = " + rate + ", Tray_ID_Arr='" + tray_id_arr + "', Batch_Fiscal_Year = '" + fiscal_year + "' WHERE Voucher_ID=" + voucherID;
+            //    Console.WriteLine(sql);
+            //    adapter.InsertCommand = new SqlCommand(sql, con);
+            //    adapter.InsertCommand.ExecuteNonQuery();
+            //    this.SuccessBox("Voucher Updated Successfully");
+            //}
+            //catch (Exception e)
+            //{
+            //    this.ErrorBox("Could not edit dyeing issue voucher (editDyeingIssueVoucher) \n" + e.Message, "Exception");
+            //    con.Close();
+            //    return false;
+            //}
+            //finally
+            //{
+            //    con.Close();
+            //}
+            //return true;
+        }
         //Batch
         public string getNextNumber_FiscalYear(string columnname,string financialyear)
         {

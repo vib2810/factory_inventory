@@ -55,6 +55,7 @@
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label8 = new System.Windows.Forms.Label();
             this.rateTextBoxTB = new System.Windows.Forms.TextBox();
+            this.deleteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -108,7 +109,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(27, 600);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(22, 467);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
             this.dynamicWeightLabel.TabIndex = 0;
@@ -118,7 +119,7 @@
             // 
             this.totalWeightLabel.AutoSize = true;
             this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(27, 575);
+            this.totalWeightLabel.Location = new System.Drawing.Point(22, 442);
             this.totalWeightLabel.Name = "totalWeightLabel";
             this.totalWeightLabel.Size = new System.Drawing.Size(141, 25);
             this.totalWeightLabel.TabIndex = 0;
@@ -126,9 +127,9 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(70, 493);
+            this.saveButton.Location = new System.Drawing.Point(62, 596);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(111, 64);
+            this.saveButton.Size = new System.Drawing.Size(111, 59);
             this.saveButton.TabIndex = 17;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -211,7 +212,7 @@
             // comboBox3CB
             // 
             this.comboBox3CB.FormattingEnabled = true;
-            this.comboBox3CB.Location = new System.Drawing.Point(24, 366);
+            this.comboBox3CB.Location = new System.Drawing.Point(24, 359);
             this.comboBox3CB.Name = "comboBox3CB";
             this.comboBox3CB.Size = new System.Drawing.Size(200, 24);
             this.comboBox3CB.TabIndex = 13;
@@ -219,7 +220,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 346);
+            this.label4.Location = new System.Drawing.Point(21, 339);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(115, 17);
             this.label4.TabIndex = 0;
@@ -246,7 +247,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(24, 406);
+            this.label7.Location = new System.Drawing.Point(24, 391);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(98, 17);
             this.label7.TabIndex = 0;
@@ -255,7 +256,7 @@
             // batchNumberTextboxTB
             // 
             this.batchNumberTextboxTB.Enabled = false;
-            this.batchNumberTextboxTB.Location = new System.Drawing.Point(27, 427);
+            this.batchNumberTextboxTB.Location = new System.Drawing.Point(27, 412);
             this.batchNumberTextboxTB.Name = "batchNumberTextboxTB";
             this.batchNumberTextboxTB.Size = new System.Drawing.Size(197, 22);
             this.batchNumberTextboxTB.TabIndex = 0;
@@ -287,11 +288,24 @@
             this.rateTextBoxTB.TabIndex = 11;
             this.rateTextBoxTB.TabStop = false;
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(62, 517);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(111, 56);
+            this.deleteButton.TabIndex = 0;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete Voucher";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // M_V2_dyeingIssueForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 707);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.rateTextBoxTB);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.dynamicEditableLabel);
@@ -353,5 +367,6 @@
         private System.Windows.Forms.Label dynamicEditableLabel;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox rateTextBoxTB;
+        private System.Windows.Forms.Button deleteButton;
     }
 }

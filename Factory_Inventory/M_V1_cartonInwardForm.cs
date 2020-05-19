@@ -161,6 +161,8 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
+                this.deleteToolStripMenuItem.Enabled = false;
+                this.deleteButton.Visible = true;
                 this.inputDate.Enabled = false;
                 this.billDateDTP.Enabled = false;
                 this.billNumberTextboxTB.Enabled = false;
@@ -267,11 +269,12 @@ namespace Factory_Inventory
             if (flag)
             {
                 comboBox2CB.Enabled = false;
+                this.deleteButton.Enabled = false;
             }
             else if(isEditable==false)
             {
                 //enable delete if none of the cartons are in states 2 or 3
-                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
             }
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
@@ -594,6 +597,7 @@ namespace Factory_Inventory
         }
         private void disable_form_edit()
         {
+            this.deleteToolStripMenuItem.Enabled = false;
             this.inputDate.Enabled = false;
             this.billDateDTP.Enabled = false;
             this.billNumberTextboxTB.Enabled = false;
@@ -748,6 +752,7 @@ namespace Factory_Inventory
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
                     this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
                 }
                 else return;
             }

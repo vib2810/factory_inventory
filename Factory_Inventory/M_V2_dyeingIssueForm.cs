@@ -232,20 +232,28 @@ namespace Factory_Inventory
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
-
+            bool invalid_edit= false;
+            //make isEditable false if batch is in future states
             this.batch_state = c.getBatchState(int.Parse(row["Batch_No"].ToString()), row["Batch_Fiscal_Year"].ToString());
             if (batch_state == 2)
             {
                 dynamicEditableLabel.Text = "This voucher is not editable as the Batch has gone for dyeing";
-                isEditable = false;
+                invalid_edit= true;
             }
             else if (batch_state == 3)
             {
                 dynamicEditableLabel.Text = "This voucher is not editable as the Batch has been packed";
-                isEditable = false;
+                invalid_edit= true;
             }
-            if (isEditable == false)
+            else if (batch_state == 4)
             {
+                dynamicEditableLabel.Text = "This voucher is not editable as the Batch has been split for redyeing";
+                invalid_edit= true;
+            }
+            if (isEditable == false) this.deleteButton.Visible = true;
+            if (isEditable == false || invalid_edit==true)
+            {
+                this.deleteButton.Enabled = false; //disable delete as batch is invalid to edit
                 this.inputDateDTP.Enabled = false;
                 this.issueDateDTP.Enabled = false;
                 this.comboBox1CB.Enabled = false;
@@ -613,7 +621,6 @@ namespace Factory_Inventory
         {
             fillRate();
         }
-
         private void fillRate()
         {
             if (comboBox1CB.SelectedIndex == 0 || comboBox4CB.SelectedIndex == 0)
@@ -629,12 +636,10 @@ namespace Factory_Inventory
             }
             rateTextBoxTB.Text = (c.getDyeingRate(comboBox4CB.SelectedItem.ToString(), comboBox1CB.SelectedItem.ToString())).ToString();
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             fillRate();
         }
-
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView1.IsCurrentCellDirty)
@@ -642,7 +647,6 @@ namespace Factory_Inventory
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
@@ -650,7 +654,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
-
         private void M_V2_dyeingIssueForm_Load(object sender, EventArgs e)
         {
             var comboBoxes = this.Controls
@@ -692,7 +695,6 @@ namespace Factory_Inventory
 
             this.issueDateDTP.Focus();
         }
-
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 1 && e.RowIndex >= 0)
@@ -720,7 +722,6 @@ namespace Factory_Inventory
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
             }
         }
-
         private void loadData(string quality, string company)
         {
             DataTable d = c.getTrayStateQualityCompany(1, quality, company);
@@ -732,6 +733,25 @@ namespace Factory_Inventory
             if (this.edit_form == false)
             {
                 c.SuccessBox("Loaded "+d.Rows.Count.ToString()+" Trays");
+            }
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteTwistVoucher(this.voucherID);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
             }
         }
     }

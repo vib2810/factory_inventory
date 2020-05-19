@@ -100,7 +100,8 @@ CREATE TABLE Twist_Voucher(
 	Carton_No_Arr text NOT NULL,
 	Number_of_Cartons int NOT NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-	Carton_Fiscal_Year varchar(15) NOT NULL
+	Carton_Fiscal_Year varchar(15) NOT NULL,
+	Deleted tinyint NULL
 );
 
 GO
@@ -278,7 +279,8 @@ CREATE TABLE Tray_Voucher(
 	Net_Weight decimal(7,3) NOT NULL,
 	Fiscal_Year varchar(15) NOT NULL,
     Machine_No varchar(5) NOT NULL,
-    Quality_Before_Twist varchar(20) NOT NULL
+    Quality_Before_Twist varchar(20) NOT NULL,
+	Deleted tinyint NULL
 );
 
 GO
