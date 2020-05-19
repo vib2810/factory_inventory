@@ -487,7 +487,6 @@ create table Redyeing_Voucher
 	Old_Batch_No int NOT NULL,
 	Old_Batch_Fiscal_Year varchar(20),
 	Non_Redyeing_Batch_No int NOT NULL,
-	Non_Redyeing_Batch_Fiscal_Year varchar(20) NOT NULL,
 	Redyeing_Batch_No int NOT NULL,
 	Redyeing_Batch_Fiscal_Year varchar(20) NOT NULL,
 )

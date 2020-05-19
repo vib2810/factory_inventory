@@ -135,6 +135,11 @@ namespace Factory_Inventory
                     M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton_Produced");
                     f.Show();
                 }
+                if (this.vno == 12)
+                {
+                    M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, false, this);
+                    f.Show();
+                }
             }
         }
         private void editDetailsButton_Click(object sender, EventArgs e)
@@ -200,6 +205,11 @@ namespace Factory_Inventory
                 if (this.vno == 11)
                 {
                     M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton_Produced");
+                    f.Show();
+                }
+                if (this.vno == 12)
+                {
+                    M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, true, this);
                     f.Show();
                 }
             }
@@ -506,6 +516,36 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_Amount"].Visible = true;
                 this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }
+            if (this.vno == 12)
+            {
+                this.dt = c.getVoucherHistories("Redyeing_Voucher");
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.DataSource = dt;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Voucher_ID"].Visible = false;
+                this.dataGridView1.Columns["Date_Of_Input"].Visible= true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Date of Input";
+                this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Issue"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Issue"].HeaderText = "Date Of Issue";
+                this.dataGridView1.Columns["Old_Batch_No"].Visible = true;
+                this.dataGridView1.Columns["Old_Batch_No"].DisplayIndex = 2;
+                this.dataGridView1.Columns["Old_Batch_No"].HeaderText = "Old Batch No";
+                this.dataGridView1.Columns["Old_Batch_Fiscal_Year"].Visible = true;
+                this.dataGridView1.Columns["Old_Batch_Fiscal_Year"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Old_Batch_Fiscal_Year"].HeaderText = "Old Batch Fiscal Year";
+                this.dataGridView1.Columns["Non_Redyeing_Batch_No"].Visible = true;
+                this.dataGridView1.Columns["Non_Redyeing_Batch_No"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Non_Redyeing_Batch_No"].HeaderText = "Non Redyeing Batch No";
+                this.dataGridView1.Columns["Redyeing_Batch_No"].Visible = true;
+                this.dataGridView1.Columns["Redyeing_Batch_No"].DisplayIndex = 5;
+                this.dataGridView1.Columns["Redyeing_Batch_No"].HeaderText = "Redyeing Batch No";
+                this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].Visible = true;
+                this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].HeaderText = "New Batch Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
             }
             #endregion

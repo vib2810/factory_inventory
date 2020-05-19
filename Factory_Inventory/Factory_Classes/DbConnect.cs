@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Security.RightsManagement;
@@ -73,6 +74,8 @@ namespace Factory_Inventory.Factory_Classes
             //ans = ans.Skip(1).ToArray();
             ans[0] = ans[0].Substring(0, ans[0].Length - 2);
             ans[1] = ans[1].Substring(0, ans[1].Length - 1);
+            Console.WriteLine(ans[0]);
+            Console.WriteLine(ans[1]);
             return ans;
         }
         public bool check_if_batch_repeated(string batch)
@@ -2461,7 +2464,34 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
-        
+        public DataRow getTrayRow_TrayID(int tray_id)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Tray_Active WHERE Tray_ID=" + tray_id + "", con);
+                sda.Fill(dt);
+                if(dt.Rows.Count==0)
+                {
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * FROM Tray_History WHERE Tray_ID=" + tray_id + "", con);
+                    sda1.Fill(dt);
+                }
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getTrayRow_TrayID) \n" + e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return (DataRow)dt.Rows[0];
+        }
+
         //Tray voucher
         public bool addTrayVoucher(DateTime dtinput_date, DateTime dttray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string machine_no, string quality_before_twist)
         {
@@ -2671,7 +2701,6 @@ namespace Factory_Inventory.Factory_Classes
             return true;
         }
         
-
         //Batch
         public string getNextNumber_FiscalYear(string columnname,string financialyear)
         {
@@ -3511,6 +3540,51 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        public bool editRedyeingVoucher(DateTime dtissueDate, DataRow old_batch_row, DataTable trays, string colour, float dyeing_rate, float NRD_batch_weight, float RD_batch_weight)
+        {
+            string tray_ids = "";
+            string issue_date = dtissueDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+            string[] break_batches = this.csvToArray(old_batch_row["Redyeing"].ToString());
+            //delete old trays
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "DELETE FROM Tray_Active WHERE Redyeing=1 AND Batch_No='"+break_batches[1]+"'";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete old trays(editRedyeingVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            //Add new trays
+            for (int i = 0; i < trays.Rows.Count; i++)
+            {
+                DateTime prod_date = Convert.ToDateTime(trays.Rows[i]["Date Of Production"].ToString());
+                int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), 1);
+                this.sendTraytoDyeing(trays.Rows[i]["Tray No"].ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), int.Parse(break_batches[1]), break_batches[2]);
+                tray_ids += tray_id.ToString() + ",";
+            }
+
+            //Edit redyeing batches
+            bool edited1 = editRDBatch(int.Parse(break_batches[0]), break_batches[2], NRD_batch_weight, null, 0, null, -1F);
+            bool edited2 = editRDBatch(int.Parse(break_batches[1]), break_batches[2], RD_batch_weight, tray_ids, trays.Rows.Count, colour, dyeing_rate);
+            if (edited1 == false || edited2 == false)
+            {
+                return false;
+            }
+            this.SuccessBox("Voucher Edited Successfully");
+            return true;
+        }
         public bool addRDBatch(int batch_no, string colour, string dyeing_company_name, string dyeing_out_date, string tray_id_arr, float batch_weight, string quality, string company_name, int no_of_trays, float dyeing_rate, string fiscal_year, string dyeing_in_date, int state, int bill_no, string bill_date, string slip_no, string redyeing)
         {
                                                                                                                                                                                                                                                                              //Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Dyeing_Rate, Fiscal_Year, Dyeing_In_Date, Batch_State, Bill_No, Bill_Date, Slip_No, Redyeing
@@ -3554,7 +3628,37 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-
+        public bool editRDBatch(int batch_no, string batch_fiscal_year, float net_weight, string tray_id_arr, int number_of_trays, string colour, float dyeing_rate)
+        {
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "";
+                if (tray_id_arr == null)
+                {
+                    sql = "UPDATE Batch SET Net_Weight = " + net_weight + " WHERE Batch_No = '" + batch_no + "' AND Fiscal_Year = '" + batch_fiscal_year + "'";
+                }
+                else
+                {
+                    sql = "UPDATE Batch SET Net_Weight = " + net_weight + ", Colour = '"+colour+"', Tray_ID_Arr = '"+tray_id_arr+"', Number_Of_Trays = "+number_of_trays+", Dyeing_Rate = "+dyeing_rate+" WHERE Batch_No = '" + batch_no + "' AND Fiscal_Year = '" + batch_fiscal_year + "'";
+                }
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could edit RDBatch (editRDBatch) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
         //Carton Production Voucher
         public bool addCartonProductionVoucher(DateTime dtinputDate, string colour, string quality, string dyeingCompany, string carton_financialYear, string cone_weight, string production_dates, string carton_nos, string gross_weights, string carton_weights, string number_of_cones, string net_weights, string batch_nos, int closed, float net_batch_weight, float carton_net_weight, string grades_arr)
         {
