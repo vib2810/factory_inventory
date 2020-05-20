@@ -249,7 +249,6 @@ namespace Factory_Inventory.Factory_Classes
         private void KeyDownCb(object sender, KeyEventArgs e)
         {
             ComboBox c = sender as ComboBox;
-            Console.WriteLine(c.DroppedDown + " kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
             if (e.KeyCode == Keys.Enter)
             {
                 i++;
