@@ -332,6 +332,7 @@ namespace Factory_Inventory
             {
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
+                this.saveButton.Enabled = false;
                 this.view_only = true;
                 this.inputDate.Enabled = false;
                 this.loadDataButton.Enabled = false;
