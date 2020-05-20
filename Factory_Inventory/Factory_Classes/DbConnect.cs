@@ -3650,7 +3650,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not add Dyeing Inward Voucher (addDyeingInwardVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not add Bill Nos Voucher (addBillNosVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -3675,12 +3675,10 @@ namespace Factory_Inventory.Factory_Classes
 
             //send old batch nos to bill no 0
             addBillNo_Batches(old_batch_nos.Substring(0, old_batch_nos.Length - 1), "0", batch_fiscal_year);
-            
 
             //add bill nos to current batches
             string batches = batch_nos;
             addBillNo_Batches(batches.Substring(0, batches.Length - 1), sendbill_no, batch_fiscal_year);
-            
 
             //update voucher
             try
@@ -3695,7 +3693,36 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not update Dyeing Inward Voucher (editBillNosVoucher) \n" + e.Message, "Exception");
+                this.ErrorBox("Could not update Bill Nos Voucher (editBillNosVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+        public bool deleteBillNosVoucher(int voucher_id)
+        {
+            try
+            {
+                //Get all batch_nos which were previously present and set deleted
+                con.Open();
+                string sql = "UPDATE BillNos_Voucher SET Deleted = 1 OUTPUT inserted.Batch_No_Arr, inserted.Batch_Fiscal_Year WHERE Voucher_ID =" + voucher_id;
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                DataTable old = new DataTable();
+                sda.Fill(old);
+                con.Close();
+                string old_batch_nos = old.Rows[0]["Batch_No_Arr"].ToString();
+                string batch_fiscal_year = old.Rows[0]["Batch_Fiscal_Year"].ToString();
+                //send old batch nos to bill no 0
+                addBillNo_Batches(removecom(old_batch_nos), "0", batch_fiscal_year);
+                this.SuccessBox("Voucher Deleted Successfully");
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete Bill Nos Voucher (deleteBillNosVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -4524,6 +4551,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        
         //Carton Produced
         public bool addProducedCarton(string carton_no, int state, string productionDate, string quality, string colour, string batch_nos, string dyeingCompany,  float cartonWeight, int numberOfCones, float cone_weight, float grossWeight, float netWeight, string carton_financialYear, string batch_fiscal_years, string grade)
         {

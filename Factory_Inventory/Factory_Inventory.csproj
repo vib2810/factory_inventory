@@ -369,11 +369,11 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_Signup.cs">
+    <Compile Include="M_1_Signup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="M_Signup.Designer.cs">
-      <DependentUpon>M_Signup.cs</DependentUpon>
+    <Compile Include="M_1_Signup.Designer.cs">
+      <DependentUpon>M_1_Signup.cs</DependentUpon>
     </Compile>
     <Compile Include="M_1_MainS.cs">
       <SubType>Form</SubType>
@@ -531,8 +531,8 @@
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_Signup.resx">
-      <DependentUpon>M_Signup.cs</DependentUpon>
+    <EmbeddedResource Include="M_1_Signup.resx">
+      <DependentUpon>M_1_Signup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_MainS.resx">
       <DependentUpon>M_1_MainS.cs</DependentUpon>

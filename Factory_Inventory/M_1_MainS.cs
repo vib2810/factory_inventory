@@ -16,18 +16,29 @@ namespace Factory_Inventory
         public DbConnect c;
         public bool logout = false;
         //Declare all sub-forms globally so we can close them all
-        M_Signup f2=null;
+        M_1_Signup f2=null;
         private bool close_from_code = false;
-        public M_1_MainS(DbConnect input, string user, string access)
+        public M_1_MainS(DbConnect input, string user, int access)
         {
-            Console.WriteLine("Main.S");
+            Global.access = access;
             this.c = input;
             this.FormClosing += new FormClosingEventHandler(MainS_FormClosing);
             InitializeComponent();
-            this.usernameLabel.Text = "Logged in as " + user + ": "+  access;
+            
+            string access_type = "";
+            if (access == 1) access_type = "Super User";
+            else if (access == 2) access_type = "User";
+            this.usernameLabel.Text = "Logged in as " + user + ": "+  access_type;
+            
             hide_all_UCs();
             usersUC1.currentUser = user;
             this.CenterToScreen();
+            if(Global.access==2)
+            {
+                this.UsersButton.Visible= false;
+                this.newUser.Visible = false;
+                this.loginLogButton.Visible = false;
+            }
         }
         private void MainS_Load(object sender, EventArgs e)
         {
@@ -50,7 +61,7 @@ namespace Factory_Inventory
         }
         private void newUser_Click(object sender, EventArgs e)
         {
-            f2 = new M_Signup(c);
+            f2 = new M_1_Signup(c);
             f2.Show();
         }
         public void closeAllForms()
