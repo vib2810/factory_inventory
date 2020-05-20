@@ -91,7 +91,7 @@ namespace Factory_Inventory
             this.loginLogButton.Location = new System.Drawing.Point(704, 229);
             this.loginLogButton.Name = "loginLogButton";
             this.loginLogButton.Size = new System.Drawing.Size(111, 38);
-            this.loginLogButton.TabIndex = 5;
+            this.loginLogButton.TabIndex = 6;
             this.loginLogButton.Text = "Login Log";
             this.loginLogButton.UseVisualStyleBackColor = true;
             this.loginLogButton.Click += new System.EventHandler(this.loginLogButton_Click);
@@ -122,7 +122,7 @@ namespace Factory_Inventory
             this.backupRestoreButton.Location = new System.Drawing.Point(704, 177);
             this.backupRestoreButton.Name = "backupRestoreButton";
             this.backupRestoreButton.Size = new System.Drawing.Size(111, 46);
-            this.backupRestoreButton.TabIndex = 6;
+            this.backupRestoreButton.TabIndex = 5;
             this.backupRestoreButton.Text = "Backup and Restore";
             this.backupRestoreButton.UseVisualStyleBackColor = true;
             this.backupRestoreButton.Click += new System.EventHandler(this.backupRestoreButton_Click);

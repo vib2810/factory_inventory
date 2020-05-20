@@ -122,7 +122,9 @@ namespace Factory_Inventory
 
             //Twist Datagridview
             DataTable twist_stock_to_show = this.twist_stock.Clone();
-            string prev_company = this.twist_stock.Rows[0]["Company_Name"].ToString();
+            string prev_company = "";
+            if(this.twist_stock.Rows.Count>0) prev_company = this.twist_stock.Rows[0]["Company_Name"].ToString();
+            
             for (int i = 0; i < this.twist_stock.Rows.Count; i++)
             {
                 string quality = this.twist_stock.Rows[i]["Quality"].ToString();

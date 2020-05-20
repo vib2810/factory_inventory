@@ -4696,7 +4696,7 @@ namespace Factory_Inventory.Factory_Classes
             return true;
         }
         
-        //Inventory
+        //On Date Inventory
         public DataTable getInventoryCarton(DateTime d)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
@@ -4704,7 +4704,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 string date = d.Date.ToString("yyyy-MM-dd").Substring(0, 10);
-                string sql = "SELECT * FROM Carton WHERE Date_Of_Billing <= '"+date+ "' AND ((Date_Of_Issue IS NULL AND Date_Of_Sale IS Null) OR (Date_Of_Issue IS NULL AND Date_Of_Sale >= '" + date + "') OR (Date_Of_Sale IS NULL AND Date_Of_Issue >= '" + date + "')) ORDER BY Date_Of_Billing DESC";
+                string sql = "SELECT * FROM Carton WHERE Date_Of_Billing <= '"+date+ "' AND ((Date_Of_Issue IS NULL AND Date_Of_Sale IS Null) OR (Date_Of_Issue IS NULL AND Date_Of_Sale > '" + date + "') OR (Date_Of_Sale IS NULL AND Date_Of_Issue > '" + date + "')) ORDER BY Date_Of_Billing DESC";
                 Console.WriteLine(sql);
                 SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 sda.Fill(dt);
@@ -5063,6 +5063,59 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
 
             }
+            return dt;
+        }
+
+        //From To Inventory
+        public DataTable getInventoryCarton(DateTime from, DateTime to)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                string from_date = from.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+                string to_date = to.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+                string sql =
+                    " DECLARE @from varchar(20)" +
+                    " DECLARE @to varchar(20)" +
+                    " SET @from = '"+from_date+"';" +
+                    " SET @to = '"+to_date+"';" +
+                    " select *" +
+                    " from" +
+                    " (" +
+                        "select " +
+                            " case when(T.Date_Of_Billing < @from AND((T.Date_Of_Issue IS NULL AND T.Date_Of_Sale IS Null) OR(T.Date_Of_Issue IS NULL AND T.Date_Of_Sale >= @from) OR(T.Date_Of_Sale IS NULL AND T.Date_Of_Issue >= @from))) then 1" +
+                            " end as Opening," +
+                            " case when T.[Date_Of_Billing] between @from and @to then 1" +
+                            " end as Transact_Input," +
+                            " case " +
+                            " when(T.[Date_Of_Issue] between @from and @to) then 1" +
+                            " when(T.[Date_Of_Sale] between @from and @to) then 2" +
+                            " end as Transact_Output," +
+                            " T.*" +
+                        " from Carton as T" +
+                        " where" +
+                            " (T.Date_Of_Billing<@from AND ((T.Date_Of_Issue IS NULL AND T.Date_Of_Sale IS Null) OR(T.Date_Of_Issue IS NULL AND T.Date_Of_Sale >= @from) OR(T.Date_Of_Sale IS NULL AND T.Date_Of_Issue >= @from)))  OR" +
+                            " T.[Date_Of_Billing] between @from and @to  OR" +
+                            " (T.[Date_Of_Issue] between @from and @to) OR(T.[Date_Of_Sale] between @from and @to)" +
+                    " ) as C ;";
+                   
+                Console.WriteLine(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                sda.Fill(dt);
+            }
+            catch(Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getInventoryCarton)\n"+e.Message, "Exception");
+                con.Close();
+                return null;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            this.printDataTable(dt);
             return dt;
         }
     }

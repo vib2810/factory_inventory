@@ -136,6 +136,7 @@
             this.numberOfSpringsTB.Name = "numberOfSpringsTB";
             this.numberOfSpringsTB.Size = new System.Drawing.Size(122, 22);
             this.numberOfSpringsTB.TabIndex = 5;
+            this.numberOfSpringsTB.TabStop = false;
             this.numberOfSpringsTB.TextChanged += new System.EventHandler(this.numberOfSpringsTextbox_TextChanged);
             // 
             // label7

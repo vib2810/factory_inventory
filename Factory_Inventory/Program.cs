@@ -23,7 +23,7 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             Global.ipaddress = "192.168.1.12";
             DbConnect c = new DbConnect();
-            M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");
+            c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
             //Application.Run(f);
 
             while (true)

@@ -43,7 +43,7 @@
             this.button1.Location = new System.Drawing.Point(60, 70);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(150, 31);
-            this.button1.TabIndex = 0;
+            this.button1.TabIndex = 1;
             this.button1.Text = "Produced Batches";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -83,7 +83,7 @@
             this.button6.Location = new System.Drawing.Point(55, 289);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(155, 31);
-            this.button6.TabIndex = 6;
+            this.button6.TabIndex = 7;
             this.button6.Text = "Produced Batches";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
@@ -93,7 +93,7 @@
             this.button2.Location = new System.Drawing.Point(60, 178);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(150, 31);
-            this.button2.TabIndex = 9;
+            this.button2.TabIndex = 5;
             this.button2.Text = "Conned Batches";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
@@ -113,7 +113,7 @@
             this.button3.Location = new System.Drawing.Point(260, 70);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(150, 31);
-            this.button3.TabIndex = 10;
+            this.button3.TabIndex = 3;
             this.button3.Text = "Entered DOs";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);

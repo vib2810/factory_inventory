@@ -407,15 +407,18 @@ namespace Factory_Inventory
                 c.ErrorBox("Enter numeric bill amount", "Error");
                 return;
             }
-            if (Math.Abs(Double.Parse(billWeightTB.Text)-Double.Parse(netDOWeightTB.Text))>1D)
+            if(typeCB.SelectedItem.ToString()=="1")
             {
-                c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
-                return;
-            }
-            if (Math.Abs(Double.Parse(billAmountTB.Text) - Double.Parse(netDOAmountTB.Text)) > 50D)
-            {
-                c.ErrorBox("Bill Amount is does not match total DO Amount", "Error");
-                return;
+                if (Math.Abs(Double.Parse(billWeightTB.Text) - Double.Parse(netDOWeightTB.Text)) > 1D)
+                {
+                    c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
+                    return;
+                }
+                if (Math.Abs(Double.Parse(billAmountTB.Text) - Double.Parse(netDOAmountTB.Text)) > 50D)
+                {
+                    c.ErrorBox("Bill Amount is does not match total DO Amount", "Error");
+                    return;
+                }
             }
             string do_nos = "";
             List<string> temp = new List<string>();
@@ -457,7 +460,6 @@ namespace Factory_Inventory
                 return;
             }
         }
-        
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count = dataGridView1.SelectedRows.Count;
@@ -526,6 +528,7 @@ namespace Factory_Inventory
         }
         private void loadData(string quality, string do_fiscal_year, string type)
         {
+
             string[] d = c.getDO_QualityFiscalYearType(quality, do_fiscal_year, type, this.tablename);
             for(int i=0; i<d.Length; i++)
             {

@@ -622,6 +622,11 @@ namespace Factory_Inventory
         }
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
+            if (typeCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Enter type of sale", "Error");
+                return;
+            }
             if (comboBox1CB.SelectedIndex == 0)
             {
                 c.ErrorBox("Enter Select Quality", "Error");

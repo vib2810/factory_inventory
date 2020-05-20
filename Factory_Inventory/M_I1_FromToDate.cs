@@ -35,12 +35,12 @@ namespace Factory_Inventory
         private DbConnect c= new DbConnect();
         //private DataTable cartons, twist_stock, trays, dyeingBatch, ConningBatch, cartonproduced;
         private int[] dgvstates = new int[6];
-        private DataTable[] to_show_details= new DataTable[6];
-        private DataTable[] to_show_summary = new DataTable[6];
-        private DataTable[] opening_stock = new DataTable[6];
-        private DataTable[] closing_stock = new DataTable[6];
-        private DataTable[,] opening_stock_showing = new DataTable[6,2];
-        private DataTable[,] closing_stock_showing = new DataTable[6,2];
+        private DataTable[] to_show_details= new DataTable[6]; //not required
+        private DataTable[] to_show_summary = new DataTable[6]; //not required
+        private DataTable[] opening_stock = new DataTable[6]; //stores opening stock of all types(RAW)
+        private DataTable[] closing_stock = new DataTable[6]; //stores closing stock of all types(RAW)
+        private DataTable[,] opening_stock_showing = new DataTable[6,2]; //stores opening stock of selected types(0- summary, 1- details)
+        private DataTable[,] closing_stock_showing = new DataTable[6,2]; //stores closing stock of selected types(0- summary, 1- details)
 
         DateTime prev_load_date;
 
