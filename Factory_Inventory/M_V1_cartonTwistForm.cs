@@ -186,6 +186,7 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
+                this.deleteToolStripMenuItem.Enabled = false;
                 this.deleteButton.Visible = true;
                 this.issueDateDTP.Enabled = false;
                 this.comboBox1CB.Enabled = false;
@@ -427,6 +428,8 @@ namespace Factory_Inventory
 
         public void disable_form_edit()
         {
+            this.dataGridView1.Enabled = false;
+            this.deleteToolStripMenuItem.Enabled = false;
             this.issueDateDTP.Enabled = false;
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;

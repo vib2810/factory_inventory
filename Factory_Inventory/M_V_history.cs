@@ -370,12 +370,15 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
-                this.dataGridView1.Columns["Bill_No"].Visible = true;
-                this.dataGridView1.Columns["Bill_No"].DisplayIndex = 4;
-                this.dataGridView1.Columns["Bill_No"].HeaderText = "Bill Number";
-                this.dataGridView1.Columns["Bill_Date"].Visible = true;
-                this.dataGridView1.Columns["Bill_Date"].DisplayIndex = 6;
-                this.dataGridView1.Columns["Bill_Date"].HeaderText = "Bill Date";
+                this.dataGridView1.Columns["Slip_No"].Visible = true;
+                this.dataGridView1.Columns["Slip_No"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Slip_No"].HeaderText = "Slip Number";
+                this.dataGridView1.Columns["Batch_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Nos";
+                this.dataGridView1.Columns["Batch_Fiscal_Year"].Visible = true;
+                this.dataGridView1.Columns["Batch_Fiscal_Year"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Batch_Fiscal_Year"].HeaderText = "Batch Fiscal Year";
                 this.label1.Visible = true;
                 c.auto_adjust_dgv(this.dataGridView1);
 
@@ -573,38 +576,39 @@ namespace Factory_Inventory
             }
             return d;
         }
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+    private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+    {
+        if (dataGridView1.CurrentRow == null) return;
+        if (dataGridView1.CurrentRow.Index < 0) return;
+        DataRow row = (dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row;
+        try
         {
-            if (dataGridView1.CurrentRow.Index < 0) return;
-            DataRow row = (dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row;
-            try
+            string deleted = row["Deleted"].ToString();
+            if (deleted == "1")
             {
-                string deleted = row["Deleted"].ToString();
-                if (deleted == "1")
-                {
-                    this.viewDetailsButton.Enabled = false;
-                    this.editDetailsButton.Enabled = false;
-                }
-                else
-                {
-                    this.viewDetailsButton.Enabled = true;
-                    this.editDetailsButton.Enabled = true;
-                }
+                this.viewDetailsButton.Enabled = false;
+                this.editDetailsButton.Enabled = false;
             }
-            catch(Exception x) { Console.WriteLine("ERROR: " + x.Message); }
-            if (this.vno==8 && dataGridView1.CurrentRow.Index>=0)
+            else
             {
-                Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
-                if(dataGridView1.CurrentRow.Cells[10].Value.ToString()=="1")
-                {
-                    this.editDetailsButton.Enabled = false;
-                }
-                else
-                {
-                    this.editDetailsButton.Enabled = true;
-                }
+                this.viewDetailsButton.Enabled = true;
+                this.editDetailsButton.Enabled = true;
             }
-           
         }
+        catch(Exception x) { Console.WriteLine("ERROR: " + x.Message); }
+        if (this.vno==8 && dataGridView1.CurrentRow.Index>=0)
+        {
+            Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
+            if(dataGridView1.CurrentRow.Cells[10].Value.ToString()=="1")
+            {
+                this.editDetailsButton.Enabled = false;
+            }
+            else
+            {
+                this.editDetailsButton.Enabled = true;
+            }
+        }
+           
+    }
     }
 }

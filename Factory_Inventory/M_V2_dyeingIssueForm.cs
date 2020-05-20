@@ -250,10 +250,15 @@ namespace Factory_Inventory
                 dynamicEditableLabel.Text = "This voucher is not editable as the Batch has been split for redyeing";
                 invalid_edit= true;
             }
-            if (isEditable == false) this.deleteButton.Visible = true;
+            if (isEditable == false)
+            {
+                if (invalid_edit == true) this.deleteButton.Enabled = false; 
+                else this.deleteButton.Enabled = true;
+                this.deleteButton.Visible = true;
+            }
             if (isEditable == false || invalid_edit==true)
             {
-                this.deleteButton.Enabled = false; //disable delete as batch is invalid to edit
+                this.dataGridView1.Enabled = false;
                 this.inputDateDTP.Enabled = false;
                 this.issueDateDTP.Enabled = false;
                 this.comboBox1CB.Enabled = false;
@@ -305,6 +310,7 @@ namespace Factory_Inventory
         }
         public void disable_form_edit()
         {
+            this.dataGridView1.Enabled = false;
             this.inputDateDTP.Enabled = false;
             this.issueDateDTP.Enabled = false;
             this.comboBox1CB.Enabled = false;
@@ -740,10 +746,9 @@ namespace Factory_Inventory
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                bool deleted = c.deleteTwistVoucher(this.voucherID);
+                bool deleted = c.deleteDyeingIssueVoucher(this.voucherID);
                 if (deleted == true)
                 {
-                    c.SuccessBox("Voucher Deleted Successfully");
                     this.deleteButton.Enabled = false;
                     this.v1_history.loadData();
                 }

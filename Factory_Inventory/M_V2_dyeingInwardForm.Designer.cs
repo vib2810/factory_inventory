@@ -52,6 +52,7 @@
             this.comboBox3CB = new System.Windows.Forms.ComboBox();
             this.billDateDTP = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
+            this.deleteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -59,7 +60,6 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
@@ -67,7 +67,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(832, 581);
+            this.dataGridView1.Size = new System.Drawing.Size(832, 538);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
@@ -97,7 +97,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(27, 552);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(19, 370);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
             this.dynamicWeightLabel.TabIndex = 0;
@@ -107,7 +107,7 @@
             // 
             this.totalWeightLabel.AutoSize = true;
             this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(27, 527);
+            this.totalWeightLabel.Location = new System.Drawing.Point(19, 345);
             this.totalWeightLabel.Name = "totalWeightLabel";
             this.totalWeightLabel.Size = new System.Drawing.Size(117, 25);
             this.totalWeightLabel.TabIndex = 0;
@@ -115,9 +115,9 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(65, 460);
+            this.saveButton.Location = new System.Drawing.Point(65, 479);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(111, 64);
+            this.saveButton.Size = new System.Drawing.Size(111, 52);
             this.saveButton.TabIndex = 15;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -174,19 +174,21 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(21, 342);
+            this.label7.Location = new System.Drawing.Point(630, 378);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Bill Number";
+            this.label7.Visible = false;
             // 
             // billNumberTextboxTB
             // 
-            this.billNumberTextboxTB.Location = new System.Drawing.Point(21, 362);
+            this.billNumberTextboxTB.Location = new System.Drawing.Point(633, 455);
             this.billNumberTextboxTB.Name = "billNumberTextboxTB";
             this.billNumberTextboxTB.ReadOnly = true;
             this.billNumberTextboxTB.Size = new System.Drawing.Size(109, 22);
             this.billNumberTextboxTB.TabIndex = 9;
+            this.billNumberTextboxTB.Visible = false;
             // 
             // dynamicEditableLabel
             // 
@@ -219,12 +221,13 @@
             this.billcheckBoxCK.AutoSize = true;
             this.billcheckBoxCK.Checked = true;
             this.billcheckBoxCK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.billcheckBoxCK.Location = new System.Drawing.Point(157, 362);
+            this.billcheckBoxCK.Location = new System.Drawing.Point(716, 378);
             this.billcheckBoxCK.Name = "billcheckBoxCK";
             this.billcheckBoxCK.Size = new System.Drawing.Size(64, 21);
             this.billcheckBoxCK.TabIndex = 11;
             this.billcheckBoxCK.Text = "None";
             this.billcheckBoxCK.UseVisualStyleBackColor = true;
+            this.billcheckBoxCK.Visible = false;
             this.billcheckBoxCK.CheckStateChanged += new System.EventHandler(this.billcheckBox_CheckStateChanged);
             // 
             // label6
@@ -247,25 +250,40 @@
             // billDateDTP
             // 
             this.billDateDTP.Enabled = false;
-            this.billDateDTP.Location = new System.Drawing.Point(21, 407);
+            this.billDateDTP.Location = new System.Drawing.Point(633, 427);
             this.billDateDTP.Name = "billDateDTP";
             this.billDateDTP.Size = new System.Drawing.Size(200, 22);
             this.billDateDTP.TabIndex = 13;
+            this.billDateDTP.Visible = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 387);
+            this.label2.Location = new System.Drawing.Point(630, 407);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 17);
             this.label2.TabIndex = 0;
             this.label2.Text = "Bill Date";
+            this.label2.Visible = false;
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(65, 417);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(111, 47);
+            this.deleteButton.TabIndex = 44;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete Voucher";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // M_V2_dyeingInwardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 581);
+            this.ClientSize = new System.Drawing.Size(1077, 541);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.billDateDTP);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label6);
@@ -321,5 +339,6 @@
         private System.Windows.Forms.ComboBox comboBox3CB;
         private System.Windows.Forms.DateTimePicker billDateDTP;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button deleteButton;
     }
 }

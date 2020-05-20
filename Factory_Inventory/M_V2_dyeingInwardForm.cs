@@ -128,10 +128,15 @@ namespace Factory_Inventory
                 this.inwardDateDTP.Visible = false;
                 this.label1.Visible = false;
 
+                this.label7.Visible = true;
                 this.label7.Location = new System.Drawing.Point(24, 74);
+                this.billNumberTextboxTB.Visible = true;
                 this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
+                this.billDateDTP.Visible = true;
                 this.billDateDTP.Location = new System.Drawing.Point(24, 140);
+                this.label2.Visible = true;
                 this.label2.Location = new System.Drawing.Point(24, 120);
+                this.billcheckBoxCK.Visible = true;
                 this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
                 this.saveButton.Enabled = false;
 
@@ -258,15 +263,7 @@ namespace Factory_Inventory
                 //if form is only view-only
                 if (isEditable == false)
                 {
-                    //this.edit_form = false;
-                    this.inputDate.Enabled = false;
-                    this.inwardDateDTP.Enabled = false;
-                    this.dyeingCompanyCB.Enabled = false;
-                    this.loadBatchButton.Enabled = false;
-                    this.saveButton.Enabled = false;
-                    this.dataGridView1.ReadOnly = true;
-                    this.comboBox3CB.Enabled = false;
-
+                    disable_form_edit();
                 }
                 else
                 {
@@ -314,14 +311,19 @@ namespace Factory_Inventory
                     this.batch_no.Add(batch_nos[i]);
                 }
                 this.loadData(row["Dyeing_Company_Name"].ToString(), row["Batch_Fiscal_Year"].ToString());
-                dataGridView1.RowCount = batch_nos.Length + 1;
+                if (isEditable == false) dataGridView1.RowCount = batch_nos.Length;
+                else dataGridView1.RowCount = batch_nos.Length + 1;
                 bool bill_editable = true;
-                for (int i = 0; i < batch_nos.Length; i++)
+                string batch_nos_string = row["Batch_No_Arr"].ToString();
+                DataTable bill_nos = c.getColumnBatchNos("Bill_No", batch_nos_string.Substring(0, batch_nos_string.Length-1), this.comboBox3CB.SelectedItem.ToString());
+                bool flag = true;
+                for (int i = 0; i < bill_nos.Rows.Count; i++)
                 {
                     dataGridView1.Rows[i].Cells[1].Value = batch_nos[i];
-                    string bill_no = c.getColumnBatchNo("Bill_No", int.Parse(batch_nos[i]), this.comboBox3CB.SelectedItem.ToString());
-                    if(!(bill_no==null || bill_no == "0"))
+                    string bill_no = bill_nos.Rows[i][0].ToString();
+                    if(bill_no != "0")
                     {
+                        flag = false;
                         this.batch_editable[batch_nos[i]] = false;
                         DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
                         dataGridView1.Rows[i].ReadOnly = true;
@@ -334,6 +336,11 @@ namespace Factory_Inventory
                 {
                     this.billcheckBoxCK.Checked = true;
                     this.billcheckBoxCK.Enabled = false;
+                }
+                if (flag == true && isEditable == false) 
+                { 
+                    this.deleteButton.Visible = true; 
+                    this.deleteButton.Enabled = true; 
                 }
                 c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
@@ -353,16 +360,23 @@ namespace Factory_Inventory
                 this.billcheckBoxCK.Enabled = false;
                 this.billcheckBoxCK.Checked = false;
                 this.billNumberTextboxTB.Enabled = true;
+                this.billNumberTextboxTB.Visible = true;
                 this.inwardDateDTP.Visible = false;
+                
                 this.label1.Visible = false;
                 this.dyeingCompanyCB.Enabled = false;
                 this.loadBatchButton.Enabled = false;
                 this.comboBox3CB.Enabled = false;
 
+                this.label7.Visible= true;
                 this.label7.Location = new System.Drawing.Point(24, 74);
+                this.billNumberTextboxTB.Visible= true;
                 this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
+                this.billDateDTP.Visible= true;
                 this.billDateDTP.Location = new System.Drawing.Point(24, 140);
+                this.label2.Visible=true;
                 this.label2.Location = new System.Drawing.Point(24, 120);
+                this.billcheckBoxCK.Visible = true;
                 this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
 
                 //DatagridView make
@@ -419,10 +433,7 @@ namespace Factory_Inventory
                 //if only in view mode
                 if (isEditable == false)
                 {
-                    this.inputDate.Enabled = false;
-                    this.saveButton.Enabled = false;
-                    this.dataGridView1.ReadOnly = true;
-                    this.billNumberTextboxTB.Enabled = false;
+                    disable_form_edit();
                 }
 
                 //Fill in required values
@@ -441,7 +452,8 @@ namespace Factory_Inventory
                 {
                     this.batch_no.Add(batch_nos[i]);
                 }
-                dataGridView1.RowCount = batch_nos.Length + 1;
+                if (isEditable == false) dataGridView1.RowCount = batch_nos.Length;
+                else dataGridView1.RowCount = batch_nos.Length + 1;
                 //Fill data in datagridview
                 for (int i = 0; i < batch_nos.Length; i++)
                 {
@@ -449,9 +461,16 @@ namespace Factory_Inventory
                 }
                 c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
+            dataGridView1.ClearSelection();
+            dataGridView1.CurrentCell = null;
         }
         public void disable_form_edit()
         {
+            this.dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.ClearSelection();
+            this.deleteToolStripMenuItem.Enabled = false;
+            this.comboBox3CB.Enabled = false;
+            this.dataGridView1.ReadOnly = true;
             this.inputDate.Enabled = false;
             this.inwardDateDTP.Enabled = false;
             this.dyeingCompanyCB.Enabled = false;
@@ -503,7 +522,7 @@ namespace Factory_Inventory
         }
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            if (e.RowIndex != dataGridView1.Rows.Count - 1 || dataGridView1.AllowUserToAddRows == false)
             {
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
@@ -573,6 +592,7 @@ namespace Factory_Inventory
             if (e.KeyCode == Keys.Enter &&
                (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
             {
+                if (dataGridView1.ReadOnly == true) return;
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
                 c.DroppedDown = true;
@@ -822,24 +842,24 @@ namespace Factory_Inventory
         }
         private void billcheckBox_CheckStateChanged(object sender, EventArgs e)
         {
-            if (billcheckBoxCK.Checked == false)
-            {
-                billNumberTextboxTB.ReadOnly = false;
-                billDateDTP.Enabled = true;
-                if(this.addBill==false)
-                {
-                    this.dataGridView1.Rows[6].ReadOnly = true;
-                }
-            }
-            else
-            {
-                billNumberTextboxTB.ReadOnly = true;
-                billDateDTP.Enabled = false;
-                if (this.addBill == false)
-                {
-                    this.dataGridView1.Rows[6].ReadOnly = true;
-                }
-            }
+            //if (billcheckBoxCK.Checked == false)
+            //{
+            //    billNumberTextboxTB.ReadOnly = false;
+            //    billDateDTP.Enabled = true;
+            //    if(this.addBill==false)
+            //    {
+            //        this.dataGridView1.Columns["Slip Number"].ReadOnly = true;
+            //    }
+            //}
+            //else
+            //{
+            //    billNumberTextboxTB.ReadOnly = true;
+            //    billDateDTP.Enabled = false;
+            //    if (this.addBill == false)
+            //    {
+            //        this.dataGridView1.Columns["Slip Number"].ReadOnly = true;
+            //    }
+            //}
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -897,5 +917,23 @@ namespace Factory_Inventory
             this.inwardDateDTP.Focus();
         }
 
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteDyeingInwardVoucher(this.voucherID);
+                if (deleted == true)
+                {
+                    this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
     }
 }
