@@ -21,7 +21,7 @@ namespace Factory_Inventory
         private DataRow old_batch_row;
         private M_V_history v1_history;
         private bool edit_form = false;
-        private int voucher_ID;
+        private int voucher_id;
         public M_V3_issueToReDyeingForm()
         {
             InitializeComponent();
@@ -68,7 +68,7 @@ namespace Factory_Inventory
             this.v1_history = v1_history;
             this.all_trays = new DataTable();
             this.c = new DbConnect();
-            this.voucher_ID = int.Parse(row["Voucher_ID"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             //load data
             this.inputDateDTP.Value= Convert.ToDateTime(row["Date_Of_Input"].ToString());
             this.issueDateDTP.Value = Convert.ToDateTime(row["Date_Of_Issue"].ToString());
@@ -146,19 +146,26 @@ namespace Factory_Inventory
 
             if (redyeing_batch["Batch_State"].ToString() == "2")
             {
-                this.label7.Text = "This voucher is not editable \nas batch " + this.redyeingBatchNoTB.Text + " as already come\nfrom redyeing";
+                this.label7.Text = "This voucher is not editable \n/deletable as batch " + this.redyeingBatchNoTB.Text + " has \nalready come from redyeing";
                 this.label7.ForeColor = Color.Red;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = false;
                 disable_form_edit();
             }
             if (non_redyeing_batch["Batch_State"].ToString() == "3")
             {
-                this.label7.Text = "This voucher is not editable \nas batch " + this.nonRedyeingBatchNoTB.Text + " as already been\nproduced";
+                this.label7.Text = "This voucher is not editable \n/deletable as batch " + this.nonRedyeingBatchNoTB.Text + " has \nalready been produced";
                 this.label7.ForeColor = Color.Red;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = false;
                 disable_form_edit();
             }
             if (isEditable==false)
             {
                 this.disable_form_edit();
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
+                this.dataGridView1.Enabled = false;
             }
 
         }
@@ -366,6 +373,27 @@ namespace Factory_Inventory
             }
             CellSum();
         }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteRedyeingVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+
         public void CellSum()
         {
             float sum = 0;

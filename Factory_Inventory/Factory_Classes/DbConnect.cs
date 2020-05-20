@@ -1068,7 +1068,7 @@ namespace Factory_Inventory.Factory_Classes
         {
             string inputDate = dtinput.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string billDate = dtbill.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-            List<string> added_carton = new List<string>();
+            string added_carton = "";
             string[] carton_no = this.csvToArray(cartonno);
             string financialyear = this.getFinancialYear(dtbill);
             for (int i=0;i<carton_no.Length;i++)
@@ -1098,16 +1098,13 @@ namespace Factory_Inventory.Factory_Classes
                         index = i;
                         break;
                     }
-                    added_carton.Add(carton_no[i]);
+                    added_carton+=carton_no[i]+",";
                 }
                 if(flag == true)
                 {
                     //Failed to add all cartons
                     //Remove all added cartons
-                    for(int i=0; i<added_carton.Count; i++)
-                    {
-                        removeCarton(added_carton[i], financialyear, "Carton");
-                    }
+                    removeCarton(added_carton.Substring(0, added_carton.Length-1), financialyear, "Carton");
                     this.ErrorBox("Carton Number: " + carton_no[index] + " at Row: " + (index + 1).ToString() + " was already added to the Database. Could not add voucher", "Error");
                     return false;
                 }
@@ -1130,10 +1127,7 @@ namespace Factory_Inventory.Factory_Classes
                     this.ErrorBox("Could not add carton voucher (addCartonVoucher) \n" + e.Message, "Exception");
                 }
                 con.Close();
-                for (int i = 0; i < added_carton.Count; i++)
-                {
-                    removeCarton(added_carton[i], financialyear, "Carton");
-                }
+                removeCarton(added_carton.Substring(0, added_carton.Length-1), financialyear, "Carton");
                 return false;
             }
 
@@ -1228,7 +1222,7 @@ namespace Factory_Inventory.Factory_Classes
                     }
                 }
                 Console.WriteLine("selected2");
-
+                string cartons = "";
                 //Remove cartons with state 1 in the old voucher
                 for (int i = 0; i < old_carton_nos.Length; i++)
                 {
@@ -1236,10 +1230,11 @@ namespace Factory_Inventory.Factory_Classes
                     bool value2 = carton_editable.TryGetValue(old_carton_nos[i], out value);
                     if (value2 == false) //doesnt contain entry, means it is in state 1
                     {
+                        cartons += old_carton_nos[i] + ",";
                         Console.WriteLine("Removing Carton: " + old_carton_nos[i]);
-                        this.removeCarton(old_carton_nos[i], old_fiscal_year, "Carton");
                     }
                 }
+                this.removeCarton(cartons.Substring(0, cartons.Length-1), old_fiscal_year, "Carton");
                 //Add all New Cartons with state 1
                 string[] qualities = this.csvToArray(quality);
                 string[] qualities_arr = this.csvToArray(quality_arr);
@@ -1373,7 +1368,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "DELETE FROM "+tablename+" WHERE Carton_No='" + no + "' AND Fiscal_Year='"+fiscal_year+"'";
+                string sql = "DELETE FROM "+tablename+" WHERE Carton_No IN (" + no + ") AND Fiscal_Year='"+fiscal_year+"'";
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }
@@ -1415,7 +1410,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-        public void sendCartonSale(string cartonno, string date, float sell_cost, string sale_do_no, string tablename, string type, string carton_fiscal_year, string do_fiscal_year)
+        public void sendCartonSale(string cartonno, string date_of_sale, float sell_cost, string sale_do_no, string tablename, string type, string carton_fiscal_year, string do_fiscal_year)
         {
             int state=0;
             if(tablename=="Carton")
@@ -1431,14 +1426,14 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 string sql;
-                if(date==null && sell_cost==-1F && sale_do_no==null)
+                if(date_of_sale==null && sell_cost==-1F && sale_do_no==null)
                 {
                     state = 1;
-                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale=NULL, Sale_Rate=NULL, Sale_DO_No=NULL, Type_Of_Sale=NULL, DO_Fiscal_Year=NULL WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale=NULL, Sale_Rate=NULL, Sale_DO_No=NULL, Type_Of_Sale=NULL, DO_Fiscal_Year=NULL WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
                 else
                 {
-                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale='" + date + "', Sale_Rate=" + sell_cost + ", Sale_DO_No = '"+sale_do_no+ "', Type_Of_Sale="+int.Parse(type)+", DO_Fiscal_Year = '"+do_fiscal_year+"' WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale='" + date_of_sale + "', Sale_Rate=" + sell_cost + ", Sale_DO_No = '"+sale_do_no+ "', Type_Of_Sale="+int.Parse(type)+", DO_Fiscal_Year = '"+do_fiscal_year+"' WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1728,10 +1723,13 @@ namespace Factory_Inventory.Factory_Classes
             }
             try
             {
+                string carton_nos = "";
                 for (int i = 0; i < carton_no.Length; i++)
                 {
-                    this.sendCartonSale(carton_no[i], issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year);
+                    carton_nos += carton_no[i] + ",";
                 }
+                this.sendCartonSale(carton_nos.Substring(0, carton_nos.Length-1), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year);
+
 
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
@@ -1798,17 +1796,17 @@ namespace Factory_Inventory.Factory_Classes
                 DataTable old = new DataTable();
                 sda.Fill(old);
                 con.Close();
-                string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
-                for (int i = 0; i < old_carton_nos.Length; i++)
-                {
-                    this.sendCartonSale(old_carton_nos[i], null, -1F, null, tablename, type, carton_fiscal_year, null);
-                }
+                string old_carton_nos = old.Rows[0][0].ToString();
+                this.sendCartonSale(old_carton_nos.Substring(0, old_carton_nos.Length-1), null, -1F, null, tablename, type, carton_fiscal_year, null);
 
                 //Add all New Cartons
+                string carton_nos = "";
                 for (int i = 0; i < carton_no.Length; i++)
                 {
-                    this.sendCartonSale(carton_no[i], issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year);
+                    carton_nos += carton_no[i] + ",";
                 }
+                this.sendCartonSale(carton_nos.Substring(0, carton_nos.Length-1), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year);
+
                 con.Open();
                 string sql = "UPDATE Sales_Voucher SET Date_Of_Sale='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Carton_No_Arr='" + cartonno + "', Customer='"+customer+"', Sale_Rate="+sell_cost+", Fiscal_Year='"+fiscal_year+"', Type_Of_Sale = "+int.Parse(type)+", Net_Weight="+net_weight+"  WHERE Voucher_ID='" + voucherID + "' AND Tablename = '"+tablename+"'";
                 //Console.WriteLine(sql);
@@ -1852,6 +1850,40 @@ namespace Factory_Inventory.Factory_Classes
                 }
 
                 this.SuccessBox("Voucher Edited Successfully");
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not edit sales voucher (editSalesVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+        public bool deleteSalesVoucher(int voucherID)
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                //Send all Previous Cartons to state 1
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Tablename, Type_Of_Sale, Carton_Fiscal_Year FROM Sales_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+                DataTable old = new DataTable();
+                sda.Fill(old);
+                con.Close();
+                string old_carton_nos = old.Rows[0][0].ToString();
+                this.sendCartonSale(old_carton_nos.Substring(0, old_carton_nos.Length - 1), null, -1F, null, old.Rows[0]["Tablename"].ToString(), old.Rows[0]["Type_Of_Sale"].ToString(), old.Rows[0]["Carton_Fiscal_Year"].ToString(), null);
+
+                con.Open();
+                string sql = "UPDATE Sales_Voucher SET Deleted = 1  WHERE Voucher_ID='" + voucherID + "'";
+                //Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+                con.Close();
             }
             catch (Exception e)
             {
@@ -2004,13 +2036,15 @@ namespace Factory_Inventory.Factory_Classes
             string fiscal_year = this.getFinancialYear(dtinputDate);
             //add bill nos to DOs
             string[] dos = this.csvToArray(do_nos);
+            string do_no = "";
             for (int i = 0; i < dos.Length; i++)
             {
-                bool added=addBillNoDate_Sales(dos[i], billNumber, bill_date, do_fiscal_year, tablename);
-                if(added==false)
-                {
-                    return false;
-                }
+                do_no += "'" + dos[i] + "',";
+            }
+            bool added=addBillNoDate_Sales(do_no.Substring(0, do_no.Length-1), billNumber, bill_date, do_fiscal_year, tablename);
+            if(added==false)
+            {
+                return false;
             }
             //save voucher
             try
@@ -2044,11 +2078,11 @@ namespace Factory_Inventory.Factory_Classes
                 string sql;
                 if (billNumber == null && bill_date==null)
                 {
-                    sql = "UPDATE Sales_Voucher SET Sale_Bill_No=NULL, Sale_Bill_Date=NULL WHERE Sale_DO_No= '" + do_no + "' AND Fiscal_Year='" + do_fiscal_year + "' AND Tablename='"+tablename+"'";
+                    sql = "UPDATE Sales_Voucher SET Sale_Bill_No=NULL, Sale_Bill_Date=NULL WHERE Sale_DO_No IN (" + do_no + ") AND Fiscal_Year='" + do_fiscal_year + "' AND Tablename='"+tablename+"'";
                 }
                 else
                 {
-                    sql = "UPDATE Sales_Voucher SET Sale_Bill_No='" + billNumber + "', Sale_Bill_Date='"+bill_date+"' WHERE Sale_DO_No= '" + do_no + "' AND Fiscal_Year='" + do_fiscal_year + "' AND Tablename='" + tablename + "'";
+                    sql = "UPDATE Sales_Voucher SET Sale_Bill_No='" + billNumber + "', Sale_Bill_Date='"+bill_date+"' WHERE Sale_DO_No IN (" + do_no + ") AND Fiscal_Year='" + do_fiscal_year + "' AND Tablename='" + tablename + "'";
                 }
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
@@ -2056,7 +2090,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not add BillNo (addSalesBillNo)\n"+e.Message, "Exception");
+                this.ErrorBox("Could not add BillNo (addBillNoDate_Sales)\n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2070,26 +2104,30 @@ namespace Factory_Inventory.Factory_Classes
         { 
             string bill_date = dtbillDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string fiscal_year = this.getFinancialYear(dtinputDate);
-            //Get all batch_nos which were previously present
+            //Get all do_nos which were previously present
             con.Open();
             SqlDataAdapter sda = new SqlDataAdapter("SELECT DO_No_Arr FROM SalesBillNos_Voucher WHERE Voucher_ID=" + voucherID + "", con);
             DataTable old = new DataTable();
             sda.Fill(old);
             con.Close();
             string[] old_do_nos = this.csvToArray(old.Rows[0][0].ToString());
-
-            //send old do nos to bill no NULL
-            for (int i = 0; i < old_do_nos.Length; i++)
+            string old_dos = "";
+            for(int i=0;i<old_do_nos.Length;i++)
             {
-                addBillNoDate_Sales(old_do_nos[i], null, null, do_fiscal_year, tablename);
+                old_dos += "'" + old_do_nos[i] + "',";
             }
+            //send old do nos to bill no NULL
+            addBillNoDate_Sales(old_dos.Substring(0, old_dos.Length-1), null, null, do_fiscal_year, tablename);
+
 
             //add bill nos to current batches
             string[] dos = this.csvToArray(do_nos);
-            for (int i = 0; i < dos.Length; i++)
+            string do_no = "";
+            for(int i=0;i<dos.Length;i++)
             {
-                addBillNoDate_Sales(dos[i], billNumber, bill_date, do_fiscal_year, tablename);
+                do_no += "'" + dos[i] + "',";
             }
+            addBillNoDate_Sales(do_no.Substring(0, do_no.Length-1), billNumber, bill_date, do_fiscal_year, tablename);
 
             //update voucher
             try
@@ -2114,7 +2152,47 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        
+        public bool deleteSalesBillNosVoucher(int voucherID)
+        {
+            //Get all do_nos which were previously present
+            con.Open();
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT DO_No_Arr, DO_Fiscal_Year, Tablename FROM SalesBillNos_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+            DataTable old = new DataTable();
+            sda.Fill(old);
+            con.Close();
+            string old_do_nos = old.Rows[0]["DO_No_Arr"].ToString();
+            string[] do_nos = this.csvToArray(old_do_nos);
+            old_do_nos = "";
+            for(int i=0;i<do_nos.Length;i++)
+            {
+                old_do_nos += "'" + do_nos[i] + "',";
+            }
+            //send old do nos to bill date and number to NULL
+            addBillNoDate_Sales(old_do_nos.Substring(0, old_do_nos.Length-1), null, null, old.Rows[0]["DO_Fiscal_Year"].ToString(), old.Rows[0]["Tablename"].ToString());
+
+            //update voucher
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "UPDATE SalesBillNos_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucherID + "";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete Sales Bill Number Voucher(deleteSalesBillNosVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+
         //Tray
         public int addTrayActive(string tray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string fiscal_year, string machine_no, string quality_before_twist, int redyeing=-1)
         {
@@ -2659,6 +2737,42 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 this.ErrorBox("Could not edit tray voucher (editTrayVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+        public bool deleteTrayVoucher(int voucher_id)
+        {
+            //insert into Tray_Voucher with unique tray_id
+            try
+            {
+
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                SqlDataAdapter sda = new SqlDataAdapter();
+                string sql = "UPDATE Tray_Voucher SET Deleted=1 WHERE Voucher_ID='" + voucher_id + "'";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Tray_ID FROM Tray_Voucher WHERE Voucher_ID='" + voucher_id + "'", con);
+                sda1.Fill(dt);
+
+                sql = "DELETE FROM Tray_Active WHERE Tray_ID='" + dt.Rows[0]["Tray_ID"].ToString() + "'";
+                Console.WriteLine(sql);
+                sda.InsertCommand = new SqlCommand(sql, con);
+                sda.InsertCommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete tray voucher (deleteTrayVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -3735,6 +3849,78 @@ namespace Factory_Inventory.Factory_Classes
             this.SuccessBox("Voucher Edited Successfully");
             return true;
         }
+        public bool deleteRedyeingVoucher(int voucher_id)
+        {
+            DataTable dt = new DataTable();
+            //Select voucher row and set its deleted = 1
+            try
+            {
+                con.Open();
+                string sql = "UPDATE Redyeing_Voucher SET Deleted = 1 OUTPUT inserted.* WHERE Voucher_ID =" + voucher_id;
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                sda.Fill(dt);
+                Console.WriteLine(sql);
+
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not select redyeing voucher row (deleteRedyeingVoucher)\n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            //delete old redyeing trays
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "DELETE FROM Tray_Active WHERE Redyeing=1 AND Batch_No='" + dt.Rows[0]["Redyeing_Batch_No"].ToString() + "'";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete old trays(editRedyeingVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            //Delete old batches and set old batch_no state to 2 
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "DELETE FROM Batch WHERE Batch_No IN (" + dt.Rows[0]["Redyeing_Batch_No"].ToString()+","+ dt.Rows[0]["Non_Redyeing_Batch_No"].ToString() + ") AND Fiscal_Year = '"+dt.Rows[0]["Redyeing_Batch_Fiscal_Year"].ToString()+"'";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+
+                sql = "UPDATE Batch SET Batch_State = 2, Redyeing = NULL WHERE Batch_No = '" + dt.Rows[0]["Old_Batch_No"].ToString() + "' AND Fiscal_Year = '" + dt.Rows[0]["Old_Batch_Fiscal_Year"].ToString() + "'";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not delete RD batches(editRedyeingVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
         public bool addRDBatch(int batch_no, string colour, string dyeing_company_name, string dyeing_out_date, string tray_id_arr, float batch_weight, string quality, string company_name, int no_of_trays, float dyeing_rate, string fiscal_year, string dyeing_in_date, int state, int bill_no, string bill_date, string slip_no, string redyeing)
         {
                                                                                                                                                                                                                                                                              //Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Dyeing_Rate, Fiscal_Year, Dyeing_In_Date, Batch_State, Bill_No, Bill_Date, Slip_No, Redyeing
@@ -4094,7 +4280,7 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             Console.WriteLine("selected3");
-
+            string cartons = "";
             //Remove cartons with state 1 in the old voucher
             for (int i = 0; i < old_carton_nos.Length; i++)
             {
@@ -4102,11 +4288,11 @@ namespace Factory_Inventory.Factory_Classes
                 bool value2 = carton_editable.TryGetValue(old_carton_nos[i], out value);
                 if (value2 == false) //doesnt contain entry, means it is in state 1
                 {
+                    cartons += old_batch_nos[i] + ",";
                     Console.WriteLine("Removing Carton: " + old_carton_nos[i]);
-                    this.removeCarton(old_carton_nos[i], financialYear, "Carton_Produced");
                 }
             }
-
+            this.removeCarton(cartons.Substring(0, cartons.Length-1), financialYear, "Carton_Produced");
             Console.WriteLine("selected4");
 
             string[] grossWeights = this.csvToArray(gross_weights_arr);
@@ -4289,7 +4475,56 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        public bool deleteCartonProductionVoucher(int voucherID)
+        {
+            //Get all carton_nos, batch_nos and batch_fiscal_years which were previously present
+            con.Open();
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Production_Arr, Batch_No_Arr, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year FROM Carton_Production_Voucher WHERE Voucher_ID='" + voucherID + "'", con);
+            DataTable old = new DataTable();
+            sda.Fill(old);
+            con.Close();
+            string old_carton_nos = old.Rows[0][0].ToString();
+            string[] old_batch_nos = this.csvToArray(old.Rows[0][1].ToString());
+            string[] old_batch_fiscal_years = this.csvToArray(old.Rows[0][2].ToString());
+            string carton_fiscal_year = old.Rows[0][3].ToString();
+            
+            //Remove cartons with state 1 in the old voucher
+            this.removeCarton(old_carton_nos.Substring(0, old_carton_nos.Length-1), carton_fiscal_year, "Carton_Produced");
 
+            //Remove old batches
+            for (int i = 0; i < old_batch_nos.Length; i++)
+            {
+                pair batch;
+                batch.batch_no = old_batch_nos[i];
+                batch.fiscal_year = old_batch_fiscal_years[i];
+                bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, DateTime.Now, true);
+                if (!flag)
+                {
+                    return false;
+                }
+            }
+
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "UPDATE Carton_Production_Voucher SET Deleted = 1 WHERE Voucher_ID = " + voucherID + "";
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not edit carton production voucher (editCartonProductionVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
         //Carton Produced
         public bool addProducedCarton(string carton_no, int state, string productionDate, string quality, string colour, string batch_nos, string dyeingCompany,  float cartonWeight, int numberOfCones, float cone_weight, float grossWeight, float netWeight, string carton_financialYear, string batch_fiscal_years, string grade)
         {

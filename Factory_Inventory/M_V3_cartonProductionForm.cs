@@ -67,9 +67,10 @@ namespace Factory_Inventory
         private List<string> batch_nos;
         private string[] tray_no_this, tray_id_this;
         private M_V_history v1_history;
-        private int voucherID;
+        private int voucher_id;
         private int batch_state;
         private int highest_carton_no;
+        private bool view_only = false;
         private List<string> batch_fiscal_year_list; //Stroes fiscal year of batches during edit only
         private List<string> show_batches; //Stores the batches in fiscal year format only during edit mode
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
@@ -329,14 +330,18 @@ namespace Factory_Inventory
             Console.WriteLine(isEditable.ToString());
             if (isEditable == false)
             {
+                this.saveButton.Text = "Delete Voucher";
+                this.saveButton.Enabled = true;
+                this.view_only = true;
                 this.inputDate.Enabled = false;
                 this.loadDataButton.Enabled = false;
-                this.saveButton.Enabled = false;
                 this.dataGridView1.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView2.Enabled = false;
                 this.dataGridView2.ReadOnly = true;
                 this.closedCheckboxCK.Enabled = false;
+                this.deleteToolStripMenuItem.Enabled = false;
+                this.deleteToolStripMenuItem1.Enabled = false;
             }
             else
             {
@@ -349,7 +354,7 @@ namespace Factory_Inventory
                 this.dataGridView2.ReadOnly = false;
             }
             this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-            this.voucherID = int.Parse(row["Voucher_ID"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             
             
 
@@ -358,7 +363,7 @@ namespace Factory_Inventory
             this.dyeingCompanyComboboxCB.SelectedIndex = this.dyeingCompanyComboboxCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
             this.financialYearComboboxCB.SelectedIndex = this.financialYearComboboxCB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
             this.coneComboboxCB.SelectedIndex = this.coneComboboxCB.FindStringExact((float.Parse(row["Cone_Weight"].ToString())*1000F).ToString());
-            this.voucherID = int.Parse(row["Voucher_ID"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
 
             if(row["Voucher_Closed"].ToString()=="0")
             {
@@ -400,6 +405,11 @@ namespace Factory_Inventory
                     //If any one carton in the voucher is sold, batch cannot be edited
                     this.dataGridView2.Enabled = false;
                     this.dataGridView2.ReadOnly = true;
+                    this.deleteToolStripMenuItem.Enabled = false;
+                    this.deleteToolStripMenuItem1.Enabled = false;
+                    this.label14.Text = "This voucher cannot be edited or deleted as some cartons have already been sold. Delete sale DO to edit it";
+                    this.label14.ForeColor = Color.Red;
+                    this.saveButton.Enabled = false;
                 }
             }
             this.cartonweight.Text = CellSum1(7).ToString("F3");
@@ -686,6 +696,11 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if(this.view_only==true)
+            {
+                this.delete_voucher();
+                return;
+            }
             //checks
             if (coneComboboxCB.SelectedIndex == 0)
             {
@@ -779,12 +794,33 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited=c.editCartonProductionVoucher(this.voucherID, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable);
+                bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable);
                 if (edited == true) disable_form_edit();
                 else return;
                 this.v1_history.loadData();
             }
         }
+
+        private void delete_voucher()
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteCartonProductionVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.edit_form == false)

@@ -45,8 +45,9 @@ namespace Factory_Inventory
         private bool edit_form = false;
         private List<string> do_no;
         private M_V_history v1_history;
-        private int voucherID;
+        private int voucher_id;
         private string tablename;
+        private bool view_only = false;
         Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
 
         public M_VC_addBill(string form)
@@ -200,6 +201,8 @@ namespace Factory_Inventory
             //if only in view mode
             if (isEditable == false)
             {
+                this.saveButton.Text = "Delete Voucher";
+                this.view_only = true;
                 this.typeCB.Enabled = false;
                 this.billDateDTP.Enabled = false;
                 this.financialYearCB.Enabled = false;
@@ -208,9 +211,9 @@ namespace Factory_Inventory
                 this.billWeightTB.Enabled = false;
                 this.billAmountTB.Enabled = false;
                 this.inputDate.Enabled = false;
-                this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
                 this.billNumberTextboxTB.Enabled = false;
+                this.dataGridView1.Enabled = false;
             }
             else
             {
@@ -225,7 +228,7 @@ namespace Factory_Inventory
             this.billDateDTP.Value = Convert.ToDateTime(row["Sale_Bill_Date"].ToString());
             this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality"].ToString());
             this.billNumberTextboxTB.Text = row["Sale_Bill_No"].ToString();
-            this.voucherID = int.Parse(row["Voucher_ID"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(row["DO_Fiscal_Year"].ToString());
             this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
             this.billWeightTB.Text = row["Sale_Bill_Weight"].ToString();
@@ -379,6 +382,11 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if(this.view_only==true)
+            {
+                this.delete_voucher();
+                return;
+            }
             //checks
             if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, 0, 1))
             {
@@ -438,7 +446,7 @@ namespace Factory_Inventory
             }
             if(this.edit_form==true)
             {
-                bool editbill = c.editSalesBillNosVoucher(this.voucherID, inputDate.Value, billDateDTP.Value,  do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
+                bool editbill = c.editSalesBillNosVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value,  do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
                 if (editbill == true)
                 {
                     disable_form_edit();
@@ -450,6 +458,25 @@ namespace Factory_Inventory
             {
                 bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
                 if (addbill == true) disable_form_edit();
+                return;
+            }
+        }
+        private void delete_voucher()
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteSalesBillNosVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
                 return;
             }
         }

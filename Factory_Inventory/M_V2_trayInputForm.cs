@@ -17,7 +17,7 @@ namespace Factory_Inventory
         DbConnect c;
         DataTable spring_table;
         M_V_history v1_history;
-        int Voucher_ID, state, tray_id;
+        int voucher_id, state, tray_id;
         bool edit_form, redyeing=false;
         string old_tray_no;
         public int dummyint = 0;
@@ -173,16 +173,23 @@ namespace Factory_Inventory
             if (this.state == -1)
             {
                 label1.Text = "Tray Has Been Processed \nTray Number may now be in\nuse in another Voucher";
+                label1.ForeColor = Color.Red;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = false;
                 isEditable = false;
             }
             else if (this.state == 2)
             {
                 label1.Text = "Voucher is not editable \nTray has been sent for dyeing";
+                label1.ForeColor = Color.Red;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = false;
                 isEditable = false;
             }
             
             if (isEditable == false)
             {
+                this.deleteButton.Visible = true;
                 this.dateTimePickerDTP.Enabled = false;
                 this.qualityCB.Enabled = false;
                 this.companyNameCB.Enabled = false;
@@ -214,7 +221,7 @@ namespace Factory_Inventory
             this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality"].ToString());
             this.companyNameCB.SelectedIndex = this.companyNameCB.FindStringExact(row["Company_Name"].ToString());
             this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(row["Machine_No"].ToString());
-            this.Voucher_ID = int.Parse(row["Voucher_ID"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             this.numberOfSpringsTB.Text = row["Number_Of_Springs"].ToString();
             this.traytareTB.Text = row["Tray_Tare"].ToString();
             this.grossWeightTB.Text = row["Gross_Weight"].ToString();
@@ -481,7 +488,7 @@ namespace Factory_Inventory
                 else
                 {
                     bool edited = false;
-                    edited = c.editTrayVoucher(this.Voucher_ID, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text);
+                    edited = c.editTrayVoucher(this.voucher_id, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text);
                     if (edited == true)
                     {
                         disable_form_edit();
@@ -617,6 +624,25 @@ namespace Factory_Inventory
         private void M_V2_trayInputForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.closed = true;
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteTrayVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.deleteButton.Enabled = false;
+                    v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
         }
         private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -59,6 +59,7 @@
             this.springWeightTB = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -165,7 +166,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(367, 396);
+            this.addButton.Location = new System.Drawing.Point(376, 387);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(101, 51);
             this.addButton.TabIndex = 17;
@@ -324,11 +325,23 @@
             this.label14.TabIndex = 0;
             this.label14.Text = "g";
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(543, 387);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(101, 51);
+            this.deleteButton.TabIndex = 1003;
+            this.deleteButton.Text = "Delete Voucher";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.springWeightTB);
             this.Controls.Add(this.label13);
@@ -399,5 +412,6 @@
         private System.Windows.Forms.TextBox springWeightTB;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button deleteButton;
     }
 }
