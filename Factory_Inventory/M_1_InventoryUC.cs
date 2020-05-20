@@ -41,34 +41,15 @@ namespace Factory_Inventory
             //voucherInput1UC1.BringToFront();
         }
 
-        private void editCNameQualityButton_Click(object sender, EventArgs e)
+        private void tablesButton_Click(object sender, EventArgs e)
         {
-            M_V_AddEditDropDowns f = new M_V_AddEditDropDowns();
+
+        }
+
+        private void fromtoButton_Click(object sender, EventArgs e)
+        {
+            M_I1_FromToDate f = new M_I1_FromToDate();
             f.Show();
-        }
-
-        private void voucherInput1UC1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void trayProductionButton_Click(object sender, EventArgs e)
-        {
-            hide_all_UCs();
-            //m_V2_voucherInput2UC1.Show();
-            //m_V2_voucherInput2UC1.BringToFront();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            hide_all_UCs();
-            //m_V3_voucherInput3UC1.Show();
-            //m_V3_voucherInput3UC1.BringToFront();
-        }
-
-        private void m_V3_voucherInput3UC1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

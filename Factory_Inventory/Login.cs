@@ -51,12 +51,9 @@ namespace Factory_Inventory
             }
             this.c = new DbConnect();
             this.access=this.c.checkLogin(textBox1.Text, textBox2.Text);
-            if(this.access==1)
-            {
-                this.username = textBox1.Text;
-                this.close_from_code = true;
-                this.Close();
-            }
+            this.username = textBox1.Text;
+            this.close_from_code = true;
+            this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)

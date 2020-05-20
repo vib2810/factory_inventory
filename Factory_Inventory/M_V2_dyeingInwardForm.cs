@@ -124,20 +124,24 @@ namespace Factory_Inventory
 
                 this.billcheckBoxCK.Enabled = false;
                 this.billcheckBoxCK.Checked = false;
-                this.billNumberTextboxTB.Enabled = true;
-                this.inwardDateDTP.Visible = false;
-                this.label1.Visible = false;
-
-                this.label7.Visible = true;
-                this.label7.Location = new System.Drawing.Point(24, 74);
-                this.billNumberTextboxTB.Visible = true;
-                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
-                this.billDateDTP.Visible = true;
-                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
-                this.label2.Visible = true;
-                this.label2.Location = new System.Drawing.Point(24, 120);
                 this.billcheckBoxCK.Visible = true;
                 this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
+
+                this.billNumberTextboxTB.Visible = true;
+                this.billNumberTextboxTB.Enabled = true;
+                this.billNumberTextboxTB.ReadOnly = false;
+                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
+
+                this.billDateDTP.Visible = true;
+                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
+                this.billDateDTP.Enabled = true;
+
+                this.inwardDateDTP.Visible = false;
+                this.label1.Visible = false;
+                this.label7.Visible = true;
+                this.label7.Location = new System.Drawing.Point(24, 74);
+                this.label2.Visible = true;
+                this.label2.Location = new System.Drawing.Point(24, 120);
                 this.saveButton.Enabled = false;
 
                 //Create drop-down Dyeing Company lists
@@ -359,25 +363,25 @@ namespace Factory_Inventory
                 //graphics placement
                 this.billcheckBoxCK.Enabled = false;
                 this.billcheckBoxCK.Checked = false;
-                this.billNumberTextboxTB.Enabled = true;
-                this.billNumberTextboxTB.Visible = true;
-                this.inwardDateDTP.Visible = false;
-                
-                this.label1.Visible = false;
-                this.dyeingCompanyCB.Enabled = false;
-                this.loadBatchButton.Enabled = false;
-                this.comboBox3CB.Enabled = false;
-
-                this.label7.Visible= true;
-                this.label7.Location = new System.Drawing.Point(24, 74);
-                this.billNumberTextboxTB.Visible= true;
-                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
-                this.billDateDTP.Visible= true;
-                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
-                this.label2.Visible=true;
-                this.label2.Location = new System.Drawing.Point(24, 120);
                 this.billcheckBoxCK.Visible = true;
                 this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
+
+                this.billNumberTextboxTB.Visible = true;
+                this.billNumberTextboxTB.Enabled = true;
+                this.billNumberTextboxTB.ReadOnly = false;
+                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
+
+                this.billDateDTP.Visible = true;
+                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
+                this.billDateDTP.Enabled = true;
+
+                this.inwardDateDTP.Visible = false;
+                this.label1.Visible = false;
+                this.label7.Visible = true;
+                this.label7.Location = new System.Drawing.Point(24, 74);
+                this.label2.Visible = true;
+                this.label2.Location = new System.Drawing.Point(24, 120);
+                this.saveButton.Enabled = false;
 
                 //DatagridView make
                 dataGridView1.Columns.Add("Sl_No", "Sl_No");
@@ -434,6 +438,8 @@ namespace Factory_Inventory
                 if (isEditable == false)
                 {
                     disable_form_edit();
+                    this.deleteButton.Visible = true;
+                    this.deleteButton.Enabled = true;
                 }
 
                 //Fill in required values
@@ -477,7 +483,7 @@ namespace Factory_Inventory
             this.loadBatchButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;
-            this.billNumberTextboxTB.Enabled = false;
+            this.billNumberTextboxTB.ReadOnly = true;
             this.billDateDTP.Enabled = false;
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -922,7 +928,15 @@ namespace Factory_Inventory
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                bool deleted = c.deleteDyeingInwardVoucher(this.voucherID);
+                bool deleted;
+                if(this.addBill==true)
+                {
+                    deleted = c.deleteBillNosVoucher(this.voucherID);
+                }
+                else
+                {
+                    deleted = c.deleteDyeingInwardVoucher(this.voucherID);
+                }
                 if (deleted == true)
                 {
                     this.deleteButton.Enabled = false;

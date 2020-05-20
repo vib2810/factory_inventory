@@ -19,6 +19,11 @@ namespace Factory_Inventory
             InitializeComponent();
             this.c = new DbConnect();
             hide_all_UCs();
+            Console.WriteLine("Access is :" + Global.access);
+            if (Global.access == 2)
+            {
+                this.editCNameQualityButton.Visible = false;
+            }
         }
         private void hide_all_UCs()
         {

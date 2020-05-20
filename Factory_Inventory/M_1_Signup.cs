@@ -12,10 +12,10 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_Signup : Form
+    public partial class M_1_Signup : Form
     {
         public DbConnect c;
-        public M_Signup(DbConnect input)
+        public M_1_Signup(DbConnect input)
         {
             this.c = input;
             InitializeComponent();
