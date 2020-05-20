@@ -61,7 +61,7 @@ namespace Factory_Inventory
             this.newUser.Location = new System.Drawing.Point(704, 406);
             this.newUser.Name = "newUser";
             this.newUser.Size = new System.Drawing.Size(111, 66);
-            this.newUser.TabIndex = 7;
+            this.newUser.TabIndex = 8;
             this.newUser.Text = "Create New User";
             this.newUser.UseVisualStyleBackColor = true;
             this.newUser.Click += new System.EventHandler(this.newUser_Click);
@@ -101,7 +101,7 @@ namespace Factory_Inventory
             this.UsersButton.Location = new System.Drawing.Point(704, 334);
             this.UsersButton.Name = "UsersButton";
             this.UsersButton.Size = new System.Drawing.Size(111, 66);
-            this.UsersButton.TabIndex = 6;
+            this.UsersButton.TabIndex = 7;
             this.UsersButton.Text = "Manage Users";
             this.UsersButton.UseVisualStyleBackColor = true;
             this.UsersButton.Click += new System.EventHandler(this.UsersButton_Click_1);
@@ -122,7 +122,7 @@ namespace Factory_Inventory
             this.backupRestoreButton.Location = new System.Drawing.Point(704, 221);
             this.backupRestoreButton.Name = "backupRestoreButton";
             this.backupRestoreButton.Size = new System.Drawing.Size(111, 46);
-            this.backupRestoreButton.TabIndex = 11;
+            this.backupRestoreButton.TabIndex = 6;
             this.backupRestoreButton.Text = "Backup and Restore";
             this.backupRestoreButton.UseVisualStyleBackColor = true;
             this.backupRestoreButton.Click += new System.EventHandler(this.backupRestoreButton_Click);

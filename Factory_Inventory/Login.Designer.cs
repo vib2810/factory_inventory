@@ -53,7 +53,7 @@
             this.label2.Location = new System.Drawing.Point(95, 184);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 17);
-            this.label2.TabIndex = 1;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Password";
             // 
             // textBox1
@@ -61,7 +61,7 @@
             this.textBox1.Location = new System.Drawing.Point(197, 130);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 2;
+            this.textBox1.TabIndex = 1;
             // 
             // textBox2
             // 
@@ -76,7 +76,7 @@
             this.button1.Location = new System.Drawing.Point(98, 227);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
+            this.button1.TabIndex = 5;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -86,7 +86,7 @@
             this.iptextbox.Location = new System.Drawing.Point(172, 301);
             this.iptextbox.Name = "iptextbox";
             this.iptextbox.Size = new System.Drawing.Size(146, 22);
-            this.iptextbox.TabIndex = 5;
+            this.iptextbox.TabIndex = 7;
             this.iptextbox.Text = "Default";
             // 
             // label3
@@ -95,7 +95,7 @@
             this.label3.Location = new System.Drawing.Point(52, 304);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 17);
-            this.label3.TabIndex = 6;
+            this.label3.TabIndex = 0;
             this.label3.Text = "Custon Server IP";
             // 
             // Login
@@ -112,6 +112,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Login";
             this.Text = "Factory Inventory - Login";
+            this.Load += new System.EventHandler(this.Login_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

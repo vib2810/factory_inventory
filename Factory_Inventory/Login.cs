@@ -81,5 +81,26 @@ namespace Factory_Inventory
                 Environment.Exit(0);
             }
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+            
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                c.buttonEvent(button);
+            }
+        }
     }
 }
