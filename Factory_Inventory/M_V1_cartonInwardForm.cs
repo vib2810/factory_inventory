@@ -705,6 +705,10 @@ namespace Factory_Inventory
             }
 
             this.billDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
         }
         private void lockCartonsCK_CheckedChanged(object sender, EventArgs e)
         {

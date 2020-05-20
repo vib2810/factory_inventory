@@ -700,6 +700,10 @@ namespace Factory_Inventory
             }
 
             this.issueDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
         }
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {

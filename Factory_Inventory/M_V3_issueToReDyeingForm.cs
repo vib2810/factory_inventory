@@ -212,6 +212,10 @@ namespace Factory_Inventory
             }
 
             this.issueDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
         }
         private void load_batch()
         {

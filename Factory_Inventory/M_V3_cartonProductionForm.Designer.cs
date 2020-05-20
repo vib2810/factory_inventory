@@ -64,6 +64,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.deleteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -81,7 +82,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(845, 653);
+            this.dataGridView1.Size = new System.Drawing.Size(845, 731);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
@@ -109,7 +110,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(13, 603);
+            this.saveButton.Location = new System.Drawing.Point(14, 659);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(211, 47);
             this.saveButton.TabIndex = 15;
@@ -285,7 +286,7 @@
             // closedCheckboxCK
             // 
             this.closedCheckboxCK.AutoSize = true;
-            this.closedCheckboxCK.Location = new System.Drawing.Point(244, 629);
+            this.closedCheckboxCK.Location = new System.Drawing.Point(244, 685);
             this.closedCheckboxCK.Name = "closedCheckboxCK";
             this.closedCheckboxCK.Size = new System.Drawing.Size(128, 21);
             this.closedCheckboxCK.TabIndex = 0;
@@ -316,7 +317,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(1203, 670);
+            this.label12.Location = new System.Drawing.Point(1203, 744);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(26, 20);
             this.label12.TabIndex = 0;
@@ -325,7 +326,7 @@
             // cartonweight
             // 
             this.cartonweight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cartonweight.Location = new System.Drawing.Point(976, 663);
+            this.cartonweight.Location = new System.Drawing.Point(976, 737);
             this.cartonweight.Name = "cartonweight";
             this.cartonweight.ReadOnly = true;
             this.cartonweight.Size = new System.Drawing.Size(221, 27);
@@ -337,7 +338,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(839, 667);
+            this.label13.Location = new System.Drawing.Point(839, 741);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(134, 20);
             this.label13.TabIndex = 0;
@@ -363,10 +364,10 @@
             // oilGainTextbox
             // 
             this.oilGainTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oilGainTextbox.Location = new System.Drawing.Point(90, 663);
+            this.oilGainTextbox.Location = new System.Drawing.Point(90, 729);
             this.oilGainTextbox.Name = "oilGainTextbox";
             this.oilGainTextbox.ReadOnly = true;
-            this.oilGainTextbox.Size = new System.Drawing.Size(292, 27);
+            this.oilGainTextbox.Size = new System.Drawing.Size(166, 27);
             this.oilGainTextbox.TabIndex = 0;
             this.oilGainTextbox.TabStop = false;
             // 
@@ -374,7 +375,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 670);
+            this.label1.Location = new System.Drawing.Point(12, 736);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 20);
             this.label1.TabIndex = 0;
@@ -384,7 +385,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(384, 667);
+            this.label10.Location = new System.Drawing.Point(262, 736);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 20);
             this.label10.TabIndex = 0;
@@ -399,11 +400,24 @@
             this.label14.Size = new System.Drawing.Size(0, 25);
             this.label14.TabIndex = 0;
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(14, 606);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(211, 47);
+            this.deleteButton.TabIndex = 0;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete Voucher";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // M_V3_cartonProductionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1232, 748);
+            this.ClientSize = new System.Drawing.Size(1232, 768);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.oilGainTextbox);
@@ -483,5 +497,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button deleteButton;
     }
 }

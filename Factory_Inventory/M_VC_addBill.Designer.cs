@@ -61,6 +61,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.deleteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -104,7 +105,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(65, 450);
+            this.saveButton.Location = new System.Drawing.Point(65, 528);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(111, 64);
             this.saveButton.TabIndex = 15;
@@ -271,7 +272,7 @@
             // 
             // netDOAmountTB
             // 
-            this.netDOAmountTB.Location = new System.Drawing.Point(20, 583);
+            this.netDOAmountTB.Location = new System.Drawing.Point(20, 661);
             this.netDOAmountTB.Name = "netDOAmountTB";
             this.netDOAmountTB.ReadOnly = true;
             this.netDOAmountTB.Size = new System.Drawing.Size(179, 22);
@@ -281,7 +282,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 563);
+            this.label5.Location = new System.Drawing.Point(20, 641);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(107, 17);
             this.label5.TabIndex = 0;
@@ -289,7 +290,7 @@
             // 
             // netDOWeightTB
             // 
-            this.netDOWeightTB.Location = new System.Drawing.Point(20, 538);
+            this.netDOWeightTB.Location = new System.Drawing.Point(20, 616);
             this.netDOWeightTB.Name = "netDOWeightTB";
             this.netDOWeightTB.ReadOnly = true;
             this.netDOWeightTB.Size = new System.Drawing.Size(179, 22);
@@ -299,7 +300,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(20, 518);
+            this.label8.Location = new System.Drawing.Point(20, 596);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(103, 17);
             this.label8.TabIndex = 0;
@@ -317,7 +318,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 586);
+            this.label10.Location = new System.Drawing.Point(3, 664);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(16, 17);
             this.label10.TabIndex = 0;
@@ -335,17 +336,30 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(201, 541);
+            this.label12.Location = new System.Drawing.Point(201, 619);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(23, 17);
             this.label12.TabIndex = 0;
             this.label12.Text = "kg";
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(65, 458);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(111, 64);
+            this.deleteButton.TabIndex = 0;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete Voucher";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // M_VC_addBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 611);
+            this.ClientSize = new System.Drawing.Size(1077, 688);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -419,5 +433,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button deleteButton;
     }
 }

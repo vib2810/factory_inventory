@@ -330,8 +330,8 @@ namespace Factory_Inventory
             Console.WriteLine(isEditable.ToString());
             if (isEditable == false)
             {
-                this.saveButton.Text = "Delete Voucher";
-                this.saveButton.Enabled = true;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
                 this.view_only = true;
                 this.inputDate.Enabled = false;
                 this.loadDataButton.Enabled = false;
@@ -355,8 +355,6 @@ namespace Factory_Inventory
             }
             this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
-            
-            
 
             this.colourComboboxCB.SelectedIndex = this.colourComboboxCB.FindStringExact(row["Colour"].ToString());
             this.qualityComboboxCB.SelectedIndex = this.qualityComboboxCB.FindStringExact(row["Quality"].ToString());
@@ -409,11 +407,11 @@ namespace Factory_Inventory
                     this.deleteToolStripMenuItem1.Enabled = false;
                     this.label14.Text = "This voucher cannot be edited or deleted as some cartons have already been sold. Delete sale DO to edit it";
                     this.label14.ForeColor = Color.Red;
-                    this.saveButton.Enabled = false;
+                    this.deleteButton.Enabled = false;
                 }
             }
             this.cartonweight.Text = CellSum1(7).ToString("F3");
-
+            
             //Adding batch numbers to datagridview 2
             string[] temp_batch_no_arr = c.csvToArray(row["Batch_No_Arr"].ToString());
             string[] batch_fiscal_year_arr = c.csvToArray(row["Batch_Fiscal_year_Arr"].ToString());
@@ -696,11 +694,6 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if(this.view_only==true)
-            {
-                this.delete_voucher();
-                return;
-            }
             //checks
             if (coneComboboxCB.SelectedIndex == 0)
             {
@@ -800,27 +793,6 @@ namespace Factory_Inventory
                 this.v1_history.loadData();
             }
         }
-
-        private void delete_voucher()
-        {
-            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                bool deleted = c.deleteCartonProductionVoucher(this.voucher_id);
-                if (deleted == true)
-                {
-                    c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
-                    this.v1_history.loadData();
-                }
-                else return;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                return;
-            }
-        }
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.edit_form == false)
@@ -1179,6 +1151,10 @@ namespace Factory_Inventory
             }
 
             this.colourComboboxCB.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
         }
         private void coneCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1274,7 +1250,6 @@ namespace Factory_Inventory
         {
             this.oilGainButton_Calculate();
         }
-
         private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter &&
@@ -1286,6 +1261,25 @@ namespace Factory_Inventory
                 SendKeys.Send("{down}");
                 SendKeys.Send("{up}");
                 e.Handled = true;
+            }
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteCartonProductionVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
             }
         }
         private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)

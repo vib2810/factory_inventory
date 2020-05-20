@@ -201,8 +201,9 @@ namespace Factory_Inventory
             //if only in view mode
             if (isEditable == false)
             {
-                this.saveButton.Text = "Delete Voucher";
-                this.view_only = true;
+                this.saveButton.Enabled = false;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
                 this.typeCB.Enabled = false;
                 this.billDateDTP.Enabled = false;
                 this.financialYearCB.Enabled = false;
@@ -382,11 +383,6 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if(this.view_only==true)
-            {
-                this.delete_voucher();
-                return;
-            }
             //checks
             if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, 0, 1))
             {
@@ -461,25 +457,7 @@ namespace Factory_Inventory
                 return;
             }
         }
-        private void delete_voucher()
-        {
-            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                bool deleted = c.deleteSalesBillNosVoucher(this.voucher_id);
-                if (deleted == true)
-                {
-                    c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
-                    this.v1_history.loadData();
-                }
-                else return;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                return;
-            }
-        }
+        
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count = dataGridView1.SelectedRows.Count;
@@ -612,6 +590,30 @@ namespace Factory_Inventory
             }
 
             this.billDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteSalesBillNosVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
         }
     }
 }

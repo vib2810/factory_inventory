@@ -270,7 +270,9 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
-                this.saveButton.Text = "Delete Voucher";
+                this.saveButton.Enabled = false;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
                 this.view_only = true;
                 this.saleDateDTP.Enabled = false;
                 this.comboBox1CB.Enabled = false;
@@ -460,11 +462,6 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if(this.view_only==true)
-            {
-                this.delete_voucher();
-                return;
-            }
             //checks
             if(typeCB.SelectedIndex==0)
             {
@@ -574,27 +571,6 @@ namespace Factory_Inventory
                 }
             }
         }
-
-        private void delete_voucher()
-        {
-            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                bool deleted = c.deleteSalesVoucher(this.voucher_id);
-                if (deleted == true)
-                {
-                    c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
-                    this.v1_history.loadData();
-                }
-                else return;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                return;
-            }
-        }
-
         public void disable_form_edit()
         {
             this.saleDateDTP.Enabled = false;
@@ -732,6 +708,10 @@ namespace Factory_Inventory
             }
 
             this.saleDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
         }
         private void amountTB_Value()
         {
@@ -777,6 +757,25 @@ namespace Factory_Inventory
             else
             {
                 this.saleDONoTB.Text = "";
+            }
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteSalesVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
             }
         }
     }

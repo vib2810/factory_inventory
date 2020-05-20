@@ -620,6 +620,10 @@ namespace Factory_Inventory
             }
 
             this.dateTimePickerDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
         }
         private void M_V2_trayInputForm_FormClosing(object sender, FormClosingEventArgs e)
         {
