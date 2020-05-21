@@ -615,7 +615,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Display_Carton_Produced";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Display_Carton_Produced";
+            this.Text = "Carton Produced Details";
             this.Load += new System.EventHandler(this.Display_Carton_Produced_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

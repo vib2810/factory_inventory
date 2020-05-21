@@ -344,7 +344,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "M_V1_cartonInwardForm";
-            this.Text = "cartoonInwardForm";
+            this.Text = "Voucher - Carton Inward";
             this.Load += new System.EventHandler(this.M_V1_cartonInwardForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

@@ -448,7 +448,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.saveButton);
             this.Name = "M_V3_cartonProductionForm";
-            this.Text = "M_V3_cartoonProductionForm";
+            this.Text = "Voucher - Carton Production";
             this.Load += new System.EventHandler(this.M_V3_cartonProductionForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

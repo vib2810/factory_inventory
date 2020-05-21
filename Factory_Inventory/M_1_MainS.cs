@@ -141,6 +141,7 @@ namespace Factory_Inventory
             this.decolour_all_buttons();
             this.vouchersButton.BackColor = select;
             this.last_clicked = this.vouchersButton;
+            this.Text = "Factory Inventory - Home - Vouchers";
         }
         private void inventoryButton_Click_1(object sender, EventArgs e)
         {
@@ -151,6 +152,7 @@ namespace Factory_Inventory
             this.decolour_all_buttons();
             this.inventoryButton.BackColor = select;
             this.last_clicked = this.inventoryButton;
+            this.Text = "Factory Inventory - Home - Inventory";
         }
         private void UsersButton_Click_1(object sender, EventArgs e)
         {
@@ -162,6 +164,7 @@ namespace Factory_Inventory
             this.decolour_all_buttons();
             this.UsersButton.BackColor = select;
             this.last_clicked = this.UsersButton;
+            this.Text = "Factory Inventory - Home - Manage Users";
         }
         private void loginLogButton_Click(object sender, EventArgs e)
         {
@@ -173,6 +176,7 @@ namespace Factory_Inventory
             this.decolour_all_buttons();
             this.loginLogButton.BackColor = select;
             this.last_clicked = this.loginLogButton;
+            this.Text = "Factory Inventory - Home - Login Log";
         }
         private void backupRestoreButton_Click(object sender, EventArgs e)
         {
@@ -183,6 +187,7 @@ namespace Factory_Inventory
             this.decolour_all_buttons();
             this.backupRestoreButton.BackColor = select;
             this.last_clicked = this.backupRestoreButton;
+            this.Text = "Factory Inventory - Home - Backup and Restore";
         }
     }
 }

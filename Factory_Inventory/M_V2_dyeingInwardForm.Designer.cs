@@ -304,7 +304,7 @@
             this.Controls.Add(this.inwardDateDTP);
             this.Controls.Add(this.label1);
             this.Name = "M_V2_dyeingInwardForm";
-            this.Text = "M_V2_dyeingInwardForm";
+            this.Text = "Voucher - Dyeing Inward";
             this.Load += new System.EventHandler(this.M_V2_dyeingInwardForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

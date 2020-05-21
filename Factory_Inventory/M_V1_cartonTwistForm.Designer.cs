@@ -253,7 +253,7 @@
             this.Controls.Add(this.comboBox1CB);
             this.Controls.Add(this.label2);
             this.Name = "M_V1_cartonTwistForm";
-            this.Text = "M_V1_cartoonTwistForm";
+            this.Text = "Voucher - Twist";
             this.Load += new System.EventHandler(this.M_V1_cartonTwistForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

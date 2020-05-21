@@ -106,7 +106,7 @@
             this.editCNameQualityButton.Name = "editCNameQualityButton";
             this.editCNameQualityButton.Size = new System.Drawing.Size(97, 66);
             this.editCNameQualityButton.TabIndex = 7;
-            this.editCNameQualityButton.Text = "Add/Edit Drop Downs";
+            this.editCNameQualityButton.Text = "Add/Edit Fixed Details";
             this.editCNameQualityButton.UseVisualStyleBackColor = false;
             this.editCNameQualityButton.Click += new System.EventHandler(this.editCNameQualityButton_Click);
             // 

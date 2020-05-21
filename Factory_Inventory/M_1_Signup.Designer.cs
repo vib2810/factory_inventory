@@ -147,7 +147,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "M_1_Signup";
-            this.Text = "Factory Inventory - Add User";
+            this.Text = "Factory Inventory - Signup";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.M_1_Signup_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);

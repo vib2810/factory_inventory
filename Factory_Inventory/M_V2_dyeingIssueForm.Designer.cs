@@ -329,7 +329,7 @@
             this.Controls.Add(this.comboBox1CB);
             this.Controls.Add(this.label2);
             this.Name = "M_V2_dyeingIssueForm";
-            this.Text = "M_V2_dyeingIssueForm";
+            this.Text = "Voucher - Issue to Dyeing";
             this.Load += new System.EventHandler(this.M_V2_dyeingIssueForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

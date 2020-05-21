@@ -515,7 +515,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Display_Tray";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Display_Tray";
+            this.Text = "Tray Details";
             this.ResumeLayout(false);
             this.PerformLayout();
 

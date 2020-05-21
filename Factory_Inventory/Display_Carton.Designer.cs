@@ -383,7 +383,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Display_Carton";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Display_Carton";
+            this.Text = "Carton Details";
             this.ResumeLayout(false);
             this.PerformLayout();
 

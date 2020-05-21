@@ -42,48 +42,52 @@
             this.editDyeingCompany1 = new Factory_Inventory.editDyeingCompany();
             this.editCone1 = new Factory_Inventory.editCone();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button1 = new System.Windows.Forms.Button();
+            this.conesButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // editQualityButton
             // 
-            this.editQualityButton.Location = new System.Drawing.Point(757, 48);
+            this.editQualityButton.BackColor = System.Drawing.Color.DarkGray;
+            this.editQualityButton.Location = new System.Drawing.Point(757, 37);
             this.editQualityButton.Name = "editQualityButton";
-            this.editQualityButton.Size = new System.Drawing.Size(99, 29);
+            this.editQualityButton.Size = new System.Drawing.Size(99, 48);
             this.editQualityButton.TabIndex = 1;
             this.editQualityButton.Text = "Quality";
-            this.editQualityButton.UseVisualStyleBackColor = true;
+            this.editQualityButton.UseVisualStyleBackColor = false;
             this.editQualityButton.Click += new System.EventHandler(this.editQualityButton_Click);
             // 
             // editCNameButton
             // 
-            this.editCNameButton.Location = new System.Drawing.Point(757, 95);
+            this.editCNameButton.BackColor = System.Drawing.Color.DarkGray;
+            this.editCNameButton.Location = new System.Drawing.Point(757, 91);
             this.editCNameButton.Name = "editCNameButton";
             this.editCNameButton.Size = new System.Drawing.Size(99, 48);
             this.editCNameButton.TabIndex = 2;
             this.editCNameButton.Text = "Company Name";
-            this.editCNameButton.UseVisualStyleBackColor = true;
+            this.editCNameButton.UseVisualStyleBackColor = false;
             this.editCNameButton.Click += new System.EventHandler(this.editCNameButton_Click);
             // 
             // customerButton
             // 
-            this.customerButton.Location = new System.Drawing.Point(757, 158);
+            this.customerButton.BackColor = System.Drawing.Color.DarkGray;
+            this.customerButton.Location = new System.Drawing.Point(757, 145);
             this.customerButton.Name = "customerButton";
-            this.customerButton.Size = new System.Drawing.Size(99, 29);
+            this.customerButton.Size = new System.Drawing.Size(99, 48);
             this.customerButton.TabIndex = 5;
             this.customerButton.Text = "Customers";
-            this.customerButton.UseVisualStyleBackColor = true;
+            this.customerButton.UseVisualStyleBackColor = false;
             this.customerButton.Click += new System.EventHandler(this.customerButton_Click);
             // 
             // springButton
             // 
-            this.springButton.Location = new System.Drawing.Point(757, 203);
+            this.springButton.BackColor = System.Drawing.Color.DarkGray;
+            this.springButton.Location = new System.Drawing.Point(757, 199);
             this.springButton.Name = "springButton";
-            this.springButton.Size = new System.Drawing.Size(99, 29);
+            this.springButton.Size = new System.Drawing.Size(99, 48);
             this.springButton.TabIndex = 7;
             this.springButton.Text = "Spring";
-            this.springButton.UseVisualStyleBackColor = true;
+            this.springButton.UseVisualStyleBackColor = false;
             this.springButton.Click += new System.EventHandler(this.springButton_Click);
             // 
             // editCustomer1
@@ -106,7 +110,6 @@
             this.editQuality1.Name = "editQuality1";
             this.editQuality1.Size = new System.Drawing.Size(721, 506);
             this.editQuality1.TabIndex = 3;
-            this.editQuality1.Load += new System.EventHandler(this.editQuality1_Load);
             // 
             // editSpring1
             // 
@@ -117,22 +120,24 @@
             // 
             // dyeingCompanyButton
             // 
-            this.dyeingCompanyButton.Location = new System.Drawing.Point(757, 295);
+            this.dyeingCompanyButton.BackColor = System.Drawing.Color.DarkGray;
+            this.dyeingCompanyButton.Location = new System.Drawing.Point(757, 307);
             this.dyeingCompanyButton.Name = "dyeingCompanyButton";
             this.dyeingCompanyButton.Size = new System.Drawing.Size(99, 48);
             this.dyeingCompanyButton.TabIndex = 9;
             this.dyeingCompanyButton.Text = "Dyeing Company";
-            this.dyeingCompanyButton.UseVisualStyleBackColor = true;
+            this.dyeingCompanyButton.UseVisualStyleBackColor = false;
             this.dyeingCompanyButton.Click += new System.EventHandler(this.dyeingCompanyButton_Click);
             // 
             // colourButton
             // 
-            this.colourButton.Location = new System.Drawing.Point(757, 248);
+            this.colourButton.BackColor = System.Drawing.Color.DarkGray;
+            this.colourButton.Location = new System.Drawing.Point(757, 253);
             this.colourButton.Name = "colourButton";
-            this.colourButton.Size = new System.Drawing.Size(99, 29);
+            this.colourButton.Size = new System.Drawing.Size(99, 48);
             this.colourButton.TabIndex = 10;
             this.colourButton.Text = "Colour";
-            this.colourButton.UseVisualStyleBackColor = true;
+            this.colourButton.UseVisualStyleBackColor = false;
             this.colourButton.Click += new System.EventHandler(this.colourButton_Click);
             // 
             // editColour1
@@ -156,15 +161,16 @@
             this.editCone1.Size = new System.Drawing.Size(721, 506);
             this.editCone1.TabIndex = 13;
             // 
-            // button1
+            // conesButton
             // 
-            this.button1.Location = new System.Drawing.Point(757, 362);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 29);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Cones";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.conesButton.BackColor = System.Drawing.Color.DarkGray;
+            this.conesButton.Location = new System.Drawing.Point(757, 361);
+            this.conesButton.Name = "conesButton";
+            this.conesButton.Size = new System.Drawing.Size(99, 48);
+            this.conesButton.TabIndex = 14;
+            this.conesButton.Text = "Cones";
+            this.conesButton.UseVisualStyleBackColor = false;
+            this.conesButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -182,7 +188,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 503);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.conesButton);
             this.Controls.Add(this.editCone1);
             this.Controls.Add(this.editDyeingCompany1);
             this.Controls.Add(this.editColour1);
@@ -197,7 +203,7 @@
             this.Controls.Add(this.editCNameButton);
             this.Controls.Add(this.editQualityButton);
             this.Name = "M_V_AddEditDropDowns";
-            this.Text = "M_V_AddEditDropDowns";
+            this.Text = "Factory Inventory - Vouchers - Add/Edit Fixed Details";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,7 +225,7 @@
         private editDyeingCompany editDyeingCompany1;
         private editCone editCone1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button conesButton;
         private System.Windows.Forms.Label label1;
     }
 }

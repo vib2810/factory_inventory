@@ -329,7 +329,7 @@
             this.Controls.Add(this.label1);
             this.Name = "M_V4_printCartonSlip";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "M_V4_printCartonSlip";
+            this.Text = "Print - Carton Slip";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();

@@ -389,7 +389,7 @@
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label1);
             this.Name = "M_VC_addBill";
-            this.Text = "M_VC_addBill";
+            this.Text = "Voucher - DO Bill";
             this.Load += new System.EventHandler(this.M_V2_dyeingInwardForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

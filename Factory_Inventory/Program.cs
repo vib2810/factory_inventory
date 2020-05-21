@@ -30,16 +30,19 @@ namespace Factory_Inventory
             {
                 Login f1 = new Login();
                 Application.Run(f1);
-                c = new DbConnect();
-                c.recordLogin(f1.username);
-                Console.WriteLine(Global.ipaddress);
-                M_1_MainS ms = new M_1_MainS(c, f1.username, f1.access);
-                Application.Run(ms);
-                if (ms.logout == true)
+                if (f1.access == 1 || f1.access == 2)
                 {
-                    c.recordLogout(f1.username);
-                    ms.closeAllForms();
-                    continue;
+                    c = new DbConnect();
+                    c.recordLogin(f1.username);
+                    Console.WriteLine(Global.ipaddress);
+                    M_1_MainS ms = new M_1_MainS(c, f1.username, f1.access);
+                    Application.Run(ms);
+                    if (ms.logout == true)
+                    {
+                        c.recordLogout(f1.username);
+                        ms.closeAllForms();
+                        continue;
+                    }
                 }
             }
         }

@@ -515,7 +515,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Display_Batch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Display_Batch";
+            this.Text = "Batch Details";
             this.ResumeLayout(false);
             this.PerformLayout();
 

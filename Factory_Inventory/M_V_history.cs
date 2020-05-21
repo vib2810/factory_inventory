@@ -142,6 +142,49 @@ namespace Factory_Inventory
                 }
             }
         }
+        private void M_V_history_Load(object sender, EventArgs e)
+        {
+            switch (vno)
+            {
+                case 1:
+                    this.Text = "History - Carton Inward";
+                    break;
+                case 2:
+                    this.Text = "History - Carton Twist";
+                    break;
+                case 3:
+                    this.Text = "History - Grey Carton Sale";
+                    break;
+                case 4:
+                    this.Text = "History - Tray Production";
+                    break;
+                case 5:
+                    this.Text = "History - Issue to Dyeing";
+                    break;
+                case 6:
+                    this.Text = "History - Dyeing Inward";
+                    break;
+                case 7:
+                    this.Text = "History - Add Dyeing Bill";
+                    break;
+                case 8:
+                    this.Text = "History - Carton Production";
+                    break;
+                case 9:
+                    this.Text = "History - Colour Carton Sale";
+                    break;
+                case 10:
+                    this.Text = "History - Add Bill to Grey DOs";
+                    break;
+                case 11:
+                    this.Text = "History - Add Bill to Coloured DOs";
+                    break;
+                case 12:
+                    this.Text = "History - Redyeing";
+                    break;
+
+            }
+        }
         private void editDetailsButton_Click(object sender, EventArgs e)
         {
             int index = this.dataGridView1.SelectedRows[0].Index;
@@ -556,7 +599,7 @@ namespace Factory_Inventory
             dataGridView1.Visible = false;
             dataGridView1.Visible = true;
     }
-    private DataTable remove_sales_rows()
+        private DataTable remove_sales_rows()
         {
             int rows = this.dt.Rows.Count;
             if (rows == 0)
@@ -576,7 +619,7 @@ namespace Factory_Inventory
             }
             return d;
         }
-    private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
     {
         if (dataGridView1.CurrentRow == null) return;
         if (dataGridView1.CurrentRow.Index < 0) return;
@@ -610,5 +653,6 @@ namespace Factory_Inventory
         }
            
     }
+
     }
 }

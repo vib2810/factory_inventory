@@ -396,7 +396,7 @@
             this.Controls.Add(this.comboBox1CB);
             this.Controls.Add(this.label2);
             this.Name = "M_VC_cartonSalesForm";
-            this.Text = "M_V1_salesForm";
+            this.Text = "Voucher - Carton Sale";
             this.Load += new System.EventHandler(this.M_V1_cartonSalesForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
