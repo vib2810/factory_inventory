@@ -39,12 +39,9 @@ namespace Factory_Inventory
             {
                 batch_no_arr.Add(dt.Rows[i]["Batch_No"].ToString());
             }
-            if(batch_no_arr.Count!=1)
+            for (int i = 0; i < batch_no_arr.Count; i++)
             {
-                for (int i = 0; i < batch_no_arr.Count; i++)
-                {
-                    batch_no_arr[i] = dt.Rows[i]["Batch_No"].ToString() + "  (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")";
-                }
+                batch_no_arr[i] = dt.Rows[i]["Batch_No"].ToString() + "  (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")";
             }
             for (int i = 0; i < batch_no_arr.Count; i++)
             {
@@ -276,8 +273,13 @@ namespace Factory_Inventory
             this.redyeingColourCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.redyeingColourCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            string fiscal_year = c.getFinancialYear(this.inputDateDTP.Value);
+            List<int> years = c.getFinancialYearArr(fiscal_year);
+            this.issueDateDTP.MinDate = new DateTime(years[0], 04, 01);
+            this.issueDateDTP.MaxDate = new DateTime(years[1], 03, 31);
+
             this.batchNoCB.Enabled = false;
-            this.issueDateDTP.Enabled = false;
+            //this.issueDateDTP.Enabled = false;
             this.loadButton.Enabled = false;
         }
         private void addTrayButton_Click(object sender, EventArgs e)

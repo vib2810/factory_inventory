@@ -47,7 +47,8 @@ namespace Factory_Inventory
                 this.editDetailsButton.Visible = false;
             }
         }
-        public bool _firstLoaded=true; 
+        public bool _firstLoaded=true;
+        private int prev_selected_row = 0;
         private void DataGridView1_VisibleChanged(object sender, EventArgs e)
         {
             if (_firstLoaded && dataGridView1.Visible)
@@ -144,6 +145,7 @@ namespace Factory_Inventory
                     M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, false, this);
                     f.Show();
                 }
+                this.prev_selected_row = index;
             }
         }
         private void M_V_history_Load(object sender, EventArgs e)
@@ -259,6 +261,7 @@ namespace Factory_Inventory
                     M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, true, this);
                     f.Show();
                 }
+                this.prev_selected_row = index;
             }
         }
         public void loadData()
@@ -602,6 +605,7 @@ namespace Factory_Inventory
             _firstLoaded = true;
             dataGridView1.Visible = false;
             dataGridView1.Visible = true;
+            this.dataGridView1.Rows[this.prev_selected_row].Selected = true;
     }
         private DataTable remove_sales_rows()
         {
