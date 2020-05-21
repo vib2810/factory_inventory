@@ -279,22 +279,130 @@ namespace Factory_Inventory
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
         }
-        private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
+        private void M_V1_cartonInwardForm_Load(object sender, EventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Back)
+            var comboBoxes = this.Controls
+              .OfType<ComboBox>()
+              .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
             {
-                int row = dataGridView1.SelectedCells[0].RowIndex;
-                int col = dataGridView1.SelectedCells[0].ColumnIndex;
-                dataGridView1.Rows[row].Cells[col].Value = null;
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
+            }
+
+            this.billDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
             }
         }
-        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        
+        //self fns
+        void update_weights_rates()
         {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            dynamicWeightLabel.Text = CellSum("").ToString("F3");
+            float net_rate = 0F;
+            for (int i = 0; i < dataGridView2.Rows.Count; i++)
             {
-                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+                float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                if (true)//sum != 0F)
+                {
+                    dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
+                    if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
+                    {
+                        dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                        net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                    }
+                    else dataGridView2.Rows[i].Cells[3].Value = null;
+                }
+            }
+            label4.Text = net_rate.ToString();
+        }
+        private void disable_form_edit()
+        {
+            this.deleteToolStripMenuItem.Enabled = false;
+            this.inputDate.Enabled = false;
+            this.billDateDTP.Enabled = false;
+            this.billNumberTextboxTB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
+            this.saveButton.Enabled = false;
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView2.ReadOnly = true;
+        }
+        private float CellSum(string quality)
+        {
+            float sum = 0F;
+            if (quality == "")
+            {
+                try
+                {
+                    if (dataGridView1.Rows.Count == 0)
+                    {
+                        return sum;
+                    }
+                    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                    {
+                        if (dataGridView1.Rows[i].Cells[3].Value != null)
+                            sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
+                    }
+                    return sum;
+                }
+                catch
+                {
+                    return sum;
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (dataGridView1.Rows.Count == 0)
+                    {
+                        return sum;
+                    }
+                    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                    {
+                        if (c.Cell_Not_NullOrEmpty(dataGridView1, i, 1) == false) continue;
+                        if (dataGridView1.Rows[i].Cells[3].Value != null && dataGridView1.Rows[i].Cells[1].Value.ToString() == quality)
+                            sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
+                    }
+                    return sum;
+                }
+                catch
+                {
+                    return sum;
+                }
             }
         }
+
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.edit_form == false)
@@ -334,127 +442,6 @@ namespace Factory_Inventory
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
                 update_weights_rates();
-            }
-        }
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                dataGridView1.Rows[e.RowIndex].Selected = true;
-            }
-        }
-        void update_weights_rates()
-        {
-            dynamicWeightLabel.Text = CellSum("").ToString("F3");
-            float net_rate = 0F;
-            for (int i = 0; i < dataGridView2.Rows.Count; i++)
-            {
-                float sum = CellSum(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                if (sum != 0F)
-                {
-                    dataGridView2.Rows[i].Cells[2].Value = sum.ToString("F3");
-                    if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == true)
-                    {
-                        dataGridView2.Rows[i].Cells[3].Value = sum * float.Parse(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                        net_rate += float.Parse(dataGridView2.Rows[i].Cells[3].Value.ToString());
-                    }
-                    else dataGridView2.Rows[i].Cells[3].Value = null;
-                }
-            }
-            label4.Text = net_rate.ToString();
-        }
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex>=0 && (e.ColumnIndex==1||e.ColumnIndex==3))
-            {
-                update_weights_rates();
-            }
-            try
-            {
-                if (e.ColumnIndex == 3 && e.RowIndex >= 0)
-                {
-                    if (dataGridView1.Rows[e.RowIndex].Cells[3].Value != null)
-                    {
-                        Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString());
-                        if(Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString()) >= 100.00)
-                        {
-                            c.ErrorBox("Weight should be less than 100", "Error");
-                            dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
-                        }
-                    }
-                }
-            }
-            catch(Exception x)
-            {
-                c.ErrorBox("Please enter numeric Weight value only\n"+x.Message, "Error");
-                dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
-                this.inputerror1 = true;
-                SendKeys.Send("{up}");
-                SendKeys.Send("{right}");
-                SendKeys.Send("{right}");
-                SendKeys.Send("{right}");
-            }
-            try
-            {
-                if (e.ColumnIndex == 2 && e.RowIndex >= 0)
-                {
-                    if (dataGridView1.Rows[e.RowIndex].Cells[2].Value != null)
-                    {
-                        int.Parse(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-                    }
-                }
-            }
-            catch
-            {
-                c.ErrorBox("Please enter numeric Carton No only", "Error");
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
-                this.inputerror1 = true;
-                SendKeys.Send("{left}");
-            }
-        }
-        private float CellSum(string quality)
-        {
-            float sum = 0;
-            if(quality == "")
-            {
-                try
-                {
-                    if (dataGridView1.Rows.Count == 0)
-                    {
-                        return sum;
-                    }
-                    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                    {
-                        if (dataGridView1.Rows[i].Cells[3].Value != null)
-                            sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
-                    }
-                    return sum;
-                }
-                catch
-                {
-                    return sum;
-                }
-            }
-            else
-            {
-                try
-                {
-                    if (dataGridView1.Rows.Count == 0)
-                    {
-                        return sum;
-                    }
-                    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                    {
-                        if (c.Cell_Not_NullOrEmpty(dataGridView1, i, 1) == false) continue;
-                        if (dataGridView1.Rows[i].Cells[3].Value != null && dataGridView1.Rows[i].Cells[1].Value.ToString()==quality)
-                            sum += float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
-                    }
-                    return sum;
-                }
-                catch
-                {
-                    return sum;
-                }
             }
         }
         private void saveButton_Click(object sender, EventArgs e)
@@ -595,16 +582,115 @@ namespace Factory_Inventory
                 else return;
             }
         }
-        private void disable_form_edit()
+        private void billDate_ValueChanged(object sender, EventArgs e)
         {
-            this.deleteToolStripMenuItem.Enabled = false;
-            this.inputDate.Enabled = false;
-            this.billDateDTP.Enabled = false;
-            this.billNumberTextboxTB.Enabled = false;
-            this.comboBox2CB.Enabled = false;
-            this.saveButton.Enabled = false;
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView2.ReadOnly = true;
+            this.billDateChanged = true;
+        }
+        private void lockCartonsCK_CheckedChanged(object sender, EventArgs e)
+        {
+            if(this.lockCartonsCK.Checked==true)
+            {
+                dataGridView1.ReadOnly = true;
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
+            }
+            else
+            {
+                dataGridView1.ReadOnly = false;
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+            }
+            dataGridView1.EnableHeadersVisualStyles = false;
+        }
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 1 && e.RowIndex >= 0)
+                {
+                    if (dataGridView2.Rows[e.RowIndex].Cells[1].Value != null)
+                    {
+                        float.Parse(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    }
+                    update_weights_rates();
+                }
+            }
+            catch (Exception x)
+            {
+                c.ErrorBox("Please enter numeric Rate value only\n" + x.Message, "Error");
+                dataGridView2.Rows[e.RowIndex].Cells[1].Value = null;
+                //update label4
+                update_weights_rates();
+                dataGridView2.CurrentCell =dataGridView2.Rows[e.RowIndex].Cells[1];
+            }
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteCartonVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return; 
+            }
+        }
+
+        //dgv1
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && (e.ColumnIndex == 1 || e.ColumnIndex == 3))
+            {
+                update_weights_rates();
+            }
+            try
+            {
+                if (e.ColumnIndex == 3 && e.RowIndex >= 0)
+                {
+                    if (dataGridView1.Rows[e.RowIndex].Cells[3].Value != null)
+                    {
+                        float.Parse(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString());
+                        if (float.Parse(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString()) >= 100.00F)
+                        {
+                            c.ErrorBox("Weight should be less than 100", "Error");
+                            dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
+                        }
+                    }
+                }
+            }
+            catch (Exception x)
+            {
+                c.ErrorBox("Please enter numeric Weight value only\n" + x.Message, "Error");
+                dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
+                this.inputerror1 = true;
+                SendKeys.Send("{up}");
+                SendKeys.Send("{right}");
+                SendKeys.Send("{right}");
+                SendKeys.Send("{right}");
+            }
+            try
+            {
+                if (e.ColumnIndex == 2 && e.RowIndex >= 0)
+                {
+                    if (dataGridView1.Rows[e.RowIndex].Cells[2].Value != null)
+                    {
+                        int.Parse(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+                    }
+                }
+            }
+            catch
+            {
+                c.ErrorBox("Please enter numeric Carton No only", "Error");
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
+                this.inputerror1 = true;
+                SendKeys.Send("{left}");
+            }
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -638,11 +724,11 @@ namespace Factory_Inventory
                     }
                     return;
                 }
-                if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 1)==true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)
+                if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 1) == true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 2)==true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab+1, 2)==false)
+                if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 2) == true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 2) == false)
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
@@ -661,108 +747,18 @@ namespace Factory_Inventory
                 e.Handled = true;
             }
         }
-        private void billDate_ValueChanged(object sender, EventArgs e)
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            this.billDateChanged = true;
-        }
-        private void M_V1_cartonInwardForm_Load(object sender, EventArgs e)
-        {
-            var comboBoxes = this.Controls
-      .OfType<ComboBox>()
-      .Where(x => x.Name.EndsWith("CB"));
-
-            foreach (var cmbBox in comboBoxes)
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
             {
-                c.comboBoxEvent(cmbBox);
-            }
-
-            var textBoxes = this.Controls
-                  .OfType<TextBox>()
-                  .Where(x => x.Name.EndsWith("TB"));
-
-            foreach (var txtBox in textBoxes)
-            {
-                c.textBoxEvent(txtBox);
-            }
-
-            var dtps = this.Controls
-                  .OfType<DateTimePicker>()
-                  .Where(x => x.Name.EndsWith("DTP"));
-
-            foreach (var dtp in dtps)
-            {
-                c.DTPEvent(dtp);
-            }
-
-            var buttons = this.Controls
-                  .OfType<Button>()
-                  .Where(x => x.Name.EndsWith("Button"));
-
-            foreach (var button in buttons)
-            {
-                Console.WriteLine(button.Name);
-                c.buttonEvent(button);
-            }
-
-            this.billDateDTP.Focus();
-            if (Global.access == 2)
-            {
-                this.deleteButton.Visible = false;
+                dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
-        private void lockCartonsCK_CheckedChanged(object sender, EventArgs e)
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            if(this.lockCartonsCK.Checked==true)
+            if (e.RowIndex != dataGridView1.Rows.Count - 1)
             {
-                dataGridView1.ReadOnly = true;
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
-            }
-            else
-            {
-                dataGridView1.ReadOnly = false;
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-            }
-            dataGridView1.EnableHeadersVisualStyles = false;
-        }
-        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex == 1 && e.RowIndex >= 0)
-                {
-                    if (dataGridView2.Rows[e.RowIndex].Cells[1].Value != null)
-                    {
-                        Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
-                    }
-                    update_weights_rates();
-                }
-            }
-            catch (Exception x)
-            {
-                c.ErrorBox("Please enter numeric Rate value only\n" + x.Message, "Error");
-                dataGridView2.Rows[e.RowIndex].Cells[1].Value = null;
-                //update label4
-                update_weights_rates();
-                dataGridView2.CurrentCell =dataGridView2.Rows[e.RowIndex].Cells[1];
-            }
-        }
-        private void deleteButton_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                bool deleted = c.deleteCartonVoucher(this.voucher_id);
-                if (deleted == true)
-                {
-                    c.SuccessBox("Voucher Deleted Successfully");
-                    this.deleteButton.Enabled = false;
-                    this.v1_history.loadData();
-                }
-                else return;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                return; 
+                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
     }

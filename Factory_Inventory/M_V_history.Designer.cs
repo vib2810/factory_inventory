@@ -32,6 +32,8 @@
             this.viewDetailsButton = new System.Windows.Forms.Button();
             this.editDetailsButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,18 +76,40 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1008, 426);
+            this.label1.Location = new System.Drawing.Point(999, 422);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(138, 51);
             this.label1.TabIndex = 3;
             this.label1.Text = "Bill Number 0 means\nno bill number has\nbeen given";
             this.label1.Visible = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(1120, 159);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "V";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Location = new System.Drawing.Point(1120, 280);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(17, 17);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "E";
+            // 
             // M_V_history
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1149, 555);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.editDetailsButton);
             this.Controls.Add(this.viewDetailsButton);
@@ -104,5 +128,7 @@
         private System.Windows.Forms.Button viewDetailsButton;
         private System.Windows.Forms.Button editDetailsButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
