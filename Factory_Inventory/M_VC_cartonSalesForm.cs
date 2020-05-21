@@ -658,7 +658,11 @@ namespace Factory_Inventory
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;
             this.comboBox4CB.Enabled = false;
-            this.saleDateDTP.Enabled = false;
+            string fiscal_year = c.getFinancialYear(this.saleDateDTP.Value);
+            List<int> years = c.getFinancialYearArr(fiscal_year);
+            this.saleDateDTP.MinDate = new DateTime(years[0], 04, 01);
+            this.saleDateDTP.MaxDate = new DateTime(years[1], 03, 31);
+            //this.saleDateDTP.Enabled = false;
             this.saleDONoTB_Value();
         }
         //Used to get carton numbers given quality, company and state

@@ -279,6 +279,10 @@ namespace Factory_Inventory
             }
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
+
+            List<int> years = c.getFinancialYearArr(row["Fiscal_Year"].ToString());
+            this.billDateDTP.MinDate = new DateTime(years[0], 04, 01);
+            this.billDateDTP.MaxDate = new DateTime(years[1], 03, 31);
         }
         private void M_V1_cartonInwardForm_Load(object sender, EventArgs e)
         {
