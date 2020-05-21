@@ -161,11 +161,12 @@ namespace Factory_Inventory
             if (isEditable == false)
             {
                 this.Text += " (View Only)";
+                this.lockCartonsCK.Enabled = false;
                 this.deleteToolStripMenuItem.Enabled = false;
                 this.deleteButton.Visible = true;
                 this.inputDate.Enabled = false;
                 this.billDateDTP.Enabled = false;
-                this.billNumberTextboxTB.Enabled = false;
+                this.billNumberTextboxTB.ReadOnly = true;
                 this.comboBox2CB.Enabled = false;
                 this.saveButton.Enabled = false;
                 this.dataGridView1.ReadOnly = true;
@@ -349,10 +350,11 @@ namespace Factory_Inventory
         }
         private void disable_form_edit()
         {
+            this.lockCartonsCK.Enabled = false;
             this.deleteToolStripMenuItem.Enabled = false;
             this.inputDate.Enabled = false;
             this.billDateDTP.Enabled = false;
-            this.billNumberTextboxTB.Enabled = false;
+            this.billNumberTextboxTB.ReadOnly = true;
             this.comboBox2CB.Enabled = false;
             this.saveButton.Enabled = false;
             this.dataGridView1.ReadOnly = true;

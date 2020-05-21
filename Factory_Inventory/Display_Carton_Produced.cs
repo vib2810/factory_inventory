@@ -38,7 +38,7 @@ namespace Factory_Inventory
             this.textBox2.Text = Carton["Carton_Weight"].ToString();
             this.textBox10.Text = Carton["Net_Weight"].ToString();
             this.textBox20.Text = Carton["Grade"].ToString();
-            this.textBox19.Text = Carton["Carton_Printed"].ToString();
+            this.textBox19.Text = Carton["Printed"].ToString();
             this.textBox16.Text = Carton["Batch_No_Arr"].ToString();
             this.textBox14.Text = Carton["Fiscal_Year"].ToString();
             this.textBox13.Text = Carton["Dyeing_Company_Name"].ToString();

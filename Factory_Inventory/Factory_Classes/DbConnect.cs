@@ -1210,39 +1210,50 @@ namespace Factory_Inventory.Factory_Classes
                 }
 
                 /*<Check if issue date and sale date of cartons in state 2 and 3 is >= Bill Date>*/
+                string non_edit_cartons = "", non_edit_carton_index="";
                 for (int i = 0; i < carton_no.Length; i++)
                 {
                     bool value;
                     bool value2 = carton_editable.TryGetValue(carton_no[i], out value);
                     if (value2 == true) //does contain entry, means it is in state 2 and 3
                     {
-                        con.Open();
-                        SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Issue, Date_Of_Sale FROM Carton WHERE Carton_No='"+carton_no[i]+"' AND Fiscal_Year='"+old_fiscal_year+"'", con);
-                        DataTable dt = new DataTable();
-                        sda1.Fill(dt);
-                        con.Close();
-                        if(dt.Rows[0]["Date_Of_Issue"]==null)
-                        {
-                            DateTime sale = Convert.ToDateTime(dt.Rows[0]["Date_Of_Sale"].ToString());
-                            if(dtbill>sale)
-                            {
-                                this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + "),", "Error");
-                                return false;
-                            }
-                        }
-                        else if (dt.Rows[0]["Date_Of_Sale"] == null)
-                        {
-                            DateTime issue = Convert.ToDateTime(dt.Rows[0]["Date_Of_Issue"].ToString());
-                            if (dtbill > issue)
-                            {
-                                this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Issue (" + issue.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + ")", "Error");
-                                return false;
-                            }
-                        }
-
+                        non_edit_cartons += carton_no[i] + ",";
+                        non_edit_carton_index += i + ",";
                     }
                 }
-                
+                if(removecom(non_edit_cartons)!="")
+                {
+                    con.Open();
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Issue, Date_Of_Sale FROM Carton WHERE Carton_No IN (" + removecom(non_edit_cartons) + ") AND Fiscal_Year='" + old_fiscal_year + "'", con);
+                    DataTable dt = new DataTable();
+                    sda1.Fill(dt);
+                    con.Close();
+                    string[] non_edit_cartons_arr = this.csvToArray(non_edit_cartons);
+                    string[] non_edit_carton_index_arr = this.csvToArray(non_edit_carton_index);
+                    for (int i=0; i<dt.Rows.Count; i++)
+                    {
+                        if (dt.Rows[i]["Date_Of_Issue"].ToString() != "")
+                        {
+                            DateTime issue = Convert.ToDateTime(dt.Rows[i]["Date_Of_Issue"].ToString());
+                            if (dtbill > issue)
+                            {
+                                this.ErrorBox("Carton number: " + non_edit_cartons_arr[i] + " at row " + (int.Parse(non_edit_carton_index_arr[i]) + 1).ToString() + " has Date of Issue (" + issue.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + ")", "Error");
+                                return false;
+                            }
+                        }
+                        else if (dt.Rows[i]["Date_Of_Sale"].ToString() != "")
+                        {
+                            DateTime sale = Convert.ToDateTime(dt.Rows[i]["Date_Of_Sale"].ToString());
+                            if (dtbill > sale)
+                            {
+                                this.ErrorBox("Carton number: " + non_edit_cartons_arr[i] + " at row " + (int.Parse(non_edit_carton_index_arr[i]) + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of billing (" + dtbill.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+
                 Console.WriteLine("selected2");
                 string cartons = "";
                 //Remove cartons with state 1 in the old voucher
@@ -4714,7 +4725,7 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_Printed FROM Carton_Produced WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Printed FROM Carton_Produced WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
                 sda.Fill(dt);
                 if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString()=="") ans = 0;
                 else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
@@ -4735,7 +4746,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Carton_Produced SET Carton_Printed=" + value + " WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'";     
+                string sql = "UPDATE Carton_Produced SET Printed=" + value + " WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'";     
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }
