@@ -183,6 +183,7 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
+                this.Text += " (View Only)";
                 this.deleteToolStripMenuItem.Enabled = false;
                 this.deleteButton.Visible = true;
                 this.issueDateDTP.Enabled = false;
@@ -196,6 +197,7 @@ namespace Factory_Inventory
 
             else
             {
+                this.Text += " (Edit)";
                 this.issueDateDTP.Enabled = true;
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;

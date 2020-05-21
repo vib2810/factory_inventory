@@ -42,6 +42,10 @@ namespace Factory_Inventory
             this.label1.Visible = false;
             loadData();
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
+            if(Global.access==2)
+            {
+                this.editDetailsButton.Visible = false;
+            }
         }
         public bool _firstLoaded=true; 
         private void DataGridView1_VisibleChanged(object sender, EventArgs e)
@@ -413,9 +417,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
-                this.dataGridView1.Columns["Slip_No"].Visible = true;
-                this.dataGridView1.Columns["Slip_No"].DisplayIndex = 4;
-                this.dataGridView1.Columns["Slip_No"].HeaderText = "Slip Number";
+                this.dataGridView1.Columns["Slip_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Slip_No_Arr"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Slip_No_Arr"].HeaderText = "Slip Number";
                 this.dataGridView1.Columns["Batch_No_Arr"].Visible = true;
                 this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 6;
                 this.dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Nos";
@@ -604,7 +608,7 @@ namespace Factory_Inventory
             int rows = this.dt.Rows.Count;
             if (rows == 0)
                 return null;
-            DataTable d = dt.Clone(); ;
+            DataTable d = dt.Clone();
             for(int i=0;i<rows;i++)
             {
                 if((this.vno==3 || this.vno==10) && this.dt.Rows[i]["Tablename"].ToString()=="Carton_Produced")
@@ -620,39 +624,38 @@ namespace Factory_Inventory
             return d;
         }
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
-    {
-        if (dataGridView1.CurrentRow == null) return;
-        if (dataGridView1.CurrentRow.Index < 0) return;
-        DataRow row = (dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row;
-        try
         {
-            string deleted = row["Deleted"].ToString();
-            if (deleted == "1")
+            if (dataGridView1.CurrentRow == null) return;
+            if (dataGridView1.CurrentRow.Index < 0) return;
+            DataRow row = (dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row;
+            try
             {
-                this.viewDetailsButton.Enabled = false;
-                this.editDetailsButton.Enabled = false;
+                string deleted = row["Deleted"].ToString();
+                if (deleted == "1")
+                {
+                    this.viewDetailsButton.Enabled = false;
+                    this.editDetailsButton.Enabled = false;
+                }
+                else
+                {
+                    this.viewDetailsButton.Enabled = true;
+                    this.editDetailsButton.Enabled = true;
+                }
             }
-            else
+            catch(Exception x) { Console.WriteLine("ERROR: " + x.Message); }
+            if (this.vno==8 && dataGridView1.CurrentRow.Index>=0)
             {
-                this.viewDetailsButton.Enabled = true;
-                this.editDetailsButton.Enabled = true;
+                Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
+                if(dataGridView1.CurrentRow.Cells[10].Value.ToString()=="1")
+                {
+                    this.editDetailsButton.Enabled = false;
+                }
+                else
+                {
+                    this.editDetailsButton.Enabled = true;
+                }
             }
-        }
-        catch(Exception x) { Console.WriteLine("ERROR: " + x.Message); }
-        if (this.vno==8 && dataGridView1.CurrentRow.Index>=0)
-        {
-            Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
-            if(dataGridView1.CurrentRow.Cells[10].Value.ToString()=="1")
-            {
-                this.editDetailsButton.Enabled = false;
-            }
-            else
-            {
-                this.editDetailsButton.Enabled = true;
-            }
-        }
            
-    }
-
+        }
     }
 }

@@ -330,6 +330,7 @@ namespace Factory_Inventory
             Console.WriteLine(isEditable.ToString());
             if (isEditable == false)
             {
+                this.Text += "(View Only)";
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
                 this.saveButton.Enabled = false;
@@ -348,6 +349,7 @@ namespace Factory_Inventory
             {
                 //no option to edit company name and quality
                 Console.WriteLine("Else");
+                this.Text += "(Edit)";
                 this.saveButton.Enabled = true;
                 this.loadDataButton.Enabled = false;
                 this.dataGridView1.Enabled = true;

@@ -174,7 +174,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(630, 378);
+            this.label7.Location = new System.Drawing.Point(630, 382);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 17);
             this.label7.TabIndex = 0;
@@ -187,7 +187,8 @@
             this.billNumberTextboxTB.Name = "billNumberTextboxTB";
             this.billNumberTextboxTB.ReadOnly = true;
             this.billNumberTextboxTB.Size = new System.Drawing.Size(109, 22);
-            this.billNumberTextboxTB.TabIndex = 9;
+            this.billNumberTextboxTB.TabIndex = 0;
+            this.billNumberTextboxTB.TabStop = false;
             this.billNumberTextboxTB.Visible = false;
             // 
             // dynamicEditableLabel
@@ -221,10 +222,11 @@
             this.billcheckBoxCK.AutoSize = true;
             this.billcheckBoxCK.Checked = true;
             this.billcheckBoxCK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.billcheckBoxCK.Location = new System.Drawing.Point(716, 378);
+            this.billcheckBoxCK.Location = new System.Drawing.Point(716, 381);
             this.billcheckBoxCK.Name = "billcheckBoxCK";
             this.billcheckBoxCK.Size = new System.Drawing.Size(64, 21);
-            this.billcheckBoxCK.TabIndex = 11;
+            this.billcheckBoxCK.TabIndex = 0;
+            this.billcheckBoxCK.TabStop = false;
             this.billcheckBoxCK.Text = "None";
             this.billcheckBoxCK.UseVisualStyleBackColor = true;
             this.billcheckBoxCK.Visible = false;
@@ -253,7 +255,8 @@
             this.billDateDTP.Location = new System.Drawing.Point(633, 427);
             this.billDateDTP.Name = "billDateDTP";
             this.billDateDTP.Size = new System.Drawing.Size(200, 22);
-            this.billDateDTP.TabIndex = 13;
+            this.billDateDTP.TabIndex = 0;
+            this.billDateDTP.TabStop = false;
             this.billDateDTP.Visible = false;
             // 
             // label2

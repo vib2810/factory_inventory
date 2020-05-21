@@ -200,6 +200,7 @@ namespace Factory_Inventory
             //if only in view mode
             if (isEditable == false)
             {
+                this.Text += "(View Only)";
                 this.saveButton.Enabled = false;
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
@@ -217,6 +218,7 @@ namespace Factory_Inventory
             }
             else
             {
+                this.Text += "(Edit)";
                 this.typeCB.Enabled = false;
                 this.financialYearCB.Enabled = false;
                 this.qualityCB.Enabled = false;

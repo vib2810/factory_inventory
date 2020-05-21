@@ -259,6 +259,7 @@ namespace Factory_Inventory
             }
             if (isEditable == false || invalid_edit==true)
             {
+                this.Text += "(View Only)";
                 this.dataGridView1.Enabled = false;
                 this.inputDateDTP.Enabled = false;
                 this.issueDateDTP.Enabled = false;
@@ -274,6 +275,7 @@ namespace Factory_Inventory
             else
             { 
                 //no option to edit company name and quality
+                this.Text += "(Edit)";
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;
                 this.comboBox3CB.Enabled = true;

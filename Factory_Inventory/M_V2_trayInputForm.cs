@@ -189,6 +189,7 @@ namespace Factory_Inventory
             
             if (isEditable == false)
             {
+                this.Text += "(View Only)";
                 this.deleteButton.Visible = true;
                 this.dateTimePickerDTP.Enabled = false;
                 this.qualityCB.Enabled = false;
@@ -203,6 +204,7 @@ namespace Factory_Inventory
             }
             else
             {
+                this.Text += "(Edit)";
                 this.dateTimePickerDTP.Enabled = true;
                 this.qualityCB.Enabled = true;
                 this.companyNameCB.Enabled = true;
@@ -325,6 +327,7 @@ namespace Factory_Inventory
             this.companyNameCB.Enabled = false;
             if (machine_no != null) this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(machine_no);
 
+            this.Text = "Add Tray";
             this.addButton.Text = "Add Tray";
             this.redyeing = true;
             if (this.issuesource.Rows.Count != 0) this.tray_details = (DataTable)this.issuesource.DataSource;
@@ -332,6 +335,7 @@ namespace Factory_Inventory
 
             if (edit_row_index!=-1)
             {
+                this.Text = "Edit Tray";
                 this.edit_reyeing_tray = true;
                 this.addButton.Text = "Conform Edit";
                 this.edit_redyeing_tray_index = edit_row_index;

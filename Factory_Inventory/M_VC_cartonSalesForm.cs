@@ -280,6 +280,7 @@ namespace Factory_Inventory
 
             if (isEditable == false)
             {
+                this.Text += "(View Only)";
                 this.saveButton.Enabled = false;
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
@@ -298,6 +299,7 @@ namespace Factory_Inventory
             }
             else
             {
+                this.Text += "(Edit)";
                 this.saleDateDTP.Enabled = true;
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;

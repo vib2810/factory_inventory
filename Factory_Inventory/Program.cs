@@ -1,6 +1,7 @@
 ﻿using Factory_Inventory.Factory_Classes;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,9 +24,10 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             Global.ipaddress = "192.168.1.12";
             DbConnect c = new DbConnect();
-            c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
+            //c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
             //Application.Run(f);
-
+            //DataTable dt = new DataTable();
+            //Console.WriteLine(dt.Rows.Count);
             while (true)
             {
                 Login f1 = new Login();

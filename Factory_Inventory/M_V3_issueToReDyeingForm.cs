@@ -162,10 +162,15 @@ namespace Factory_Inventory
             }
             if (isEditable==false)
             {
+                this.Text += "(View Only)";
                 this.disable_form_edit();
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
                 this.dataGridView1.Enabled = false;
+            }
+            else
+            {
+                this.Text += "(Edit)";
             }
 
         }

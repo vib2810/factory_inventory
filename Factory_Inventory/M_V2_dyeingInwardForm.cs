@@ -129,9 +129,13 @@ namespace Factory_Inventory
                 this.billNumberTextboxTB.Visible = true;
                 this.billNumberTextboxTB.Enabled = true;
                 this.billNumberTextboxTB.ReadOnly = false;
+                this.billNumberTextboxTB.TabIndex = 1;
+                this.billNumberTextboxTB.TabStop = true;
                 this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
 
                 this.billDateDTP.Visible = true;
+                this.billDateDTP.TabIndex =2;
+                this.billDateDTP.TabStop = true;
                 this.billDateDTP.Location = new System.Drawing.Point(24, 140);
                 this.billDateDTP.Enabled = true;
 
@@ -265,11 +269,13 @@ namespace Factory_Inventory
                 //if form is only view-only
                 if (isEditable == false)
                 {
+                    this.Text += "(View Only)";
                     disable_form_edit();
                 }
                 else
                 {
                     //no option to edit company name and quality
+                    this.Text += "(Edit)";
                     this.inwardDateDTP.Enabled = true;
                     this.dyeingCompanyCB.Enabled = false;
                     this.saveButton.Enabled = true;
@@ -339,10 +345,11 @@ namespace Factory_Inventory
                     this.billcheckBoxCK.Checked = true;
                     this.billcheckBoxCK.Enabled = false;
                 }
-                if (flag == true && isEditable == false) 
+                if (isEditable == false) 
                 { 
-                    this.deleteButton.Visible = true; 
-                    this.deleteButton.Enabled = true; 
+                    this.deleteButton.Visible = true;
+                    this.deleteButton.Enabled = false;
+                    if(flag == true) this.deleteButton.Enabled = true; 
                 }
                 c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             }
@@ -432,9 +439,14 @@ namespace Factory_Inventory
                 //if only in view mode
                 if (isEditable == false)
                 {
+                    this.Text += "(View Only)";
                     disable_form_edit();
                     this.deleteButton.Visible = true;
                     this.deleteButton.Enabled = true;
+                }
+                else
+                {
+                    this.Text += "(Edit)";
                 }
 
                 //Fill in required values
@@ -610,6 +622,18 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
+            if(this.addBill==true)
+            {
+                try 
+                { 
+                    int.Parse(billNumberTextboxTB.Text); 
+                }
+                catch
+                {
+                    c.ErrorBox("Please Enter Numeric Bill No");
+                    return;
+                }
+            }
             if (dyeingCompanyCB.SelectedIndex == 0)
             {
                 c.ErrorBox("Enter Select Dyeing Company Name", "Error");
