@@ -92,19 +92,32 @@ namespace Factory_Inventory
 
             //Create drop-down Company list
             var dataSource2 = new List<string>();
-            DataTable d2 = c.getQC('c');
-            dataSource2.Add("---Select---");
-
-            for (int i = 0; i < d2.Rows.Count; i++)
+            if (this.tablename == "Carton_Produced")
             {
-                dataSource2.Add(d2.Rows[i][0].ToString());
+                dataSource2.Add("Self");
             }
-            dataSource2.Add("Self");
+            else if(this.tablename=="Carton")
+            {
+                DataTable d2 = c.getQC('c');
+                dataSource2.Add("---Select---");
+                for (int i = 0; i < d2.Rows.Count; i++)
+                {
+                    dataSource2.Add(d2.Rows[i][0].ToString());
+                }
+            }
             this.comboBox2CB.DataSource = dataSource2;
             this.comboBox2CB.DisplayMember = "Company_Names";
             this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            if (this.tablename == "Carton_Produced")
+            {
+                this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact("Self");
+                this.comboBox2CB.Enabled = false;
+                this.comboBox2CB.TabIndex = 0;
+                this.comboBox2CB.TabStop = false;
+            }
 
             //Create drop-down Customers list
             var dataSource3 = new List<string>();
@@ -153,14 +166,6 @@ namespace Factory_Inventory
             dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
-            if(this.tablename=="Carton_Produced")
-            {
-                this.comboBox2CB.SelectedIndex= this.comboBox2CB.FindStringExact("Self");
-                this.comboBox2CB.Enabled = false;
-                this.comboBox2CB.TabIndex = 0;
-                this.comboBox2CB.TabStop = false;
-            }
-
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
         }
@@ -207,15 +212,21 @@ namespace Factory_Inventory
             this.comboBox1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
+            //Create drop-down Company list
             var dataSource2 = new List<string>();
-            DataTable d2 = c.getQC('c');
-            dataSource2.Add("---Select---");
-
-            for (int i = 0; i < d2.Rows.Count; i++)
+            if (this.tablename == "Carton_Produced")
             {
-                dataSource2.Add(d2.Rows[i][0].ToString());
+                dataSource2.Add("Self");
             }
-            dataSource2.Add("Self");
+            else if (this.tablename == "Carton")
+            {
+                DataTable d2 = c.getQC('c');
+                dataSource2.Add("---Select---");
+                for (int i = 0; i < d2.Rows.Count; i++)
+                {
+                    dataSource2.Add(d2.Rows[i][0].ToString());
+                }
+            }
             this.comboBox2CB.DataSource = dataSource2;
             this.comboBox2CB.DisplayMember = "Company_Names";
             this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
@@ -252,7 +263,6 @@ namespace Factory_Inventory
             this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(c.getFinancialYear(this.saleDateDTP.Value));
 
 
             //DatagridView
@@ -379,7 +389,7 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = dt.Rows[0][0];
                 if(this.tablename=="Carton")
                 {
-                    dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = "White";
+                    dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = "Grey";
                 }
                 else
                 {
@@ -554,6 +564,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     this.disable_form_edit();
                 }
             }
@@ -566,10 +577,12 @@ namespace Factory_Inventory
                 }
                 else
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     this.disable_form_edit();
                     this.v1_history.loadData();
                 }
             }
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
         public void disable_form_edit()
         {

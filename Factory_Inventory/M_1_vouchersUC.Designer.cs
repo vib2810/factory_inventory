@@ -29,15 +29,19 @@
         private void InitializeComponent()
         {
             this.voucherLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cartonButton = new System.Windows.Forms.Button();
             this.trayProductionButton = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.cartonProductionButton = new System.Windows.Forms.Button();
+            this.printButton = new System.Windows.Forms.Button();
             this.editCNameQualityButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.m_V4_printUC1 = new Factory_Inventory.M_V4_printUC();
             this.m_V3_voucherInput3UC1 = new Factory_Inventory.M_V3_voucherInput3UC();
             this.m_V2_voucherInput2UC1 = new Factory_Inventory.M_V2_voucherInput2UC();
             this.voucherInput1UC1 = new Factory_Inventory.M_V1_voucherInput1UC();
-            this.m_V4_printUC1 = new Factory_Inventory.M_V4_printUC();
             this.SuspendLayout();
             // 
             // voucherLabel
@@ -49,20 +53,21 @@
             this.voucherLabel.TabIndex = 0;
             this.voucherLabel.Text = "Voucher Menu";
             // 
-            // button1
+            // cartonButton
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button1.Location = new System.Drawing.Point(16, 51);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(97, 34);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Carton";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.cartonButton.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cartonButton.Location = new System.Drawing.Point(16, 51);
+            this.cartonButton.Name = "cartonButton";
+            this.cartonButton.Size = new System.Drawing.Size(97, 34);
+            this.cartonButton.TabIndex = 1;
+            this.cartonButton.Text = "Carton";
+            this.cartonButton.UseVisualStyleBackColor = false;
+            this.cartonButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // trayProductionButton
             // 
             this.trayProductionButton.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.trayProductionButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.trayProductionButton.Location = new System.Drawing.Point(16, 100);
             this.trayProductionButton.Name = "trayProductionButton";
             this.trayProductionButton.Size = new System.Drawing.Size(97, 53);
@@ -71,27 +76,27 @@
             this.trayProductionButton.UseVisualStyleBackColor = false;
             this.trayProductionButton.Click += new System.EventHandler(this.trayProductionButton_Click);
             // 
-            // button3
+            // cartonProductionButton
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button3.Location = new System.Drawing.Point(16, 169);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(97, 53);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Carton Production";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.cartonProductionButton.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cartonProductionButton.Location = new System.Drawing.Point(16, 169);
+            this.cartonProductionButton.Name = "cartonProductionButton";
+            this.cartonProductionButton.Size = new System.Drawing.Size(97, 53);
+            this.cartonProductionButton.TabIndex = 3;
+            this.cartonProductionButton.Text = "Carton Production";
+            this.cartonProductionButton.UseVisualStyleBackColor = false;
+            this.cartonProductionButton.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button4
+            // printButton
             // 
-            this.button4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button4.Location = new System.Drawing.Point(16, 239);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(97, 34);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Print";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.printButton.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.printButton.Location = new System.Drawing.Point(16, 239);
+            this.printButton.Name = "printButton";
+            this.printButton.Size = new System.Drawing.Size(97, 34);
+            this.printButton.TabIndex = 4;
+            this.printButton.Text = "Print";
+            this.printButton.UseVisualStyleBackColor = false;
+            this.printButton.Click += new System.EventHandler(this.button4_Click);
             // 
             // editCNameQualityButton
             // 
@@ -104,6 +109,49 @@
             this.editCNameQualityButton.Text = "Add/Edit Drop Downs";
             this.editCNameQualityButton.UseVisualStyleBackColor = false;
             this.editCNameQualityButton.Click += new System.EventHandler(this.editCNameQualityButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(96, 68);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(17, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "C";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(96, 256);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "P";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(99, 205);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(18, 17);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "N";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(96, 140);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(17, 17);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "T";
+            // 
+            // m_V4_printUC1
+            // 
+            this.m_V4_printUC1.Location = new System.Drawing.Point(136, 30);
+            this.m_V4_printUC1.Name = "m_V4_printUC1";
+            this.m_V4_printUC1.Size = new System.Drawing.Size(483, 378);
+            this.m_V4_printUC1.TabIndex = 10;
             // 
             // m_V3_voucherInput3UC1
             // 
@@ -126,26 +174,23 @@
             this.voucherInput1UC1.Size = new System.Drawing.Size(483, 378);
             this.voucherInput1UC1.TabIndex = 6;
             // 
-            // m_V4_printUC1
-            // 
-            this.m_V4_printUC1.Location = new System.Drawing.Point(136, 30);
-            this.m_V4_printUC1.Name = "m_V4_printUC1";
-            this.m_V4_printUC1.Size = new System.Drawing.Size(483, 378);
-            this.m_V4_printUC1.TabIndex = 10;
-            // 
             // M_1_vouchersUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.m_V4_printUC1);
             this.Controls.Add(this.m_V3_voucherInput3UC1);
             this.Controls.Add(this.m_V2_voucherInput2UC1);
             this.Controls.Add(this.editCNameQualityButton);
             this.Controls.Add(this.voucherInput1UC1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.printButton);
+            this.Controls.Add(this.cartonProductionButton);
             this.Controls.Add(this.trayProductionButton);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cartonButton);
             this.Controls.Add(this.voucherLabel);
             this.Name = "M_1_vouchersUC";
             this.Size = new System.Drawing.Size(619, 432);
@@ -157,14 +202,18 @@
         #endregion
 
         private System.Windows.Forms.Label voucherLabel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button cartonButton;
         private System.Windows.Forms.Button trayProductionButton;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button cartonProductionButton;
+        private System.Windows.Forms.Button printButton;
         private M_V1_voucherInput1UC voucherInput1UC1;
         private System.Windows.Forms.Button editCNameQualityButton;
         private M_V2_voucherInput2UC m_V2_voucherInput2UC1;
         private M_V3_voucherInput3UC m_V3_voucherInput3UC1;
         private M_V4_printUC m_V4_printUC1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

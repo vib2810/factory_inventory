@@ -162,7 +162,6 @@ namespace Factory_Inventory
             this.financialYearCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.financialYearCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(c.getFinancialYear(this.inputDate.Value));
 
             //Create drop-down Quality lists
             var dataSource3 = new List<string>();
@@ -448,6 +447,7 @@ namespace Factory_Inventory
                 bool editbill = c.editSalesBillNosVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value,  do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
                 if (editbill == true)
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     disable_form_edit();
                     this.v1_history.loadData();
                 }
@@ -456,9 +456,14 @@ namespace Factory_Inventory
             else
             {
                 bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
-                if (addbill == true) disable_form_edit();
-                return;
+                if (addbill == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
+                    return;
             }
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {

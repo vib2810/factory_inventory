@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -543,7 +544,11 @@ namespace Factory_Inventory
             if (this.edit_form == false)
             {
                 bool added= c.addDyeingIssueVoucher(inputDateDTP.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), trayno, number, comboBox4CB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString(), int.Parse(batchNumberTextboxTB.Text), trayid, CellSum(), float.Parse(rateTextBoxTB.Text));
-                if (added == true) disable_form_edit();
+                if (added == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
                 else return;
             }
             else
@@ -551,11 +556,13 @@ namespace Factory_Inventory
                 bool edited=c.editDyeingIssueVoucher(this.voucherID, this.old_fiscal_year, inputDateDTP.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), trayno, number, comboBox4CB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString(), int.Parse(batchNumberTextboxTB.Text), trayid, CellSum(), float.Parse(rateTextBoxTB.Text), trayid);
                 if (edited == true)
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     disable_form_edit();
                     this.v1_history.loadData();
                 }
                 else return;
             }
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {

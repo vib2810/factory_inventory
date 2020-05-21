@@ -131,7 +131,7 @@
             this.textBox3.TabIndex = 7;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
-            // Signup
+            // M_1_Signup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -146,8 +146,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Signup";
+            this.Name = "M_1_Signup";
             this.Text = "Factory Inventory - Add User";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.M_1_Signup_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

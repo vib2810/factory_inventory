@@ -341,6 +341,7 @@ namespace Factory_Inventory
                 bool added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, int.Parse(this.nonRedyeingBatchNoTB.Text), int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text));
                 if (added == true)
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     this.disable_form_edit();
                 }
             }
@@ -350,10 +351,11 @@ namespace Factory_Inventory
                 bool edited = c.editRedyeingVoucher(this.issueDateDTP.Value, this.old_batch_row, this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), float.Parse(this.nonRedyeingBatchWeightTB.Text), float.Parse(this.redyeingBatchWeightTB.Text));
                 if(edited == true)
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     this.disable_form_edit();
                 }
             }
-            
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
         private void disable_form_edit()
         {
@@ -377,7 +379,6 @@ namespace Factory_Inventory
             }
             CellSum();
         }
-
         private void deleteButton_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -397,7 +398,6 @@ namespace Factory_Inventory
                 return;
             }
         }
-
         public void CellSum()
         {
             float sum = 0;

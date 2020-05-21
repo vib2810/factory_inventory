@@ -13,6 +13,30 @@ namespace Factory_Inventory
 {
     public partial class M_1_vouchersUC : UserControl
     {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.C)
+            {
+                this.cartonButton.PerformClick(); ;
+                return false;
+            }
+            if (keyData == Keys.T)
+            {
+                this.trayProductionButton.PerformClick();
+                return false;
+            }
+            if (keyData == Keys.N)
+            {
+                this.cartonProductionButton.PerformClick();
+                return false;
+            }
+            if (keyData == Keys.P)
+            {
+                this.printButton.PerformClick();
+                return false;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         private DbConnect c;
         public M_1_vouchersUC()
         {
@@ -23,6 +47,20 @@ namespace Factory_Inventory
             if (Global.access == 2)
             {
                 this.editCNameQualityButton.Visible = false;
+            }
+        }
+        public void decolour_all_buttons()
+        {
+            var buttons = this.Controls
+     .OfType<Button>()
+     .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                if (button.Text != "Add/Edit Drop Downs")
+                {
+                    button.BackColor = SystemColors.ControlDark;
+                }
             }
         }
         private void hide_all_UCs()
@@ -37,33 +75,41 @@ namespace Factory_Inventory
             hide_all_UCs();
             voucherInput1UC1.Show();
             voucherInput1UC1.BringToFront();
+            voucherInput1UC1.Focus();
+            this.decolour_all_buttons();
+            this.cartonButton.BackColor = Color.Orange;
         }
-
         private void editCNameQualityButton_Click(object sender, EventArgs e)
         {
             M_V_AddEditDropDowns f = new M_V_AddEditDropDowns();
             f.Show();
         }
-
         private void trayProductionButton_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
             m_V2_voucherInput2UC1.Show();
             m_V2_voucherInput2UC1.BringToFront();
+            m_V2_voucherInput2UC1.Focus();
+            this.decolour_all_buttons();
+            this.trayProductionButton.BackColor = Color.Orange;
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
             m_V3_voucherInput3UC1.Show();
             m_V3_voucherInput3UC1.BringToFront();
+            m_V3_voucherInput3UC1.Focus();
+            this.decolour_all_buttons();
+            this.cartonProductionButton.BackColor = Color.Orange;
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
             m_V4_printUC1.Show();
             m_V4_printUC1.BringToFront();
+            m_V4_printUC1.Focus();
+            this.decolour_all_buttons();
+            this.printButton.BackColor = Color.Orange;
         }
     }
 }
