@@ -783,16 +783,25 @@ namespace Factory_Inventory
             if (this.edit_form == false)
             {
                 bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), grades);
-                if (added == true) disable_form_edit();
+                if (added == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
                 else return;
             }
             else
             {
                 bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable);
-                if (edited == true) disable_form_edit();
+                if (edited == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
                 else return;
                 this.v1_history.loadData();
             }
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {

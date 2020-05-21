@@ -13,43 +13,63 @@ namespace Factory_Inventory
 {
     public partial class M_1_inventoryUC : UserControl
     {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.O)
+            {
+                this.onDateButton.PerformClick(); ;
+                return false;
+            }
+            if (keyData == Keys.F)
+            {
+                this.fromtoButton.PerformClick();
+                return false;
+            }
+            if (keyData == Keys.T)
+            {
+                this.tablesButton.PerformClick();
+                return false;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         private DbConnect c;
         public M_1_inventoryUC()
         {
             InitializeComponent();
             this.c = new DbConnect();
-            hide_all_UCs();
         }
-
-        private void voucherLabel_Click(object sender, EventArgs e)
+        public void decolour_all_buttons()
         {
+            var buttons = this.Controls
+     .OfType<Button>()
+     .Where(x => x.Name.EndsWith("Button"));
 
-        }
-        private void hide_all_UCs()
-        {
-            //M_I1_OnDateUC1. 
-            //voucherInput1UC1.Hide();
-            //m_V2_voucherInput2UC1.Hide();
-            //m_V3_voucherInput3UC1.Hide();
+            foreach (var button in buttons)
+            {
+                button.BackColor = SystemColors.ControlDark;
+            }
+
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            hide_all_UCs();
             M_I1_OnDate f = new M_I1_OnDate();
             f.Show();
-            //voucherInput1UC1.Show();
-            //voucherInput1UC1.BringToFront();
+            this.decolour_all_buttons();
+            this.onDateButton.BackColor = Color.Orange;
         }
 
         private void tablesButton_Click(object sender, EventArgs e)
         {
-
+            this.decolour_all_buttons();
+            this.tablesButton.BackColor = Color.Orange;
         }
 
         private void fromtoButton_Click(object sender, EventArgs e)
         {
             M_I1_FromToDate f = new M_I1_FromToDate();
             f.Show();
+            this.decolour_all_buttons();
+            this.fromtoButton.BackColor = Color.Orange;
         }
     }
 }

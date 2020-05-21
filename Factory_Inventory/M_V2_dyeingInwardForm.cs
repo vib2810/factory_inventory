@@ -48,7 +48,6 @@ namespace Factory_Inventory
         private int voucherID;
         private bool addBill = false;
         Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
-
         public M_V2_dyeingInwardForm(string mode)
         {
             if(mode== "dyeingInward")
@@ -246,7 +245,6 @@ namespace Factory_Inventory
                 this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
                 this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
 
 
 
@@ -435,9 +433,6 @@ namespace Factory_Inventory
                 this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
                 this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
                 this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.inwardDateDTP.Value));
-
 
                 //if only in view mode
                 if (isEditable == false)
@@ -727,6 +722,7 @@ namespace Factory_Inventory
                     bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
                     if (editbill == true)
                     {
+                        dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                         disable_form_edit();
                         this.v1_history.loadData();
                     }
@@ -737,6 +733,7 @@ namespace Factory_Inventory
                     bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos);
                     if (edited == true)
                     {
+                        dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                         disable_form_edit();
                         this.v1_history.loadData();
                     }
@@ -748,16 +745,25 @@ namespace Factory_Inventory
                 if(this.addBill==true)
                 {
                     bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
-                    if (addbill == true) disable_form_edit();
+                    if (addbill == true)
+                    {
+                        dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                        disable_form_edit();
+                    }
                     return;
                 }
                 else
                 {
                     bool added = c.addDyeingInwardVoucher(inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos);
-                    if (added == true) disable_form_edit();
+                    if (added == true)
+                    {
+                        dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                        disable_form_edit();
+                    }
                     else return;
                 }
             }
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -943,7 +949,6 @@ namespace Factory_Inventory
                 this.deleteButton.Visible = false;
             }
         }
-
         private void deleteButton_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

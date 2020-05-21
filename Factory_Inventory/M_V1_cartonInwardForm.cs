@@ -568,7 +568,11 @@ namespace Factory_Inventory
             if (this.edit_form==false)
             {
                 bool added=c.addCartonVoucher(inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(""));
-                if (added == true) disable_form_edit();
+                if (added == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
                 else return;
             }
             else
@@ -576,11 +580,13 @@ namespace Factory_Inventory
                 bool edited=c.editCartonVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value, billNumberTextboxTB.Text, quality, quality_arr, this.comboBox2CB.SelectedItem.ToString(), cost, cartonno, weights, number, CellSum(""), this.carton_editable);
                 if (edited == true)
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     disable_form_edit();
                     this.v1_history.loadData();
                 }
                 else return;
             }
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
         private void billDate_ValueChanged(object sender, EventArgs e)
         {

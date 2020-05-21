@@ -15,9 +15,11 @@ namespace Factory_Inventory
     public partial class M_1_Signup : Form
     {
         public DbConnect c;
-        public M_1_Signup(DbConnect input)
+        M_1_MainS f;
+        public M_1_Signup(DbConnect input, M_1_MainS form)
         {
             this.c = input;
+            this.f = form;
             InitializeComponent();
         }
 
@@ -85,6 +87,12 @@ namespace Factory_Inventory
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void M_1_Signup_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            f.decolour_all_buttons();
+            f.last_clicked.BackColor = Color.LawnGreen;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -115,7 +116,6 @@ namespace Factory_Inventory
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
-
         public M_V1_cartonTwistForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
             InitializeComponent();
@@ -168,9 +168,6 @@ namespace Factory_Inventory
             this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-            this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(c.getFinancialYear(this.issueDateDTP.Value));
-            
 
             //DatagridView
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
@@ -225,6 +222,7 @@ namespace Factory_Inventory
 
             }
             this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
+            this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
             Console.WriteLine("------------------");
@@ -243,7 +241,6 @@ namespace Factory_Inventory
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
-
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             Console.WriteLine("in editingcontrolshowing");
@@ -254,12 +251,12 @@ namespace Factory_Inventory
                 ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
             }
         }
-
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 1 && e.RowIndex >= 0)
             {
-                if(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
+                Console.WriteLine("CVC");
+                if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
                 {
                     dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
                     dynamicWeightLabel.Text = CellSum().ToString("F3");
@@ -279,7 +276,6 @@ namespace Factory_Inventory
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
             }
         }
-
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             if (e.RowIndex != dataGridView1.Rows.Count - 1)
@@ -287,9 +283,12 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
-
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (dataGridView1.ReadOnly == true || dataGridView1.Enabled == false)
+            {
+                return;
+            }
             if (e.KeyCode == Keys.Tab &&
                 (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
             {
@@ -346,7 +345,6 @@ namespace Factory_Inventory
                 e.Handled = true;
             }
         }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
@@ -408,6 +406,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     this.disable_form_edit();
                 }
             }
@@ -420,12 +419,15 @@ namespace Factory_Inventory
                 }
                 else
                 {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    dataGridView1.Visible = false;
+                    dataGridView1.Visible = true;
                     this.disable_form_edit();
                     this.v1_history.loadData();
                 }
             }
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
-
         public void disable_form_edit()
         {
             this.dataGridView1.Enabled = false;
@@ -438,7 +440,6 @@ namespace Factory_Inventory
             this.dataGridView1.ReadOnly = false;
             this.loadCartonButton.Enabled = false;
         }
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count = dataGridView1.SelectedRows.Count;
@@ -474,7 +475,6 @@ namespace Factory_Inventory
                 return sum;
             }
         }
-
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
             if (comboBox1CB.SelectedIndex == 0)
@@ -493,7 +493,6 @@ namespace Factory_Inventory
             this.comboBox2CB.Enabled = false;
             this.comboBox3CB.Enabled = false;
         }
-
         private void loadData(string quality, string company, string fiscalyear)
         {
             DataTable d = c.getCartonStateQualityCompany(1, quality, company, fiscalyear, "Carton");
@@ -515,7 +514,6 @@ namespace Factory_Inventory
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex>=0)
@@ -523,7 +521,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
-
         private void M_V1_cartonTwistForm_Load(object sender, EventArgs e)
         {
             var comboBoxes = this.Controls
@@ -569,7 +566,6 @@ namespace Factory_Inventory
                 this.deleteButton.Visible = false;
             }
         }
-
         private void deleteButton_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
