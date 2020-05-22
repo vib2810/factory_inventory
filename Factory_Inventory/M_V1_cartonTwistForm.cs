@@ -85,8 +85,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource3 = new List<string>();
             DataTable d3 = c.getQC('f');
-            dataSource3.Add("---Select---");
-
             for (int i = 0; i < d3.Rows.Count; i++)
             {
                 dataSource3.Add(d3.Rows[i][0].ToString());
@@ -157,8 +155,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource3 = new List<string>();
             DataTable d3 = c.getQC('f');
-            dataSource3.Add("---Select---");
-
             for (int i = 0; i < d3.Rows.Count; i++)
             {
                 dataSource3.Add(d3.Rows[i][0].ToString());
@@ -184,15 +180,8 @@ namespace Factory_Inventory
             if (isEditable == false)
             {
                 this.Text += " (View Only)";
-                this.deleteToolStripMenuItem.Enabled = false;
                 this.deleteButton.Visible = true;
-                this.issueDateDTP.Enabled = false;
-                this.comboBox1CB.Enabled = false;
-                this.comboBox2CB.Enabled = false;
-                this.comboBox3CB.Enabled = false;
-                this.loadCartonButton.Enabled = false;
-                this.saveButton.Enabled = false;
-                this.dataGridView1.ReadOnly = true;
+                this.disable_form_edit();
             }
 
             else
@@ -243,6 +232,237 @@ namespace Factory_Inventory
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
+        private void M_V1_cartonTwistForm_Load(object sender, EventArgs e)
+        {
+            var comboBoxes = this.Controls
+                  .OfType<ComboBox>()
+                  .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
+            }
+
+            this.issueDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
+        }
+
+        //Own functions
+        private void loadData(string quality, string company, string fiscalyear)
+        {
+            DataTable d = c.getCartonStateQualityCompany(1, quality, company, fiscalyear, "Carton");
+            Console.WriteLine(d.Rows.Count);
+            for (int i = 0; i < d.Rows.Count; i++)
+            {
+                this.carton_data.Add(d.Rows[i][0].ToString());
+            }
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded " + d.Rows.Count.ToString() + " Cartons");
+            }
+        }
+        public void disable_form_edit()
+        {
+            this.deleteToolStripMenuItem.Enabled = false;
+            this.issueDateDTP.Enabled = false;
+            this.comboBox1CB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
+            this.comboBox3CB.Enabled = false;
+            this.saveButton.Enabled = false;
+            this.dataGridView1.ReadOnly = true;
+            this.loadCartonButton.Enabled = false;
+        }
+        private float CellSum()
+        {
+            float sum = 0;
+            try
+            {
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    return sum;
+                }
+                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                {
+                    if (dataGridView1.Rows[i].Cells[2].Value != null)
+                        sum += float.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString());
+                }
+                return sum;
+            }
+            catch
+            {
+                return sum;
+            }
+        }
+        
+        
+        //Clicks
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            //checks
+            if (comboBox1CB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Enter Select Quality", "Error");
+                return;
+            }
+            if (comboBox2CB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Enter Select Company Name", "Error");
+                return;
+            }
+            if (dataGridView1.Rows[0].Cells[1].Value == null)
+            {
+                c.ErrorBox("Please enter Carton Numbers", "Error");
+                return;
+            }
+            if (this.inputDate.Value.Date < this.issueDateDTP.Value.Date)
+            {
+                c.ErrorBox("Issue Date is in the future", "Error");
+                return;
+            }
+            string cartonno = "";
+            int number = 0;
+
+            List<int> temp = new List<int>();
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+
+                //ComboBox c = (ComboBox)dataGridView1.EditingControl;
+                if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "")
+                {
+                    continue;
+                }
+                else
+                {
+                    cartonno += dataGridView1.Rows[i].Cells[1].Value + ",";
+                    number++;
+                    temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
+
+                    var distinctBytes = new HashSet<int>(temp);
+                    bool allDifferent = distinctBytes.Count == temp.Count;
+                    if (allDifferent == false)
+                    {
+                        c.ErrorBox("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
+                        return;
+                    }
+
+                }
+            }
+
+            if (this.edit_form == false)
+            {
+                bool added = c.addTwistVoucher(inputDate.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
+                if (added == false)
+                {
+                    return;
+                }
+                else
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    this.disable_form_edit();
+                }
+            }
+            else
+            {
+                bool edited = c.editTwistVoucher(this.voucher_id, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
+                if (edited == false)
+                {
+                    return;
+                }
+                else
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    dataGridView1.Visible = false;
+                    dataGridView1.Visible = true;
+                    this.disable_form_edit();
+                    this.v1_history.loadData();
+                }
+            }
+            dataGridView1.EnableHeadersVisualStyles = false;
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int count = dataGridView1.SelectedRows.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                {
+                    dataGridView1.SelectedRows[0].Selected = false;
+                    continue;
+                }
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+            }
+            dynamicWeightLabel.Text = CellSum().ToString("F3");
+        }
+        private void loadCartonButton_Click(object sender, EventArgs e)
+        {
+            if (comboBox1CB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Enter Select Quality", "Error");
+                return;
+            }
+            if (comboBox2CB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Enter Select Company Name", "Error");
+                return;
+            }
+            this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
+            this.loadCartonButton.Enabled = false;
+            this.comboBox1CB.Enabled = false;
+            this.comboBox2CB.Enabled = false;
+            this.comboBox3CB.Enabled = false;
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteTwistVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+        
+        //DataGridView 1
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             Console.WriteLine("in editingcontrolshowing");
@@ -271,7 +491,7 @@ namespace Factory_Inventory
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     return;
                 }
-                if (this.comboBox3CB.SelectedIndex <= 0) return;
+                if (this.comboBox3CB.SelectedIndex < 0) return;
                 DataTable dt = c.getCartonWeightShade(cartoon, this.comboBox3CB.SelectedItem.ToString(), "Carton");
                 if (dt.Rows.Count <= 0) return;
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = dt.Rows[0][0];
@@ -347,168 +567,6 @@ namespace Factory_Inventory
                 e.Handled = true;
             }
         }
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            //checks
-            if (comboBox1CB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Enter Select Quality", "Error");
-                return;
-            }
-            if (comboBox2CB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Enter Select Company Name", "Error");
-                return;
-            }
-            if (dataGridView1.Rows[0].Cells[1].Value==null)
-            {
-                c.ErrorBox("Please enter Carton Numbers", "Error");
-                return;
-            }
-            if (this.inputDate.Value.Date < this.issueDateDTP.Value.Date)
-            {
-                c.ErrorBox("Issue Date is in the future", "Error");
-                return;
-            }
-            string cartonno = "";
-            int number = 0;
-
-            List<int> temp = new List<int>();
-            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
-            {
-
-                //ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "")
-                {
-                    continue;
-                }
-                else
-                {
-                    cartonno += dataGridView1.Rows[i].Cells[1].Value + ",";
-                    number++;
-                    temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
-
-                    var distinctBytes = new HashSet<int>(temp);
-                    bool allDifferent = distinctBytes.Count == temp.Count;
-                    if (allDifferent == false)
-                    {
-                        c.ErrorBox("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
-                        return;
-                    }
-
-                }
-            }
-
-            if (this.edit_form == false)
-            {
-                bool added = c.addTwistVoucher(inputDate.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
-                if(added==false)
-                {
-                    return;
-                }
-                else
-                {
-                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                    this.disable_form_edit();
-                }
-            }
-            else
-            {
-                bool edited = c.editTwistVoucher(this.voucher_id, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
-                if (edited == false)
-                {
-                    return;
-                }
-                else
-                {
-                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                    dataGridView1.Visible = false;
-                    dataGridView1.Visible = true;
-                    this.disable_form_edit();
-                    this.v1_history.loadData();
-                }
-            }
-            dataGridView1.EnableHeadersVisualStyles = false;
-        }
-        public void disable_form_edit()
-        {
-            this.dataGridView1.Enabled = false;
-            this.deleteToolStripMenuItem.Enabled = false;
-            this.issueDateDTP.Enabled = false;
-            this.comboBox1CB.Enabled = false;
-            this.comboBox2CB.Enabled = false;
-            this.comboBox3CB.Enabled = false;
-            this.saveButton.Enabled = false;
-            this.dataGridView1.ReadOnly = false;
-            this.loadCartonButton.Enabled = false;
-        }
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int count = dataGridView1.SelectedRows.Count;
-            for (int i = 0; i < count; i++)
-            {
-                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
-                {
-                    dataGridView1.SelectedRows[0].Selected = false;
-                    continue;
-                }
-                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-            }
-            dynamicWeightLabel.Text = CellSum().ToString("F3");
-        }
-        private float CellSum()
-        {
-            float sum = 0;
-            try
-            {
-                if (dataGridView1.Rows.Count == 0)
-                {
-                    return sum;
-                }
-                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                {
-                    if (dataGridView1.Rows[i].Cells[2].Value != null)
-                        sum += float.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString());
-                }
-                return sum;
-            }
-            catch
-            {
-                return sum;
-            }
-        }
-        private void loadCartonButton_Click(object sender, EventArgs e)
-        {
-            if (comboBox1CB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Enter Select Quality", "Error");
-                return;
-            }
-            if (comboBox2CB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Enter Select Company Name", "Error");
-                return;
-            }
-            this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
-            this.loadCartonButton.Enabled = false;
-            this.comboBox1CB.Enabled = false;
-            this.comboBox2CB.Enabled = false;
-            this.comboBox3CB.Enabled = false;
-        }
-        private void loadData(string quality, string company, string fiscalyear)
-        {
-            DataTable d = c.getCartonStateQualityCompany(1, quality, company, fiscalyear, "Carton");
-            Console.WriteLine(d.Rows.Count);
-            for(int i=0; i<d.Rows.Count; i++)
-            {
-               // Console.WriteLine(d.Rows[i][0].ToString());
-                this.carton_data.Add(d.Rows[i][0].ToString());
-            }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded "+d.Rows.Count.ToString()+" Cartons");
-            }
-        }
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView1.IsCurrentCellDirty)
@@ -521,70 +579,6 @@ namespace Factory_Inventory
             if (e.Button == MouseButtons.Right && e.RowIndex>=0)
             {
                 dataGridView1.Rows[e.RowIndex].Selected = true;
-            }
-        }
-        private void M_V1_cartonTwistForm_Load(object sender, EventArgs e)
-        {
-            var comboBoxes = this.Controls
-                  .OfType<ComboBox>()
-                  .Where(x => x.Name.EndsWith("CB"));
-
-            foreach (var cmbBox in comboBoxes)
-            {
-                c.comboBoxEvent(cmbBox);
-            }
-
-            var textBoxes = this.Controls
-                  .OfType<TextBox>()
-                  .Where(x => x.Name.EndsWith("TB"));
-
-            foreach (var txtBox in textBoxes)
-            {
-                c.textBoxEvent(txtBox);
-            }
-
-            var dtps = this.Controls
-                  .OfType<DateTimePicker>()
-                  .Where(x => x.Name.EndsWith("DTP"));
-
-            foreach (var dtp in dtps)
-            {
-                c.DTPEvent(dtp);
-            }
-
-            var buttons = this.Controls
-                  .OfType<Button>()
-                  .Where(x => x.Name.EndsWith("Button"));
-
-            foreach (var button in buttons)
-            {
-                Console.WriteLine(button.Name);
-                c.buttonEvent(button);
-            }
-
-            this.issueDateDTP.Focus();
-            if (Global.access == 2)
-            {
-                this.deleteButton.Visible = false;
-            }
-        }
-        private void deleteButton_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                bool deleted = c.deleteTwistVoucher(this.voucher_id);
-                if (deleted == true)
-                {
-                    c.SuccessBox("Voucher Deleted Successfully");
-                    this.deleteButton.Enabled = false;
-                    this.v1_history.loadData();
-                }
-                else return;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                return;
             }
         }
     }

@@ -47,9 +47,9 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private int voucher_id;
         private string tablename;
-        private bool view_only = false;
         Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
 
+        //Form functions
         public M_VC_addBill(string form)
         {
             InitializeComponent();
@@ -73,7 +73,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource1 = new List<string>();
             DataTable d = c.getQC('f');
-            dataSource1.Add("---Select---");
 
             for (int i = 0; i < d.Rows.Count; i++)
             {
@@ -150,7 +149,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource1 = new List<string>();
             DataTable d = c.getQC('f');
-            dataSource1.Add("---Select---");
 
             for (int i = 0; i < d.Rows.Count; i++)
             {
@@ -201,20 +199,9 @@ namespace Factory_Inventory
             if (isEditable == false)
             {
                 this.Text += "(View Only)";
-                this.saveButton.Enabled = false;
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
-                this.typeCB.Enabled = false;
-                this.billDateDTP.Enabled = false;
-                this.financialYearCB.Enabled = false;
-                this.qualityCB.Enabled = false;
-                this.loadDOButton.Enabled = false;
-                this.billWeightTB.Enabled = false;
-                this.billAmountTB.Enabled = false;
-                this.inputDate.Enabled = false;
-                this.dataGridView1.ReadOnly = true;
-                this.billNumberTextboxTB.Enabled = false;
-                this.dataGridView1.Enabled = false;
+                this.disable_form_edit();
             }
             else
             {
@@ -256,6 +243,53 @@ namespace Factory_Inventory
             dgvCmb.DataSource = this.do_no;
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
+        private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
+        {
+            var comboBoxes = this.Controls
+                  .OfType<ComboBox>()
+                  .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
+            }
+
+            this.billDateDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
+        }
+
+        //Own functions
         public void disable_form_edit()
         {
             this.inputDate.Enabled = false;
@@ -267,7 +301,197 @@ namespace Factory_Inventory
             this.billDateDTP.Enabled = false;
             this.billWeightTB.Enabled = false;
             this.billAmountTB.Enabled = false;
+            this.deleteToolStripMenuItem.Enabled = false;
+            this.typeCB.Enabled = false;
+            this.financialYearCB.Enabled = false;
         }
+        private float CellSum(int column)
+        {
+            float sum = 0;
+            try
+            {
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    return sum;
+                }
+                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                {
+                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, i, column))
+                    {
+                        //float dyeing_rate = float.Parse(c.getColumnBatchNo("Dyeing_Rate", int.Parse(this.dataGridView1.Rows[i].Cells[1].Value.ToString()), this.comboBox3CB.Text));
+                        //Console.WriteLine(dyeing_rate.ToString());
+                        //sum += float.Parse(dataGridView1.Rows[i].Cells[column].Value.ToString())*dyeing_rate;
+                        sum += float.Parse(dataGridView1.Rows[i].Cells[column].Value.ToString());
+                    }
+                }
+                return sum;
+            }
+            catch
+            {
+                Console.WriteLine("Excep");
+                return sum;
+            }
+        }
+        private void loadData(string quality, string do_fiscal_year, string type)
+        {
+
+            string[] d = c.getDO_QualityFiscalYearType(quality, do_fiscal_year, type, this.tablename);
+            for (int i = 0; i < d.Length; i++)
+            {
+                this.do_no.Add(d[i]);
+            }
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded " + d.Length.ToString() + " DOs");
+            }
+        }
+
+        //Clicks
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            //checks
+            if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, 0, 1))
+            {
+                c.ErrorBox("Please enter DO Numbers", "Error");
+                return;
+            }
+            try
+            {
+                float.Parse(this.billWeightTB.Text);
+            }
+            catch
+            {
+                c.ErrorBox("Enter numeric bill weight", "Error");
+                return;
+            }
+            try
+            {
+                float.Parse(this.billAmountTB.Text);
+            }
+            catch
+            {
+                c.ErrorBox("Enter numeric bill amount", "Error");
+                return;
+            }
+            if (typeCB.SelectedItem.ToString() == "1")
+            {
+                if (Math.Abs(Double.Parse(billWeightTB.Text) - Double.Parse(netDOWeightTB.Text)) > 1D)
+                {
+                    c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
+                    return;
+                }
+                if (Math.Abs(Double.Parse(billAmountTB.Text) - Double.Parse(netDOAmountTB.Text)) > 50D)
+                {
+                    c.ErrorBox("Bill Amount is does not match total DO Amount", "Error");
+                    return;
+                }
+            }
+            string do_nos = "";
+            List<string> temp = new List<string>();
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+                if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1))
+                {
+                    continue;
+                }
+                else
+                {
+                    do_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
+                    //to check for all different do_nos
+                    temp.Add(dataGridView1.Rows[i].Cells[1].Value.ToString());
+                    var distinctBytes = new HashSet<string>(temp);
+                    bool allDifferent = distinctBytes.Count == temp.Count;
+                    if (allDifferent == false)
+                    {
+                        c.ErrorBox("Please Enter Distinct DO Numbers at Row: " + (i + 1).ToString(), "Error");
+                        return;
+                    }
+
+                }
+            }
+            if (this.edit_form == true)
+            {
+                bool editbill = c.editSalesBillNosVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value, do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
+                if (editbill == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                    this.v1_history.loadData();
+                }
+                return;
+            }
+            else
+            {
+                bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
+                if (addbill == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
+                return;
+            }
+            dataGridView1.EnableHeadersVisualStyles = false;
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int count = dataGridView1.SelectedRows.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                {
+                    dataGridView1.SelectedRows[0].Selected = false;
+                    continue;
+                }
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+            }
+            this.netDOWeightTB.Text = CellSum(2).ToString("F3");
+            this.netDOAmountTB.Text = CellSum(3).ToString("F2");
+        }
+        private void loadCartonButton_Click(object sender, EventArgs e)
+        {
+            if (qualityCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Enter Quality", "Error");
+                return;
+            }
+            if (financialYearCB.SelectedIndex < 0)
+            {
+                c.ErrorBox("Please select Batch Financial Year", "Error");
+                return;
+            }
+            if (typeCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Please select type of DOs", "Error");
+                return;
+            }
+            this.loadData(this.qualityCB.SelectedItem.ToString(), financialYearCB.SelectedItem.ToString(), this.typeCB.Text); ;
+            this.loadDOButton.Enabled = false;
+            this.qualityCB.Enabled = false;
+            this.saveButton.Enabled = true;
+            this.financialYearCB.Enabled = false;
+            this.typeCB.Enabled = false;
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteSalesBillNosVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+
+        //DataGridView 1
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (e.Control is DataGridViewComboBoxEditingControl)
@@ -306,6 +530,10 @@ namespace Factory_Inventory
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (dataGridView1.Enabled == false || dataGridView1.ReadOnly == true)
+            {
+                return;
+            }
             int col = dataGridView1.SelectedCells[0].ColumnIndex;
             if (e.KeyCode == Keys.Tab &&
                ( (col!=0) || this.edit_cmd_send == true))
@@ -382,170 +610,6 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            //checks
-            if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, 0, 1))
-            {
-                c.ErrorBox("Please enter DO Numbers", "Error");
-                return;
-            }
-            try
-            {
-                float.Parse(this.billWeightTB.Text);
-            }
-            catch
-            {
-                c.ErrorBox("Enter numeric bill weight", "Error");
-                return;
-            }
-            try
-            {
-                float.Parse(this.billAmountTB.Text);
-            }
-            catch
-            {
-                c.ErrorBox("Enter numeric bill amount", "Error");
-                return;
-            }
-            if(typeCB.SelectedItem.ToString()=="1")
-            {
-                if (Math.Abs(Double.Parse(billWeightTB.Text) - Double.Parse(netDOWeightTB.Text)) > 1D)
-                {
-                    c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
-                    return;
-                }
-                if (Math.Abs(Double.Parse(billAmountTB.Text) - Double.Parse(netDOAmountTB.Text)) > 50D)
-                {
-                    c.ErrorBox("Bill Amount is does not match total DO Amount", "Error");
-                    return;
-                }
-            }
-            string do_nos = "";
-            List<string> temp = new List<string>();
-            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
-            {
-                if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1))
-                {
-                    continue;
-                }
-                else
-                {
-                    do_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
-                    //to check for all different do_nos
-                    temp.Add(dataGridView1.Rows[i].Cells[1].Value.ToString());
-                    var distinctBytes = new HashSet<string>(temp);
-                    bool allDifferent = distinctBytes.Count == temp.Count;
-                    if (allDifferent == false)
-                    {
-                        c.ErrorBox("Please Enter Distinct DO Numbers at Row: " + (i + 1).ToString(), "Error");
-                        return;
-                    }
-
-                }
-            }
-            if(this.edit_form==true)
-            {
-                bool editbill = c.editSalesBillNosVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value,  do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
-                if (editbill == true)
-                {
-                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                    disable_form_edit();
-                    this.v1_history.loadData();
-                }
-                return;
-            }
-            else
-            {
-                bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
-                if (addbill == true)
-                {
-                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                    disable_form_edit();
-                }
-                    return;
-            }
-            dataGridView1.EnableHeadersVisualStyles = false;
-        }
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int count = dataGridView1.SelectedRows.Count;
-            for (int i = 0; i < count; i++)
-            {
-                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
-                {
-                    dataGridView1.SelectedRows[0].Selected = false;
-                    continue;
-                }
-                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-            }
-            this.netDOWeightTB.Text = CellSum(2).ToString("F3");
-            this.netDOAmountTB.Text = CellSum(3).ToString("F2");
-        }
-        private float CellSum(int column)
-        {
-            float sum = 0;
-            try
-            {
-                if (dataGridView1.Rows.Count == 0)
-                {
-                    return sum;
-                }
-                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                {
-                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, i, column))
-                    {
-                        //float dyeing_rate = float.Parse(c.getColumnBatchNo("Dyeing_Rate", int.Parse(this.dataGridView1.Rows[i].Cells[1].Value.ToString()), this.comboBox3CB.Text));
-                        //Console.WriteLine(dyeing_rate.ToString());
-                        //sum += float.Parse(dataGridView1.Rows[i].Cells[column].Value.ToString())*dyeing_rate;
-                        sum += float.Parse(dataGridView1.Rows[i].Cells[column].Value.ToString());
-                    }
-                }
-                return sum;
-            }
-            catch
-            {
-                Console.WriteLine("Excep");
-                return sum;
-            }
-        }
-        private void loadCartonButton_Click(object sender, EventArgs e)
-        {
-            if (qualityCB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Enter Quality", "Error");
-                return;
-            }
-            if(financialYearCB.SelectedIndex==0)
-            {
-                c.ErrorBox("Please select Batch Financial Year", "Error");
-                return;
-            }
-            if(typeCB.SelectedIndex==0)
-            {
-                c.ErrorBox("Please select type of DOs", "Error");
-                return;
-            }
-            this.loadData(this.qualityCB.SelectedItem.ToString(), financialYearCB.SelectedItem.ToString(), this.typeCB.Text); ;
-            this.loadDOButton.Enabled = false;
-            this.qualityCB.Enabled = false;
-            this.saveButton.Enabled = true;
-            this.financialYearCB.Enabled = false;
-            this.typeCB.Enabled = false;
-        }
-        private void loadData(string quality, string do_fiscal_year, string type)
-        {
-
-            string[] d = c.getDO_QualityFiscalYearType(quality, do_fiscal_year, type, this.tablename);
-            for(int i=0; i<d.Length; i++)
-            {
-                this.do_no.Add(d[i]);
-            }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded "+d.Length.ToString()+" DOs");
-            }
-        }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
@@ -560,70 +624,8 @@ namespace Factory_Inventory
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-        private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
-        {
-            var comboBoxes = this.Controls
-                  .OfType<ComboBox>()
-                  .Where(x => x.Name.EndsWith("CB"));
+        
 
-            foreach (var cmbBox in comboBoxes)
-            {
-                c.comboBoxEvent(cmbBox);
-            }
-
-            var textBoxes = this.Controls
-                  .OfType<TextBox>()
-                  .Where(x => x.Name.EndsWith("TB"));
-
-            foreach (var txtBox in textBoxes)
-            {
-                c.textBoxEvent(txtBox);
-            }
-
-            var dtps = this.Controls
-                  .OfType<DateTimePicker>()
-                  .Where(x => x.Name.EndsWith("DTP"));
-
-            foreach (var dtp in dtps)
-            {
-                c.DTPEvent(dtp);
-            }
-
-            var buttons = this.Controls
-                  .OfType<Button>()
-                  .Where(x => x.Name.EndsWith("Button"));
-
-            foreach (var button in buttons)
-            {
-                Console.WriteLine(button.Name);
-                c.buttonEvent(button);
-            }
-
-            this.billDateDTP.Focus();
-            if (Global.access == 2)
-            {
-                this.deleteButton.Visible = false;
-            }
-        }
-
-        private void deleteButton_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                bool deleted = c.deleteSalesBillNosVoucher(this.voucher_id);
-                if (deleted == true)
-                {
-                    c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
-                    this.v1_history.loadData();
-                }
-                else return;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                return;
-            }
-        }
+        
     }
 }

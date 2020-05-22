@@ -230,7 +230,6 @@
             this.billcheckBoxCK.Text = "None";
             this.billcheckBoxCK.UseVisualStyleBackColor = true;
             this.billcheckBoxCK.Visible = false;
-            this.billcheckBoxCK.CheckStateChanged += new System.EventHandler(this.billcheckBox_CheckStateChanged);
             // 
             // label6
             // 

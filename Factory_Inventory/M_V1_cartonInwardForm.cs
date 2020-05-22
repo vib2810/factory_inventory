@@ -161,19 +161,11 @@ namespace Factory_Inventory
             if (isEditable == false)
             {
                 this.Text += " (View Only)";
-                this.lockCartonsCK.Enabled = false;
-                this.deleteToolStripMenuItem.Enabled = false;
                 this.deleteButton.Visible = true;
-                this.inputDate.Enabled = false;
-                this.billDateDTP.Enabled = false;
-                this.billNumberTextboxTB.ReadOnly = true;
-                this.comboBox2CB.Enabled = false;
-                this.saveButton.Enabled = false;
-                this.dataGridView1.ReadOnly = true;
-                this.dataGridView2.ReadOnly = true;
                 dataSource2.Add(row["Company_Name"].ToString());
                 this.comboBox2CB.DataSource = dataSource2;
                 this.comboBox2CB.DisplayMember = "Company_Names";
+                this.disable_form_edit();   
             }
 
             else
@@ -708,7 +700,10 @@ namespace Factory_Inventory
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine("Inside keydown");
-
+            if (dataGridView1.Enabled == false || dataGridView1.ReadOnly == true)
+            {
+                return;
+            }
             if (e.KeyCode == Keys.Tab &&
                 (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 3) || this.edit_cmd_send == true))
             {

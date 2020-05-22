@@ -328,16 +328,6 @@ namespace Factory_Inventory
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
                 this.disable_form_edit();
-                //this.saveButton.Enabled = false;
-                //this.inputDate.Enabled = false;
-                //this.loadDataButton.Enabled = false;
-                //this.dataGridView1.Enabled = false;
-                //this.dataGridView1.ReadOnly = true;
-                //this.dataGridView2.Enabled = false;
-                //this.dataGridView2.ReadOnly = true;
-                //this.closedCheckboxCK.Enabled = false;
-                //this.deleteToolStripMenuItem.Enabled = false;
-                //this.deleteToolStripMenuItem1.Enabled = false;
             }
             else
             {
@@ -430,14 +420,7 @@ namespace Factory_Inventory
             }
             for (int i = 0; i < full_batch_nos.Count; i++)
             {
-                for (int j = i + 1; j < full_batch_nos.Count; j++)
-                {
-                    if (full_batch_nos[i] == full_batch_nos[j])
-                    {
-                        this.show_batches[i] = full_batch_nos[i] + "  (" + this.batch_fiscal_year_list[i] + ")";
-                        this.show_batches[j] = full_batch_nos[j] + "  (" + this.batch_fiscal_year_list[j] + ")";
-                    }
-                }
+                this.show_batches[i] = full_batch_nos[i] + "  (" + this.batch_fiscal_year_list[i] + ")";
             }
             dgvCmb1.DataSource = this.show_batches;
             dataGridView2.RowCount = temp_batch_no_arr.Length + 1;
@@ -1207,8 +1190,12 @@ namespace Factory_Inventory
         
         private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
         {
+            if (dataGridView2.Enabled == false || dataGridView2.ReadOnly == true)
+            {
+                return;
+            }
             if (e.KeyCode == Keys.Enter &&
-               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
             {
                 dataGridView2.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView2.EditingControl;

@@ -28,6 +28,8 @@ namespace Factory_Inventory
         public DataGridView issuesource = new DataGridView();
         private bool edit_reyeing_tray = false;
         private int edit_redyeing_tray_index;
+        
+        //Form functions
         public M_V2_trayInputForm()
         {
             InitializeComponent();
@@ -191,16 +193,7 @@ namespace Factory_Inventory
             {
                 this.Text += "(View Only)";
                 this.deleteButton.Visible = true;
-                this.dateTimePickerDTP.Enabled = false;
-                this.qualityCB.Enabled = false;
-                this.companyNameCB.Enabled = false;
-                this.springCB.Enabled = false;
-                this.addButton.Enabled = false;
-                this.trayNumberTB.Enabled = false;
-                this.numberOfSpringsTB.Enabled = false;
-                this.traytareTB.Enabled = false;
-                this.grossWeightTB.Enabled = false;
-                this.machineNoCB.Enabled = false;
+                this.disable_form_edit();
             }
             else
             {
@@ -321,7 +314,7 @@ namespace Factory_Inventory
             if (no_of_springs != -1) this.numberOfSpringsTB.Text = no_of_springs.ToString();
             if (tray_tare != -1F) this.traytareTB.Text = tray_tare.ToString();
             if (gross_weight != -1F) this.grossWeightTB.Text = gross_weight.ToString();
-            if (quality != null) this.qualityCB.SelectedIndex= this.qualityCB.FindStringExact(quality);
+            if (quality != null) this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(quality);
             this.qualityCB.Enabled = false;
             if (company_name != null) this.companyNameCB.SelectedIndex = this.companyNameCB.FindStringExact(company_name);
             this.companyNameCB.Enabled = false;
@@ -333,7 +326,7 @@ namespace Factory_Inventory
             if (this.issuesource.Rows.Count != 0) this.tray_details = (DataTable)this.issuesource.DataSource;
             this.StartPosition = FormStartPosition.Manual;
 
-            if (edit_row_index!=-1)
+            if (edit_row_index != -1)
             {
                 this.Text = "Edit Tray";
                 this.edit_reyeing_tray = true;
@@ -341,6 +334,131 @@ namespace Factory_Inventory
                 this.edit_redyeing_tray_index = edit_row_index;
             }
         }
+        private void M_V2_trayInputForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+            {
+                Console.WriteLine("Up");
+                this.SelectNextControl((Control)sender, false, true, true, true);
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                Console.WriteLine("Down");
+                this.SelectNextControl((Control)sender, true, true, true, true);
+            }
+        }
+        private void M_V2_trayInputForm_Load(object sender, EventArgs e)
+        {
+            var comboBoxes = this.Controls
+                  .OfType<ComboBox>()
+                  .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
+            }
+
+            this.dateTimePickerDTP.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
+        }
+        private void M_V2_trayInputForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.closed = true;
+        }
+        
+        //Own Functions
+        public void disable_form_edit()
+        {
+            this.dateTimePickerDTP.Enabled = false;
+            this.qualityCB.Enabled = false;
+            this.companyNameCB.Enabled = false;
+            this.springCB.Enabled = false;
+            this.addButton.Enabled = false;
+            this.trayNumberTB.Enabled = false;
+            this.numberOfSpringsTB.Enabled = false;
+            this.traytareTB.Enabled = false;
+            this.grossWeightTB.Enabled = false;
+            this.machineNoCB.Enabled = false;
+        }
+        private float dynamicLabelChange()
+        {
+            float gross_weight, tray_tare;
+            int number_of_springs;
+            float spring_weight = 0F;
+            try
+            {
+                gross_weight = float.Parse(grossWeightTB.Text);
+            }
+            catch
+            {
+                dynamicWeightLabel.Text = "Enter numeric gross weight";
+                return 0F;
+            }
+
+            try
+            {
+                tray_tare = float.Parse(traytareTB.Text);
+            }
+            catch
+            {
+                dynamicWeightLabel.Text = "Enter numeric tray tare";
+                return 0F;
+            }
+
+            try
+            {
+                number_of_springs = int.Parse(numberOfSpringsTB.Text);
+            }
+            catch
+            {
+                dynamicWeightLabel.Text = "Enter numeric number of springs";
+                return 0F;
+            }
+            for (int i = 0; i < spring_table.Rows.Count; i++)
+            {
+                if (this.springCB.Text == this.spring_table.Rows[i][0].ToString())
+                {
+                    spring_weight = float.Parse(this.spring_table.Rows[i][1].ToString());
+                    break;
+                }
+            }
+
+            dynamicWeightLabel.Text = (gross_weight - tray_tare - number_of_springs * spring_weight).ToString() + " kg";
+            return (gross_weight - tray_tare - number_of_springs * spring_weight);
+        }
+
+        //Clicks
         private void addButton_Click(object sender, EventArgs e)
         {
             //checks
@@ -503,136 +621,6 @@ namespace Factory_Inventory
             }
             
         }
-        public void disable_form_edit()
-        {
-            this.dateTimePickerDTP.Enabled = false;
-            this.qualityCB.Enabled = false;
-            this.companyNameCB.Enabled = false;
-            this.springCB.Enabled = false;
-            this.addButton.Enabled = false;
-            this.trayNumberTB.Enabled = false;
-            this.numberOfSpringsTB.Enabled = false;
-            this.traytareTB.Enabled = false;
-            this.grossWeightTB.Enabled = false;
-            this.machineNoCB.Enabled = false;
-        }
-        private float dynamicLabelChange()
-        {
-            float gross_weight, tray_tare;
-            int number_of_springs;
-            float spring_weight = 0F;
-            try
-            {
-                gross_weight = float.Parse(grossWeightTB.Text);
-            }
-            catch
-            {
-                dynamicWeightLabel.Text = "Enter numeric gross weight";
-                return 0F;
-            }
-
-            try
-            {
-                tray_tare = float.Parse(traytareTB.Text);
-            }
-            catch
-            {
-                dynamicWeightLabel.Text = "Enter numeric tray tare";
-                return 0F;
-            }
-
-            try
-            {
-                number_of_springs = int.Parse(numberOfSpringsTB.Text);
-            }
-            catch
-            {
-                dynamicWeightLabel.Text = "Enter numeric number of springs";
-                return 0F;
-            }
-            for (int i = 0; i < spring_table.Rows.Count; i++)
-            {
-                if (this.springCB.Text == this.spring_table.Rows[i][0].ToString())
-                {
-                    spring_weight = float.Parse(this.spring_table.Rows[i][1].ToString());
-                    break;
-                }
-            }
-
-            dynamicWeightLabel.Text=(gross_weight - tray_tare - number_of_springs * spring_weight).ToString()+" kg";
-            return (gross_weight - tray_tare - number_of_springs * spring_weight);
-        }
-        private void grossWeightTextbox_TextChanged(object sender, EventArgs e)
-        {
-            dynamicLabelChange();
-        }
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            dynamicLabelChange();
-            this.springWeightTB.Text = (c.getSpringWeight(this.springCB.Text) * 1000F).ToString(); ;
-        }
-        private void M_V2_trayInputForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Up)
-            {
-                Console.WriteLine("Up");
-                this.SelectNextControl((Control)sender, false, true, true, true);
-            }
-            else if (e.KeyCode == Keys.Down)
-            {
-                Console.WriteLine("Down");
-                this.SelectNextControl((Control)sender, true, true, true, true);
-            }
-        }
-        private void M_V2_trayInputForm_Load(object sender, EventArgs e)
-        {
-            var comboBoxes = this.Controls
-                  .OfType<ComboBox>()
-                  .Where(x => x.Name.EndsWith("CB"));
-
-            foreach (var cmbBox in comboBoxes)
-            {
-                c.comboBoxEvent(cmbBox);
-            }
-
-            var textBoxes = this.Controls
-                  .OfType<TextBox>()
-                  .Where(x => x.Name.EndsWith("TB"));
-
-            foreach (var txtBox in textBoxes)
-            {
-                c.textBoxEvent(txtBox);
-            }
-
-            var dtps = this.Controls
-                  .OfType<DateTimePicker>()
-                  .Where(x => x.Name.EndsWith("DTP"));
-
-            foreach (var dtp in dtps)
-            {
-                c.DTPEvent(dtp);
-            }
-
-            var buttons = this.Controls
-                  .OfType<Button>()
-                  .Where(x => x.Name.EndsWith("Button"));
-
-            foreach (var button in buttons)
-            {
-                Console.WriteLine(button.Name);
-                c.buttonEvent(button);
-            }
-
-            this.dateTimePickerDTP.Focus();
-            if (Global.access == 2)
-            {
-                this.deleteButton.Visible = false;
-            }
-        }
-        private void M_V2_trayInputForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.closed = true;
-        }
         private void deleteButton_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -651,6 +639,17 @@ namespace Factory_Inventory
             {
                 return;
             }
+        }
+
+        //Text or Index changed
+        private void grossWeightTextbox_TextChanged(object sender, EventArgs e)
+        {
+            dynamicLabelChange();
+        }
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dynamicLabelChange();
+            this.springWeightTB.Text = (c.getSpringWeight(this.springCB.Text) * 1000F).ToString(); ;
         }
         private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)
         {

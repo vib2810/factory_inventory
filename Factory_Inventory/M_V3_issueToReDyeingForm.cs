@@ -22,6 +22,8 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private bool edit_form = false;
         private int voucher_id;
+
+        //Form functions
         public M_V3_issueToReDyeingForm()
         {
             InitializeComponent();
@@ -219,6 +221,8 @@ namespace Factory_Inventory
                 this.deleteButton.Visible = false;
             }
         }
+
+        //Own functions
         private void load_batch()
         {
             int index = this.batchNoCB.SelectedIndex;
@@ -238,6 +242,44 @@ namespace Factory_Inventory
             this.companyNameTB.Text = this.old_batch_row["Company_Name"].ToString();
             this.dyeingCompanyNameTB.Text = this.old_batch_row["Dyeing_Company_Name"].ToString();
         }
+        private void disable_form_edit()
+        {
+            this.redyeingColourCB.Enabled = false;
+            this.rateTextBoxTB.Enabled = false;
+            this.addTrayButton.Enabled = false;
+            this.editTrayButton.Enabled = false;
+            this.saveButton.Enabled = false;
+            this.dataGridView1.ReadOnly = true;
+            this.addTrayButton.Enabled = false;
+            this.editTrayButton.Enabled = false;
+            this.saveButton.Enabled = false;
+            this.deleteToolStripMenuItem.Enabled = false;
+        }
+        public void CellSum()
+        {
+            float sum = 0;
+            try
+            {
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    return;
+                }
+                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                {
+                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 3) == true)
+                        sum += float.Parse(dataGridView1.Rows[i].Cells["Net Weight"].Value.ToString());
+                }
+                this.redyeingBatchWeightTB.Text = sum.ToString("F3");
+                this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+
+        //Clicks oe index xhanged
         private void loadButton_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Load button clicked");
@@ -291,16 +333,9 @@ namespace Factory_Inventory
             this.all_trays = f.tray_details;
             
         }
-        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
-            {
-                //dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
-            }
-        }
         private void editTrayButton_Click(object sender, EventArgs e)
         {
-            if(this.dataGridView1.SelectedRows.Count==0)
+            if (this.dataGridView1.SelectedRows.Count == 0)
             {
                 return;
             }
@@ -310,26 +345,15 @@ namespace Factory_Inventory
             f.ShowDialog();
             this.all_trays = f.tray_details;
         }
-        private void redyeingColourCB_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(this.redyeingColourCB.SelectedIndex!=0)
-            {
-                float rate = c.getDyeingRate(this.rateTextBoxTB.Text, this.qualityTB.Text);
-                if(rate!=-1F)
-                {
-                    this.rateTextBoxTB.Text = rate.ToString();
-                }
-            }
-        }
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if(float.Parse(this.nonRedyeingBatchWeightTB.Text) < 0)
+            if (float.Parse(this.nonRedyeingBatchWeightTB.Text) < 0)
             {
                 c.ErrorBox("Weight of batch being sent for redyeing is greater than original batch weight");
                 return;
             }
-            if(redyeingColourCB.SelectedIndex==0)
+            if (redyeingColourCB.SelectedIndex == 0)
             {
                 c.ErrorBox("Please select redyeing colour");
                 return;
@@ -343,7 +367,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric dyeing rate");
                 return;
             }
-            if(this.edit_form==false)
+            if (this.edit_form == false)
             {
                 bool added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, int.Parse(this.nonRedyeingBatchNoTB.Text), int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text));
                 if (added == true)
@@ -356,35 +380,13 @@ namespace Factory_Inventory
             {
                 string redyeing = this.old_batch_row["Batch_No"].ToString() + "," + this.old_batch_row["Fiscal_Year"].ToString();
                 bool edited = c.editRedyeingVoucher(this.issueDateDTP.Value, this.old_batch_row, this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), float.Parse(this.nonRedyeingBatchWeightTB.Text), float.Parse(this.redyeingBatchWeightTB.Text));
-                if(edited == true)
+                if (edited == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     this.disable_form_edit();
                 }
             }
             dataGridView1.EnableHeadersVisualStyles = false;
-        }
-        private void disable_form_edit()
-        {
-            this.redyeingColourCB.Enabled = false;
-            this.rateTextBoxTB.Enabled = false;
-            this.addTrayButton.Enabled = false;
-            this.editTrayButton.Enabled = false;
-            this.saveButton.Enabled = false;
-            this.dataGridView1.Enabled = false;
-            this.addTrayButton.Enabled = false;
-            this.editTrayButton.Enabled = false;
-            this.saveButton.Enabled = false;
-        }
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int count = dataGridView1.SelectedRows.Count;
-            for (int i = 0; i < count; i++)
-            {
-                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-
-            }
-            CellSum();
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
@@ -405,27 +407,42 @@ namespace Factory_Inventory
                 return;
             }
         }
-        public void CellSum()
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            float sum = 0;
-            try
+            int count = dataGridView1.SelectedRows.Count;
+            for (int i = 0; i < count; i++)
             {
-                if (dataGridView1.Rows.Count == 0)
-                {
-                    return;
-                }
-                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                {
-                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 3) == true)
-                        sum += float.Parse(dataGridView1.Rows[i].Cells["Net Weight"].Value.ToString());
-                }
-                this.redyeingBatchWeightTB.Text = sum.ToString("F3");
-                this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+
             }
-            catch
+            CellSum();
+        }
+        private void redyeingColourCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.redyeingColourCB.SelectedIndex != 0)
             {
-                return;
+                float rate = c.getDyeingRate(this.rateTextBoxTB.Text, this.qualityTB.Text);
+                if (rate != -1F)
+                {
+                    this.rateTextBoxTB.Text = rate.ToString();
+                }
             }
         }
+
+        //DataGridView 1
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            {
+                //dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
+        }
+       
+        
+       
+        
+       
+        
+        
     }
 }

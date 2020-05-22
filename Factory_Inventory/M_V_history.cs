@@ -275,8 +275,11 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Bill_No"].Visible = true;
-                this.dataGridView1.Columns["Bill_No"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Bill_No"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Bill_No"].HeaderText = "Bill Number";
                 this.dataGridView1.Columns["Date_Of_Billing"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 2;
@@ -305,8 +308,11 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Quality"].Visible = true;
-                this.dataGridView1.Columns["Quality"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Quality"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
                 this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Issue"].DisplayIndex = 2;
@@ -331,11 +337,13 @@ namespace Factory_Inventory
                 //this.dt = c.getSalesVoucherHistory();
                 this.dt = c.getVoucherHistories("Sales_Voucher");
                 this.dataGridView1.ReadOnly = true;
-                this.remove_sales_rows();
-                this.dataGridView1.DataSource = dt;
+                this.dataGridView1.DataSource = this.remove_sales_rows();
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Date_Of_Sale"].Visible = true;
-                this.dataGridView1.Columns["Date_Of_Sale"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Sale"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Date_Of_Sale"].HeaderText = "Sale Date";
                 this.dataGridView1.Columns["Sale_DO_No"].Visible = true;
                 this.dataGridView1.Columns["Sale_DO_No"].DisplayIndex = 2;
@@ -370,8 +378,11 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Input_Date"].Visible = true;
+                this.dataGridView1.Columns["Input_Date"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Input_Date"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Tray_Production_Date"].Visible = true;
-                this.dataGridView1.Columns["Tray_Production_Date"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Tray_Production_Date"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Tray_Production_Date"].HeaderText = "Production Date";
                 this.dataGridView1.Columns["Tray_No"].Visible = true;
                 this.dataGridView1.Columns["Tray_No"].DisplayIndex = 2;
@@ -397,8 +408,11 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Batch_No"].Visible = true;
-                this.dataGridView1.Columns["Batch_No"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Batch_No"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Batch_No"].HeaderText = "Batch Number";
                 this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Issue"].DisplayIndex = 2;
@@ -427,8 +441,11 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Inward_Date"].Visible = true;
-                this.dataGridView1.Columns["Inward_Date"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Inward_Date"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Inward_Date"].HeaderText = "Inward Date";
                 this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 2;
@@ -455,8 +472,11 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
-                this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
                 this.dataGridView1.Columns["Bill_No"].Visible = true;
                 this.dataGridView1.Columns["Bill_No"].DisplayIndex = 2;
@@ -487,8 +507,11 @@ namespace Factory_Inventory
                     }
                 }
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Date_Of_Production"].Visible = true;
-                this.dataGridView1.Columns["Date_Of_Production"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Production"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Date_Of_Production"].HeaderText = "Production Date";
                 this.dataGridView1.Columns["Quality"].Visible = true;
                 this.dataGridView1.Columns["Quality"].DisplayIndex = 2;
@@ -521,11 +544,13 @@ namespace Factory_Inventory
                 //this.dt = c.getSalesVoucherHistory();
                 this.dt = c.getVoucherHistories("Sales_Voucher");
                 this.dataGridView1.ReadOnly = true;
-                this.remove_sales_rows();
-                this.dataGridView1.DataSource = dt;
+                this.dataGridView1.DataSource = this.remove_sales_rows();
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Date_Of_Sale"].Visible = true;
-                this.dataGridView1.Columns["Date_Of_Sale"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Sale"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Date_Of_Sale"].HeaderText = "Sale Date";
                 this.dataGridView1.Columns["Sale_DO_No"].Visible = true;
                 this.dataGridView1.Columns["Sale_DO_No"].DisplayIndex = 2;
@@ -559,8 +584,11 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = this.remove_sales_rows();
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 1;
                 this.dataGridView1.Columns["Sale_Bill_Date"].HeaderText = "Sale Bill Date";
                 this.dataGridView1.Columns["DO_No_Arr"].Visible = true;
                 this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = 1;
@@ -585,23 +613,26 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = this.remove_sales_rows();
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Sale_Bill_Date"].HeaderText = "Sale Bill Date";
                 this.dataGridView1.Columns["DO_No_Arr"].Visible = true;
-                this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = 1;
+                this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = 4;
                 this.dataGridView1.Columns["DO_No_Arr"].HeaderText = "DO Numbers";
                 this.dataGridView1.Columns["Quality"].Visible = true;
-                this.dataGridView1.Columns["Quality"].DisplayIndex = 2;
+                this.dataGridView1.Columns["Quality"].DisplayIndex = 6;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
                 this.dataGridView1.Columns["Sale_Bill_No"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Sale_Bill_No"].HeaderText = "Sale Bill Number";
                 this.dataGridView1.Columns["Sale_Bill_Weight"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_Weight"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Sale_Bill_Weight"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Sale_Bill_Weight"].HeaderText = "Bill Weight";
                 this.dataGridView1.Columns["Sale_Bill_Amount"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 12;
                 this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
                 c.auto_adjust_dgv(this.dataGridView1);
             }
@@ -656,6 +687,7 @@ namespace Factory_Inventory
                 }
                 else if ((this.vno == 9 || this.vno==11) && this.dt.Rows[i]["Tablename"].ToString() == "Carton")
                 {
+                    Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     continue;
                 }
                 d.Rows.Add(this.dt.Rows[i].ItemArray);
