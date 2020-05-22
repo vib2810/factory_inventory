@@ -1151,7 +1151,10 @@ namespace Factory_Inventory
             {
                 try
                 {
-                    float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
+                    {
+                        float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    }
                 }
                 catch
                 {
@@ -1165,7 +1168,11 @@ namespace Factory_Inventory
             {
                 try
                 {
-                    float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+
+                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
+                    {
+                        float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    }
                 }
                 catch
                 {
@@ -1179,7 +1186,10 @@ namespace Factory_Inventory
             {
                 try
                 {
-                    int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    if(c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
+                    {
+                        int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    }
                 }
                 catch
                 {
@@ -1199,6 +1209,112 @@ namespace Factory_Inventory
         private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
 
+            //if (e.RowIndex >= 0 && e.ColumnIndex == 1)
+            //{
+            //    for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+            //    {
+            //        for (int j = i + 1; j < dataGridView2.Rows.Count - 1; j++)
+            //        {
+            //            if (dataGridView2.Rows[i].Cells[1].Value == null || dataGridView2.Rows[j].Cells[1].Value == null)
+            //            {
+            //                continue;
+            //            }
+            //            if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
+            //            {
+            //                c.ErrorBox("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
+            //                dataGridView2.Rows[j].Cells[1].Value = "";
+            //                dataGridView2.Rows[j].Cells[2].Value = "";
+            //                return;
+            //            }
+            //        }
+            //    }
+            //    string batch = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+            //    int index = -1;
+            //    if (this.edit_form == false)
+            //    {
+            //        for (int i = 0; i < this.batch_nos.Count; i++)
+            //        {
+            //            if (this.batch_nos[i] == batch)
+            //            {
+            //                index = i;
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        for (int i = 0; i < this.show_batches.Count; i++)
+            //        {
+            //            if (this.show_batches[i] == batch)
+            //            {
+            //                index = i;
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    if (index != -1)
+            //    {
+            //        if (this.edit_form == false)
+            //        {
+            //            dataGridView2.Rows[e.RowIndex].Cells[2].Value = this.dt.Rows[index]["Net_Weight"].ToString();
+            //        }
+            //        else
+            //        {
+            //            int batch_no;
+            //            if (c.check_if_batch_repeated(batch))
+            //            {
+            //                string[] temp = c.repeated_batch_csv(batch);
+            //                batch_no = int.Parse(temp[0]);
+            //            }
+            //            else
+            //            {
+            //                batch_no = int.Parse(batch);
+            //            }
+            //            dataGridView2.Rows[e.RowIndex].Cells[2].Value = c.getColumnBatchNo("Net_Weight", batch_no, this.batch_fiscal_year_list[index]);
+            //        }
+            //    }
+            //    batchnwtTextbox.Text = CellSum2(2).ToString("F3");
+            //}
+        }
+        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            {
+                dataGridView2.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView2.EditingControl;
+                c.DroppedDown = true;
+                SendKeys.Send("{down}");
+                SendKeys.Send("{up}");
+                e.Handled = true;
+            }
+        }
+        private void dataGridView2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (e.RowIndex != dataGridView2.Rows.Count - 1)
+            {
+                dataGridView2.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
+        }
+        private void dataGridView2_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is DataGridViewComboBoxEditingControl)
+            {
+                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
+                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
+                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+            }
+        }
+        private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.IsCurrentCellDirty)
+            {
+                dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
                 for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
@@ -1266,42 +1382,7 @@ namespace Factory_Inventory
                 batchnwtTextbox.Text = CellSum2(2).ToString("F3");
             }
         }
-        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter &&
-               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
-            {
-                dataGridView2.BeginEdit(true);
-                ComboBox c = (ComboBox)dataGridView2.EditingControl;
-                c.DroppedDown = true;
-                SendKeys.Send("{down}");
-                SendKeys.Send("{up}");
-                e.Handled = true;
-            }
-        }
-        private void dataGridView2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            if (e.RowIndex != dataGridView2.Rows.Count - 1)
-            {
-                dataGridView2.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
-            }
-        }
-        private void dataGridView2_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            if (e.Control is DataGridViewComboBoxEditingControl)
-            {
-                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
-                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
-                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
-            }
-        }
-        private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            if (dataGridView2.IsCurrentCellDirty)
-            {
-                dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            }
-        }
+
         private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
