@@ -79,8 +79,6 @@ namespace Factory_Inventory.Factory_Classes
             //ans = ans.Skip(1).ToArray();
             ans[0] = ans[0].Substring(0, ans[0].Length - 2);
             ans[1] = ans[1].Substring(0, ans[1].Length - 1);
-            Console.WriteLine(ans[0]);
-            Console.WriteLine(ans[1]);
             return ans;
         }
         public bool check_if_batch_repeated(string batch)
@@ -173,6 +171,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 string sql = "SELECT COUNT(*) FROM " + tablename + " WHERE " + quantitycolumn + " IN (" + quantities + ") AND Fiscal_Year='"+financialyear+"'";
+                Console.WriteLine(sql);
                 SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 sda.Fill(dt);
             }
@@ -220,7 +219,7 @@ namespace Factory_Inventory.Factory_Classes
         }
         public void printDataTable(DataTable d)
         {
-            Console.WriteLine("Printing");
+            Console.WriteLine("Printing DataTable");
             for(int i=0; i<d.Rows.Count; i++)
             {
                 for(int j=0; j<d.Columns.Count; j++)
@@ -254,10 +253,8 @@ namespace Factory_Inventory.Factory_Classes
             if (e.KeyCode == Keys.Enter)
             {
                 i++;
-                Console.WriteLine("Enter pressed " + i);
                 if (c.DroppedDown == false && droppeddown==false)
                 {
-                    Console.WriteLine("dropping down");
                     c.DroppedDown = true;
                     e.Handled = true;
                     return;
@@ -317,29 +314,21 @@ namespace Factory_Inventory.Factory_Classes
             dynamic x;
             if (e.KeyCode == Keys.Up)
             {
-                Console.WriteLine("Up");
                 x = f.GetNextControl((Control)sender, false);
             }
             else if (e.KeyCode == Keys.Down)
             {
-                Console.WriteLine("Down");
                 x = f.GetNextControl((Control)sender, true);
             }
             else
             {
-                Console.WriteLine("Else");
                 return;
             }
-            if(x==null)
-            {
-                return;
-            }
-            if (x.GetType().Name.ToString() == "Label")
-            {
-                Console.WriteLine("Label found");
-                return;
-            }
-            else if(x.Enabled==false)
+
+            if (x == null) return;
+            if (x.GetType().Name.ToString() == "Label") return;
+            if (x.TabIndex == 0) return;
+            else if (x.Enabled == false)
             {
                 return;
             }
@@ -355,7 +344,6 @@ namespace Factory_Inventory.Factory_Classes
         }
         private void KeyDownB(object sender, KeyEventArgs e)
         {
-            Console.WriteLine("button");
             Button b = sender as Button;
             arrowControl(b, sender, e);
             e.Handled = true;
@@ -4567,41 +4555,35 @@ namespace Factory_Inventory.Factory_Classes
         }
         public bool deleteCartonProductionVoucher(int voucherID)
         {
-            //Get all carton_nos, batch_nos and batch_fiscal_years which were previously present
-            con.Open();
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Production_Arr, Batch_No_Arr, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year FROM Carton_Production_Voucher WHERE Voucher_ID='" + voucherID + "'", con);
-            DataTable old = new DataTable();
-            sda.Fill(old);
-            con.Close();
-            string old_carton_nos = old.Rows[0][0].ToString();
-            string[] old_batch_nos = this.csvToArray(old.Rows[0][1].ToString());
-            string[] old_batch_fiscal_years = this.csvToArray(old.Rows[0][2].ToString());
-            string carton_fiscal_year = old.Rows[0][3].ToString();
-            
-            //Remove cartons with state 1 in the old voucher
-            this.removeCarton(removecom(old_carton_nos), carton_fiscal_year, "Carton_Produced");
-
-            //Remove old batches
-            for (int i = 0; i < old_batch_nos.Length; i++)
-            {
-                pair batch;
-                batch.batch_no = old_batch_nos[i];
-                batch.fiscal_year = old_batch_fiscal_years[i];
-                bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, DateTime.Now, true);
-                if (!flag)
-                {
-                    return false;
-                }
-            }
-
             try
             {
+                //Get all carton_nos, batch_nos and batch_fiscal_years which were previously present
                 con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Carton_Production_Voucher SET Deleted = 1 WHERE Voucher_ID = " + voucherID + "";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
+                string sql = "UPDATE Carton_Production_Voucher SET Deleted = 1 OUTPUT inserted.Carton_No_Production_Arr, inserted.Batch_No_Arr, inserted.Batch_Fiscal_Year_Arr, inserted.Carton_Fiscal_Year WHERE Voucher_ID=" + voucherID;
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                DataTable old = new DataTable();
+                sda.Fill(old);
                 con.Close();
+                string old_carton_nos = old.Rows[0]["Carton_No_Production_Arr"].ToString();
+                string[] old_batch_nos = this.csvToArray(old.Rows[0]["Batch_No_Arr"].ToString());
+                string[] old_batch_fiscal_years = this.csvToArray(old.Rows[0]["Batch_Fiscal_Year_Arr"].ToString());
+                string carton_fiscal_year = old.Rows[0]["Carton_Fiscal_Year"].ToString();
+
+                //Remove cartons with state 1 in the old voucher
+                this.removeCarton(removecom(old_carton_nos), carton_fiscal_year, "Carton_Produced");
+
+                //Remove old batches
+                for (int i = 0; i < old_batch_nos.Length; i++)
+                {
+                    pair batch;
+                    batch.batch_no = old_batch_nos[i];
+                    batch.fiscal_year = old_batch_fiscal_years[i];
+                    bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, DateTime.Now, true);
+                    if (!flag)
+                    {
+                        return false;
+                    }
+                }
             }
             catch (Exception e)
             {

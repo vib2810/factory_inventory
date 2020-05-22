@@ -228,9 +228,9 @@ namespace Factory_Inventory
             dataGridView1.Columns.Insert(1, dgvCmb);
             dataGridView1.Columns[1].Width = 250;
             dataGridView1.Columns.Add("Weight", "Weight");
-            dataGridView1.Columns[2].ReadOnly = true;
-            dataGridView1.Columns.Add("Weight", "Weight");
-            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns["Weight"].ReadOnly = true;
+            dataGridView1.Columns.Add("Machine_Number", "Machine Number");
+            dataGridView1.Columns["Machine_Number"].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
             bool invalid_edit= false;
@@ -340,7 +340,8 @@ namespace Factory_Inventory
             {
                 if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
                 {
-                    dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
+                    dataGridView1.Rows[e.RowIndex].Cells["Weight"].Value = null;
+                    dataGridView1.Rows[e.RowIndex].Cells["Machine_Number"].Value = null;
                     dynamicWeightLabel.Text = CellSum().ToString("F3");
                     return;
                 }

@@ -137,8 +137,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource4 = new List<string>();
             DataTable d4 = c.getQC('f');
-            dataSource4.Add("---Select---");
-
             for (int i = 0; i < d4.Rows.Count; i++)
             {
                 dataSource4.Add(d4.Rows[i][0].ToString());
@@ -251,8 +249,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource4 = new List<string>();
             DataTable d4 = c.getQC('f');
-            dataSource4.Add("---Select---");
-
             for (int i = 0; i < d4.Rows.Count; i++)
             {
                 dataSource4.Add(d4.Rows[i][0].ToString());

@@ -70,7 +70,6 @@ namespace Factory_Inventory
         private int voucher_id;
         private int batch_state;
         private int highest_carton_no;
-        private bool view_only = false;
         private List<string> batch_fiscal_year_list; //Stroes fiscal year of batches during edit only
         private List<string> show_batches; //Stores the batches in fiscal year format only during edit mode
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
@@ -303,9 +302,8 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Carton_Weight", "Carton Weight");
             dataGridView1.Columns.Add("Number_Of_Cones", "Number of Cones");
             dataGridView1.Columns.Add("Net_Weight", "Net Weight");
-            dataGridView1.Columns[7].ReadOnly = true;
+            dataGridView1.Columns["Net_Weight"].ReadOnly = true;
             dataGridView1.RowCount = 10;
-            dataGridView1.Enabled = false;
 
             //Datagridview 2
             dataGridView2.Columns.Add("Sl_No", "Sl No");
@@ -329,17 +327,17 @@ namespace Factory_Inventory
                 this.Text += "(View Only)";
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
-                this.saveButton.Enabled = false;
-                this.view_only = true;
-                this.inputDate.Enabled = false;
-                this.loadDataButton.Enabled = false;
-                this.dataGridView1.Enabled = false;
-                this.dataGridView1.ReadOnly = true;
-                this.dataGridView2.Enabled = false;
-                this.dataGridView2.ReadOnly = true;
-                this.closedCheckboxCK.Enabled = false;
-                this.deleteToolStripMenuItem.Enabled = false;
-                this.deleteToolStripMenuItem1.Enabled = false;
+                this.disable_form_edit();
+                //this.saveButton.Enabled = false;
+                //this.inputDate.Enabled = false;
+                //this.loadDataButton.Enabled = false;
+                //this.dataGridView1.Enabled = false;
+                //this.dataGridView1.ReadOnly = true;
+                //this.dataGridView2.Enabled = false;
+                //this.dataGridView2.ReadOnly = true;
+                //this.closedCheckboxCK.Enabled = false;
+                //this.deleteToolStripMenuItem.Enabled = false;
+                //this.deleteToolStripMenuItem1.Enabled = false;
             }
             else
             {
@@ -517,10 +515,10 @@ namespace Factory_Inventory
             this.inputDate.Enabled = false;
             this.loadDataButton.Enabled = false;
             this.saveButton.Enabled = false;
-            this.dataGridView1.Enabled = false;
-            this.dataGridView2.Enabled = false;
             this.dataGridView1.ReadOnly = true;
             this.dataGridView2.ReadOnly = true;
+            this.deleteToolStripMenuItem.Enabled = false;
+            this.deleteToolStripMenuItem1.Enabled = false;
             this.qualityComboboxCB.Enabled = false;
             this.dyeingCompanyComboboxCB.Enabled = false;
             this.colourComboboxCB.Enabled = false;
@@ -916,7 +914,7 @@ namespace Factory_Inventory
                 if (deleted == true)
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
+                    this.deleteButton.Enabled = false;
                     this.v1_history.loadData();
                 }
                 else return;
@@ -954,6 +952,7 @@ namespace Factory_Inventory
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (dataGridView1.Enabled == false || dataGridView1.ReadOnly == true) return;
             //called when tab is pressed at last row or tab is pressed while editing last row
             if (e.KeyCode == Keys.Tab &&
                 (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 6) || this.edit_cmd_send == true))
@@ -1268,6 +1267,7 @@ namespace Factory_Inventory
         }
         private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
         {
+            if (dataGridView2.Enabled == false || dataGridView2.ReadOnly == true) return;
             if (e.KeyCode == Keys.Enter &&
                (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
             {
