@@ -273,7 +273,7 @@ namespace Factory_Inventory
             this.redyeingColourCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.redyeingColourCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            string fiscal_year = c.getFinancialYear(this.inputDateDTP.Value);
+            string fiscal_year = c.getFinancialYear(this.issueDateDTP.Value);
             List<int> years = c.getFinancialYearArr(fiscal_year);
             this.issueDateDTP.MinDate = new DateTime(years[0], 04, 01);
             this.issueDateDTP.MaxDate = new DateTime(years[1], 03, 31);
