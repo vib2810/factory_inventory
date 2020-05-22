@@ -103,9 +103,10 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Quality", "Quality");
                 dataGridView1.Columns.Add("Net Rate", "Net Rate");
                 dataGridView1.Columns.Add("Slip Number", "Slip Number");
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
+                dataGridView1.Columns["Weight"].ReadOnly = true;
+                dataGridView1.Columns["Colour"].ReadOnly = true;
+                dataGridView1.Columns["Quality"].ReadOnly = true;
+                dataGridView1.Columns["Net rate"].ReadOnly = true;
 
                 dataGridView1.RowCount = 10;
 
@@ -192,10 +193,10 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Colour", "Colour");
                 dataGridView1.Columns.Add("Quality", "Quality");
                 dataGridView1.Columns.Add("Net Rate", "Net Rate");
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
-                dataGridView1.Columns[5].ReadOnly = true;
+                dataGridView1.Columns["Weight"].ReadOnly = true;
+                dataGridView1.Columns["Colour"].ReadOnly = true;
+                dataGridView1.Columns["Quality"].ReadOnly = true;
+                dataGridView1.Columns["Net rate"].ReadOnly = true;
 
                 dataGridView1.RowCount = 10;
 
@@ -261,9 +262,10 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Quality", "Quality");
                 dataGridView1.Columns.Add("Net Rate", "Net Rate");
                 dataGridView1.Columns.Add("Slip Number", "Slip Number");
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
+                dataGridView1.Columns["Weight"].ReadOnly = true;
+                dataGridView1.Columns["Colour"].ReadOnly = true;
+                dataGridView1.Columns["Quality"].ReadOnly = true;
+                dataGridView1.Columns["Net rate"].ReadOnly = true;
                 dataGridView1.RowCount = 10;
 
                 //if form is only view-only
@@ -401,10 +403,10 @@ namespace Factory_Inventory
                 dataGridView1.Columns.Add("Quality", "Quality");
                 dataGridView1.Columns.Add("Net Rate", "Net Rate");
 
-                dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[3].ReadOnly = true;
-                dataGridView1.Columns[4].ReadOnly = true;
-                dataGridView1.Columns[5].ReadOnly = true;
+                dataGridView1.Columns["Weight"].ReadOnly = true;
+                dataGridView1.Columns["Colour"].ReadOnly = true;
+                dataGridView1.Columns["Quality"].ReadOnly = true;
+                dataGridView1.Columns["Net rate"].ReadOnly = true;
 
                 //Create drop-down Dyeing Company lists
                 var dataSource3 = new List<string>();

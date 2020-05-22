@@ -1150,7 +1150,10 @@ namespace Factory_Inventory
             {
                 try
                 {
-                    float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
+                    {
+                        float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    }
                 }
                 catch
                 {
@@ -1164,7 +1167,11 @@ namespace Factory_Inventory
             {
                 try
                 {
-                    float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+
+                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
+                    {
+                        float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    }
                 }
                 catch
                 {
@@ -1178,7 +1185,10 @@ namespace Factory_Inventory
             {
                 try
                 {
-                    int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    if(c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
+                    {
+                        int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    }
                 }
                 catch
                 {
@@ -1194,10 +1204,45 @@ namespace Factory_Inventory
                 calculate_net_wt(e.RowIndex);
             }
         }
-
-        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        
+        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            {
+                dataGridView2.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView2.EditingControl;
+                c.DroppedDown = true;
+                SendKeys.Send("{down}");
+                SendKeys.Send("{up}");
+                e.Handled = true;
+            }
+        }
+        private void dataGridView2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (e.RowIndex != dataGridView2.Rows.Count - 1)
+            {
+                dataGridView2.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
+        }
+        private void dataGridView2_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is DataGridViewComboBoxEditingControl)
+            {
+                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
+                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
+                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+            }
+        }
+        private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.IsCurrentCellDirty)
+            {
+                dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+        private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
                 for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
@@ -1263,43 +1308,6 @@ namespace Factory_Inventory
                     }
                 }
                 batchnwtTextbox.Text = CellSum2(2).ToString("F3");
-            }
-        }
-        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (dataGridView2.Enabled == false || dataGridView2.ReadOnly == true) return;
-            if (e.KeyCode == Keys.Enter &&
-               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
-            {
-                dataGridView2.BeginEdit(true);
-                ComboBox c = (ComboBox)dataGridView2.EditingControl;
-                c.DroppedDown = true;
-                SendKeys.Send("{down}");
-                SendKeys.Send("{up}");
-                e.Handled = true;
-            }
-        }
-        private void dataGridView2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            if (e.RowIndex != dataGridView2.Rows.Count - 1)
-            {
-                dataGridView2.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
-            }
-        }
-        private void dataGridView2_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            if (e.Control is DataGridViewComboBoxEditingControl)
-            {
-                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
-                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
-                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
-            }
-        }
-        private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            if (dataGridView2.IsCurrentCellDirty)
-            {
-                dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
         private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)

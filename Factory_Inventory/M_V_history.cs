@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.TextFormatting;
 
 namespace Factory_Inventory
 {
@@ -280,6 +281,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Date_Of_Billing"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Date_Of_Billing"].HeaderText = "Bill Date";
+                this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
                 this.dataGridView1.Columns["Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Company_Name"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Company_Name"].HeaderText = "Company Name";
@@ -307,6 +311,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Issue"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Date_Of_Issue"].HeaderText = "Issue Date";
+                this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
                 this.dataGridView1.Columns["Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Company_Name"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Company_Name"].HeaderText = "Company Name";
@@ -333,6 +340,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_DO_No"].Visible = true;
                 this.dataGridView1.Columns["Sale_DO_No"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Sale_DO_No"].HeaderText = "DO Number";
+                this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
                 this.dataGridView1.Columns["Customer"].Visible = true;
                 this.dataGridView1.Columns["Customer"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Customer"].HeaderText = "Party";
@@ -393,6 +403,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Issue"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Date_Of_Issue"].HeaderText = "Dyeing Issue Date";
+                this.dataGridView1.Columns["Tray_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Tray_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Tray_No_Arr"].HeaderText = "Tray Numbers";
                 this.dataGridView1.Columns["Quality"].Visible = true;
                 this.dataGridView1.Columns["Quality"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
@@ -420,6 +433,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
+                this.dataGridView1.Columns["Batch_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Numbers";
                 this.dataGridView1.Columns["Slip_No_Arr"].Visible = true;
                 this.dataGridView1.Columns["Slip_No_Arr"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Slip_No_Arr"].HeaderText = "Slip Number";
@@ -448,6 +464,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Bill_Date"].Visible = true;
                 this.dataGridView1.Columns["Bill_Date"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Bill_Date"].HeaderText = "Bill Date";
+                this.dataGridView1.Columns["Batch_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Numbers";
                 c.auto_adjust_dgv(this.dataGridView1);
             }
             if (this.vno == 8)
@@ -474,17 +493,23 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Quality"].Visible = true;
                 this.dataGridView1.Columns["Quality"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
+                this.dataGridView1.Columns["Batch_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Numbers";
                 this.dataGridView1.Columns["Net_Batch_Weight"].Visible = true;
                 this.dataGridView1.Columns["Net_Batch_Weight"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Net_Batch_Weight"].HeaderText = "Net Batch Weight";
+                this.dataGridView1.Columns["Carton_No_Production_Arr"].Visible = true;
+                this.dataGridView1.Columns["Carton_No_Production_Arr"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Carton_No_Production_Arr"].HeaderText = "Carton Numbers";
                 this.dataGridView1.Columns["Net_Carton_Weight"].Visible = true;
-                this.dataGridView1.Columns["Net_Carton_Weight"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Net_Carton_Weight"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Net_Carton_Weight"].HeaderText = "Net Carton Weight";
                 this.dataGridView1.Columns["Oil_Gain"].Visible = true;
-                this.dataGridView1.Columns["Oil_Gain"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Oil_Gain"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Oil_Gain"].HeaderText = "Oil Gain";
                 this.dataGridView1.Columns["Voucher_Closed"].Visible = true;
-                this.dataGridView1.Columns["Voucher_Closed"].DisplayIndex = 10;
+                this.dataGridView1.Columns["Voucher_Closed"].DisplayIndex = 12;
                 this.dataGridView1.Columns["Voucher_Closed"].HeaderText = "Batches Closed";
                 this.label1.Text = "Batches Closed:\n1: Closed\n0: Open";
                 this.label1.Visible = true;
@@ -505,6 +530,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_DO_No"].Visible = true;
                 this.dataGridView1.Columns["Sale_DO_No"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Sale_DO_No"].HeaderText = "DO Number";
+                this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
                 this.dataGridView1.Columns["Customer"].Visible = true;
                 this.dataGridView1.Columns["Customer"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Customer"].HeaderText = "Party";
@@ -534,6 +562,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
                 this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
                 this.dataGridView1.Columns["Sale_Bill_Date"].HeaderText = "Sale Bill Date";
+                this.dataGridView1.Columns["DO_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = 1;
+                this.dataGridView1.Columns["DO_No_Arr"].HeaderText = "DO Numbers";
                 this.dataGridView1.Columns["Quality"].Visible = true;
                 this.dataGridView1.Columns["Quality"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
@@ -557,6 +588,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
                 this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
                 this.dataGridView1.Columns["Sale_Bill_Date"].HeaderText = "Sale Bill Date";
+                this.dataGridView1.Columns["DO_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = 1;
+                this.dataGridView1.Columns["DO_No_Arr"].HeaderText = "DO Numbers";
                 this.dataGridView1.Columns["Quality"].Visible = true;
                 this.dataGridView1.Columns["Quality"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
@@ -633,6 +667,18 @@ namespace Factory_Inventory
             if (dataGridView1.CurrentRow == null) return;
             if (dataGridView1.CurrentRow.Index < 0) return;
             DataRow row = (dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row;
+            if (this.vno == 8 && dataGridView1.CurrentRow.Index >= 0)
+            {
+                Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
+                if (dataGridView1.CurrentRow.Cells[10].Value.ToString() == "1")
+                {
+                    this.editDetailsButton.Enabled = false;
+                }
+                else
+                {
+                    this.editDetailsButton.Enabled = true;
+                }
+            }
             try
             {
                 string deleted = row["Deleted"].ToString();
@@ -648,19 +694,6 @@ namespace Factory_Inventory
                 }
             }
             catch(Exception x) { Console.WriteLine("ERROR: " + x.Message); }
-            if (this.vno==8 && dataGridView1.CurrentRow.Index>=0)
-            {
-                Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
-                if(dataGridView1.CurrentRow.Cells[10].Value.ToString()=="1")
-                {
-                    this.editDetailsButton.Enabled = false;
-                }
-                else
-                {
-                    this.editDetailsButton.Enabled = true;
-                }
-            }
-           
         }
     }
 }
