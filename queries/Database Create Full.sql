@@ -523,7 +523,8 @@ create table Carton_Production_Voucher
 	Date_Of_Production date NULL,
 	Grades_Arr text NOT NULL,
 	Batch_Fiscal_Year_Arr text NOT NULL,
-	Deleted tinyint NULL
+	Deleted tinyint NULL,
+	Printed tinyint NULL,
 );
 
 GO
@@ -552,13 +553,13 @@ CREATE TABLE Carton_Produced
 	Sale_DO_No varchar(10) NULL,
 	Customer_Name varchar(50) NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-	Carton_Printed tinyint NULL,
+	Printed tinyint NULL,
 	Grade varchar(10) NOT NULL,
 	Date_Of_Sale date NULL,
-  Batch_Fiscal_Year_Arr text NOT NULL,
-  Company_Name varchar(10) NOT NULL,
-  Type_Of_Sale int NULL,
-  DO_Fiscal_Year varchar(15) NULL
+	Batch_Fiscal_Year_Arr text NOT NULL,
+	Company_Name varchar(10) NOT NULL,
+	Type_Of_Sale int NULL,
+	DO_Fiscal_Year varchar(15) NULL
 );
 
 
