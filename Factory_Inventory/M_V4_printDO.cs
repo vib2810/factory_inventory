@@ -16,6 +16,8 @@ namespace Factory_Inventory
     {
         private DbConnect c;
         DataTable dt2= new DataTable();
+        int dgv1_print_index = -1;
+        int dgv2_print_index = -1;
         public M_V4_printDO()
         {
             InitializeComponent();
@@ -54,13 +56,6 @@ namespace Factory_Inventory
             this.type1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.type1CB.SelectedIndex = this.type1CB.FindStringExact("1");
 
-            this.type2CB.DataSource = dataSource2;
-            this.type2CB.DisplayMember = "Type";
-            this.type2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.type2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.type2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.type2CB.SelectedIndex = this.type1CB.FindStringExact("1");
-
             //Datagridviews
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Blue;
@@ -69,88 +64,23 @@ namespace Factory_Inventory
 
             DataTable DO_Nos = c.getDOTable(c.getFinancialYear(DateTime.Now), 1);
             dataGridView1.DataSource = DO_Nos;
-            this.set_columns(dataGridView1);
-        }
-        private void searchButton_Click(object sender, EventArgs e)
-        {
-            search_DO();
-        }
-        private void search_DO()
-        {
-            int do_no = -1;
-            try
-            {
-                do_no = int.Parse(this.DOnoTB.Text);
-            }
-            catch
-            {
-                c.ErrorBox("Please enter Numeric DO Number", "Error");
-                this.DOnoTB.Focus();
-                return;
-            }
-            int type = int.Parse(this.type2CB.Text);
-            string fiscal_year = this.fiscal1CB.Text;
-            string DO_no = "";
-            if (type == 1) DO_no = "BB" + do_no;
-            else if(type==0) DO_no = "RR" + do_no;
             
-            DataTable result = c.getDOTable(fiscal_year, DO_no);
-            if (result.Rows.Count == 0)
+            this.set_columns(dataGridView1);
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                this.dt2.Clear();
-                this.dt2.Columns.Clear();
-                this.dt2.Columns.Add("Not Found");
-                this.dt2.Rows.Add("No DO Found with the following details: DO Number=" + DO_no + " and Financial Year=" + fiscal_year);
-                this.dataGridView2.Columns[0].Width = 800;
-                this.dataGridView2.DataSource = dt2;
-            }
-            else
-            {
-                this.dt2 = result;
-                this.dataGridView2.DataSource = dt2;
-                this.set_columns(dataGridView2);
-            }
-            this.dataGridView2.Rows[0].Selected = false;
-            return;
-        }
-        private void printButton_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                int index = this.dataGridView1.SelectedRows[0].Index;
-                if (index > this.dataGridView1.Rows.Count - 1)
+                if (dataGridView1.Rows[i].Cells["Printed"].Value.ToString() == "1")
                 {
-                    c.ErrorBox("Please select valid voucher", "Error");
-                    return;
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
                 }
-                DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
-                printDO f = new printDO(row);
-                f.Show();
-            }
-            if (dataGridView2.SelectedRows.Count > 0)
-            {
-                int index = this.dataGridView2.SelectedRows[0].Index;
-                if (index > this.dataGridView2.Rows.Count - 1)
+                else
                 {
-                    c.ErrorBox("Please select valid voucher", "Error");
-                    return;
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Color.White;
                 }
-                DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
-                printDO f = new printDO(row);
-                f.Show();
             }
-        }
-        private void dataGridView1_Click(object sender, EventArgs e)
-        {
-            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
-        }
-        private void dataGridView2_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
-        }
-        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) search_DO();
+            this.dataGridView1.Visible = false;
+            this.dataGridView1.Visible = true;
         }
         private void M_V4_printDO_Load(object sender, EventArgs e)
         {
@@ -193,12 +123,8 @@ namespace Factory_Inventory
 
             this.type1CB.Focus();
         }
-        private void button2_Click(object sender, EventArgs e)
-        {
-            DataTable dt = c.getDOTable(this.fiscal1CB.Text, int.Parse(this.type1CB.Text));
-            dataGridView1.DataSource = dt;
-            this.set_columns(dataGridView1);
-        }
+        
+        //user
         void set_columns(DataGridView d)
         {
             d.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
@@ -218,12 +144,111 @@ namespace Factory_Inventory
             d.Columns["Fiscal_Year"].DisplayIndex = 12;
 
             d.Columns["Carton_No_Arr"].Width = 125;
+            d.Columns["Customer"].Width = 125;
             d.Columns["Fiscal_Year"].HeaderText = "Financial Year";
             d.Columns["Sale_DO_No"].HeaderText = "DO Number";
+            d.Columns["Sale_DO_No"].Width = 80;
             d.Columns["Carton_No_Arr"].HeaderText = "Carton Nos";
             d.Columns["Net_Weight"].HeaderText = "Net Weight";
+            d.Columns["Net_Weight"].Width = 80;
             d.Columns["Sale_Rate"].HeaderText = "Sale Rate";
             d.Columns["Fiscal_Year"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+        private void search_DO()
+        {
+            string fiscal_year = this.fiscal1CB.Text;
+            string DO_no = DOnoTB.Text;
+            DataTable result = c.getDOTable(fiscal_year, DO_no.ToUpper());
+            if (result.Rows.Count == 0)
+            {
+                this.dt2.Clear();
+                this.dt2.Columns.Clear();
+                this.dt2.Columns.Add("Not Found");
+                this.dt2.Rows.Add("No DO Found with the following details: DO Number=" + DO_no + " and Financial Year=" + fiscal_year);
+                this.dataGridView2.Columns[0].Width = 800;
+                this.dataGridView2.DataSource = dt2;
+            }
+            else
+            {
+                this.dt2 = result;
+                this.dataGridView2.DataSource = dt2;
+                this.set_columns(dataGridView2);
+            }
+            this.dataGridView2.Rows[0].Selected = false;
+            return;
+        }
+        public void load_color()
+        {
+            if (this.dgv1_print_index >= 0)
+            {
+                dataGridView1.Rows[dgv1_print_index].DefaultCellStyle.BackColor = Global.printedColor;
+                dataGridView1.Rows[dgv1_print_index].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+            }
+            if (this.dgv2_print_index >= 0)
+            {
+                dataGridView2.Rows[dgv2_print_index].DefaultCellStyle.BackColor = Global.printedColor;
+                dataGridView2.Rows[dgv2_print_index].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+            }
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            search_DO();
+        }
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            DataRow row;
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int index = this.dataGridView1.SelectedRows[0].Index;
+                if (index > this.dataGridView1.Rows.Count - 1)
+                {
+                    c.ErrorBox("Please select valid voucher", "Error");
+                    return;
+                }
+                row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
+                this.dgv1_print_index = index;
+                this.dgv2_print_index = -1;
+            }
+            else
+            {
+                int index = this.dataGridView2.SelectedRows[0].Index;
+                if (index > this.dataGridView2.Rows.Count - 1)
+                {
+                    c.ErrorBox("Please select valid voucher", "Error");
+                    return;
+                }
+                row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
+                this.dgv1_print_index = -1;
+                this.dgv2_print_index = index;
+            }
+            printDO f = new printDO(row, this);
+            f.Show();
+        }
+        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) search_DO();
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DataTable dt = c.getDOTable(this.fiscal1CB.Text, int.Parse(this.type1CB.Text));
+            dataGridView1.DataSource = dt;
+            this.set_columns(dataGridView1);
+        }
+
+
+        //dgv
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void dataGridView1_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
+        }
+        private void dataGridView2_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
         }
     }
 }

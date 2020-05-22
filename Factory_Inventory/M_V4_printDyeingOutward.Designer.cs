@@ -169,6 +169,7 @@
             this.Controls.Add(this.label1);
             this.Name = "M_V4_printDyeingOutward";
             this.Text = "Print  - Dyeing Slip";
+            this.Load += new System.EventHandler(this.M_V4_printDyeingOutward_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);

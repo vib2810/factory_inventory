@@ -18,6 +18,9 @@ namespace Factory_Inventory
         DbConnect c;
         DataTable dt;
         private int vno = 0;
+        public bool _firstLoaded = true;
+        private int prev_selected_row = 0;
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.V)
@@ -48,8 +51,6 @@ namespace Factory_Inventory
                 this.editDetailsButton.Visible = false;
             }
         }
-        public bool _firstLoaded=true;
-        private int prev_selected_row = 0;
         private void DataGridView1_VisibleChanged(object sender, EventArgs e)
         {
             if (_firstLoaded && dataGridView1.Visible)

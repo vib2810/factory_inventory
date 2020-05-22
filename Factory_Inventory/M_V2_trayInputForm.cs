@@ -549,7 +549,7 @@ namespace Factory_Inventory
                         return;
                     }
                 }
-                DataTable dttray = c.getTableRow("Tray_Active", "Tray_No='" + row["Tray No"].ToString() + "'");
+                DataTable dttray = c.getTableRows("Tray_Active", "Tray_No='" + row["Tray No"].ToString() + "'");
                 if(dttray.Rows.Count!=0)
                 {
                     c.ErrorBox("Tray number "+row["Tray No"].ToString()+" is already in use", "Error");

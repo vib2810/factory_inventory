@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +17,9 @@ namespace Factory_Inventory
     {
         private DbConnect c;
         DataTable dt2= new DataTable();
+        int dgv1_print_index=-1;
+        int dgv2_print_index = -1;
+
         public M_V4_printDyeingOutward()
         {
             InitializeComponent();
@@ -39,9 +43,9 @@ namespace Factory_Inventory
             this.fiscalCombobox.SelectedIndex = this.fiscalCombobox.FindStringExact(c.getFinancialYear(DateTime.Now));
 
             //Datagridviews
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Blue;
-            dataGridView2.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridView2.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView2.DefaultCellStyle.SelectionForeColor = Color.Blue;
 
 
@@ -68,12 +72,40 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Dyeing_Out_Date"].HeaderText = "Dyeing Outward Date";
             }
             dataGridView2.DataSource=dt2;
-
+        }
+        private void M_V4_printDyeingOutward_Load(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells["Printed"].Value.ToString() == "1")
+                {
+                    Console.WriteLine("setting print " + i);
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                }
+                else
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Color.White;
+                }
+            }
+            this.dataGridView1.Visible = false;
+            this.dataGridView1.Visible = true;
         }
 
-        private void searchButton_Click(object sender, EventArgs e)
+        //user
+        public void load_color()
         {
-            search_batch();
+            if(this.dgv1_print_index>=0)
+            {
+                dataGridView1.Rows[dgv1_print_index].DefaultCellStyle.BackColor = Global.printedColor;
+                dataGridView1.Rows[dgv1_print_index].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+            }
+            if (this.dgv2_print_index >= 0)
+            {
+                dataGridView2.Rows[dgv2_print_index].DefaultCellStyle.BackColor = Global.printedColor;
+                dataGridView2.Rows[dgv2_print_index].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+            }
         }
         private void search_batch()
         {
@@ -121,13 +153,23 @@ namespace Factory_Inventory
                 this.dataGridView2.Columns["Number_Of_Trays"].HeaderText = "Number of Trays";
                 this.dataGridView2.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
                 this.dataGridView2.Columns["Dyeing_Out_Date"].HeaderText = "Dyeing Outward Date";
+                if(dataGridView2.Rows[0].Cells["Printed"].Value.ToString()=="1")
+                {
+                    dataGridView2.Rows[0].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView2.Rows[0].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                }
             }
             this.dataGridView2.Rows[0].Selected = false;
             return;
         }
 
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            search_batch();
+        }
         private void printButton_Click(object sender, EventArgs e)
         {
+            DataRow row=null;
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int index = this.dataGridView1.SelectedRows[0].Index;
@@ -136,11 +178,11 @@ namespace Factory_Inventory
                     c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
-                DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
-                printDyeingOutward f = new printDyeingOutward(row);
-                f.Show();
+                row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
+                this.dgv1_print_index = index;
+                this.dgv2_print_index = -1;
             }
-            if (dataGridView2.SelectedRows.Count > 0)
+            else if (dataGridView2.SelectedRows.Count > 0)
             {
                 int index = this.dataGridView2.SelectedRows[0].Index;
                 if (index > this.dataGridView2.Rows.Count - 1)
@@ -148,27 +190,32 @@ namespace Factory_Inventory
                     c.ErrorBox("Please select valid voucher", "Error");
                     return;
                 }
-                DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
-                printDyeingOutward f = new printDyeingOutward(row);
-                f.Show();
+                row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
+                this.dgv1_print_index = -1;
+                this.dgv2_print_index = index;
             }
-
-
+            if (row["Tray_ID_Arr"].ToString() == "")
+            {
+                string[] redyeing_info = c.csvToArray(row["Redyeing"].ToString());
+                c.ErrorBox("Cannot Print Dyeing Slip For Batch and Batch is derived from Redyeing Parent Batch: " + redyeing_info[0] + " Fiscal_Year: " + redyeing_info[1]);
+                return;
+            }
+            printDyeingOutward f = new printDyeingOutward(row, this);
+            f.Show();
+        }
+        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) search_batch();
         }
 
+        //dgv
         private void dataGridView1_Click(object sender, EventArgs e)
         {
             if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
         }
-
         private void dataGridView2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
-        }
-
-        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) search_batch();
         }
     }
 }

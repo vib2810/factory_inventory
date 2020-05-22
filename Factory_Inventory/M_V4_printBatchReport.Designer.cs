@@ -103,7 +103,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(8, 513);
+            this.label2.Location = new System.Drawing.Point(12, 513);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(200, 20);
             this.label2.TabIndex = 2;
@@ -175,9 +175,9 @@
             // 
             // printButton
             // 
-            this.printButton.Location = new System.Drawing.Point(1150, 740);
+            this.printButton.Location = new System.Drawing.Point(1154, 741);
             this.printButton.Name = "printButton";
-            this.printButton.Size = new System.Drawing.Size(290, 33);
+            this.printButton.Size = new System.Drawing.Size(286, 33);
             this.printButton.TabIndex = 10;
             this.printButton.Text = "Print";
             this.printButton.UseVisualStyleBackColor = true;
@@ -301,7 +301,7 @@
             // 
             // colourTB
             // 
-            this.colourTB.Location = new System.Drawing.Point(1155, 712);
+            this.colourTB.Location = new System.Drawing.Point(1154, 712);
             this.colourTB.Name = "colourTB";
             this.colourTB.ReadOnly = true;
             this.colourTB.Size = new System.Drawing.Size(135, 22);
@@ -475,6 +475,7 @@
             this.Name = "M_V4_printBatchReport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Print - Batch Final Report";
+            this.Load += new System.EventHandler(this.M_V4_printBatchReport_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();

@@ -25,8 +25,8 @@ namespace Factory_Inventory
         List<int> cartons_to_print = new List<int>();
         List<string> cartons_to_print_fiscal_year = new List<string>();
 
-        Color selected_color = Color.SeaGreen;
-        Color printed_color= Color.LawnGreen;
+        Color selected_color = Color.SteelBlue;
+        Color printed_color= Global.printedColor;
 
         public M_V4_printCartonSlip()
         {
@@ -118,40 +118,8 @@ namespace Factory_Inventory
             dataGridView5.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView5.DefaultCellStyle.SelectionForeColor = Color.Blue;
         }
-
-        private void searchButton_Click(object sender, EventArgs e)
-        {
-            search_batch();
-        }
-        private void printButton_Click(object sender, EventArgs e)
-        {
-            if (dataGridView5.RowCount== 0)
-            {
-                c.ErrorBox("Please Select Cartons to Print", "Error");
-                return;
-            }
-            this.cartons_to_print.Clear();
-            this.cartons_to_print_fiscal_year.Clear();
-            int rows = dataGridView5.Rows.Count;
-            for (int i = 0; i < dataGridView5.RowCount; i++)
-            {
-                int carton = int.Parse(dataGridView5.Rows[rows-i-1].Cells[dataGridView5.Columns["Carton No."].Index].Value.ToString());
-                string fiscal_year = dataGridView5.Rows[rows-i-1].Cells[dataGridView5.Columns["Financial Year"].Index].Value.ToString();
-                this.cartons_to_print.Add(carton);
-                this.cartons_to_print_fiscal_year.Add(fiscal_year);
-                c.setCartonProducedPrint(carton.ToString(), fiscal_year, 1);
-            }
-            this.slip_count = cartons_to_print.Count;
-            printPreviewDialog1.ShowDialog();
-        }
-        private void dataGridView1_Click(object sender, EventArgs e)
-        {
-            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
-        }
-        private void dataGridView2_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
-        }
+        
+        //user
         private void load_batch()
         {
             int batch_no = -1;
@@ -202,7 +170,7 @@ namespace Factory_Inventory
             this.dataGridView3.RowsDefaultCellStyle.BackColor = Color.White;
             this.dataGridView3.RowsDefaultCellStyle.SelectionBackColor = Color.White;
 
-            if(batch_index>=0)
+            if (batch_index >= 0)
             {
                 DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[batch_index];
                 r.DefaultCellStyle.BackColor = Color.Gray;
@@ -214,17 +182,25 @@ namespace Factory_Inventory
             this.dt4.Clear();
             string[] carton_nos = c.csvToArray(voucher.Rows[0]["Carton_No_Production_Arr"].ToString());
             this.carton_fiscal_year = voucher.Rows[0]["Carton_Fiscal_Year"].ToString(); //set carton_fiscal_year
-            for (int i = 0; i < carton_nos.Length; i++)
+
+            DataTable carton_info = c.getTableData("Carton_Produced", "Net_Weight, Printed", "Carton_No IN (" +
+                c.removecom(voucher.Rows[0]["Carton_No_Production_Arr"].ToString()) + ") AND Fiscal_Year='" + carton_fiscal_year + "'");
+
+            for (int i = 0; i < carton_info.Rows.Count; i++)
             {
-                float net_wt = c.getCartonProducedWeight(carton_nos[i], carton_fiscal_year);
+                float net_wt = float.Parse(carton_info.Rows[i]["Net_Weight"].ToString());
                 dt4.Rows.Add(i + 1, carton_nos[i], net_wt, this.carton_fiscal_year);
                 dataGridView4.DataSource = this.dt4;
-                if (ispresent(dataGridView5, carton_nos[i], 1, this.carton_fiscal_year, 3) >=0 )
+                if (ispresent(dataGridView5, carton_nos[i], 1, this.carton_fiscal_year, 3) >= 0)
                 {
-                    dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
-                    dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+                    dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.BackColor = selected_color;
+                    dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = selected_color;
                 }
-                int printed = c.getCartonProducedPrint(carton_nos[i], this.carton_fiscal_year);
+                int printed = 0;
+                if(carton_info.Rows[i]["Printed"].ToString()!="")
+                {
+                    printed = int.Parse(carton_info.Rows[i]["Printed"].ToString());
+                }
                 if (printed > 0)
                 {
                     dataGridView4.Rows[dataGridView4.Rows.Count - 1].DefaultCellStyle.BackColor = printed_color;
@@ -237,7 +213,7 @@ namespace Factory_Inventory
         {
             for (int i = 0; i < d.Rows.Count; i++)
             {
-                  if (d.Rows[i].Cells[cin].Value.ToString() == carton_no && d.Rows[i].Cells[fin].Value.ToString() == fiscal_year)
+                if (d.Rows[i].Cells[cin].Value.ToString() == carton_no && d.Rows[i].Cells[fin].Value.ToString() == fiscal_year)
                 {
                     Console.WriteLine("Present: " + carton_no);
                     Console.WriteLine(d.Rows[i].Cells[cin].Value.ToString() + " And " + d.Rows[i].Cells[fin].Value.ToString());
@@ -304,7 +280,7 @@ namespace Factory_Inventory
         {
             Console.WriteLine("Loading caerons");
             int count = dataGridView4.SelectedRows.Count;
-            for (int i=0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
                 DataGridViewRow row = dataGridView4.SelectedRows[0];
                 if (ispresent(dataGridView5, row.Cells[1].Value.ToString(), 1, row.Cells[3].Value.ToString(), 3) == -1)
@@ -325,6 +301,33 @@ namespace Factory_Inventory
                     dataGridView4.SelectedRows[0].Selected = false;
                 }
             }
+        }
+
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            search_batch();
+        }
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView5.RowCount== 0)
+            {
+                c.ErrorBox("Please Select Cartons to Print", "Error");
+                return;
+            }
+            this.cartons_to_print.Clear();
+            this.cartons_to_print_fiscal_year.Clear();
+            int rows = dataGridView5.Rows.Count;
+            for (int i = 0; i < dataGridView5.RowCount; i++)
+            {
+                int carton = int.Parse(dataGridView5.Rows[rows-i-1].Cells[dataGridView5.Columns["Carton No."].Index].Value.ToString());
+                string fiscal_year = dataGridView5.Rows[rows-i-1].Cells[dataGridView5.Columns["Financial Year"].Index].Value.ToString();
+                this.cartons_to_print.Add(carton);
+                this.cartons_to_print_fiscal_year.Add(fiscal_year);
+                c.setPrint("Carton_Produced", "Carton_No='"+carton+"' AND Fiscal_Year='"+fiscal_year+"'", 1);
+            }
+            this.slip_count = cartons_to_print.Count;
+            printPreviewDialog1.ShowDialog();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -373,6 +376,12 @@ namespace Factory_Inventory
         {
             this.printed_slips = 0;
         }
+        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter) search_batch();
+        }
+        
+        //dgv
         private void printDocument1_EndPrint(object sender, PrintEventArgs e)
         {
             this.printed_slips = 0;
@@ -411,7 +420,7 @@ namespace Factory_Inventory
                 if (index >= 0 && row.DefaultCellStyle.BackColor != printed_color)
                 {
                     dataGridView4.Rows[index].DefaultCellStyle.BackColor = Color.White;
-                    dataGridView4.Rows[index].DefaultCellStyle.SelectionBackColor= Color.White;
+                    dataGridView4.Rows[index].DefaultCellStyle.SelectionBackColor = Color.White;
                 }
                 dataGridView5.Rows.RemoveAt(dataGridView5.SelectedRows[0].Index);
             }
@@ -420,16 +429,22 @@ namespace Factory_Inventory
         {
             Console.WriteLine(e.RowIndex + " paint1");
 
-            if (e.RowIndex <= dataGridView5.Rows.Count -1 && e.RowIndex >= 0)
+            if (e.RowIndex <= dataGridView5.Rows.Count - 1 && e.RowIndex >= 0)
             {
-                dataGridView5.Rows[e.RowIndex].Cells[0].Value= e.RowIndex + 1;
+                dataGridView5.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
                 return;
             }
         }
-        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
+        private void dataGridView1_Click(object sender, EventArgs e)
         {
-            if(e.KeyCode==Keys.Enter) search_batch();
+            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
         }
+        private void dataGridView2_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
+        }
+
+        //print
         int write_slip(System.Drawing.Printing.PrintPageEventArgs e, int x, int write_height, int width, int height, int carton_no, string fiscal_year)
         {
             int y = write_height;
