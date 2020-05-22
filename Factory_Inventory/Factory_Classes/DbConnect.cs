@@ -483,7 +483,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not delete user (deleteUser)", "Exception");
+                this.ErrorBox("Could not delete user (deleteUser)\n"+e.Message, "Exception");
             }
 
             finally
@@ -514,7 +514,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not edit user (updateUser)", "Exception");
+                this.ErrorBox("Could not edit user (updateUser)\n"+e.Message, "Exception");
             }
 
             finally
@@ -541,6 +541,54 @@ namespace Factory_Inventory.Factory_Classes
 
             }
             return dt;
+        }
+
+        //Print
+        public int getPrint(string table_name, string where)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            int ans = -1;
+            try
+            {
+                con.Open();
+                string sql = "SELECT Printed FROM " + table_name + " WHERE " + where;
+                Console.WriteLine(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                sda.Fill(dt);
+                if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString() == "") ans = 0;
+                else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not get Print (getCartonProducedPrint) "+table_name+"\n" + e.Message, "Exception");
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ans;
+        }
+        public bool setPrint(string table_name, string where, int value)
+        {
+            try
+            {
+                con.Open();
+                string sql = "UPDATE " + table_name + " SET Printed=" + value + " WHERE " + where;
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not setPrint (getCartonProducedPrint) "+table_name+"\n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
         }
 
 
@@ -1029,7 +1077,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
-        public DataTable getTableRow(string tablename, string where)
+        public DataTable getTableRows(string tablename, string where)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table
             try
@@ -1041,6 +1089,27 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 this.ErrorBox("Could not connect to database (getTableRow) "+tablename+" where "+where+" \n"+ e.Message, "Exception");
+                con.Close();
+                return new DataTable();
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dt;
+        }
+        public DataTable getTableData(string tablename, string cols, string where)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table
+            try
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT +"+cols+" FROM " + tablename + " WHERE " + where, con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getTableData) " + tablename + " where " + where + " \n" + e.Message, "Exception");
                 con.Close();
                 return new DataTable();
             }
@@ -1356,7 +1425,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not update Carton (updateCarton)", "Exception");
+                this.ErrorBox("Could not update Carton (updateCarton)\n" + e.Message, "Exception");
             }
             finally
             {
@@ -1922,50 +1991,6 @@ namespace Factory_Inventory.Factory_Classes
                 return false;
             }
 
-            finally
-            {
-                con.Close();
-            }
-            return true;
-        }
-        public int getDOPrint(string dono, string fiscal_year)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            int ans = -1;
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Printed FROM Sales_Voucher WHERE Sale_DO_No='" + dono + "' AND Fiscal_Year='" + fiscal_year + "'", con);
-                sda.Fill(dt);
-                if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString() == "") ans = 0;
-                else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get Print (getDOPrint) \n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return ans;
-        }
-        public bool setDOPrint(string dono, string fiscal_year, int value)
-        {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Sales_Voucher SET Printed=" + value + " WHERE Sale_DO_No='" + dono + "' AND Fiscal_Year='" + fiscal_year + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get weight (setDOPrint) \n" + e.Message, "Exception");
-                con.Close();
-                return false;
-            }
             finally
             {
                 con.Close();
@@ -3277,7 +3302,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not add BillNo (addBillNo)", "Exception");
+                this.ErrorBox("Could not add BillNo (addBillNo)\n" + e.Message, "Exception");
             }
             finally
             {
@@ -4696,50 +4721,6 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return ans;
-        }
-        public int getCartonProducedPrint(string cartonno, string fiscal_year)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            int ans = -1;
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Printed FROM Carton_Produced WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
-                sda.Fill(dt);
-                if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString()=="") ans = 0;
-                else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get Print (getCartonProducedPrint) \n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return ans;
-        }
-        public bool setCartonProducedPrint(string cartonno, string fiscal_year, int value)
-        {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Carton_Produced SET Printed=" + value + " WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'";     
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get weight (getCartonProducedPrint) \n" + e.Message, "Exception");
-                con.Close();
-                return false;
-            }
-            finally
-            {
-                con.Close();
-            }
-            return true;
         }
         
         //On Date Inventory

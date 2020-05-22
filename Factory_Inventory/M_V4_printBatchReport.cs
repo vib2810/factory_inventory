@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -26,9 +27,10 @@ namespace Factory_Inventory
         List<string> cartons_to_print_fiscal_year = new List<string>();
         int printed_rows = 0, rows_to_print=0;
         int printed_pages=0;
-        Color selected_color = Color.SeaGreen;
-        Color printed_color= Color.LawnGreen;
         float net_carton_wt = 0;
+        int printed_voucher_id = -1;
+        Dictionary<int, int> vouchers = new Dictionary<int, int>(); //to store active vouchers
+        
         public M_V4_printBatchReport()
         {
             InitializeComponent();
@@ -52,7 +54,6 @@ namespace Factory_Inventory
             this.fiscalCombobox.SelectedIndex = this.fiscalCombobox.FindStringExact(c.getFinancialYear(DateTime.Now));
 
             //Datagridviews
-
             DataTable dyeing_batches = c.getBatchTable_State(3);
             dataGridView1.DataSource = dyeing_batches;
             if (true)
@@ -110,22 +111,43 @@ namespace Factory_Inventory
             dataGridView4.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
-        private void searchButton_Click(object sender, EventArgs e)
+        private void M_V4_printBatchReport_Load(object sender, EventArgs e)
         {
-            search_batch();
-        }
-        private void printButton_Click(object sender, EventArgs e)
-        {
-            if(this.print_batch==false)
+            //fill the vouchers dictionary
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                c.ErrorBox("Batch is not closed yet", "Error");
-                return;
+                string voucher = dataGridView1.Rows[i].Cells["Voucher_ID"].Value.ToString();
+                int voucher_id = -1;
+                if (voucher != "") voucher_id = int.Parse(voucher);
+                vouchers[voucher_id] = 0;
             }
-            this.printed_rows = 0;
-            this.rows_to_print = dataGridView4.Rows.Count;
-            this.printed_pages = 0;
-            printPreviewDialog1.ShowDialog();
+            //get prints of distinct voucher ids
+            List<int> keys = new List<int>(vouchers.Keys);
+            foreach (int key in keys)
+            {
+                int voucher_id = key;
+                int printed = c.getPrint("Carton_Production_Voucher", "Voucher_ID=" + voucher_id);
+                if (printed > 0) vouchers[key] = 1;
+            }
+            //color the dgv
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                string voucher = dataGridView1.Rows[i].Cells["Voucher_ID"].Value.ToString();
+                int voucher_id = -1;
+                if (voucher != "") voucher_id = int.Parse(voucher);
+                int printed = vouchers[voucher_id];
+                Console.WriteLine(i + " " + printed);
+                if (printed > 0)
+                {
+                    Console.WriteLine(" setting for" + i);
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                }
+            }
+            dataGridView1.Visible = false;
+            dataGridView1.Visible = true;
         }
+        //user
         private void load_batch()
         {
             int batch_no = -1;
@@ -145,7 +167,7 @@ namespace Factory_Inventory
             if (dataGridView2.SelectedRows.Count > 0)
             {
                 int index = this.dataGridView2.SelectedRows[0].Index;
-                if (index >= this.dataGridView2.Rows.Count - 1)
+                if (index >= this.dataGridView2.Rows.Count)
                 {
                     c.ErrorBox("Please select valid voucher", "Error");
                     return;
@@ -158,6 +180,7 @@ namespace Factory_Inventory
             {
                 c.ErrorBox("Invalid Batch, couldnt fetch voucher", "Error");
             }
+            this.printed_voucher_id = voucher_id;
             DataTable voucher = c.getProductionVoucherTable_VoucherID(voucher_id);
             if (voucher.Rows[0]["Date_Of_Production"].ToString() == null || voucher.Rows[0]["Date_Of_Production"].ToString() == "") //the batches are not closed  
             {
@@ -169,13 +192,13 @@ namespace Factory_Inventory
                 label15.Text = "";
                 this.print_batch = true;
             }
-            
+
             //dt3
             this.dt3.Clear();
             string[] batch_nos = c.csvToArray(voucher.Rows[0]["Batch_No_Arr"].ToString());
             string[] batch_fiscal_years = c.csvToArray(voucher.Rows[0]["Batch_Fiscal_Year_Arr"].ToString());
             List<string> tray_ids = new List<string>();
-            List<float> batch_wts= new List<float>();
+            List<float> batch_wts = new List<float>();
             float total_batch_wts = 0F;
             int batch_index = -1;
             for (int i = 0; i < batch_nos.Length; i++)
@@ -185,14 +208,14 @@ namespace Factory_Inventory
                 batch_wts.Add(batch_wt);
                 total_batch_wts += batch_wt;
                 if (batch_no.ToString() == batch_nos[i]) batch_index = i;
-                string[] batch_tray_ids= c.csvToArray(c.getColumnBatchNo("Tray_ID_Arr", int.Parse(batch_nos[i]), batch_fiscal_years[i]));
+                string[] batch_tray_ids = c.csvToArray(c.getColumnBatchNo("Tray_ID_Arr", int.Parse(batch_nos[i]), batch_fiscal_years[i]));
                 for (int j = 0; j < batch_tray_ids.Length; j++) tray_ids.Add(batch_tray_ids[i]);
             }
             dataGridView3.DataSource = this.dt3;
             this.dataGridView3.RowsDefaultCellStyle.BackColor = Color.White;
-            if(batch_index>=0)
+            if (batch_index >= 0)
             {
-                DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[0];
+                DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[batch_index];
                 r.DefaultCellStyle.BackColor = Color.Gray;
                 r.DefaultCellStyle.SelectionBackColor = Color.Gray;
             }
@@ -209,11 +232,11 @@ namespace Factory_Inventory
                 //float net_wt = c.getCartonProducedWeight(carton_nos[i], carton_fiscal_year);
                 int cones = int.Parse(carton["Number_Of_Cones"].ToString());
                 total_cones += cones;
-                string tare_wt = (float.Parse(carton["Carton_Weight"].ToString()) + cones* float.Parse(carton["Cone_Weight"].ToString())).ToString("F3");
-                dt4.Rows.Add(i+1, carton_nos[i], carton["Number_Of_Cones"], float.Parse(carton["Gross_Weight"].ToString()).ToString("F3"), tare_wt, float.Parse(carton["Net_Weight"].ToString()).ToString("F3"), carton["Grade"]);
+                string tare_wt = (float.Parse(carton["Carton_Weight"].ToString()) + cones * float.Parse(carton["Cone_Weight"].ToString())).ToString("F3");
+                dt4.Rows.Add(i + 1, carton_nos[i], carton["Number_Of_Cones"], float.Parse(carton["Gross_Weight"].ToString()).ToString("F3"), tare_wt, float.Parse(carton["Net_Weight"].ToString()).ToString("F3"), carton["Grade"]);
             }
             this.net_carton_wt = float.Parse(voucher.Rows[0]["Net_Carton_Weight"].ToString());
-            dt4.Rows.Add("", "Total Cones", total_cones, "", "Net Weight" , voucher.Rows[0]["Net_Carton_Weight"], "");
+            dt4.Rows.Add("", "Total Cones", total_cones, "", "Net Weight", voucher.Rows[0]["Net_Carton_Weight"], "");
 
             dataGridView4.DataSource = this.dt4;
             dataGridView4.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
@@ -225,12 +248,12 @@ namespace Factory_Inventory
             this.colourTB.Text = voucher.Rows[0]["Colour"].ToString();
             //calculate no of springs
             int no_of_springs = 0;
-            for(int i=0; i<tray_ids.Count; i++)
+            for (int i = 0; i < tray_ids.Count; i++)
             {
                 no_of_springs += c.getTraySprings(int.Parse(tray_ids[i]));
             }
             this.springTB.Text = no_of_springs.ToString();
-            if (this.print_batch == true) this.dopTB.Text = c.getColumnBatchNo("Date_Of_Production", int.Parse(batch_nos[0]), batch_fiscal_years[0]).Substring(0,10);
+            if (this.print_batch == true) this.dopTB.Text = c.getColumnBatchNo("Date_Of_Production", int.Parse(batch_nos[0]), batch_fiscal_years[0]).Substring(0, 10);
             else this.dopTB.Text = "Batches Not Closed";
             this.batchwtTB.Text = total_batch_wts.ToString("F3");
             this.cartonwtTB.Text = float.Parse(voucher.Rows[0]["Net_Carton_Weight"].ToString()).ToString("F3");
@@ -286,16 +309,69 @@ namespace Factory_Inventory
                 this.dataGridView2.Columns["Number_Of_Trays"].Width = 80;
 
                 dataGridView2.Columns["Fiscal_Year"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                int printed = c.getPrint("Carton_Production_Voucher", "Voucher_ID=" + dataGridView2.Rows[0].Cells["Voucher_ID"].Value.ToString());
+                if (printed>0)
+                {
+                    dataGridView2.Rows[0].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView2.Rows[0].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                    dataGridView2.Visible = false;
+                    dataGridView2.Visible = true;
+                }
+                
             }
 
             this.dataGridView2.Rows[0].Selected = false;
             return;
         }
+        private void load_color()
+        {
+            for(int i=0; i<dataGridView1.Rows.Count; i++)
+            {
+                string voucher = dataGridView1.Rows[i].Cells["Voucher_ID"].Value.ToString();
+                int voucher_id = -1;
+                if (voucher != "") voucher_id = int.Parse(voucher);
+                if(voucher_id==this.printed_voucher_id)
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                }
+            }
+            for (int i = 0; i < dataGridView2.Rows.Count; i++)
+            {
+                string voucher="";
+                try { voucher = dataGridView2.Rows[i].Cells["Voucher_ID"].Value.ToString(); } catch { };
+                int voucher_id = -1;
+                if (voucher != "") voucher_id = int.Parse(voucher);
+                if (voucher_id == this.printed_voucher_id)
+                {
+                    dataGridView2.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView2.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                }
+            }
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            search_batch();
+        }
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            if(this.print_batch==false)
+            {
+                c.ErrorBox("Batch is not closed yet", "Error");
+                return;
+            }
+            this.printed_rows = 0;
+            this.rows_to_print = dataGridView4.Rows.Count;
+            this.printed_pages = 0;
+            c.setPrint("Carton_Production_Voucher", "Voucher_ID=" + this.printed_voucher_id, 1);
+            load_color();
+            printPreviewDialog1.ShowDialog();
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             load_batch();
         }
-       
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             //Page setup
@@ -393,6 +469,21 @@ namespace Factory_Inventory
             this.printed_pages = 0;
             this.printed_rows = 0;
         }
+        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                search_batch();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+       
+        //dgv
+        private void dataGridView1_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
+        }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -409,10 +500,12 @@ namespace Factory_Inventory
                 e.Handled = true;
             }
         }
-        private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
+        private void dataGridView2_Click(object sender, EventArgs e)
         {
-            if(e.KeyCode==Keys.Enter) search_batch();
+            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
         }
+
+        //print
         int drawDGVHeader(int x, int write_height, int[] column_widths, System.Drawing.Printing.PrintPageEventArgs e)
         {
             //inputs write_height(not including the margin)
@@ -425,7 +518,7 @@ namespace Factory_Inventory
             str.LineAlignment = StringAlignment.Center;
             str.Trimming = StringTrimming.EllipsisCharacter;
             Pen p = new Pen(Color.Black, 2.5f);
-            
+
             int start_height = write_height;
             Console.WriteLine("write height dgv: " + write_height);
             int start_width = x;
@@ -444,7 +537,9 @@ namespace Factory_Inventory
             #endregion
             return write_height;
         }
-        int drawDGVRow(int x, int write_height, int[] column_widths, System.Drawing.Printing.PrintPageEventArgs e, int row_index, int bold=0)
+
+
+        int drawDGVRow(int x, int write_height, int[] column_widths, System.Drawing.Printing.PrintPageEventArgs e, int row_index, int bold = 0)
         {
             //inputs write_height(not including the margin)
             //returns the next write height(not including the margin)
@@ -460,7 +555,7 @@ namespace Factory_Inventory
             int start_height = write_height;
             int width = x;
             Font newFont = new Font(dataGridView4.Font.FontFamily, dataGridView4.Font.Size, FontStyle.Regular);
-            if (bold==1)
+            if (bold == 1)
             {
                 newFont = new Font(dataGridView4.Font.FontFamily, dataGridView4.Font.Size, FontStyle.Bold);
             }
@@ -515,13 +610,6 @@ namespace Factory_Inventory
             }
             return newFont.Height + 7;
         }
-        private void dataGridView1_Click(object sender, EventArgs e)
-        {
-            if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;
-        }
-        private void dataGridView2_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count != 0) dataGridView1.SelectedRows[0].Selected = false;
-        }
+
     }
 }

@@ -20,11 +20,14 @@ namespace Factory_Inventory
         private DbConnect c;
         private int topmargin;
         private int lrmargin;
+        private string where;
         int type = -1;
-        public printDO(DataRow row)
+        M_V4_printDO parent;
+        public printDO(DataRow row, M_V4_printDO f)
         {
             InitializeComponent();
             this.c = new DbConnect();
+            this.parent = f;
             if (row.Table.Columns.Count < 3) return;
             if (row["Type_Of_Sale"].ToString() == "0")
             {
@@ -76,8 +79,15 @@ namespace Factory_Inventory
             c.auto_adjust_dgv(dataGridView1);
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(t => t.SortMode = DataGridViewColumnSortMode.NotSortable);
             dataGridView1.Columns["Sl NO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            this.where = "Voucher_ID=" + int.Parse(row["Voucher_ID"].ToString()) + "";
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            c.setPrint("Batch", this.where, 1);
+            parent.load_color();
+            printPreviewDialog1.ShowDialog();
         }
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
@@ -102,6 +112,8 @@ namespace Factory_Inventory
             write_slip(e, lrmargin + 5 + slip_width, topmargin-5  , slip_width, slip_height);
 
         }
+        
+        //print
         int write_slip(System.Drawing.Printing.PrintPageEventArgs e, int x, int write_height, int width, int height)
         {
             int y = write_height;
@@ -211,10 +223,6 @@ namespace Factory_Inventory
             }
             #endregion
             return write_height;
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            printPreviewDialog1.ShowDialog();
         }
         private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr = 'c', int bold = 0, int drawrect = 0)
         {

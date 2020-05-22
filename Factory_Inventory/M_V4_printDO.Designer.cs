@@ -40,8 +40,6 @@
             this.printButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.type1CB = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.type2CB = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.fiscal1CB = new System.Windows.Forms.ComboBox();
@@ -73,9 +71,10 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(777, 288);
+            this.dataGridView1.Size = new System.Drawing.Size(877, 288);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.Click += new System.EventHandler(this.dataGridView1_Click);
             // 
             // label2
@@ -101,7 +100,7 @@
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(777, 188);
+            this.dataGridView2.Size = new System.Drawing.Size(877, 188);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.TabStop = false;
             this.dataGridView2.Click += new System.EventHandler(this.dataGridView2_Click);
@@ -154,7 +153,7 @@
             // 
             // printButton
             // 
-            this.printButton.Location = new System.Drawing.Point(1009, 48);
+            this.printButton.Location = new System.Drawing.Point(1108, 48);
             this.printButton.Name = "printButton";
             this.printButton.Size = new System.Drawing.Size(97, 40);
             this.printButton.TabIndex = 11;
@@ -179,24 +178,6 @@
             this.type1CB.Name = "type1CB";
             this.type1CB.Size = new System.Drawing.Size(106, 24);
             this.type1CB.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(67, 470);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(40, 17);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Type";
-            // 
-            // type2CB
-            // 
-            this.type2CB.FormattingEnabled = true;
-            this.type2CB.Location = new System.Drawing.Point(113, 467);
-            this.type2CB.Name = "type2CB";
-            this.type2CB.Size = new System.Drawing.Size(106, 24);
-            this.type2CB.TabIndex = 7;
             // 
             // label7
             // 
@@ -240,13 +221,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1115, 557);
+            this.ClientSize = new System.Drawing.Size(1217, 557);
             this.Controls.Add(this.search1Button);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.fiscal1CB);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.type2CB);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.type1CB);
             this.Controls.Add(this.printButton);
@@ -283,8 +262,6 @@
         private System.Windows.Forms.Button printButton;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox type1CB;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox type2CB;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox fiscal1CB;

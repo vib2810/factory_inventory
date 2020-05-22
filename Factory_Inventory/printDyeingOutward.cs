@@ -19,11 +19,18 @@ namespace Factory_Inventory
         private DbConnect c;
         private int topmargin;
         private int lrmargin;
-        public printDyeingOutward(DataRow row)
+        string where = "";
+        M_V4_printDyeingOutward parent;
+        public printDyeingOutward(DataRow row, M_V4_printDyeingOutward f)
         {
             InitializeComponent();
             this.c = new DbConnect();
-            if (row.Table.Columns.Count < 3) return;
+            this.parent = f;
+            if (row.Table.Columns.Count < 3)
+            {
+                return;
+            }
+            
             this.batchnoTextbox.Text = row["Batch_No"].ToString();
             //this.dateTimePicker1.Value = Convert.ToDateTime(row["Input_Date"].ToString());
             this.outDateTextbox.Text = row["Dyeing_Out_Date"].ToString().Substring(0,10);
@@ -31,10 +38,10 @@ namespace Factory_Inventory
             this.qualityTextbox.Text = row["Quality"].ToString();
             this.shadeTextbox.Text = row["Colour"].ToString();
             this.netwtTextbox.Text = row["Net_Weight"].ToString();
-            DataTable dyeing_company = c.getTableRow("Dyeing_Company_Names", "Dyeing_Company_Names='" + row["Dyeing_Company_Name"].ToString()+"'");
+            DataTable dyeing_company = c.getTableRows("Dyeing_Company_Names", "Dyeing_Company_Names='" + row["Dyeing_Company_Name"].ToString()+"'");
             this.customerAddressTextbox.Text = dyeing_company.Rows[0]["Customer_Address"].ToString();
             this.customergstin.Text = dyeing_company.Rows[0]["GSTIN"].ToString();
-            DataTable quality= c.getTableRow("Quality", "Quality='" + row["Quality"].ToString()+"'");
+            DataTable quality= c.getTableRows("Quality", "Quality='" + row["Quality"].ToString()+"'");
             this.hsnnumber.Text = quality.Rows[0]["HSN_No"].ToString();
             string[] tray_ids = c.csvToArray(row["Tray_ID_Arr"].ToString());
             DataTable dt = new DataTable();
@@ -69,24 +76,63 @@ namespace Factory_Inventory
             dataGridView1.Columns["Net Wt"].AutoSizeMode= DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(t => t.SortMode = DataGridViewColumnSortMode.NotSortable);
+            this.where= "Batch_No="+ this.batchnoTextbox.Text+" AND Fiscal_Year='"+ row["Fiscal_Year"].ToString()+"'";
+        }
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            //Page setup
+            PrinterSettings ps = new PrinterSettings();
+            printDocument1.PrinterSettings = ps;
+            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
+            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
+            printDocument1.DefaultPageSettings.PaperSize = sizeA4;
 
+            //set margins
+            //1100*850
+            this.topmargin = (int)(0.03 * e.PageBounds.Height);
+            this.lrmargin = (int)(0.05 * e.PageBounds.Width);
+
+            //draw 2 rects
+            Graphics g=e.Graphics;
+            //g.DrawRectangle(Pens.Blue, lrmargin, topmargin, e.PageBounds.Width - 2 * lrmargin, e.PageBounds.Height-2*topmargin);
+            //g.DrawRectangle(Pens.Blue, lrmargin, topmargin, (e.PageBounds.Width - 2 * lrmargin), (e.PageBounds.Height - 2 * topmargin)/2);
+            int rect_width = e.PageBounds.Width - 2 * lrmargin + 20;
+            int rect_height = ((e.PageBounds.Height - 2 * topmargin) / 2);
+            g.DrawRectangle(Pens.Black, lrmargin - 10, topmargin - 5, rect_width, rect_height);
+            g.DrawRectangle(Pens.Black, lrmargin - 10, topmargin -5 + rect_height+10, rect_width, rect_height);
+
+            int current_width = e.PageBounds.Width - 2 * lrmargin;
+            //Draw all graphics
+            int write_height = write_header(-5, e);
+            write_height = drawDGV(write_height, e);
+            write(e, (int)(0.75 * current_width), rect_height - 5 - 25, (int)(0.25 * current_width), "Signature", 9, 'c', 1);
+            write_height = rect_height + 5;
+            write_height = write_header(write_height, e);
+            write_height = drawDGV(write_height, e);
+            write(e, (int)(0.75 * current_width), 2*rect_height - 25, (int)(0.25 * current_width), "Signature", 9, 'c', 1);
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            c.setPrint("Batch", this.where, 1);
+            this.parent.load_color();
+            printPreviewDialog1.ShowDialog();
         }
 
-        private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr='c', int bold=0, int drawrect=0)
+        private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr = 'c', int bold = 0, int drawrect = 0)
         {
-            Graphics g=e.Graphics;
+            Graphics g = e.Graphics;
             StringFormat format = new StringFormat();
             format.LineAlignment = StringAlignment.Center;
-            if (width==0)
+            if (width == 0)
             {
                 format.Alignment = StringAlignment.Center;
             }
-            else if(lr=='l')
+            else if (lr == 'l')
             {
                 format.Alignment = StringAlignment.Near;
             }
-            else if(lr=='r')
+            else if (lr == 'r')
             {
                 format.Alignment = StringAlignment.Far;
             }
@@ -97,19 +143,19 @@ namespace Factory_Inventory
 
             SolidBrush myBrush = new SolidBrush(Color.Black);
             Font newFont;
-            if (bold==1)
+            if (bold == 1)
             {
                 newFont = new Font(dataGridView1.Font.FontFamily, size, FontStyle.Bold);
             }
             else
             {
-                newFont= new Font(dataGridView1.Font.FontFamily, size, dataGridView1.Font.Style);
+                newFont = new Font(dataGridView1.Font.FontFamily, size, dataGridView1.Font.Style);
             }
             if (width == 0) width = e.PageBounds.Width - 2 * lrmargin;
             if (x == -1) x = lrmargin;
             else x = x + lrmargin;
-            g.DrawString(text, newFont, myBrush, new RectangleF(x, topmargin+y, width, newFont.Height+5), format);
-            if(drawrect==1)
+            g.DrawString(text, newFont, myBrush, new RectangleF(x, topmargin + y, width, newFont.Height + 5), format);
+            if (drawrect == 1)
             {
                 g.DrawRectangle(Pens.Black, x, topmargin + y, width, newFont.Height + 5);
             }
@@ -151,7 +197,7 @@ namespace Factory_Inventory
             write(e, (int)(0.43 * current_width), write_height, (int)(0.23 * current_width), this.shadeTextbox.Text, basic_size, 'l', 0, 1);
             write(e, (int)(0.66 * current_width), write_height, (int)(0.20 * current_width), "Net Weight: ", basic_size, 'r', 1);
             write_height += write(e, (int)(0.86 * current_width), write_height, (int)(0.14 * current_width), this.netwtTextbox.Text, basic_size, 'r', 0, 1);
-            Console.WriteLine("inside writeheight "+ write_height);
+            Console.WriteLine("inside writeheight " + write_height);
             return write_height;
         }
         int drawDGV(int write_height, System.Drawing.Printing.PrintPageEventArgs e)
@@ -193,18 +239,18 @@ namespace Factory_Inventory
                 g.FillRectangle(Brushes.LightGray, new Rectangle(width, start_height, column_widths[j], dataGridView1.Rows[0].Height));
                 g.DrawRectangle(Pens.Black, width, start_height, column_widths[j], dataGridView1.Rows[0].Height);
                 g.DrawString(dataGridView1.Columns[j].HeaderText, newFont, Brushes.Black, new RectangleF(width, start_height, column_widths[j], dataGridView1.Rows[0].Height), str);
-                if(j==0) write_height+= dataGridView1.Rows[0].Height;
+                if (j == 0) write_height += dataGridView1.Rows[0].Height;
                 newFont = new Font(dataGridView1.Font.FontFamily, dataGridView1.Font.Size, FontStyle.Regular);
                 str.Alignment = StringAlignment.Far;
                 int height = start_height;
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
-                    if(i==dataGridView1.Rows.Count-1)
+                    if (i == dataGridView1.Rows.Count - 1)
                     {
                         newFont = new Font(dataGridView1.Font.FontFamily, dataGridView1.Font.Size, FontStyle.Bold);
                     }
                     height += dataGridView1.Rows[i].Height;
-                    if(j==0) write_height+= dataGridView1.Rows[i].Height;
+                    if (j == 0) write_height += dataGridView1.Rows[i].Height;
                     g.DrawRectangle(Pens.Black, width, height, column_widths[j], dataGridView1.Rows[0].Height);
                     g.DrawString(dataGridView1.Rows[i].Cells[j].Value.ToString(), newFont, Brushes.Black, new RectangleF(width, height, column_widths[j], dataGridView1.Rows[0].Height), str);
                 }
@@ -212,63 +258,6 @@ namespace Factory_Inventory
             }
             #endregion
             return write_height;
-        }
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-            //Page setup
-            PrinterSettings ps = new PrinterSettings();
-            printDocument1.PrinterSettings = ps;
-            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
-            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
-            printDocument1.DefaultPageSettings.PaperSize = sizeA4;
-
-            //set margins
-            //1100*850
-            this.topmargin = (int)(0.03 * e.PageBounds.Height);
-            this.lrmargin = (int)(0.05 * e.PageBounds.Width);
-
-            //draw 2 rects
-            Graphics g=e.Graphics;
-            //g.DrawRectangle(Pens.Blue, lrmargin, topmargin, e.PageBounds.Width - 2 * lrmargin, e.PageBounds.Height-2*topmargin);
-            //g.DrawRectangle(Pens.Blue, lrmargin, topmargin, (e.PageBounds.Width - 2 * lrmargin), (e.PageBounds.Height - 2 * topmargin)/2);
-            int rect_width = e.PageBounds.Width - 2 * lrmargin + 20;
-            int rect_height = ((e.PageBounds.Height - 2 * topmargin) / 2);
-            g.DrawRectangle(Pens.Black, lrmargin - 10, topmargin - 5, rect_width, rect_height);
-            g.DrawRectangle(Pens.Black, lrmargin - 10, topmargin -5 + rect_height+10, rect_width, rect_height);
-
-            int current_width = e.PageBounds.Width - 2 * lrmargin;
-            //Draw all graphics
-            int write_height = write_header(-5, e);
-            write_height = drawDGV(write_height, e);
-            write(e, (int)(0.75 * current_width), rect_height - 5 - 25, (int)(0.25 * current_width), "Signature", 9, 'c', 1);
-            write_height = rect_height + 5;
-            write_height = write_header(write_height, e);
-            write_height = drawDGV(write_height, e);
-            write(e, (int)(0.75 * current_width), 2*rect_height - 25, (int)(0.25 * current_width), "Signature", 9, 'c', 1);
-            //if (height > e.MarginBounds.Height)
-            //{
-            //    height = 100;
-            //    width = 100;
-            //    e.HasMorePages = true;
-            //    return;
-            //}
-            //e.Graphics.DrawImage(bmp,
-            //             (e.PageBounds.Width - bmp.Width) / 2,
-            //             (e.PageBounds.Height - bmp.Height) / 2,
-            //             bmp.Width,
-            //             bmp.Height);
-        }
-        Bitmap bmp;
-        private void button1_Click(object sender, EventArgs e)
-        {
-            printPreviewDialog1.ShowDialog();
-
-            //Graphics g = this.CreateGraphics();
-            //bmp = new Bitmap(this.Size.Width, this.Size.Height, g);
-            //Graphics mg = Graphics.FromImage(bmp);
-            //mg.CopyFromScreen(this.Location.X, this.Location.Y, 0, 0, this.Size);
-            //printPreviewDialog1.ShowDialog();
-
         }
     }
 }
