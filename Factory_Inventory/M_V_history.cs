@@ -605,8 +605,9 @@ namespace Factory_Inventory
             _firstLoaded = true;
             dataGridView1.Visible = false;
             dataGridView1.Visible = true;
-            this.dataGridView1.Rows[this.prev_selected_row].Selected = true;
-    }
+            try { this.dataGridView1.Rows[this.prev_selected_row].Selected = true; }
+            catch { }
+        }
         private DataTable remove_sales_rows()
         {
             int rows = this.dt.Rows.Count;

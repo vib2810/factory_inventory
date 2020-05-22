@@ -348,13 +348,12 @@ namespace Factory_Inventory
                 DataTable dt;
                 if(edit_form==true)
                 {
-                    dt = c.getTrayWeightMachineNo(int.Parse(this.tray_id_this[e.RowIndex]), this.batch_state);
+                    dt = c.getTrayWeightMachineNo(int.Parse(this.tray_id_this[e.RowIndex]));
                 }
                 else
                 {
                     int trayid=c.getTrayID(trayno);
-                    dt =  c.getTrayWeightMachineNo(trayid, 1);
-                    
+                    dt =  c.getTrayWeightMachineNo(trayid);
                 }
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = float.Parse(dt.Rows[0]["Net_Weight"].ToString()).ToString("F3");
                 this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = dt.Rows[0]["Machine_No"].ToString();
@@ -720,30 +719,30 @@ namespace Factory_Inventory
         }
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 1 && e.RowIndex >= 0)
-            {
-                if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
-                {
-                    dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
-                    dynamicWeightLabel.Text = CellSum().ToString("F3");
-                    return;
-                }
-                string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                DataTable dt;
-                if (edit_form == true)
-                {
-                    dt = c.getTrayWeightMachineNo(int.Parse(this.tray_id_this[e.RowIndex]), this.batch_state);
-                }
-                else
-                {
-                    int trayid = c.getTrayID(trayno);
-                    dt = c.getTrayWeightMachineNo(trayid, 1);
+            //if (e.ColumnIndex == 1 && e.RowIndex >= 0)
+            //{
+            //    if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
+            //    {
+            //        dataGridView1.Rows[e.RowIndex].Cells[2].Value = null;
+            //        dynamicWeightLabel.Text = CellSum().ToString("F3");
+            //        return;
+            //    }
+            //    string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            //    DataTable dt;
+            //    if (edit_form == true)
+            //    {
+            //        dt = c.getTrayWeightMachineNo(int.Parse(this.tray_id_this[e.RowIndex]), this.batch_state);
+            //    }
+            //    else
+            //    {
+            //        int trayid = c.getTrayID(trayno);
+            //        dt = c.getTrayWeightMachineNo(trayid, 1);
 
-                }
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = float.Parse(dt.Rows[0]["Net_Weight"].ToString()).ToString("F3");
-                this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = dt.Rows[0]["Machine_No"].ToString();
-                dynamicWeightLabel.Text = CellSum().ToString("F3");
-            }
+            //    }
+            //    dataGridView1.Rows[e.RowIndex].Cells[2].Value = float.Parse(dt.Rows[0]["Net_Weight"].ToString()).ToString("F3");
+            //    this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = dt.Rows[0]["Machine_No"].ToString();
+            //    dynamicWeightLabel.Text = CellSum().ToString("F3");
+            //}
         }
         private void loadData(string quality, string company)
         {

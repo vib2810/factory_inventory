@@ -94,7 +94,6 @@ namespace Factory_Inventory
             this.label2.Size = new System.Drawing.Size(17, 17);
             this.label2.TabIndex = 0;
             this.label2.Text = "E";
-            this.label2.Visible = false;
             // 
             // label3
             // 
@@ -104,7 +103,6 @@ namespace Factory_Inventory
             this.label3.Size = new System.Drawing.Size(17, 17);
             this.label3.TabIndex = 0;
             this.label3.Text = "V";
-            this.label3.Visible = false;
             // 
             // M_V_history
             // 

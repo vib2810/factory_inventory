@@ -2523,23 +2523,20 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public DataTable getTrayWeightMachineNo(int trayid, int state)
+        public DataTable getTrayWeightMachineNo(int trayid)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
             try
             {
                 con.Open();
-                if(state==1)
+                //search in both tables
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight, Machine_No FROM Tray_Active WHERE Tray_ID='" + trayid + "'", con);
+                sda.Fill(dt);
+                if(dt.Rows.Count==0)
                 {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight, Machine_No FROM Tray_Active WHERE Tray_ID='" + trayid + "'", con);
+                    SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Net_Weight, Machine_No FROM Tray_History WHERE Tray_ID='" + trayid + "'", con);
                     sda.Fill(dt);
                 }
-                else
-                {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight, Machine_No FROM Tray_History WHERE Tray_ID='" + trayid + "'", con);
-                    sda.Fill(dt);
-                }
-                
             }
             catch (Exception e)
             {

@@ -145,8 +145,6 @@ namespace Factory_Inventory
             //Create drop-down Fiscal Year lists
             var dataSource5 = new List<string>();
             DataTable d5 = c.getQC('f');
-            dataSource5.Add("---Select---");
-
             for (int i = 0; i < d5.Rows.Count; i++)
             {
                 dataSource5.Add(d5.Rows[i][0].ToString());
@@ -274,8 +272,6 @@ namespace Factory_Inventory
             //Create drop-down Fiscal Year lists
             var dataSource5 = new List<string>();
             DataTable d5 = c.getQC('f');
-            dataSource4.Add("---Select---");
-
             for (int i = 0; i < d5.Rows.Count; i++)
             {
                 dataSource5.Add(d5.Rows[i][0].ToString());
@@ -463,6 +459,59 @@ namespace Factory_Inventory
             c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
         }
+        private void M_V3_cartonProductionForm_Load(object sender, EventArgs e)
+        {
+            dtp = new DateTimePicker();
+            dtp.Format = DateTimePickerFormat.Short;
+            dtp.Visible = false;
+            dtp.Width = 100;
+            dataGridView1.Controls.Add(dtp);
+
+            var comboBoxes = this.Controls
+                 .OfType<ComboBox>()
+                 .Where(x => x.Name.EndsWith("CB"));
+
+            foreach (var cmbBox in comboBoxes)
+            {
+                c.comboBoxEvent(cmbBox);
+            }
+
+            var textBoxes = this.Controls
+                  .OfType<TextBox>()
+                  .Where(x => x.Name.EndsWith("TB"));
+
+            foreach (var txtBox in textBoxes)
+            {
+                c.textBoxEvent(txtBox);
+            }
+
+            var dtps = this.Controls
+                  .OfType<DateTimePicker>()
+                  .Where(x => x.Name.EndsWith("DTP"));
+
+            foreach (var dtp in dtps)
+            {
+                c.DTPEvent(dtp);
+            }
+
+            var buttons = this.Controls
+                  .OfType<Button>()
+                  .Where(x => x.Name.EndsWith("Button"));
+
+            foreach (var button in buttons)
+            {
+                Console.WriteLine(button.Name);
+                c.buttonEvent(button);
+            }
+
+            this.colourComboboxCB.Focus();
+            if (Global.access == 2)
+            {
+                this.deleteButton.Visible = false;
+            }
+        }
+
+        //user
         public void disable_form_edit()
         {
             this.inputDate.Enabled = false;
@@ -479,74 +528,428 @@ namespace Factory_Inventory
             this.coneComboboxCB.Enabled = false;
             this.closedCheckboxCK.Enabled = false;
         }
-        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void loadData()
         {
-
-            if (e.RowIndex >= 0 && e.ColumnIndex == 1)
+            this.dt = c.getBatchFiscalYearWeight_StateDyeingCompanyColourQuality(2, dyeingCompanyComboboxCB.SelectedItem.ToString(), colourComboboxCB.SelectedItem.ToString(), qualityComboboxCB.SelectedItem.ToString());
+            List<string> batch_no_arr = new List<string>();
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+                batch_no_arr.Add(dt.Rows[i]["Batch_No"].ToString());
+            }
+            if (this.edit_form == false)
+            {
+                for (int i = 0; i < batch_no_arr.Count; i++)
                 {
-                    for (int j = i + 1; j < dataGridView2.Rows.Count - 1; j++)
-                    {
-                        if (dataGridView2.Rows[i].Cells[1].Value == null || dataGridView2.Rows[j].Cells[1].Value==null)
-                        {
-                            continue;
-                        }
-                        if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
-                        {
-                            c.ErrorBox("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
-                            dataGridView2.Rows[j].Cells[1].Value = "";
-                            dataGridView2.Rows[j].Cells[2].Value = "";
-                            return;
-                        }
-                    }
+                    batch_no_arr[i] = dt.Rows[i]["Batch_No"].ToString() + "  (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")";
                 }
-                string batch = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
-                int index = -1;
-                if(this.edit_form==false)
+            }
+            for (int i = 0; i < batch_no_arr.Count; i++)
+            {
+                this.batch_nos.Add(batch_no_arr[i]);
+            }
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded " + dt.Rows.Count.ToString() + " Batches");
+            }
+        }
+        private float CellSum1(int col)
+        {
+            float sum = 0;
+            try
+            {
+                if (dataGridView1.Rows.Count == 0)
                 {
-                    for (int i = 0; i < this.batch_nos.Count; i++)
-                    {
-                        if (this.batch_nos[i] == batch)
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
+                    return sum;
                 }
-                else
+                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                 {
-                    for (int i = 0; i < this.show_batches.Count; i++)
-                    {
-                        if (this.show_batches[i] == batch)
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
+                    if (dataGridView1.Rows[i].Cells[col].Value != null)
+                        sum += float.Parse(dataGridView1.Rows[i].Cells[col].Value.ToString());
                 }
-                if (index != -1)
+                return sum;
+            }
+            catch
+            {
+                return sum;
+            }
+        }
+        private float CellSum2(int col)
+        {
+            float sum = 0;
+            try
+            {
+                if (dataGridView2.Rows.Count == 0)
                 {
-                    if(this.edit_form==false)
+                    return sum;
+                }
+                for (int i = 0; i < dataGridView2.Rows.Count; ++i)
+                {
+                    if (dataGridView2.Rows[i].Cells[col].Value != null)
+                        sum += float.Parse(dataGridView2.Rows[i].Cells[col].Value.ToString());
+                }
+                return sum;
+            }
+            catch
+            {
+                return sum;
+            }
+        }
+        private void oilGainButton_Calculate()
+        {
+            float net_weight, batch_weight;
+            Console.WriteLine(batchnwtTextbox.Text);
+            try
+            {
+                batch_weight = float.Parse(batchnwtTextbox.Text);
+            }
+            catch
+            {
+                oilGainTextbox.Text = "Incorrect Net Batch Weight";
+                return;
+            }
+            try
+            {
+                net_weight = float.Parse(cartonweight.Text);
+            }
+            catch
+            {
+                oilGainTextbox.Text = "Incorrect Net Carton Weight";
+                return;
+            }
+            if (net_weight - batch_weight < 0F)
+            {
+                oilGainTextbox.Text = "Net Carton Wt < Net Batch Wt";
+                return;
+            }
+            oilGainTextbox.Text = ((net_weight - batch_weight) / batch_weight * 100F).ToString("F2");
+        }
+        public void calculate_net_wt(int row_index)
+        {
+            if (dataGridView1.Rows[row_index].Cells[4].Value == null || dataGridView1.Rows[row_index].Cells[5].Value == null || dataGridView1.Rows[row_index].Cells[6].Value == null)
+            {
+                dataGridView1.Rows[row_index].Cells[7].Value = null;
+                cartonweight.Text = CellSum1(7).ToString("F3");
+                return;
+            }
+            if (dataGridView1.Rows[row_index].Cells[4].Value == "" || dataGridView1.Rows[row_index].Cells[5].Value == "" || dataGridView1.Rows[row_index].Cells[6].Value == "")
+            {
+                dataGridView1.Rows[row_index].Cells[7].Value = null;
+                cartonweight.Text = CellSum1(7).ToString("F3");
+                return;
+            }
+            if (coneComboboxCB.SelectedIndex == 0)
+            {
+                dataGridView1.Rows[row_index].Cells[7].Value = "Please select Cone Wt";
+            }
+            float net_weight = 0F;
+            try
+            {
+                float gross_weight = float.Parse(dataGridView1.Rows[row_index].Cells[4].Value.ToString());
+                float carton_weight = float.Parse(dataGridView1.Rows[row_index].Cells[5].Value.ToString());
+                float cone_weight = int.Parse(dataGridView1.Rows[row_index].Cells[6].Value.ToString()) * float.Parse(coneComboboxCB.Text) * 0.001F;
+                net_weight = (gross_weight - carton_weight - cone_weight);
+            }
+            catch
+            {
+
+            }
+
+            if (net_weight < 0)
+            {
+                c.ErrorBox("Net Weight (" + net_weight.ToString() + ") should be positive only. Please check your entries", "Error");
+                for (int i = 3; i <= 6; i++)
+                {
+                    dataGridView1.Rows[row_index].Cells[i].Value = "";
+                }
+                cartonweight.Text = CellSum1(7).ToString("F3");
+                return;
+            }
+            dataGridView1.Rows[row_index].Cells[7].Value = net_weight.ToString();
+            cartonweight.Text = CellSum1(7).ToString("F3");
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            this.cartonweight.Text = CellSum1(7).ToString("F3");
+            this.batchnwtTextbox.Text = CellSum2(2).ToString("F3");
+            //checks
+            if (coneComboboxCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Select Cone Weight", "Error");
+                return;
+            }
+            if (dataGridView1.Rows[0].Cells[1].Value==null)
+            {
+                c.ErrorBox("Please enter values", "Error");
+                return;
+            }
+            try
+            {
+                float.Parse(cartonweight.Text);
+                float.Parse(batchnwtTextbox.Text);
+            }
+            catch
+            {
+                c.ErrorBox("Please enter carton/batch numbers");
+                return;
+            }
+            if ((float.Parse(cartonweight.Text) - float.Parse(batchnwtTextbox.Text) < 0F) && closedCheckboxCK.Checked==true)
+            {
+                c.ErrorBox("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
+                return;
+            }
+
+            string production_dates = "", carton_nos = "", gross_weights = "", carton_weights = "", number_of_cones = "", net_weights = "", grades="";
+            int number = 0;
+
+            List<int> temp = new List<int>();
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+                int sum = 0;
+                for(int j=2;j<=7;j++)
+                {
+                    if(dataGridView1.Rows[i].Cells[j].Value==null || dataGridView1.Rows[i].Cells[j].Value == "")
                     {
-                        dataGridView2.Rows[e.RowIndex].Cells[2].Value = this.dt.Rows[index]["Net_Weight"].ToString();
                     }
                     else
                     {
-                        int batch_no;
-                        if(c.check_if_batch_repeated(batch))
-                        {
-                            string[] temp = c.repeated_batch_csv(batch);
-                            batch_no = int.Parse(temp[0]);
-                        }
-                        else
-                        {
-                            batch_no = int.Parse(batch);
-                        }
-                        dataGridView2.Rows[e.RowIndex].Cells[2].Value = c.getColumnBatchNo("Net_Weight", batch_no, this.batch_fiscal_year_list[index]);
+                        sum++;
                     }
                 }
-                batchnwtTextbox.Text = CellSum2(2).ToString("F3");
+                if(sum==0)
+                {
+                    continue;
+                }
+                else if(sum!=6)
+                {
+                    c.ErrorBox("Missing values in " + (i + 1).ToString() + " row", "Error");
+                    return;
+                }
+                ComboBox cbox = (ComboBox)dataGridView1.EditingControl;
+                if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "")
+                {
+                    continue;
+                }
+                else
+                {
+                    production_dates += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
+                    carton_nos += dataGridView1.Rows[i].Cells[2].Value.ToString() + ",";
+                    grades += dataGridView1.Rows[i].Cells[3].Value.ToString() + ",";
+                    gross_weights += dataGridView1.Rows[i].Cells[4].Value.ToString() + ",";
+                    carton_weights += dataGridView1.Rows[i].Cells[5].Value.ToString() + ",";
+                    number_of_cones+= dataGridView1.Rows[i].Cells[6].Value.ToString() + ",";
+                    net_weights += dataGridView1.Rows[i].Cells[7].Value.ToString() + ",";
+
+                    number++;
+
+                    //to check for all different tray_nos
+                    temp.Add(int.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString()));
+                    var distinctBytes = new HashSet<int>(temp);
+                    bool allDifferent = distinctBytes.Count == temp.Count;
+                    if (allDifferent == false)
+                    {
+                        c.ErrorBox("Carton Nos repeated at Row: " + (i + 1).ToString(), "Error");
+                        return;
+                    }
+                }
+            }
+            string batch_nos = "";
+            for(int i=0;i<dataGridView2.Rows.Count-1; i++)
+            {
+                batch_nos+= dataGridView2.Rows[i].Cells[1].Value.ToString() + ",";
+            }
+            int closed;
+            if(closedCheckboxCK.Checked==true)
+            {
+                closed = 1;
+            }
+            else
+            {
+                closed = 0;
+            }
+            if (this.edit_form == false)
+            {
+                bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), grades);
+                if (added == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
+                else return;
+            }
+            else
+            {
+                bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable);
+                if (edited == true)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                }
+                else return;
+                this.v1_history.loadData();
+            }
+            dataGridView1.EnableHeadersVisualStyles = false;
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.edit_form == false)
+            {
+                int count = dataGridView1.SelectedRows.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                    {
+                        dataGridView1.SelectedRows[0].Selected = false;
+                        continue;
+                    }
+                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                }
+                this.cartonweight.Text = CellSum1(7).ToString("F3");
+            }
+            else
+            {
+                int count = dataGridView1.SelectedRows.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                    {
+                        dataGridView1.SelectedRows[0].Selected = false;
+                        continue;
+                    }
+                    int rowindex = dataGridView1.SelectedRows[0].Index;
+                    string carton_no = dataGridView1.Rows[rowindex].Cells[2].Value.ToString();
+                    bool value = true;
+                    bool value2 = this.carton_editable.TryGetValue(carton_no, out value);
+                    if (value2 == true && value == false)
+                    {
+                        c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
+                        dataGridView1.Rows[rowindex].Selected = false;
+                        continue;
+                    }
+                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                }
+                this.cartonweight.Text = CellSum1(7).ToString("F3");
+            }
+            this.dtp.Visible = false;
+        }
+        private void deleteToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            int count2 = dataGridView2.SelectedRows.Count;
+            for (int i = 0; i < count2; i++)
+            {
+                if (dataGridView2.SelectedRows[0].Index == dataGridView2.Rows.Count - 1)
+                {
+                    dataGridView2.SelectedRows[0].Selected = false;
+                    continue;
+                }
+                dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
+            }
+            batchnwtTextbox.Text = CellSum2(2).ToString("F3");
+        }
+        private void loadCartonButton_Click(object sender, EventArgs e)
+        {
+            if (colourComboboxCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Select Colour", "Error");
+                return;
+            }
+            if (qualityComboboxCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Select Quality", "Error");
+                return;
+            }
+            if (dyeingCompanyComboboxCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Select Dyeing Company Name", "Error");
+                return;
+            }
+            this.loadData();
+
+            //Set the first date in form
+            string current_fiscal_year = c.getFinancialYear(DateTime.Now);
+            if(current_fiscal_year==financialYearComboboxCB.Text)
+            {
+                dataGridView1.Rows[0].Cells[1].Value = DateTime.Now.Date.ToString().Substring(0, 10);
+            }
+            else
+            {
+                string[] years = financialYearComboboxCB.Text.Split('-');
+                DateTime dt = new DateTime(int.Parse(years[1]),3,31);
+                this.dataGridView1.Rows[0].Cells[1].Value = dt.Date.ToString("dd-MM-yyyy").Substring(0, 10);
+            }
+
+            //set the first carton number in form
+            int next_carton_no =int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
+            dataGridView1.Rows[0].Cells[2].Value = next_carton_no;
+
+            //enable and disable 
+            this.loadDataButton.Enabled = false;
+            this.colourComboboxCB.Enabled = false;
+            this.qualityComboboxCB.Enabled = false;
+            this.financialYearComboboxCB.Enabled = false;
+            this.dyeingCompanyComboboxCB.Enabled = false;
+            this.saveButton.Enabled = true;
+            this.dataGridView1.Enabled = true;
+
+            List<int> minmax_years = c.getFinancialYearArr(this.financialYearComboboxCB.Text);
+            this.dtp.MinDate = new DateTime(minmax_years[0], 04, 01);
+            this.dtp.MaxDate = new DateTime(minmax_years[1], 03, 31);
+        }
+        private void coneCombobox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++) calculate_net_wt(i);
+        }
+        private void batchnwtTextbox_TextChanged(object sender, EventArgs e)
+        {
+            this.oilGainButton_Calculate();
+        }
+        private void cartonweight_TextChanged(object sender, EventArgs e)
+        {
+            this.oilGainButton_Calculate();
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bool deleted = c.deleteCartonProductionVoucher(this.voucher_id);
+                if (deleted == true)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    this.saveButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+
+
+        //dgv
+        private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            {
+                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
+        }
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is DataGridViewComboBoxEditingControl)
+            {
+                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
+                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
+                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+            }
+        }
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
@@ -695,291 +1098,22 @@ namespace Factory_Inventory
                 e.Handled = true;
             }
         }
-        private void saveButton_Click(object sender, EventArgs e)
+        private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            //checks
-            if (coneComboboxCB.SelectedIndex == 0)
+            if (dataGridView1.IsCurrentCellDirty)
             {
-                c.ErrorBox("Select Cone Weight", "Error");
-                return;
-            }
-            if (dataGridView1.Rows[0].Cells[1].Value==null)
-            {
-                c.ErrorBox("Please enter values", "Error");
-                return;
-            }
-            if ((float.Parse(cartonweight.Text) - float.Parse(batchnwtTextbox.Text) < 0F) && closedCheckboxCK.Checked==true)
-            {
-                c.ErrorBox("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
-                return;
-            }
-
-            string production_dates = "", carton_nos = "", gross_weights = "", carton_weights = "", number_of_cones = "", net_weights = "", grades="";
-            int number = 0;
-
-            List<int> temp = new List<int>();
-            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
-            {
-                int sum = 0;
-                for(int j=2;j<=7;j++)
-                {
-                    if(dataGridView1.Rows[i].Cells[j].Value==null || dataGridView1.Rows[i].Cells[j].Value == "")
-                    {
-                    }
-                    else
-                    {
-                        sum++;
-                    }
-                }
-                if(sum==0)
-                {
-                    continue;
-                }
-                else if(sum!=6)
-                {
-                    c.ErrorBox("Missing values in " + (i + 1).ToString() + " row", "Error");
-                    return;
-                }
-                ComboBox cbox = (ComboBox)dataGridView1.EditingControl;
-                if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "")
-                {
-                    continue;
-                }
-                else
-                {
-                    production_dates += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
-                    carton_nos += dataGridView1.Rows[i].Cells[2].Value.ToString() + ",";
-                    grades += dataGridView1.Rows[i].Cells[3].Value.ToString() + ",";
-                    gross_weights += dataGridView1.Rows[i].Cells[4].Value.ToString() + ",";
-                    carton_weights += dataGridView1.Rows[i].Cells[5].Value.ToString() + ",";
-                    number_of_cones+= dataGridView1.Rows[i].Cells[6].Value.ToString() + ",";
-                    net_weights += dataGridView1.Rows[i].Cells[7].Value.ToString() + ",";
-
-                    number++;
-
-                    //to check for all different tray_nos
-                    temp.Add(int.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString()));
-                    var distinctBytes = new HashSet<int>(temp);
-                    bool allDifferent = distinctBytes.Count == temp.Count;
-                    if (allDifferent == false)
-                    {
-                        c.ErrorBox("Carton Nos repeated at Row: " + (i + 1).ToString(), "Error");
-                        return;
-                    }
-                }
-            }
-            string batch_nos = "";
-            for(int i=0;i<dataGridView2.Rows.Count-1; i++)
-            {
-                batch_nos+= dataGridView2.Rows[i].Cells[1].Value.ToString() + ",";
-            }
-            int closed;
-            if(closedCheckboxCK.Checked==true)
-            {
-                closed = 1;
-            }
-            else
-            {
-                closed = 0;
-            }
-            if (this.edit_form == false)
-            {
-                bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), grades);
-                if (added == true)
-                {
-                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                    disable_form_edit();
-                }
-                else return;
-            }
-            else
-            {
-                bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable);
-                if (edited == true)
-                {
-                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                    disable_form_edit();
-                }
-                else return;
-                this.v1_history.loadData();
-            }
-            dataGridView1.EnableHeadersVisualStyles = false;
-        }
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.edit_form == false)
-            {
-                int count = dataGridView1.SelectedRows.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
-                    {
-                        dataGridView1.SelectedRows[0].Selected = false;
-                        continue;
-                    }
-                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-                }
-                this.cartonweight.Text = CellSum1(7).ToString("F3");
-            }
-            else
-            {
-                int count = dataGridView1.SelectedRows.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
-                    {
-                        dataGridView1.SelectedRows[0].Selected = false;
-                        continue;
-                    }
-                    int rowindex = dataGridView1.SelectedRows[0].Index;
-                    string carton_no = dataGridView1.Rows[rowindex].Cells[2].Value.ToString();
-                    bool value = true;
-                    bool value2 = this.carton_editable.TryGetValue(carton_no, out value);
-                    if (value2 == true && value == false)
-                    {
-                        c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
-                        dataGridView1.Rows[rowindex].Selected = false;
-                        continue;
-                    }
-                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-                }
-                this.cartonweight.Text = CellSum1(7).ToString("F3");
-            }
-        }
-        private void deleteToolStripMenuItem1_Click_1(object sender, EventArgs e)
-        {
-            int count2 = dataGridView2.SelectedRows.Count;
-            for (int i = 0; i < count2; i++)
-            {
-                if (dataGridView2.SelectedRows[0].Index == dataGridView2.Rows.Count - 1)
-                {
-                    dataGridView2.SelectedRows[0].Selected = false;
-                    continue;
-                }
-                dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
-            }
-            batchnwtTextbox.Text = CellSum2(2).ToString("F3");
-        }
-        private float CellSum1(int col)
-        {
-            float sum = 0;
-            try
-            {
-                if (dataGridView1.Rows.Count == 0)
-                {
-                    return sum;
-                }
-                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                {
-                    if (dataGridView1.Rows[i].Cells[col].Value != null)
-                        sum += float.Parse(dataGridView1.Rows[i].Cells[col].Value.ToString());
-                }
-                return sum;
-            }
-            catch
-            {
-                return sum;
-            }
-        }
-        private float CellSum2(int col)
-        {
-            float sum = 0;
-            try
-            {
-                if (dataGridView2.Rows.Count == 0)
-                {
-                    return sum;
-                }
-                for (int i = 0; i < dataGridView2.Rows.Count; ++i)
-                {
-                    if (dataGridView2.Rows[i].Cells[col].Value != null)
-                        sum += float.Parse(dataGridView2.Rows[i].Cells[col].Value.ToString());
-                }
-                return sum;
-            }
-            catch
-            {
-                return sum;
-            }
-        }
-        private void loadCartonButton_Click(object sender, EventArgs e)
-        {
-            if (colourComboboxCB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Select Colour Number", "Error");
-                return;
-            }
-            if (qualityComboboxCB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Select Quality", "Error");
-                return;
-            }
-            if (dyeingCompanyComboboxCB.SelectedIndex == 0)
-            {
-                c.ErrorBox("Select Dyeing Company Name", "Error");
-                return;
-            }
-            this.loadData();
-
-            //Set the first date in form
-            string current_fiscal_year = c.getFinancialYear(DateTime.Now);
-            if(current_fiscal_year==financialYearComboboxCB.Text)
-            {
-                dataGridView1.Rows[0].Cells[1].Value = DateTime.Now.Date.ToString().Substring(0, 10);
-            }
-            else
-            {
-                string[] years = financialYearComboboxCB.Text.Split('-');
-                DateTime dt = new DateTime(int.Parse(years[1]),3,31);
-                this.dataGridView1.Rows[0].Cells[1].Value = dt.Date.ToString("dd-MM-yyyy").Substring(0, 10);
-            }
-
-            //set the first carton number in form
-            int next_carton_no =int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
-            dataGridView1.Rows[0].Cells[2].Value = next_carton_no;
-
-            //enable and disable 
-            this.loadDataButton.Enabled = false;
-            this.colourComboboxCB.Enabled = false;
-            this.qualityComboboxCB.Enabled = false;
-            this.financialYearComboboxCB.Enabled = false;
-            this.dyeingCompanyComboboxCB.Enabled = false;
-            this.saveButton.Enabled = true;
-            this.dataGridView1.Enabled = true;
-        }
-        private void loadData()
-        {
-            this.dt = c.getBatchFiscalYearWeight_StateDyeingCompanyColourQuality(2, dyeingCompanyComboboxCB.SelectedItem.ToString(), colourComboboxCB.SelectedItem.ToString(), qualityComboboxCB.SelectedItem.ToString());
-            List<string> batch_no_arr = new List<string>();
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                batch_no_arr.Add(dt.Rows[i]["Batch_No"].ToString());
-            }
-            if(this.edit_form==false)
-            {
-                for (int i = 0; i < batch_no_arr.Count; i++)
-                {
-                    batch_no_arr[i] = dt.Rows[i]["Batch_No"].ToString() + "  (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")";
-                }
-            }
-            for (int i = 0; i < batch_no_arr.Count; i++)
-            {
-                this.batch_nos.Add(batch_no_arr[i]);
-            }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded "+dt.Rows.Count.ToString()+" Batches");
+                dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             try
             {
-                if(dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex==1)
+                if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 1)
                 {
                     dtp.Location = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false).Location;
                     dtp.Visible = true;
-                    if(dataGridView1.CurrentCell.Value!=DBNull.Value)
+                    if (dataGridView1.CurrentCell.Value != DBNull.Value)
                     {
                         dtp.Value = Convert.ToDateTime(dataGridView1.CurrentCell.Value);
                     }
@@ -993,9 +1127,9 @@ namespace Factory_Inventory
                     dtp.Visible = false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine("DTP Exception "+ ex.Message);
+                Console.WriteLine("DTP Exception " + ex.Message);
             }
         }
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -1061,152 +1195,88 @@ namespace Factory_Inventory
                 calculate_net_wt(e.RowIndex);
             }
         }
-        public void calculate_net_wt(int row_index)
-        {
-            if (dataGridView1.Rows[row_index].Cells[4].Value == null || dataGridView1.Rows[row_index].Cells[5].Value == null || dataGridView1.Rows[row_index].Cells[6].Value == null)
-            {
-                dataGridView1.Rows[row_index].Cells[7].Value = null;
-                cartonweight.Text = CellSum1(7).ToString("F3");
-                return;
-            }
-            if (dataGridView1.Rows[row_index].Cells[4].Value == "" || dataGridView1.Rows[row_index].Cells[5].Value == "" || dataGridView1.Rows[row_index].Cells[6].Value == "")
-            {
-                dataGridView1.Rows[row_index].Cells[7].Value = null;
-                cartonweight.Text = CellSum1(7).ToString("F3");
-                return;
-            }
-            if (coneComboboxCB.SelectedIndex == 0)
-            {
-                dataGridView1.Rows[row_index].Cells[7].Value = "Please select Cone Wt";
-            }
-            float net_weight = 0F;
-            try
-            {
-                float gross_weight = float.Parse(dataGridView1.Rows[row_index].Cells[4].Value.ToString());
-                float carton_weight = float.Parse(dataGridView1.Rows[row_index].Cells[5].Value.ToString());
-                float cone_weight = int.Parse(dataGridView1.Rows[row_index].Cells[6].Value.ToString()) * float.Parse(coneComboboxCB.Text) * 0.001F;
-                net_weight = (gross_weight - carton_weight - cone_weight);
-            }
-            catch
-            {
 
-            }
-            
-            if(net_weight < 0)
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
-                c.ErrorBox("Net Weight ("+net_weight.ToString()+") should be positive only. Please check your entries", "Error");
-                for(int i=3;i<=6;i++)
+                for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
                 {
-                    dataGridView1.Rows[row_index].Cells[i].Value = "";
+                    for (int j = i + 1; j < dataGridView2.Rows.Count - 1; j++)
+                    {
+                        if (dataGridView2.Rows[i].Cells[1].Value == null || dataGridView2.Rows[j].Cells[1].Value == null)
+                        {
+                            continue;
+                        }
+                        if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
+                        {
+                            c.ErrorBox("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
+                            dataGridView2.Rows[j].Cells[1].Value = "";
+                            dataGridView2.Rows[j].Cells[2].Value = "";
+                            return;
+                        }
+                    }
                 }
-                cartonweight.Text = CellSum1(7).ToString("F3");
-                return;
-            }
-            dataGridView1.Rows[row_index].Cells[7].Value = net_weight.ToString();
-            cartonweight.Text = CellSum1(7).ToString("F3");
-        }
-        private void dtp_ValueChanged(object sender, EventArgs e)
-        {
-            if (this.financialYearComboboxCB.Text != c.getFinancialYear(dtp.Value))
-            {
-                c.ErrorBox("Carton Production Date has to be of the same financial year as Entered", "Error");
-                dtp.Value = DateTime.Today;
-                return;
-            }
-            dataGridView1.CurrentCell.Value = dtp.Value.Date.ToString().Substring(0, 10);
-        }
-        private void M_V3_cartonProductionForm_Load(object sender, EventArgs e)
-        {
-            dtp = new DateTimePicker();
-            dtp.Format = DateTimePickerFormat.Short;
-            dtp.Visible = false;
-            dtp.Width = 100;
-            dataGridView1.Controls.Add(dtp);
-
-            dtp.ValueChanged += this.dtp_ValueChanged;
-
-            var comboBoxes = this.Controls
-                 .OfType<ComboBox>()
-                 .Where(x => x.Name.EndsWith("CB"));
-
-            foreach (var cmbBox in comboBoxes)
-            {
-                c.comboBoxEvent(cmbBox);
-            }
-
-            var textBoxes = this.Controls
-                  .OfType<TextBox>()
-                  .Where(x => x.Name.EndsWith("TB"));
-
-            foreach (var txtBox in textBoxes)
-            {
-                c.textBoxEvent(txtBox);
-            }
-
-            var dtps = this.Controls
-                  .OfType<DateTimePicker>()
-                  .Where(x => x.Name.EndsWith("DTP"));
-
-            foreach (var dtp in dtps)
-            {
-                c.DTPEvent(dtp);
-            }
-
-            var buttons = this.Controls
-                  .OfType<Button>()
-                  .Where(x => x.Name.EndsWith("Button"));
-
-            foreach (var button in buttons)
-            {
-                Console.WriteLine(button.Name);
-                c.buttonEvent(button);
-            }
-
-            this.colourComboboxCB.Focus();
-            if (Global.access == 2)
-            {
-                this.deleteButton.Visible = false;
+                string batch = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                int index = -1;
+                if (this.edit_form == false)
+                {
+                    for (int i = 0; i < this.batch_nos.Count; i++)
+                    {
+                        if (this.batch_nos[i] == batch)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < this.show_batches.Count; i++)
+                    {
+                        if (this.show_batches[i] == batch)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                }
+                if (index != -1)
+                {
+                    if (this.edit_form == false)
+                    {
+                        dataGridView2.Rows[e.RowIndex].Cells[2].Value = this.dt.Rows[index]["Net_Weight"].ToString();
+                    }
+                    else
+                    {
+                        int batch_no;
+                        if (c.check_if_batch_repeated(batch))
+                        {
+                            string[] temp = c.repeated_batch_csv(batch);
+                            batch_no = int.Parse(temp[0]);
+                        }
+                        else
+                        {
+                            batch_no = int.Parse(batch);
+                        }
+                        dataGridView2.Rows[e.RowIndex].Cells[2].Value = c.getColumnBatchNo("Net_Weight", batch_no, this.batch_fiscal_year_list[index]);
+                    }
+                }
+                batchnwtTextbox.Text = CellSum2(2).ToString("F3");
             }
         }
-        private void coneCombobox_SelectedIndexChanged(object sender, EventArgs e)
+        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
         {
-            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++) calculate_net_wt(i);
-        }
-        private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            if (e.KeyCode == Keys.Enter &&
+               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
             {
-                dataGridView2.Rows[e.RowIndex].Selected = true;
-            }
-        }
-        private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
-            {
-                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
-            }
-        }
-        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            if (e.Control is DataGridViewComboBoxEditingControl)
-            {
-                ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
-                ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
-                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
-            }
-        }
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                dataGridView1.Rows[e.RowIndex].Selected = true;
-            }
-        }
-        private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            if (dataGridView1.IsCurrentCellDirty)
-            {
-                dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                dataGridView2.BeginEdit(true);
+                ComboBox c = (ComboBox)dataGridView2.EditingControl;
+                c.DroppedDown = true;
+                SendKeys.Send("{down}");
+                SendKeys.Send("{up}");
+                e.Handled = true;
             }
         }
         private void dataGridView2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -1225,75 +1295,6 @@ namespace Factory_Inventory
                 ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
             }
         }
-        private void oilGainButton_Calculate()
-        {
-            float net_weight, batch_weight;
-            Console.WriteLine(batchnwtTextbox.Text);
-            try
-            {
-                batch_weight = float.Parse(batchnwtTextbox.Text);
-            }
-            catch
-            {
-                oilGainTextbox.Text = "Incorrect Net Batch Weight";
-                return;
-            }
-            try
-            {
-                net_weight = float.Parse(cartonweight.Text);
-            }
-            catch
-            {
-                oilGainTextbox.Text = "Incorrect Net Carton Weight";
-                return;
-            }
-            if(net_weight-batch_weight<0F)
-            {
-                oilGainTextbox.Text = "Net Carton Wt < Net Batch Wt";
-                return;
-            }
-            oilGainTextbox.Text = ((net_weight - batch_weight) / batch_weight * 100F).ToString("F2");
-        }
-        private void batchnwtTextbox_TextChanged(object sender, EventArgs e)
-        {
-            this.oilGainButton_Calculate();
-        }
-        private void cartonweight_TextChanged(object sender, EventArgs e)
-        {
-            this.oilGainButton_Calculate();
-        }
-        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter &&
-               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
-            {
-                dataGridView2.BeginEdit(true);
-                ComboBox c = (ComboBox)dataGridView2.EditingControl;
-                c.DroppedDown = true;
-                SendKeys.Send("{down}");
-                SendKeys.Send("{up}");
-                e.Handled = true;
-            }
-        }
-        private void deleteButton_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                bool deleted = c.deleteCartonProductionVoucher(this.voucher_id);
-                if (deleted == true)
-                {
-                    c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
-                    this.v1_history.loadData();
-                }
-                else return;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                return;
-            }
-        }
         private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView2.IsCurrentCellDirty)
@@ -1301,5 +1302,13 @@ namespace Factory_Inventory
                 dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
+        private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView2.Rows[e.RowIndex].Selected = true;
+            }
+        }
+
     }
 }
