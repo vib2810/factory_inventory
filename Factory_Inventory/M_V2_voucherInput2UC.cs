@@ -10,8 +10,57 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
+
     public partial class M_V2_voucherInput2UC : UserControl
     {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            Console.WriteLine(keyData.ToString());
+            if (keyData == (Keys.D1) || keyData == (Keys.NumPad1))
+            {
+                this.trayVoucherButton.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D1 | Keys.Shift))
+            {
+                this.historyButton.PerformClick();
+                return false;
+            }
+
+            if (keyData == (Keys.D2) || keyData == (Keys.NumPad2))
+            {
+                this.button4.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D2 | Keys.Shift))
+            {
+                this.button3.PerformClick();
+                return false;
+            }
+
+            if (keyData == (Keys.D3) || keyData == (Keys.NumPad3))
+            {
+                this.button6.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D3 | Keys.Shift))
+            {
+                this.button5.PerformClick();
+                return false;
+            }
+
+            if (keyData == (Keys.D4) || keyData == (Keys.NumPad4))
+            {
+                this.button1.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D4 | Keys.Shift))
+            {
+                this.button2.PerformClick();
+                return false;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         public M_V2_voucherInput2UC()
         {
             InitializeComponent();

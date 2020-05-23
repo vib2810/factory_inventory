@@ -57,7 +57,7 @@ namespace Factory_Inventory
 
             foreach (var button in buttons)
             {
-                if (button.Text != "Add/Edit Fixed Values")
+                if (button.BackColor != SystemColors.ActiveCaption)
                 {
                     button.BackColor = SystemColors.ControlDark;
                 }
