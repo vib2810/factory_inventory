@@ -156,7 +156,6 @@
             // 
             // m_V4_printUC1
             // 
-            this.m_V4_printUC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
             this.m_V4_printUC1.Location = new System.Drawing.Point(165, 0);
             this.m_V4_printUC1.Name = "m_V4_printUC1";
             this.m_V4_printUC1.Size = new System.Drawing.Size(514, 432);
@@ -164,7 +163,6 @@
             // 
             // m_V3_voucherInput3UC1
             // 
-            this.m_V3_voucherInput3UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(222)))), ((int)(((byte)(240)))));
             this.m_V3_voucherInput3UC1.ImeMode = System.Windows.Forms.ImeMode.On;
             this.m_V3_voucherInput3UC1.Location = new System.Drawing.Point(165, 1);
             this.m_V3_voucherInput3UC1.Name = "m_V3_voucherInput3UC1";
@@ -173,7 +171,6 @@
             // 
             // m_V2_voucherInput2UC1
             // 
-            this.m_V2_voucherInput2UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(204)))));
             this.m_V2_voucherInput2UC1.Location = new System.Drawing.Point(165, 0);
             this.m_V2_voucherInput2UC1.Name = "m_V2_voucherInput2UC1";
             this.m_V2_voucherInput2UC1.Size = new System.Drawing.Size(514, 432);
@@ -181,7 +178,6 @@
             // 
             // voucherInput1UC1
             // 
-            this.voucherInput1UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.voucherInput1UC1.Location = new System.Drawing.Point(165, 0);
             this.voucherInput1UC1.Name = "voucherInput1UC1";
             this.voucherInput1UC1.Size = new System.Drawing.Size(514, 432);
