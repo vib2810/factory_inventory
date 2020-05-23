@@ -50,6 +50,18 @@ namespace Factory_Inventory
         private int voucherID;
         private int batch_state;
         private string old_fiscal_year;
+        struct fetch_data
+        {
+            public float net_wt;
+            public string mno;
+            public fetch_data(float net_wt, string mno)
+            {
+                this.net_wt = net_wt;
+                this.mno = mno;
+            }
+        }
+        Dictionary<string, fetch_data> tray_fetch_data = new Dictionary<string, fetch_data>();
+
         public M_V2_dyeingIssueForm()
         {
             InitializeComponent();
@@ -287,9 +299,15 @@ namespace Factory_Inventory
             this.voucherID = int.Parse(row["Voucher_ID"].ToString());
             this.tray_no_this = c.csvToArray(row["Tray_No_Arr"].ToString());
             this.tray_id_this = c.csvToArray(row["Tray_ID_Arr"].ToString());
-            for(int i=0; i< tray_no_this.Length; i++)
+            
+            for (int i=0; i< tray_no_this.Length; i++)
             {
                 this.tray_no.Add(tray_no_this[i]);
+            }
+            DataTable tray_data = c.getTrayDataBothTables("Tray_No, Net_Weight, Machine_No", "Tray_ID IN (" + c.removecom(row["Tray_ID_Arr"].ToString()) + ")");
+            for (int i = 0; i < tray_data.Rows.Count; i++)
+            {
+                this.tray_fetch_data[tray_data.Rows[i]["Tray_No"].ToString()] = new fetch_data(float.Parse(tray_data.Rows[i]["Net_Weight"].ToString()), tray_data.Rows[i]["Machine_No"].ToString());
             }
             this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString());
             dataGridView1.RowCount = tray_no_this.Length + 1;
@@ -400,11 +418,15 @@ namespace Factory_Inventory
         }
         private void loadData(string quality, string company)
         {
-            DataTable d = c.getTrayStateQualityCompany(1, quality, company);
+            DataTable d = c.getTableData("Tray_Active", "Tray_No, Tray_ID, Net_Weight, Machine_No", "Tray_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "'");
+
+            //DataTable d = c.getTrayStateQualityCompany(1, quality, company);
             Console.WriteLine(d.Rows.Count);
             for (int i = 0; i < d.Rows.Count; i++)
             {
-                this.tray_no.Add(d.Rows[i][0].ToString());
+                string trayno = d.Rows[i]["Tray_No"].ToString();
+                this.tray_no.Add(trayno);
+                this.tray_fetch_data[trayno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), d.Rows[i]["Machine_No"].ToString());   
             }
         }
 
@@ -629,18 +651,8 @@ namespace Factory_Inventory
                     return;
                 }
                 string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                DataTable dt;
-                if(edit_form==true)
-                {
-                    dt = c.getTrayWeightMachineNo(int.Parse(this.tray_id_this[e.RowIndex]));
-                }
-                else
-                {
-                    int trayid=c.getTrayID(trayno);
-                    dt =  c.getTrayWeightMachineNo(trayid);
-                }
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = float.Parse(dt.Rows[0]["Net_Weight"].ToString()).ToString("F3");
-                this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = dt.Rows[0]["Machine_No"].ToString();
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = this.tray_fetch_data[trayno].net_wt;
+                this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = this.tray_fetch_data[trayno].mno;
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
             }
         }

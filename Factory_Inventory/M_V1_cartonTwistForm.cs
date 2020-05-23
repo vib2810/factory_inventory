@@ -46,6 +46,8 @@ namespace Factory_Inventory
         private List<string> carton_data;
         private M_V_history v1_history;
         private int voucher_id;
+        private Dictionary<string, float> carton_fetch_data = new Dictionary<string, float>();
+
         public M_V1_cartonTwistForm()
         {
             InitializeComponent();
@@ -216,10 +218,14 @@ namespace Factory_Inventory
             this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
-            Console.WriteLine("------------------");
-            for(int i=0; i<carton_no.Length; i++)
+            DataTable carton_data = c.getTableData("Carton", "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year='" + row["Carton_Fiscal_Year"].ToString() + "'");
+            for (int i=0; i<carton_no.Length; i++)
             {
                 this.carton_data.Add(carton_no[i]);
+            }
+            for(int i=0; i<carton_data.Rows.Count; i++)
+            {
+                this.carton_fetch_data[carton_data.Rows[i]["Carton_No"].ToString()] = float.Parse(carton_data.Rows[i]["Net_Weight"].ToString());
             }
             this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString(), row["Carton_Fiscal_Year"].ToString());
 
@@ -281,11 +287,13 @@ namespace Factory_Inventory
         //Own functions
         private void loadData(string quality, string company, string fiscalyear)
         {
-            DataTable d = c.getCartonStateQualityCompany(1, quality, company, fiscalyear, "Carton");
+            DataTable d = c.getTableData("Carton", "Carton_No, Net_Weight", "Carton_State=1 AND Quality='" + quality + "' AND Company_Name='" + company + "' AND Fiscal_Year='" + fiscalyear + "'");
             Console.WriteLine(d.Rows.Count);
             for (int i = 0; i < d.Rows.Count; i++)
             {
-                this.carton_data.Add(d.Rows[i][0].ToString());
+                string carton_no = d.Rows[i]["Carton_No"].ToString();
+                this.carton_data.Add(d.Rows[i]["Carton_No"].ToString());
+                carton_fetch_data[carton_no] = float.Parse(d.Rows[i]["Net_Weight"].ToString());
             }
         }
         public void disable_form_edit()
@@ -320,7 +328,6 @@ namespace Factory_Inventory
                 return sum;
             }
         }
-        
         
         //Clicks
         private void saveButton_Click(object sender, EventArgs e)
@@ -501,9 +508,11 @@ namespace Factory_Inventory
                     return;
                 }
                 if (this.comboBox3CB.SelectedIndex < 0) return;
-                DataTable dt = c.getCartonWeightShade(cartoon, this.comboBox3CB.SelectedItem.ToString(), "Carton");
-                if (dt.Rows.Count <= 0) return;
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = dt.Rows[0][0];
+                //DataTable dt = c.getCartonWeightShade(cartoon, this.comboBox3CB.SelectedItem.ToString(), "Carton");
+                //if (dt.Rows.Count <= 0) return;
+                float weight = -1F;
+                this.carton_fetch_data.TryGetValue(cartoon, out weight);
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = weight;
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
             }
         }
