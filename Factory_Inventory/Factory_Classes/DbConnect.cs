@@ -1805,21 +1805,35 @@ namespace Factory_Inventory.Factory_Classes
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string fiscal_year = this.getFinancialYear(dtissue);
             string[] carton_no = this.csvToArray(cartonno);
-            //check if bill dates of all cartons are <= issue date
-            for (int i = 0; i < carton_no.Length; i++)
+            
+            //check if bill dates/Production Dates of all cartons are <= issue date
+            DataTable dt = new DataTable();
+            if (tablename=="Carton")
             {
                 con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Billing FROM Carton WHERE Carton_No='" + carton_no[i] + "' AND Fiscal_Year='" + carton_fiscal_year + "'", con);
-                DataTable dt = new DataTable();
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
                 sda1.Fill(dt);
                 con.Close();
-                DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
+            }
+            else
+            {
+                con.Open();
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
+                sda1.Fill(dt);
+                con.Close();
+            }
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DateTime bill;
+                if(tablename=="Carton") bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Billing"].ToString());
+                else bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Production"].ToString());
                 if (dtissue < bill)
                 {
                     this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString() + "),", "Error");
                     return false;
                 }
             }
+
             try
             {
                 string carton_nos = "";
@@ -1828,8 +1842,6 @@ namespace Factory_Inventory.Factory_Classes
                     carton_nos += carton_no[i] + ",";
                 }
                 this.sendCartonSale(removecom(carton_nos), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year);
-
-
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 string sql = "INSERT INTO Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality, Company_Name, Customer, Sale_Rate, Carton_No_Arr, Fiscal_Year, Carton_Fiscal_Year, Type_Of_Sale, Tablename, Sale_DO_No, Net_Weight, Printed) VALUES ('" + inputDate+"' ,'" + issueDate + "','" + quality + "', '" + company + "', '" + customer + "', " + sell_cost + " , '" + cartonno + "', '"+fiscal_year+"', '"+carton_fiscal_year+"', '"+int.Parse(type)+"', '"+tablename+"', '"+sale_do_no+"', "+net_weight+", 0)";
@@ -1871,18 +1883,34 @@ namespace Factory_Inventory.Factory_Classes
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string fiscal_year = this.getFinancialYear(dtissue);
             string[] carton_no = this.csvToArray(cartonno);
-            //check if bill dates of all cartons are <= issue date
-            for (int i = 0; i < carton_no.Length; i++)
+            DataTable dt = new DataTable();
+            if (tablename == "Carton")
             {
                 con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Billing FROM Carton WHERE Carton_No='" + carton_no[i] + "' AND Fiscal_Year='" + carton_fiscal_year + "'", con);
-                DataTable dt = new DataTable();
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
                 sda1.Fill(dt);
                 con.Close();
-                DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
+            }
+            else
+            {
+                con.Open();
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
+                sda1.Fill(dt);
+                con.Close();
+            }
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DateTime bill;
+                string billprod = "Billing";
+                if (tablename == "Carton") bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Billing"].ToString());
+                else
+                {
+                    bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Production"].ToString());
+                    billprod = "Production";
+                }
                 if (dtissue < bill)
                 {
-                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of "+billprod+" (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString() + "),", "Error");
                     return false;
                 }
             }
@@ -1913,40 +1941,40 @@ namespace Factory_Inventory.Factory_Classes
                 adapter.InsertCommand.ExecuteNonQuery();
                 con.Close();
 
-                con.Open();
-                //Get higest do number in this financial year
-                DataTable dt = new DataTable();
-                if (type=="0")
-                {
-                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Highest_0_DO_No FROM Fiscal_Year WHERE Fiscal_Year='" + carton_fiscal_year + "'", con);
-                    sda1.Fill(dt);
-                }
-                else if(type=="1")
-                {
-                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Highest_1_DO_No FROM Fiscal_Year WHERE Fiscal_Year='" + carton_fiscal_year + "'", con);
-                    sda1.Fill(dt);
-                }
-                int old_max_do_no = int.Parse(dt.Rows[0][0].ToString().Substring(2, dt.Rows[0][0].ToString().Length - 2));
-                con.Close();
+                //con.Open();
+                ////Get higest do number in this financial year
+                //dt = new DataTable();
+                //if (type=="0")
+                //{
+                //    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Highest_0_DO_No FROM Fiscal_Year WHERE Fiscal_Year='" + carton_fiscal_year + "'", con);
+                //    sda1.Fill(dt);
+                //}
+                //else if(type=="1")
+                //{
+                //    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Highest_1_DO_No FROM Fiscal_Year WHERE Fiscal_Year='" + carton_fiscal_year + "'", con);
+                //    sda1.Fill(dt);
+                //}
+                //int old_max_do_no = int.Parse(dt.Rows[0][0].ToString().Substring(2, dt.Rows[0][0].ToString().Length - 2));
+                //con.Close();
 
-                Console.WriteLine("selected12");
+                //Console.WriteLine("selected12");
 
 
-                if (old_max_do_no < int.Parse(sale_do_no.Substring(2,sale_do_no.Length-2)))
-                {
-                    con.Open();
-                    //Enter max carton number in Fiscal Year Table
-                    if(type=="0")
-                    {
-                        sql = "UPDATE Fiscal_Year SET Highest_0_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + carton_fiscal_year + "'";
-                    }
-                    else if(type=="1")
-                    {
-                        sql = "UPDATE Fiscal_Year SET Highest_1_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + carton_fiscal_year + "'";
-                    }
-                    adapter.InsertCommand = new SqlCommand(sql, con);
-                    adapter.InsertCommand.ExecuteNonQuery();
-                }
+                //if (old_max_do_no < int.Parse(sale_do_no.Substring(2,sale_do_no.Length-2)))
+                //{
+                //    con.Open();
+                //    //Enter max carton number in Fiscal Year Table
+                //    if(type=="0")
+                //    {
+                //        sql = "UPDATE Fiscal_Year SET Highest_0_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                //    }
+                //    else if(type=="1")
+                //    {
+                //        sql = "UPDATE Fiscal_Year SET Highest_1_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                //    }
+                //    adapter.InsertCommand = new SqlCommand(sql, con);
+                //    adapter.InsertCommand.ExecuteNonQuery();
+                //}
 
                 this.SuccessBox("Voucher Edited Successfully");
             }

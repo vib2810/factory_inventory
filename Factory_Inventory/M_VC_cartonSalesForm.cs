@@ -17,7 +17,7 @@ namespace Factory_Inventory
                 msg.HWnd == dataGridView1.EditingControl.Handle &&
                 dataGridView1.SelectedCells
                     .Cast<DataGridViewCell>()
-                    .Any(x => x.ColumnIndex == 2))
+                    .Any(x => x.ColumnIndex == 1))
             {
                 this.edit_cmd_send = true;
                 SendKeys.Send("{Tab}");
@@ -489,19 +489,19 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if (typeCB.SelectedIndex == 0)
+            if (typeCB.Text == "---Select---")
             {
                 c.ErrorBox("Enter type of sale", "Error");
                 return;
             }
-            if (comboBox1CB.SelectedIndex == 0)
+            if (comboBox1CB.Text == "---Select---")
             {
                 c.ErrorBox("Enter Select Quality", "Error");
                 return;
             }
-            if (comboBox2CB.SelectedIndex == 0)
+            if (comboBox2CB.Text == "---Select---")
             {
-                c.ErrorBox("Enter Select Company Name", "Error");
+                c.ErrorBox("Select Company Name "+comboBox2CB.Text, "Error");
                 return;
             }
             if (dataGridView1.Rows[0].Cells[1].Value == null)
@@ -509,9 +509,9 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter Carton Numbers", "Error");
                 return;
             }
-            if (comboBox3CB.SelectedIndex == 0)
+            if (comboBox3CB.Text == "---Select---")
             {
-                c.ErrorBox("Enter Select Customer Name", "Error");
+                c.ErrorBox("Select Customer Name", "Error");
                 return;
             }
             if (rateTextboxTB.Text == null)
@@ -602,19 +602,19 @@ namespace Factory_Inventory
         }
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
-            if (typeCB.SelectedIndex == 0)
+            if (typeCB.Text=="---Select---")
             {
                 c.ErrorBox("Enter type of sale", "Error");
                 return;
             }
-            if (comboBox1CB.SelectedIndex == 0)
+            if (comboBox1CB.Text=="---Select---")
             {
-                c.ErrorBox("Enter Select Quality", "Error");
+                c.ErrorBox("Select Quality", "Error");
                 return;
             }
-            if (comboBox2CB.SelectedIndex == 0)
+            if (comboBox2CB.Text=="---Select---")
             {
-                c.ErrorBox("Enter Select Company Name", "Error");
+                c.ErrorBox("Select Company Name", "Error");
                 return;
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox4CB.SelectedItem.ToString());
@@ -653,8 +653,10 @@ namespace Factory_Inventory
                 if (deleted == true)
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
+                    this.deleteButton.Enabled = false;
                     this.v1_history.loadData();
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
+                    dataGridView1.EnableHeadersVisualStyles = false;
                 }
                 else return;
             }
