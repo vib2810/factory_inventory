@@ -65,6 +65,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.nextcartonnoTB = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -152,7 +154,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 65);
+            this.label6.Location = new System.Drawing.Point(9, 65);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 17);
             this.label6.TabIndex = 0;
@@ -200,7 +202,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 170);
+            this.label7.Location = new System.Drawing.Point(9, 170);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 17);
             this.label7.TabIndex = 0;
@@ -355,7 +357,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(14, 226);
+            this.label9.Location = new System.Drawing.Point(11, 226);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(144, 17);
             this.label9.TabIndex = 0;
@@ -412,11 +414,32 @@
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(241, 226);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(104, 17);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "Next Carton No";
+            // 
+            // nextcartonnoTB
+            // 
+            this.nextcartonnoTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nextcartonnoTB.Location = new System.Drawing.Point(244, 246);
+            this.nextcartonnoTB.Name = "nextcartonnoTB";
+            this.nextcartonnoTB.ReadOnly = true;
+            this.nextcartonnoTB.Size = new System.Drawing.Size(117, 22);
+            this.nextcartonnoTB.TabIndex = 0;
+            this.nextcartonnoTB.TabStop = false;
+            // 
             // M_V3_cartonProductionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1336, 768);
+            this.Controls.Add(this.nextcartonnoTB);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label10);
@@ -498,5 +521,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox nextcartonnoTB;
     }
 }

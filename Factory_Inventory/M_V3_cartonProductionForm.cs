@@ -425,7 +425,7 @@ namespace Factory_Inventory
             dgvCmb1.DataSource = this.show_batches;
             dataGridView2.RowCount = temp_batch_no_arr.Length + 1;
             for (int i = 0; i < temp_batch_no_arr.Length; i++)
-            {
+            {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
                 DataRow batch_row = c.getBatchRow_BatchNo(int.Parse(temp_batch_no_arr[i]), batch_fiscal_year_arr[i]);
                 dataGridView2.Rows[i].Cells[1].Value = this.show_batches[i];
                 dataGridView2.Rows[i].Cells[2].Value = batch_row["Net_Weight"].ToString();
@@ -435,7 +435,8 @@ namespace Factory_Inventory
             //highest carton number;
             this.highest_carton_no = int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
             Console.WriteLine("Constructor: "+this.highest_carton_no.ToString());
-
+            if(isEditable==true) this.dataGridView1.Rows.Add("", "", this.highest_carton_no);
+            this.nextcartonnoTB.Text = this.highest_carton_no.ToString();
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
@@ -509,7 +510,7 @@ namespace Factory_Inventory
             this.coneComboboxCB.Enabled = false;
             this.closedCheckboxCK.Enabled = false;
         }
-        private void loadData()
+        private bool loadData()
         {
             this.dt = c.getBatchFiscalYearWeight_StateDyeingCompanyColourQuality(2, dyeingCompanyComboboxCB.SelectedItem.ToString(), colourComboboxCB.SelectedItem.ToString(), qualityComboboxCB.SelectedItem.ToString());
             List<string> batch_no_arr = new List<string>();
@@ -528,10 +529,16 @@ namespace Factory_Inventory
             {
                 this.batch_nos.Add(batch_no_arr[i]);
             }
+            if(dt.Rows.Count<=0 && this.edit_form == false)
+            {
+                c.ErrorBox("No Batches Found");
+                return false;
+            }
             if (this.edit_form == false)
             {
                 c.SuccessBox("Loaded " + dt.Rows.Count.ToString() + " Batches");
             }
+            return true;
         }
         private float CellSum1(int col)
         {
@@ -638,7 +645,7 @@ namespace Factory_Inventory
             if (net_weight < 0)
             {
                 c.ErrorBox("Net Weight (" + net_weight.ToString() + ") should be positive only. Please check your entries", "Error");
-                for (int i = 3; i <= 6; i++)
+                for (int i = 4; i <= 6; i++)
                 {
                     dataGridView1.Rows[row_index].Cells[i].Value = "";
                 }
@@ -684,13 +691,18 @@ namespace Factory_Inventory
             int number = 0;
 
             List<int> temp = new List<int>();
-            for(int i=0;i<this.dataGridView2.Rows.Count;i++)
-            {
-                if(!c.Cell_Not_NullOrEmpty(this.dataGridView2, i, 1))
+            string batch_nos = "";
+            for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+            {   
+                if(c.Cell_Not_NullOrEmpty(this.dataGridView2, i, 1))
                 {
-                    c.ErrorBox("Missing batches in " + (i + 1).ToString() + " row", "Error");
-                    return;
+                    batch_nos += dataGridView2.Rows[i].Cells[1].Value.ToString() + ",";
                 }
+            }
+            if(batch_nos=="")
+            {
+                c.ErrorBox("Please enter batches");
+                return;
             }
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
@@ -742,11 +754,7 @@ namespace Factory_Inventory
                     }
                 }
             }
-            string batch_nos = "";
-            for(int i=0;i<dataGridView2.Rows.Count-1; i++)
-            {
-                batch_nos+= dataGridView2.Rows[i].Cells[1].Value.ToString() + ",";
-            }
+            
             int closed;
             if(closedCheckboxCK.Checked==true)
             {
@@ -852,8 +860,8 @@ namespace Factory_Inventory
                 c.ErrorBox("Select Dyeing Company Name", "Error");
                 return;
             }
-            this.loadData();
-
+            bool loaded=this.loadData();
+            if (loaded == false && this.edit_form==false) return;
             //Set the first date in form
             string current_fiscal_year = c.getFinancialYear(DateTime.Now);
             if(current_fiscal_year==financialYearComboboxCB.Text)
@@ -870,6 +878,7 @@ namespace Factory_Inventory
             //set the first carton number in form
             int next_carton_no =int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
             dataGridView1.Rows[0].Cells[2].Value = next_carton_no;
+            this.nextcartonnoTB.Text = next_carton_no.ToString();
 
             //enable and disable 
             this.loadDataButton.Enabled = false;
@@ -952,14 +961,7 @@ namespace Factory_Inventory
                 bool edit_cmd_local = this.edit_cmd_send;
                 this.edit_cmd_send = false;
                 int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                //if (edit_cmd_local == true) rowindex_tab--;
 
-                //if (rowindex_tab < 0)
-                //{
-                //    SendKeys.Send("{tab}");
-                //    SendKeys.Send("{tab}");
-                //    return;
-                //}
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
@@ -970,21 +972,15 @@ namespace Factory_Inventory
                     Console.WriteLine("This case");
                     return;
                 }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 1))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 1) && !c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab + 1, 1))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
-                {
-                    Console.WriteLine("gere");
-                    dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no;
-                    Console.WriteLine(this.highest_carton_no);
-                }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && !c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab + 1, 2))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 3))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 3) && !c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab + 1, 3))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[3].Value = dataGridView1.Rows[rowindex_tab].Cells[3].Value;
                 }
@@ -992,8 +988,7 @@ namespace Factory_Inventory
                 dataGridView1.NotifyCurrentCellDirty(true);
                 dataGridView1.EndEdit();
                 dataGridView1.NotifyCurrentCellDirty(false);
-                SendKeys.Send("{tab}");
-                SendKeys.Send("{tab}");
+                //SendKeys.Send("{tab}");
                 if (edit_cmd_local == false)
                 {
                     SendKeys.Send("{tab}");
@@ -1004,14 +999,6 @@ namespace Factory_Inventory
             {
                 Console.WriteLine("Inside Editing");
                 int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                //if (edit_cmd_local == true) rowindex_tab--;
-
-                //if (rowindex_tab < 0)
-                //{
-                //    SendKeys.Send("{tab}");
-                //    SendKeys.Send("{tab}");
-                //    return;
-                //}
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
@@ -1022,19 +1009,15 @@ namespace Factory_Inventory
                     Console.WriteLine("This case");
                     return;
                 }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 1))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 1) && !c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab + 1, 1))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[1].Value = dataGridView1.Rows[rowindex_tab].Cells[1].Value;
                 }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == true)
-                {
-                    dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = this.highest_carton_no++;
-                }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && this.edit_form == false)
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 2) && !c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab + 1, 2))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[2].Value = (int.Parse(dataGridView1.Rows[rowindex_tab].Cells[2].Value.ToString()) + 1).ToString();
                 }
-                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 3))
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab, 3) && !c.Cell_Not_NullOrEmpty(this.dataGridView1, rowindex_tab + 1, 3))
                 {
                     dataGridView1.Rows[rowindex_tab + 1].Cells[3].Value = dataGridView1.Rows[rowindex_tab].Cells[3].Value;
                 }
@@ -1044,7 +1027,10 @@ namespace Factory_Inventory
                 dataGridView1.NotifyCurrentCellDirty(false);
                 SendKeys.Send("{tab}");
                 SendKeys.Send("{tab}");
+                SendKeys.Send("{tab}");
+                SendKeys.Send("{tab}");
             }
+
             if (e.KeyCode == Keys.Enter && dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1))
             {
                 try
@@ -1151,6 +1137,7 @@ namespace Factory_Inventory
                     c.ErrorBox("Please Enter Decimal Gross Weight", "Error");
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Selected = true;
+                    SendKeys.Send("{Left}");
                     return;
                 }
             }
@@ -1167,6 +1154,7 @@ namespace Factory_Inventory
                 catch
                 {
                     c.ErrorBox("Please Enter Decimal Carton Weight", "Error");
+                    SendKeys.Send("{Left}");
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Selected = true;
                     return;
@@ -1184,6 +1172,7 @@ namespace Factory_Inventory
                 catch
                 {
                     c.ErrorBox("Please Enter Integer Number of Cones", "Error");
+                    SendKeys.Send("{Left}");
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Selected = true;
                     return;

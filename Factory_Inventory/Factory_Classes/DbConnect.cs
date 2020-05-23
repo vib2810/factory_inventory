@@ -4419,7 +4419,7 @@ namespace Factory_Inventory.Factory_Classes
                 bool value2 = carton_editable.TryGetValue(old_carton_nos[i], out value);
                 if (value2 == false) //doesnt contain entry, means it is in state 1
                 {
-                    cartons += old_batch_nos[i] + ",";
+                    cartons += old_carton_nos[i] + ",";
                     Console.WriteLine("Removing Carton: " + old_carton_nos[i]);
                 }
             }
@@ -4592,7 +4592,7 @@ namespace Factory_Inventory.Factory_Classes
 
                 Console.WriteLine("selected13");
 
-                this.SuccessBox("Voucher Added Successfully");
+                this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
             {

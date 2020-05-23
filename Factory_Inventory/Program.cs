@@ -25,6 +25,7 @@ namespace Factory_Inventory
             Global.ipaddress = "192.168.1.12";
             DbConnect c = new DbConnect();
             //c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
+            //M_V3_cartonProductionForm f = new M_V3_cartonProductionForm();
             //Application.Run(f);
             //DataTable dt = new DataTable();
             //Console.WriteLine(dt.Rows.Count);

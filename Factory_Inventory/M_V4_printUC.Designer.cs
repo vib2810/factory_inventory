@@ -62,7 +62,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft YaHei UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(56, 151);
+            this.label2.Location = new System.Drawing.Point(56, 119);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 24);
             this.label2.TabIndex = 5;
@@ -72,7 +72,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft YaHei UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(51, 262);
+            this.label3.Location = new System.Drawing.Point(56, 207);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(167, 24);
             this.label3.TabIndex = 8;
@@ -80,7 +80,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(55, 289);
+            this.button6.Location = new System.Drawing.Point(60, 234);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(155, 31);
             this.button6.TabIndex = 7;
@@ -90,7 +90,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(60, 178);
+            this.button2.Location = new System.Drawing.Point(60, 146);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(150, 31);
             this.button2.TabIndex = 5;
@@ -102,7 +102,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft YaHei UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(256, 43);
+            this.label4.Location = new System.Drawing.Point(56, 283);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(110, 24);
             this.label4.TabIndex = 11;
@@ -110,10 +110,10 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(260, 70);
+            this.button3.Location = new System.Drawing.Point(60, 310);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(150, 31);
-            this.button3.TabIndex = 3;
+            this.button3.Size = new System.Drawing.Size(155, 31);
+            this.button3.TabIndex = 9;
             this.button3.Text = "Entered DOs";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -122,6 +122,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
