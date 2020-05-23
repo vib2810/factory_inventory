@@ -649,7 +649,15 @@ namespace Factory_Inventory
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             dynamicLabelChange();
-            this.springWeightTB.Text = (c.getSpringWeight(this.springCB.Text) * 1000F).ToString(); ;
+            string spring_wt = "";
+            for (int i = 0; i < spring_table.Rows.Count; i++)
+            {
+                if (spring_table.Rows[i]["Spring"].ToString()==this.springCB.Text)
+                {
+                    spring_wt = spring_table.Rows[i]["Spring_Weight"].ToString();
+                }
+            }
+            this.springWeightTB.Text = spring_wt;
         }
         private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)
         {

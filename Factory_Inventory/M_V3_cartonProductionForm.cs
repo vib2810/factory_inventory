@@ -531,7 +531,7 @@ namespace Factory_Inventory
             }
             if(dt.Rows.Count<=0 && this.edit_form == false)
             {
-                c.ErrorBox("No Batches Found");
+                c.WarningBox("No Batches Found");
                 return false;
             }
             if (this.edit_form == false)

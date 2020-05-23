@@ -2769,6 +2769,29 @@ namespace Factory_Inventory.Factory_Classes
             }
             return (DataRow)dt.Rows[0];
         }
+        public DataTable getTrayDataBothTables(string cols, string where)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table
+            try
+            {
+                con.Open();
+                string sql = "SELECT " + cols + " FROM Tray_Active WHERE " + where + " UNION SELECT " + cols + " FROM Tray_History WHERE " + where;
+                SqlDataAdapter sda = new SqlDataAdapter(sql , con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getTrayDataBothTables) WHERE " + where + " \n" + e.Message, "Exception");
+                con.Close();
+                return new DataTable();
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
 
         //Tray voucher
         public bool addTrayVoucher(DateTime dtinput_date, DateTime dttray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string machine_no, string quality_before_twist)
