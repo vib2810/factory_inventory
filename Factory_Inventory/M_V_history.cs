@@ -78,6 +78,8 @@ namespace Factory_Inventory
         }
         private void viewDetailsButton_Click(object sender, EventArgs e)
         {
+            if (this.dataGridView1.SelectedRows.Count <= 0)
+                return;
             int index = this.dataGridView1.SelectedRows[0].Index;
             Console.WriteLine(index);
             if (index > this.dataGridView1.Rows.Count - 1)
@@ -195,6 +197,8 @@ namespace Factory_Inventory
         }
         private void editDetailsButton_Click(object sender, EventArgs e)
         {
+            if (this.dataGridView1.SelectedRows.Count <= 0)
+                return;
             int index = this.dataGridView1.SelectedRows[0].Index;
             if(index > this.dataGridView1.Rows.Count-1)
             {

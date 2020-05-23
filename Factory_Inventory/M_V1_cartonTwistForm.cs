@@ -287,10 +287,6 @@ namespace Factory_Inventory
             {
                 this.carton_data.Add(d.Rows[i][0].ToString());
             }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded " + d.Rows.Count.ToString() + " Cartons");
-            }
         }
         public void disable_form_edit()
         {
@@ -437,10 +433,23 @@ namespace Factory_Inventory
                 return;
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString());
+            if(this.carton_data.Count-1==0)
+            {
+                c.WarningBox("No cartons loaded");
+                return;
+            }
+            else
+            {
+                if(this.edit_form==false)
+                {
+                    c.SuccessBox("Loaded " + (this.carton_data.Count-1).ToString() + " Cartons");
+                }
+            }
             this.loadCartonButton.Enabled = false;
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;
             this.comboBox3CB.Enabled = false;
+            this.saveButton.Enabled = true;
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {

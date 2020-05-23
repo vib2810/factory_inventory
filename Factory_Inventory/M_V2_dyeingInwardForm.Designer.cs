@@ -115,6 +115,7 @@
             // 
             // saveButton
             // 
+            this.saveButton.Enabled = false;
             this.saveButton.Location = new System.Drawing.Point(65, 479);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(111, 52);
@@ -155,7 +156,6 @@
             // 
             // inputDate
             // 
-            this.inputDate.Enabled = false;
             this.inputDate.Location = new System.Drawing.Point(24, 42);
             this.inputDate.Name = "inputDate";
             this.inputDate.Size = new System.Drawing.Size(200, 22);
@@ -246,7 +246,7 @@
             this.comboBox3CB.Location = new System.Drawing.Point(24, 203);
             this.comboBox3CB.Name = "comboBox3CB";
             this.comboBox3CB.Size = new System.Drawing.Size(200, 24);
-            this.comboBox3CB.TabIndex = 3;
+            this.comboBox3CB.TabIndex = 4;
             // 
             // billDateDTP
             // 

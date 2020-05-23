@@ -212,6 +212,11 @@ namespace Factory_Inventory.Factory_Classes
         {
             SuccessBox s = new SuccessBox(message, title);
         }
+        public void WarningBox(string message, string title="Warning")
+        {
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
         public void SetGridViewSortState(DataGridView dgv, DataGridViewColumnSortMode sortMode)
         {
             foreach (DataGridViewColumn col in dgv.Columns)
@@ -314,24 +319,41 @@ namespace Factory_Inventory.Factory_Classes
             dynamic x;
             if (e.KeyCode == Keys.Up)
             {
+                Console.WriteLine("Up");
                 x = f.GetNextControl((Control)sender, false);
             }
             else if (e.KeyCode == Keys.Down)
             {
+                Console.WriteLine("Down");
                 x = f.GetNextControl((Control)sender, true);
             }
             else
             {
+                Console.WriteLine("Else");
                 return;
             }
 
-            if (x == null) return;
-            if (x.GetType().Name.ToString() == "Label") return;
-            if (x.TabIndex == 0) return;
-            else if (x.Enabled == false)
+            if (x == null)
             {
+                Console.WriteLine("null");
                 return;
             }
+            if (x.GetType().Name.ToString() == "Label")
+            {
+                Console.WriteLine("label");
+                return;
+            }
+            if (x.TabIndex == 0)
+            {
+                Console.WriteLine("tabindex 0");
+                return;
+            }
+            else if (x.Enabled == false)
+            {
+                Console.WriteLine("enabled");
+                return;
+            }
+            Console.WriteLine(x.Name);
             Graphics g = x.CreateGraphics();
             g.DrawRectangle(Pens.Black, 0, 0, x.Width, x.Height);
             x.Focus();

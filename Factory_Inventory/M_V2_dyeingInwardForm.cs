@@ -120,20 +120,19 @@ namespace Factory_Inventory
                 this.batch_no = new List<string>();
                 this.batch_no.Add("");
 
-                this.billcheckBoxCK.Enabled = false;
+                this.billcheckBoxCK.Enabled = true;
                 this.billcheckBoxCK.Checked = false;
-                this.billcheckBoxCK.Visible = true;
                 this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
 
                 this.billNumberTextboxTB.Visible = true;
                 this.billNumberTextboxTB.Enabled = true;
                 this.billNumberTextboxTB.ReadOnly = false;
-                this.billNumberTextboxTB.TabIndex = 1;
+                this.billNumberTextboxTB.TabIndex = 2;
                 this.billNumberTextboxTB.TabStop = true;
                 this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
 
                 this.billDateDTP.Visible = true;
-                this.billDateDTP.TabIndex =2;
+                this.billDateDTP.TabIndex = 3;
                 this.billDateDTP.TabStop = true;
                 this.billDateDTP.Location = new System.Drawing.Point(24, 140);
                 this.billDateDTP.Enabled = true;
@@ -287,7 +286,7 @@ namespace Factory_Inventory
                     {
                         this.billcheckBoxCK.Checked = false;
                     }
-                    this.billcheckBoxCK.Enabled = false;
+                    this.billcheckBoxCK.Enabled = true ;
                 }
 
                 //Fill in required fields
@@ -340,7 +339,7 @@ namespace Factory_Inventory
                 if (!bill_editable)
                 {
                     this.billcheckBoxCK.Checked = true;
-                    this.billcheckBoxCK.Enabled = false;
+                    this.billcheckBoxCK.Enabled = true;
                 }
                 if (isEditable == false) 
                 { 
@@ -363,19 +362,20 @@ namespace Factory_Inventory
                 this.batch_no.Add("");
 
                 //graphics placement
-                this.billcheckBoxCK.Enabled = false;
+                this.billcheckBoxCK.Enabled = true;
                 this.billcheckBoxCK.Checked = false;
-                this.billcheckBoxCK.Visible = true;
                 this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
 
                 this.billNumberTextboxTB.Visible = true;
                 this.billNumberTextboxTB.Enabled = true;
                 this.billNumberTextboxTB.ReadOnly = false;
+                this.billNumberTextboxTB.TabIndex = 2;
                 this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
 
                 this.billDateDTP.Visible = true;
                 this.billDateDTP.Location = new System.Drawing.Point(24, 140);
                 this.billDateDTP.Enabled = true;
+                this.billDateDTP.TabIndex = 3;
 
                 this.inwardDateDTP.Visible = false;
                 this.label1.Visible = false;
@@ -569,10 +569,6 @@ namespace Factory_Inventory
             for (int i = 0; i < d.Length; i++)
             {
                 this.batch_no.Add(d[i]);
-            }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded " + d.Length.ToString() + " Batches");
             }
         }
 
@@ -788,6 +784,19 @@ namespace Factory_Inventory
                 return;
             }
             this.loadData(this.dyeingCompanyCB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString()); ;
+            if (this.batch_no.Count - 1 == 0)
+            {
+                c.WarningBox("No Batches Loaded");
+                return;
+            }
+            else
+            {
+                if (this.edit_form == false)
+                {
+                    c.SuccessBox("Loaded " + (this.batch_no.Count - 1).ToString() + " Batches");
+                }
+            }
+            this.saveButton.Enabled = true;
             this.loadBatchButton.Enabled = false;
             this.dyeingCompanyCB.Enabled = false;
             this.saveButton.Enabled = true;

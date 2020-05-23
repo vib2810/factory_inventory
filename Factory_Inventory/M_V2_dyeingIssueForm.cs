@@ -406,10 +406,6 @@ namespace Factory_Inventory
             {
                 this.tray_no.Add(d.Rows[i][0].ToString());
             }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded " + d.Rows.Count.ToString() + " Trays");
-            }
         }
 
         //Clicks, Index changes
@@ -547,6 +543,19 @@ namespace Factory_Inventory
                 }
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString());
+            if (this.tray_no.Count - 1 == 0)
+            {
+                c.WarningBox("No Trays Loaded");
+                return;
+            }
+            else
+            {
+                if (this.edit_form == false)
+                {
+                    c.SuccessBox("Loaded " + (this.tray_no.Count - 1).ToString() + " Trays");
+                }
+            }
+            this.saveButton.Enabled = true;
             this.loadCartonButton.Enabled = false;
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;
