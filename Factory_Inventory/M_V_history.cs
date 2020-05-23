@@ -496,9 +496,9 @@ namespace Factory_Inventory
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns["Voucher_ID"].Visible = false;
-                if (this.vno == 8 && dataGridView1.Rows.Count >= 1)
+                if (dataGridView1.Rows.Count >= 1)
                 {
-                    if (dataGridView1.Rows[0].Cells["Voucher_Closed"].Value.ToString() == "1")
+                    if (dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells["Voucher_Closed"].Value.ToString() == "1")
                     {
                         this.editDetailsButton.Enabled = false;
                     }

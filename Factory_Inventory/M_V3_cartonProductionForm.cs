@@ -684,9 +684,17 @@ namespace Factory_Inventory
             int number = 0;
 
             List<int> temp = new List<int>();
+            for(int i=0;i<this.dataGridView2.Rows.Count;i++)
+            {
+                if(!c.Cell_Not_NullOrEmpty(this.dataGridView2, i, 1))
+                {
+                    c.ErrorBox("Missing batches in " + (i + 1).ToString() + " row", "Error");
+                    return;
+                }
+            }
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
-                int sum = 0;
+                int sum = 0, sum1 = 0;
                 for(int j=2;j<=7;j++)
                 {
                     if(dataGridView1.Rows[i].Cells[j].Value==null || dataGridView1.Rows[i].Cells[j].Value == "")
@@ -1248,6 +1256,10 @@ namespace Factory_Inventory
                             return;
                         }
                     }
+                }
+                if(!c.Cell_Not_NullOrEmpty(this.dataGridView2, e.RowIndex, 1))
+                {
+                    return;
                 }
                 string batch = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
                 int index = -1;
