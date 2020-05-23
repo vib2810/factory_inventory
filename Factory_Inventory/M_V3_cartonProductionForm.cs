@@ -952,14 +952,7 @@ namespace Factory_Inventory
                 bool edit_cmd_local = this.edit_cmd_send;
                 this.edit_cmd_send = false;
                 int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                //if (edit_cmd_local == true) rowindex_tab--;
 
-                //if (rowindex_tab < 0)
-                //{
-                //    SendKeys.Send("{tab}");
-                //    SendKeys.Send("{tab}");
-                //    return;
-                //}
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();

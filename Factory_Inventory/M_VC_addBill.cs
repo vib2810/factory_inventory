@@ -340,10 +340,6 @@ namespace Factory_Inventory
             {
                 this.do_no.Add(d[i]);
             }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded " + d.Length.ToString() + " DOs");
-            }
         }
 
         //Clicks
@@ -465,6 +461,19 @@ namespace Factory_Inventory
                 return;
             }
             this.loadData(this.qualityCB.SelectedItem.ToString(), financialYearCB.SelectedItem.ToString(), this.typeCB.Text); ;
+            if (this.do_no.Count - 1 == 0)
+            {
+                c.WarningBox("No DOs Loaded");
+                return;
+            }
+            else
+            {
+                if (this.edit_form == false)
+                {
+                    c.SuccessBox("Loaded " + (this.do_no.Count - 1).ToString() + " DOs");
+                }
+            }
+            this.saveButton.Enabled = true;
             this.loadDOButton.Enabled = false;
             this.qualityCB.Enabled = false;
             this.saveButton.Enabled = true;

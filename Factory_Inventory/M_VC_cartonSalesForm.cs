@@ -441,10 +441,6 @@ namespace Factory_Inventory
             {
                 this.carton_data.Add(d.Rows[i][0].ToString());
             }
-            if (this.edit_form == false)
-            {
-                c.SuccessBox("Loaded " + d.Rows.Count.ToString() + " Cartons");
-            }
         }
         private void amountTB_Value()
         {
@@ -618,6 +614,19 @@ namespace Factory_Inventory
                 return;
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox4CB.SelectedItem.ToString());
+            if(this.carton_data.Count-1==0)
+            {
+                c.WarningBox("No Cartons Loaded");
+                return;
+            }
+            else
+            {
+                if (this.edit_form == false)
+                {
+                    c.SuccessBox("Loaded " + (this.carton_data.Count-1).ToString() + " Cartons");
+                }
+            }
+            this.saveButton.Enabled = true;
             this.loadCartonButton.Enabled = false;
             this.typeCB.Enabled = false;
             this.comboBox1CB.Enabled = false;
