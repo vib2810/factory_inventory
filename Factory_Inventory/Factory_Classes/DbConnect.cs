@@ -41,7 +41,7 @@ namespace Factory_Inventory.Factory_Classes
 
             //Connection string for old Database
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryInventory;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
-            string ip_address = Global.ipaddress;
+            string ip_address = Properties.Settings.Default.LastIP;
             //Connection string for Vob's laptop
             this.con = new SqlConnection(@"Data Source="+ip_address+", 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
         }

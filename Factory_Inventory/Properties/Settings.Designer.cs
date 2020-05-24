@@ -44,5 +44,17 @@ namespace Factory_Inventory.Properties {
                 return ((string)(this["FactoryDataConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.12")]
+        public string LastIP {
+            get {
+                return ((string)(this["LastIP"]));
+            }
+            set {
+                this["LastIP"] = value;
+            }
+        }
     }
 }

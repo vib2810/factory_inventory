@@ -18,5 +18,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryData;User ID=sa;Password=Kdvghr2810@</Value>
     </Setting>
+    <Setting Name="LastIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.1.12</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

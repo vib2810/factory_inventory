@@ -13,11 +13,11 @@ namespace Factory_Inventory
         private static string _ipaddress = "";
         private static int _access = -1;
         private static Color _printedcolor=Color.GreenYellow;
-        public static string ipaddress
-        {
-            get { return _ipaddress; }
-            set { _ipaddress = value; }
-        }
+        //public static string ipaddress
+        //{
+        //    get { return _ipaddress; }
+        //    set { _ipaddress = value; }
+        //}
         public static int access
         {
             get { return _access; }

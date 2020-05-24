@@ -30,24 +30,19 @@ namespace Factory_Inventory
         public Login()
         {
             InitializeComponent();
-            Console.WriteLine("before setting: " + this.iptextbox.Text.Replace(" ", ""));
             this.c = new DbConnect();
+            this.iptextbox.Text = "Default (" + Properties.Settings.Default.LastIP+")";
             this.FormClosing += new FormClosingEventHandler(Login_FormClosing);
             this.CenterToScreen();
         }
 
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            if (this.iptextbox.Text != "Default")
+            if (this.iptextbox.Text.StartsWith("Default")!=true)
             {
                 Console.WriteLine("setting: " + this.iptextbox.Text.Replace(" ", ""));
-                Global.ipaddress = this.iptextbox.Text.Replace(" ", "");
+                Properties.Settings.Default.LastIP = this.iptextbox.Text.Replace(" ", ""); ;
+                Properties.Settings.Default.Save();
             }
             this.c = new DbConnect();
             this.access=this.c.checkLogin(textBox1.Text, textBox2.Text);
@@ -59,22 +54,8 @@ namespace Factory_Inventory
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //Signup f2 = new Signup();
-            //f2.Show();
-        }
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //if(!string.Equals((sender as Button).Name, @"CloseButton"))
-            //{
-            //    Console.WriteLine("close login");
-            //    Environment.Exit(0);
-            //}
-            //if (e.CloseReason == CloseReason.UserClosing)
-            //{
-               
-            //}
             if(this.close_from_code != true) //not called after login
             {
                 this.close_from_code = false;
