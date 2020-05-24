@@ -37,6 +37,7 @@ namespace Factory_Inventory
         {
             InitializeComponent();
             this.c = new DbConnect();
+            m_I1_Tables1.Hide();
         }
         public void decolour_all_buttons()
         {
@@ -52,6 +53,7 @@ namespace Factory_Inventory
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            m_I1_Tables1.Hide();
             M_I1_OnDate f = new M_I1_OnDate();
             f.Show();
             this.decolour_all_buttons();
@@ -60,12 +62,15 @@ namespace Factory_Inventory
 
         private void tablesButton_Click(object sender, EventArgs e)
         {
+            m_I1_Tables1.Show();
+            m_I1_Tables1.Focus();
             this.decolour_all_buttons();
             this.tablesButton.BackColor = Color.Orange;
         }
 
         private void fromtoButton_Click(object sender, EventArgs e)
         {
+            m_I1_Tables1.Hide();
             M_I1_FromToDate f = new M_I1_FromToDate();
             f.Show();
             this.decolour_all_buttons();

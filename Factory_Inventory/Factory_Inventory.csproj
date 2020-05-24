@@ -245,6 +245,12 @@
     <Compile Include="M_V4_printDO.Designer.cs">
       <DependentUpon>M_V4_printDO.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_I1_Tables.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="M_I1_Tables.Designer.cs">
+      <DependentUpon>M_I1_Tables.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_VC_addBill.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -476,6 +482,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_V4_printDO.resx">
       <DependentUpon>M_V4_printDO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_I1_Tables.resx">
+      <DependentUpon>M_I1_Tables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_VC_addBill.resx">
       <DependentUpon>M_VC_addBill.cs</DependentUpon>

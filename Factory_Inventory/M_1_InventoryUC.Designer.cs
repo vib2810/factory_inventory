@@ -35,6 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.m_I1_Tables1 = new Factory_Inventory.M_I1_Tables();
             this.SuspendLayout();
             // 
             // voucherLabel
@@ -51,7 +52,7 @@
             this.onDateButton.BackColor = System.Drawing.SystemColors.ControlDark;
             this.onDateButton.Location = new System.Drawing.Point(16, 51);
             this.onDateButton.Name = "onDateButton";
-            this.onDateButton.Size = new System.Drawing.Size(97, 55);
+            this.onDateButton.Size = new System.Drawing.Size(130, 60);
             this.onDateButton.TabIndex = 1;
             this.onDateButton.Text = "On Date";
             this.onDateButton.UseVisualStyleBackColor = false;
@@ -60,9 +61,9 @@
             // fromtoButton
             // 
             this.fromtoButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.fromtoButton.Location = new System.Drawing.Point(16, 112);
+            this.fromtoButton.Location = new System.Drawing.Point(16, 122);
             this.fromtoButton.Name = "fromtoButton";
-            this.fromtoButton.Size = new System.Drawing.Size(97, 53);
+            this.fromtoButton.Size = new System.Drawing.Size(130, 60);
             this.fromtoButton.TabIndex = 2;
             this.fromtoButton.Text = "From-To Date";
             this.fromtoButton.UseVisualStyleBackColor = false;
@@ -71,9 +72,9 @@
             // tablesButton
             // 
             this.tablesButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.tablesButton.Location = new System.Drawing.Point(16, 171);
+            this.tablesButton.Location = new System.Drawing.Point(16, 200);
             this.tablesButton.Name = "tablesButton";
-            this.tablesButton.Size = new System.Drawing.Size(97, 53);
+            this.tablesButton.Size = new System.Drawing.Size(130, 60);
             this.tablesButton.TabIndex = 4;
             this.tablesButton.Text = "Tables";
             this.tablesButton.UseVisualStyleBackColor = false;
@@ -82,7 +83,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(94, 88);
+            this.label1.Location = new System.Drawing.Point(123, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(19, 17);
             this.label1.TabIndex = 5;
@@ -91,7 +92,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(96, 207);
+            this.label2.Location = new System.Drawing.Point(125, 239);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 17);
             this.label2.TabIndex = 6;
@@ -100,16 +101,25 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(97, 148);
+            this.label3.Location = new System.Drawing.Point(126, 161);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(16, 17);
             this.label3.TabIndex = 7;
             this.label3.Text = "F";
             // 
+            // m_I1_Tables1
+            // 
+            this.m_I1_Tables1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
+            this.m_I1_Tables1.Location = new System.Drawing.Point(165, 0);
+            this.m_I1_Tables1.Name = "m_I1_Tables1";
+            this.m_I1_Tables1.Size = new System.Drawing.Size(514, 432);
+            this.m_I1_Tables1.TabIndex = 8;
+            // 
             // M_1_inventoryUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.m_I1_Tables1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -118,7 +128,7 @@
             this.Controls.Add(this.onDateButton);
             this.Controls.Add(this.voucherLabel);
             this.Name = "M_1_inventoryUC";
-            this.Size = new System.Drawing.Size(619, 432);
+            this.Size = new System.Drawing.Size(679, 433);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,5 +143,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private M_I1_Tables m_I1_Tables1;
     }
 }
