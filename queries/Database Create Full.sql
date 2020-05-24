@@ -461,9 +461,10 @@ create table SalesBillNosVoucher
 	Sale_Bill_Amount decimal(11,2) NOT NULL,
 	Sale_Bill_Weight_Calc decimal(10,3) NOT NULL,
 	Sale_Bill_Amount_Calc decimal(11,2) NOT NULL,
-  Tablename varchar(20) NOT NULL,
-  Voucher_ID int NOT NULL Primary Key Identity(1,1),
-  Deleted tinyint NULL
+	Tablename varchar(20) NOT NULL,
+	Bill_Customer varchar(50) null,
+	Voucher_ID int NOT NULL Primary Key Identity(1,1),
+	Deleted tinyint NULL
 );
 
 GO
