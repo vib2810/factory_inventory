@@ -707,22 +707,27 @@ namespace Factory_Inventory
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
                 int sum = 0, sum1 = 0;
-                try
-                {
-                    Convert.ToDateTime(this.dataGridView1.Rows[i].Cells[1].Value.ToString());
-                }
-                catch
-                {
-                    c.ErrorBox("Please enter correct Production Date format in row: " + (i + 1).ToString());
-                    return;
-                }
                 for(int j=1; j<=7;j++)
                 {
-                    if(dataGridView1.Rows[i].Cells[j].Value==null || dataGridView1.Rows[i].Cells[j].Value == "")
+                    if(dataGridView1.Rows[i].Cells[j].Value==null)
                     {
+
                     }
+                    else if (dataGridView1.Rows[i].Cells[j].Value.ToString() == "") { }
                     else
                     {
+                        if (j == 1)
+                        {
+                            try
+                            {
+                                Convert.ToDateTime(this.dataGridView1.Rows[i].Cells[1].Value.ToString());
+                            }
+                            catch
+                            {
+                                c.ErrorBox("Please enter correct Production Date format in row: " + (i + 1).ToString());
+                                return;
+                            }
+                        }
                         sum++;
                     }
                 }
