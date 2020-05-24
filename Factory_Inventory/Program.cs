@@ -27,7 +27,8 @@ namespace Factory_Inventory
             //float f=float.Parse("1151.000");
             //Console.WriteLine(f);
             //c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
-            M_I1_OnDate f = new M_I1_OnDate();
+            //M_I1_OnDate f = new M_I1_OnDate();
+            M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
             Application.Run(f);
             while (true)
             {

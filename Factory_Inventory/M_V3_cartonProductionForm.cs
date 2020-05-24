@@ -707,7 +707,16 @@ namespace Factory_Inventory
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
                 int sum = 0, sum1 = 0;
-                for(int j=2;j<=7;j++)
+                try
+                {
+                    Convert.ToDateTime(this.dataGridView1.Rows[i].Cells[1].Value.ToString());
+                }
+                catch
+                {
+                    c.ErrorBox("Please enter correct Production Date format in row: " + (i + 1).ToString());
+                    return;
+                }
+                for(int j=1; j<=7;j++)
                 {
                     if(dataGridView1.Rows[i].Cells[j].Value==null || dataGridView1.Rows[i].Cells[j].Value == "")
                     {
@@ -721,7 +730,7 @@ namespace Factory_Inventory
                 {
                     continue;
                 }
-                else if(sum!=6)
+                else if(sum!=7)
                 {
                     c.ErrorBox("Missing values in " + (i + 1).ToString() + " row", "Error");
                     return;
@@ -814,6 +823,11 @@ namespace Factory_Inventory
                         continue;
                     }
                     int rowindex = dataGridView1.SelectedRows[0].Index;
+                    if(dataGridView1.Rows[rowindex].Cells[2].Value==null)
+                    {
+                        dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                        continue;
+                    }
                     string carton_no = dataGridView1.Rows[rowindex].Cells[2].Value.ToString();
                     bool value = true;
                     bool value2 = this.carton_editable.TryGetValue(carton_no, out value);
@@ -1068,9 +1082,12 @@ namespace Factory_Inventory
             {
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                c.DroppedDown = true;
-                SendKeys.Send("{down}");
-                SendKeys.Send("{up}");
+                if(c!=null)
+                {
+                    c.DroppedDown = true;
+                    SendKeys.Send("{down}");
+                    SendKeys.Send("{up}");
+                }
                 e.Handled = true;
             }
         }

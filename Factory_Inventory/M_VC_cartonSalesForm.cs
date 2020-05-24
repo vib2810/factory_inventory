@@ -14,11 +14,12 @@ namespace Factory_Inventory
         {
             if (keyData == Keys.Tab &&
                 dataGridView1.EditingControl != null &&
-                msg.HWnd == dataGridView1.EditingControl.Handle &&
+                //msg.HWnd == dataGridView1.EditingControl.Handle &&
                 dataGridView1.SelectedCells
                     .Cast<DataGridViewCell>()
                     .Any(x => x.ColumnIndex == 1))
             {
+                Console.WriteLine("Inside process cmd key tab 1");
                 this.edit_cmd_send = true;
                 SendKeys.Send("{Tab}");
                 return false;
@@ -47,7 +48,18 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private int voucher_id;
         private string tablename;
-        
+        struct fetch_data
+        {
+            public float net_wt;
+            public string colour;
+            public fetch_data(float net_wt, string shade)
+            {
+                this.net_wt = net_wt;
+                this.colour = shade;
+            }
+        }
+        Dictionary<string, fetch_data> carton_fetch_data = new Dictionary<string, fetch_data>();
+
         //Form Functions
         public M_VC_cartonSalesForm(string form)
         {
@@ -57,6 +69,7 @@ namespace Factory_Inventory
             this.carton_data.Add("");
             this.tablename = form;
 
+            #region //combobox
             //Create frop down type list
             List<string> dataSource = new List<string>();
             dataSource.Add("---Select---");
@@ -149,13 +162,40 @@ namespace Factory_Inventory
             this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(c.getFinancialYear(this.saleDateDTP.Value));
+            
+            //Create drop-down Colour lists
+            var dataSource5 = new List<string>();
+            if (tablename == "Carton")
+            {
+                this.shadeCB.Items.Add("Grey");
+                this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Grey");
+                this.shadeCB.Enabled = false;
+            }
+            else
+            {
+                DataTable d5 = c.getQC('l');
+                dataSource5.Add("---Select---");
+                for (int i = 0; i < d5.Rows.Count; i++)
+                {
+                    dataSource5.Add(d5.Rows[i][0].ToString());
+                }
+                List<string> final_list = dataSource5.Distinct().ToList();
+                this.shadeCB.DataSource = final_list;
+                this.shadeCB.DisplayMember = "Colours";
+                this.shadeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.shadeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.shadeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            }
 
+
+            #endregion //combobox
 
             //DatagridView
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
             dataGridView1.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            dgvCmb.DataSource = this.carton_data;
+            for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i]);
+            //dgvCmb.DataSource = this.carton_data;
 
             dgvCmb.HeaderText = "Carton Number";
             dataGridView1.Columns.Insert(1, dgvCmb);
@@ -166,7 +206,6 @@ namespace Factory_Inventory
             dataGridView1.RowCount = 10;
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
-
         }
         public M_VC_cartonSalesForm(DataRow row, bool isEditable, M_V_history v1_history, string form)
         {
@@ -189,6 +228,7 @@ namespace Factory_Inventory
             this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            #region //dropdown
             //Create drop-down list for quality
             var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
@@ -260,7 +300,29 @@ namespace Factory_Inventory
             this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-
+            var dataSource5 = new List<string>();
+            if (tablename == "Carton")
+            {
+                this.shadeCB.Items.Add("Grey");
+                this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Grey");
+                this.shadeCB.Enabled = false;
+            }
+            else
+            {
+                DataTable d5 = c.getQC('l');
+                dataSource5.Add("---Select---");
+                for (int i = 0; i < d5.Rows.Count; i++)
+                {
+                    dataSource5.Add(d5.Rows[i][0].ToString());
+                }
+                List<string> final_list = dataSource5.Distinct().ToList();
+                this.shadeCB.DataSource = final_list;
+                this.shadeCB.DisplayMember = "Colours";
+                this.shadeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.shadeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.shadeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            }
+            #endregion //dropdown
 
             //DatagridView
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
@@ -268,7 +330,8 @@ namespace Factory_Inventory
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Carton Number";
-            dgvCmb.DataSource = this.carton_data;
+            for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i]);
+            //dgvCmb.DataSource = this.carton_data;
             dataGridView1.Columns.Insert(1, dgvCmb);
             dataGridView1.Columns.Add("Weight", "Weight");
             dataGridView1.Columns.Add("Shade", "Shade");
@@ -329,9 +392,25 @@ namespace Factory_Inventory
             this.rateTextboxTB.Text = row["Sale_Rate"].ToString();
 
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
-            for(int i=0; i<carton_no.Length; i++)
+            
+            DataTable d = new DataTable();
+            if (this.tablename == "Carton")
+            {
+                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_No IN ("+ c.removecom(row["Carton_No_Arr"].ToString())+") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "'");
+            }
+            else d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "'");
+
+            for (int i=0; i<carton_no.Length; i++)
             {
                 this.carton_data.Add(carton_no[i]);
+                dgvCmb.Items.Add(carton_no[i]);
+            }
+            for (int i = 0; i < d.Rows.Count; i++)
+            {
+                string cartonno = d.Rows[i]["Carton_No"].ToString();
+                string colour = "Grey";
+                if (this.tablename != "Carton") colour = d.Rows[i]["Colour"].ToString();
+                this.carton_fetch_data[cartonno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
             }
             this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString(), row["Carton_Fiscal_Year"].ToString());
 
@@ -436,11 +515,23 @@ namespace Factory_Inventory
         }
         private void loadData(string quality, string company, string carton_financial_year)
         {
-            DataTable d = c.getCartonStateQualityCompany(1, quality, company, carton_financial_year, this.tablename);          //returns carton numbers
+            DataTable d = new DataTable();
+            if(this.tablename=="Carton")
+            {
+                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "' AND Fiscal_Year ='" + carton_financial_year +"'");
+            }
+            else d= c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "' AND Fiscal_Year ='" + carton_financial_year + "'");
+            DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns[1];
             for (int i = 0; i < d.Rows.Count; i++)
             {
+                string cartonno = d.Rows[i]["Carton_No"].ToString();
+                dgvCmb.Items.Add(d.Rows[i][0].ToString());
                 this.carton_data.Add(d.Rows[i][0].ToString());
+                string colour = "Grey";
+                if (this.tablename != "Carton") colour = d.Rows[i]["Colour"].ToString();
+                this.carton_fetch_data[cartonno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
             }
+            
         }
         private void amountTB_Value()
         {
@@ -693,6 +784,20 @@ namespace Factory_Inventory
                 ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
                 ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
                 ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+                ComboBox c = (ComboBox)e.Control;
+                if (this.shadeCB.Text == "---Select---") return;
+                
+                List<string> temp=new List<string>();
+                foreach (string item in c.Items) temp.Add(item);
+                foreach(string item in temp)
+                {
+                    fetch_data value = new fetch_data(-1F, "");
+                    this.carton_fetch_data.TryGetValue(item, out value);
+                    if (value.colour!=this.shadeCB.Text)
+                    {
+                        c.Items.Remove(item);
+                    }
+                }
             }
         }
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -711,16 +816,10 @@ namespace Factory_Inventory
                 {
                     return;
                 }
-                DataTable dt = c.getCartonWeightShade(cartoon, this.comboBox4CB.SelectedItem.ToString(), this.tablename);
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = dt.Rows[0][0];
-                if(this.tablename=="Carton")
-                {
-                    dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = "Grey";
-                }
-                else
-                {
-                    dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = dt.Rows[0][1];
-                }
+                fetch_data data = new fetch_data(-1F, "");
+                this.carton_fetch_data.TryGetValue(cartoon, out data);
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = data.net_wt.ToString("F3");
+                dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = data.colour;
                 this.totalWeightTB.Text = CellSum().ToString("F3");
             }
         }
@@ -743,7 +842,8 @@ namespace Factory_Inventory
                 bool edit_cmd_local = this.edit_cmd_send;
                 this.edit_cmd_send = false;
                 int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                if (edit_cmd_local == true) rowindex_tab--;
+                //if (edit_cmd_local == true) rowindex_tab--;
+                Console.WriteLine("row index "+rowindex_tab);
 
                 if (rowindex_tab < 0)
                 {
@@ -754,10 +854,6 @@ namespace Factory_Inventory
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
-                }
-                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
-                {
-                    dataGridView1.Rows.Add();
                 }
                 if (edit_cmd_local == false)
                 {
@@ -771,6 +867,7 @@ namespace Factory_Inventory
                 if (rowindex_tab < 0)
                 {
                     SendKeys.Send("{tab}");
+                    SendKeys.Send("{tab}");
                     return;
                 }
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
@@ -778,10 +875,7 @@ namespace Factory_Inventory
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
                 }
-                if (dataGridView1.Rows.Count - 1 < rowindex_tab + 1)
-                {
-                    dataGridView1.Rows.Add();
-                }
+                SendKeys.Send("{tab}");
                 SendKeys.Send("{tab}");
             }
             if (e.KeyCode == Keys.Enter &&
