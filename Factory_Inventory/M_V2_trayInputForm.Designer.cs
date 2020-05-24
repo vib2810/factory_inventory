@@ -60,6 +60,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.gradeCB = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label2
@@ -167,7 +169,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(376, 387);
+            this.addButton.Location = new System.Drawing.Point(367, 430);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(101, 51);
             this.addButton.TabIndex = 17;
@@ -328,7 +330,7 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(15, 387);
+            this.deleteButton.Location = new System.Drawing.Point(15, 430);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(101, 51);
             this.deleteButton.TabIndex = 1003;
@@ -337,11 +339,35 @@
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // gradeCB
+            // 
+            this.gradeCB.FormattingEnabled = true;
+            this.gradeCB.Items.AddRange(new object[] {
+            "---Select---",
+            "1st",
+            "PQ",
+            "CLQ"});
+            this.gradeCB.Location = new System.Drawing.Point(367, 387);
+            this.gradeCB.Name = "gradeCB";
+            this.gradeCB.Size = new System.Drawing.Size(121, 24);
+            this.gradeCB.TabIndex = 1005;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(309, 390);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(48, 17);
+            this.label15.TabIndex = 1004;
+            this.label15.Text = "Grade";
+            // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 489);
+            this.Controls.Add(this.gradeCB);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.springWeightTB);
@@ -414,5 +440,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.ComboBox gradeCB;
+        private System.Windows.Forms.Label label15;
     }
 }

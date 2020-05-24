@@ -182,7 +182,8 @@ CREATE TABLE Tray_Active(
     Machine_No varchar(5) NOT NULL,
     Quality_Before_Twist varchar(20) NOT NULL,
     Batch_Fiscal_Year varchar(15) NULL,
-    Redyeing tinyint NULL
+    Redyeing tinyint NULL,
+	Grade varchar(10) NOT NULL
 );
 
 GO
@@ -233,7 +234,8 @@ CREATE TABLE Tray_History(
     Machine_No varchar(5) NOT NULL,
     Quality_Before_Twist varchar(20) NOT NULL,
     Batch_Fiscal_Year varchar(15) NOT NULL,
-    Redyeing tinyint NULL
+    Redyeing tinyint NULL,
+	Grade varchar(10) NOT NULL
 );
 
 GO
@@ -281,7 +283,8 @@ CREATE TABLE Tray_Voucher(
 	Fiscal_Year varchar(15) NOT NULL,
     Machine_No varchar(5) NOT NULL,
     Quality_Before_Twist varchar(20) NOT NULL,
-	Deleted tinyint NULL
+	Deleted tinyint NULL,
+	Grade varchar(10) NOT NULL
 );
 
 GO
