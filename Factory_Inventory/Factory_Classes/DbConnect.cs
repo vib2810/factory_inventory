@@ -1833,25 +1833,34 @@ namespace Factory_Inventory.Factory_Classes
             if (tablename=="Carton")
             {
                 con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
                 sda1.Fill(dt);
                 con.Close();
             }
             else
             {
                 con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
                 sda1.Fill(dt);
                 con.Close();
             }
+
+            //create a dictionary of values and the output values are not in the same order
+            Dictionary<string, string> dates = new Dictionary<string, string>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DateTime bill;
-                if(tablename=="Carton") bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Billing"].ToString());
-                else bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Production"].ToString());
+                string thiscartonno = dt.Rows[i]["Carton_No"].ToString();
+                if (tablename == "Carton") dates[thiscartonno] = dt.Rows[i]["Date_Of_Billing"].ToString();
+                else dates[thiscartonno] = dt.Rows[i]["Date_Of_Production"].ToString();
+            }
+            for (int i = 0; i < carton_no.Length; i++)
+            {
+                DateTime bill = Convert.ToDateTime(dates[carton_no[i]]);
+                string billprod = "Billing";
+                if (tablename == "Carton_Produced") billprod = "Production";
                 if (dtissue < bill)
                 {
-                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString() + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of " + billprod + " (" + bill.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")", "Error");
                     return false;
                 }
             }
@@ -1920,22 +1929,27 @@ namespace Factory_Inventory.Factory_Classes
                 sda1.Fill(dt);
                 con.Close();
             }
+
+            //create a dictionary of values and the output values are not in the same order
+            Dictionary<string, string> dates = new Dictionary<string, string>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DateTime bill;
+                string thiscartonno = dt.Rows[i]["Carton_No"].ToString();
+                if (tablename == "Carton") dates[thiscartonno] = dt.Rows[i]["Date_Of_Billing"].ToString();
+                else dates[thiscartonno] = dt.Rows[i]["Date_Of_Production"].ToString();
+            }
+            for (int i = 0; i < carton_no.Length; i++)
+            {
+                DateTime bill = Convert.ToDateTime(dates[carton_no[i]]);
                 string billprod = "Billing";
-                if (tablename == "Carton") bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Billing"].ToString());
-                else
-                {
-                    bill = Convert.ToDateTime(dt.Rows[i]["Date_Of_Production"].ToString());
-                    billprod = "Production";
-                }
+                if (tablename == "Carton_Produced") billprod = "Production";
                 if (dtissue < bill)
                 {
-                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of "+billprod+" (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString() + "),", "Error");
+                    this.ErrorBox("Carton number: " +carton_no[i] + " at row " + (i + 1).ToString() + " has Date of " + billprod + " (" + bill.Date.ToString("dd-MM-yyyy").Substring(0,10) + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")", "Error");
                     return false;
                 }
             }
+
             try
             {
                 SqlDataAdapter adapter = new SqlDataAdapter();
@@ -3303,27 +3317,6 @@ namespace Factory_Inventory.Factory_Classes
             {
                 this.ErrorBox("Could not connect to database (getBatchFiscalYear_StateDyeingCompanyColourQuality) " + e.Message, "Exception");
             }
-            finally
-            {
-                con.Close();
-            }
-            return dt;
-        }
-        public DataTable getTrayIDsFromBatches(string batch_nos, string batch_fiscal_year)
-        {
-            if (string.IsNullOrEmpty(batch_nos)) return new DataTable();
-            DataTable dt = new DataTable();
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_ID_Arr FROM Batch WHERE Batch_No IN (" + batch_nos + ") AND Fiscal_Year='"+batch_fiscal_year+"'", con);
-                sda.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get tray ids tray (getTrayIDs) \n" + e.Message, "Exception");
-            }
-
             finally
             {
                 con.Close();
