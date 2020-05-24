@@ -62,6 +62,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.shadeCB = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -73,11 +75,11 @@
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView1.Location = new System.Drawing.Point(250, -1);
+            this.dataGridView1.Location = new System.Drawing.Point(250, 35);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(663, 745);
+            this.dataGridView1.Size = new System.Drawing.Size(663, 709);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
@@ -362,11 +364,31 @@
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // shadeCB
+            // 
+            this.shadeCB.FormattingEnabled = true;
+            this.shadeCB.Location = new System.Drawing.Point(302, 5);
+            this.shadeCB.Name = "shadeCB";
+            this.shadeCB.Size = new System.Drawing.Size(200, 24);
+            this.shadeCB.TabIndex = 0;
+            this.shadeCB.TabStop = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(247, 8);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(49, 17);
+            this.label11.TabIndex = 45;
+            this.label11.Text = "Shade";
+            // 
             // M_VC_cartonSalesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 801);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.shadeCB);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -442,5 +464,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.ComboBox shadeCB;
+        private System.Windows.Forms.Label label11;
     }
 }
