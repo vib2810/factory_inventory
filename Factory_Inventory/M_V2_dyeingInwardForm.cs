@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Media.Animation;
 
 namespace Factory_Inventory
 {
@@ -442,6 +443,10 @@ namespace Factory_Inventory
                 else
                 {
                     this.Text += "(Edit)";
+                    this.loadBatchButton.Enabled = false;
+                    this.saveButton.Enabled = true;
+                    this.dyeingCompanyCB.Enabled = false;
+                    this.comboBox3CB.Enabled = false;
                 }
 
                 //Fill in required values

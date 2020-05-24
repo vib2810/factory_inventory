@@ -156,6 +156,7 @@
             // 
             // inputDate
             // 
+            this.inputDate.Enabled = false;
             this.inputDate.Location = new System.Drawing.Point(24, 42);
             this.inputDate.Name = "inputDate";
             this.inputDate.Size = new System.Drawing.Size(200, 22);

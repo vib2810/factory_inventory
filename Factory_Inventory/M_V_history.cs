@@ -704,6 +704,22 @@ namespace Factory_Inventory
             if (dataGridView1.CurrentRow == null) return;
             if (dataGridView1.CurrentRow.Index < 0) return;
             DataRow row = (dataGridView1.Rows[dataGridView1.CurrentRow.Index].DataBoundItem as DataRowView).Row;
+            try
+            {
+                string deleted = row["Deleted"].ToString();
+                if (deleted == "1")
+                {
+                    this.viewDetailsButton.Enabled = false;
+                    this.editDetailsButton.Enabled = false;
+                    return;
+                }
+                else
+                {
+                    this.viewDetailsButton.Enabled = true;
+                    this.editDetailsButton.Enabled = true;
+                }
+            }
+            catch (Exception x) { Console.WriteLine("ERROR: " + x.Message); }
             if (this.vno == 8 && dataGridView1.CurrentRow.Index >= 0)
             {
                 Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
@@ -716,21 +732,7 @@ namespace Factory_Inventory
                     this.editDetailsButton.Enabled = true;
                 }
             }
-            try
-            {
-                string deleted = row["Deleted"].ToString();
-                if (deleted == "1")
-                {
-                    this.viewDetailsButton.Enabled = false;
-                    this.editDetailsButton.Enabled = false;
-                }
-                else
-                {
-                    this.viewDetailsButton.Enabled = true;
-                    this.editDetailsButton.Enabled = true;
-                }
-            }
-            catch(Exception x) { Console.WriteLine("ERROR: " + x.Message); }
+            
         }
     }
 }

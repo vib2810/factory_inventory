@@ -195,11 +195,11 @@
             // 
             // inputDateDTP
             // 
-            this.inputDateDTP.Enabled = false;
             this.inputDateDTP.Location = new System.Drawing.Point(24, 42);
             this.inputDateDTP.Name = "inputDateDTP";
             this.inputDateDTP.Size = new System.Drawing.Size(200, 22);
             this.inputDateDTP.TabIndex = 0;
+            this.inputDateDTP.Enabled = false;
             // 
             // label3
             // 
