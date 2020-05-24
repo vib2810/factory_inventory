@@ -404,6 +404,7 @@ namespace Factory_Inventory
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (this.lockCartonsCK.Checked == true) return;
             if (this.edit_form == false)
             {
                 int count = dataGridView1.SelectedRows.Count;
@@ -429,6 +430,11 @@ namespace Factory_Inventory
                         continue;
                     }
                     int rowindex = dataGridView1.SelectedRows[0].Index;
+                    if(dataGridView1.Rows[rowindex].Cells[2].Value == null)
+                    {
+                        dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                        continue;
+                    }
                     string carton_no = dataGridView1.Rows[rowindex].Cells[2].Value.ToString();
                     bool value = true;
                     bool value2 = this.carton_editable.TryGetValue(carton_no, out value);
@@ -751,7 +757,7 @@ namespace Factory_Inventory
             {
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                c.DroppedDown = true;
+                if(c!=null) c.DroppedDown = true;
                 e.Handled = true;
             }
         }

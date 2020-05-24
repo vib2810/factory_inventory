@@ -2429,13 +2429,26 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     //Store all rows in variables
                     int trayid = int.Parse(dt.Rows[i]["Tray_ID"].ToString());
+                    
                     //Change date in correct format
                     string productiondate = dt.Rows[i]["Tray_Production_Date"].ToString().Substring(0, 10);
                     productiondate = productiondate.Replace('/', '-');
                     Console.WriteLine(productiondate);
                     DateTime d = DateTime.ParseExact(productiondate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     productiondate = d.ToString("MM-dd-yyyy");
-                    Console.WriteLine(productiondate);
+
+                    //Change date in correct format
+                    string Dyeing_In_Date = dt.Rows[i]["Dyeing_In_Date"].ToString().Substring(0, 10);
+                    Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
+                    Console.WriteLine(Dyeing_In_Date);
+                    d = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    Dyeing_In_Date = d.ToString("MM-dd-yyyy");
+
+                    //Change date in correct format
+                    string Dyeing_Out_Date = dt.Rows[i]["Dyeing_Out_Date"].ToString().Substring(0, 10);
+                    Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
+                    d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
 
                     string trayno = dt.Rows[i]["Tray_No"].ToString();
                     string spring = dt.Rows[i]["Spring"].ToString();
@@ -2445,19 +2458,7 @@ namespace Factory_Inventory.Factory_Classes
                     string Quality = dt.Rows[i]["Quality"].ToString();
                     string Company_Name = dt.Rows[i]["Company_Name"].ToString();
                     string Dyeing_Company_Name = dt.Rows[i]["Dyeing_Company_Name"].ToString();
-                    //Change date in correct format
-                    string Dyeing_In_Date = dt.Rows[i]["Dyeing_In_Date"].ToString().Substring(0, 10);
-                    Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
-                    Console.WriteLine(Dyeing_In_Date);
-                    d = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    Dyeing_In_Date = d.ToString("MM-dd-yyyy");
-                    Console.WriteLine(Dyeing_In_Date);
-
-                    //Change date in correct format
-                    string Dyeing_Out_Date = dt.Rows[i]["Dyeing_Out_Date"].ToString().Substring(0, 10);
-                    Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
-                    d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
+                   
 
                     int Batch_No = int.Parse(dt.Rows[i]["Batch_No"].ToString());
                     float Net_Weight = float.Parse(dt.Rows[i]["Net_Weight"].ToString());
@@ -2526,10 +2527,18 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     //Store all rows in variables
                     int trayid = int.Parse(dt.Rows[i]["Tray_ID"].ToString());
+                    
                     //Change date in correct format
                     string productiondate = dt.Rows[i]["Tray_Production_Date"].ToString().Substring(0, 10);
+                    productiondate = productiondate.Replace('/', '-');
                     DateTime d = DateTime.ParseExact(productiondate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     productiondate = d.ToString("MM-dd-yyyy");
+
+                    //Change date in correct format
+                    string Dyeing_Out_Date = dt.Rows[i]["Dyeing_Out_Date"].ToString().Substring(0, 10);
+                    Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
+                    d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
 
                     string trayno = dt.Rows[i]["Tray_No"].ToString();
                     string spring = dt.Rows[i]["Spring"].ToString();
@@ -2539,11 +2548,7 @@ namespace Factory_Inventory.Factory_Classes
                     string Quality = dt.Rows[i]["Quality"].ToString();
                     string Company_Name = dt.Rows[i]["Company_Name"].ToString();
                     string Dyeing_Company_Name = dt.Rows[i]["Dyeing_Company_Name"].ToString();
-                    //Change date in correct format
-                    string Dyeing_Out_Date = dt.Rows[i]["Dyeing_Out_Date"].ToString().Substring(0, 10);
-                    Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
-                    d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
+           
                     int Batch_No = int.Parse(dt.Rows[i]["Batch_No"].ToString());
                     float Net_Weight = float.Parse(dt.Rows[i]["Net_Weight"].ToString());
                     string fiscal_year = dt.Rows[i]["Fiscal_Year"].ToString();

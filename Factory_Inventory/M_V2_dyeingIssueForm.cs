@@ -650,9 +650,11 @@ namespace Factory_Inventory
                     dynamicWeightLabel.Text = CellSum().ToString("F3");
                     return;
                 }
+                fetch_data temp = new fetch_data(-1F, "");
                 string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = this.tray_fetch_data[trayno].net_wt;
-                this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = this.tray_fetch_data[trayno].mno;
+                this.tray_fetch_data.TryGetValue(trayno, out temp);
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = temp.net_wt;
+                this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = temp.mno;
                 dynamicWeightLabel.Text = CellSum().ToString("F3");
             }
         }
