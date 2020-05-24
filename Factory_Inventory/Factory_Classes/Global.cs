@@ -10,7 +10,7 @@ namespace Factory_Inventory
 {
     static class Global
     {
-        private static string _ipaddress = "";
+        //private static string _ipaddress = "";
         private static int _access = -1;
         private static Color _printedcolor=Color.GreenYellow;
         //public static string ipaddress
