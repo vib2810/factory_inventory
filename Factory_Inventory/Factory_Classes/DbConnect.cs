@@ -4437,7 +4437,6 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
             string[] new_carton_arr = this.csvToArray(new_cartons);
-            string[] new_carton_indexes_arr = this.csvToArray(new_carton_indexes);
 
             //check for duplicates of all new cartons
             DataTable carton_dup = this.getDataIn_FinancialYear("Carton_Produced", cartonfinancialYear, "Carton_No", removecom(new_cartons));
@@ -4467,29 +4466,29 @@ namespace Factory_Inventory.Factory_Classes
                     state_2_cartons_index += i + ",";
                 }
             }
-            con.Open();
-            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Sale FROM Carton_Produced WHERE Carton_No IN (" +removecom(state_2_cartons) + ") AND Fiscal_Year='" + cartonfinancialYear + "'", con);
-            DataTable dt = new DataTable();
-            sda1.Fill(dt);
-            con.Close();
-            Dictionary<string, string> dates = new Dictionary<string, string>();
-            for (int i = 0; i < dt.Rows.Count; i++) dates[dt.Rows[i]["Carton_No"].ToString()] = dt.Rows[i]["Date_Of_Sale"].ToString();
-
-            string[] state_2_cartons_arr = csvToArray(state_2_cartons);
-            string[] state_2_cartons_index_arr = csvToArray(state_2_cartons_index);
-            for (int i=0; i<state_2_cartons_arr.Length; i++)
+            if(state_2_cartons!="")
             {
-                DateTime sale = Convert.ToDateTime(dates[state_2_cartons_arr[i]]);
-                DateTime production_date = Convert.ToDateTime(production_dates[int.Parse(state_2_cartons_index_arr[i])]);
-                if (production_date > sale)
+                con.Open();
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Sale FROM Carton_Produced WHERE Carton_No IN (" + removecom(state_2_cartons) + ") AND Fiscal_Year='" + cartonfinancialYear + "'", con);
+                DataTable dt = new DataTable();
+                sda1.Fill(dt);
+                con.Close();
+                Dictionary<string, string> dates = new Dictionary<string, string>();
+                for (int i = 0; i < dt.Rows.Count; i++) dates[dt.Rows[i]["Carton_No"].ToString()] = dt.Rows[i]["Date_Of_Sale"].ToString();
+
+                string[] state_2_cartons_arr = csvToArray(state_2_cartons);
+                string[] state_2_cartons_index_arr = csvToArray(state_2_cartons_index);
+                for (int i = 0; i < state_2_cartons_arr.Length; i++)
                 {
-                    this.ErrorBox("Carton number: " + state_2_cartons_arr[i] + " at row " + (int.Parse(state_2_cartons_index_arr[i]) + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Production (" + production_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
-                    return false;
+                    DateTime sale = Convert.ToDateTime(dates[state_2_cartons_arr[i]]);
+                    DateTime production_date = Convert.ToDateTime(production_dates[int.Parse(state_2_cartons_index_arr[i])]);
+                    if (production_date > sale)
+                    {
+                        this.ErrorBox("Carton number: " + state_2_cartons_arr[i] + " at row " + (int.Parse(state_2_cartons_index_arr[i]) + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Production (" + production_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                        return false;
+                    }
                 }
             }
-
-
-
 
             Console.WriteLine("selected3");
             string cartons = "";

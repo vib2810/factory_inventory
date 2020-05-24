@@ -321,17 +321,18 @@ namespace Factory_Inventory
                 bool bill_editable = true;
                 string batch_nos_string = row["Batch_No_Arr"].ToString();
                 string[] batch_nos_arr = c.csvToArray(row["Batch_No_Arr"].ToString());
-                DataTable bill_nos = c.getColumnBatchNos("Batch_No, Bill_No", c.removecom(batch_nos_string), this.comboBox3CB.SelectedItem.ToString());
-                Dictionary<string, string> billnos = new Dictionary<string, string>();
+                DataTable bill_nos = c.getColumnBatchNos("Batch_No, Bill_No, Batch_State", c.removecom(batch_nos_string), this.comboBox3CB.SelectedItem.ToString());
+                Dictionary<string, Tuple<string, int>> billnos = new Dictionary<string, Tuple<string, int>>();
                 for(int i=0;i<bill_nos.Rows.Count;i++)
                 {
-                    billnos[bill_nos.Rows[i]["Batch_No"].ToString()] = bill_nos.Rows[i]["Bill_No"].ToString();
+                    billnos[bill_nos.Rows[i]["Batch_No"].ToString()] = new Tuple<string, int>(bill_nos.Rows[i]["Bill_No"].ToString(), int.Parse(bill_nos.Rows[i]["Batch_State"].ToString()));
                 }
                 bool flag = true;
                 for (int i = 0; i < batch_nos_arr.Length; i++)
                 {
                     dataGridView1.Rows[i].Cells[1].Value = batch_nos_arr[i];
-                    string bill_no = billnos[batch_nos_arr[i]];
+                    Tuple<string, int> value= billnos[batch_nos_arr[i]];
+                    string bill_no = value.Item1;
                     if(bill_no != "0")
                     {
                         flag = false;
@@ -341,6 +342,7 @@ namespace Factory_Inventory
                         r.DefaultCellStyle.BackColor = Color.Gray;
                         bill_editable = false;
                     }
+                    //pending
                 }
 
                 if (!bill_editable)
