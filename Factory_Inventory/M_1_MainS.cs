@@ -15,9 +15,25 @@ namespace Factory_Inventory
     {
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if(this.m_1_BackupRestoreUC.backupLoactionTB.Focused == true || this.m_1_BackupRestoreUC.restoreLocationTB.Focused == true)
+            {
+                if(keyData == Keys.Escape)
+                {
+                    this.backupRestoreButton.Focus();
+                }
+                return false;
+            }
+            if (this.usersUC.conformPasswordTextbox.Focused == true || this.usersUC.passwordTextbox.Focused == true || this.usersUC.usernameTextbox.Focused == true)
+            {
+                if (keyData == Keys.Escape)
+                {
+                    this.UsersButton.Focus();
+                }
+                return false;
+            }
             if (keyData == Keys.V)
             {
-                this.vouchersButton.PerformClick(); ;
+                this.vouchersButton.PerformClick();
                 return false;
             }
             if (keyData == Keys.I)

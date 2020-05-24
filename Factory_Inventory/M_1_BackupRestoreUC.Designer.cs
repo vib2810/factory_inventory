@@ -190,14 +190,14 @@
 
         private System.Windows.Forms.Label backupStatusLabel;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.TextBox backupLoactionTB;
+        public System.Windows.Forms.TextBox backupLoactionTB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button backupButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button browseBackupButton;
         private System.Windows.Forms.Label restoreStatusLabel;
         private System.Windows.Forms.ProgressBar progressBar2;
-        private System.Windows.Forms.TextBox restoreLocationTB;
+        public System.Windows.Forms.TextBox restoreLocationTB;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button restoreButton;
         private System.Windows.Forms.Button browseRestoreButton;

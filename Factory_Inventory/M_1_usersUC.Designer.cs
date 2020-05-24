@@ -51,7 +51,7 @@
             this.userLabel.Location = new System.Drawing.Point(17, 9);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(104, 17);
-            this.userLabel.TabIndex = 1;
+            this.userLabel.TabIndex = 0;
             this.userLabel.Text = " Manage Users";
             // 
             // userDataView
@@ -67,7 +67,8 @@
             this.userDataView.RowTemplate.Height = 24;
             this.userDataView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.userDataView.Size = new System.Drawing.Size(466, 393);
-            this.userDataView.TabIndex = 2;
+            this.userDataView.TabIndex = 0;
+            this.userDataView.TabStop = false;
             this.userDataView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellClick);
             this.userDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellContentClick);
             // 
@@ -76,7 +77,7 @@
             this.confirmButton.Location = new System.Drawing.Point(20, 282);
             this.confirmButton.Name = "confirmButton";
             this.confirmButton.Size = new System.Drawing.Size(75, 23);
-            this.confirmButton.TabIndex = 3;
+            this.confirmButton.TabIndex = 9;
             this.confirmButton.Text = "Update";
             this.confirmButton.UseVisualStyleBackColor = true;
             this.confirmButton.Click += new System.EventHandler(this.confirmButton_Click);
@@ -87,7 +88,7 @@
             this.newUsernameLabel.Location = new System.Drawing.Point(17, 47);
             this.newUsernameLabel.Name = "newUsernameLabel";
             this.newUsernameLabel.Size = new System.Drawing.Size(73, 17);
-            this.newUsernameLabel.TabIndex = 4;
+            this.newUsernameLabel.TabIndex = 0;
             this.newUsernameLabel.Text = "Username";
             // 
             // contextMenuStrip1
@@ -102,7 +103,7 @@
             this.newPasswordLabel.Location = new System.Drawing.Point(17, 95);
             this.newPasswordLabel.Name = "newPasswordLabel";
             this.newPasswordLabel.Size = new System.Drawing.Size(100, 17);
-            this.newPasswordLabel.TabIndex = 6;
+            this.newPasswordLabel.TabIndex = 0;
             this.newPasswordLabel.Text = "New Password";
             // 
             // newConfirmPasswordLabel
@@ -111,7 +112,7 @@
             this.newConfirmPasswordLabel.Location = new System.Drawing.Point(17, 140);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(121, 17);
-            this.newConfirmPasswordLabel.TabIndex = 7;
+            this.newConfirmPasswordLabel.TabIndex = 0;
             this.newConfirmPasswordLabel.Text = "Confirm Password";
             // 
             // newAccessLevelLabel
@@ -120,7 +121,7 @@
             this.newAccessLevelLabel.Location = new System.Drawing.Point(17, 185);
             this.newAccessLevelLabel.Name = "newAccessLevelLabel";
             this.newAccessLevelLabel.Size = new System.Drawing.Size(91, 17);
-            this.newAccessLevelLabel.TabIndex = 8;
+            this.newAccessLevelLabel.TabIndex = 0;
             this.newAccessLevelLabel.Text = "Access Level";
             // 
             // usernameTextbox
@@ -129,7 +130,8 @@
             this.usernameTextbox.Name = "usernameTextbox";
             this.usernameTextbox.ReadOnly = true;
             this.usernameTextbox.Size = new System.Drawing.Size(100, 22);
-            this.usernameTextbox.TabIndex = 9;
+            this.usernameTextbox.TabIndex = 0;
+            this.usernameTextbox.TabStop = false;
             // 
             // conformPasswordTextbox
             // 
@@ -137,7 +139,7 @@
             this.conformPasswordTextbox.Name = "conformPasswordTextbox";
             this.conformPasswordTextbox.PasswordChar = '*';
             this.conformPasswordTextbox.Size = new System.Drawing.Size(100, 22);
-            this.conformPasswordTextbox.TabIndex = 11;
+            this.conformPasswordTextbox.TabIndex = 3;
             // 
             // passwordTextbox
             // 
@@ -145,7 +147,7 @@
             this.passwordTextbox.Name = "passwordTextbox";
             this.passwordTextbox.PasswordChar = '*';
             this.passwordTextbox.Size = new System.Drawing.Size(100, 22);
-            this.passwordTextbox.TabIndex = 12;
+            this.passwordTextbox.TabIndex = 1;
             // 
             // comboBox1
             // 
@@ -153,7 +155,8 @@
             this.comboBox1.Location = new System.Drawing.Point(21, 206);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(100, 24);
-            this.comboBox1.TabIndex = 13;
+            this.comboBox1.TabIndex = 5;
+            this.comboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
             // 
             // deleteUserCheckbox
             // 
@@ -161,11 +164,11 @@
             this.deleteUserCheckbox.Location = new System.Drawing.Point(20, 246);
             this.deleteUserCheckbox.Name = "deleteUserCheckbox";
             this.deleteUserCheckbox.Size = new System.Drawing.Size(113, 21);
-            this.deleteUserCheckbox.TabIndex = 14;
+            this.deleteUserCheckbox.TabIndex = 7;
             this.deleteUserCheckbox.Text = "Delete User?";
             this.deleteUserCheckbox.UseVisualStyleBackColor = true;
             // 
-            // usersUC
+            // M_1_usersUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -181,7 +184,7 @@
             this.Controls.Add(this.confirmButton);
             this.Controls.Add(this.userDataView);
             this.Controls.Add(this.userLabel);
-            this.Name = "usersUC";
+            this.Name = "M_1_usersUC";
             this.Size = new System.Drawing.Size(619, 393);
             ((System.ComponentModel.ISupportInitialize)(this.userDataView)).EndInit();
             this.ResumeLayout(false);
@@ -199,9 +202,9 @@
         private System.Windows.Forms.Label newPasswordLabel;
         private System.Windows.Forms.Label newConfirmPasswordLabel;
         private System.Windows.Forms.Label newAccessLevelLabel;
-        private System.Windows.Forms.TextBox usernameTextbox;
-        private System.Windows.Forms.TextBox conformPasswordTextbox;
-        private System.Windows.Forms.TextBox passwordTextbox;
+        public System.Windows.Forms.TextBox usernameTextbox;
+        public System.Windows.Forms.TextBox conformPasswordTextbox;
+        public System.Windows.Forms.TextBox passwordTextbox;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.CheckBox deleteUserCheckbox;
     }

@@ -136,5 +136,17 @@ namespace Factory_Inventory
             comboBox1.SelectedIndex = Convert.ToInt32(userDataView.Rows[e.RowIndex].Cells[2].Value);
 
         }
+
+        private void comboBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                if(this.comboBox1.DroppedDown==false)
+                {
+                    this.comboBox1.DroppedDown = true;
+                    e.Handled = true; 
+                }
+            }
+        }
     }
 }

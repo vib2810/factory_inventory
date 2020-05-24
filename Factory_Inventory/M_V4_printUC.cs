@@ -17,24 +17,28 @@ namespace Factory_Inventory
             Console.WriteLine(keyData.ToString());
             if (keyData == (Keys.D1) || keyData == (Keys.NumPad1))
             {
+                this.button1.Focus();
                 this.button1.PerformClick();
                 return false;
             }
 
             if (keyData == (Keys.D2) || keyData == (Keys.NumPad2))
             {
+                this.button2.Focus();
                 this.button2.PerformClick();
                 return false;
             }
            
             if (keyData == (Keys.D3) || keyData == (Keys.NumPad3))
             {
+                this.button6.Focus();
                 this.button6.PerformClick();
                 return false;
             }
             
             if (keyData == (Keys.D4) || keyData == (Keys.NumPad4))
             {
+                this.button3.Focus();
                 this.button3.PerformClick();
                 return false;
             }
