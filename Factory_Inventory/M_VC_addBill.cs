@@ -210,6 +210,7 @@ namespace Factory_Inventory
                 this.financialYearCB.Enabled = false;
                 this.qualityCB.Enabled = false;
                 this.loadDOButton.Enabled = false;
+                this.saveButton.Enabled = true;
             }
 
             //Fill in required values
@@ -369,13 +370,23 @@ namespace Factory_Inventory
                 c.ErrorBox("Enter numeric bill amount", "Error");
                 return;
             }
+            if (Math.Abs(Double.Parse(billWeightTB.Text) - Double.Parse(netDOWeightTB.Text)) > 1D)
+            {
+                c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
+                return;
+            }
             if (typeCB.SelectedItem.ToString() == "1")
             {
-                if (Math.Abs(Double.Parse(billWeightTB.Text) - Double.Parse(netDOWeightTB.Text)) > 1D)
+                
+                if (Math.Abs(float.Parse(this.netDOAmountTB.Text) - float.Parse(this.billAmountTB.Text)) > 5F)
                 {
-                    c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
+                    c.ErrorBox("Bill Amount and Net DO Amount have a difference greater than ₹5", "Error");
                     return;
                 }
+            }
+            if (typeCB.SelectedItem.ToString() == "0")
+            {
+
                 if (float.Parse(this.netDOAmountTB.Text) < float.Parse(this.billAmountTB.Text))
                 {
                     c.ErrorBox("Bill Amount is more than total DO Amount", "Error");
