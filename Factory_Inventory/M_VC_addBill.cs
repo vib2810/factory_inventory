@@ -376,9 +376,9 @@ namespace Factory_Inventory
                     c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
                     return;
                 }
-                if (Math.Abs(Double.Parse(billAmountTB.Text) - Double.Parse(netDOAmountTB.Text)) > 50D)
+                if (float.Parse(this.netDOAmountTB.Text) < float.Parse(this.billAmountTB.Text))
                 {
-                    c.ErrorBox("Bill Amount is does not match total DO Amount", "Error");
+                    c.ErrorBox("Bill Amount is more than total DO Amount", "Error");
                     return;
                 }
             }
@@ -633,8 +633,5 @@ namespace Factory_Inventory
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-        
-
-        
     }
 }
