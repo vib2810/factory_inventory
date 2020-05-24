@@ -3,7 +3,7 @@ use FactoryData
 truncate table Carton;
 truncate table Carton_Voucher;
 DBCC CHECKIDENT ('[Carton_Voucher]', RESEED, 1);
-GOt
+GO
 
 truncate table Twist_Voucher;
 DBCC CHECKIDENT ('[Twist_Voucher]', RESEED, 1);

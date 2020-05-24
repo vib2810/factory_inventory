@@ -5035,11 +5035,13 @@ namespace Factory_Inventory.Factory_Classes
                             break;
                         }
                     }
+                    Console.WriteLine("hello2");
                     if(found==false)
                     {
                         dt.Rows.Add(dtt1.Rows[i]["Company_Name"].ToString(), old_quality, (-float.Parse(dtt1.Rows[i][2].ToString())).ToString());
                     }
                 }
+                Console.WriteLine("Hello3");
                 for (int i = 0; i < dtt2.Rows.Count; i++)
                 {
                     bool found = false;
@@ -5055,7 +5057,7 @@ namespace Factory_Inventory.Factory_Classes
                     }
                     if (found == false)
                     {
-                        dt.Rows.Add(dtt2.Rows[i]["Company_Name"].ToString(), old_quality, (-float.Parse(dtt2.Rows[i][1].ToString())).ToString());
+                        dt.Rows.Add(dtt2.Rows[i]["Company_Name"].ToString(), old_quality, (-float.Parse(dtt2.Rows[i][2].ToString())).ToString());
                     }
                 }
                 this.printDataTable(dt);
@@ -5064,7 +5066,11 @@ namespace Factory_Inventory.Factory_Classes
             {
                 ErrorBox("Could not connect to database (getTwistStock2)\n" + e.Message, "Exception");
                 con.Close();
-                return new DataTable();
+                DataTable returning= new DataTable();
+                returning.Columns.Add("Company_Name");
+                returning.Columns.Add("Quality");
+                returning.Columns.Add("Net Weight");
+                return returning;
             }
             finally
             {

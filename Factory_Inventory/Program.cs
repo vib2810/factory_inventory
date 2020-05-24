@@ -24,9 +24,11 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
             Global.ipaddress = "192.168.1.12";
             DbConnect c = new DbConnect();
+            //float f=float.Parse("1151.000");
+            //Console.WriteLine(f);
             //c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
-            //M_V3_cartonProductionForm f = new M_V3_cartonProductionForm();
-            //Application.Run(f);
+            M_I1_OnDate f = new M_I1_OnDate();
+            Application.Run(f);
             while (true)
             {
                 Login f1 = new Login();
