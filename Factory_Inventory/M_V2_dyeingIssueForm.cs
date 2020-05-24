@@ -250,7 +250,7 @@ namespace Factory_Inventory
             this.batch_state = c.getBatchState(int.Parse(row["Batch_No"].ToString()), row["Batch_Fiscal_Year"].ToString());
             if (batch_state == 2)
             {
-                dynamicEditableLabel.Text = "This voucher is not editable as the Batch has gone for dyeing";
+                dynamicEditableLabel.Text = "This voucher is not editable as the Batch has been recieved from dyeing";
                 invalid_edit= true;
             }
             else if (batch_state == 3)

@@ -53,6 +53,7 @@
             this.billDateDTP = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -281,11 +282,21 @@
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(21, 560);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(0, 20);
+            this.label5.TabIndex = 0;
+            // 
             // M_V2_dyeingInwardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 541);
+            this.ClientSize = new System.Drawing.Size(1077, 603);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.billDateDTP);
             this.Controls.Add(this.label2);
@@ -343,5 +354,6 @@
         private System.Windows.Forms.DateTimePicker billDateDTP;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Label label5;
     }
 }
