@@ -2158,7 +2158,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return (DataRow)dt.Rows[0];
         }
-        public bool addSalesBillNosVoucher(DateTime dtinputDate, DateTime dtbillDate, string do_nos, string quality, string do_fiscal_year, int type, string billNumber, float billWeight, float billAmount, float billWeight_calc, float billAmount_calc, string tablename)
+        public bool addSalesBillNosVoucher(DateTime dtinputDate, DateTime dtbillDate, string do_nos, string quality, string do_fiscal_year, int type, string billNumber, float billWeight, float billAmount, float billWeight_calc, float billAmount_calc, string tablename, string customer)
         {
             string input_date = dtinputDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string bill_date = dtbillDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -2180,7 +2180,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO SalesBillNos_Voucher (Date_Of_Input, Sale_Bill_Date, DO_No_Arr, Quality, DO_Fiscal_Year, Fiscal_Year, Type_Of_Sale, Sale_Bill_No, Sale_Bill_Weight, Sale_Bill_Amount, Sale_Bill_Weight_Calc, Sale_Bill_Amount_Calc, Tablename) VALUES ('" + input_date + "','" + bill_date + "','" + do_nos + "','" + quality + "','" + do_fiscal_year + "', '" + fiscal_year + "', " + type + ", '"+billNumber+"', "+billWeight+", "+billAmount+", "+billWeight_calc+", "+billAmount_calc+", '"+tablename+"')";
+                string sql = "INSERT INTO SalesBillNos_Voucher (Date_Of_Input, Sale_Bill_Date, DO_No_Arr, Quality, DO_Fiscal_Year, Fiscal_Year, Type_Of_Sale, Sale_Bill_No, Sale_Bill_Weight, Sale_Bill_Amount, Sale_Bill_Weight_Calc, Sale_Bill_Amount_Calc, Tablename, Bill_Customer) VALUES ('" + input_date + "','" + bill_date + "','" + do_nos + "','" + quality + "','" + do_fiscal_year + "', '" + fiscal_year + "', " + type + ", '"+billNumber+"', "+billWeight+", "+billAmount+", "+billWeight_calc+", "+billAmount_calc+", '"+tablename+"', '"+customer+"')";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -2189,6 +2189,58 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 this.ErrorBox("Could not add Sales Bill Number Voucher(addSalesBillNosVoucher) \n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+        public bool editSalesBillNosVoucher(int voucherID, DateTime dtinputDate, DateTime dtbillDate, string do_nos, string do_fiscal_year, string billNumber, float billWeight, float billAmount, float billWeight_calc, float billAmount_calc, string tablename, string customer)
+        {
+            string bill_date = dtbillDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+            string fiscal_year = this.getFinancialYear(dtinputDate);
+            //Get all do_nos which were previously present
+            con.Open();
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT DO_No_Arr FROM SalesBillNos_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+            DataTable old = new DataTable();
+            sda.Fill(old);
+            con.Close();
+            string[] old_do_nos = this.csvToArray(old.Rows[0][0].ToString());
+            string old_dos = "";
+            for (int i = 0; i < old_do_nos.Length; i++)
+            {
+                old_dos += "'" + old_do_nos[i] + "',";
+            }
+            //send old do nos to bill no NULL
+            addBillNoDate_Sales(removecom(old_dos), null, null, do_fiscal_year, tablename);
+
+
+            //add bill nos to current batches
+            string[] dos = this.csvToArray(do_nos);
+            string do_no = "";
+            for (int i = 0; i < dos.Length; i++)
+            {
+                do_no += "'" + dos[i] + "',";
+            }
+            addBillNoDate_Sales(removecom(do_no), billNumber, bill_date, do_fiscal_year, tablename);
+
+            //update voucher
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "UPDATE SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', DO_No_Arr='" + do_nos + "', Fiscal_Year='" + fiscal_year + "', Sale_Bill_No='" + billNumber + "', Sale_Bill_Weight=" + billWeight + ", Sale_Bill_Amount=" + billAmount + ", Sale_Bill_Weight_Calc=" + billWeight_calc + ", Sale_Bill_Amount_Calc=" + billAmount_calc + ", Bill_Customer = '"+customer+"' WHERE Voucher_ID=" + voucherID + "";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+                this.SuccessBox("Voucher Updated Successfully");
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not update Dyeing Inward Voucher (editBillNosVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }
@@ -2221,58 +2273,6 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 this.ErrorBox("Could not add BillNo (addBillNoDate_Sales)\n" + e.Message, "Exception");
-                con.Close();
-                return false;
-            }
-            finally
-            {
-                con.Close();
-            }
-            return true;
-        }
-        public bool editSalesBillNosVoucher(int voucherID, DateTime dtinputDate, DateTime dtbillDate, string do_nos,string do_fiscal_year, string billNumber, float billWeight, float billAmount, float billWeight_calc, float billAmount_calc, string tablename)
-        { 
-            string bill_date = dtbillDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-            string fiscal_year = this.getFinancialYear(dtinputDate);
-            //Get all do_nos which were previously present
-            con.Open();
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT DO_No_Arr FROM SalesBillNos_Voucher WHERE Voucher_ID=" + voucherID + "", con);
-            DataTable old = new DataTable();
-            sda.Fill(old);
-            con.Close();
-            string[] old_do_nos = this.csvToArray(old.Rows[0][0].ToString());
-            string old_dos = "";
-            for(int i=0;i<old_do_nos.Length;i++)
-            {
-                old_dos += "'" + old_do_nos[i] + "',";
-            }
-            //send old do nos to bill no NULL
-            addBillNoDate_Sales(removecom(old_dos), null, null, do_fiscal_year, tablename);
-
-
-            //add bill nos to current batches
-            string[] dos = this.csvToArray(do_nos);
-            string do_no = "";
-            for(int i=0;i<dos.Length;i++)
-            {
-                do_no += "'" + dos[i] + "',";
-            }
-            addBillNoDate_Sales(removecom(do_no), billNumber, bill_date, do_fiscal_year, tablename);
-
-            //update voucher
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', DO_No_Arr='" + do_nos + "', Fiscal_Year='" + fiscal_year+ "', Sale_Bill_No='" + billNumber + "', Sale_Bill_Weight=" + billWeight + ", Sale_Bill_Amount="+billAmount+ ", Sale_Bill_Weight_Calc="+billWeight_calc+ ", Sale_Bill_Amount_Calc="+billAmount_calc+" WHERE Voucher_ID=" + voucherID + "";
-                Console.WriteLine(sql);
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-                this.SuccessBox("Voucher Updated Successfully");
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not update Dyeing Inward Voucher (editBillNosVoucher) \n" + e.Message, "Exception");
                 con.Close();
                 return false;
             }

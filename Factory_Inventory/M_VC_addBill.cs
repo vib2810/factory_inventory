@@ -108,6 +108,21 @@ namespace Factory_Inventory
             this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.qualityCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            //Create drop-down Customers list
+            var dataSource4 = new List<string>();
+            DataTable d4 = c.getQC('C');
+            dataSource4.Add("---Select---");
+
+            for (int i = 0; i < d4.Rows.Count; i++)
+            {
+                dataSource4.Add(d4.Rows[i][0].ToString());
+            }
+            this.billCustomerNameCB.DataSource = dataSource4;
+            this.billCustomerNameCB.DisplayMember = "Customers";
+            this.billCustomerNameCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.billCustomerNameCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.billCustomerNameCB.AutoCompleteMode = AutoCompleteMode.Append;
+
             //DatagridView
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
             dataGridView1.Columns[0].ReadOnly = true;
@@ -183,6 +198,21 @@ namespace Factory_Inventory
             this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.qualityCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            //Create drop-down Customers list
+            var dataSource4 = new List<string>();
+            DataTable d4 = c.getQC('C');
+            dataSource4.Add("---Select---");
+
+            for (int i = 0; i < d4.Rows.Count; i++)
+            {
+                dataSource4.Add(d4.Rows[i][0].ToString());
+            }
+            this.billCustomerNameCB.DataSource = dataSource4;
+            this.billCustomerNameCB.DisplayMember = "Customers";
+            this.billCustomerNameCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.billCustomerNameCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.billCustomerNameCB.AutoCompleteMode = AutoCompleteMode.Append;
+
             //DatagridView make
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
             dataGridView1.Columns[0].ReadOnly = true;
@@ -225,7 +255,14 @@ namespace Factory_Inventory
             this.billAmountTB.Text = row["Sale_Bill_Amount"].ToString();
             this.netDOWeightTB.Text = row["Sale_Bill_Weight_Calc"].ToString();
             this.netDOAmountTB.Text = row["Sale_Bill_Amount_Calc"].ToString();
-
+            if (typeCB.Text == "0")
+            {
+                this.label13.Visible = true;
+                this.billCustomerNameCB.Visible = true;
+                this.billCustomerNameCB.TabIndex = 8;
+                this.billCustomerNameCB.TabStop = true;
+                this.billCustomerNameCB.SelectedIndex = this.billCustomerNameCB.FindStringExact(row["Bill_Customer"].ToString());
+            }
 
             //Load data in datagridview dropdown
             this.loadData(row["Quality"].ToString(), row["DO_Fiscal_Year"].ToString(), row["Type_Of_Sale"].ToString());
@@ -375,6 +412,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Bill Weight is does not match total DO weight", "Error");
                 return;
             }
+            string customer = null;
             if (typeCB.SelectedItem.ToString() == "1")
             {
                 
@@ -386,12 +424,17 @@ namespace Factory_Inventory
             }
             if (typeCB.SelectedItem.ToString() == "0")
             {
-
+                if(this.billCustomerNameCB.SelectedIndex==0)
+                {
+                    c.ErrorBox("Please Select Bill Customer Name");
+                    return;
+                }
                 if (float.Parse(this.netDOAmountTB.Text) < float.Parse(this.billAmountTB.Text))
                 {
                     c.ErrorBox("Bill Amount is more than total DO Amount", "Error");
                     return;
                 }
+                customer = this.billCustomerNameCB.Text;
             }
             string do_nos = "";
             List<string> temp = new List<string>();
@@ -418,7 +461,7 @@ namespace Factory_Inventory
             }
             if (this.edit_form == true)
             {
-                bool editbill = c.editSalesBillNosVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value, do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
+                bool editbill = c.editSalesBillNosVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value, do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename, customer);
                 if (editbill == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -429,7 +472,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename);
+                bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename, customer);
                 if (addbill == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -490,6 +533,13 @@ namespace Factory_Inventory
             this.saveButton.Enabled = true;
             this.financialYearCB.Enabled = false;
             this.typeCB.Enabled = false;
+            if(typeCB.Text=="0")
+            {
+                this.label13.Visible = true;
+                this.billCustomerNameCB.Visible = true;
+                this.billCustomerNameCB.TabIndex = 8;
+                this.billCustomerNameCB.TabStop = true;
+            }
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
