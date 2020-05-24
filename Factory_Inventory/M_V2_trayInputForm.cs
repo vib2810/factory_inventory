@@ -99,6 +99,7 @@ namespace Factory_Inventory
 
             this.numberOfSpringsTB.Text = "18";
             this.springCB.SelectedIndex = 0;
+            this.gradeCB.SelectedIndex = 1;
         }
         public M_V2_trayInputForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
@@ -208,6 +209,7 @@ namespace Factory_Inventory
                 this.traytareTB.Enabled = true;
                 this.grossWeightTB.Enabled = true;
                 this.machineNoCB.Enabled = true;
+                this.gradeCB.Enabled = true;
             }
             this.dateTimePicker1.Value = Convert.ToDateTime(row["Input_Date"].ToString());
             this.dateTimePickerDTP.Value = Convert.ToDateTime(row["Tray_Production_Date"].ToString());
@@ -222,10 +224,9 @@ namespace Factory_Inventory
             this.grossWeightTB.Text = row["Gross_Weight"].ToString();
             this.qualityBeforeTwistTB.Text = row["Quality_Before_Twist"].ToString();
             this.old_tray_no = row["Tray_No"].ToString();
-
-
+            this.gradeCB.SelectedIndex = this.gradeCB.FindStringExact(row["Grade"].ToString());
         }
-        public M_V2_trayInputForm(string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, int edit_row_index, M_V3_issueToReDyeingForm f)
+        public M_V2_trayInputForm(string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, string grade,  int edit_row_index, M_V3_issueToReDyeingForm f)
         {
             InitializeComponent();
             this.issuesource = f.dataGridView1;
@@ -306,6 +307,7 @@ namespace Factory_Inventory
             this.tray_details.Columns.Add("Machine No");
             this.tray_details.Columns.Add("Net Weight");
             this.tray_details.Columns.Add("Quality Before Twist");
+            this.tray_details.Columns.Add("Grade");
 
 
             if (production_date != null) this.dateTimePickerDTP.Value = this.dateTimePickerDTP.Value = Convert.ToDateTime(production_date);
@@ -319,7 +321,8 @@ namespace Factory_Inventory
             if (company_name != null) this.companyNameCB.SelectedIndex = this.companyNameCB.FindStringExact(company_name);
             this.companyNameCB.Enabled = false;
             if (machine_no != null) this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(machine_no);
-
+            if (grade != null) this.gradeCB.SelectedIndex = this.gradeCB.FindStringExact(grade);
+            
             this.Text = "Add Tray";
             this.addButton.Text = "Add Tray";
             this.redyeing = true;
@@ -330,7 +333,7 @@ namespace Factory_Inventory
             {
                 this.Text = "Edit Tray";
                 this.edit_reyeing_tray = true;
-                this.addButton.Text = "Conform Edit";
+                this.addButton.Text = "Confirm Edit";
                 this.edit_redyeing_tray_index = edit_row_index;
             }
         }
@@ -410,6 +413,7 @@ namespace Factory_Inventory
             this.traytareTB.Enabled = false;
             this.grossWeightTB.Enabled = false;
             this.machineNoCB.Enabled = false;
+            this.gradeCB.Enabled = false;
         }
         private float dynamicLabelChange()
         {
@@ -513,6 +517,11 @@ namespace Factory_Inventory
                 c.ErrorBox("Net Weight cannot be negative or zero", "Error");
                 return;
             }
+            if(this.gradeCB.SelectedIndex==0)
+            {
+                c.ErrorBox("Please select Grade");
+                return;
+            }
             if(this.redyeing==true)
             {
                 if(this.dateTimePickerDTP.Value.Date > this.form.issueDateDTP.Value.Date)
@@ -540,6 +549,7 @@ namespace Factory_Inventory
                 row["Machine No"] = (this.machineNoCB.Text);
                 row["Net Weight"] = dynamicLabelChange();
                 row["Quality Before Twist"] = this.qualityBeforeTwistTB.Text;
+                row["Grade"] = this.gradeCB.Text;
 
                 for (int i = 0; i < this.issuesource.Rows.Count; i++)
                 {
@@ -566,6 +576,7 @@ namespace Factory_Inventory
                     this.trayNumberTB.Text = "";
                     this.grossWeightTB.Text = "";
                     this.traytareTB.Text = "";
+                    this.gradeCB.SelectedIndex = 1;
                     this.trayNumberTB.Focus();
                 }
 
@@ -597,12 +608,13 @@ namespace Factory_Inventory
             {
                 if (this.edit_form == false)
                 {
-                    bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text, qualityBeforeTwistTB.Text);
+                    bool added = c.addTrayVoucher(dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, springCB.Text, int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.Text, companyNameCB.Text, dynamicLabelChange(), machineNoCB.Text, qualityBeforeTwistTB.Text, gradeCB.Text);
                     if (added == true)
                     {
                         this.trayNumberTB.Text = "";
                         this.grossWeightTB.Text = "";
                         this.traytareTB.Text = "";
+                        this.gradeCB.SelectedIndex = 1;
                         this.trayNumberTB.Focus();
                     }
                     else return;
@@ -610,7 +622,7 @@ namespace Factory_Inventory
                 else
                 {
                     bool edited = false;
-                    edited = c.editTrayVoucher(this.voucher_id, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text);
+                    edited = c.editTrayVoucher(this.voucher_id, this.tray_id, dateTimePicker1.Value, dateTimePickerDTP.Value, trayNumberTB.Text, this.old_tray_no, springCB.SelectedItem.ToString(), int.Parse(numberOfSpringsTB.Text), float.Parse(traytareTB.Text), float.Parse(grossWeightTB.Text), qualityCB.SelectedItem.ToString(), companyNameCB.SelectedItem.ToString(), dynamicLabelChange(), machineNoCB.Text, this.qualityBeforeTwistTB.Text, gradeCB.Text);
                     if (edited == true)
                     {
                         disable_form_edit();

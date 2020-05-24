@@ -101,6 +101,7 @@ namespace Factory_Inventory
             this.all_trays.Columns.Add("Machine No");
             this.all_trays.Columns.Add("Net Weight");
             this.all_trays.Columns.Add("Quality Before Twist");
+            this.all_trays.Columns.Add("Grade");
 
             string[] tray_ids = c.csvToArray(redyeing_batch["Tray_ID_Arr"].ToString());
             for(int i=0;i<tray_ids.Length;i++)
@@ -120,6 +121,7 @@ namespace Factory_Inventory
                 to_add["Net Weight"] = tray["Net_Weight"].ToString();
                 to_add["Net Weight"] = tray["Net_Weight"].ToString();
                 to_add["Quality Before Twist"] = tray["Quality_Before_Twist"].ToString();
+                to_add["Grade"] = tray["Grade"].ToString();
                 this.all_trays.Rows.Add(to_add);
             }
 
@@ -327,7 +329,7 @@ namespace Factory_Inventory
         private void addTrayButton_Click(object sender, EventArgs e)
         {
             
-            f = new M_V2_trayInputForm(this.issueDateDTP.Value.Date.ToString().Substring(0,10), null, "135", 18, -1F, -1F, this.qualityTB.Text, this.companyNameTB.Text, null, -1, this);
+            f = new M_V2_trayInputForm(this.issueDateDTP.Value.Date.ToString().Substring(0,10), null, "135", 18, -1F, -1F, this.qualityTB.Text, this.companyNameTB.Text, null, "1st", -1, this);
             f.Location = new System.Drawing.Point((int)(Screen.PrimaryScreen.Bounds.Width / 1.8), Screen.PrimaryScreen.Bounds.Height/8);
             f.ShowDialog();
             this.all_trays = f.tray_details;
@@ -340,7 +342,7 @@ namespace Factory_Inventory
                 return;
             }
             DataRow row = this.all_trays.Rows[this.dataGridView1.CurrentRow.Index];
-            f = new M_V2_trayInputForm(row["Date Of Production"].ToString(), row["Tray No"].ToString(), row["Spring"].ToString(), int.Parse(row["No Of Springs"].ToString()), float.Parse(row["Tray Tare"].ToString()), float.Parse(row["Gross Weight"].ToString()), row["Quality"].ToString(), row["Company Name"].ToString(), row["Machine No"].ToString(), this.dataGridView1.CurrentRow.Index, this);
+            f = new M_V2_trayInputForm(row["Date Of Production"].ToString(), row["Tray No"].ToString(), row["Spring"].ToString(), int.Parse(row["No Of Springs"].ToString()), float.Parse(row["Tray Tare"].ToString()), float.Parse(row["Gross Weight"].ToString()), row["Quality"].ToString(), row["Company Name"].ToString(), row["Machine No"].ToString(), row["Grade"].ToString(), this.dataGridView1.CurrentRow.Index, this);
             f.Location = new System.Drawing.Point((int)(Screen.PrimaryScreen.Bounds.Width / 1.8), Screen.PrimaryScreen.Bounds.Height / 8);
             f.ShowDialog();
             this.all_trays = f.tray_details;

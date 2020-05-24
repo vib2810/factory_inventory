@@ -1926,14 +1926,14 @@ namespace Factory_Inventory.Factory_Classes
             if (tablename == "Carton")
             {
                 con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
                 sda1.Fill(dt);
                 con.Close();
             }
             else
             {
                 con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
+                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "'", con);
                 sda1.Fill(dt);
                 con.Close();
             }
@@ -2322,7 +2322,7 @@ namespace Factory_Inventory.Factory_Classes
         }
 
         //Tray
-        public int addTrayActive(string tray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string fiscal_year, string machine_no, string quality_before_twist, int redyeing=-1)
+        public int addTrayActive(string tray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string fiscal_year, string machine_no, string quality_before_twist, string grade, int redyeing=-1)
         {
             //Adds to table Tray_Active
             //Returns the unique Tray_ID for the entered tray
@@ -2334,7 +2334,7 @@ namespace Factory_Inventory.Factory_Classes
                 string sql="";
                 if(redyeing==-1)
                 {
-                    sql = "INSERT INTO Tray_Active (Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_State, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist) VALUES ('" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare + ", " + gross_weight + ", '" + quality + "', '" + company_name + "', 1, " + net_weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "')";
+                    sql = "INSERT INTO Tray_Active (Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_State, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Grade) VALUES ('" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare + ", " + gross_weight + ", '" + quality + "', '" + company_name + "', 1, " + net_weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '"+grade+"')";
                 }
                 else if(redyeing==1)
                 {
@@ -2480,7 +2480,9 @@ namespace Factory_Inventory.Factory_Classes
                     string Quality = dt.Rows[i]["Quality"].ToString();
                     string Company_Name = dt.Rows[i]["Company_Name"].ToString();
                     string Dyeing_Company_Name = dt.Rows[i]["Dyeing_Company_Name"].ToString();
-                   
+                    string grade = dt.Rows[i]["Grade"].ToString();
+
+
 
                     int Batch_No = int.Parse(dt.Rows[i]["Batch_No"].ToString());
                     float Net_Weight = float.Parse(dt.Rows[i]["Net_Weight"].ToString());
@@ -2501,11 +2503,11 @@ namespace Factory_Inventory.Factory_Classes
                     //Put that row in Tray_History
                     if(redyeing!=null)
                     {
-                        sql = "INSERT INTO Tray_History (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', '" + Dyeing_In_Date + "', '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', " + int.Parse(redyeing) + ")";
+                        sql = "INSERT INTO Tray_History (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing, Grade) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', '" + Dyeing_In_Date + "', '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', " + int.Parse(redyeing) + ", '"+grade+"')";
                     }
                     else
                     {
-                        sql = "INSERT INTO Tray_History (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', '" + Dyeing_In_Date + "', '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', NULL)";
+                        sql = "INSERT INTO Tray_History (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing, Grade) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', '" + Dyeing_In_Date + "', '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', NULL, '"+grade+"')";
                     }
                     Console.WriteLine(sql);
                     sda.InsertCommand = new SqlCommand(sql, con);
@@ -2570,7 +2572,9 @@ namespace Factory_Inventory.Factory_Classes
                     string Quality = dt.Rows[i]["Quality"].ToString();
                     string Company_Name = dt.Rows[i]["Company_Name"].ToString();
                     string Dyeing_Company_Name = dt.Rows[i]["Dyeing_Company_Name"].ToString();
-           
+                    string grade = dt.Rows[i]["Grade"].ToString();
+
+
                     int Batch_No = int.Parse(dt.Rows[i]["Batch_No"].ToString());
                     float Net_Weight = float.Parse(dt.Rows[i]["Net_Weight"].ToString());
                     string fiscal_year = dt.Rows[i]["Fiscal_Year"].ToString();
@@ -2590,11 +2594,11 @@ namespace Factory_Inventory.Factory_Classes
                     //Put that row in Tray_Active with state 2 (It is in dyeing) and Dyeing_In_Date NULL
                     if(redyeing!=null)
                     {
-                        sql = "SET IDENTITY_INSERT Tray_Active ON; INSERT INTO Tray_Active (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Tray_State, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', NULL, '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", 2, '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', " + int.Parse(redyeing) + "); SET IDENTITY_INSERT Tray_Active OFF";
+                        sql = "SET IDENTITY_INSERT Tray_Active ON; INSERT INTO Tray_Active (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Tray_State, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing, Grade) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', NULL, '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", 2, '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', " + int.Parse(redyeing) + ", '"+grade+"'); SET IDENTITY_INSERT Tray_Active OFF";
                     }
                     else
                     {
-                        sql = "SET IDENTITY_INSERT Tray_Active ON; INSERT INTO Tray_Active (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Tray_State, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', NULL, '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", 2, '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', NULL); SET IDENTITY_INSERT Tray_Active OFF";
+                        sql = "SET IDENTITY_INSERT Tray_Active ON; INSERT INTO Tray_Active (Tray_ID, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Dyeing_Company_Name, Dyeing_In_Date, Dyeing_Out_Date, Batch_No, Net_Weight, Tray_State, Fiscal_Year, Machine_No, Quality_Before_Twist, Batch_Fiscal_Year, Redyeing, Grade) VALUES (" + trayid + ", '" + productiondate + "', '" + trayno + "', '" + spring + "', " + Number_Of_Springs + ", " + Tray_Tare + ", " + Gross_Weight + ", '" + Quality + "', '" + Company_Name + "', '" + Dyeing_Company_Name + "', NULL, '" + Dyeing_Out_Date + "', " + Batch_No + ", " + Net_Weight + ", 2, '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + batch_fiscal_year + "', NULL, '" + grade + "'); SET IDENTITY_INSERT Tray_Active OFF";
                     }
                     sda.InsertCommand = new SqlCommand(sql, con);
                     sda.InsertCommand.ExecuteNonQuery();
@@ -2821,7 +2825,7 @@ namespace Factory_Inventory.Factory_Classes
         }
 
         //Tray voucher
-        public bool addTrayVoucher(DateTime dtinput_date, DateTime dttray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string machine_no, string quality_before_twist)
+        public bool addTrayVoucher(DateTime dtinput_date, DateTime dttray_production_date, string tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string machine_no, string quality_before_twist, string grade)
         {
             string input_date = dtinput_date.Date.ToString("MM-dd-yyyy");
             string tray_production_date = dttray_production_date.Date.ToString("MM-dd-yyyy");
@@ -2834,13 +2838,13 @@ namespace Factory_Inventory.Factory_Classes
                 return false;
             }
             //insert into Tray_Active and get unique tray_id
-            int tray_id = addTrayActive(tray_production_date, tray_no, spring, number_of_springs, tray_tare, gross_weight, quality, company_name, net_weight, fiscal_year, machine_no, quality_before_twist);
+            int tray_id = addTrayActive(tray_production_date, tray_no, spring, number_of_springs, tray_tare, gross_weight, quality, company_name, net_weight, fiscal_year, machine_no, quality_before_twist, grade);
             //insert into Tray_Voucher with unique tray_id
             try
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Tray_Voucher (Input_Date, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_ID, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist) VALUES ('" + input_date + "','" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare+ ", " + gross_weight + ", '"+quality+"', '"+company_name+"', "+tray_id+", "+net_weight+", '"+fiscal_year+"', '"+machine_no+"', '"+quality_before_twist+"')";
+                string sql = "INSERT INTO Tray_Voucher (Input_Date, Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_ID, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Grade) VALUES ('" + input_date + "','" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare+ ", " + gross_weight + ", '"+quality+"', '"+company_name+"', "+tray_id+", "+net_weight+", '"+fiscal_year+"', '"+machine_no+"', '"+quality_before_twist+"', '"+grade+"')";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -2858,7 +2862,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public bool editTrayVoucher(int voucher_id, int tray_id, DateTime dtinput_date, DateTime dttray_production_date, string new_tray_no, string old_tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string machine_no, string quality_before_twist)
+        public bool editTrayVoucher(int voucher_id, int tray_id, DateTime dtinput_date, DateTime dttray_production_date, string new_tray_no, string old_tray_no, string spring, int number_of_springs, float tray_tare, float gross_weight, string quality, string company_name, float net_weight, string machine_no, string quality_before_twist, string grade)
         {
             string input_date = dtinput_date.Date.ToString("MM-dd-yyyy");
             string tray_production_date = dttray_production_date.Date.ToString("MM-dd-yyyy");
@@ -2879,12 +2883,12 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 SqlDataAdapter sda = new SqlDataAdapter();
-                string sql = "UPDATE Tray_Voucher SET Tray_Production_Date='" + tray_production_date + "', Tray_No='" + new_tray_no+ "', Spring='"+spring+"', Number_Of_Springs="+number_of_springs+", Tray_Tare="+tray_tare+", Gross_Weight="+gross_weight+", Quality='"+quality+"',  Company_Name='" + company_name + "', Net_Weight=" + net_weight + ", Fiscal_Year = '"+fiscal_year+"', Machine_No='"+machine_no+"', Quality_Before_Twist='"+quality_before_twist+"' WHERE Voucher_ID='" + voucher_id + "'";
+                string sql = "UPDATE Tray_Voucher SET Tray_Production_Date='" + tray_production_date + "', Tray_No='" + new_tray_no+ "', Spring='"+spring+"', Number_Of_Springs="+number_of_springs+", Tray_Tare="+tray_tare+", Gross_Weight="+gross_weight+", Quality='"+quality+"',  Company_Name='" + company_name + "', Net_Weight=" + net_weight + ", Fiscal_Year = '"+fiscal_year+"', Machine_No='"+machine_no+"', Quality_Before_Twist='"+quality_before_twist+"', Grade = '"+grade+"' WHERE Voucher_ID='" + voucher_id + "'";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
 
-                sql = "UPDATE Tray_Active SET Tray_Production_Date='" + tray_production_date + "', Tray_No='" + new_tray_no + "', Spring='" + spring + "', Number_Of_Springs=" + number_of_springs + ", Tray_Tare=" + tray_tare + ", Gross_Weight=" + gross_weight + ", Quality='" + quality + "',  Company_Name='" + company_name + "', Net_Weight="+net_weight+", Fiscal_Year = '"+fiscal_year+"', Machine_No='"+machine_no+"', Quality_Before_Twist='"+quality_before_twist+"' WHERE Tray_ID='" + tray_id + "'";
+                sql = "UPDATE Tray_Active SET Tray_Production_Date='" + tray_production_date + "', Tray_No='" + new_tray_no + "', Spring='" + spring + "', Number_Of_Springs=" + number_of_springs + ", Tray_Tare=" + tray_tare + ", Gross_Weight=" + gross_weight + ", Quality='" + quality + "',  Company_Name='" + company_name + "', Net_Weight="+net_weight+", Fiscal_Year = '"+fiscal_year+"', Machine_No='"+machine_no+"', Quality_Before_Twist='"+quality_before_twist+ "', Grade = '" + grade + "' WHERE Tray_ID='" + tray_id + "'";
                 Console.WriteLine(sql);
                 sda.InsertCommand = new SqlCommand(sql, con);
                 sda.InsertCommand.ExecuteNonQuery();
@@ -3887,7 +3891,7 @@ namespace Factory_Inventory.Factory_Classes
             for (int i=0;i<trays.Rows.Count;i++)
             {
                 DateTime prod_date = Convert.ToDateTime(trays.Rows[i]["Date Of Production"].ToString());
-                int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0,10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), 1);
+                int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0,10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), trays.Rows[i]["Grade"].ToString(), 1);
                 this.sendTraytoDyeing(trays.Rows[i]["Tray No"].ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), RD_batch_no, RD_fiscal_year);
                 tray_ids += tray_id.ToString() + ",";
             }
@@ -4004,7 +4008,7 @@ namespace Factory_Inventory.Factory_Classes
             for (int i = 0; i < trays.Rows.Count; i++)
             {
                 DateTime prod_date = Convert.ToDateTime(trays.Rows[i]["Date Of Production"].ToString());
-                int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), 1);
+                int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), trays.Rows[i]["Grade"].ToString(), 1);
                 this.sendTraytoDyeing(trays.Rows[i]["Tray No"].ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), int.Parse(break_batches[1]), break_batches[2]);
                 tray_ids += tray_id.ToString() + ",";
             }
