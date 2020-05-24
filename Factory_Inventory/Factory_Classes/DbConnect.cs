@@ -163,14 +163,14 @@ namespace Factory_Inventory.Factory_Classes
             ans.Add(int.Parse(years[1]));
             return ans;
         }
-        public DataTable getCount_FinancialYear(string tablename, string financialyear, string quantitycolumn, string quantities)
+        public DataTable getDataIn_FinancialYear(string tablename, string financialyear, string quantitycolumn, string quantities)
         {
             if (string.IsNullOrEmpty(quantities)) return new DataTable();
             DataTable dt = new DataTable();
             try
             {
                 con.Open();
-                string sql = "SELECT COUNT(*), "+ quantitycolumn+" FROM " + tablename + " WHERE " + quantitycolumn + " IN (" + quantities + ") AND Fiscal_Year='"+financialyear+"'";
+                string sql = "SELECT "+ quantitycolumn+" FROM " + tablename + " WHERE " + quantitycolumn + " IN (" + quantities + ") AND Fiscal_Year='"+financialyear+"'";
                 Console.WriteLine(sql);
                 SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 sda.Fill(dt);
@@ -1159,13 +1159,14 @@ namespace Factory_Inventory.Factory_Classes
             }
             string[] new_carton_arr = this.csvToArray(new_cartons);
             //get count of all new cartons
-            DataTable carton_count = this.getCount_FinancialYear("Carton", financialyear, "Carton_No", removecom(new_cartons));
-            Dictionary<string, int> carton_count_dict = new Dictionary<string, int>();
-            for (int i = 0; i < carton_count.Rows.Count; i++) carton_count_dict[carton_count.Rows[i]["Carton_No"].ToString()] = int.Parse(carton_count.Rows[i][0].ToString());
+            DataTable carton_dup = this.getDataIn_FinancialYear("Carton", financialyear, "Carton_No", removecom(new_cartons));
+            Dictionary<string, bool> carton_dup_dict = new Dictionary<string, bool>();
+            for (int i = 0; i < carton_dup.Rows.Count; i++) carton_dup_dict[carton_dup.Rows[i]["Carton_No"].ToString()] = true;
             for (int i = 0; i < new_carton_arr.Length; i++)
             {
-                int count = carton_count_dict[new_carton_arr[i]];
-                if (count > 0)
+                bool nouse;
+                bool present = carton_dup_dict.TryGetValue(new_carton_arr[i], out nouse);
+                if (present==true) //if its present in the duplicate dictionary
                 {
                     this.ErrorBox("Carton number " + new_carton_arr[i] + " at row " + (i+ 1).ToString() + " already exists in Financial Year " + financialyear, "Error");
                     return false;
@@ -1278,16 +1279,17 @@ namespace Factory_Inventory.Factory_Classes
                 }
                 string[] new_carton_arr = this.csvToArray(new_cartons);
                 string[] new_carton_indexes_arr = this.csvToArray(new_carton_indexes);
-                //get countt of all new cartons
-                DataTable carton_count = this.getCount_FinancialYear("Carton", financialyear, "Carton_No", removecom(new_cartons));
-                Dictionary<string, int> carton_count_dict = new Dictionary<string, int>();
-                for (int i = 0; i < carton_count.Rows.Count; i++) carton_count_dict[carton_count.Rows[i]["Carton_No"].ToString()] = int.Parse(carton_count.Rows[i][0].ToString());
+                //get count of all new cartons
+                DataTable carton_dup = this.getDataIn_FinancialYear("Carton", financialyear, "Carton_No", removecom(new_cartons));
+                Dictionary<string, bool> carton_dup_dict = new Dictionary<string, bool>();
+                for (int i = 0; i < carton_dup.Rows.Count; i++) carton_dup_dict[carton_dup.Rows[i]["Carton_No"].ToString()] = true;
                 for (int i = 0; i < new_carton_arr.Length; i++)
                 {
-                    int count = carton_count_dict[new_carton_arr[i]];
-                    if (count > 0)
+                    bool nouse;
+                    bool present = carton_dup_dict.TryGetValue(new_carton_arr[i], out nouse);
+                    if (present == true) //if its present in the duplicate dictionary
                     {
-                        this.ErrorBox("Carton number " + new_carton_arr[i] + " at row " + (int.Parse(new_carton_indexes_arr[i]) + 1).ToString() + " already exists in Financial Year " + financialyear, "Error");
+                        this.ErrorBox("Carton number " + new_carton_arr[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + financialyear, "Error");
                         return false;
                     }
                 }
@@ -4192,15 +4194,17 @@ namespace Factory_Inventory.Factory_Classes
             {
                 new_cartons += cartonNos[i] + ",";
             }
-            DataTable carton_count = this.getCount_FinancialYear("Carton_Produced", carton_financialYear, "Carton_No", removecom(new_cartons));
-            Dictionary<string, int> carton_count_dict = new Dictionary<string, int>();
-            for (int i = 0; i < carton_count.Rows.Count; i++) carton_count_dict[carton_count.Rows[i]["Carton_No"].ToString()] = int.Parse(carton_count.Rows[i][0].ToString());
+            //check for duplicates of all new cartons
+            DataTable carton_dup = this.getDataIn_FinancialYear("Carton_Produced", carton_financialYear, "Carton_No", removecom(new_cartons));
+            Dictionary<string, bool> carton_dup_dict = new Dictionary<string, bool>();
+            for (int i = 0; i < carton_dup.Rows.Count; i++) carton_dup_dict[carton_dup.Rows[i]["Carton_No"].ToString()] = true;
             for (int i = 0; i < cartonNos.Length; i++)
             {
-                int count = carton_count_dict[cartonNos[i]];
-                if (count > 0)
+                bool nouse;
+                bool present = carton_dup_dict.TryGetValue(cartonNos[i], out nouse);
+                if (present == true) //if its present in the duplicate dictionary
                 {
-                    this.ErrorBox("Carton number " + cartonNos[i] + " at row " + (i+ 1).ToString() + " already exists in Financial Year " + carton_financialYear, "Error");
+                    this.ErrorBox("Carton number " + cartonNos[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + carton_financialYear, "Error");
                     return false;
                 }
             }
@@ -4434,14 +4438,16 @@ namespace Factory_Inventory.Factory_Classes
             }
             string[] new_carton_arr = this.csvToArray(new_cartons);
             string[] new_carton_indexes_arr = this.csvToArray(new_carton_indexes);
-            //get countt of all new cartons
-            DataTable carton_count = this.getCount_FinancialYear("Carton_Produced", cartonfinancialYear, "Carton_No", removecom(new_cartons));
-            Dictionary<string, int> carton_count_dict = new Dictionary<string, int>();
-            for (int i = 0; i < carton_count.Rows.Count; i++) carton_count_dict[carton_count.Rows[i]["Carton_No"].ToString()] = int.Parse(carton_count.Rows[i][0].ToString());
+
+            //check for duplicates of all new cartons
+            DataTable carton_dup = this.getDataIn_FinancialYear("Carton_Produced", cartonfinancialYear, "Carton_No", removecom(new_cartons));
+            Dictionary<string, bool> carton_dup_dict = new Dictionary<string, bool>();
+            for (int i = 0; i < carton_dup.Rows.Count; i++) carton_dup_dict[carton_dup.Rows[i]["Carton_No"].ToString()] = true;
             for (int i = 0; i < new_carton_arr.Length; i++)
             {
-                int count = carton_count_dict[new_carton_arr[i]];
-                if (count > 0)
+                bool nouse;
+                bool present = carton_dup_dict.TryGetValue(new_carton_arr[i], out nouse);
+                if (present == true) //if its present in the duplicate dictionary
                 {
                     this.ErrorBox("Carton number " + new_carton_arr[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + cartonfinancialYear, "Error");
                     return false;

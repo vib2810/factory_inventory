@@ -305,7 +305,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }       //Carton Inward
             if (this.vno == 2)
             {
                 //this.dt = c.getTwistVoucherHistory();
@@ -336,7 +336,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Issue Financial Year";
                 c.auto_adjust_dgv(this.dataGridView1);
 
-            }
+            }       //Twist
             if (this.vno == 3)
             {
                 //this.dt = c.getSalesVoucherHistory();
@@ -375,7 +375,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = 14;
                 this.dataGridView1.Columns["Sale_Bill_No"].HeaderText = "Bill Number";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }       //Grey Sale
             if (this.vno == 4)
             {
                 //this.dt = c.getTrayVoucherHistory();
@@ -405,7 +405,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Machine_No"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Machine_No"].HeaderText = "Machine Number";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }       //Tray
             if (this.vno == 5)
             {
                 //this.dt = c.getDyeingIssueVoucherHistory();
@@ -439,7 +439,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Dyeing_Rate"].HeaderText = "Rate";
                 c.auto_adjust_dgv(this.dataGridView1);
 
-            }
+            }       //Dyeing Issue
             if (this.vno == 6)
             {
                 this.dt = c.getVoucherHistories("Dyeing_Inward_Voucher");
@@ -470,7 +470,7 @@ namespace Factory_Inventory
                 this.label1.Visible = true;
                 c.auto_adjust_dgv(this.dataGridView1);
 
-            }
+            }       //Dyeing Inward
             if (this.vno == 7)
             {
                 this.dt = c.getVoucherHistories("BillNos_Voucher");
@@ -493,7 +493,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 6;
                 this.dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Numbers";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }       //Bill to Dyeing Inward
             if (this.vno == 8)
             {
                 this.dt = c.getVoucherHistories("Carton_Production_Voucher");
@@ -521,11 +521,14 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Quality"].Visible = true;
                 this.dataGridView1.Columns["Quality"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
+                this.dataGridView1.Columns["Colour"].Visible = true;
+                this.dataGridView1.Columns["Colour"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Colour"].HeaderText = "Colour";
                 this.dataGridView1.Columns["Batch_No_Arr"].Visible = true;
-                this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Batch_No_Arr"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Numbers";
                 this.dataGridView1.Columns["Net_Batch_Weight"].Visible = true;
-                this.dataGridView1.Columns["Net_Batch_Weight"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Net_Batch_Weight"].DisplayIndex = 5;
                 this.dataGridView1.Columns["Net_Batch_Weight"].HeaderText = "Net Batch Weight";
                 this.dataGridView1.Columns["Carton_No_Production_Arr"].Visible = true;
                 this.dataGridView1.Columns["Carton_No_Production_Arr"].DisplayIndex = 6;
@@ -543,7 +546,7 @@ namespace Factory_Inventory
                 this.label1.Visible = true;
                 c.auto_adjust_dgv(this.dataGridView1);
 
-            }
+            }       //Carton Production
             if (this.vno == 9)
             {
                 //this.dt = c.getSalesVoucherHistory();
@@ -582,7 +585,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = 14;
                 this.dataGridView1.Columns["Sale_Bill_No"].HeaderText = "Bill Number";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }       //Colour Sale
             if (this.vno == 10)
             {
                 this.dt = c.getVoucherHistories("SalesBillNos_Voucher");
@@ -611,7 +614,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }      //Bill to Grey Sale
             if (this.vno == 11)
             {
                 this.dt = c.getVoucherHistories("SalesBillNos_Voucher");
@@ -640,7 +643,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 12;
                 this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }      //Bill to Colour Sale
             if (this.vno == 12)
             {
                 this.dt = c.getVoucherHistories("Redyeing_Voucher");
@@ -670,7 +673,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].DisplayIndex = 6;
                 this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].HeaderText = "New Batch Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }
+            }      //Redyeing
             #endregion
             _firstLoaded = true;
             dataGridView1.Visible = false;
@@ -692,7 +695,6 @@ namespace Factory_Inventory
                 }
                 else if ((this.vno == 9 || this.vno==11) && this.dt.Rows[i]["Tablename"].ToString() == "Carton")
                 {
-                    Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     continue;
                 }
                 d.Rows.Add(this.dt.Rows[i].ItemArray);

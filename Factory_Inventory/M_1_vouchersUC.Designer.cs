@@ -117,7 +117,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(125, 80);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 16);
+            this.label1.Size = new System.Drawing.Size(15, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "C";
             // 
@@ -128,7 +128,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(125, 278);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(17, 16);
+            this.label2.Size = new System.Drawing.Size(15, 15);
             this.label2.TabIndex = 0;
             this.label2.Text = "P";
             // 
@@ -139,7 +139,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(124, 212);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(18, 16);
+            this.label3.Size = new System.Drawing.Size(16, 15);
             this.label3.TabIndex = 0;
             this.label3.Text = "N";
             // 
@@ -150,12 +150,13 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(125, 146);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(17, 16);
+            this.label4.Size = new System.Drawing.Size(14, 15);
             this.label4.TabIndex = 0;
             this.label4.Text = "T";
             // 
             // m_V4_printUC1
             // 
+            this.m_V4_printUC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
             this.m_V4_printUC1.Location = new System.Drawing.Point(165, 0);
             this.m_V4_printUC1.Name = "m_V4_printUC1";
             this.m_V4_printUC1.Size = new System.Drawing.Size(514, 432);
@@ -163,6 +164,7 @@
             // 
             // m_V3_voucherInput3UC1
             // 
+            this.m_V3_voucherInput3UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(222)))), ((int)(((byte)(240)))));
             this.m_V3_voucherInput3UC1.ImeMode = System.Windows.Forms.ImeMode.On;
             this.m_V3_voucherInput3UC1.Location = new System.Drawing.Point(165, 1);
             this.m_V3_voucherInput3UC1.Name = "m_V3_voucherInput3UC1";
@@ -171,6 +173,7 @@
             // 
             // m_V2_voucherInput2UC1
             // 
+            this.m_V2_voucherInput2UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(204)))));
             this.m_V2_voucherInput2UC1.Location = new System.Drawing.Point(165, 0);
             this.m_V2_voucherInput2UC1.Name = "m_V2_voucherInput2UC1";
             this.m_V2_voucherInput2UC1.Size = new System.Drawing.Size(514, 432);
@@ -178,6 +181,7 @@
             // 
             // voucherInput1UC1
             // 
+            this.voucherInput1UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(205)))));
             this.voucherInput1UC1.Location = new System.Drawing.Point(165, 0);
             this.voucherInput1UC1.Name = "voucherInput1UC1";
             this.voucherInput1UC1.Size = new System.Drawing.Size(514, 432);

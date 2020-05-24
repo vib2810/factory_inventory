@@ -879,7 +879,15 @@ namespace Factory_Inventory
                 c.ErrorBox("Select Dyeing Company Name", "Error");
                 return;
             }
-            bool loaded=this.loadData();
+            string today_fiscal_year = c.getFinancialYear(this.inputDate.Value);
+            List<int> today_fiscal_year_arr = c.getFinancialYearArr(today_fiscal_year);
+            List<int> minmax_years = c.getFinancialYearArr(this.financialYearComboboxCB.Text);
+            if(today_fiscal_year_arr[1]<minmax_years[1])
+            {
+                c.ErrorBox("You cannot select Carton Financial Year in the future");
+                return;
+            }
+            bool loaded =this.loadData();
             if (loaded == false && this.edit_form==false) return;
             //Set the first date in form
             string current_fiscal_year = c.getFinancialYear(DateTime.Now);
@@ -908,9 +916,16 @@ namespace Factory_Inventory
             this.saveButton.Enabled = true;
             this.dataGridView1.Enabled = true;
 
-            List<int> minmax_years = c.getFinancialYearArr(this.financialYearComboboxCB.Text);
             this.dtp.MinDate = new DateTime(minmax_years[0], 04, 01);
-            this.dtp.MaxDate = new DateTime(minmax_years[1], 03, 31);
+            if(today_fiscal_year == this.financialYearComboboxCB.Text)
+            {
+                this.dtp.MaxDate = this.inputDate.Value;
+            }
+            else
+            {
+                this.dtp.MaxDate = new DateTime(minmax_years[1], 03, 31);
+            }
+            
         }
         private void coneCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
