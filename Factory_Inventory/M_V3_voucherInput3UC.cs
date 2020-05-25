@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
@@ -68,6 +69,7 @@ namespace Factory_Inventory
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+        DbConnect c = new DbConnect();
         public M_V3_voucherInput3UC()
         {
             InitializeComponent();
@@ -90,20 +92,12 @@ namespace Factory_Inventory
 
         private void button2_Click(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(8);
-            f.Show();
+            if (c.isHistoryFormOpen(8) == false)
+            {
+                M_V_history f = new M_V_history(8);
+                f.Show();
+            }
         }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             foreach (Form form in Application.OpenForms)
@@ -121,8 +115,11 @@ namespace Factory_Inventory
 
         private void button5_Click(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(9);
-            f.Show();
+            if (c.isHistoryFormOpen(9) == false)
+            {
+                M_V_history f = new M_V_history(9);
+                f.Show();
+            }
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -133,8 +130,11 @@ namespace Factory_Inventory
 
         private void button7_Click(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(11);
-            f.Show();
+            if (c.isHistoryFormOpen(11) == false)
+            {
+                M_V_history f = new M_V_history(11);
+                f.Show();
+            }
         }
 
         private void button4_Click_1(object sender, EventArgs e)
@@ -145,8 +145,11 @@ namespace Factory_Inventory
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(12);
-            f.Show();
+            if (c.isHistoryFormOpen(12) == false)
+            {
+                M_V_history f = new M_V_history(12);
+                f.Show();
+            }
         }
     }
 }

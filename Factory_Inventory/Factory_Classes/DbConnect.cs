@@ -62,6 +62,24 @@ namespace Factory_Inventory.Factory_Classes
         }
         
         //Utility Functions
+        public bool isHistoryFormOpen(int vno)
+        {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V_history))
+                {
+                    var frm = (M_V_history)form;
+                    if (frm.vno == vno)
+                    {
+                        form.WindowState = FormWindowState.Normal;
+                        form.Activate();
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
         public string removecom(string input)
         {
             if (input.Length <= 0) return "";
