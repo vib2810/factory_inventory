@@ -33,7 +33,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
             this.loadDOButton = new System.Windows.Forms.Button();
@@ -47,7 +46,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.financialYearCB = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.billDateDTP = new System.Windows.Forms.DateTimePicker();
             this.Type = new System.Windows.Forms.Label();
             this.typeCB = new System.Windows.Forms.ComboBox();
             this.billWeightTB = new System.Windows.Forms.TextBox();
@@ -64,6 +62,8 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.billCustomerNameCB = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.billDateDTP = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -116,22 +116,13 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 69);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Bill Date";
-            // 
             // carton_VoucherTableAdapter
             // 
             this.carton_VoucherTableAdapter.ClearBeforeFill = true;
             // 
             // loadDOButton
             // 
-            this.loadDOButton.Location = new System.Drawing.Point(21, 268);
+            this.loadDOButton.Location = new System.Drawing.Point(21, 220);
             this.loadDOButton.Name = "loadDOButton";
             this.loadDOButton.Size = new System.Drawing.Size(200, 38);
             this.loadDOButton.TabIndex = 7;
@@ -160,7 +151,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(21, 367);
+            this.label7.Location = new System.Drawing.Point(21, 321);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 17);
             this.label7.TabIndex = 0;
@@ -168,7 +159,7 @@
             // 
             // billNumberTextboxTB
             // 
-            this.billNumberTextboxTB.Location = new System.Drawing.Point(21, 385);
+            this.billNumberTextboxTB.Location = new System.Drawing.Point(21, 339);
             this.billNumberTextboxTB.Name = "billNumberTextboxTB";
             this.billNumberTextboxTB.Size = new System.Drawing.Size(178, 22);
             this.billNumberTextboxTB.TabIndex = 9;
@@ -185,7 +176,7 @@
             // qualityCB
             // 
             this.qualityCB.FormattingEnabled = true;
-            this.qualityCB.Location = new System.Drawing.Point(24, 238);
+            this.qualityCB.Location = new System.Drawing.Point(24, 190);
             this.qualityCB.Name = "qualityCB";
             this.qualityCB.Size = new System.Drawing.Size(200, 24);
             this.qualityCB.TabIndex = 5;
@@ -193,7 +184,7 @@
             // Quality
             // 
             this.Quality.AutoSize = true;
-            this.Quality.Location = new System.Drawing.Point(21, 218);
+            this.Quality.Location = new System.Drawing.Point(21, 170);
             this.Quality.Name = "Quality";
             this.Quality.Size = new System.Drawing.Size(52, 17);
             this.Quality.TabIndex = 0;
@@ -202,7 +193,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(21, 169);
+            this.label6.Location = new System.Drawing.Point(21, 121);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(146, 17);
             this.label6.TabIndex = 0;
@@ -211,7 +202,7 @@
             // financialYearCB
             // 
             this.financialYearCB.FormattingEnabled = true;
-            this.financialYearCB.Location = new System.Drawing.Point(24, 188);
+            this.financialYearCB.Location = new System.Drawing.Point(24, 140);
             this.financialYearCB.Name = "financialYearCB";
             this.financialYearCB.Size = new System.Drawing.Size(200, 24);
             this.financialYearCB.TabIndex = 5;
@@ -219,24 +210,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 411);
+            this.label2.Location = new System.Drawing.Point(21, 365);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 17);
             this.label2.TabIndex = 0;
             this.label2.Text = "Bill Weight";
             // 
-            // billDateDTP
-            // 
-            this.billDateDTP.Location = new System.Drawing.Point(24, 89);
-            this.billDateDTP.Name = "billDateDTP";
-            this.billDateDTP.Size = new System.Drawing.Size(200, 22);
-            this.billDateDTP.TabIndex = 1;
-            this.billDateDTP.TabStop = false;
-            // 
             // Type
             // 
             this.Type.AutoSize = true;
-            this.Type.Location = new System.Drawing.Point(21, 118);
+            this.Type.Location = new System.Drawing.Point(21, 70);
             this.Type.Name = "Type";
             this.Type.Size = new System.Drawing.Size(40, 17);
             this.Type.TabIndex = 0;
@@ -245,21 +228,21 @@
             // typeCB
             // 
             this.typeCB.FormattingEnabled = true;
-            this.typeCB.Location = new System.Drawing.Point(24, 138);
+            this.typeCB.Location = new System.Drawing.Point(24, 90);
             this.typeCB.Name = "typeCB";
             this.typeCB.Size = new System.Drawing.Size(200, 24);
             this.typeCB.TabIndex = 3;
             // 
             // billWeightTB
             // 
-            this.billWeightTB.Location = new System.Drawing.Point(21, 431);
+            this.billWeightTB.Location = new System.Drawing.Point(21, 385);
             this.billWeightTB.Name = "billWeightTB";
             this.billWeightTB.Size = new System.Drawing.Size(178, 22);
             this.billWeightTB.TabIndex = 11;
             // 
             // billAmountTB
             // 
-            this.billAmountTB.Location = new System.Drawing.Point(21, 476);
+            this.billAmountTB.Location = new System.Drawing.Point(21, 430);
             this.billAmountTB.Name = "billAmountTB";
             this.billAmountTB.Size = new System.Drawing.Size(178, 22);
             this.billAmountTB.TabIndex = 13;
@@ -267,7 +250,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 456);
+            this.label4.Location = new System.Drawing.Point(21, 410);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(78, 17);
             this.label4.TabIndex = 0;
@@ -312,7 +295,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(201, 434);
+            this.label9.Location = new System.Drawing.Point(201, 388);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(23, 17);
             this.label9.TabIndex = 0;
@@ -330,7 +313,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 479);
+            this.label11.Location = new System.Drawing.Point(3, 433);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(16, 17);
             this.label11.TabIndex = 0;
@@ -360,7 +343,7 @@
             // billCustomerNameCB
             // 
             this.billCustomerNameCB.FormattingEnabled = true;
-            this.billCustomerNameCB.Location = new System.Drawing.Point(20, 338);
+            this.billCustomerNameCB.Location = new System.Drawing.Point(20, 290);
             this.billCustomerNameCB.Name = "billCustomerNameCB";
             this.billCustomerNameCB.Size = new System.Drawing.Size(179, 24);
             this.billCustomerNameCB.TabIndex = 0;
@@ -370,18 +353,37 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(21, 318);
+            this.label13.Location = new System.Drawing.Point(21, 270);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(131, 17);
             this.label13.TabIndex = 0;
             this.label13.Text = "Bill Customer Name";
             this.label13.Visible = false;
             // 
+            // billDateDTP
+            // 
+            this.billDateDTP.Location = new System.Drawing.Point(23, 475);
+            this.billDateDTP.Name = "billDateDTP";
+            this.billDateDTP.Size = new System.Drawing.Size(200, 22);
+            this.billDateDTP.TabIndex = 14;
+            this.billDateDTP.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(20, 455);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Bill Date";
+            // 
             // M_VC_addBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1077, 766);
+            this.Controls.Add(this.billDateDTP);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.billCustomerNameCB);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.deleteButton);
@@ -398,7 +400,6 @@
             this.Controls.Add(this.billWeightTB);
             this.Controls.Add(this.Type);
             this.Controls.Add(this.typeCB);
-            this.Controls.Add(this.billDateDTP);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.financialYearCB);
@@ -412,7 +413,6 @@
             this.Controls.Add(this.loadDOButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.label1);
             this.Name = "M_VC_addBill";
             this.Text = "Voucher - DO Bill";
             this.Load += new System.EventHandler(this.M_V2_dyeingInwardForm_Load);
@@ -430,7 +430,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.BindingSource cartonVoucherBindingSource;
         private FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter carton_VoucherTableAdapter;
         private System.Windows.Forms.Button loadDOButton;
@@ -444,7 +443,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox financialYearCB;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker billDateDTP;
         private System.Windows.Forms.Label Type;
         private System.Windows.Forms.ComboBox typeCB;
         private System.Windows.Forms.TextBox billWeightTB;
@@ -461,5 +459,7 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ComboBox billCustomerNameCB;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.DateTimePicker billDateDTP;
+        private System.Windows.Forms.Label label1;
     }
 }

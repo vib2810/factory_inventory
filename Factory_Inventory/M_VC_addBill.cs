@@ -279,6 +279,13 @@ namespace Factory_Inventory
                 dataGridView1.Rows[i].Cells[1].Value = do_nos[i];
             }
             dgvCmb.DataSource = this.do_no;
+
+            if (typeCB.Text == "1")
+            {
+                this.billDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
+                this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
+            }
+
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
@@ -540,6 +547,11 @@ namespace Factory_Inventory
                 this.billCustomerNameCB.Visible = true;
                 this.billCustomerNameCB.TabIndex = 8;
                 this.billCustomerNameCB.TabStop = true;
+            }
+            if(typeCB.Text=="1")
+            {
+                this.billDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
+                this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
             }
         }
         private void deleteButton_Click(object sender, EventArgs e)

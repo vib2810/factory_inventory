@@ -589,7 +589,7 @@ namespace Factory_Inventory
 
                 for (int i = 0; i < this.issuesource.Rows.Count; i++)
                 {
-                    if (this.issuesource.Rows[i].Cells["Tray No"].Value.ToString() == row["Tray No"].ToString())
+                    if (this.issuesource.Rows[i].Cells["Tray No"].Value.ToString() == row["Tray No"].ToString() && this.edit_reyeing_tray == false)
                     {
                         c.ErrorBox("Repeated tray number in row " + (i + 1).ToString(), "Error");
                         return;

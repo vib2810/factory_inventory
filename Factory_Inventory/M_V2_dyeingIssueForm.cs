@@ -285,7 +285,6 @@ namespace Factory_Inventory
                 this.saveButton.Enabled = true;
                 this.loadCartonButton.Enabled = false;
                 this.dataGridView1.ReadOnly = false;
-                this.issueDateDTP.Enabled = false;
             }
             this.inputDateDTP.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
             this.issueDateDTP.Value = Convert.ToDateTime(row["Date_Of_Issue"].ToString());
@@ -315,6 +314,20 @@ namespace Factory_Inventory
             for (int i = 0; i < tray_no_this.Length; i++)
             {
                 dataGridView1.Rows[i].Cells[1].Value = tray_no_this[i];
+            }
+
+            string voucher_fiscal_year = c.getFinancialYear(this.issueDateDTP.Value);
+            string today_fiscal_year = c.getFinancialYear(DateTime.Now);
+            List<int> years = c.getFinancialYearArr(voucher_fiscal_year);
+            if (today_fiscal_year == voucher_fiscal_year)
+            {
+                this.issueDateDTP.MinDate = new DateTime(years[0], 04, 01);
+                this.issueDateDTP.MaxDate = DateTime.Now;
+            }
+            else
+            {
+                this.issueDateDTP.MinDate = new DateTime(years[0], 04, 01);
+                this.issueDateDTP.MaxDate = new DateTime(years[1], 03, 31);
             }
 
             c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);

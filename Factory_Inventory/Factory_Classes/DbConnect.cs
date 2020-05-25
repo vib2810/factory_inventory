@@ -3953,7 +3953,7 @@ namespace Factory_Inventory.Factory_Classes
                 bill_date = bill_date.Replace('/', '-');
                 DateTime dt = Convert.ToDateTime(bill_date);
                 bill_date = dt.ToString("MM-dd-yyyy");
-                slip_no = null;
+                slip_no = old_batch_row["Slip_No"].ToString();
             }
 
             string dyeing_out_date = old_batch_row["Dyeing_Out_Date"].ToString();
@@ -4115,7 +4115,6 @@ namespace Factory_Inventory.Factory_Classes
         }
         public bool addRDBatch(int batch_no, string colour, string dyeing_company_name, string dyeing_out_date, string tray_id_arr, float batch_weight, string quality, string company_name, int no_of_trays, float dyeing_rate, string fiscal_year, string dyeing_in_date, int state, int bill_no, string bill_date, string slip_no, string redyeing)
         {
-                                                                                                                                                                                                                                                                             //Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Dyeing_Rate, Fiscal_Year, Dyeing_In_Date, Batch_State, Bill_No, Bill_Date, Slip_No, Redyeing
             try
             {
                 con.Open();
@@ -4129,7 +4128,7 @@ namespace Factory_Inventory.Factory_Classes
                     }
                     else
                     {
-                        sql = "INSERT INTO Batch (Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Dyeing_Rate, Fiscal_Year, Dyeing_In_Date, Batch_State, Bill_No, Bill_Date, Slip_No, Redyeing) VALUES (" + batch_no + " ,'" + colour + "', '" + dyeing_company_name + "', '" + dyeing_out_date + "', NULL , " + batch_weight + ", '" + quality + "', '" + company_name + "', " + no_of_trays + ", " + dyeing_rate + ", '" + fiscal_year + "', '" + dyeing_in_date + "', " + state + ", " + bill_no + ", '"+bill_date+"', NULL, '" + redyeing + "')";
+                        sql = "INSERT INTO Batch (Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Dyeing_Rate, Fiscal_Year, Dyeing_In_Date, Batch_State, Bill_No, Bill_Date, Slip_No, Redyeing) VALUES (" + batch_no + " ,'" + colour + "', '" + dyeing_company_name + "', '" + dyeing_out_date + "', NULL , " + batch_weight + ", '" + quality + "', '" + company_name + "', " + no_of_trays + ", " + dyeing_rate + ", '" + fiscal_year + "', '" + dyeing_in_date + "', " + state + ", " + bill_no + ", '"+bill_date+"', '"+slip_no+"', '" + redyeing + "')";
                     }
                 }
                 else
