@@ -112,7 +112,6 @@ namespace Factory_Inventory
                 if(this.vno==5)
                 {
                     M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, false, this);
-                    f.MdiParent = this;
                     f.Show();
                 }
                 if (this.vno == 6)
