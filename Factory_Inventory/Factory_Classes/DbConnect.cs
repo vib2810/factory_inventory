@@ -1578,52 +1578,6 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-        public DataTable getCartonStateQualityCompany(int state, string quality, string company, string fiscalyear, string tablename)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No FROM "+tablename+" WHERE Carton_State="+state+" AND Quality='"+quality+"' AND Company_Name='" + company + "' AND Fiscal_Year='"+fiscalyear+"'", con);
-                sda.Fill(dt);
-            }
-            catch(Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getCartonStateQualityCompany) "+e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return dt;
-        }
-        public DataTable getCartonWeightShade(string cartonno, string fiscal_year, string tablename)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                if (tablename == "Carton")
-                {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight FROM Carton WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
-                    sda.Fill(dt);
-                }
-                else if (tablename == "Carton_Produced")
-                {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight,Colour FROM Carton_Produced WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + fiscal_year + "'", con);
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get weight (getCartonWeight) \n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return dt;
-        }
         public DataTable getCartonTable(string cartonno, string fiscal_year)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
@@ -2635,53 +2589,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public DataTable getTrayWeightMachineNo(int trayid)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                //search in both tables
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Net_Weight, Machine_No FROM Tray_Active WHERE Tray_ID='" + trayid + "'", con);
-                sda.Fill(dt);
-                if(dt.Rows.Count==0)
-                {
-                    SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Net_Weight, Machine_No FROM Tray_History WHERE Tray_ID='" + trayid + "'", con);
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get weight (getTrayWeightMachineNo) \n" + e.Message, "Exception");
-                con.Close();
-                return new DataTable();
-            }
-            finally
-            {
-                con.Close();
-            }
-            return dt;
-        }
-        public DataTable getTrayStateQualityCompany(int state, string quality, string company)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_No, Tray_ID FROM Tray_Active WHERE Tray_State=" + state + " AND Quality='" + quality + "' AND Company_Name='" + company + "'", con);
-                sda.Fill(dt);
-                Console.WriteLine("Got Data");
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getTrayStateQualityCompany) " + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return dt;
-        }
         public void sendTraytoDyeing(string tray_nos, int state, string dyeing_out_date, string dyeing_company, int batchno, string batch_fiscal_year)
         {
             if (string.IsNullOrEmpty(tray_nos)) return;
@@ -3281,45 +3188,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public string[] getBatch_StateDyeingCompanyColourQuality(int state, string dyeing_company, string colour, string quality, string fiscal_year)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            string[] batch_nos = null;
-            try
-            {
-                con.Open();
-                if(dyeing_company==null)
-                {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No FROM Batch WHERE Batch_State=" + state + " AND Fiscal_Year ='"+fiscal_year+"' ", con);
-                    sda.Fill(dt);
-                }
-                else if(colour!=null && quality != null)
-                {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No FROM Batch WHERE Batch_State=" + state + " AND Dyeing_Company_Name='"+dyeing_company+"' AND Colour='"+colour+"' AND Quality='"+quality+ "' AND Fiscal_Year ='" + fiscal_year + "'", con);
-                    sda.Fill(dt);
-                }
-                else
-                {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No FROM Batch WHERE Batch_State=" + state + " AND Dyeing_Company_Name='" + dyeing_company + "' AND Fiscal_Year ='" + fiscal_year + "'", con);
-                    sda.Fill(dt);
-                }
-                string temp = "";
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    temp += dt.Rows[i][0].ToString() + ",";
-                }
-                batch_nos = this.csvToArray(temp);
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getBatch_StateDyeingCompanyColourQuality) " + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return batch_nos;
-        }
         public DataTable getBatchFiscalYearWeight_StateDyeingCompanyColourQuality(int state, string dyeing_company, string colour, string quality)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
@@ -3352,34 +3220,6 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return dt;
-        }
-        public string[] getBatchesWithBillNoDyeingCompanyName(int bill_no, string dyeing_company, string fiscal_year)
-        {
-            DataTable dt = new DataTable();
-            string[] batch_nos = null;
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No FROM Batch WHERE Bill_No=" + bill_no+ " AND Dyeing_Company_Name='"+dyeing_company+"' AND Fiscal_Year ='"+fiscal_year+"' ", con);
-                sda.Fill(dt);
-                string temp = "";
-                for(int i=0; i<dt.Rows.Count; i++)
-                {
-                    temp += dt.Rows[i][0].ToString() + ",";
-                }
-                batch_nos = this.csvToArray(temp);
-
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get batch nos (getBatchesWithBillNo) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
-            return batch_nos;
         }
         public void addBillNo_Batches(string batch_nos, string bill_no, string bill_date, string batch_fiscal_year)
         {
@@ -3556,28 +3396,6 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Batch_No=" + batch_no + " AND Fiscal_Year ='" + fiscal_year + "' AND Batch_State=" + state, con);
-                sda.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getBatchTable_BatchNoState) \n" + e.Message, "Exception");
-                con.Close();
-                return new DataTable();
-            }
-            finally
-            {
-                con.Close();
-
-            }
-            return dt;
-        }
-        public DataTable getBatches_State(int state)
-        {
-            DataTable dt = new DataTable();
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No FROM Batch WHERE Batch_State=" + state, con);
                 sda.Fill(dt);
             }
             catch (Exception e)
@@ -3794,12 +3612,22 @@ namespace Factory_Inventory.Factory_Classes
         }
 
         //Bill Voucher
-        public bool addBillNosVoucher(string sendbill_no, DateTime dtinput_date, string batch_nos, string dyeing_company, string batch_fiscal_year, DateTime dtbill_date)
+        public bool addBillNosVoucher(string sendbill_no, DateTime dtinput_date, string batch_nos, string dyeing_company, string batch_fiscal_year, DateTime dtbill_date, List<Tuple<string, DateTime>> dyeing_in_dates)
         {
             string input_date = dtinput_date.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string bill_date = dtbill_date.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             //add bill nos to batches
             string batches = batch_nos;
+
+            //check if bill date>= dyeingindates of all new batches
+            for (int i = 0; i < dyeing_in_dates.Count; i++)
+            {
+                if (dtbill_date < dyeing_in_dates[i].Item2)
+                {
+                    this.ErrorBox("Batch No: " + dyeing_in_dates[i].Item1 + " Has Dyeing Inward Date: " + dyeing_in_dates[i].Item2.Date.ToString("dd-MM-yyyy") + " Later than Given Bill Date: " + dtbill_date.Date.ToString("dd-MM-yyyy"));
+                    return false;
+                }
+            }
             addBillNo_Batches(removecom(batches), sendbill_no, bill_date, batch_fiscal_year);
             
             string fiscal_year = this.getFinancialYear(dtinput_date);
@@ -3826,11 +3654,21 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public bool editBillNosVoucher(int voucher_id, string sendbill_no, DateTime dtinput_date, string batch_nos, string dyeing_company, string batch_fiscal_year, DateTime dtbill_date)
+        public bool editBillNosVoucher(int voucher_id, string sendbill_no, DateTime dtinput_date, string batch_nos, string dyeing_company, string batch_fiscal_year, DateTime dtbill_date, List<Tuple<string, DateTime>> dyeing_in_dates)
         {
             string input_date = dtinput_date.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string bill_date = dtbill_date.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string fiscal_year = this.getFinancialYear(dtinput_date);
+            //check if bill date>= dyeingindates of all new batches
+            for (int i = 0; i < dyeing_in_dates.Count; i++)
+            {
+                if (dtbill_date < dyeing_in_dates[i].Item2)
+                {
+                    this.ErrorBox("Batch No: " + dyeing_in_dates[i].Item1 + " Has Dyeing Inward Date: " + dyeing_in_dates[i].Item2.Date.ToString("dd-MM-yyyy") + " Later than Given Bill Date: " + dtbill_date.Date.ToString("dd-MM-yyyy"));
+                    return false;
+                }
+            }
+
             //Get all batch_nos which were previously present
             con.Open();
             SqlDataAdapter sda = new SqlDataAdapter("SELECT Batch_No_Arr FROM BillNos_Voucher WHERE Voucher_ID=" + voucher_id + "", con);
