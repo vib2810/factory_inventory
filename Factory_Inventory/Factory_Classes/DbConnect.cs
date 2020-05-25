@@ -260,7 +260,7 @@ namespace Factory_Inventory.Factory_Classes
                 i++;
                 if (c.DroppedDown == false && droppeddown==false)
                 {
-                    c.DroppedDown = true;
+                    if(c!=null) c.DroppedDown = true;
                     e.Handled = true;
                     return;
                 }
@@ -1704,7 +1704,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
                 if (dtissue < bill)
                 {
-                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + " later than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -1785,7 +1785,7 @@ namespace Factory_Inventory.Factory_Classes
                 DateTime bill = Convert.ToDateTime(dt.Rows[0]["Date_Of_Billing"].ToString());
                 if (dtissue < bill)
                 {
-                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
+                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of Billing (" + bill.Date.ToString("dd-MM-yyyy") + ") later than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy") + "),", "Error");
                     return false;
                 }
             }
@@ -2180,7 +2180,15 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO SalesBillNos_Voucher (Date_Of_Input, Sale_Bill_Date, DO_No_Arr, Quality, DO_Fiscal_Year, Fiscal_Year, Type_Of_Sale, Sale_Bill_No, Sale_Bill_Weight, Sale_Bill_Amount, Sale_Bill_Weight_Calc, Sale_Bill_Amount_Calc, Tablename, Bill_Customer) VALUES ('" + input_date + "','" + bill_date + "','" + do_nos + "','" + quality + "','" + do_fiscal_year + "', '" + fiscal_year + "', " + type + ", '"+billNumber+"', "+billWeight+", "+billAmount+", "+billWeight_calc+", "+billAmount_calc+", '"+tablename+"', '"+customer+"')";
+                string sql;
+                if(type==0)
+                {
+                    sql = "INSERT INTO SalesBillNos_Voucher (Date_Of_Input, Sale_Bill_Date, DO_No_Arr, Quality, DO_Fiscal_Year, Fiscal_Year, Type_Of_Sale, Sale_Bill_No, Sale_Bill_Weight, Sale_Bill_Amount, Sale_Bill_Weight_Calc, Sale_Bill_Amount_Calc, Tablename, Bill_Customer) VALUES ('" + input_date + "','" + bill_date + "','" + do_nos + "','" + quality + "','" + do_fiscal_year + "', '" + fiscal_year + "', " + type + ", '" + billNumber + "', " + billWeight + ", " + billAmount + ", " + billWeight_calc + ", " + billAmount_calc + ", '" + tablename + "', '" + customer + "')";
+                }
+                else
+                {
+                    sql = "INSERT INTO SalesBillNos_Voucher (Date_Of_Input, Sale_Bill_Date, DO_No_Arr, Quality, DO_Fiscal_Year, Fiscal_Year, Type_Of_Sale, Sale_Bill_No, Sale_Bill_Weight, Sale_Bill_Amount, Sale_Bill_Weight_Calc, Sale_Bill_Amount_Calc, Tablename) VALUES ('" + input_date + "','" + bill_date + "','" + do_nos + "','" + quality + "','" + do_fiscal_year + "', '" + fiscal_year + "', " + type + ", '" + billNumber + "', " + billWeight + ", " + billAmount + ", " + billWeight_calc + ", " + billAmount_calc + ", '" + tablename + "')";
+                }
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -2232,7 +2240,15 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', DO_No_Arr='" + do_nos + "', Fiscal_Year='" + fiscal_year + "', Sale_Bill_No='" + billNumber + "', Sale_Bill_Weight=" + billWeight + ", Sale_Bill_Amount=" + billAmount + ", Sale_Bill_Weight_Calc=" + billWeight_calc + ", Sale_Bill_Amount_Calc=" + billAmount_calc + ", Bill_Customer = '"+customer+"' WHERE Voucher_ID=" + voucherID + "";
+                string sql;
+                if (customer!=null)     //tyoe 0
+                {
+                    sql = "UPDATE SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', DO_No_Arr='" + do_nos + "', Fiscal_Year='" + fiscal_year + "', Sale_Bill_No='" + billNumber + "', Sale_Bill_Weight=" + billWeight + ", Sale_Bill_Amount=" + billAmount + ", Sale_Bill_Weight_Calc=" + billWeight_calc + ", Sale_Bill_Amount_Calc=" + billAmount_calc + ", Bill_Customer = '"+customer+"' WHERE Voucher_ID=" + voucherID + "";
+                }
+                else
+                {
+                    sql = "UPDATE SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', DO_No_Arr='" + do_nos + "', Fiscal_Year='" + fiscal_year + "', Sale_Bill_No='" + billNumber + "', Sale_Bill_Weight=" + billWeight + ", Sale_Bill_Amount=" + billAmount + ", Sale_Bill_Weight_Calc=" + billWeight_calc + ", Sale_Bill_Amount_Calc=" + billAmount_calc + ", Bill_Customer = NULL WHERE Voucher_ID=" + voucherID + "";
+                }
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -3365,7 +3381,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return batch_nos;
         }
-        public void addBillNo_Batches(string batch_nos, string bill_no, string batch_fiscal_year)
+        public void addBillNo_Batches(string batch_nos, string bill_no, string bill_date, string batch_fiscal_year)
         {
             if (string.IsNullOrEmpty(batch_nos)) return;
             try
@@ -3373,13 +3389,13 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 string sql;
-                if (bill_no == "-1")
+                if (bill_date == null)
                 {
-                    sql = "UPDATE Batch SET Bill_No=NULL WHERE Batch_No IN (" + batch_nos+") AND Fiscal_Year='"+batch_fiscal_year+"'";
+                    sql = "UPDATE Batch SET Bill_No='"+bill_no+"', Bill_Date = NULL WHERE Batch_No IN (" + batch_nos+") AND Fiscal_Year='"+batch_fiscal_year+"'";
                 }
                 else
                 {
-                    sql = "UPDATE Batch SET Bill_No='" + bill_no + "' WHERE Batch_No IN (" + batch_nos+ ") AND Fiscal_Year='" + batch_fiscal_year + "'";
+                    sql = "UPDATE Batch SET Bill_No='" + bill_no + "', Bill_Date = '"+bill_date+"' WHERE Batch_No IN (" + batch_nos+ ") AND Fiscal_Year='" + batch_fiscal_year + "'";
                 }
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
@@ -3784,7 +3800,7 @@ namespace Factory_Inventory.Factory_Classes
             string bill_date = dtbill_date.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             //add bill nos to batches
             string batches = batch_nos;
-            addBillNo_Batches(removecom(batches), sendbill_no, batch_fiscal_year);
+            addBillNo_Batches(removecom(batches), sendbill_no, bill_date, batch_fiscal_year);
             
             string fiscal_year = this.getFinancialYear(dtinput_date);
             //save voucher
@@ -3824,11 +3840,11 @@ namespace Factory_Inventory.Factory_Classes
             string old_batch_nos = old.Rows[0][0].ToString();
 
             //send old batch nos to bill no 0
-            addBillNo_Batches(removecom(old_batch_nos), "0", batch_fiscal_year);
+            addBillNo_Batches(removecom(old_batch_nos), "0", null, batch_fiscal_year);
 
             //add bill nos to current batches
             string batches = batch_nos;
-            addBillNo_Batches(removecom(batches), sendbill_no, batch_fiscal_year);
+            addBillNo_Batches(removecom(batches), sendbill_no, bill_date, batch_fiscal_year);
 
             //update voucher
             try
@@ -3867,7 +3883,7 @@ namespace Factory_Inventory.Factory_Classes
                 string old_batch_nos = old.Rows[0]["Batch_No_Arr"].ToString();
                 string batch_fiscal_year = old.Rows[0]["Batch_Fiscal_Year"].ToString();
                 //send old batch nos to bill no 0
-                addBillNo_Batches(removecom(old_batch_nos), "0", batch_fiscal_year);
+                addBillNo_Batches(removecom(old_batch_nos), "0", null, batch_fiscal_year);
                 this.SuccessBox("Voucher Deleted Successfully");
             }
             catch (Exception e)
@@ -4419,7 +4435,6 @@ namespace Factory_Inventory.Factory_Classes
             Console.WriteLine("-----------Old cartons-----------");
             for (int i = 0; i < old_carton_nos.Length; i++)
             {
-                Console.WriteLine(old_carton_nos[i]);
                 old_cartons_hash[old_carton_nos[i]] = true;
             }
             //Any new carton added should have count=0
@@ -4455,40 +4470,40 @@ namespace Factory_Inventory.Factory_Classes
 
             string[] production_dates = this.csvToArray(production_dates_arr);
             /*<Check if sale date of cartons in state 2 is >= production date>*/
-            string state_2_cartons = "", state_2_cartons_index="";
-            for (int i = 0; i < carton_no.Length; i++)
-            {
-                bool value;
-                bool value2 = carton_editable.TryGetValue(carton_no[i], out value);
-                if (value2 == true) //does contain entry, means it is in state 2
-                {
-                    state_2_cartons += carton_no[i] + ",";
-                    state_2_cartons_index += i + ",";
-                }
-            }
-            if(state_2_cartons!="")
-            {
-                con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Sale FROM Carton_Produced WHERE Carton_No IN (" + removecom(state_2_cartons) + ") AND Fiscal_Year='" + cartonfinancialYear + "'", con);
-                DataTable dt = new DataTable();
-                sda1.Fill(dt);
-                con.Close();
-                Dictionary<string, string> dates = new Dictionary<string, string>();
-                for (int i = 0; i < dt.Rows.Count; i++) dates[dt.Rows[i]["Carton_No"].ToString()] = dt.Rows[i]["Date_Of_Sale"].ToString();
+            //string state_2_cartons = "", state_2_cartons_index="";
+            //for (int i = 0; i < carton_no.Length; i++)
+            //{
+            //    bool value;
+            //    bool value2 = carton_editable.TryGetValue(carton_no[i], out value);
+            //    if (value2 == true) //does contain entry, means it is in state 2
+            //    {
+            //        state_2_cartons += carton_no[i] + ",";
+            //        state_2_cartons_index += i + ",";
+            //    }
+            //}
+            //if(state_2_cartons!="")
+            //{
+            //    con.Open();
+            //    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Sale FROM Carton_Produced WHERE Carton_No IN (" + removecom(state_2_cartons) + ") AND Fiscal_Year='" + cartonfinancialYear + "'", con);
+            //    DataTable dt = new DataTable();
+            //    sda1.Fill(dt);
+            //    con.Close();
+            //    Dictionary<string, string> dates = new Dictionary<string, string>();
+            //    for (int i = 0; i < dt.Rows.Count; i++) dates[dt.Rows[i]["Carton_No"].ToString()] = dt.Rows[i]["Date_Of_Sale"].ToString();
 
-                string[] state_2_cartons_arr = csvToArray(state_2_cartons);
-                string[] state_2_cartons_index_arr = csvToArray(state_2_cartons_index);
-                for (int i = 0; i < state_2_cartons_arr.Length; i++)
-                {
-                    DateTime sale = Convert.ToDateTime(dates[state_2_cartons_arr[i]]);
-                    DateTime production_date = Convert.ToDateTime(production_dates[int.Parse(state_2_cartons_index_arr[i])]);
-                    if (production_date > sale)
-                    {
-                        this.ErrorBox("Carton number: " + state_2_cartons_arr[i] + " at row " + (int.Parse(state_2_cartons_index_arr[i]) + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Production (" + production_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
-                        return false;
-                    }
-                }
-            }
+            //    string[] state_2_cartons_arr = csvToArray(state_2_cartons);
+            //    string[] state_2_cartons_index_arr = csvToArray(state_2_cartons_index);
+            //    for (int i = 0; i < state_2_cartons_arr.Length; i++)
+            //    {
+            //        DateTime sale = Convert.ToDateTime(dates[state_2_cartons_arr[i]]);
+            //        DateTime production_date = Convert.ToDateTime(production_dates[int.Parse(state_2_cartons_index_arr[i])]);
+            //        if (production_date > sale)
+            //        {
+            //            this.ErrorBox("Carton number: " + state_2_cartons_arr[i] + " at row " + (int.Parse(state_2_cartons_index_arr[i]) + 1).ToString() + " has Date of Sale (" + sale.Date.ToString("dd-MM-yyyy") + ") earlier than given Date of Production (" + production_date.Date.ToString("dd-MM-yyyy") + "),", "Error");
+            //            return false;
+            //        }
+            //    }
+            //}
 
             Console.WriteLine("selected3");
             string cartons = "";

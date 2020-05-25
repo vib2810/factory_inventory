@@ -342,6 +342,7 @@ namespace Factory_Inventory
             this.deleteToolStripMenuItem.Enabled = false;
             this.typeCB.Enabled = false;
             this.financialYearCB.Enabled = false;
+            this.billCustomerNameCB.Enabled = false;
         }
         private float CellSum(int column)
         {
@@ -550,7 +551,7 @@ namespace Factory_Inventory
                 if (deleted == true)
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
-                    this.saveButton.Enabled = false;
+                    this.deleteButton.Enabled = false;
                     this.v1_history.loadData();
                 }
                 else return;
@@ -669,7 +670,7 @@ namespace Factory_Inventory
             {
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                c.DroppedDown = true;
+                if(c!=null) c.DroppedDown = true;
                 e.Handled = true;
             }
         }

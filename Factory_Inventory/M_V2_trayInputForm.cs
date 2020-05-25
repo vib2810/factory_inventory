@@ -97,6 +97,18 @@ namespace Factory_Inventory
             this.machineNoCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.machineNoCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            //Create drop-down Gradeng list
+            var dataSource5 = new List<string>();
+            dataSource5.Add("---Select---");
+            dataSource5.Add("1st");
+            dataSource5.Add("PQ");
+            dataSource5.Add("CLQ");
+            this.gradeCB.DataSource = dataSource5;
+            this.gradeCB.DisplayMember = "Grade";
+            this.gradeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.gradeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.gradeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
             this.numberOfSpringsTB.Text = "18";
             this.springCB.SelectedIndex = 0;
             this.gradeCB.SelectedIndex = 1;
@@ -169,6 +181,18 @@ namespace Factory_Inventory
             this.machineNoCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.machineNoCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.machineNoCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            //Create drop-down Spring list
+            var dataSource5 = new List<string>();
+            dataSource5.Add("---Select---");
+            dataSource5.Add("1st");
+            dataSource5.Add("PQ");
+            dataSource5.Add("CLQ");
+            this.gradeCB.DataSource = dataSource5;
+            this.gradeCB.DisplayMember = "Grade";
+            this.gradeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.gradeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.gradeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
             this.tray_id = int.Parse(row["Tray_ID"].ToString());
@@ -294,6 +318,18 @@ namespace Factory_Inventory
             this.machineNoCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.machineNoCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.machineNoCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            //Create drop-down Spring list
+            var dataSource5 = new List<string>();
+            dataSource5.Add("---Select---");
+            dataSource5.Add("1st");
+            dataSource5.Add("PQ");
+            dataSource5.Add("CLQ");
+            this.gradeCB.DataSource = dataSource5;
+            this.gradeCB.DisplayMember = "Grade";
+            this.gradeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.gradeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.gradeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             this.tray_details.Columns.Add("Sl No");
             this.tray_details.Columns.Add("Date Of Production");
@@ -458,7 +494,7 @@ namespace Factory_Inventory
                 }
             }
 
-            dynamicWeightLabel.Text = (gross_weight - tray_tare - number_of_springs * spring_weight).ToString() + " kg";
+            dynamicWeightLabel.Text = (gross_weight - tray_tare - number_of_springs * spring_weight).ToString("F3") + " kg";
             return (gross_weight - tray_tare - number_of_springs * spring_weight);
         }
 

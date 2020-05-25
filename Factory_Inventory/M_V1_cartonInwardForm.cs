@@ -250,13 +250,13 @@ namespace Factory_Inventory
                     dataGridView1.Rows[i].ReadOnly = true;
                     if(carton_state==2)
                     {
-                        r.DefaultCellStyle.BackColor = Color.Gray;
-                        r.DefaultCellStyle.SelectionBackColor = Color.Gray;
+                        r.DefaultCellStyle.BackColor = Color.LightGray;
+                        r.DefaultCellStyle.SelectionBackColor = Color.LightGray;
                     }
                     else if(carton_state==3)
                     {
-                        r.DefaultCellStyle.BackColor = Color.Green;
-                        r.DefaultCellStyle.SelectionBackColor = Color.Green;
+                        r.DefaultCellStyle.BackColor = Color.LightGreen;
+                        r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
                     }
                 }
             }
@@ -467,7 +467,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter Carton Numbers and Weights", "Error");
                 return;
             }
-            if(this.inputDate.Value.Date<this.billDateDTP.Value.Date)
+            if(DateTime.Now.Date<this.billDateDTP.Value.Date)
             {
                 c.ErrorBox("Bill Date is in the future", "Error");
                 return;
@@ -726,6 +726,8 @@ namespace Factory_Inventory
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    row.DefaultCellStyle.BackColor = dataGridView1.DefaultCellStyle.BackColor;
+                    row.DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.SelectionBackColor;
                     dataGridView1.Rows.Add(row);
                     dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1];
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab, 1) == true && c.Cell_Not_NullOrEmpty(dataGridView1, rowindex_tab + 1, 1) == false)

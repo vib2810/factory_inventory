@@ -48,7 +48,7 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private int voucherID;
         private bool addBill = false;
-        Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
+        Dictionary<string, int> batch_editable = new Dictionary<string, int>();
         public M_V2_dyeingInwardForm(string mode)
         {
             if(mode== "dyeingInward")
@@ -318,7 +318,6 @@ namespace Factory_Inventory
                 this.loadData(row["Dyeing_Company_Name"].ToString(), row["Batch_Fiscal_Year"].ToString());
                 if (isEditable == false) dataGridView1.RowCount = batch_nos.Length;
                 else dataGridView1.RowCount = batch_nos.Length + 1;
-                bool bill_editable = true;
                 string batch_nos_string = row["Batch_No_Arr"].ToString();
                 string[] batch_nos_arr = c.csvToArray(row["Batch_No_Arr"].ToString());
                 DataTable bill_nos = c.getColumnBatchNos("Batch_No, Bill_No, Batch_State", c.removecom(batch_nos_string), this.comboBox3CB.SelectedItem.ToString());
@@ -336,19 +335,36 @@ namespace Factory_Inventory
                     if(bill_no != "0")
                     {
                         flag = false;
-                        this.batch_editable[batch_nos[i]] = false;
+                        this.batch_editable[batch_nos[i]] = 0;
                         DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
                         dataGridView1.Rows[i].ReadOnly = true;
-                        r.DefaultCellStyle.BackColor = Color.Gray;
-                        bill_editable = false;
+                        r.DefaultCellStyle.BackColor = Color.LightGray;
+                        r.DefaultCellStyle.SelectionBackColor= Color.LightGray;
+                    }
+                    if (value.Item2 == 3)
+                    {
+                        flag = false;
+                        this.batch_editable[batch_nos[i]] = 3;
+                        DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
+                        dataGridView1.Rows[i].ReadOnly = true;
+                        r.DefaultCellStyle.BackColor = Color.LightGreen;
+                        r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
+                    }
+                    else if (value.Item2 == 4)
+                    {
+                        flag = false;
+                        this.batch_editable[batch_nos[i]] = 4;
+                        DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
+                        dataGridView1.Rows[i].ReadOnly = true;
+                        r.DefaultCellStyle.BackColor = Color.Orange;
+                        r.DefaultCellStyle.SelectionBackColor = Color.Orange;
                     }
                     //pending
                 }
-
-                if (!bill_editable)
+                this.label5.Text = "Grey: Bill Number Added    Green: Batch sent for production    Orange: Batch sent for redyeing";
+                if (!flag)
                 {
                     this.billcheckBoxCK.Checked = true;
-                    this.billcheckBoxCK.Enabled = true;
                 }
                 if (isEditable == false) 
                 { 
@@ -637,14 +653,12 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter Batch Numbers", "Error");
                 return;
             }
-            if (this.inputDate.Value.Date < this.inwardDateDTP.Value.Date)
+            if (DateTime.Now.Date < this.inwardDateDTP.Value.Date)
             {
-                c.ErrorBox("Inward Date is in the future", "Error");
-                return;
-            }
-            if (this.billDateDTP.Value.Date > this.inputDate.Value.Date)
-            {
-                c.ErrorBox("Bill Date is in the future", "Error");
+                if(addBill==false)
+                {
+                    c.ErrorBox("Inward Date is in the future", "Error");
+                }
                 return;
             }
             string batch_nos = "", slip_nos = "";
@@ -754,9 +768,9 @@ namespace Factory_Inventory
                     }
                     int rowindex = dataGridView1.SelectedRows[0].Index;
                     string batch_no = dataGridView1.Rows[rowindex].Cells[1].Value.ToString();
-                    bool value = true;
+                    int value = -1;
                     bool value2 = this.batch_editable.TryGetValue(batch_no, out value);
-                    if (value2 == true && value == false)
+                    if (value2 == true && value>=0)
                     {
                         c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
                         dataGridView1.Rows[rowindex].Selected = false;
@@ -958,7 +972,7 @@ namespace Factory_Inventory
                 if (dataGridView1.ReadOnly == true) return;
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                c.DroppedDown = true;
+                if (c != null) c.DroppedDown = true;
                 e.Handled = true;
             }
         }

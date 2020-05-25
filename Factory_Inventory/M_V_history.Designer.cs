@@ -116,6 +116,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.dataGridView1);
             this.Name = "M_V_history";
             this.Text = "History";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.M_V_history_FormClosing);
             this.Load += new System.EventHandler(this.M_V_history_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

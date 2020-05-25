@@ -427,6 +427,7 @@ namespace Factory_Inventory
             {
                 this.label10.Text = "This DO cannot be edited/deleted as its bill as already been made. Delete/Edit its bill first";
                 this.label10.ForeColor = Color.Red;
+                this.deleteButton.Enabled = false;
                 this.disable_form_edit();
             }
         }
@@ -883,7 +884,7 @@ namespace Factory_Inventory
             {
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                c.DroppedDown = true;
+                if(c!=null) c.DroppedDown = true;
                 e.Handled = true;
             }
         }

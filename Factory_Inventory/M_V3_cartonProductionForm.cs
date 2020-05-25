@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 
 namespace Factory_Inventory
@@ -362,6 +363,7 @@ namespace Factory_Inventory
 
             string[] produced_cartons = c.csvToArray(row["Carton_No_Production_Arr"].ToString());
             dataGridView1.RowCount= produced_cartons.Length + 1;
+            bool flag = false;
             for (int i = 0; i < produced_cartons.Length; i++)
             {
                 DataRow carton_row = c.getProducedCartonRow(produced_cartons[i], row["Carton_Fiscal_Year"].ToString());
@@ -381,21 +383,21 @@ namespace Factory_Inventory
                 //Sold carton will be coloured green
                 if (carton_row["Carton_State"].ToString() != "1")
                 {
+                    flag = true;
                     this.carton_editable[produced_cartons[i]] = false;
                     DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
                     dataGridView1.Rows[i].ReadOnly = true;
-                    r.DefaultCellStyle.BackColor = Color.Green;
-                    r.DefaultCellStyle.SelectionBackColor = Color.Green;
-
-                    //If any one carton in the voucher is sold, batch cannot be edited
-                    this.dataGridView2.Enabled = false;
-                    this.dataGridView2.ReadOnly = true;
-                    this.deleteToolStripMenuItem.Enabled = false;
-                    this.deleteToolStripMenuItem1.Enabled = false;
-                    this.label14.Text = "This voucher cannot be edited or deleted as some cartons have already been sold. Delete sale DO to edit it";
-                    this.label14.ForeColor = Color.Red;
-                    this.deleteButton.Enabled = false;
+                    r.DefaultCellStyle.BackColor = Color.LightGreen;
+                    r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
                 }
+            }
+            if(flag == true)
+            {
+                //If any one carton in the voucher is sold, batch cannot be edited
+                this.dataGridView2.ReadOnly = true;
+                this.deleteToolStripMenuItem1.Enabled = false;
+                this.label14.Text = "This batches cannot be edited or deleted as some cartons have already been sold. Delete sale DO to edit it";
+                this.deleteButton.Enabled = false;
             }
             this.cartonweight.Text = CellSum1(7).ToString("F3");
             
@@ -999,6 +1001,8 @@ namespace Factory_Inventory
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    row.DefaultCellStyle.BackColor = dataGridView1.DefaultCellStyle.BackColor;
+                    row.DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.SelectionBackColor;
                     dataGridView1.Rows.Add(row);
                 }
                 if (dataGridView1.Rows.Count - 1 == rowindex_tab)
@@ -1036,6 +1040,8 @@ namespace Factory_Inventory
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
+                    row.DefaultCellStyle.BackColor = dataGridView1.DefaultCellStyle.BackColor;
+                    row.DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.SelectionBackColor;
                     dataGridView1.Rows.Add(row);
                 }
                 if (dataGridView1.Rows.Count - 1 == rowindex_tab)
@@ -1104,7 +1110,7 @@ namespace Factory_Inventory
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
                 if(c!=null)
                 {
-                    c.DroppedDown = true;
+                    if(c!=null) c.DroppedDown = true;
                     SendKeys.Send("{down}");
                     SendKeys.Send("{up}");
                 }
@@ -1233,7 +1239,7 @@ namespace Factory_Inventory
             {
                 dataGridView2.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView2.EditingControl;
-                c.DroppedDown = true;
+                if(c!=null) c.DroppedDown = true;
                 SendKeys.Send("{down}");
                 SendKeys.Send("{up}");
                 e.Handled = true;
@@ -1335,6 +1341,47 @@ namespace Factory_Inventory
                 batchnwtTextbox.Text = CellSum2(2).ToString("F3");
             }
         }
+
+        private void dynamicEditableLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void oilGainTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void closedCheckboxCK_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)

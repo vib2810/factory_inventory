@@ -732,7 +732,7 @@ namespace Factory_Inventory
             {
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                c.DroppedDown = true;
+                if(c!=null) c.DroppedDown = true;
                 e.Handled = true;
             }
         }

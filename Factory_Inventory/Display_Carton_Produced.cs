@@ -19,7 +19,7 @@ namespace Factory_Inventory
             if (Carton == null) return;
             this.textBox17.Text = Carton["Carton_No"].ToString();
             this.textBox6.Text = Carton["Quality"].ToString();
-            this.textBox7.Text = Carton["Customer_Name"].ToString();
+            //this.textBox7.Text = Carton["Customer_Name"].ToString();
             this.textBox3.Text = Carton["Number_of_Cones"].ToString();
             this.textBox12.Text = Carton["Cone_Weight"].ToString();
             this.textBox15.Text = Carton["Colour"].ToString();

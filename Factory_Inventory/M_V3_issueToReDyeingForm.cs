@@ -256,6 +256,7 @@ namespace Factory_Inventory
             this.editTrayButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.deleteToolStripMenuItem.Enabled = false;
+            this.issueDateDTP.Enabled = false;
         }
         public void CellSum()
         {

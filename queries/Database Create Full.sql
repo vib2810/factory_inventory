@@ -503,7 +503,6 @@ create table Redyeing_Voucher
 	Deleted tinyint NULL
 )
 
-
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*Carton Production Voucher */
@@ -555,7 +554,6 @@ CREATE TABLE Carton_Produced
 	Net_Weight decimal(7,3) NOT NULL,
 	Sale_Rate decimal(7,3) NULL,
 	Sale_DO_No varchar(10) NULL,
-	Customer_Name varchar(50) NULL,
 	Fiscal_Year varchar(15) NOT NULL,
 	Printed tinyint NULL,
 	Grade varchar(10) NOT NULL,

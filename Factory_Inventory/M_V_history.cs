@@ -42,7 +42,7 @@ namespace Factory_Inventory
             this.dt = new DataTable();
             this.vno = vno;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
-            //dataGridView1.DefaultCellStyle.BackColor = Color.Green;
+            //dataGridView1.DefaultCellStyle.BackColor = Color.LightGreen;
             this.label1.Visible = false;
             loadData();
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
@@ -112,6 +112,7 @@ namespace Factory_Inventory
                 if(this.vno==5)
                 {
                     M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, false, this);
+                    f.MdiParent = this;
                     f.Show();
                 }
                 if (this.vno == 6)
@@ -735,6 +736,19 @@ namespace Factory_Inventory
                 }
             }
             
+        }
+
+        private void M_V_history_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            foreach (Form frm in this.MdiChildren)
+            {
+                Console.WriteLine("heek " + frm.Text);
+                if (frm != this)
+                {
+                    frm.Dispose();
+                    frm.Close();
+                }
+            }
         }
     }
 }

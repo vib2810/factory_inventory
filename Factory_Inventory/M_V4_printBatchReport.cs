@@ -216,8 +216,8 @@ namespace Factory_Inventory
             if (batch_index >= 0)
             {
                 DataGridViewRow r = (DataGridViewRow)dataGridView3.Rows[batch_index];
-                r.DefaultCellStyle.BackColor = Color.Gray;
-                r.DefaultCellStyle.SelectionBackColor = Color.Gray;
+                r.DefaultCellStyle.BackColor = Color.LightGray;
+                r.DefaultCellStyle.SelectionBackColor = Color.LightGray;
             }
             if (this.dataGridView3.SelectedRows.Count >= 0) this.dataGridView3.Rows[0].Selected = false;
 

@@ -38,7 +38,6 @@
             this.inputDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.dynamicEditableLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.batchnwtTextbox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -88,6 +87,7 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged);
@@ -159,15 +159,6 @@
             this.label6.Size = new System.Drawing.Size(49, 17);
             this.label6.TabIndex = 0;
             this.label6.Text = "Colour";
-            // 
-            // dynamicEditableLabel
-            // 
-            this.dynamicEditableLabel.AutoSize = true;
-            this.dynamicEditableLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicEditableLabel.Location = new System.Drawing.Point(60, 628);
-            this.dynamicEditableLabel.Name = "dynamicEditableLabel";
-            this.dynamicEditableLabel.Size = new System.Drawing.Size(0, 25);
-            this.dynamicEditableLabel.TabIndex = 43;
             // 
             // label4
             // 
@@ -295,6 +286,7 @@
             this.closedCheckboxCK.TabStop = false;
             this.closedCheckboxCK.Text = "Close Batches?";
             this.closedCheckboxCK.UseVisualStyleBackColor = true;
+            this.closedCheckboxCK.CheckedChanged += new System.EventHandler(this.closedCheckboxCK_CheckedChanged);
             // 
             // label8
             // 
@@ -304,6 +296,7 @@
             this.label8.Size = new System.Drawing.Size(27, 17);
             this.label8.TabIndex = 0;
             this.label8.Text = "gm";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label11
             // 
@@ -372,6 +365,7 @@
             this.oilGainTextbox.Size = new System.Drawing.Size(166, 27);
             this.oilGainTextbox.TabIndex = 0;
             this.oilGainTextbox.TabStop = false;
+            this.oilGainTextbox.TextChanged += new System.EventHandler(this.oilGainTextbox_TextChanged);
             // 
             // label1
             // 
@@ -382,6 +376,7 @@
             this.label1.Size = new System.Drawing.Size(70, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Oil Gain";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label10
             // 
@@ -392,15 +387,17 @@
             this.label10.Size = new System.Drawing.Size(24, 20);
             this.label10.TabIndex = 0;
             this.label10.Text = "%";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(25, 709);
+            this.label14.Location = new System.Drawing.Point(82, 768);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(0, 25);
             this.label14.TabIndex = 0;
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // deleteButton
             // 
@@ -437,7 +434,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1336, 768);
+            this.ClientSize = new System.Drawing.Size(1336, 802);
             this.Controls.Add(this.nextcartonnoTB);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.deleteButton);
@@ -463,7 +460,6 @@
             this.Controls.Add(this.batchnwtTextbox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.dynamicEditableLabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.inputDate);
             this.Controls.Add(this.label3);
@@ -495,7 +491,6 @@
         private System.Windows.Forms.DateTimePicker inputDate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label dynamicEditableLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox batchnwtTextbox;
         private System.Windows.Forms.Label label5;

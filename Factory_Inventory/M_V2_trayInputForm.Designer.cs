@@ -342,11 +342,6 @@
             // gradeCB
             // 
             this.gradeCB.FormattingEnabled = true;
-            this.gradeCB.Items.AddRange(new object[] {
-            "---Select---",
-            "1st",
-            "PQ",
-            "CLQ"});
             this.gradeCB.Location = new System.Drawing.Point(367, 387);
             this.gradeCB.Name = "gradeCB";
             this.gradeCB.Size = new System.Drawing.Size(121, 24);

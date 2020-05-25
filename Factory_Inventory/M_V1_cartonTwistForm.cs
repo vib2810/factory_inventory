@@ -348,7 +348,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter Carton Numbers", "Error");
                 return;
             }
-            if (this.inputDate.Value.Date < this.issueDateDTP.Value.Date)
+            if (DateTime.Now.Date < this.issueDateDTP.Value.Date)
             {
                 c.ErrorBox("Issue Date is in the future", "Error");
                 return;
@@ -581,7 +581,7 @@ namespace Factory_Inventory
             {
                 dataGridView1.BeginEdit(true);
                 ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                c.DroppedDown = true;
+                if(c!=null) c.DroppedDown = true;
                 e.Handled = true;
             }
         }
