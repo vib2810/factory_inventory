@@ -49,6 +49,34 @@ namespace Factory_Inventory
         private int voucherID;
         private bool addBill = false;
         Dictionary<string, int> batch_editable = new Dictionary<string, int>();
+        struct fetch_data
+        {
+            public float net_wt;
+            public string colour;
+            public string quality;
+            public float dyeing_rate;
+            public string slip_no;
+            public string dyeing_in_date;
+            public fetch_data(string a="default")
+            {
+                this.net_wt = -1F;
+                this.colour = "";
+                this.quality = "";
+                this.dyeing_rate = -1F;
+                this.slip_no = "";
+                this.dyeing_in_date = "";
+            }
+            public fetch_data(float net_wt, string colour, string quality, float dyeing_rate, string slip_no, string dyeing_in_date)
+            {
+                this.net_wt = net_wt;
+                this.colour = colour;
+                this.quality = quality;
+                this.dyeing_rate = dyeing_rate;
+                this.slip_no = slip_no;
+                this.dyeing_in_date = dyeing_in_date;
+            }
+        }
+        Dictionary<string, fetch_data> batch_fetch_data = new Dictionary<string, fetch_data>();
         public M_V2_dyeingInwardForm(string mode)
         {
             if(mode== "dyeingInward")
@@ -311,6 +339,13 @@ namespace Factory_Inventory
 
                 this.voucherID = int.Parse(row["Voucher_ID"].ToString());
                 string[] batch_nos = c.csvToArray(row["Batch_No_Arr"].ToString());
+                DataTable batch_data = c.getTableData("Batch", "Batch_No, Net_Weight, Colour, Quality, Dyeing_Rate, Slip_No, Dyeing_In_Date", "Batch_No IN (" +c.removecom(row["Batch_No_Arr"].ToString())+") AND Fiscal_Year = '" + row["Batch_Fiscal_Year"].ToString() + "'");
+                for (int i = 0; i < batch_data.Rows.Count; i++)
+                {
+                    string batchno = batch_data.Rows[i]["Batch_No"].ToString();
+                    fetch_data value = new fetch_data(float.Parse(batch_data.Rows[i]["Batch_No"].ToString()), batch_data.Rows[i]["Colour"].ToString(), batch_data.Rows[i]["Quality"].ToString(), float.Parse(batch_data.Rows[i]["Dyeing_Rate"].ToString()), batch_data.Rows[i]["Slip_No"].ToString(), batch_data.Rows[i]["Dyeing_In_Date"].ToString());
+                    this.batch_fetch_data[batchno] = value;
+                }
                 for (int i = 0; i < batch_nos.Length; i++)
                 {
                     this.batch_no.Add(batch_nos[i]);
@@ -477,17 +512,24 @@ namespace Factory_Inventory
                 this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
                 this.dyeingCompanyCB.SelectedIndex = this.dyeingCompanyCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
                 this.billNumberTextboxTB.Text = row["Bill_No"].ToString();
+                this.billDateDTP.Value= Convert.ToDateTime(row["Bill_Date"].ToString());
                 this.voucherID = int.Parse(row["Voucher_ID"].ToString());
                 this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Batch_Fiscal_Year"].ToString());
 
-
-                //Load data in datagridview dropdown
-                this.loadData(row["Dyeing_Company_Name"].ToString(), row["Batch_Fiscal_Year"].ToString());
                 //Load previous data
                 string[] batch_nos = c.csvToArray(row["Batch_No_Arr"].ToString());
                 for(int i=0; i<batch_nos.Length; i++)
                 {
                     this.batch_no.Add(batch_nos[i]);
+                }
+                //Load data in datagridview dropdown
+                this.loadData(row["Dyeing_Company_Name"].ToString(), row["Batch_Fiscal_Year"].ToString());
+                DataTable batch_data = c.getTableData("Batch", "Batch_No, Net_Weight, Colour, Quality, Dyeing_Rate, Slip_No, Dyeing_In_Date", "Batch_No IN (" + c.removecom(row["Batch_No_Arr"].ToString()) + ") AND Fiscal_Year = '" + row["Batch_Fiscal_Year"].ToString() + "'");
+                for (int i = 0; i < batch_data.Rows.Count; i++)
+                {
+                    string batchno = batch_data.Rows[i]["Batch_No"].ToString();
+                    fetch_data value = new fetch_data(float.Parse(batch_data.Rows[i]["Batch_No"].ToString()), batch_data.Rows[i]["Colour"].ToString(), batch_data.Rows[i]["Quality"].ToString(), float.Parse(batch_data.Rows[i]["Dyeing_Rate"].ToString()), batch_data.Rows[i]["Slip_No"].ToString(), batch_data.Rows[i]["Dyeing_In_Date"].ToString());
+                    this.batch_fetch_data[batchno] = value;
                 }
                 if (isEditable == false) dataGridView1.RowCount = batch_nos.Length;
                 else dataGridView1.RowCount = batch_nos.Length + 1;
@@ -592,12 +634,24 @@ namespace Factory_Inventory
         }
         private void loadData(string dyeing_company, string batch_fiscal_year)
         {
-            string[] d = null;
-            if (this.addBill == true) d = c.getBatchesWithBillNoDyeingCompanyName(0, dyeing_company, batch_fiscal_year);
-            else d = c.getBatch_StateDyeingCompanyColourQuality(1, dyeing_company, null, null, batch_fiscal_year);
-            for (int i = 0; i < d.Length; i++)
+            DataTable d = new DataTable();
+            if (this.addBill == true)
             {
-                this.batch_no.Add(d[i]);
+                d = c.getTableData("Batch", "Batch_No, Net_Weight, Colour, Quality, Dyeing_Rate, Slip_No, Dyeing_In_Date", "Bill_No = 0 AND Dyeing_Company_Name='" + dyeing_company + "' AND Fiscal_Year = '" + batch_fiscal_year + "'");
+                //d = c.getBatchesWithBillNoDyeingCompanyName(0, dyeing_company, batch_fiscal_year);
+            }
+            else
+            {
+                d = c.getTableData("Batch", "Batch_No, Net_Weight, Colour, Quality, Dyeing_Rate, Slip_No, Dyeing_In_Date", "Batch_State=1 AND Dyeing_Company_Name='" + dyeing_company + "' AND Fiscal_Year = '" + batch_fiscal_year + "'");
+                //d = c.getBatch_StateDyeingCompanyColourQuality(1, dyeing_company, null, null, batch_fiscal_year);
+            }
+            for (int i = 0; i < d.Rows.Count; i++)
+            {
+                string batchno = d.Rows[i]["Batch_No"].ToString();
+                Console.WriteLine("Loading: " + batchno);
+                this.batch_no.Add(batchno);
+                fetch_data value = new fetch_data(float.Parse(d.Rows[i]["Batch_No"].ToString()), d.Rows[i]["Colour"].ToString(), d.Rows[i]["Quality"].ToString(), float.Parse(d.Rows[i]["Dyeing_Rate"].ToString()), d.Rows[i]["Slip_No"].ToString(), d.Rows[i]["Dyeing_In_Date"].ToString());
+                this.batch_fetch_data[batchno] = value;
             }
         }
 
@@ -661,10 +715,16 @@ namespace Factory_Inventory
                 }
                 return;
             }
+            if (DateTime.Now.Date < this.billDateDTP.Value.Date)
+            {
+                c.ErrorBox("Bill Date is in the future", "Error");
+                return;
+            }
             string batch_nos = "", slip_nos = "";
             int number = 0;
 
             List<int> temp = new List<int>();
+            List<Tuple<string, DateTime>> dyeing_in_dates = new List<Tuple<string, DateTime>>();
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
 
@@ -675,13 +735,16 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    batch_nos += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
+                    string batchno = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    batch_nos += batchno + ",";
                     if (this.billcheckBoxCK.Checked == true && this.addBill == false)
                     {
                         slip_nos += dataGridView1.Rows[i].Cells[6].Value.ToString() + ",";
                     }
                     number++;
 
+                    //make a list for dyeing in date check
+                    if(this.addBill==true) dyeing_in_dates.Add(new Tuple<string, DateTime>(batchno, Convert.ToDateTime(this.batch_fetch_data[batchno].dyeing_in_date)));
                     //to check for all different batch_nos
                     temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
                     var distinctBytes = new HashSet<int>(temp);
@@ -707,7 +770,7 @@ namespace Factory_Inventory
             {
                 if (this.addBill == true)
                 {
-                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
+                    bool editbill = c.editBillNosVoucher(this.voucherID, sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value, dyeing_in_dates);
                     if (editbill == true)
                     {
                         dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -732,7 +795,7 @@ namespace Factory_Inventory
             {
                 if (this.addBill == true)
                 {
-                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value);
+                    bool addbill = c.addBillNosVoucher(sendbill_no, inputDate.Value, batch_nos, dyeingCompanyCB.SelectedItem.ToString(), this.comboBox3CB.SelectedItem.ToString(), this.billDateDTP.Value, dyeing_in_dates);
                     if (addbill == true)
                     {
                         dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -880,21 +943,18 @@ namespace Factory_Inventory
                     dynamicWeightLabel.Text = CellSum(5).ToString("F2");
                     return;
                 }
-                int batch_no = int.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                DataRow row = c.getBatchRow_BatchNo(batch_no, this.comboBox3CB.SelectedItem.ToString());
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = row["Net_Weight"].ToString();
-                dataGridView1.Rows[e.RowIndex].Cells[3].Value = row["Colour"].ToString();
-                dataGridView1.Rows[e.RowIndex].Cells[4].Value = row["Quality"].ToString();
-                dataGridView1.Rows[e.RowIndex].Cells[5].Value = float.Parse(row["Net_Weight"].ToString()) * float.Parse(row["Dyeing_Rate"].ToString());
+                string batch_no = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                fetch_data value = new fetch_data(); 
+                this.batch_fetch_data.TryGetValue(batch_no, out value);
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = value.net_wt.ToString("F3");
+                dataGridView1.Rows[e.RowIndex].Cells[3].Value = value.colour;
+                dataGridView1.Rows[e.RowIndex].Cells[4].Value = value.quality;
+                dataGridView1.Rows[e.RowIndex].Cells[5].Value = value.net_wt* value.dyeing_rate;
                 if(this.addBill==false)
                 {
-                    if (!(row["Slip_No"].ToString() == null || row["Slip_No"].ToString() == ""))
-                    {
-                        dataGridView1.Rows[e.RowIndex].Cells[6].Value = row["Slip_No"].ToString();
-                    }
+                    dataGridView1.Rows[e.RowIndex].Cells[6].Value = value.slip_no;
                 }
                 dynamicWeightLabel.Text = CellSum(5).ToString("F3");
-
             }
         }
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)

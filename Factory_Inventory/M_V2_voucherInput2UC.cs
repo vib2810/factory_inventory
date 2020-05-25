@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
@@ -69,6 +70,7 @@ namespace Factory_Inventory
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+        private DbConnect c = new DbConnect();
         public M_V2_voucherInput2UC()
         {
             InitializeComponent();
@@ -96,8 +98,11 @@ namespace Factory_Inventory
 
         private void historyButton_Click_1(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(4);
-            f.Show();
+            if (c.isHistoryFormOpen(4) == false)
+            {
+                M_V_history f = new M_V_history(4);
+                f.Show();
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -117,8 +122,11 @@ namespace Factory_Inventory
 
         private void button3_Click(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(5);
-            f.Show();
+            if (c.isHistoryFormOpen(5) == false)
+            {
+                M_V_history f = new M_V_history(5);
+                f.Show();
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -129,8 +137,11 @@ namespace Factory_Inventory
 
         private void button5_Click(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(6);
-            f.Show();
+            if (c.isHistoryFormOpen(6) == false)
+            {
+                M_V_history f = new M_V_history(6);
+                f.Show();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -141,8 +152,11 @@ namespace Factory_Inventory
 
         private void button2_Click(object sender, EventArgs e)
         {
-            M_V_history f = new M_V_history(7);
-            f.Show();
+            if (c.isHistoryFormOpen(7) == false)
+            {
+                M_V_history f = new M_V_history(7);
+                f.Show();
+            }
         }
     }
 }
