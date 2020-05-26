@@ -343,7 +343,7 @@ namespace Factory_Inventory
                 for (int i = 0; i < batch_data.Rows.Count; i++)
                 {
                     string batchno = batch_data.Rows[i]["Batch_No"].ToString();
-                    fetch_data value = new fetch_data(float.Parse(batch_data.Rows[i]["Batch_No"].ToString()), batch_data.Rows[i]["Colour"].ToString(), batch_data.Rows[i]["Quality"].ToString(), float.Parse(batch_data.Rows[i]["Dyeing_Rate"].ToString()), batch_data.Rows[i]["Slip_No"].ToString(), batch_data.Rows[i]["Dyeing_In_Date"].ToString());
+                    fetch_data value = new fetch_data(float.Parse(batch_data.Rows[i]["Net_Weight"].ToString()), batch_data.Rows[i]["Colour"].ToString(), batch_data.Rows[i]["Quality"].ToString(), float.Parse(batch_data.Rows[i]["Dyeing_Rate"].ToString()), batch_data.Rows[i]["Slip_No"].ToString(), batch_data.Rows[i]["Dyeing_In_Date"].ToString());
                     this.batch_fetch_data[batchno] = value;
                 }
                 for (int i = 0; i < batch_nos.Length; i++)
@@ -528,7 +528,7 @@ namespace Factory_Inventory
                 for (int i = 0; i < batch_data.Rows.Count; i++)
                 {
                     string batchno = batch_data.Rows[i]["Batch_No"].ToString();
-                    fetch_data value = new fetch_data(float.Parse(batch_data.Rows[i]["Batch_No"].ToString()), batch_data.Rows[i]["Colour"].ToString(), batch_data.Rows[i]["Quality"].ToString(), float.Parse(batch_data.Rows[i]["Dyeing_Rate"].ToString()), batch_data.Rows[i]["Slip_No"].ToString(), batch_data.Rows[i]["Dyeing_In_Date"].ToString());
+                    fetch_data value = new fetch_data(float.Parse(batch_data.Rows[i]["Net_Weight"].ToString()), batch_data.Rows[i]["Colour"].ToString(), batch_data.Rows[i]["Quality"].ToString(), float.Parse(batch_data.Rows[i]["Dyeing_Rate"].ToString()), batch_data.Rows[i]["Slip_No"].ToString(), batch_data.Rows[i]["Dyeing_In_Date"].ToString());
                     this.batch_fetch_data[batchno] = value;
                 }
                 if (isEditable == false) dataGridView1.RowCount = batch_nos.Length;
@@ -650,7 +650,7 @@ namespace Factory_Inventory
                 string batchno = d.Rows[i]["Batch_No"].ToString();
                 Console.WriteLine("Loading: " + batchno);
                 this.batch_no.Add(batchno);
-                fetch_data value = new fetch_data(float.Parse(d.Rows[i]["Batch_No"].ToString()), d.Rows[i]["Colour"].ToString(), d.Rows[i]["Quality"].ToString(), float.Parse(d.Rows[i]["Dyeing_Rate"].ToString()), d.Rows[i]["Slip_No"].ToString(), d.Rows[i]["Dyeing_In_Date"].ToString());
+                fetch_data value = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), d.Rows[i]["Colour"].ToString(), d.Rows[i]["Quality"].ToString(), float.Parse(d.Rows[i]["Dyeing_Rate"].ToString()), d.Rows[i]["Slip_No"].ToString(), d.Rows[i]["Dyeing_In_Date"].ToString());
                 this.batch_fetch_data[batchno] = value;
             }
         }
