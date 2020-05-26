@@ -669,8 +669,8 @@ namespace Factory_Inventory
                         float.Parse(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString());
                         if (float.Parse(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString()) >= 100.00F)
                         {
-                            c.ErrorBox("Weight should be less than 100", "Error");
-                            dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
+                            //c.ErrorBox("Weight should be less than 100", "Error");
+                            //dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
                         }
                     }
                 }
