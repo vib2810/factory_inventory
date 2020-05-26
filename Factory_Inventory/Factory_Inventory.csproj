@@ -215,6 +215,12 @@
     <Compile Include="M_1_inventoryUC.Designer.cs">
       <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_2_newMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_2_newMain.Designer.cs">
+      <DependentUpon>M_2_newMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_I1_FromToDate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,6 +238,12 @@
     </Compile>
     <Compile Include="M_I1_temp.Designer.cs">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="M_V1_cartonInwardUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="M_V1_cartonInwardUC.Designer.cs">
+      <DependentUpon>M_V1_cartonInwardUC.cs</DependentUpon>
     </Compile>
     <Compile Include="M_V3_issueToReDyeingForm.cs">
       <SubType>Form</SubType>
@@ -468,6 +480,9 @@
     <EmbeddedResource Include="M_1_inventoryUC.resx">
       <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="M_2_newMain.resx">
+      <DependentUpon>M_2_newMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="M_I1_FromToDate.resx">
       <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
     </EmbeddedResource>
@@ -476,6 +491,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_I1_temp.resx">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V1_cartonInwardUC.resx">
+      <DependentUpon>M_V1_cartonInwardUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V3_issueToReDyeingForm.resx">
       <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>

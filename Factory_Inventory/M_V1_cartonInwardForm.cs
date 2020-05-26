@@ -71,9 +71,6 @@ namespace Factory_Inventory
             dataGridView1.Columns[0].ReadOnly = true;
 
             this.billDateChanged = false;
-
-            this.KeyPreview = true;
-
             DataTable d1 = c.getQC('q');
 
             for (int i = 0; i < d1.Rows.Count; i++)

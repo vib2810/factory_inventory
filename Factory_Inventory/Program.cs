@@ -23,8 +23,8 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Properties.Settings.Default.LastIP="192.168.1.12";
-            //Properties.Settings.Default.Save();
+            Properties.Settings.Default.LastIP="192.168.1.37";
+            Properties.Settings.Default.Save();
 
             DbConnect c = new DbConnect();
             //float f=float.Parse("1151.000");
@@ -32,8 +32,8 @@ namespace Factory_Inventory
             //c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
             //M_I1_OnDate f = new M_I1_OnDate();
             //M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
-            
-            //Application.Run(f);
+            M_2_newMain f = new M_2_newMain();
+            Application.Run(f);
             while (true)
             {
                 Login f1 = new Login();
