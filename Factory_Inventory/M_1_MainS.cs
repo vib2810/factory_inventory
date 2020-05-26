@@ -51,7 +51,7 @@ namespace Factory_Inventory
         public DbConnect c;
         public bool logout = false;
         public Button last_clicked;
-        Color select = Color.SteelBlue;
+        public Color select = Color.SteelBlue;
         //Declare all sub-forms globally so we can close them all
         M_1_Signup f2=null;
         private bool close_from_code = false;

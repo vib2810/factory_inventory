@@ -88,6 +88,7 @@ namespace Factory_Inventory
             if (Global.access == 2)
             {
                 this.editDetailsButton.Visible = false;
+                this.label2.Visible = false;
             }
         }
         private void DataGridView1_VisibleChanged(object sender, EventArgs e)
@@ -820,9 +821,9 @@ namespace Factory_Inventory
         private DataTable remove_sales_rows()
         {
             int rows = this.dt.Rows.Count;
+            DataTable d = dt.Clone(); 
             if (rows == 0)
-                return null;
-            DataTable d = dt.Clone();
+                return d;
             for (int i = 0; i < rows; i++)
             {
                 if ((this.vno == 3 || this.vno == 10) && this.dt.Rows[i]["Tablename"].ToString() == "Carton_Produced")

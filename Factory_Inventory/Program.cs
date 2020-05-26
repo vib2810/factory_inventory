@@ -23,8 +23,8 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Properties.Settings.Default.LastIP="192.168.1.12";
-            Properties.Settings.Default.Save();
+            //Properties.Settings.Default.LastIP="192.168.1.12";
+            //Properties.Settings.Default.Save();
 
             DbConnect c = new DbConnect();
             //float f=float.Parse("1151.000");

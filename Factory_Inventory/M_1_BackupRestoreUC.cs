@@ -24,7 +24,7 @@ namespace Factory_Inventory
         {
             InitializeComponent();
             c = new DbConnect(); 
-            this.backupLoactionTB.Text = @"D:\Temp\";
+            this.backupLoactionTB.Text = @"D:\Backups\";
         }
 
         private void DbBackup_Complete(object sender, ServerMessageEventArgs e)

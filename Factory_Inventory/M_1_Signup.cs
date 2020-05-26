@@ -92,7 +92,7 @@ namespace Factory_Inventory
         private void M_1_Signup_FormClosing(object sender, FormClosingEventArgs e)
         {
             f.decolour_all_buttons();
-            f.last_clicked.BackColor = Color.MediumBlue;
+            f.last_clicked.BackColor = f.select;
         }
     }
 }
