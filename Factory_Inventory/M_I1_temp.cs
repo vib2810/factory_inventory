@@ -20,37 +20,37 @@ namespace Factory_Inventory
         private void button1_Click(object sender, EventArgs e)
         {
             M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             M_V_history f = new M_V_history(1);
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             M_V1_cartonTwistForm f = new M_V1_cartonTwistForm();
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             M_V_history f = new M_V_history(2);
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton");
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             M_V_history f = new M_V_history(3);
-            f.Show();
+            Global.background.show_form(f);
         }
     }
 }

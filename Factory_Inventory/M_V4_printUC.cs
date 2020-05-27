@@ -53,25 +53,25 @@ namespace Factory_Inventory
         private void button1_Click(object sender, EventArgs e)
         {
             M_V4_printDyeingOutward f = new M_V4_printDyeingOutward();
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             M_V4_printBatchReport f = new M_V4_printBatchReport();
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
             M_V4_printCartonSlip f = new M_V4_printCartonSlip();
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             M_V4_printDO f = new M_V4_printDO();
-            f.Show();
+            Global.background.show_form(f);
         }
     }
 }

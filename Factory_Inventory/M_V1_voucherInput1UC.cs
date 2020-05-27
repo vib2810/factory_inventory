@@ -87,7 +87,7 @@ namespace Factory_Inventory
                 }
             }
             M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -95,7 +95,7 @@ namespace Factory_Inventory
             if (c.isHistoryFormOpen(1) == false)
             {
                 M_V_history f = new M_V_history(1);
-                f.Show();
+                Global.background.show_form(f);
             }
             
         }
@@ -112,7 +112,7 @@ namespace Factory_Inventory
                 }
             }
             M_V1_cartonTwistForm f = new M_V1_cartonTwistForm();
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -120,7 +120,7 @@ namespace Factory_Inventory
             if (c.isHistoryFormOpen(2) == false)
             {
                 M_V_history f = new M_V_history(2);
-                f.Show();
+                Global.background.show_form(f);
             }
         }
 
@@ -136,7 +136,7 @@ namespace Factory_Inventory
                 }
             }
             M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton");
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -144,14 +144,14 @@ namespace Factory_Inventory
             if (c.isHistoryFormOpen(3) == false)
             {
                 M_V_history f = new M_V_history(3);
-                f.Show();
+                Global.background.show_form(f);
             }
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
             M_VC_addBill f = new M_VC_addBill("Carton");
-            f.Show();
+            Global.background.show_form(f);
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -159,7 +159,7 @@ namespace Factory_Inventory
             if (c.isHistoryFormOpen(10) == false)
             {
                 M_V_history f = new M_V_history(10);
-                f.Show();
+                Global.background.show_form(f);
             }
         }
     }

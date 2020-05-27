@@ -55,7 +55,7 @@ namespace Factory_Inventory
         {
             m_I1_Tables1.Hide();
             M_I1_OnDate f = new M_I1_OnDate();
-            f.Show();
+            Global.background.show_form(f);
             this.decolour_all_buttons();
             this.onDateButton.BackColor = Color.Orange;
         }
@@ -72,7 +72,7 @@ namespace Factory_Inventory
         {
             m_I1_Tables1.Hide();
             M_I1_FromToDate f = new M_I1_FromToDate();
-            f.Show();
+            Global.background.show_form(f);
             this.decolour_all_buttons();
             this.fromtoButton.BackColor = Color.Orange;
         }

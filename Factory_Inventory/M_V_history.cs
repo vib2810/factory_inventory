@@ -135,7 +135,7 @@ namespace Factory_Inventory
                     M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, false, this);
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -144,7 +144,7 @@ namespace Factory_Inventory
                     M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, false, this);
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -153,7 +153,7 @@ namespace Factory_Inventory
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton");
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -162,7 +162,7 @@ namespace Factory_Inventory
                     M_V2_trayInputForm f = new M_V2_trayInputForm(row, false, this);
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -171,7 +171,7 @@ namespace Factory_Inventory
                     M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, false, this);
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -180,7 +180,7 @@ namespace Factory_Inventory
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "dyeingInward");
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -189,7 +189,7 @@ namespace Factory_Inventory
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "addBill");
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -198,7 +198,7 @@ namespace Factory_Inventory
                     M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, false, this);
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -207,7 +207,7 @@ namespace Factory_Inventory
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton_Produced");
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -216,7 +216,7 @@ namespace Factory_Inventory
                     M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton");
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -225,7 +225,7 @@ namespace Factory_Inventory
                     M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton_Produced");
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -234,7 +234,7 @@ namespace Factory_Inventory
                     M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, false, this);
                     if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
@@ -301,7 +301,7 @@ namespace Factory_Inventory
                     M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, true, this);
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -310,7 +310,7 @@ namespace Factory_Inventory
                     M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, true, this);
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -319,7 +319,7 @@ namespace Factory_Inventory
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton");
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -328,7 +328,7 @@ namespace Factory_Inventory
                     M_V2_trayInputForm f = new M_V2_trayInputForm(row, true, this);
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -337,7 +337,7 @@ namespace Factory_Inventory
                     M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, true, this);
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -346,7 +346,7 @@ namespace Factory_Inventory
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "dyeingInward");
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -355,7 +355,7 @@ namespace Factory_Inventory
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "addBill");
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -364,7 +364,7 @@ namespace Factory_Inventory
                     M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, true, this);
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -373,7 +373,7 @@ namespace Factory_Inventory
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton_Produced");
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -382,7 +382,7 @@ namespace Factory_Inventory
                     M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton");
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -391,7 +391,7 @@ namespace Factory_Inventory
                     M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton_Produced");
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }
@@ -400,7 +400,7 @@ namespace Factory_Inventory
                     M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, true, this);
                     if (this.check_showing(new form_data(f, 1, index)) == true)
                     {
-                        f.Show();
+                        Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
                     }
                 }

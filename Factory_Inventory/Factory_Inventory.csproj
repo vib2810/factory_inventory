@@ -146,6 +146,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -459,6 +460,12 @@
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectFolderDialogBox.cs" />
+    <Compile Include="TwistERP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TwistERP.Designer.cs">
+      <DependentUpon>TwistERP.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Display_Carton_Produced.resx">
       <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
     </EmbeddedResource>
@@ -608,6 +615,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_vouchersUC.resx">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TwistERP.resx">
+      <DependentUpon>TwistERP.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="FactoryDataDataSet.xsc">
       <DependentUpon>FactoryDataDataSet.xsd</DependentUpon>
