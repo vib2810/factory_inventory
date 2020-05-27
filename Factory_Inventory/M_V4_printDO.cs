@@ -26,10 +26,12 @@ namespace Factory_Inventory
             //Load Data
             //Create drop-down lists
             var dataSource = new List<string>();
+            var dataSource1 = new List<string>();
             DataTable d = c.getQC('f');
             for (int i = 0; i < d.Rows.Count; i++)
             {
                 dataSource.Add(d.Rows[i][0].ToString());
+                dataSource1.Add(d.Rows[i][0].ToString());
             }
             this.fiscalCB.DataSource = dataSource;
             this.fiscalCB.DisplayMember = "Financial Year";
@@ -38,12 +40,11 @@ namespace Factory_Inventory
             this.fiscalCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.fiscalCB.SelectedIndex = this.fiscalCB.FindStringExact(c.getFinancialYear(DateTime.Now));
 
-            this.fiscal1CB.DataSource = dataSource;
+            this.fiscal1CB.DataSource = dataSource1;
             this.fiscal1CB.DisplayMember = "Financial Year";
             this.fiscal1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.fiscal1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.fiscal1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.fiscal1CB.SelectedIndex = this.fiscal1CB.FindStringExact(c.getFinancialYear(DateTime.Now));
             this.fiscal1CB.SelectedIndex = this.fiscal1CB.FindStringExact(c.getFinancialYear(DateTime.Now));
 
             var dataSource2 = new List<string>();
@@ -158,6 +159,12 @@ namespace Factory_Inventory
         {
             string fiscal_year = this.fiscal1CB.Text;
             string DO_no = DOnoTB.Text;
+            if(string.IsNullOrEmpty(DO_no))
+            {
+                c.ErrorBox("Please Enter DO Number");
+                this.DOnoTB.Focus();
+                return;
+            }
             DataTable result = c.getDOTable(fiscal_year, DO_no.ToUpper());
             if (result.Rows.Count == 0)
             {
@@ -165,8 +172,8 @@ namespace Factory_Inventory
                 this.dt2.Columns.Clear();
                 this.dt2.Columns.Add("Not Found");
                 this.dt2.Rows.Add("No DO Found with the following details: DO Number=" + DO_no + " and Financial Year=" + fiscal_year);
-                this.dataGridView2.Columns[0].Width = 800;
                 this.dataGridView2.DataSource = dt2;
+                this.dataGridView2.Columns[0].Width = 800;
             }
             else
             {
@@ -197,7 +204,7 @@ namespace Factory_Inventory
         }
         private void printButton_Click(object sender, EventArgs e)
         {
-            DataRow row;
+            DataRow row = null;
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int index = this.dataGridView1.SelectedRows[0].Index;
@@ -210,8 +217,9 @@ namespace Factory_Inventory
                 this.dgv1_print_index = index;
                 this.dgv2_print_index = -1;
             }
-            else
+            else if(dataGridView2.SelectedRows.Count > 0)
             {
+                if (dataGridView2.Columns.Count <= 2) return;
                 int index = this.dataGridView2.SelectedRows[0].Index;
                 if (index > this.dataGridView2.Rows.Count - 1)
                 {
@@ -221,6 +229,10 @@ namespace Factory_Inventory
                 row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
                 this.dgv1_print_index = -1;
                 this.dgv2_print_index = index;
+            }
+            else
+            {
+                return;
             }
             printDO f = new printDO(row, this);
             f.Show();

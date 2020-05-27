@@ -40,7 +40,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource = new List<string>();
             DataTable d = c.getQC('f');
-            dataSource.Add("---Select---");
 
             for (int i = 0; i < d.Rows.Count; i++)
             {
@@ -166,6 +165,7 @@ namespace Factory_Inventory
             }
             if (dataGridView2.SelectedRows.Count > 0)
             {
+                if (dataGridView2.Columns.Count <= 2) return;
                 int index = this.dataGridView2.SelectedRows[0].Index;
                 if (index >= this.dataGridView2.Rows.Count)
                 {
@@ -178,7 +178,8 @@ namespace Factory_Inventory
             }
             if (batch_no == -1 || voucher_id == -1)
             {
-                c.ErrorBox("Invalid Batch, couldnt fetch voucher", "Error");
+                //c.ErrorBox("Invalid Batch, couldnt fetch voucher", "Error");
+                return;
             }
             this.printed_voucher_id = voucher_id;
             DataTable voucher = c.getProductionVoucherTable_VoucherID(voucher_id);
@@ -209,7 +210,7 @@ namespace Factory_Inventory
                 total_batch_wts += batch_wt;
                 if (batch_no.ToString() == batch_nos[i]) batch_index = i;
                 string[] batch_tray_ids = c.csvToArray(c.getColumnBatchNo("Tray_ID_Arr", int.Parse(batch_nos[i]), batch_fiscal_years[i]));
-                for (int j = 0; j < batch_tray_ids.Length; j++) tray_ids.Add(batch_tray_ids[i]);
+                for (int j = 0; j < batch_tray_ids.Length; j++) tray_ids.Add(batch_tray_ids[j]);
             }
             dataGridView3.DataSource = this.dt3;
             this.dataGridView3.RowsDefaultCellStyle.BackColor = Color.White;
@@ -361,6 +362,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Batch is not closed yet", "Error");
                 return;
             }
+            if (dataGridView3.Rows.Count <= 0) return;
             this.printed_rows = 0;
             this.rows_to_print = dataGridView4.Rows.Count;
             this.printed_pages = 0;
