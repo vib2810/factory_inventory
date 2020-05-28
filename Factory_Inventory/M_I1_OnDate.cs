@@ -165,18 +165,19 @@ namespace Factory_Inventory
             if (dgv_index == 4 || dgv_index == -1)
             {
 
-            }
-            if (dgv_index == 5 || dgv_index == -1)
-            {
-
                 for (int i = 0; i < dataGridView5.Rows.Count; i++)
                 {
                     if (dataGridView5.Rows[i].Cells["dyecon"].Value.ToString() == "2")
                     {
+                        Console.WriteLine("setting for " + i);
                         dataGridView5.Rows[i].DefaultCellStyle.SelectionBackColor = Color.OrangeRed;
                         dataGridView5.Rows[i].DefaultCellStyle.BackColor = Color.OrangeRed;
                     }
                 }
+                //dataGridView5.Visible = false; dataGridView5.Visible = true;
+            }
+            if (dgv_index == 5 || dgv_index == -1)
+            {
             }
         }
         private DataTable getCompanyQualitySummary(DataTable input)
@@ -265,6 +266,7 @@ namespace Factory_Inventory
                 }
             }
         }
+
         private void allQualityCK_CheckedChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < this.dataGridView7.Rows.Count; i++)
