@@ -571,6 +571,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
+                this.dataGridView1.Columns["Net_Weight"].Visible = true;
+                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 9;
+                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
                 this.dataGridView1.Columns["Dyeing_Rate"].Visible = true;
                 this.dataGridView1.Columns["Dyeing_Rate"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Dyeing_Rate"].HeaderText = "Rate";
