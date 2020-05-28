@@ -61,6 +61,30 @@ namespace Factory_Inventory.Factory_Classes
             return builder.ToString();
         }
         
+        //Sql Update
+        public bool sql_update_query()
+        {
+            Console.WriteLine("Hello there");
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = " DROP Table Closing_Stock";
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not make database Changes. Contact technical team with a snapshot(sql_update_query)\n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
         //Utility Functions
         public bool isHistoryFormOpen(int vno)
         {
