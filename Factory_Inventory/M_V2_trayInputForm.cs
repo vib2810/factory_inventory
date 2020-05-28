@@ -543,7 +543,12 @@ namespace Factory_Inventory
                 c.ErrorBox("Production Date is in the future", "Error");
                 return;
             }
-            if(this.machineNoCB.SelectedIndex==0)
+            if (this.qualityCB.SelectedIndex == 0)
+            {
+                c.ErrorBox("Enter Quality", "Error");
+                return;
+            }
+            if (this.machineNoCB.SelectedIndex==0)
             {
                 c.ErrorBox("Enter Machine Number", "Error");
                 return;
