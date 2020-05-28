@@ -22,25 +22,235 @@ namespace Factory_Inventory
             }
             if(keyData==Keys.V)
             {
-                this.button2.PerformClick();
+                this.detailsButton.PerformClick();
                 return false;
             }
             if (keyData == Keys.S)
             {
-                this.button3.PerformClick();
+                this.backButton.PerformClick();
                 return false;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private DbConnect c= new DbConnect();
-        private DataTable cartons, twist_stock, trays, dyeingBatch, ConningBatch, cartonproduced;
+        private DataTable cartons=new DataTable(), twist_stock= new DataTable(), 
+        trays=new DataTable(), dyeingBatch = new DataTable(), ConningBatch= new DataTable(), cartonproduced=new DataTable();
         private int[] dgvstates = new int[6];
         private DataTable[] to_show_details= new DataTable[6];
         private DataTable[] to_show_summary = new DataTable[6];
 
-
         DateTime prev_load_date;
+        public M_I1_OnDate()
+        {
+            InitializeComponent();
+        }
+        private void M_I1_OnDate_Load(object sender, EventArgs e)
+        {
 
+            //Create drop-down Colour list
+            var dataSource = new List<string>();
+            var quality_before_twist = new List<string>();
+            DataTable dt1 = c.getQC('q');
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                dataSource.Add(dt1.Rows[i][0].ToString());
+                quality_before_twist.Add(dt1.Rows[i][3].ToString());
+            }
+
+            this.dataGridView7.Columns.Add("Quality", "Quality");
+            this.dataGridView7.Columns[0].Width = 135;
+            this.dataGridView7.Columns[0].ReadOnly = true;
+
+            DataGridViewCheckBoxColumn dgvCmb1 = new DataGridViewCheckBoxColumn();
+            dgvCmb1.ValueType = typeof(bool);
+            dgvCmb1.Name = "Check";
+            dgvCmb1.HeaderText = "Check";
+            dataGridView7.Columns.Add(dgvCmb1);
+            dataGridView7.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            this.dataGridView7.Columns.Add("Quality Before Twist", "Quality Before Twist");
+            this.dataGridView7.Columns[2].Visible = false;
+
+            for (int i = 0; i < dataSource.Count; i++)
+            {
+                this.dataGridView7.Rows.Add(dataSource[i], false, quality_before_twist[i]);
+            }
+
+            //Create drop-down Colour list
+            var dataSource1 = new List<string>();
+            DataTable dt = c.getQC('l');
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dataSource1.Add(dt.Rows[i][0].ToString());
+            }
+            List<string> final_list = dataSource1.Distinct().ToList();
+
+            this.dataGridView8.Columns.Add("Colour", "Colour");
+            this.dataGridView8.Columns[0].Width = 135;
+            this.dataGridView8.Columns[0].ReadOnly = true;
+
+            DataGridViewCheckBoxColumn dgvCmb = new DataGridViewCheckBoxColumn();
+            dgvCmb.ValueType = typeof(bool);
+            dgvCmb.Name = "Check";
+            dgvCmb.HeaderText = "Check";
+            dataGridView8.Columns.Add(dgvCmb);
+            dataGridView8.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            for (int i = 0; i < final_list.Count; i++)
+            {
+                this.dataGridView8.Rows.Add(final_list[i], false);
+            }
+
+            //Create a drop-down list
+            var dataSource2 = new List<string>();
+            DataTable d2 = c.getQC('c');
+
+            this.dataGridView9.Columns.Add("Company Names", "Company Names");
+            this.dataGridView9.Columns[0].Width = 135;
+            this.dataGridView9.Columns[0].ReadOnly = true;
+
+            DataGridViewCheckBoxColumn dgvCmb2 = new DataGridViewCheckBoxColumn();
+            dgvCmb2.ValueType = typeof(bool);
+            dgvCmb2.Name = "Check";
+            dgvCmb2.HeaderText = "Check";
+            dataGridView9.Columns.Add(dgvCmb2);
+            dataGridView9.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            for (int i = 0; i < d2.Rows.Count; i++)
+            {
+                this.dataGridView9.Rows.Add(d2.Rows[i][0].ToString(), false);
+            }
+
+            this.allColourCK.Checked = true;
+            this.allQualityCK.Checked = true;
+            this.allCompanyCK.Checked = true;
+
+            this.prev_load_date = DateTime.MinValue;
+
+            var dgvs = this.Controls
+            .OfType<DataGridView>()
+            .Where(x => x.Name.StartsWith("dataGridView"));
+
+            foreach (var dgv in dgvs)
+            {
+                this.dgvEvent(dgv);
+            }
+        }
+
+        //user fns
+        private void set_summary_column_widths(DataGridView d)
+        {
+            d.Columns[0].Width = 150;
+            d.Columns[1].Width = 150;
+            d.Columns[2].Width = 100;
+            d.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+        private void set_details_column_widths(int dgv_index)
+        {
+            if (dgv_index == 0 || dgv_index == -1)
+            {
+
+            }
+            if (dgv_index == 1 || dgv_index == -1)
+            {
+
+            }
+            if (dgv_index == 2 || dgv_index == -1)
+            {
+
+            }
+            if (dgv_index == 3 || dgv_index == -1)
+            {
+
+            }
+            if (dgv_index == 4 || dgv_index == -1)
+            {
+
+            }
+            if (dgv_index == 5 || dgv_index == -1)
+            {
+
+                for (int i = 0; i < dataGridView5.Rows.Count; i++)
+                {
+                    if (dataGridView5.Rows[i].Cells["dyecon"].Value.ToString() == "2")
+                    {
+                        dataGridView5.Rows[i].DefaultCellStyle.SelectionBackColor = Color.OrangeRed;
+                        dataGridView5.Rows[i].DefaultCellStyle.BackColor = Color.OrangeRed;
+                    }
+                }
+            }
+        }
+        private DataTable getCompanyQualitySummary(DataTable input)
+        {
+            DataTable ans = new DataTable();
+            ans.Columns.Add("Company Name");
+            ans.Columns.Add("Quality");
+            ans.Columns.Add("Net Weight");
+
+
+            //Dictionary<string, bool> companies = new Dictionary<string, bool>();
+            DataView dv = input.DefaultView;
+            dv.Sort = "Company_Name desc";
+            input = dv.ToTable();
+            string prev_company = "";
+            for (int i = 0; i < input.Rows.Count; i++)
+            {
+                string company = input.Rows[i]["Company_Name"].ToString();
+                string quality = input.Rows[i]["Quality"].ToString();
+                float net_weight = float.Parse(input.Rows[i]["Net_Weight"].ToString());
+                if (company == prev_company)
+                {
+                    bool quality_exists = false;
+                    for (int j = 0; j < ans.Rows.Count; j++)
+                    {
+                        string anscompany = ans.Rows[j]["Company Name"].ToString();
+                        string ansquality = ans.Rows[j]["Quality"].ToString();
+                        float ansnet_weight = 0F;
+                        if (ans.Rows[j]["Net Weight"].ToString() != "") ansnet_weight = float.Parse(ans.Rows[j]["Net Weight"].ToString());
+
+                        if (anscompany == company && ansquality == quality)
+                        {
+                            ans.Rows[j]["Net Weight"] = ansnet_weight + net_weight;
+                            quality_exists = true;
+                            break;
+                        }
+                    }
+                    if (quality_exists == false) ans.Rows.Add(company, quality, net_weight.ToString("F3"));
+                }
+                else
+                {
+                    if (ans.Rows.Count != 0) ans.Rows.Add("", "", "");
+                    ans.Rows.Add(company, quality, net_weight.ToString("F3"));
+                    prev_company = company;
+                }
+            }
+            return ans;
+        }
+        private void deselect_dgvs(object sender, EventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+            if (dgv == dataGridView2)
+            {
+                this.detailsButton.Enabled = false;
+                this.backButton.Enabled = false;
+            }
+            else
+            {
+                this.detailsButton.Enabled = true;
+                this.backButton.Enabled = true;
+            }
+            if (dataGridView1.SelectedRows.Count != 0 && dataGridView1 != dgv) dataGridView1.SelectedRows[0].Selected = false;
+            if (dataGridView2.SelectedRows.Count != 0 && dataGridView2 != dgv) dataGridView2.SelectedRows[0].Selected = false;
+            if (dataGridView3.SelectedRows.Count != 0 && dataGridView3 != dgv) dataGridView3.SelectedRows[0].Selected = false;
+            if (dataGridView4.SelectedRows.Count != 0 && dataGridView4 != dgv) dataGridView4.SelectedRows[0].Selected = false;
+            if (dataGridView5.SelectedRows.Count != 0 && dataGridView5 != dgv) dataGridView5.SelectedRows[0].Selected = false;
+            if (dataGridView6.SelectedRows.Count != 0 && dataGridView6 != dgv) dataGridView6.SelectedRows[0].Selected = false;
+        }
+        private void dgvEvent(DataGridView dgv)
+        {
+            dgv.Click += new EventHandler(this.deselect_dgvs);
+        }
+
+        //checkbox
         private void allCompanyCK_CheckedChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < this.dataGridView9.Rows.Count; i++)
@@ -55,40 +265,58 @@ namespace Factory_Inventory
                 }
             }
         }
-        private void deselect_dgvs(object sender, EventArgs e)
+        private void allQualityCK_CheckedChanged(object sender, EventArgs e)
         {
-            DataGridView dgv = sender as DataGridView;
-            if (dgv == dataGridView2)
+            for (int i = 0; i < this.dataGridView7.Rows.Count; i++)
             {
-                this.button2.Enabled = false;
-                this.button3.Enabled = false;
+                if (this.allQualityCK.Checked == true)
+                {
+                    this.dataGridView7.Rows[i].Cells[1].Value = true;
+                }
+                else
+                {
+                    this.dataGridView7.Rows[i].Cells[1].Value = false;
+                }
             }
-            else
-            {
-                this.button2.Enabled = true;
-                this.button3.Enabled = true;
-            }
-            if (dataGridView1.SelectedRows.Count != 0 && dataGridView1 != dgv) dataGridView1.SelectedRows[0].Selected = false;
-            if (dataGridView2.SelectedRows.Count != 0 && dataGridView2 != dgv) dataGridView2.SelectedRows[0].Selected = false;
-            if (dataGridView3.SelectedRows.Count != 0 && dataGridView3 != dgv) dataGridView3.SelectedRows[0].Selected = false;
-            if (dataGridView4.SelectedRows.Count != 0 && dataGridView4 != dgv) dataGridView4.SelectedRows[0].Selected = false;
-            if (dataGridView5.SelectedRows.Count != 0 && dataGridView5 != dgv) dataGridView5.SelectedRows[0].Selected = false;
-            if (dataGridView6.SelectedRows.Count != 0 && dataGridView6 != dgv) dataGridView6.SelectedRows[0].Selected = false;
         }
-        private void dgvEvent(DataGridView dgv)
+        private void allColourCK_CheckedChanged(object sender, EventArgs e)
         {
-            dgv.Click += new EventHandler(this.deselect_dgvs);
+            for (int i = 0; i < this.dataGridView8.Rows.Count; i++)
+            {
+                if (this.allColourCK.Checked == true)
+                {
+                    this.dataGridView8.Rows[i].Cells[1].Value = true;
+                }
+                else
+                {
+                    this.dataGridView8.Rows[i].Cells[1].Value = false;
+                }
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        //buttons
+        private void loadButton_Click(object sender, EventArgs e)
         {
             if (prev_load_date != this.dateTimePicker1.Value)
             {
                 this.cartons = c.getInventoryCarton(this.dateTimePicker1.Value);
                 this.twist_stock = c.getTwistStock2(this.dateTimePicker1.Value);
                 this.trays = c.getInventoryTray(this.dateTimePicker1.Value);
-                this.dyeingBatch = c.getInventoryDyeingBatch(this.dateTimePicker1.Value);
-                this.ConningBatch = c.getInventoryConningBatch(this.dateTimePicker1.Value);
+                c.printDataTable(trays, "Trays");
+                DataTable batch_inv = c.getInventoryBatch(this.dateTimePicker1.Value);
+                this.dyeingBatch = batch_inv.Clone(); this.dyeingBatch.Clear();
+                this.ConningBatch= batch_inv.Clone(); this.ConningBatch.Clear();
+                for (int i=0; i<batch_inv.Rows.Count; i++)
+                {
+                    if(batch_inv.Rows[i]["dyecon"].ToString()=="1")
+                    {
+                        this.dyeingBatch.Rows.Add(batch_inv.Rows[i].ItemArray);
+                    }
+                    else
+                    {
+                        this.ConningBatch.Rows.Add(batch_inv.Rows[i].ItemArray);
+                    }
+                }
                 this.cartonproduced = c.getInventoryCartonProduced(this.dateTimePicker1.Value);
             }
             #region
@@ -291,6 +519,7 @@ namespace Factory_Inventory
             this.to_show_details[1] = twist_stock_to_show;
 
             this.to_show_summary[2] = this.getCompanyQualitySummary(trays_to_show);
+            c.printDataTable(this.to_show_summary[2], "Trays Summary");
             dataGridView3.DataSource = this.to_show_summary[2];
             set_summary_column_widths(dataGridView3);
             this.to_show_details[2] = trays_to_show;
@@ -327,7 +556,7 @@ namespace Factory_Inventory
             }
             prev_load_date = this.dateTimePicker1.Value;
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void detailsButton_Click(object sender, EventArgs e)
         {
             //view details form or details
             if(this.dataGridView1.SelectedRows.Count!=0)
@@ -341,6 +570,7 @@ namespace Factory_Inventory
                 {
                     dataGridView1.DataSource = this.to_show_details[0];
                     this.dgvstates[0] = 1;
+                    set_details_column_widths(0);
                 }
             }
             else if (this.dataGridView3.SelectedRows.Count != 0)
@@ -354,6 +584,7 @@ namespace Factory_Inventory
                 {
                     dataGridView3.DataSource = this.to_show_details[2];
                     this.dgvstates[2] = 1;
+                    set_details_column_widths(2);
                 }
             }
             else if (this.dataGridView4.SelectedRows.Count!= 0)
@@ -367,6 +598,7 @@ namespace Factory_Inventory
                 {
                     dataGridView4.DataSource = this.to_show_details[3];
                     this.dgvstates[3] = 1;
+                    set_details_column_widths(3);
                 }
             }
             else if (this.dataGridView5.SelectedRows.Count!=0)
@@ -380,6 +612,7 @@ namespace Factory_Inventory
                 {
                     dataGridView5.DataSource = this.to_show_details[4];
                     this.dgvstates[4] = 1;
+                    set_details_column_widths(4);
                 }
             }
             else if (this.dataGridView6.SelectedRows.Count!= 0)
@@ -392,11 +625,12 @@ namespace Factory_Inventory
                 else
                 {
                     dataGridView6.DataSource = this.to_show_details[5];
+                    set_details_column_widths(5);
                     this.dgvstates[5] = 1;
                 }
             }
         }
-        private void button3_Click(object sender, EventArgs e)
+        private void backButton_Click(object sender, EventArgs e)
         {
             //switch to summary
             if (this.dataGridView1.SelectedRows.Count != 0)
@@ -445,182 +679,6 @@ namespace Factory_Inventory
                 }
             }
         }
-        public M_I1_OnDate()
-        {
-            InitializeComponent();
-        }
-        private void set_summary_column_widths(DataGridView d)
-        {
-            d.Columns[0].Width = 150;
-            d.Columns[1].Width = 150;
-            d.Columns[2].Width = 100;
-            d.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-        }
-        private void M_I1_OnDate_Load(object sender, EventArgs e)
-        {
 
-            //Create drop-down Colour list
-            var dataSource = new List<string>();
-            var quality_before_twist = new List<string>();
-            DataTable dt1 = c.getQC('q');
-            for (int i = 0; i < dt1.Rows.Count; i++)
-            {
-                dataSource.Add(dt1.Rows[i][0].ToString());
-                quality_before_twist.Add(dt1.Rows[i][3].ToString());
-            }
-
-            this.dataGridView7.Columns.Add("Quality", "Quality");
-            this.dataGridView7.Columns[0].Width = 135;
-            this.dataGridView7.Columns[0].ReadOnly= true;
-
-            DataGridViewCheckBoxColumn dgvCmb1 = new DataGridViewCheckBoxColumn();
-            dgvCmb1.ValueType = typeof(bool);
-            dgvCmb1.Name = "Check";
-            dgvCmb1.HeaderText = "Check";
-            dataGridView7.Columns.Add(dgvCmb1);
-            dataGridView7.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            this.dataGridView7.Columns.Add("Quality Before Twist", "Quality Before Twist");
-            this.dataGridView7.Columns[2].Visible = false;
-
-            for (int i = 0; i < dataSource.Count; i++)
-            {
-                this.dataGridView7.Rows.Add(dataSource[i], false, quality_before_twist[i]);
-            }
-
-            //Create drop-down Colour list
-            var dataSource1 = new List<string>();
-            DataTable dt = c.getQC('l');
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                dataSource1.Add(dt.Rows[i][0].ToString());
-            }
-            List<string> final_list = dataSource1.Distinct().ToList();
-            
-            this.dataGridView8.Columns.Add("Colour", "Colour");
-            this.dataGridView8.Columns[0].Width = 135;
-            this.dataGridView8.Columns[0].ReadOnly = true;
-
-            DataGridViewCheckBoxColumn dgvCmb = new DataGridViewCheckBoxColumn();
-            dgvCmb.ValueType = typeof(bool);
-            dgvCmb.Name = "Check";
-            dgvCmb.HeaderText = "Check";
-            dataGridView8.Columns.Add(dgvCmb);
-            dataGridView8.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            for (int i=0;i<final_list.Count;i++)
-            {
-                this.dataGridView8.Rows.Add(final_list[i], false);
-            }
-
-            //Create a drop-down list
-            var dataSource2 = new List<string>();
-            DataTable d2 = c.getQC('c');
-            
-            this.dataGridView9.Columns.Add("Company Names", "Company Names");
-            this.dataGridView9.Columns[0].Width = 135;
-            this.dataGridView9.Columns[0].ReadOnly = true;
-
-            DataGridViewCheckBoxColumn dgvCmb2 = new DataGridViewCheckBoxColumn();
-            dgvCmb2.ValueType = typeof(bool);
-            dgvCmb2.Name = "Check";
-            dgvCmb2.HeaderText = "Check";
-            dataGridView9.Columns.Add(dgvCmb2);
-            dataGridView9.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            for (int i = 0; i < d2.Rows.Count; i++)
-            {
-                this.dataGridView9.Rows.Add(d2.Rows[i][0].ToString(), false);
-            }
-
-            this.allColourCK.Checked = true;
-            this.allQualityCK.Checked = true;
-            this.allCompanyCK.Checked = true;
-
-            this.prev_load_date = DateTime.MinValue;
-
-            var dgvs = this.Controls
-            .OfType<DataGridView>()
-            .Where(x => x.Name.StartsWith("dataGridView"));
-
-            foreach (var dgv in dgvs)
-            {
-                this.dgvEvent(dgv);
-            }
-        }
-        private void allQualityCK_CheckedChanged(object sender, EventArgs e)
-        {
-            for(int i=0;i<this.dataGridView7.Rows.Count;i++)
-            {
-                if(this.allQualityCK.Checked==true)
-                {
-                    this.dataGridView7.Rows[i].Cells[1].Value = true;
-                }
-                else
-                {
-                    this.dataGridView7.Rows[i].Cells[1].Value = false;
-                }
-            }
-        }
-        private void allColourCK_CheckedChanged(object sender, EventArgs e)
-        {
-            for (int i = 0; i < this.dataGridView8.Rows.Count; i++)
-            {
-                if (this.allColourCK.Checked == true)
-                {
-                    this.dataGridView8.Rows[i].Cells[1].Value = true;
-                }
-                else
-                {
-                    this.dataGridView8.Rows[i].Cells[1].Value = false;
-                }
-            }
-        }
-        private DataTable getCompanyQualitySummary(DataTable input)
-        {
-            DataTable ans = new DataTable();
-            ans.Columns.Add("Company Name");
-            ans.Columns.Add("Quality");
-            ans.Columns.Add("Net Weight");
-
-
-            //Dictionary<string, bool> companies = new Dictionary<string, bool>();
-            DataView dv = input.DefaultView;
-            dv.Sort = "Company_Name desc";
-            input = dv.ToTable();
-            string prev_company = "";
-            for (int i=0; i<input.Rows.Count; i++)
-            {
-                string company = input.Rows[i]["Company_Name"].ToString();
-                string quality = input.Rows[i]["Quality"].ToString();
-                float net_weight= float.Parse(input.Rows[i]["Net_Weight"].ToString());
-                if (company==prev_company)
-                {
-                    bool quality_exists = false;
-                    for(int j=0; j<ans.Rows.Count; j++)
-                    {
-                        string anscompany = ans.Rows[j]["Company Name"].ToString();
-                        string ansquality = ans.Rows[j]["Quality"].ToString();
-                        Console.WriteLine(ans.Rows[j]["Net Weight"].ToString());
-                        float ansnet_weight = 0F;
-                        if (ans.Rows[j]["Net Weight"].ToString()!="") ansnet_weight = float.Parse(ans.Rows[j]["Net Weight"].ToString());
-
-                        if (anscompany==company && ansquality==quality)
-                        {
-                            ans.Rows[j]["Net Weight"] = ansnet_weight + net_weight;
-                            quality_exists = true;
-                            break;
-                        }
-                    }
-                    if(quality_exists==false) ans.Rows.Add(company, quality, net_weight.ToString("F3"));
-                }
-                else
-                {
-                    if(ans.Rows.Count!=0) ans.Rows.Add("", "", "");
-                    ans.Rows.Add(company, quality, net_weight.ToString("F3"));
-                    prev_company = company;
-                }
-            }
-            return ans;
-        }
     }
 }

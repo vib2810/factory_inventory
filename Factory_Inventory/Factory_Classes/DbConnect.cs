@@ -264,9 +264,9 @@ namespace Factory_Inventory.Factory_Classes
             foreach (DataGridViewColumn col in dgv.Columns)
                 col.SortMode = sortMode;
         }
-        public void printDataTable(DataTable d)
+        public void printDataTable(DataTable d, string s="")
         {
-            Console.WriteLine("Printing DataTable");
+            Console.WriteLine("Printing DataTable "+s);
             for(int i=0; i<d.Rows.Count; i++)
             {
                 for(int j=0; j<d.Columns.Count; j++)
@@ -5019,12 +5019,12 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 //SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_No, Tray_Production_Date, Dyeing_Out_Date,  Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist FROM Tray_Active WHERE Tray_Production_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Tray_Active WHERE Tray_Production_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
-                sda.Fill(dt);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Tray_Active WHERE Tray_Production_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>'" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
+                sda.Fill(dt); //state is extra
                 dt1 = dt.Copy();
                 dt.Clear();
                 //SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Tray_No, Tray_Production_Date, Dyeing_Out_Date,  Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist FROM Tray_History WHERE Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
-                SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * FROM Tray_History WHERE Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
+                SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * FROM Tray_History WHERE Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Dyeing_Out_Date>'" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Dyeing_Out_Date IS NULL) ORDER BY Tray_Production_Date", con);
                 sda2.Fill(dt);
             }
             catch(Exception e)
@@ -5066,7 +5066,7 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Dyeing_In_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Date_Of_Production>='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Date_Of_Production IS NULL) AND Batch_State!=4 ORDER BY Dyeing_In_Date", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Batch WHERE Dyeing_In_Date <='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND (Date_Of_Production>'" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' OR Date_Of_Production IS NULL) AND Batch_State!=4 ORDER BY Dyeing_In_Date", con);
                 sda.Fill(dt);
             }
             catch (Exception e)
@@ -5100,7 +5100,49 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
+        public DataTable getInventoryBatch(DateTime d)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                string from_date = d.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+                string sql =
+                    "DECLARE @from varchar(20) " +
+                    " SET @from = '"+from_date+"';" +
+                    " select * from " +
+                    " ( " +
+                    " select " +
+                    " case " +
+                    " when Dyeing_Out_Date <= @from AND(Dyeing_In_Date > @from OR Dyeing_In_Date IS NULL) then 1 " +
+                    " when Dyeing_In_Date <= @from AND Batch_State != 4 then " +
+                        " (case " +
+                            " when(Start_Date_Of_Production >= @from AND Date_Of_Production IS NULL)  then 2 " +
+                            " when(Date_Of_Production >= @from OR Date_Of_Production IS NULL) then 3 " +
+                        " end) " +
+                    " end as dyecon, " +
+                    " T.* " +
+                    " from Batch as T " +
+                    " where Dyeing_Out_Date <= @from OR Dyeing_In_Date <= @from " +
+                    " ) as C where dyecon is not null";
+                Console.WriteLine(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not connect to database (getInventoryCarton)\n" + e.Message, "Exception");
+                con.Close();
+                return new DataTable();
+            }
+            finally
+            {
+                con.Close();
 
+            }
+            this.printDataTable(dt);
+            return dt;
+        }
         //From To Inventory
         public DataTable getInventoryCarton(DateTime from, DateTime to)
         {
@@ -5153,6 +5195,8 @@ namespace Factory_Inventory.Factory_Classes
             this.printDataTable(dt);
             return dt;
         }
+
+        
     }
 
 

@@ -55,8 +55,8 @@
             this.allColourCK = new System.Windows.Forms.CheckBox();
             this.allCompanyCK = new System.Windows.Forms.CheckBox();
             this.dataGridView9 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.detailsButton = new System.Windows.Forms.Button();
+            this.backButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -100,7 +100,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Load Data";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // dataGridView1
             // 
@@ -374,27 +374,27 @@
             this.dataGridView9.Size = new System.Drawing.Size(215, 279);
             this.dataGridView9.TabIndex = 0;
             // 
-            // button2
+            // detailsButton
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button2.Location = new System.Drawing.Point(1195, 32);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 33);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "View Details";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.detailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.detailsButton.Location = new System.Drawing.Point(1195, 32);
+            this.detailsButton.Name = "detailsButton";
+            this.detailsButton.Size = new System.Drawing.Size(117, 33);
+            this.detailsButton.TabIndex = 3;
+            this.detailsButton.Text = "View Details";
+            this.detailsButton.UseVisualStyleBackColor = true;
+            this.detailsButton.Click += new System.EventHandler(this.detailsButton_Click);
             // 
-            // button3
+            // backButton
             // 
-            this.button3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button3.Location = new System.Drawing.Point(1072, 32);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(117, 33);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Go Back";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.backButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.backButton.Location = new System.Drawing.Point(1072, 32);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(117, 33);
+            this.backButton.TabIndex = 4;
+            this.backButton.Text = "Go Back";
+            this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // label8
             // 
@@ -426,8 +426,8 @@
             this.ClientSize = new System.Drawing.Size(1902, 1033);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.backButton);
+            this.Controls.Add(this.detailsButton);
             this.Controls.Add(this.allCompanyCK);
             this.Controls.Add(this.dataGridView9);
             this.Controls.Add(this.allColourCK);
@@ -500,8 +500,8 @@
         private System.Windows.Forms.CheckBox allColourCK;
         private System.Windows.Forms.CheckBox allCompanyCK;
         private System.Windows.Forms.DataGridView dataGridView9;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button detailsButton;
+        private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
     }
