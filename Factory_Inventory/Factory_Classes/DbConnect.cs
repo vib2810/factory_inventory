@@ -2952,7 +2952,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Dyeing_Issue_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Colour, Dyeing_Company_Name, Batch_No, Tray_No_Arr, Number_Of_Trays, Dyeing_Rate, Tray_ID_Arr, Batch_Fiscal_Year) VALUES ('" + inputDate + "','" + issueDate + "', '" + quality + "', '" + company_name + "', '" + colour + "' , '" + dyeing_company_name + "', " + batchno + ", '" + trayno + "', "+number+", "+rate+", '"+trayid+"', '"+fiscal_year+"')";
+                string sql = "INSERT INTO Dyeing_Issue_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Colour, Dyeing_Company_Name, Batch_No, Tray_No_Arr, Number_Of_Trays, Dyeing_Rate, Tray_ID_Arr, Batch_Fiscal_Year, Net_Weight) VALUES ('" + inputDate + "','" + issueDate + "', '" + quality + "', '" + company_name + "', '" + colour + "' , '" + dyeing_company_name + "', " + batchno + ", '" + trayno + "', "+number+", "+rate+", '"+trayid+"', '"+fiscal_year+"', "+net_wt+")";
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
                 this.SuccessBox("Voucher Added Successfully");
@@ -3017,7 +3017,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Dyeing_Issue_Voucher Set Date_Of_Issue='"+issueDate+"', Quality='"+quality+"', Company_Name='"+company_name+"', Colour='"+colour+"', Dyeing_Company_Name='"+dyeing_company_name+"', Batch_No="+batchno+", Tray_No_Arr='"+trayno+"', Number_Of_Trays=" + number+" , Dyeing_Rate = "+rate+", Tray_ID_Arr='"+tray_id_arr+"', Batch_Fiscal_Year = '"+fiscal_year+"' WHERE Voucher_ID="+voucherID;
+                string sql = "UPDATE Dyeing_Issue_Voucher Set Date_Of_Issue='"+issueDate+"', Quality='"+quality+"', Company_Name='"+company_name+"', Colour='"+colour+"', Dyeing_Company_Name='"+dyeing_company_name+"', Batch_No="+batchno+", Tray_No_Arr='"+trayno+"', Number_Of_Trays=" + number+" , Dyeing_Rate = "+rate+", Tray_ID_Arr='"+tray_id_arr+"', Batch_Fiscal_Year = '"+fiscal_year+"', Net_Weight = "+net_wt+" WHERE Voucher_ID="+voucherID;
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
