@@ -817,6 +817,7 @@ namespace Factory_Inventory
             dataGridView1.Visible = true;
             try { this.dataGridView1.Rows[this.prev_selected_row].Selected = true; }
             catch { }
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         private DataTable remove_sales_rows()
         {

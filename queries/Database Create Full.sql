@@ -366,7 +366,8 @@ CREATE TABLE Batch (
 	Voucher_ID int NULL,
     Printed tinyint NULL,
     Slip_No varchar(20) NULL,
-    Redyeing varchar(30) NULL
+    Redyeing varchar(30) NULL,
+	Start_Date_Of_Production date NULL
 );
 
 GO
@@ -528,6 +529,7 @@ create table Carton_Production_Voucher
 	Batch_Fiscal_Year_Arr text NOT NULL,
 	Deleted tinyint NULL,
 	Printed tinyint NULL,
+	Start_Date_Of_Production date NULL
 );
 
 GO
