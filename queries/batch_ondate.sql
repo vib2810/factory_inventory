@@ -3,7 +3,7 @@
 use FactoryData
 DECLARE @from varchar(20)
 DECLARE @to varchar(20)
-    SET @from = '2020-03-31';
+    SET @from = '2020-05-28';
     select *
     from
     (
@@ -12,8 +12,8 @@ DECLARE @to varchar(20)
 			when Dyeing_Out_Date <=@from AND (Dyeing_In_Date>@from OR Dyeing_In_Date IS NULL) then 1
 			when Dyeing_In_Date <= @from AND Batch_State!=4 then
 				(case 
-					when (Start_Date_Of_Production > @from AND Date_Of_Production IS NULL)  then 2
-					when (Date_Of_Production > @from OR Date_Of_Production IS NULL) then 3
+					when (Start_Date_Of_Production >= @from AND Date_Of_Production IS NULL)  then 2
+					when (Date_Of_Production >= @from OR Date_Of_Production IS NULL) then 3
 				end)
 		 end as dyecon,
          T.*

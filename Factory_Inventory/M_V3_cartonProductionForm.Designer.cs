@@ -515,7 +515,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Button deleteButton;
+        public System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox nextcartonnoTB;
     }

@@ -1168,7 +1168,7 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT +"+cols+" FROM " + tablename + " WHERE " + where, con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT "+cols+" FROM " + tablename + " WHERE " + where, con);
                 sda.Fill(dt);
             }
             catch (Exception e)
