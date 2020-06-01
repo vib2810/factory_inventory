@@ -529,9 +529,6 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Tray_No"].Visible = true;
                 this.dataGridView1.Columns["Tray_No"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Tray_No"].HeaderText = "Tray Number";
-                this.dataGridView1.Columns["Tray_Production_Date"].Visible = true;
-                this.dataGridView1.Columns["Tray_Production_Date"].DisplayIndex = 4;
-                this.dataGridView1.Columns["Tray_Production_Date"].HeaderText = "Production Date";
                 this.dataGridView1.Columns["Quality"].Visible = true;
                 this.dataGridView1.Columns["Quality"].DisplayIndex = 6;
                 this.dataGridView1.Columns["Quality"].HeaderText = "Quality";
@@ -571,9 +568,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
-                this.dataGridView1.Columns["Dyeing_Rate"].Visible = true;
-                this.dataGridView1.Columns["Dyeing_Rate"].DisplayIndex = 10;
-                this.dataGridView1.Columns["Dyeing_Rate"].HeaderText = "Rate";
+                this.dataGridView1.Columns["Net_Weight"].Visible = true;
+                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 9;
+                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
                 c.auto_adjust_dgv(this.dataGridView1);
 
             }       //Dyeing Issue
@@ -817,6 +814,7 @@ namespace Factory_Inventory
             dataGridView1.Visible = true;
             try { this.dataGridView1.Rows[this.prev_selected_row].Selected = true; }
             catch { }
+            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         private DataTable remove_sales_rows()
         {

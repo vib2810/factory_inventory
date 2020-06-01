@@ -320,9 +320,8 @@ CREATE TABLE Dyeing_Issue_Voucher(
 	Dyeing_Rate decimal(5,2) NOT NULL,
 	Tray_ID_Arr text NOT NULL,
 	Fiscal_Year varchar(15) NOT NULL,
-	Deleted tinyint NULL
-
-);
+	Deleted tinyint NULL,
+	Net_Weight decimal(7,3) NOT NULL
 
 GO
 CREATE NONCLUSTERED INDEX [Voucher_ID] ON [dbo].[Dyeing_Issue_Voucher]
@@ -366,7 +365,8 @@ CREATE TABLE Batch (
 	Voucher_ID int NULL,
     Printed tinyint NULL,
     Slip_No varchar(20) NULL,
-    Redyeing varchar(30) NULL
+    Redyeing varchar(30) NULL,
+	Start_Date_Of_Production date NULL
 );
 
 GO
@@ -528,6 +528,7 @@ create table Carton_Production_Voucher
 	Batch_Fiscal_Year_Arr text NOT NULL,
 	Deleted tinyint NULL,
 	Printed tinyint NULL,
+	Start_Date_Of_Production date NULL
 );
 
 GO

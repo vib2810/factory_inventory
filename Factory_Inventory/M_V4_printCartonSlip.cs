@@ -37,7 +37,6 @@ namespace Factory_Inventory
             //Create drop-down lists 
             var dataSource = new List<string>();
             DataTable d = c.getQC('f');
-            dataSource.Add("---Select---");
 
             for (int i = 0; i < d.Rows.Count; i++)
             {
@@ -138,6 +137,7 @@ namespace Factory_Inventory
             }
             if (dataGridView2.SelectedRows.Count > 0)
             {
+                if (dataGridView2.Columns.Count <= 2) return;
                 int index = this.dataGridView2.SelectedRows[0].Index;
                 if (index >= this.dataGridView2.Rows.Count - 1)
                 {
@@ -150,7 +150,8 @@ namespace Factory_Inventory
             }
             if (batch_no == -1 || voucher_id == -1)
             {
-                c.ErrorBox("Invalid Batch, couldnt fetch voucher", "Error");
+                //c.ErrorBox("Invalid Batch, couldnt fetch voucher", "Error");
+                return;
             }
             DataTable voucher = c.getProductionVoucherTable_VoucherID(voucher_id);
 

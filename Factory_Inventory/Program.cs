@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace Factory_Inventory
 {
@@ -28,16 +29,25 @@ namespace Factory_Inventory
             Properties.Settings.Default.Save();
 
             DbConnect c = new DbConnect();
-            //float f=float.Parse("1151.000");
-            //Console.WriteLine(f);
-            //c.getInventoryCarton(new DateTime(2020, 05, 15), new DateTime(2020, 05, 17));
-            //M_I1_OnDate f = new M_I1_OnDate();
+            if (ConfigurationManager.AppSettings["sql_update"]== "1")
+            {
+                bool updated = false; // c.sql_update_query();
+                if(updated==true) c.SuccessBox("Updated SQL");
+                Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                configuration.AppSettings.Settings.Remove("sql_update");
+                //configuration.AppSettings.Settings["sql_update"].Value = "lala";
+                configuration.Save(ConfigurationSaveMode.Full, true);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
             //M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
+
             
             //Global.background.Show();
             //M_2_newMain f = new M_2_newMain();
             //f.MdiParent = Global.background;
-            //Global.background.show_form(f);
+            //Global.background.show_f
+
+
             //Application.Run(f);
             while (true)
             {

@@ -29,7 +29,6 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource = new List<string>();
             DataTable d = c.getQC('f');
-            dataSource.Add("---Select---");
 
             for (int i = 0; i < d.Rows.Count; i++)
             {
@@ -51,26 +50,24 @@ namespace Factory_Inventory
 
             DataTable dyeing_batches = c.getBatchTable_State(1);
             dataGridView1.DataSource = dyeing_batches;
-            if(dyeing_batches.Rows.Count!=0)
-            {
-                dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
-                this.dataGridView1.Columns["Batch_No"].Visible = true;
-                this.dataGridView1.Columns["Colour"].Visible = true;
-                this.dataGridView1.Columns["Quality"].Visible = true;
-                this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
-                this.dataGridView1.Columns["Dyeing_Out_Date"].Visible = true;
-                this.dataGridView1.Columns["Net_Weight"].Visible = true;
-                this.dataGridView1.Columns["Number_Of_Trays"].Visible = true;
-                this.dataGridView1.Columns["Fiscal_Year"].Visible = true;
 
-                this.dataGridView1.Columns["Dyeing_Company_Name"].Width = 150;
-                this.dataGridView1.Columns["Dyeing_Out_Date"].Width = 150;
+            dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+            this.dataGridView1.Columns["Batch_No"].Visible = true;
+            this.dataGridView1.Columns["Colour"].Visible = true;
+            this.dataGridView1.Columns["Quality"].Visible = true;
+            this.dataGridView1.Columns["Dyeing_Company_Name"].Visible = true;
+            this.dataGridView1.Columns["Dyeing_Out_Date"].Visible = true;
+            this.dataGridView1.Columns["Net_Weight"].Visible = true;
+            this.dataGridView1.Columns["Number_Of_Trays"].Visible = true;
+            this.dataGridView1.Columns["Fiscal_Year"].Visible = true;
 
-                this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year";
-                this.dataGridView1.Columns["Number_Of_Trays"].HeaderText = "Number of Trays";
-                this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
-                this.dataGridView1.Columns["Dyeing_Out_Date"].HeaderText = "Dyeing Outward Date";
-            }
+            this.dataGridView1.Columns["Dyeing_Company_Name"].Width = 150;
+            this.dataGridView1.Columns["Dyeing_Out_Date"].Width = 150;
+
+            this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year";
+            this.dataGridView1.Columns["Number_Of_Trays"].HeaderText = "Number of Trays";
+            this.dataGridView1.Columns["Dyeing_Company_Name"].HeaderText = "Dyeing Company Name";
+            this.dataGridView1.Columns["Dyeing_Out_Date"].HeaderText = "Dyeing Outward Date";
             dataGridView2.DataSource=dt2;
         }
         private void M_V4_printDyeingOutward_Load(object sender, EventArgs e)
@@ -184,6 +181,7 @@ namespace Factory_Inventory
             }
             else if (dataGridView2.SelectedRows.Count > 0)
             {
+                if (dataGridView2.Columns.Count <= 2) return;
                 int index = this.dataGridView2.SelectedRows[0].Index;
                 if (index > this.dataGridView2.Rows.Count - 1)
                 {
@@ -193,6 +191,10 @@ namespace Factory_Inventory
                 row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
                 this.dgv1_print_index = -1;
                 this.dgv2_print_index = index;
+            }
+            else
+            {
+                return;
             }
             if (row["Tray_ID_Arr"].ToString() == "")
             {
