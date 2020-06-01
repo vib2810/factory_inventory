@@ -5,19 +5,20 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
     static class Global
     {
-        //private static string _ipaddress = "";
+        private static TwistERP _form;
         private static int _access = -1;
         private static Color _printedcolor=Color.GreenYellow;
-        //public static string ipaddress
-        //{
-        //    get { return _ipaddress; }
-        //    set { _ipaddress = value; }
-        //}
+        public static TwistERP background
+        {
+            get { return _form; }
+            set { _form = value; }
+        }
         public static int access
         {
             get { return _access; }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_V1_cartonInwardForm : Form
+    public partial class M_V1_cartonInwardUC : UserControl
     {
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -59,7 +59,7 @@ namespace Factory_Inventory
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
         private M_V_history v1_history;
         bool inputerror1 = false; //to stop movement of tab in non numeric weight etc, not done yet
-        public M_V1_cartonInwardForm()
+        public M_V1_cartonInwardUC()
         {
             this.c = new DbConnect();
             InitializeComponent();
@@ -108,7 +108,7 @@ namespace Factory_Inventory
             inputDate.Enabled = false;
             this.edit_form = false;
         }
-        public M_V1_cartonInwardForm(DataRow row, bool isEditable, M_V_history v1_history)
+        public M_V1_cartonInwardUC(DataRow row, bool isEditable, M_V_history v1_history)
         {
             InitializeComponent();
             this.edit_form = true;
@@ -666,8 +666,8 @@ namespace Factory_Inventory
                         float.Parse(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString());
                         if (float.Parse(dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString()) >= 100.00F)
                         {
-                            //c.ErrorBox("Weight should be less than 100", "Error");
-                            //dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
+                            c.ErrorBox("Weight should be less than 100", "Error");
+                            dataGridView1.Rows[e.RowIndex].Cells[3].Value = null;
                         }
                     }
                 }

@@ -235,7 +235,7 @@ namespace Factory_Inventory
                 return;
             }
             printDO f = new printDO(row, this);
-            f.Show();
+            Global.background.show_form(f);
         }
         private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
         {
