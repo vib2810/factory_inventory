@@ -25,8 +25,6 @@ namespace Factory_Inventory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Properties.Settings.Default.LastIP="192.168.1.12";
-            Properties.Settings.Default.Save();
 
             DbConnect c = new DbConnect();
             if (ConfigurationManager.AppSettings["sql_update"]== "1")
