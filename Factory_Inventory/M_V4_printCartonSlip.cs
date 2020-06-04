@@ -463,10 +463,10 @@ namespace Factory_Inventory
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x, write_height, x+width, write_height);
             
             write_height += gap;
-            write(e, x + (int)(0.02 * width), write_height, (int)(0.23* width), "Quality : ", basic_size+3, 'l', 0, 0);
-            write(e, x + (int)(0.25 * width), write_height-2, (int)(0.40 * width), carton_data["Quality"].ToString(), basic_size+5, 'l', 1, 0);
-            write(e, x + (int)(0.65* width), write_height, (int)(0.18 * width), "Shade : ", basic_size+3, 'l', 0, 0);
-            write_height += write(e, x + (int)(0.83* width), write_height-2, (int)(0.15* width), carton_data["Colour"].ToString(), basic_size+5, 'l', 1, 0);
+            write(e, x + (int)(0.02 * width), write_height, (int)(0.18* width), "Quality : ", basic_size+1, 'l', 0, 0);
+            write(e, x + (int)(0.20 * width), write_height-3, (int)(0.45 * width), carton_data["Quality"].ToString(), basic_size+3, 'l', 1, 0);
+            write(e, x + (int)(0.65* width), write_height, (int)(0.15 * width), "Shade : ", basic_size+1, 'l', 0, 0);
+            write_height += write(e, x + (int)(0.80* width), write_height-3, (int)(0.18* width), carton_data["Colour"].ToString(), basic_size+3, 'l', 1, 0);
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x, write_height, x + width, write_height);
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x+(width/2), write_height, x + (width/2), y+height-70);
 
@@ -503,10 +503,15 @@ namespace Factory_Inventory
             string hatch = c.getQualityColour(carton_data["Quality"].ToString());
             if(hatch!="")
             {
-                HatchStyle hs = (HatchStyle)Enum.Parse(typeof(HatchStyle), hatch , true);
-                HatchBrush b = new HatchBrush(hs, Color.Black, Color.White);
-                e.Graphics.DrawRectangle(new Pen(Color.Black, 2), x+1 , y + height -75, width-2,55);
-                e.Graphics.FillRectangle(b, x+1 , y + height -75, width-2, 55);
+                HatchStyle hs = (HatchStyle)Enum.Parse(typeof(HatchStyle), hatch, true);
+                using (HatchBrush hbr2 = new HatchBrush(hs, Color.Black, Color.White))
+                {
+                    using (TextureBrush tbr = c.TBrush(hbr2))
+                    {
+                        tbr.ScaleTransform(2.50F, 2.50F);
+                        e.Graphics.FillRectangle(tbr, x + 1, y + height - 75, width - 2, 55);
+                    }
+                }
             }
             write(e, x + (int)(0.02 * width), y+height-20, (int)(0.96* width), "Note: Please do not mix two different Batches", basic_size, 'c', 0, 0);
             return 0;
