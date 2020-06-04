@@ -37,7 +37,6 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.qualityTableAdapter1 = new Factory_Inventory.FactoryDataDataSetTableAdapters.QualityTableAdapter();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.m_V1_cartonInwardUC1 = new Factory_Inventory.M_V1_cartonInwardUC();
             this.vouchersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupRestoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +66,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.m_V1_cartonInwardUC1);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -139,14 +137,6 @@
             this.webBrowser1.Size = new System.Drawing.Size(1272, 655);
             this.webBrowser1.TabIndex = 5;
             this.webBrowser1.Url = new System.Uri("http://www.google.com", System.UriKind.Absolute);
-            // 
-            // m_V1_cartonInwardUC1
-            // 
-            this.m_V1_cartonInwardUC1.Location = new System.Drawing.Point(-46, 16);
-            this.m_V1_cartonInwardUC1.Name = "m_V1_cartonInwardUC1";
-            this.m_V1_cartonInwardUC1.Size = new System.Drawing.Size(1168, 659);
-            this.m_V1_cartonInwardUC1.TabIndex = 0;
-            // 
             // vouchersToolStripMenuItem
             // 
             this.vouchersToolStripMenuItem.Name = "vouchersToolStripMenuItem";
@@ -232,7 +222,6 @@
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TabPage tabPage6;
         private FactoryDataDataSetTableAdapters.QualityTableAdapter qualityTableAdapter1;
-        private M_V1_cartonInwardUC m_V1_cartonInwardUC1;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.ToolStripMenuItem vouchersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inventoryToolStripMenuItem;

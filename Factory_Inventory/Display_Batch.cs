@@ -43,7 +43,8 @@ namespace Factory_Inventory
             this.textBox10.Text = Batch["Dyeing_Rate"].ToString();
             this.textBox16.Text = Batch["Tray_ID_Arr"].ToString();
             this.textBox19.Text = Batch["Printed"].ToString();
+            this.textBox20.Text = Batch["Slip_No"].ToString();
+            this.textBox21.Text = Batch["Redyeing"].ToString();
         }
-
     }
 }

@@ -244,12 +244,6 @@
     <Compile Include="M_I1_temp.Designer.cs">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_V1_cartonInwardUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V1_cartonInwardUC.Designer.cs">
-      <DependentUpon>M_V1_cartonInwardUC.cs</DependentUpon>
-    </Compile>
     <Compile Include="M_V3_issueToReDyeingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -502,9 +496,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_I1_temp.resx">
       <DependentUpon>M_I1_temp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V1_cartonInwardUC.resx">
-      <DependentUpon>M_V1_cartonInwardUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V3_issueToReDyeingForm.resx">
       <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>

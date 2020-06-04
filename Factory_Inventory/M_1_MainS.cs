@@ -79,9 +79,6 @@ namespace Factory_Inventory
         }
         private void MainS_Load(object sender, EventArgs e)
         {
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.Scale(new SizeF(1.25F, 1.25F));
-            this.CenterToScreen();
         }
         public void decolour_all_buttons()
         {
@@ -130,7 +127,9 @@ namespace Factory_Inventory
                 if (dialogResult == DialogResult.Yes)
                 {
                     this.logout = true;
+                    Form parent = this.MdiParent;
                     this.close_form();
+                    parent.Close();
                 }
                 else if (dialogResult == DialogResult.No)
                 {
