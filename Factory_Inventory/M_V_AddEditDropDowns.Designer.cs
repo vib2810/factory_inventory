@@ -94,28 +94,28 @@
             // 
             this.editCustomer1.Location = new System.Drawing.Point(0, 5);
             this.editCustomer1.Name = "editCustomer1";
-            this.editCustomer1.Size = new System.Drawing.Size(721, 506);
+            this.editCustomer1.Size = new System.Drawing.Size(721, 589);
             this.editCustomer1.TabIndex = 6;
             // 
             // editCompany1
             // 
             this.editCompany1.Location = new System.Drawing.Point(0, 5);
             this.editCompany1.Name = "editCompany1";
-            this.editCompany1.Size = new System.Drawing.Size(721, 506);
+            this.editCompany1.Size = new System.Drawing.Size(721, 589);
             this.editCompany1.TabIndex = 4;
             // 
             // editQuality1
             // 
             this.editQuality1.Location = new System.Drawing.Point(0, 5);
             this.editQuality1.Name = "editQuality1";
-            this.editQuality1.Size = new System.Drawing.Size(721, 506);
+            this.editQuality1.Size = new System.Drawing.Size(721, 589);
             this.editQuality1.TabIndex = 3;
             // 
             // editSpring1
             // 
             this.editSpring1.Location = new System.Drawing.Point(0, 5);
             this.editSpring1.Name = "editSpring1";
-            this.editSpring1.Size = new System.Drawing.Size(721, 506);
+            this.editSpring1.Size = new System.Drawing.Size(721, 589);
             this.editSpring1.TabIndex = 8;
             // 
             // dyeingCompanyButton
@@ -144,21 +144,21 @@
             // 
             this.editColour1.Location = new System.Drawing.Point(0, 5);
             this.editColour1.Name = "editColour1";
-            this.editColour1.Size = new System.Drawing.Size(721, 506);
+            this.editColour1.Size = new System.Drawing.Size(721, 589);
             this.editColour1.TabIndex = 11;
             // 
             // editDyeingCompany1
             // 
             this.editDyeingCompany1.Location = new System.Drawing.Point(0, 5);
             this.editDyeingCompany1.Name = "editDyeingCompany1";
-            this.editDyeingCompany1.Size = new System.Drawing.Size(721, 506);
+            this.editDyeingCompany1.Size = new System.Drawing.Size(721, 589);
             this.editDyeingCompany1.TabIndex = 12;
             // 
             // editCone1
             // 
             this.editCone1.Location = new System.Drawing.Point(0, 5);
             this.editCone1.Name = "editCone1";
-            this.editCone1.Size = new System.Drawing.Size(721, 506);
+            this.editCone1.Size = new System.Drawing.Size(721, 589);
             this.editCone1.TabIndex = 13;
             // 
             // conesButton
@@ -186,7 +186,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 503);
+            this.ClientSize = new System.Drawing.Size(881, 598);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.conesButton);
             this.Controls.Add(this.editCone1);

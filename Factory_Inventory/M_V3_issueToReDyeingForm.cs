@@ -235,7 +235,7 @@ namespace Factory_Inventory
             DateTime inward_date = Convert.ToDateTime(this.old_batch_row["Dyeing_In_Date"].ToString());
             if (inward_date > this.issueDateDTP.Value.Date)
             {
-                c.ErrorBox("Redyeing issue date should be more than batch dyeing inward date (" + inward_date.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")");
+                c.ErrorBox("Redyeing issue date should be more or equal to than batch dyeing inward date (" + inward_date.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")");
                 return;
             }
             this.qualityTB.Text = this.old_batch_row["Quality"].ToString();
@@ -243,6 +243,29 @@ namespace Factory_Inventory
             this.batchWeightTB.Text = this.old_batch_row["Net_Weight"].ToString();
             this.companyNameTB.Text = this.old_batch_row["Company_Name"].ToString();
             this.dyeingCompanyNameTB.Text = this.old_batch_row["Dyeing_Company_Name"].ToString();
+
+            if(this.fullRedyeCK.Checked==true)
+            {
+                this.addTrayButton.Enabled = false;
+                this.editTrayButton.Enabled = false;
+                DataTable dt = c.getTrayDataBothTables("*", "Tray_ID IN ('"+c.removecom(this.old_batch_row["Tray_ID_Arr"].ToString())+"')");
+                this.dataGridView1.DataSource = dt;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Sl_No"].Visible = true;
+                this.dataGridView1.Columns["Sl_No"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Sl_No"].Width = 80;
+                this.dataGridView1.Columns["Sl_No"].HeaderText = "Sl No";
+                this.dataGridView1.Columns["Tray_No"].Visible = true;
+                this.dataGridView1.Columns["Tray_No"].HeaderText = "Tray No";
+                this.dataGridView1.Columns["Tray_No"].DisplayIndex = 2;
+                this.dataGridView1.Columns["Quality"].Visible = true;
+                this.dataGridView1.Columns["Quality"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Quality"].Width = 150;
+                this.dataGridView1.Columns["Net_Weight"].Visible = true;
+                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }
         }
         private void disable_form_edit()
         {
@@ -282,7 +305,7 @@ namespace Factory_Inventory
         }
 
 
-        //Clicks oe index xhanged
+        //Clicks or index changed
         private void loadButton_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Load button clicked");
@@ -302,7 +325,7 @@ namespace Factory_Inventory
             this.addTrayButton.Enabled = true;
             this.editTrayButton.Enabled = true;
             this.saveButton.Enabled = true;
-
+            this.fullRedyeCK.Enabled = true;
             //Create drop-down Colour list
             var dataSource1 = new List<string>();
             DataTable d = c.getQC('l');
@@ -370,9 +393,14 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric dyeing rate");
                 return;
             }
+            bool full = false;
+            if(this.fullRedyeCK.Checked == true)
+            {
+                full = true;
+            }
             if (this.edit_form == false)
             {
-                bool added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, int.Parse(this.nonRedyeingBatchNoTB.Text), int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text));
+                bool added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, int.Parse(this.nonRedyeingBatchNoTB.Text), int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), full);
                 if (added == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;

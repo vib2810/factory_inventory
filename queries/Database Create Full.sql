@@ -366,7 +366,8 @@ CREATE TABLE Batch (
     Printed tinyint NULL,
     Slip_No varchar(20) NULL,
     Redyeing varchar(30) NULL,
-	Start_Date_Of_Production date NULL
+	Start_Date_Of_Production date NULL,
+	Grade varchar(10) NULL
 );
 
 GO

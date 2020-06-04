@@ -15,7 +15,6 @@ namespace Factory_Inventory
     {
         private DbConnect c;
         public string currentUser;
-        //private int selectedRowIndex = -1;
         public editColour()
         {
             InitializeComponent();
@@ -70,6 +69,8 @@ namespace Factory_Inventory
         private void confirmButton_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = this.dataGridView1.SelectedRows[0].Index;
+            if (dataGridView1.SelectedRows.Count <= 0) return;
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
@@ -109,24 +110,12 @@ namespace Factory_Inventory
                 this.editQualityCombobox.SelectedIndex = 0;
 
                 loadDatabase();
-            }
-            else if (dialogResult == DialogResult.No)
-            {
+                if (RowIndex >= 0)
+                {
+                    dataGridView1.Rows[RowIndex].Selected = true;
+                }
             }
             
-        }
-        private void userDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-        private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex>=0 && e.ColumnIndex>=0)
-            {
-                editedQualityTextbox.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                editDyeingRateTexbox.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-                this.editQualityCombobox.SelectedIndex = this.editQualityCombobox.FindStringExact(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-            }
         }
         private void addQualityButton_Click(object sender, EventArgs e)
         {
@@ -162,6 +151,18 @@ namespace Factory_Inventory
         private void userLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = dataGridView1.SelectedRows[0].Index;
+            if (RowIndex >= 0)
+            {
+                editedQualityTextbox.Text = dataGridView1.Rows[RowIndex].Cells[0].Value.ToString();
+                editDyeingRateTexbox.Text = dataGridView1.Rows[RowIndex].Cells[2].Value.ToString();
+                this.editQualityCombobox.SelectedIndex = this.editQualityCombobox.FindStringExact(dataGridView1.Rows[RowIndex].Cells[1].Value.ToString());
+            }
         }
     }
 }

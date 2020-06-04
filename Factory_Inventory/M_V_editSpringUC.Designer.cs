@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.userLabel = new System.Windows.Forms.Label();
-            this.userDataView = new System.Windows.Forms.DataGridView();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.confirmButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newPasswordLabel = new System.Windows.Forms.Label();
@@ -45,7 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.addSpringWeightTextbox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.userDataView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // userLabel
@@ -59,22 +59,21 @@
             this.userLabel.Text = "Edit Spring";
             this.userLabel.Click += new System.EventHandler(this.userLabel_Click);
             // 
-            // userDataView
+            // dataGridView1
             // 
-            this.userDataView.AllowUserToAddRows = false;
-            this.userDataView.AllowUserToDeleteRows = false;
-            this.userDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.userDataView.Location = new System.Drawing.Point(236, 0);
-            this.userDataView.MultiSelect = false;
-            this.userDataView.Name = "userDataView";
-            this.userDataView.ReadOnly = true;
-            this.userDataView.RowHeadersWidth = 51;
-            this.userDataView.RowTemplate.Height = 24;
-            this.userDataView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.userDataView.Size = new System.Drawing.Size(383, 393);
-            this.userDataView.TabIndex = 2;
-            this.userDataView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellClick);
-            this.userDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellContentClick);
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(236, 0);
+            this.dataGridView1.MultiSelect = false;
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(383, 393);
+            this.dataGridView1.TabIndex = 2;
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.userDataView_SelectionChanged);
             // 
             // confirmButton
             // 
@@ -217,11 +216,11 @@
             this.Controls.Add(this.newConfirmPasswordLabel);
             this.Controls.Add(this.newPasswordLabel);
             this.Controls.Add(this.confirmButton);
-            this.Controls.Add(this.userDataView);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
             this.Name = "editSpring";
             this.Size = new System.Drawing.Size(619, 393);
-            ((System.ComponentModel.ISupportInitialize)(this.userDataView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,7 +229,7 @@
         #endregion
 
         private System.Windows.Forms.Label userLabel;
-        private System.Windows.Forms.DataGridView userDataView;
+        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button confirmButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Label newPasswordLabel;

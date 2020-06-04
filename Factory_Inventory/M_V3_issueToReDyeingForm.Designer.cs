@@ -69,6 +69,7 @@
             this.companyNameTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.fullRedyeCK = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -181,7 +182,7 @@
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(16, 188);
+            this.loadButton.Location = new System.Drawing.Point(16, 204);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(197, 47);
             this.loadButton.TabIndex = 5;
@@ -410,7 +411,7 @@
             // addTrayButton
             // 
             this.addTrayButton.Enabled = false;
-            this.addTrayButton.Location = new System.Drawing.Point(776, 257);
+            this.addTrayButton.Location = new System.Drawing.Point(776, 232);
             this.addTrayButton.Name = "addTrayButton";
             this.addTrayButton.Size = new System.Drawing.Size(200, 47);
             this.addTrayButton.TabIndex = 11;
@@ -421,7 +422,7 @@
             // editTrayButton
             // 
             this.editTrayButton.Enabled = false;
-            this.editTrayButton.Location = new System.Drawing.Point(776, 313);
+            this.editTrayButton.Location = new System.Drawing.Point(776, 290);
             this.editTrayButton.Name = "editTrayButton";
             this.editTrayButton.Size = new System.Drawing.Size(200, 47);
             this.editTrayButton.TabIndex = 13;
@@ -483,12 +484,24 @@
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // fullRedyeCK
+            // 
+            this.fullRedyeCK.AutoSize = true;
+            this.fullRedyeCK.Enabled = false;
+            this.fullRedyeCK.Location = new System.Drawing.Point(16, 177);
+            this.fullRedyeCK.Name = "fullRedyeCK";
+            this.fullRedyeCK.Size = new System.Drawing.Size(209, 21);
+            this.fullRedyeCK.TabIndex = 14;
+            this.fullRedyeCK.Text = "Send Full Batch to Redyeing";
+            this.fullRedyeCK.UseVisualStyleBackColor = true;
+            // 
             // M_V3_issueToReDyeingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1000, 541);
+            this.Controls.Add(this.fullRedyeCK);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
@@ -581,5 +594,6 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.CheckBox fullRedyeCK;
     }
 }

@@ -466,6 +466,7 @@
             this.Controls.Add(this.loadDataButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.saveButton);
+            this.DoubleBuffered = true;
             this.Name = "M_V3_cartonProductionForm";
             this.Text = "Voucher - Carton Production";
             this.Load += new System.EventHandler(this.M_V3_cartonProductionForm_Load);

@@ -17,7 +17,6 @@ namespace Factory_Inventory
     {
         private DbConnect c;
         public string currentUser;
-        public bool which_hscb;
         List<string> l = new List<string>();
         //private int selectedRowIndex = -1;
         public editQuality()
@@ -54,18 +53,10 @@ namespace Factory_Inventory
             this.dataGridView1.Columns[2].HeaderText = "Print Pattern";
             c.auto_adjust_dgv(dataGridView1);
         }
-        private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex>=0)
-            {
-                editedQualityTextboxTB.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                editHSNNoTB.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                hsComboBox3.SelectedIndex = this.hsComboBox3.FindStringExact(this.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-                editQualityBeforeTwistTB.Text = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-            }
-        }
         private void confirmButton_Click_1(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = this.dataGridView1.SelectedRows[0].Index;
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
@@ -91,9 +82,10 @@ namespace Factory_Inventory
                 editQualityBeforeTwistTB.Text = "";
                 this.deleteUserCheckboxCK.Checked = false;
                 loadDatabase();
-            }
-            else if (dialogResult == DialogResult.No)
-            {
+                if(RowIndex>=0)
+                {
+                    this.dataGridView1.Rows[RowIndex].Selected = true;
+                }
             }
         }
         private void addQualityButton_Click_1(object sender, EventArgs e)
@@ -120,17 +112,29 @@ namespace Factory_Inventory
         {
             if (hsComboBox2.SelectedIndex > 0)
             {
-                Graphics g = e.Graphics;
                 HatchStyle hs = (HatchStyle)Enum.Parse(typeof(HatchStyle), hsComboBox2.SelectedItem.ToString(), true);
-                HatchBrush b = new HatchBrush(hs, Color.Black, this.BackColor);
-                g.FillRectangle(b, new Rectangle(155, 396, 75, 31));
+
+                using (HatchBrush hbr2 = new HatchBrush(hs, Color.Black, Color.White))
+                {
+                    using (TextureBrush tbr = c.TBrush(hbr2))
+                    {
+                        tbr.ScaleTransform(2.50F,2.50F);
+                        e.Graphics.FillRectangle(tbr, new Rectangle(pictureBox2.Location, pictureBox2.Size));
+                    }
+                }
             }
             if (hsComboBox3.SelectedIndex > 0)
             {
-                Graphics g = e.Graphics;
                 HatchStyle hs = (HatchStyle)Enum.Parse(typeof(HatchStyle), hsComboBox3.SelectedItem.ToString(), true);
-                HatchBrush b = new HatchBrush(hs, Color.Black, this.BackColor);
-                g.FillRectangle(b, new Rectangle(155, 133, 75, 31));
+
+                using (HatchBrush hbr2 = new HatchBrush(hs, Color.Black, Color.White))
+                {
+                    using (TextureBrush tbr = c.TBrush(hbr2))
+                    {
+                        tbr.ScaleTransform(2.50F, 2.50F);
+                        e.Graphics.FillRectangle(tbr, new Rectangle(pictureBox1.Location, pictureBox1.Size));
+                    }
+                }
             }
 
         }
@@ -139,6 +143,18 @@ namespace Factory_Inventory
             if (hsComboBox2.SelectedIndex > 0)
             {
                 this.Invalidate();
+            }
+        }
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = this.dataGridView1.SelectedRows[0].Index;
+            if (RowIndex >= 0)
+            {
+                editedQualityTextboxTB.Text = dataGridView1.Rows[RowIndex].Cells[0].Value.ToString();
+                editHSNNoTB.Text = dataGridView1.Rows[RowIndex].Cells[1].Value.ToString();
+                hsComboBox3.SelectedIndex = this.hsComboBox3.FindStringExact(this.dataGridView1.Rows[RowIndex].Cells[2].Value.ToString());
+                editQualityBeforeTwistTB.Text = dataGridView1.Rows[RowIndex].Cells[3].Value.ToString();
             }
         }
     }

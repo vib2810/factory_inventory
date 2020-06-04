@@ -360,7 +360,7 @@ namespace Factory_Inventory
                                 break;
                             }
                         }
-                        if (quality_exists == false) ans.Rows.Add(col1_value, col2_value, nw1.ToString("F3"));
+                        if (quality_exists == false) ans.Rows.Add(col1_value, col2_value, nw1.ToString("F3"), nw2.ToString("F3"));
                     }
                     else
                     {
@@ -472,6 +472,7 @@ namespace Factory_Inventory
                             this.ConningBatch.Rows.Add(batch_inv.Rows[i].ItemArray);
                         else
                         {
+                            Console.WriteLine(batch_inv.Rows[i]["Voucher_ID"].ToString());
                             semi_batches_vouchers.Add(batch_inv.Rows[i]["Voucher_ID"].ToString());
                         }
                     }
@@ -479,8 +480,12 @@ namespace Factory_Inventory
                 semi_batches_vouchers = semi_batches_vouchers.Distinct().ToList();
                 semi_batches_vouchers.Remove("");
                 string semi_batches_vouchers_str = "";
-                for (int i = 0; i < semi_batches_vouchers.Count; i++) semi_batches_vouchers_str = semi_batches_vouchers[i] + ",";
-                Console.WriteLine("Printing here "+semi_batches_vouchers_str);
+                for (int i = 0; i < semi_batches_vouchers.Count; i++)
+                {
+                    semi_batches_vouchers_str += semi_batches_vouchers[i] + ",";
+                    Console.WriteLine("Short "+semi_batches_vouchers[i]);
+
+                }
                 if (semi_batches_vouchers_str!="")
                 {
                     this.semiproduced = c.getTableData("Carton_Production_Voucher", "*", "Voucher_ID IN (" + c.removecom(semi_batches_vouchers_str) + ")");

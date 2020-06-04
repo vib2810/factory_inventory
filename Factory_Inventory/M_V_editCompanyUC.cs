@@ -28,6 +28,7 @@ namespace Factory_Inventory
         private void confirmButton_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = this.dataGridView1.SelectedRows[0].Index;
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
@@ -44,21 +45,10 @@ namespace Factory_Inventory
                 this.editedQualityTextbox.Text = "";
                 this.deleteUserCheckbox.Checked = false;
                 loadDatabase();
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-            }
-            
-        }
-        private void userDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-        private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex>=0)
-            {
-                editedQualityTextbox.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                if (RowIndex >= 0)
+                {
+                    dataGridView1.Rows[RowIndex].Selected = true;
+                }
             }
         }
         private void addQualityButton_Click(object sender, EventArgs e)
@@ -72,6 +62,15 @@ namespace Factory_Inventory
         private void userLabel_Click(object sender, EventArgs e)
         {
 
+        }
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = dataGridView1.SelectedRows[0].Index;
+            if (RowIndex >= 0)
+            {
+                editedQualityTextbox.Text = dataGridView1.Rows[RowIndex].Cells[0].Value.ToString();
+            }
         }
     }
 }

@@ -15,7 +15,6 @@ namespace Factory_Inventory
     {
         private DbConnect c;
         public string currentUser;
-        //private int selectedRowIndex = -1;
         public editSpring()
         {
             InitializeComponent();
@@ -24,18 +23,19 @@ namespace Factory_Inventory
         public void loadDatabase()
         {
             DataTable d = c.getQC('s');
-            userDataView.DataSource = d;
+            dataGridView1.DataSource = d;
         }
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            if (userDataView.SelectedRows.Count <= 0) return;
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = this.dataGridView1.SelectedRows[0].Index;
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                int row = userDataView.SelectedRows[0].Index;
+                int row = dataGridView1.SelectedRows[0].Index;
                 if (deleteUserCheckbox.Checked == true)
                 {
-                    c.deleteQC(userDataView.Rows[row].Cells[0].Value.ToString(),'s');
+                    c.deleteQC(dataGridView1.Rows[row].Cells[0].Value.ToString(),'s');
                 }
                 else
                 {
@@ -47,12 +47,12 @@ namespace Factory_Inventory
                     try
                     {
                         float.Parse(editSpringWeightTextbox.Text);
-                        c.editSpring(editedQualityTextbox.Text, userDataView.Rows[row].Cells[0].Value.ToString(), float.Parse(editSpringWeightTextbox.Text), "Spring", "Spring_Weight");
+                        c.editSpring(editedQualityTextbox.Text, dataGridView1.Rows[row].Cells[0].Value.ToString(), float.Parse(editSpringWeightTextbox.Text), "Spring", "Spring_Weight");
                     }
                     catch
                     {
                         c.ErrorBox("Please enter numeric weight value only", "Error");
-                        editSpringWeightTextbox.Text = userDataView.Rows[row].Cells[1].Value.ToString();
+                        editSpringWeightTextbox.Text = dataGridView1.Rows[row].Cells[1].Value.ToString();
                         return;
                     }
                 }
@@ -61,24 +61,11 @@ namespace Factory_Inventory
                 this.editSpringWeightTextbox.Text = "";
                 this.deleteUserCheckbox.Checked = false;
                 loadDatabase();
+                if(RowIndex>=0)
+                {
+                    dataGridView1.Rows[RowIndex].Selected = true;
+                }
             }
-            else if (dialogResult == DialogResult.No)
-            {
-            }
-            
-        }
-        private void userDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-        private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex>=0)
-            {
-                editedQualityTextbox.Text = userDataView.Rows[e.RowIndex].Cells[0].Value.ToString();
-                editSpringWeightTextbox.Text = userDataView.Rows[e.RowIndex].Cells[1].Value.ToString();
-            }
-            
         }
         private void addQualityButton_Click(object sender, EventArgs e)
         {
@@ -115,6 +102,17 @@ namespace Factory_Inventory
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void userDataView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+            int RowIndex = dataGridView1.SelectedRows[0].Index;
+            if (RowIndex >= 0)
+            {
+                editedQualityTextbox.Text = dataGridView1.Rows[RowIndex].Cells[0].Value.ToString();
+                editSpringWeightTextbox.Text = dataGridView1.Rows[RowIndex].Cells[1].Value.ToString();
+            }
         }
     }
 }

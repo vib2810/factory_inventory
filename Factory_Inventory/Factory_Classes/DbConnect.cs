@@ -283,7 +283,16 @@ namespace Factory_Inventory.Factory_Classes
                 dgv.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
-
+        public TextureBrush TBrush(HatchBrush HBrush)
+        {
+            using (Bitmap bmp = new Bitmap(8, 8))
+            using (Graphics G = Graphics.FromImage(bmp))
+            {
+                G.FillRectangle(HBrush, 0, 0, 8, 8);
+                TextureBrush tb = new TextureBrush(bmp);
+                return tb;
+            }
+        }
         //Arrow Key Events
         public void comboBoxEvent(ComboBox c)
         {
@@ -2913,7 +2922,7 @@ namespace Factory_Inventory.Factory_Classes
 
 
         //Dyenig Issue Voucher
-        public bool addDyeingIssueVoucher(DateTime dtinputDate, DateTime dtissueDate, string quality, string company_name, string trayno, int number, string colour, string dyeing_company_name, int batchno, string trayid, float net_wt, float rate)
+        public bool addDyeingIssueVoucher(DateTime dtinputDate, DateTime dtissueDate, string quality, string company_name, string trayno, int number, string colour, string dyeing_company_name, int batchno, string trayid, float net_wt, float rate, string grade)
         {
             string inputDate = dtinputDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string issueDate = dtissueDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -2936,7 +2945,7 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
             //add batch
-            bool batch_added = addBatch(batchno, colour, dyeing_company_name, issueDate, trayid, net_wt, quality, company_name, number, rate, fiscal_year);
+            bool batch_added = addBatch(batchno, colour, dyeing_company_name, issueDate, trayid, net_wt, quality, company_name, number, rate, fiscal_year, grade);
             if (batch_added == false)
             {
                 return false;
@@ -2969,7 +2978,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public bool editDyeingIssueVoucher(int voucherID, string old_fiscal_year, DateTime dtinputDate, DateTime dtissueDate, string quality, string company_name, string trayno, int number, string colour, string dyeing_company_name, int batchno, string trayid, float net_wt, float rate, string tray_id_arr)
+        public bool editDyeingIssueVoucher(int voucherID, string old_fiscal_year, DateTime dtinputDate, DateTime dtissueDate, string quality, string company_name, string trayno, int number, string colour, string dyeing_company_name, int batchno, string trayid, float net_wt, float rate, string tray_id_arr, string grade)
         {
             string inputDate = dtinputDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string issueDate = dtissueDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -2993,7 +3002,7 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             //update batch
-            updateBatch(batchno, colour, dyeing_company_name, issueDate, trayid, net_wt, quality, company_name, number, rate, fiscal_year, old_fiscal_year);
+            updateBatch(batchno, colour, dyeing_company_name, issueDate, trayid, net_wt, quality, company_name, number, rate, fiscal_year, old_fiscal_year, grade);
 
             //Send all previous trays in Tray_Active to state 1, clearing batch_no, dyeing_company_name, dyeing_issue_date
             con.Open();
@@ -3123,13 +3132,13 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ret;
         }
-        public bool addBatch(int batch_no, string colour, string dyeing_company_name, string dyeing_out_date, string tray_id_arr, float net_wt, string quality, string company_name, int number, float rate, string fiscal_year)
+        public bool addBatch(int batch_no, string colour, string dyeing_company_name, string dyeing_out_date, string tray_id_arr, float net_wt, string quality, string company_name, int number, float rate, string fiscal_year, string grade)
         {
             try
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Batch (Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Batch_State, Dyeing_Rate, Fiscal_Year) VALUES ("+batch_no+" ,'" + colour+ "', '" + dyeing_company_name + "', '" + dyeing_out_date + "', '" + tray_id_arr + "' , " + net_wt + ", '" + quality + "', '" + company_name + "', " + number + ", '1', "+rate+", '"+fiscal_year+"')";
+                string sql = "INSERT INTO Batch (Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Batch_State, Dyeing_Rate, Fiscal_Year, Grade) VALUES ("+batch_no+" ,'" + colour+ "', '" + dyeing_company_name + "', '" + dyeing_out_date + "', '" + tray_id_arr + "' , " + net_wt + ", '" + quality + "', '" + company_name + "', " + number + ", '1', "+rate+", '"+fiscal_year+"', '"+grade+"')";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -3207,13 +3216,13 @@ namespace Factory_Inventory.Factory_Classes
             }
             return tray_ids;
         }
-        public bool updateBatch(int batch_no, string colour, string dyeing_company_name, string dyeing_out_date, string tray_id_arr, float net_wt, string quality, string company_name, int number, float rate, string fiscal_year, string old_fiscal_year)
+        public bool updateBatch(int batch_no, string colour, string dyeing_company_name, string dyeing_out_date, string tray_id_arr, float net_wt, string quality, string company_name, int number, float rate, string fiscal_year, string old_fiscal_year, string grade)
         {
             try
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Batch Set Colour='"+colour+"', Dyeing_Company_Name='"+dyeing_company_name+"', Dyeing_Out_Date='"+dyeing_out_date+"', Tray_ID_Arr='"+tray_id_arr+"', Net_Weight="+net_wt+", Quality='"+quality+"', Company_Name='"+company_name+"', Number_Of_Trays="+number+", Batch_State=1, Dyeing_Rate="+rate+", Fiscal_Year = '"+fiscal_year+"' WHERE Batch_No="+batch_no+" AND Fiscal_Year = '"+old_fiscal_year+"'";
+                string sql = "UPDATE Batch Set Colour='"+colour+"', Dyeing_Company_Name='"+dyeing_company_name+"', Dyeing_Out_Date='"+dyeing_out_date+"', Tray_ID_Arr='"+tray_id_arr+"', Net_Weight="+net_wt+", Quality='"+quality+"', Company_Name='"+company_name+"', Number_Of_Trays="+number+", Batch_State=1, Dyeing_Rate="+rate+", Fiscal_Year = '"+fiscal_year+"', Grade = '"+grade+"' WHERE Batch_No="+batch_no+" AND Fiscal_Year = '"+old_fiscal_year+"'";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -3780,7 +3789,7 @@ namespace Factory_Inventory.Factory_Classes
         }
 
         //Re-Dyeing Voucher
-        public bool addRedyeingVoucher(DateTime dtinputDate, DateTime dtissueDate, DataRow old_batch_row, int NRD_batch_no, int RD_batch_no, float NRD_batch_weight, float RD_batch_weight, string RD_fiscal_year, DataTable trays, string RD_colour, float RD_rate)
+        public bool addRedyeingVoucher(DateTime dtinputDate, DateTime dtissueDate, DataRow old_batch_row, int NRD_batch_no, int RD_batch_no, float NRD_batch_weight, float RD_batch_weight, string RD_fiscal_year, DataTable trays, string RD_colour, float RD_rate, bool full)
         {
             string input_date = dtinputDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string issue_date = dtissueDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -5128,7 +5137,7 @@ namespace Factory_Inventory.Factory_Classes
                     " when Dyeing_Out_Date <= @from AND(Dyeing_In_Date > @from OR Dyeing_In_Date IS NULL) then 1 " +
                     " when Dyeing_In_Date <= @from AND Batch_State != 4 then " +
                         " (case " +
-                            " when(Start_Date_Of_Production >= @from AND Date_Of_Production IS NULL)  then 2 " +
+                            " when(Start_Date_Of_Production <= @from AND Date_Of_Production IS NULL)  then 2 " +
                             " when(Date_Of_Production >= @from OR Date_Of_Production IS NULL) then 3 " +
                         " end) " +
                     " end as dyecon, " +
@@ -5151,7 +5160,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
 
             }
-            this.printDataTable(dt);
+            this.printDataTable(dt, "batch on date");
             return dt;
         }
         //From To Inventory
