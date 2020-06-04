@@ -1,4 +1,12 @@
-﻿namespace Factory_Inventory
+﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+namespace Factory_Inventory
 {
     partial class editQuality
     {
@@ -31,12 +39,8 @@
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addPickColourTB = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.addQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.editPickColourTB = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.editQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.addQualityButton = new System.Windows.Forms.Button();
@@ -49,13 +53,14 @@
             this.newPasswordLabel = new System.Windows.Forms.Label();
             this.confirmButton = new System.Windows.Forms.Button();
             this.userLabel = new System.Windows.Forms.Label();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.addpickcolourButton = new System.Windows.Forms.Button();
-            this.editpickcolourButton = new System.Windows.Forms.Button();
             this.addHSNNoTB = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.editHSNNoTB = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.hsComboBox2 = new HatchStyleComboBox.HSComboBox();
+            this.hsComboBox3 = new HatchStyleComboBox.HSComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,24 +87,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // addPickColourTB
-            // 
-            this.addPickColourTB.Enabled = false;
-            this.addPickColourTB.Location = new System.Drawing.Point(13, 396);
-            this.addPickColourTB.Name = "addPickColourTB";
-            this.addPickColourTB.Size = new System.Drawing.Size(149, 22);
-            this.addPickColourTB.TabIndex = 0;
-            this.addPickColourTB.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 376);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 17);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Colour";
-            // 
             // addQualityBeforeTwistTB
             // 
             this.addQualityBeforeTwistTB.Location = new System.Drawing.Point(13, 441);
@@ -115,24 +102,6 @@
             this.label7.Size = new System.Drawing.Size(133, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Quality before Twist";
-            // 
-            // editPickColourTB
-            // 
-            this.editPickColourTB.Enabled = false;
-            this.editPickColourTB.Location = new System.Drawing.Point(15, 133);
-            this.editPickColourTB.Name = "editPickColourTB";
-            this.editPickColourTB.Size = new System.Drawing.Size(147, 22);
-            this.editPickColourTB.TabIndex = 0;
-            this.editPickColourTB.TabStop = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 115);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 17);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Print Colour";
             // 
             // editQualityBeforeTwistTB
             // 
@@ -244,26 +213,6 @@
             this.userLabel.TabIndex = 0;
             this.userLabel.Text = "Edit Quality";
             // 
-            // addpickcolourButton
-            // 
-            this.addpickcolourButton.Location = new System.Drawing.Point(168, 395);
-            this.addpickcolourButton.Name = "addpickcolourButton";
-            this.addpickcolourButton.Size = new System.Drawing.Size(62, 23);
-            this.addpickcolourButton.TabIndex = 17;
-            this.addpickcolourButton.Text = "Pick";
-            this.addpickcolourButton.UseVisualStyleBackColor = true;
-            this.addpickcolourButton.Click += new System.EventHandler(this.addpickcolourButton_Click);
-            // 
-            // editpickcolourButton
-            // 
-            this.editpickcolourButton.Location = new System.Drawing.Point(168, 132);
-            this.editpickcolourButton.Name = "editpickcolourButton";
-            this.editpickcolourButton.Size = new System.Drawing.Size(62, 23);
-            this.editpickcolourButton.TabIndex = 5;
-            this.editpickcolourButton.Text = "Pick";
-            this.editpickcolourButton.UseVisualStyleBackColor = true;
-            this.editpickcolourButton.Click += new System.EventHandler(this.editpickcolourButton_Click);
-            // 
             // addHSNNoTB
             // 
             this.addHSNNoTB.Location = new System.Drawing.Point(14, 351);
@@ -296,22 +245,95 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "HSN Number";
             // 
+            // hsComboBox2
+            // 
+            this.hsComboBox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.hsComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.hsComboBox2.FormattingEnabled = true;
+            //this.hsComboBox2.Items.AddRange(new object[] {
+            //"Horizontal",
+            //"Vertical",
+            //"ForwardDiagonal",
+            //"Cross",
+            //"DiagonalCross",
+            //"DashedUpwardDiagonal",
+            //"DashedHorizontal",
+            //"DashedVertical",
+            //"LargeConfetti",
+            //"ZigZag",
+            //"DiagonalBrick",
+            //"HorizontalBrick",
+            //"Plaid",
+            //"Shingle",
+            //"LargeCheckerBoard",
+            //"SolidDiamond",
+            //});
+            this.hsComboBox2.Location = new System.Drawing.Point(12, 396);
+            this.hsComboBox2.Name = "hsComboBox2";
+            this.hsComboBox2.Size = new System.Drawing.Size(121, 23);
+            this.hsComboBox2.TabIndex = 17;
+            this.hsComboBox2.SelectedIndexChanged += new System.EventHandler(this.hsComboBox2_SelectedIndexChanged);
+            // 
+            // hsComboBox3
+            // 
+            this.hsComboBox3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.hsComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.hsComboBox3.FormattingEnabled = true;
+            //this.hsComboBox3.Items.AddRange(new object[] {
+            //"Horizontal",
+            //"Vertical",
+            //"ForwardDiagonal",
+            //"Cross",
+            //"DiagonalCross",
+            //"DashedUpwardDiagonal",
+            //"DashedHorizontal",
+            //"DashedVertical",
+            //"LargeConfetti",
+            //"ZigZag",
+            //"DiagonalBrick",
+            //"HorizontalBrick",
+            //"Plaid",
+            //"Shingle",
+            //"LargeCheckerBoard",
+            //"SolidDiamond"});
+            this.hsComboBox3.Location = new System.Drawing.Point(15, 133);
+            this.hsComboBox3.Name = "hsComboBox3";
+            this.hsComboBox3.Size = new System.Drawing.Size(118, 23);
+            this.hsComboBox3.TabIndex = 5;
+            this.hsComboBox3.SelectedIndexChanged += new System.EventHandler(this.hsComboBox3_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 115);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 17);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Print Pattern";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 376);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(87, 17);
+            this.label6.TabIndex = 26;
+            this.label6.Text = "Print Pattern";
+            // 
             // editQuality
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.hsComboBox3);
+            this.Controls.Add(this.hsComboBox2);
             this.Controls.Add(this.editHSNNoTB);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.addHSNNoTB);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.editpickcolourButton);
-            this.Controls.Add(this.addpickcolourButton);
-            this.Controls.Add(this.addPickColourTB);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.addQualityBeforeTwistTB);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.editPickColourTB);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.editQualityBeforeTwistTB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.addQualityButton);
@@ -327,6 +349,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "editQuality";
             this.Size = new System.Drawing.Size(721, 506);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.editQuality_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -336,12 +359,8 @@
         #endregion
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.TextBox addPickColourTB;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox addQualityBeforeTwistTB;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox editPickColourTB;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox editQualityBeforeTwistTB;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button addQualityButton;
@@ -354,12 +373,13 @@
         private System.Windows.Forms.Label newPasswordLabel;
         private System.Windows.Forms.Button confirmButton;
         private System.Windows.Forms.Label userLabel;
-        private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Button addpickcolourButton;
-        private System.Windows.Forms.Button editpickcolourButton;
         private System.Windows.Forms.TextBox addHSNNoTB;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox editHSNNoTB;
         private System.Windows.Forms.Label label5;
+        private HatchStyleComboBox.HSComboBox hsComboBox2;
+        private HatchStyleComboBox.HSComboBox hsComboBox3;
+        private Label label3;
+        private Label label6;
     }
 }
