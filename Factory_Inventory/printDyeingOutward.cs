@@ -88,16 +88,15 @@ namespace Factory_Inventory
             dataGridView1.Columns["Sl No"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dataGridView1.Columns["Sl No"].Width= 80;
             this.where= "Batch_No="+ this.batchnoTextbox.Text+" AND Fiscal_Year='"+ row["Fiscal_Year"].ToString()+"'";
-        }
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-            //Page setup
+
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;
             IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
             PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
             printDocument1.DefaultPageSettings.PaperSize = sizeA4;
-
+        }
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
             //set margins
             //1100*850
             this.topmargin = (int)(0.03 * e.PageBounds.Height);
@@ -197,16 +196,16 @@ namespace Factory_Inventory
             write_height += write(e, (int)(0.65 * current_width), write_height, (int)(0.35* current_width), this.customergstin.Text, basic_size, 'l', 0, 1);
             //third row
             write(e, 0, write_height, (int)(0.15 * current_width), "Address: ", basic_size, 'l', 1);
-            write(e, (int)(0.15* current_width), write_height, (int)(0.52 * current_width), this.customerAddressTextbox.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.67 * current_width), write_height, (int)(0.20 * current_width), "HSN Number: ", basic_size, 'r', 1);
+            write(e, (int)(0.15* current_width), write_height, (int)(0.57 * current_width), this.customerAddressTextbox.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.72 * current_width), write_height, (int)(0.15 * current_width), "HSN Number: ", basic_size, 'r', 1);
             write_height += write(e, (int)(0.87 * current_width), write_height, (int)(0.13 * current_width), this.hsnnumber.Text, basic_size, 'r', 0, 1);
             //fourth row
             write(e, 0, write_height, (int)(0.10 * current_width), "Quality: ", basic_size, 'l', 1);
             write(e, (int)(0.10 * current_width), write_height, (int)(0.23 * current_width), this.qualityTextbox.Text, basic_size, 'l', 0, 1);
             write(e, (int)(0.33 * current_width), write_height, (int)(0.10 * current_width), "Shade: ", basic_size, 'r', 1);
-            write(e, (int)(0.43 * current_width), write_height, (int)(0.23 * current_width), this.shadeTextbox.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.66 * current_width), write_height, (int)(0.20 * current_width), "Net Weight: ", basic_size, 'r', 1);
-            write_height += write(e, (int)(0.86 * current_width), write_height, (int)(0.14 * current_width), this.netwtTextbox.Text, basic_size, 'r', 0, 1);
+            write(e, (int)(0.43 * current_width), write_height, (int)(0.29 * current_width), this.shadeTextbox.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.72 * current_width), write_height, (int)(0.15 * current_width), "Net Weight: ", basic_size, 'r', 1);
+            write_height += write(e, (int)(0.87 * current_width), write_height, (int)(0.13 * current_width), this.netwtTextbox.Text, basic_size, 'r', 0, 1);
             Console.WriteLine("inside writeheight " + write_height);
             return write_height;
         }

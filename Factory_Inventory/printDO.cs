@@ -82,6 +82,12 @@ namespace Factory_Inventory
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(t => t.SortMode = DataGridViewColumnSortMode.NotSortable);
             dataGridView1.Columns["Sl NO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             this.where = "Voucher_ID=" + int.Parse(row["Voucher_ID"].ToString()) + "";
+
+            PrinterSettings ps = new PrinterSettings();
+            printDocument1.PrinterSettings = ps;
+            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
+            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
+            printDocument1.DefaultPageSettings.PaperSize = sizeA4;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -91,13 +97,6 @@ namespace Factory_Inventory
         }
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            //Page setup
-            PrinterSettings ps = new PrinterSettings();
-            printDocument1.PrinterSettings = ps;
-            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
-            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
-            printDocument1.DefaultPageSettings.PaperSize = sizeA4;
-
             //set margins
             //1100*850
             this.topmargin = (int)(0.03 * e.PageBounds.Height);
