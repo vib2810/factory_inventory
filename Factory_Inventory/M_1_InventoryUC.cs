@@ -42,8 +42,8 @@ namespace Factory_Inventory
         public void decolour_all_buttons()
         {
             var buttons = this.Controls
-     .OfType<Button>()
-     .Where(x => x.Name.EndsWith("Button"));
+             .OfType<Button>()
+             .Where(x => x.Name.EndsWith("Button"));
 
             foreach (var button in buttons)
             {

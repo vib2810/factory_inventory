@@ -20,10 +20,16 @@ namespace Factory_Inventory
         }
         public void show_form(Form f)
         {
-            f.MdiParent = this;
-            f.MaximizeBox= false;
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
-            //this.MdiChildren[this.MdiChildren.Length-1].MinimizeBox
+            if (f.Name == "M_I1_OnDate")
+            {
+                f.Show();
+            }
+            else
+            {
+                f.MaximizeBox = false;
+                f.MdiParent = this;
+            }
             f.Show();
         }
 

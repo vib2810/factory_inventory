@@ -39,14 +39,6 @@ namespace Factory_Inventory
                 ConfigurationManager.RefreshSection("appSettings");
             }
             //M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
-
-            
-            //Global.background.Show();
-            //M_2_newMain f = new M_2_newMain();
-            //f.MdiParent = Global.background;
-            //Global.background.show_f
-
-
             //Application.Run(f);
             while (true)
             {
