@@ -38,8 +38,8 @@ namespace Factory_Inventory
                 configuration.Save(ConfigurationSaveMode.Full, true);
                 ConfigurationManager.RefreshSection("appSettings");
             }
-            //M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
-            //Application.Run(f);
+            M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            Application.Run(f);
             while (true)
             {
                 Login f1 = new Login();

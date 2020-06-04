@@ -108,6 +108,12 @@ namespace Factory_Inventory
             dataGridView4.Columns["Grade"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView4.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView4.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            PrinterSettings ps = new PrinterSettings();
+            printDocument1.PrinterSettings = ps;
+            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
+            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
+            printDocument1.DefaultPageSettings.PaperSize = sizeA4;
         }
 
         private void M_V4_printBatchReport_Load(object sender, EventArgs e)
@@ -376,13 +382,6 @@ namespace Factory_Inventory
         }
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            //Page setup
-            PrinterSettings ps = new PrinterSettings();
-            printDocument1.PrinterSettings = ps;
-            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
-            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
-            printDocument1.DefaultPageSettings.PaperSize = sizeA4;
-
             //set margins and initial setup
             this.topmargin = (int)(0.03 * e.PageBounds.Height);
             this.lrmargin = (int)(0.05 * e.PageBounds.Width);
