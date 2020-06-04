@@ -81,7 +81,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dateTimePicker1.Location = new System.Drawing.Point(12, 43);
+            this.dateTimePicker1.Location = new System.Drawing.Point(12, 59);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker1.TabIndex = 1;
@@ -90,7 +90,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 23);
+            this.label1.Location = new System.Drawing.Point(9, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 17);
             this.label1.TabIndex = 1;
@@ -99,7 +99,7 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.Location = new System.Drawing.Point(237, 32);
+            this.button1.Location = new System.Drawing.Point(237, 48);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(117, 33);
             this.button1.TabIndex = 2;
@@ -113,7 +113,7 @@
             this.dataGridView0.AllowUserToDeleteRows = false;
             this.dataGridView0.AllowUserToResizeRows = false;
             this.dataGridView0.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView0.Location = new System.Drawing.Point(9, 28);
+            this.dataGridView0.Location = new System.Drawing.Point(9, 44);
             this.dataGridView0.MultiSelect = false;
             this.dataGridView0.Name = "dataGridView0";
             this.dataGridView0.ReadOnly = true;
@@ -130,7 +130,7 @@
             this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AllowUserToResizeRows = false;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(9, 496);
+            this.dataGridView2.Location = new System.Drawing.Point(9, 512);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
@@ -148,7 +148,7 @@
             this.dataGridView3.AllowUserToDeleteRows = false;
             this.dataGridView3.AllowUserToResizeRows = false;
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(825, 496);
+            this.dataGridView3.Location = new System.Drawing.Point(825, 512);
             this.dataGridView3.MultiSelect = false;
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.ReadOnly = true;
@@ -166,7 +166,7 @@
             this.dataGridView4.AllowUserToDeleteRows = false;
             this.dataGridView4.AllowUserToResizeRows = false;
             this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(3, 957);
+            this.dataGridView4.Location = new System.Drawing.Point(3, 973);
             this.dataGridView4.MultiSelect = false;
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.ReadOnly = true;
@@ -183,7 +183,7 @@
             this.dataGridView6.AllowUserToAddRows = false;
             this.dataGridView6.AllowUserToResizeRows = false;
             this.dataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView6.Location = new System.Drawing.Point(3, 1427);
+            this.dataGridView6.Location = new System.Drawing.Point(3, 1443);
             this.dataGridView6.MultiSelect = false;
             this.dataGridView6.Name = "dataGridView6";
             this.dataGridView6.ReadOnly = true;
@@ -199,7 +199,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 1);
+            this.label2.Location = new System.Drawing.Point(3, 17);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(132, 25);
             this.label2.TabIndex = 0;
@@ -209,7 +209,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(820, 1);
+            this.label3.Location = new System.Drawing.Point(820, 17);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 25);
             this.label3.TabIndex = 0;
@@ -219,7 +219,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(4, 468);
+            this.label4.Location = new System.Drawing.Point(4, 484);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 25);
             this.label4.TabIndex = 0;
@@ -229,7 +229,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(820, 468);
+            this.label5.Location = new System.Drawing.Point(820, 484);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(149, 25);
             this.label5.TabIndex = 0;
@@ -239,7 +239,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(4, 929);
+            this.label6.Location = new System.Drawing.Point(4, 945);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(182, 25);
             this.label6.TabIndex = 0;
@@ -249,7 +249,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(4, 1399);
+            this.label7.Location = new System.Drawing.Point(4, 1415);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(152, 25);
             this.label7.TabIndex = 0;
@@ -261,7 +261,7 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(825, 28);
+            this.dataGridView1.Location = new System.Drawing.Point(825, 44);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -279,7 +279,7 @@
             this.dataGridViewQuality.AllowUserToDeleteRows = false;
             this.dataGridViewQuality.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridViewQuality.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewQuality.Location = new System.Drawing.Point(12, 95);
+            this.dataGridViewQuality.Location = new System.Drawing.Point(12, 111);
             this.dataGridViewQuality.MultiSelect = false;
             this.dataGridViewQuality.Name = "dataGridViewQuality";
             this.dataGridViewQuality.RowHeadersVisible = false;
@@ -296,7 +296,7 @@
             this.dataGridViewCompany.AllowUserToDeleteRows = false;
             this.dataGridViewCompany.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridViewCompany.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCompany.Location = new System.Drawing.Point(12, 373);
+            this.dataGridViewCompany.Location = new System.Drawing.Point(12, 389);
             this.dataGridViewCompany.MultiSelect = false;
             this.dataGridViewCompany.Name = "dataGridViewCompany";
             this.dataGridViewCompany.RowHeadersVisible = false;
@@ -304,7 +304,7 @@
             this.dataGridViewCompany.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridViewCompany.RowTemplate.Height = 24;
             this.dataGridViewCompany.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewCompany.Size = new System.Drawing.Size(215, 430);
+            this.dataGridViewCompany.Size = new System.Drawing.Size(215, 407);
             this.dataGridViewCompany.TabIndex = 0;
             // 
             // factoryDataDataSet
@@ -330,7 +330,7 @@
             // 
             this.allQualityCK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.allQualityCK.AutoSize = true;
-            this.allQualityCK.Location = new System.Drawing.Point(12, 73);
+            this.allQualityCK.Location = new System.Drawing.Point(12, 89);
             this.allQualityCK.Name = "allQualityCK";
             this.allQualityCK.Size = new System.Drawing.Size(45, 21);
             this.allQualityCK.TabIndex = 0;
@@ -342,7 +342,7 @@
             // 
             this.allColourCK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.allColourCK.AutoSize = true;
-            this.allColourCK.Location = new System.Drawing.Point(12, 349);
+            this.allColourCK.Location = new System.Drawing.Point(12, 365);
             this.allColourCK.Name = "allColourCK";
             this.allColourCK.Size = new System.Drawing.Size(45, 21);
             this.allColourCK.TabIndex = 0;
@@ -354,7 +354,7 @@
             // 
             this.allCompanyCK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.allCompanyCK.AutoSize = true;
-            this.allCompanyCK.Location = new System.Drawing.Point(12, 816);
+            this.allCompanyCK.Location = new System.Drawing.Point(12, 802);
             this.allCompanyCK.Name = "allCompanyCK";
             this.allCompanyCK.Size = new System.Drawing.Size(45, 21);
             this.allCompanyCK.TabIndex = 0;
@@ -368,7 +368,7 @@
             this.dataGridViewCName.AllowUserToDeleteRows = false;
             this.dataGridViewCName.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridViewCName.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCName.Location = new System.Drawing.Point(12, 842);
+            this.dataGridViewCName.Location = new System.Drawing.Point(12, 828);
             this.dataGridViewCName.MultiSelect = false;
             this.dataGridViewCName.Name = "dataGridViewCName";
             this.dataGridViewCName.RowHeadersVisible = false;
@@ -382,7 +382,7 @@
             // detailsButton
             // 
             this.detailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.detailsButton.Location = new System.Drawing.Point(1195, 32);
+            this.detailsButton.Location = new System.Drawing.Point(1195, 48);
             this.detailsButton.Name = "detailsButton";
             this.detailsButton.Size = new System.Drawing.Size(117, 33);
             this.detailsButton.TabIndex = 3;
@@ -393,7 +393,7 @@
             // backButton
             // 
             this.backButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.backButton.Location = new System.Drawing.Point(1072, 32);
+            this.backButton.Location = new System.Drawing.Point(1072, 48);
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(117, 33);
             this.backButton.TabIndex = 4;
@@ -406,7 +406,7 @@
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Location = new System.Drawing.Point(1172, 48);
+            this.label8.Location = new System.Drawing.Point(1172, 64);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(17, 17);
             this.label8.TabIndex = 5;
@@ -417,7 +417,7 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(1295, 48);
+            this.label9.Location = new System.Drawing.Point(1295, 64);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(17, 17);
             this.label9.TabIndex = 6;
@@ -425,6 +425,7 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.dataGridView5);
             this.panel1.Controls.Add(this.label10);
@@ -440,9 +441,9 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(237, 72);
+            this.panel1.Location = new System.Drawing.Point(237, 88);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1665, 935);
+            this.panel1.Size = new System.Drawing.Size(1665, 899);
             this.panel1.TabIndex = 7;
             // 
             // dataGridView5
@@ -451,7 +452,7 @@
             this.dataGridView5.AllowUserToDeleteRows = false;
             this.dataGridView5.AllowUserToResizeRows = false;
             this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView5.Location = new System.Drawing.Point(825, 957);
+            this.dataGridView5.Location = new System.Drawing.Point(825, 973);
             this.dataGridView5.MultiSelect = false;
             this.dataGridView5.Name = "dataGridView5";
             this.dataGridView5.ReadOnly = true;
@@ -467,7 +468,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(820, 929);
+            this.label10.Location = new System.Drawing.Point(820, 945);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(222, 25);
             this.label10.TabIndex = 2;

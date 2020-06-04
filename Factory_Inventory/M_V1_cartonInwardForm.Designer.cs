@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,16 +45,16 @@
             this.comboBox2CB = new System.Windows.Forms.ComboBox();
             this.costLabel = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.factoryInventoryDataSet = new Factory_Inventory.FactoryInventoryDataSet();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
             this.lockCartonsCK = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
-            this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dynamicWeightLabel = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -201,14 +201,14 @@
             this.dataGridView2.AllowUserToDeleteRows = false;
             this.dataGridView2.AllowUserToResizeColumns = false;
             this.dataGridView2.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Quality,
@@ -224,6 +224,37 @@
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.TabStop = false;
             this.dataGridView2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellValueChanged);
+            // 
+            // Quality
+            // 
+            this.Quality.HeaderText = "Quality";
+            this.Quality.MinimumWidth = 6;
+            this.Quality.Name = "Quality";
+            this.Quality.ReadOnly = true;
+            this.Quality.Width = 125;
+            // 
+            // Cost
+            // 
+            this.Cost.HeaderText = "Price/kg";
+            this.Cost.MinimumWidth = 6;
+            this.Cost.Name = "Cost";
+            this.Cost.Width = 125;
+            // 
+            // Weight
+            // 
+            this.Weight.HeaderText = "Weight";
+            this.Weight.MinimumWidth = 6;
+            this.Weight.Name = "Weight";
+            this.Weight.ReadOnly = true;
+            this.Weight.Width = 125;
+            // 
+            // Total_Price
+            // 
+            this.Total_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Total_Price.HeaderText = "Total Price";
+            this.Total_Price.MinimumWidth = 6;
+            this.Total_Price.Name = "Total_Price";
+            this.Total_Price.ReadOnly = true;
             // 
             // factoryInventoryDataSet
             // 
@@ -272,35 +303,6 @@
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
-            // Quality
-            // 
-            this.Quality.HeaderText = "Quality";
-            this.Quality.MinimumWidth = 6;
-            this.Quality.Name = "Quality";
-            this.Quality.ReadOnly = true;
-            this.Quality.Width = 125;
-            // 
-            // Cost
-            // 
-            this.Cost.HeaderText = "Price/kg";
-            this.Cost.MinimumWidth = 6;
-            this.Cost.Name = "Cost";
-            // 
-            // Weight
-            // 
-            this.Weight.HeaderText = "Weight";
-            this.Weight.MinimumWidth = 6;
-            this.Weight.Name = "Weight";
-            this.Weight.ReadOnly = true;
-            // 
-            // Total_Price
-            // 
-            this.Total_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Total_Price.HeaderText = "Total Price";
-            this.Total_Price.MinimumWidth = 6;
-            this.Total_Price.Name = "Total_Price";
-            this.Total_Price.ReadOnly = true;
-            // 
             // dynamicWeightLabel
             // 
             this.dynamicWeightLabel.Location = new System.Drawing.Point(203, 506);
@@ -342,6 +344,7 @@
             this.Controls.Add(this.inputDate);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
+            this.DoubleBuffered = true;
             this.Name = "M_V1_cartonInwardForm";
             this.Text = "Voucher - Carton Inward";
             this.Load += new System.EventHandler(this.M_V1_cartonInwardForm_Load);

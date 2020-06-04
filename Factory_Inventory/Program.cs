@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Drawing;
 
 namespace Factory_Inventory
 {
@@ -63,7 +64,12 @@ namespace Factory_Inventory
                     M_1_MainS ms = new M_1_MainS(c, f1.username, f1.access);
                     Global.background = new TwistERP();
                     Global.background.IsMdiContainer = true;
-                    Global.background.show_form(ms);
+                    ms.MdiParent = Global.background;
+                    ms.Scale(new SizeF(1.3F, 1.3F));
+                    ms.AutoScaleMode = AutoScaleMode.Font;
+                    ms.StartPosition = FormStartPosition.CenterScreen;
+                    ms.Show();
+                    //Global.background.MdiChildren[0].StartPosition= 
                     Application.Run(Global.background);
                     if (ms.logout == true)
                     {

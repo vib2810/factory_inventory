@@ -15,13 +15,17 @@ namespace Factory_Inventory
         public bool temp;
         public TwistERP()
         {
-            this.DoubleBuffered = true;
             InitializeComponent();
+            this.DoubleBuffered = true;
         }
-        public void show_form(dynamic f)
+        public void show_form(Form f)
         {
             f.MdiParent = this;
+            f.MaximizeBox= false;
+            f.FormBorderStyle = FormBorderStyle.FixedSingle;
+            //this.MdiChildren[this.MdiChildren.Length-1].MinimizeBox
             f.Show();
         }
+
     }
 }

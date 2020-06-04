@@ -312,7 +312,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(363, 415);
+            this.label23.Location = new System.Drawing.Point(364, 415);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(87, 17);
             this.label23.TabIndex = 40;
@@ -321,7 +321,7 @@
             // textBox18
             // 
             this.textBox18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox18.Location = new System.Drawing.Point(366, 435);
+            this.textBox18.Location = new System.Drawing.Point(367, 435);
             this.textBox18.Name = "textBox18";
             this.textBox18.ReadOnly = true;
             this.textBox18.Size = new System.Drawing.Size(183, 22);

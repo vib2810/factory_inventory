@@ -71,6 +71,10 @@
             this.label17 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox20 = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBox21 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -266,7 +270,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(201, 424);
+            this.label12.Location = new System.Drawing.Point(200, 424);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(78, 17);
             this.label12.TabIndex = 20;
@@ -275,7 +279,7 @@
             // textBox11
             // 
             this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox11.Location = new System.Drawing.Point(204, 444);
+            this.textBox11.Location = new System.Drawing.Point(203, 444);
             this.textBox11.Name = "textBox11";
             this.textBox11.ReadOnly = true;
             this.textBox11.Size = new System.Drawing.Size(147, 22);
@@ -404,7 +408,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(363, 424);
+            this.label23.Location = new System.Drawing.Point(359, 424);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(81, 17);
             this.label23.TabIndex = 40;
@@ -413,16 +417,16 @@
             // textBox18
             // 
             this.textBox18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox18.Location = new System.Drawing.Point(366, 444);
+            this.textBox18.Location = new System.Drawing.Point(362, 444);
             this.textBox18.Name = "textBox18";
             this.textBox18.ReadOnly = true;
-            this.textBox18.Size = new System.Drawing.Size(183, 22);
+            this.textBox18.Size = new System.Drawing.Size(147, 22);
             this.textBox18.TabIndex = 39;
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(201, 473);
+            this.label24.Location = new System.Drawing.Point(200, 473);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(92, 17);
             this.label24.TabIndex = 42;
@@ -449,7 +453,7 @@
             // textBox16
             // 
             this.textBox16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBox16.Location = new System.Drawing.Point(204, 493);
+            this.textBox16.Location = new System.Drawing.Point(203, 493);
             this.textBox16.Name = "textBox16";
             this.textBox16.ReadOnly = true;
             this.textBox16.Size = new System.Drawing.Size(147, 22);
@@ -465,11 +469,51 @@
             this.label25.TabIndex = 45;
             this.label25.Text = "Bill";
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(522, 424);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(53, 17);
+            this.label20.TabIndex = 47;
+            this.label20.Text = "Slip No";
+            // 
+            // textBox20
+            // 
+            this.textBox20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox20.Location = new System.Drawing.Point(525, 444);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.ReadOnly = true;
+            this.textBox20.Size = new System.Drawing.Size(147, 22);
+            this.textBox20.TabIndex = 46;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(360, 473);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(68, 17);
+            this.label26.TabIndex = 49;
+            this.label26.Text = "Redyeing";
+            // 
+            // textBox21
+            // 
+            this.textBox21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox21.Location = new System.Drawing.Point(363, 493);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.ReadOnly = true;
+            this.textBox21.Size = new System.Drawing.Size(183, 22);
+            this.textBox21.TabIndex = 48;
+            // 
             // Display_Batch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 541);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.textBox21);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.textBox20);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.textBox16);
@@ -566,5 +610,9 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textBox20;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox textBox21;
     }
 }
