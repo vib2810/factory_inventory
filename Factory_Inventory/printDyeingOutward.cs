@@ -20,6 +20,7 @@ namespace Factory_Inventory
         private int topmargin;
         private int lrmargin;
         string where = "";
+        int basic_font_size = 9;
         M_V4_printDyeingOutward parent;
         public printDyeingOutward(DataRow row, M_V4_printDyeingOutward f)
         {
@@ -37,7 +38,6 @@ namespace Factory_Inventory
             this.customerNameTextbox.Text = row["Dyeing_Company_Name"].ToString();
             this.qualityTextbox.Text = row["Quality"].ToString();
             this.shadeTextbox.Text = row["Colour"].ToString();
-            this.netwtTextbox.Text = row["Net_Weight"].ToString();
             DataTable dyeing_company = c.getTableRows("Dyeing_Company_Names", "Dyeing_Company_Names='" + row["Dyeing_Company_Name"].ToString()+"'");
             this.customerAddressTextbox.Text = dyeing_company.Rows[0]["Customer_Address"].ToString();
             this.customergstin.Text = dyeing_company.Rows[0]["GSTIN"].ToString();
@@ -58,9 +58,17 @@ namespace Factory_Inventory
             {
                 DataTable dtemp= c.getTrayTable_TrayID(int.Parse(tray_ids[i]));
                 float spring_wt = c.getSpringWeight(dtemp.Rows[0]["Spring"].ToString())*int.Parse(dtemp.Rows[0]["Number_Of_Springs"].ToString());
-                net_wt += float.Parse(dtemp.Rows[0]["Net_Weight"].ToString());
-                dt.Rows.Add(i+1, dtemp.Rows[0]["Tray_No"].ToString(), dtemp.Rows[0]["Gross_Weight"].ToString(), dtemp.Rows[0]["Tray_Tare"].ToString(), dtemp.Rows[0]["Machine_No"].ToString(), dtemp.Rows[0]["Number_of_Springs"].ToString(), spring_wt,dtemp.Rows[0]["Net_Weight"].ToString());
+                float gross_wt = float.Parse(dtemp.Rows[0]["Gross_Weight"].ToString());
+                float tray_wt= float.Parse(dtemp.Rows[0]["Net_Weight"].ToString());
+                if (row["Dyeing_Company_Name"].ToString() == "Ichalkaranji Textiles Pvt Ltd")
+                {
+                    gross_wt -= 1.25F;
+                    tray_wt -= 1.25F;
+                }
+                net_wt += tray_wt;
+                dt.Rows.Add(i+1, dtemp.Rows[0]["Tray_No"].ToString(), gross_wt, dtemp.Rows[0]["Tray_Tare"].ToString(), dtemp.Rows[0]["Machine_No"].ToString(), dtemp.Rows[0]["Number_of_Springs"].ToString(), spring_wt, tray_wt);
             }
+            this.netwtTextbox.Text = net_wt.ToString("F3");
 
             dt.Rows.Add("", "", "", "", "", "", "Net Weight", net_wt);
             dataGridView1.DataSource = dt;
@@ -73,10 +81,12 @@ namespace Factory_Inventory
             dataGridView1.Columns["Springs"].Width = 50;
             dataGridView1.Columns["Spring Wt"].Width = weight_width;
             dataGridView1.Columns["Net Wt"].Width = weight_width;
-            dataGridView1.Columns["Net Wt"].AutoSizeMode= DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(t => t.SortMode = DataGridViewColumnSortMode.NotSortable);
+            c.auto_adjust_dgv(dataGridView1);
+            dataGridView1.Columns["Sl No"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridView1.Columns["Sl No"].Width= 80;
             this.where= "Batch_No="+ this.batchnoTextbox.Text+" AND Fiscal_Year='"+ row["Fiscal_Year"].ToString()+"'";
         }
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -165,10 +175,11 @@ namespace Factory_Inventory
         {
             //inputs write_height(not including the margin)
             //returns the next write height(not including the margin)
-            int basic_size = 8;
+            int basic_size = this.basic_font_size;
             int header_size_sub = 5;
 
             write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
+            write_height += write(e, -1, write_height, 0, "FOR JOB WORK", basic_size + 3, 'c', 1) - header_size_sub-3;
             write_height += write(e, -1, write_height, 0, "Krishana Sales and Industries", basic_size + 6, 'c', 1) - header_size_sub - 3;
             write_height += write(e, -1, write_height, 0, "550/1, Datta Galli, M. Vadgaon, Belagavi", basic_size + 2, 'c', 1) - header_size_sub;
             write_height += write(e, -1, write_height, 0, "(GSTIN No. 29AIOPM5869K1Z8)", basic_size + 2, 'c', 1);
@@ -180,17 +191,16 @@ namespace Factory_Inventory
             write(e, (int)(0.50 * current_width), write_height, (int)(0.25 * current_width), "Invoice Date: ", basic_size, 'r', 1);
             write_height += write(e, (int)(0.75 * current_width), write_height, (int)(0.25 * current_width), this.outDateTextbox.Text, basic_size, 'r', 0, 1);
             //second row
-            write(e, 0, write_height, (int)(0.25 * current_width), "Customer Name: ", basic_size, 'l', 1);
-            write_height += write(e, (int)(0.25 * current_width), write_height, (int)(0.75 * current_width), this.customerNameTextbox.Text, basic_size, 'l', 0, 1);
+            write(e, 0, write_height, (int)(0.15 * current_width), "Customer Name: ", basic_size, 'l', 1);
+            write(e, (int)(0.15 * current_width), write_height, (int)(0.3 * current_width), this.customerNameTextbox.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.450 * current_width), write_height, (int)(0.20 * current_width), "Customer GSTIN: ", basic_size, 'r', 1);
+            write_height += write(e, (int)(0.65 * current_width), write_height, (int)(0.35* current_width), this.customergstin.Text, basic_size, 'l', 0, 1);
             //third row
-            write(e, 0, write_height, (int)(0.25 * current_width), "Customer Address: ", basic_size, 'l', 1);
-            write_height += write(e, (int)(0.25 * current_width), write_height, (int)(0.75 * current_width), this.customerAddressTextbox.Text, basic_size, 'l', 0, 1);
+            write(e, 0, write_height, (int)(0.15 * current_width), "Address: ", basic_size, 'l', 1);
+            write(e, (int)(0.15* current_width), write_height, (int)(0.52 * current_width), this.customerAddressTextbox.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.67 * current_width), write_height, (int)(0.20 * current_width), "HSN Number: ", basic_size, 'r', 1);
+            write_height += write(e, (int)(0.87 * current_width), write_height, (int)(0.13 * current_width), this.hsnnumber.Text, basic_size, 'r', 0, 1);
             //fourth row
-            write(e, 0, write_height, (int)(0.20 * current_width), "Customer GSTIN: ", basic_size, 'l', 1);
-            write(e, (int)(0.20 * current_width), write_height, (int)(0.45 * current_width), this.customergstin.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.65 * current_width), write_height, (int)(0.20 * current_width), "HSN Number: ", basic_size, 'r', 1);
-            write_height += write(e, (int)(0.85 * current_width), write_height, (int)(0.15 * current_width), this.hsnnumber.Text, basic_size, 'r', 0, 1);
-            //fifth row
             write(e, 0, write_height, (int)(0.10 * current_width), "Quality: ", basic_size, 'l', 1);
             write(e, (int)(0.10 * current_width), write_height, (int)(0.23 * current_width), this.qualityTextbox.Text, basic_size, 'l', 0, 1);
             write(e, (int)(0.33 * current_width), write_height, (int)(0.10 * current_width), "Shade: ", basic_size, 'r', 1);
@@ -231,7 +241,7 @@ namespace Factory_Inventory
             Console.WriteLine("write height dgv: " + write_height);
             int start_width = lrmargin;
             int width = start_width;
-            Font newFont = new Font(dataGridView1.Font.FontFamily, dataGridView1.Font.Size, FontStyle.Bold);
+            Font newFont = new Font(dataGridView1.Font.FontFamily, this.basic_font_size, FontStyle.Bold);
             for (int j = 0; j < dataGridView1.Columns.Count; j++)
             {
                 str.Alignment = StringAlignment.Center;
@@ -240,14 +250,14 @@ namespace Factory_Inventory
                 g.DrawRectangle(Pens.Black, width, start_height, column_widths[j], dataGridView1.Rows[0].Height);
                 g.DrawString(dataGridView1.Columns[j].HeaderText, newFont, Brushes.Black, new RectangleF(width, start_height, column_widths[j], dataGridView1.Rows[0].Height), str);
                 if (j == 0) write_height += dataGridView1.Rows[0].Height;
-                newFont = new Font(dataGridView1.Font.FontFamily, dataGridView1.Font.Size, FontStyle.Regular);
+                newFont = new Font(dataGridView1.Font.FontFamily, this.basic_font_size, FontStyle.Regular);
                 str.Alignment = StringAlignment.Far;
                 int height = start_height;
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
                     if (i == dataGridView1.Rows.Count - 1)
                     {
-                        newFont = new Font(dataGridView1.Font.FontFamily, dataGridView1.Font.Size, FontStyle.Bold);
+                        newFont = new Font(dataGridView1.Font.FontFamily, this.basic_font_size, FontStyle.Bold);
                     }
                     height += dataGridView1.Rows[i].Height;
                     if (j == 0) write_height += dataGridView1.Rows[i].Height;
