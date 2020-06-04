@@ -211,6 +211,9 @@
     <Compile Include="Factory_Classes\SuccessBox.Designer.cs">
       <DependentUpon>SuccessBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="HSComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="M_1_BackupRestoreUC.cs">
       <SubType>UserControl</SubType>
     </Compile>

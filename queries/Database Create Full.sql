@@ -600,7 +600,7 @@ CREATE TABLE Dyeing_Company_Names(
 CREATE TABLE Quality(
 	Quality varchar(20) NOT NULL,
   HSN_No varchar(15) NOT NULL,
-	Print_Colour varchar(10) NOT NULL,
+	Print_Colour varchar(30) NOT NULL,
   Quality_Before_Twist varchar(20) NOT NULL
 );
 

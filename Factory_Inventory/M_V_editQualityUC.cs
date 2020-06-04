@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Factory_Inventory.Factory_Classes;
+using HatchStyleComboBox;
+using System.Drawing.Drawing2D;
 
 namespace Factory_Inventory
 {
@@ -15,19 +17,42 @@ namespace Factory_Inventory
     {
         private DbConnect c;
         public string currentUser;
-        public string edit_colour_code, add_colour_code;
+        public bool which_hscb;
+        List<string> l = new List<string>();
         //private int selectedRowIndex = -1;
         public editQuality()
         {
             InitializeComponent();
             this.c = new DbConnect();
-            this.edit_colour_code = "";
-            this.add_colour_code = "";
+            l.Add("");
+            l.Add("Percent10");
+            l.Add("Percent90");
+            l.Add("Horizontal");
+            l.Add("Vertical");
+            l.Add("WideDownwardDiagonal");
+            l.Add("Cross");
+            l.Add("DiagonalCross");
+            l.Add("DashedUpwardDiagonal");
+            l.Add("DashedHorizontal");
+            l.Add("DashedVertical");
+            l.Add("LargeConfetti");
+            l.Add("ZigZag");
+            l.Add("DiagonalBrick");
+            l.Add("HorizontalBrick");
+            l.Add("Plaid");
+            l.Add("Shingle");
+            l.Add("LargeCheckerBoard");
+            l.Add("SolidDiamond");
+            List<string> l2 = new List<string>(l);
+            this.hsComboBox2.DataSource = l;
+            this.hsComboBox3.DataSource = l2;
         }
         public void loadDatabase()
         {
             DataTable d = c.getQC('q');
             dataGridView1.DataSource = d;
+            this.dataGridView1.Columns[2].HeaderText = "Print Pattern";
+            c.auto_adjust_dgv(dataGridView1);
         }
         private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -35,24 +60,8 @@ namespace Factory_Inventory
             {
                 editedQualityTextboxTB.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
                 editHSNNoTB.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                if(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString()[0]>=97 && dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString()[0] <= 122)
-                {
-                    editPickColourTB.BackColor = System.Drawing.ColorTranslator.FromHtml("#"+dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-                }
-                else
-                {
-                    editPickColourTB.BackColor = System.Drawing.ColorTranslator.FromHtml(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-                }
-                this.edit_colour_code = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                hsComboBox3.SelectedIndex = this.hsComboBox3.FindStringExact(this.dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
                 editQualityBeforeTwistTB.Text = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-            }
-        }
-        private void addpickcolourButton_Click(object sender, EventArgs e)
-        {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                this.addPickColourTB.BackColor = this.colorDialog1.Color;
-                this.add_colour_code = this.colorDialog1.Color.Name;
             }
         }
         private void confirmButton_Click_1(object sender, EventArgs e)
@@ -68,18 +77,17 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    if (editedQualityTextboxTB.Text == "" || editHSNNoTB.Text == "" || this.edit_colour_code == "" || editQualityBeforeTwistTB.Text == "")
+                    if (editedQualityTextboxTB.Text == "" || editHSNNoTB.Text == "" || this.hsComboBox3.SelectedIndex <= 0 || editQualityBeforeTwistTB.Text == "")
                     {
                         c.ErrorBox("Enter all values", "Error");
                         return;
                     }
-                    c.editQuality(editQualityBeforeTwistTB.Text, editHSNNoTB.Text, this.edit_colour_code, editedQualityTextboxTB.Text, dataGridView1.Rows[row].Cells[0].Value.ToString());
+                    c.editQuality(editQualityBeforeTwistTB.Text, editHSNNoTB.Text, this.hsComboBox3.SelectedItem.ToString(), editedQualityTextboxTB.Text, dataGridView1.Rows[row].Cells[0].Value.ToString());
                 }
                 
                 //this.selectedRowIndex = -1;
                 this.editedQualityTextboxTB.Text = "";
                 editHSNNoTB.Text = "";
-                editPickColourTB.BackColor = Color.White;
                 editQualityBeforeTwistTB.Text = "";
                 this.deleteUserCheckboxCK.Checked = false;
                 loadDatabase();
@@ -90,24 +98,47 @@ namespace Factory_Inventory
         }
         private void addQualityButton_Click_1(object sender, EventArgs e)
         {
-            if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.add_colour_code == "" || addQualityBeforeTwistTB.Text == "")
+            if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.hsComboBox2.SelectedIndex <= 0 || addQualityBeforeTwistTB.Text == "")
             {
                 c.ErrorBox("Enter all values", "Error");
                 return;
             }
-            c.addQuality(addQualityBeforeTwistTB.Text, addHSNNoTB.Text, this.add_colour_code, this.newQualityTextboxTB.Text); 
+            c.addQuality(addQualityBeforeTwistTB.Text, addHSNNoTB.Text, this.hsComboBox2.SelectedItem.ToString(), this.newQualityTextboxTB.Text); 
             this.newQualityTextboxTB.Text = "";
             this.addHSNNoTB.Text = "";
-            this.addPickColourTB.BackColor = Color.White;
             this.addQualityBeforeTwistTB.Text = "";
             loadDatabase();
         }
-        private void editpickcolourButton_Click(object sender, EventArgs e)
+        private void hsComboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(colorDialog1.ShowDialog()==DialogResult.OK)
+            if (hsComboBox3.SelectedIndex > 0)
             {
-                this.editPickColourTB.BackColor = this.colorDialog1.Color;
-                this.edit_colour_code = this.colorDialog1.Color.Name;
+                this.Invalidate();
+            }
+        }
+        private void editQuality_Paint(object sender, PaintEventArgs e)
+        {
+            if (hsComboBox2.SelectedIndex > 0)
+            {
+                Graphics g = e.Graphics;
+                HatchStyle hs = (HatchStyle)Enum.Parse(typeof(HatchStyle), hsComboBox2.SelectedItem.ToString(), true);
+                HatchBrush b = new HatchBrush(hs, Color.Black, this.BackColor);
+                g.FillRectangle(b, new Rectangle(155, 396, 75, 31));
+            }
+            if (hsComboBox3.SelectedIndex > 0)
+            {
+                Graphics g = e.Graphics;
+                HatchStyle hs = (HatchStyle)Enum.Parse(typeof(HatchStyle), hsComboBox3.SelectedItem.ToString(), true);
+                HatchBrush b = new HatchBrush(hs, Color.Black, this.BackColor);
+                g.FillRectangle(b, new Rectangle(155, 133, 75, 31));
+            }
+
+        }
+        private void hsComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (hsComboBox2.SelectedIndex > 0)
+            {
+                this.Invalidate();
             }
         }
     }
