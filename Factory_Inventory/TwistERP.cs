@@ -37,7 +37,14 @@ namespace Factory_Inventory
             }
             f.Show();
             this.LayoutMdi(MdiLayout.Cascade);
-            this.MdiChildren[0].SendToBack();
+            foreach (var child in this.MdiChildren)
+            {
+                if(child.Name== "M_1_MainS")
+                {
+                    child.SendToBack();
+                    break;
+                }
+            }
         }
 
     }

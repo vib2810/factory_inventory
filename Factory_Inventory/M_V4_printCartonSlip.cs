@@ -331,6 +331,12 @@ namespace Factory_Inventory
             }
             this.slip_count = cartons_to_print.Count;
             printPreviewDialog1.ShowDialog();
+            printDialog1.Document = printDocument1;
+
+            if (printDialog1.ShowDialog() == DialogResult.OK)
+            {
+                printDocument1.Print();
+            }
         }
         private void button1_Click(object sender, EventArgs e)
         {
