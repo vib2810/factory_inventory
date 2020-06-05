@@ -27,15 +27,17 @@ namespace Factory_Inventory
             }
             else
             {
-                if(f.StartPosition!= FormStartPosition.CenterScreen)
-                {
-                    f.StartPosition = FormStartPosition.Manual;
-                    f.Location = new System.Drawing.Point((int)(Screen.PrimaryScreen.Bounds.Width/20), Screen.PrimaryScreen.Bounds.Height/20);
-                }
+                //if(f.StartPosition!= FormStartPosition.CenterScreen)
+                //{
+                //    f.StartPosition = FormStartPosition.Manual;
+                //    f.Location = new System.Drawing.Point((int)(Screen.PrimaryScreen.Bounds.Width/20), Screen.PrimaryScreen.Bounds.Height/20);
+                //}
                 f.MaximizeBox = false;
                 f.MdiParent = this;
             }
             f.Show();
+            this.LayoutMdi(MdiLayout.Cascade);
+            this.MdiChildren[0].SendToBack();
         }
 
     }

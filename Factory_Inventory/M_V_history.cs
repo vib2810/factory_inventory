@@ -636,7 +636,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Voucher_ID"].Visible = false;
                 if (dataGridView1.Rows.Count >= 1 && dataGridView1.SelectedRows.Count > 0)
                 {
-                    if (dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells["Voucher_Closed"].Value.ToString() == "1")
+                    if (dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells["Voucher_Closed"].Value.ToString() == "1" && Global.access == 2)
                     {
                         this.editDetailsButton.Enabled = false;
                     }
@@ -860,7 +860,7 @@ namespace Factory_Inventory
             if (this.vno == 8 && dataGridView1.CurrentRow.Index >= 0)
             {
                 Console.WriteLine(dataGridView1.CurrentRow.Cells[10].Value.ToString());
-                if (dataGridView1.CurrentRow.Cells[10].Value.ToString() == "1")
+                if (dataGridView1.CurrentRow.Cells[10].Value.ToString() == "1" && Global.access == 2)
                 {
                     this.editDetailsButton.Enabled = false;
                 }
@@ -871,7 +871,6 @@ namespace Factory_Inventory
             }
 
         }
-
         private void M_V_history_FormClosing(object sender, FormClosingEventArgs e)
         {
             int count = 0;

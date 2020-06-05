@@ -471,7 +471,7 @@ namespace Factory_Inventory
             string unformatted_batch_nos = carton_data["Batch_No_Arr"].ToString();
             string batch_nos = unformatted_batch_nos.Substring(0, unformatted_batch_nos.Length - 1).Replace(",", ", ");
             write(e, x + (int)(0.02 * width), write_height, (int)(0.23 * width), "Batch No", basic_size + 1, 'l', 0, 0);
-            write_height += write(e, x + (int)(0.25 * width), write_height-3, (int)(0.25 * width), ":  " + batch_nos, basic_size + 3, 'l', 0, 0)+1;
+            write_height += write(e, x + (int)(0.25 * width), write_height-3, (int)(0.73 * width), ":  " + batch_nos, basic_size + 3, 'l', 0, 0)+1;
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x, write_height, x + width, write_height);
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x+(width/2), write_height, x + (width/2), y+height-70);
 

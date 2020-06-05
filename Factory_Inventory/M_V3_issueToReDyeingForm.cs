@@ -22,6 +22,7 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private bool edit_form = false;
         private int voucher_id;
+        private string highest_batch_no;
 
         //Form functions
         public M_V3_issueToReDyeingForm()
@@ -243,29 +244,6 @@ namespace Factory_Inventory
             this.batchWeightTB.Text = this.old_batch_row["Net_Weight"].ToString();
             this.companyNameTB.Text = this.old_batch_row["Company_Name"].ToString();
             this.dyeingCompanyNameTB.Text = this.old_batch_row["Dyeing_Company_Name"].ToString();
-
-            if(this.fullRedyeCK.Checked==true)
-            {
-                this.addTrayButton.Enabled = false;
-                this.editTrayButton.Enabled = false;
-                DataTable dt = c.getTrayDataBothTables("*", "Tray_ID IN ('"+c.removecom(this.old_batch_row["Tray_ID_Arr"].ToString())+"')");
-                this.dataGridView1.DataSource = dt;
-                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
-                this.dataGridView1.Columns["Sl_No"].Visible = true;
-                this.dataGridView1.Columns["Sl_No"].DisplayIndex = 0;
-                this.dataGridView1.Columns["Sl_No"].Width = 80;
-                this.dataGridView1.Columns["Sl_No"].HeaderText = "Sl No";
-                this.dataGridView1.Columns["Tray_No"].Visible = true;
-                this.dataGridView1.Columns["Tray_No"].HeaderText = "Tray No";
-                this.dataGridView1.Columns["Tray_No"].DisplayIndex = 2;
-                this.dataGridView1.Columns["Quality"].Visible = true;
-                this.dataGridView1.Columns["Quality"].DisplayIndex = 4;
-                this.dataGridView1.Columns["Quality"].Width = 150;
-                this.dataGridView1.Columns["Net_Weight"].Visible = true;
-                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 6;
-                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
-                c.auto_adjust_dgv(this.dataGridView1);
-            }
         }
         private void disable_form_edit()
         {
@@ -288,6 +266,8 @@ namespace Factory_Inventory
             {
                 if (dataGridView1.Rows.Count == 0)
                 {
+                    this.redyeingBatchWeightTB.Text = "0";
+                    this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
                     return;
                 }
                 for (int i = 0; i < dataGridView1.Rows.Count; ++i)
@@ -296,7 +276,14 @@ namespace Factory_Inventory
                         sum += float.Parse(dataGridView1.Rows[i].Cells["Net Weight"].Value.ToString());
                 }
                 this.redyeingBatchWeightTB.Text = sum.ToString("F3");
-                this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
+                if(this.fullRedyeCK.Checked == false)
+                {
+                    this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
+                }
+                else
+                {
+                    this.nonRedyeingBatchWeightTB.Text = "N/A";
+                }
             }
             catch
             {
@@ -314,18 +301,20 @@ namespace Factory_Inventory
                 c.ErrorBox("Please Select Batch Number", "Error");
                 return;
             }
-            load_batch();
+            load_batch(); 
             if(this.edit_form==false)
             {
-                this.nonRedyeingBatchNoTB.Text = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(DateTime.Now));
+                this.nonRedyeingBatchNoTB.Text = this.highest_batch_no = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(DateTime.Now));
                 this.redyeingBatchNoTB.Text = (int.Parse(this.nonRedyeingBatchNoTB.Text) + 1).ToString();
+                
             }
             this.redyeingColourCB.Enabled = true;
             this.rateTextBoxTB.ReadOnly = false;
+            this.saveButton.Enabled = true;
             this.addTrayButton.Enabled = true;
             this.editTrayButton.Enabled = true;
-            this.saveButton.Enabled = true;
-            this.fullRedyeCK.Enabled = true;
+            this.redyeingBatchWeightTB.Text = "0";
+            this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
             //Create drop-down Colour list
             var dataSource1 = new List<string>();
             DataTable d = c.getQC('l');
@@ -374,7 +363,12 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             //checks
-            if (float.Parse(this.nonRedyeingBatchWeightTB.Text) < 0)
+            if(this.dataGridView1.Rows.Count==0)
+            {
+                c.ErrorBox("Please enter atleast one tray");
+                return;
+            }
+            if (float.Parse(this.redyeingBatchWeightTB.Text) > float.Parse(this.batchWeightTB.Text))
             {
                 c.ErrorBox("Weight of batch being sent for redyeing is greater than original batch weight");
                 return;
@@ -396,11 +390,24 @@ namespace Factory_Inventory
             bool full = false;
             if(this.fullRedyeCK.Checked == true)
             {
+                if(this.redyeingBatchWeightTB.Text != this.batchWeightTB.Text)
+                {
+                    c.ErrorBox("When full batch is sent for redyeing, redeying batch weight should be equal original batch weight");
+                    return;
+                }
                 full = true;
             }
             if (this.edit_form == false)
             {
-                bool added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, int.Parse(this.nonRedyeingBatchNoTB.Text), int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), full);
+                bool added;
+                if(full == false)
+                {
+                    added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, int.Parse(this.nonRedyeingBatchNoTB.Text), int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), full);
+                }
+                else
+                {
+                    added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, -1, int.Parse(this.old_batch_row["Batch_No"].ToString()), 0F, float.Parse(this.batchWeightTB.Text), this.old_batch_row["Fiscal_Year"].ToString(), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), full);
+                }
                 if (added == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -452,14 +459,32 @@ namespace Factory_Inventory
         {
             if (this.redyeingColourCB.SelectedIndex != 0)
             {
-                float rate = c.getDyeingRate(this.rateTextBoxTB.Text, this.qualityTB.Text);
+                float rate = c.getDyeingRate(this.redyeingColourCB.Text, this.qualityTB.Text);
                 if (rate != -1F)
                 {
                     this.rateTextBoxTB.Text = rate.ToString();
                 }
             }
+            else
+            {
+                this.rateTextBoxTB.Text = "";
+            }
         }
-
+        private void fullRedyeCK_CheckedChanged(object sender, EventArgs e)
+        {
+            if(this.fullRedyeCK.Checked == true)
+            {
+                this.nonRedyeingBatchNoTB.Text = "N/A";
+                this.nonRedyeingBatchWeightTB.Text = "N/A";
+                this.redyeingBatchNoTB.Text = this.old_batch_row["Batch_No"].ToString();
+            }
+            else
+            {
+                this.nonRedyeingBatchNoTB.Text = this.highest_batch_no;
+                this.redyeingBatchNoTB.Text = (int.Parse(this.nonRedyeingBatchNoTB.Text) + 1).ToString();
+                this.CellSum();
+            }
+        }
         //DataGridView 1
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {

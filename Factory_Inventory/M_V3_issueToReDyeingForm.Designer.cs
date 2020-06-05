@@ -411,7 +411,7 @@
             // addTrayButton
             // 
             this.addTrayButton.Enabled = false;
-            this.addTrayButton.Location = new System.Drawing.Point(776, 232);
+            this.addTrayButton.Location = new System.Drawing.Point(776, 239);
             this.addTrayButton.Name = "addTrayButton";
             this.addTrayButton.Size = new System.Drawing.Size(200, 47);
             this.addTrayButton.TabIndex = 11;
@@ -422,7 +422,7 @@
             // editTrayButton
             // 
             this.editTrayButton.Enabled = false;
-            this.editTrayButton.Location = new System.Drawing.Point(776, 290);
+            this.editTrayButton.Location = new System.Drawing.Point(776, 297);
             this.editTrayButton.Name = "editTrayButton";
             this.editTrayButton.Size = new System.Drawing.Size(200, 47);
             this.editTrayButton.TabIndex = 13;
@@ -487,13 +487,13 @@
             // fullRedyeCK
             // 
             this.fullRedyeCK.AutoSize = true;
-            this.fullRedyeCK.Enabled = false;
-            this.fullRedyeCK.Location = new System.Drawing.Point(16, 177);
+            this.fullRedyeCK.Location = new System.Drawing.Point(779, 204);
             this.fullRedyeCK.Name = "fullRedyeCK";
             this.fullRedyeCK.Size = new System.Drawing.Size(209, 21);
-            this.fullRedyeCK.TabIndex = 14;
+            this.fullRedyeCK.TabIndex = 10;
             this.fullRedyeCK.Text = "Send Full Batch to Redyeing";
             this.fullRedyeCK.UseVisualStyleBackColor = true;
+            this.fullRedyeCK.CheckedChanged += new System.EventHandler(this.fullRedyeCK_CheckedChanged);
             // 
             // M_V3_issueToReDyeingForm
             // 

@@ -2546,7 +2546,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public bool unfreeTray(string tray_ids)
+        public bool unfreeTray(string tray_ids, bool redye = false)
         {
             if (string.IsNullOrEmpty(tray_ids)) return false;
             try
@@ -2603,6 +2603,10 @@ namespace Factory_Inventory.Factory_Classes
                     catch
                     {
                         redyeing = null;
+                    }
+                    if(redye == true)
+                    {
+                        redyeing = "1";
                     }
                     //Put that row in Tray_Active with state 2 (It is in dyeing) and Dyeing_In_Date NULL
                     if(redyeing!=null)
@@ -3785,14 +3789,13 @@ namespace Factory_Inventory.Factory_Classes
             string issue_date = dtissueDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string tray_ids = "";
             //Add new trays
-            for (int i=0;i<trays.Rows.Count;i++)
+            for (int i = 0; i < trays.Rows.Count; i++)
             {
                 DateTime prod_date = Convert.ToDateTime(trays.Rows[i]["Date Of Production"].ToString());
-                int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0,10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), trays.Rows[i]["Grade"].ToString(), 1);
+                int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), trays.Rows[i]["Grade"].ToString(), 1);
                 this.sendTraytoDyeing(trays.Rows[i]["Tray No"].ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), RD_batch_no, RD_fiscal_year);
                 tray_ids += tray_id.ToString() + ",";
             }
-
             string redyeing = "";
             //Update old batch
             try
@@ -3817,47 +3820,50 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             //Add new batches
-            int bill_no;
-            string bill_date, slip_no;
-            if(old_batch_row["Bill_No"].ToString()=="0")
+            if(full == false)
             {
-                bill_no = 0;
-                bill_date = null;
-                slip_no = old_batch_row["Slip_No"].ToString();
-            }
-            else
-            {
-                bill_no =int.Parse(old_batch_row["Bill_No"].ToString());
-                bill_date = old_batch_row["Bill_Date"].ToString();
-                bill_date = bill_date.Replace('/', '-');
-                DateTime dt = Convert.ToDateTime(bill_date);
-                bill_date = dt.ToString("MM-dd-yyyy");
-                slip_no = old_batch_row["Slip_No"].ToString();
+                int bill_no;
+                string bill_date, slip_no;
+                if (old_batch_row["Bill_No"].ToString() == "0")
+                {
+                    bill_no = 0;
+                    bill_date = null;
+                    slip_no = old_batch_row["Slip_No"].ToString();
+                }
+                else
+                {
+                    bill_no = int.Parse(old_batch_row["Bill_No"].ToString());
+                    bill_date = old_batch_row["Bill_Date"].ToString();
+                    bill_date = bill_date.Replace('/', '-');
+                    DateTime dt = Convert.ToDateTime(bill_date);
+                    bill_date = dt.ToString("MM-dd-yyyy");
+                    slip_no = old_batch_row["Slip_No"].ToString();
+                }
+
+                string dyeing_out_date = old_batch_row["Dyeing_Out_Date"].ToString();
+                dyeing_out_date = dyeing_out_date.Replace('/', '-');
+                DateTime d = Convert.ToDateTime(dyeing_out_date);
+                dyeing_out_date = d.ToString("MM-dd-yyyy");
+
+                string dyeing_in_date = old_batch_row["Dyeing_In_Date"].ToString();
+                dyeing_in_date = dyeing_in_date.Replace('/', '-');
+                d = Convert.ToDateTime(dyeing_in_date);
+                dyeing_in_date = d.ToString("MM-dd-yyyy");
+                redyeing = old_batch_row["Batch_No"].ToString() + "," + old_batch_row["Fiscal_Year"].ToString() + ",";
+                bool added1 = addRDBatch(NRD_batch_no, old_batch_row["Colour"].ToString(), old_batch_row["Dyeing_Company_Name"].ToString(), dyeing_out_date, null, NRD_batch_weight, old_batch_row["Quality"].ToString(), old_batch_row["Company_Name"].ToString(), 0, float.Parse(old_batch_row["Dyeing_Rate"].ToString()), this.getFinancialYear(dtissueDate), dyeing_in_date, 2, bill_no, bill_date, slip_no, redyeing);
+                bool added2 = addRDBatch(RD_batch_no, RD_colour, old_batch_row["Dyeing_Company_Name"].ToString(), issue_date, tray_ids, RD_batch_weight, old_batch_row["Quality"].ToString(), old_batch_row["Company_Name"].ToString(), trays.Rows.Count, RD_rate, this.getFinancialYear(dtissueDate), null, 1, -1, null, null, redyeing);
+                if (added1 == false || added2 == false)
+                {
+                    return false;
+                }
             }
 
-            string dyeing_out_date = old_batch_row["Dyeing_Out_Date"].ToString();
-            dyeing_out_date = dyeing_out_date.Replace('/', '-');
-            DateTime d = Convert.ToDateTime(dyeing_out_date);
-            dyeing_out_date = d.ToString("MM-dd-yyyy");
-            
-            string dyeing_in_date = old_batch_row["Dyeing_In_Date"].ToString();
-            dyeing_in_date = dyeing_in_date.Replace('/', '-');
-            d = Convert.ToDateTime(dyeing_in_date);
-            dyeing_in_date = d.ToString("MM-dd-yyyy");
-            redyeing = old_batch_row["Batch_No"].ToString() + "," + old_batch_row["Fiscal_Year"].ToString() + ",";
-            bool added1 = addRDBatch(NRD_batch_no, old_batch_row["Colour"].ToString(), old_batch_row["Dyeing_Company_Name"].ToString(), dyeing_out_date, null, NRD_batch_weight, old_batch_row["Quality"].ToString(), old_batch_row["Company_Name"].ToString(), 0, float.Parse(old_batch_row["Dyeing_Rate"].ToString()), this.getFinancialYear(dtissueDate), dyeing_in_date, 2, bill_no, bill_date, slip_no, redyeing);
-            bool added2 = addRDBatch(RD_batch_no, RD_colour, old_batch_row["Dyeing_Company_Name"].ToString(), issue_date, tray_ids, RD_batch_weight, old_batch_row["Quality"].ToString(), old_batch_row["Company_Name"].ToString(), trays.Rows.Count, RD_rate, this.getFinancialYear(dtissueDate), null, 1, -1, null, null, redyeing);
-            if(added1==false || added2==false)
-            {
-                return false;
-            }
-            
             //Add Redyeing Voucher
             try
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Redyeing_Voucher (Date_Of_Input, Date_Of_Issue, Old_Batch_No, Old_Batch_Fiscal_Year, Non_Redyeing_Batch_No, Redyeing_Batch_No, Redyeing_Batch_Fiscal_Year) VALUES ('"+input_date+"', '"+issue_date+"', "+int.Parse(old_batch_row["Batch_No"].ToString())+", '"+old_batch_row["Fiscal_Year"].ToString()+"', "+NRD_batch_no+", "+RD_batch_no+ ", '" + this.getFinancialYear(dtissueDate) + "')";
+                string sql = "INSERT INTO Redyeing_Voucher (Date_Of_Input, Date_Of_Issue, Old_Batch_No, Old_Batch_Fiscal_Year, Non_Redyeing_Batch_No, Redyeing_Batch_No, Redyeing_Batch_Fiscal_Year) VALUES ('"+input_date+"', '"+issue_date+"', "+int.Parse(old_batch_row["Batch_No"].ToString())+", '"+old_batch_row["Fiscal_Year"].ToString()+"', "+NRD_batch_no+", "+RD_batch_no+ ", '" + RD_fiscal_year + "')";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();

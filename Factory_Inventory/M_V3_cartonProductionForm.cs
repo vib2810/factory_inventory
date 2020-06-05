@@ -358,6 +358,7 @@ namespace Factory_Inventory
             else
             {
                 this.closedCheckboxCK.Checked = true;
+                this.closedCheckboxCK.Enabled = false;
                 this.oilGainTextbox.Text = row["Oil_Gain"].ToString();
             }
 

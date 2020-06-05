@@ -62,6 +62,8 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.gradeCB = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label2
@@ -235,7 +237,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(510, 353);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(500, 341);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(54, 25);
             this.dynamicWeightLabel.TabIndex = 0;
@@ -245,7 +247,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(510, 322);
+            this.label10.Location = new System.Drawing.Point(500, 316);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(126, 25);
             this.label10.TabIndex = 0;
@@ -356,11 +358,32 @@
             this.label15.TabIndex = 1004;
             this.label15.Text = "Grade";
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(505, 389);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(122, 22);
+            this.textBox1.TabIndex = 1006;
+            this.textBox1.TabStop = false;
+            this.textBox1.Visible = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(502, 369);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(116, 17);
+            this.label16.TabIndex = 1007;
+            this.label16.Text = "Redyeing Weight";
+            this.label16.Visible = false;
+            // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 489);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.gradeCB);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.deleteButton);
@@ -437,5 +460,7 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ComboBox gradeCB;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label16;
     }
 }
