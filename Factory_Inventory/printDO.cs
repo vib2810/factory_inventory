@@ -82,6 +82,7 @@ namespace Factory_Inventory
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(t => t.SortMode = DataGridViewColumnSortMode.NotSortable);
             dataGridView1.Columns["Sl NO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            c.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.where = "Voucher_ID=" + int.Parse(row["Voucher_ID"].ToString()) + "";
 
             PrinterSettings ps = new PrinterSettings();

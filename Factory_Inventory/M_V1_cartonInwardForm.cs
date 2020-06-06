@@ -103,8 +103,8 @@ namespace Factory_Inventory
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox2CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
-            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
             inputDate.Enabled = false;
             this.edit_form = false;
         }
@@ -267,8 +267,8 @@ namespace Factory_Inventory
                 //enable delete if none of the cartons are in states 2 or 3
                 this.deleteButton.Enabled = true;
             }
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
-            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
             List<int> years = c.getFinancialYearArr(row["Fiscal_Year"].ToString());
             this.billDateDTP.MinDate = new DateTime(years[0], 04, 01);

@@ -136,7 +136,7 @@ namespace Factory_Inventory
             dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         public M_VC_addBill(DataRow row, bool isEditable, M_V_history v1_history, string form)
         {
@@ -286,7 +286,7 @@ namespace Factory_Inventory
                 this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
             }
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
         {

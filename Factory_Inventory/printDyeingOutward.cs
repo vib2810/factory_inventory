@@ -88,6 +88,7 @@ namespace Factory_Inventory
             c.auto_adjust_dgv(dataGridView1);
             dataGridView1.Columns["Sl No"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dataGridView1.Columns["Sl No"].Width= 80;
+            c.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.where= "Batch_No="+ this.batchnoTextbox.Text+" AND Fiscal_Year='"+ row["Fiscal_Year"].ToString()+"'";
 
             PrinterSettings ps = new PrinterSettings();

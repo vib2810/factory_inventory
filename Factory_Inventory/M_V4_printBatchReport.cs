@@ -82,6 +82,7 @@ namespace Factory_Inventory
             dataGridView2.DataSource = dt2;
             dataGridView2.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView2.DefaultCellStyle.SelectionForeColor = Color.Blue;
+            c.set_dgv_column_sort_state(dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
             dataGridView3.DataSource = this.dt3;
             dataGridView3.RowHeadersVisible = false;
@@ -94,6 +95,7 @@ namespace Factory_Inventory
             dataGridView3.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView3.DefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridView3.Columns["Net Weight"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            c.set_dgv_column_sort_state(dataGridView3, DataGridViewColumnSortMode.NotSortable);
 
             dataGridView4.DataSource = this.dt4;
             dataGridView4.RowHeadersVisible = false;
@@ -109,6 +111,7 @@ namespace Factory_Inventory
             dataGridView4.Columns["Grade"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView4.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView4.DefaultCellStyle.SelectionForeColor = Color.Black;
+            c.set_dgv_column_sort_state(dataGridView4, DataGridViewColumnSortMode.NotSortable);
 
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;

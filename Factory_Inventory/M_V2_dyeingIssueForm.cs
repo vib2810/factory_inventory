@@ -155,7 +155,7 @@ namespace Factory_Inventory
             dataGridView1.Columns[4].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
         }
         public M_V2_dyeingIssueForm(DataRow row, bool isEditable, M_V_history v1_history)
@@ -336,7 +336,7 @@ namespace Factory_Inventory
                 this.issueDateDTP.MaxDate = new DateTime(years[1], 03, 31);
             }
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         private void M_V2_dyeingIssueForm_Load(object sender, EventArgs e)
         {

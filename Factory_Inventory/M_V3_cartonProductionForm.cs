@@ -195,8 +195,8 @@ namespace Factory_Inventory
             dataGridView2.Columns[1].Width = 150;
             dataGridView2.Columns.Add("Weight", "Weight");
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
-            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
         }
         public M_V3_cartonProductionForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
@@ -440,8 +440,8 @@ namespace Factory_Inventory
             Console.WriteLine("Constructor: "+this.highest_carton_no.ToString());
             if(isEditable==true) this.dataGridView1.Rows.Add("", "", this.highest_carton_no);
             this.nextcartonnoTB.Text = this.highest_carton_no.ToString();
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
-            c.SetGridViewSortState(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
         }
         private void M_V3_cartonProductionForm_Load(object sender, EventArgs e)

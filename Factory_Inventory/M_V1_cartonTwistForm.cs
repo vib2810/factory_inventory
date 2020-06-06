@@ -114,7 +114,7 @@ namespace Factory_Inventory
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.RowCount = 10;
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         public M_V1_cartonTwistForm(DataRow row, bool isEditable, M_V_history v1_history)
         {
@@ -236,7 +236,7 @@ namespace Factory_Inventory
                 dataGridView1.Rows[i].Cells[1].Value = carton_no[i];
             }
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         private void M_V1_cartonTwistForm_Load(object sender, EventArgs e)
         {

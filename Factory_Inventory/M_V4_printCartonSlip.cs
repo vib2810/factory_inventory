@@ -51,7 +51,7 @@ namespace Factory_Inventory
             this.fiscalCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.fiscalCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.fiscalCombobox.SelectedIndex = this.fiscalCombobox.FindStringExact(c.getFinancialYear(DateTime.Now));
-
+            
             //Datagridviews
 
             DataTable dyeing_batches = c.getBatchTable_State(3);
@@ -82,6 +82,7 @@ namespace Factory_Inventory
             dataGridView2.DataSource = dt2;
             dataGridView2.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView2.DefaultCellStyle.SelectionForeColor = Color.Blue;
+            c.set_dgv_column_sort_state(dataGridView2, DataGridViewColumnSortMode.NotSortable);
 
             dataGridView3.DataSource = this.dt3;
             dataGridView3.RowHeadersVisible = false;
@@ -94,6 +95,8 @@ namespace Factory_Inventory
             dataGridView3.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView3.DefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridView3.Columns["Net Weight"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            c.set_dgv_column_sort_state(dataGridView3, DataGridViewColumnSortMode.NotSortable);
+
 
             dataGridView4.DataSource = this.dt4;
             dataGridView4.RowHeadersVisible = false;
@@ -107,6 +110,8 @@ namespace Factory_Inventory
             dataGridView4.Columns["Net Weight"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView4.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView4.DefaultCellStyle.SelectionForeColor = Color.Blue;
+            c.set_dgv_column_sort_state(dataGridView4, DataGridViewColumnSortMode.NotSortable);
+
 
             dataGridView5.RowHeadersVisible = false;
             this.dataGridView5.Columns.Clear();
@@ -119,6 +124,7 @@ namespace Factory_Inventory
             dataGridView5.Columns["Net Weight"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView5.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView5.DefaultCellStyle.SelectionForeColor = Color.Blue;
+            c.set_dgv_column_sort_state(dataGridView5, DataGridViewColumnSortMode.NotSortable);
 
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;

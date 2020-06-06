@@ -259,7 +259,7 @@ namespace Factory_Inventory.Factory_Classes
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
-        public void SetGridViewSortState(DataGridView dgv, DataGridViewColumnSortMode sortMode)
+        public void set_dgv_column_sort_state(DataGridView dgv, DataGridViewColumnSortMode sortMode)
         {
             foreach (DataGridViewColumn col in dgv.Columns)
                 col.SortMode = sortMode;

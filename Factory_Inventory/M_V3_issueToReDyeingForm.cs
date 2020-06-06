@@ -57,7 +57,7 @@ namespace Factory_Inventory
             this.batchNoCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.batchNoCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            c.SetGridViewSortState(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Blue;
         }
