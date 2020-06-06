@@ -52,6 +52,7 @@
             this.dataGridView5 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadcartonButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -164,7 +165,7 @@
             // 
             // printButton
             // 
-            this.printButton.Location = new System.Drawing.Point(1155, 632);
+            this.printButton.Location = new System.Drawing.Point(1199, 632);
             this.printButton.Name = "printButton";
             this.printButton.Size = new System.Drawing.Size(350, 33);
             this.printButton.TabIndex = 10;
@@ -266,7 +267,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(1150, 25);
+            this.label7.Location = new System.Drawing.Point(1195, 25);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(131, 20);
             this.label7.TabIndex = 17;
@@ -279,7 +280,7 @@
             this.dataGridView5.AllowUserToResizeRows = false;
             this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView5.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView5.Location = new System.Drawing.Point(1155, 48);
+            this.dataGridView5.Location = new System.Drawing.Point(1199, 48);
             this.dataGridView5.Name = "dataGridView5";
             this.dataGridView5.ReadOnly = true;
             this.dataGridView5.RowHeadersWidth = 51;
@@ -305,11 +306,23 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // loadcartonButton
+            // 
+            this.loadcartonButton.Location = new System.Drawing.Point(1149, 143);
+            this.loadcartonButton.Name = "loadcartonButton";
+            this.loadcartonButton.Size = new System.Drawing.Size(37, 152);
+            this.loadcartonButton.TabIndex = 0;
+            this.loadcartonButton.TabStop = false;
+            this.loadcartonButton.Text = ">";
+            this.loadcartonButton.UseVisualStyleBackColor = true;
+            this.loadcartonButton.Click += new System.EventHandler(this.loadcartonButton_Click);
+            // 
             // M_V4_printCartonSlip
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1517, 677);
+            this.ClientSize = new System.Drawing.Size(1560, 677);
+            this.Controls.Add(this.loadcartonButton);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dataGridView5);
             this.Controls.Add(this.label6);
@@ -365,5 +378,6 @@
         private System.Windows.Forms.DataGridView dataGridView5;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.Button loadcartonButton;
     }
 }

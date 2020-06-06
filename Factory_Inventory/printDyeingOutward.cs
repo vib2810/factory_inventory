@@ -1,4 +1,5 @@
-﻿using Factory_Inventory.Factory_Classes;
+﻿using CoolPrintPreview;
+using Factory_Inventory.Factory_Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -125,7 +126,13 @@ namespace Factory_Inventory
         {
             c.setPrint("Batch", this.where, 1);
             this.parent.load_color();
-            printPreviewDialog1.ShowDialog();
+            using (var dlg = new CoolPrintPreviewDialog())
+            {
+                dlg.Document = this.printDocument1;
+                dlg.WindowState = FormWindowState.Maximized;
+                dlg.ShowDialog(this);
+            }
+            //printPreviewDialog1.ShowDialog();
         }
 
         private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr = 'c', int bold = 0, int drawrect = 0)

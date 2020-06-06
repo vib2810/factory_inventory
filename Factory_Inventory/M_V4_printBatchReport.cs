@@ -1,4 +1,5 @@
-﻿using Factory_Inventory.Factory_Classes;
+﻿using CoolPrintPreview;
+using Factory_Inventory.Factory_Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -374,7 +375,13 @@ namespace Factory_Inventory
             this.printed_pages = 0;
             c.setPrint("Carton_Production_Voucher", "Voucher_ID=" + this.printed_voucher_id, 1);
             load_color();
-            printPreviewDialog1.ShowDialog();
+            using (var dlg = new CoolPrintPreviewDialog())
+            {
+                dlg.Document = this.printDocument1;
+                dlg.WindowState = FormWindowState.Maximized;
+                dlg.ShowDialog(this);
+            }
+            //printPreviewDialog1.ShowDialog();
         }
         private void button1_Click(object sender, EventArgs e)
         {

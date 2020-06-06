@@ -1,4 +1,5 @@
 ﻿using BarcodeLib;
+using CoolPrintPreview;
 using Factory_Inventory.Factory_Classes;
 using System;
 using System.Collections.Generic;
@@ -330,13 +331,13 @@ namespace Factory_Inventory
                 c.setPrint("Carton_Produced", "Carton_No='"+carton+"' AND Fiscal_Year='"+fiscal_year+"'", 1);
             }
             this.slip_count = cartons_to_print.Count;
-            printPreviewDialog1.ShowDialog();
-            printDialog1.Document = printDocument1;
-
-            if (printDialog1.ShowDialog() == DialogResult.OK)
+            using (var dlg = new CoolPrintPreviewDialog())
             {
-                printDocument1.Print();
+                dlg.Document = this.printDocument1;
+                dlg.WindowState = FormWindowState.Maximized;
+                dlg.ShowDialog(this);
             }
+            //printPreviewDialog1.ShowDialog();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -346,7 +347,7 @@ namespace Factory_Inventory
         {
             //set margins and initial setup
             this.topmargin = (int)(0.03 * e.PageBounds.Height);
-            this.lrmargin = (int)(0.05 * e.PageBounds.Width);
+            this.lrmargin = (int)(0.045 * e.PageBounds.Width);
             Graphics g = e.Graphics;
             int slip_width = (e.PageBounds.Width - 2 * lrmargin) / 2;
             int slip_height = (e.PageBounds.Height - 2 * topmargin) / 3;
@@ -469,15 +470,18 @@ namespace Factory_Inventory
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x, write_height, x+width, write_height);
             
             write_height += gap;
-            write(e, x + (int)(0.02 * width), write_height, (int)(0.15* width), "Quality", basic_size+1, 'l', 0, 0);
-            write(e, x + (int)(0.17 * width), write_height-3, (int)(0.48 * width),":  "+ carton_data["Quality"].ToString(), basic_size+3, 'l', 1, 0);
-            write(e, x + (int)(0.65* width), write_height, (int)(0.15 * width), "Shade", basic_size+1, 'l', 0, 0);
-            write_height += write(e, x + (int)(0.80* width), write_height-3, (int)(0.18* width), ":  " + carton_data["Colour"].ToString(), basic_size+3, 'l', 1, 0)-3;
+            write(e, x + (int)(0.02 * width), write_height, (int)(0.17* width), "Quality", basic_size+3, 'l', 0, 0);
+            write(e, x + (int)(0.19 * width), write_height-1, (int)(0.51* width),": "+ carton_data["Quality"].ToString(), basic_size+4, 'l', 1, 0);
+            write(e, x + (int)(0.70* width), write_height, (int)(0.15* width), "Grade", basic_size+3, 'l', 0, 0);
+            write_height += write(e, x + (int)(0.85* width), write_height, (int)(0.15* width), ":" + carton_data["Grade"].ToString(), basic_size+3, 'l', 1, 0);
+            //carton_data["Colour"].ToString()
+            write(e, x + (int)(0.02 * width), write_height, (int)(0.23* width), "Shade", basic_size + 3, 'l', 0, 0);
+            write_height += write(e, x + (int)(0.25 * width), write_height-1, (int)(0.73 * width), ": " + carton_data["Colour"].ToString(), basic_size + 4, 'l', 1, 0)-3;
             
             string unformatted_batch_nos = carton_data["Batch_No_Arr"].ToString();
             string batch_nos = unformatted_batch_nos.Substring(0, unformatted_batch_nos.Length - 1).Replace(",", ", ");
-            write(e, x + (int)(0.02 * width), write_height, (int)(0.23 * width), "Batch No", basic_size + 1, 'l', 0, 0);
-            write_height += write(e, x + (int)(0.25 * width), write_height-3, (int)(0.73 * width), ":  " + batch_nos, basic_size + 3, 'l', 0, 0)+1;
+            write(e, x + (int)(0.02 * width), write_height, (int)(0.23 * width), "Batch No", basic_size + 3, 'l', 0, 0);
+            write_height += write(e, x + (int)(0.25* width), write_height, (int)(0.73* width), ":  " + batch_nos, basic_size + 3, 'l', 0, 0)+gap;
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x, write_height, x + width, write_height);
             e.Graphics.DrawLine(new Pen(Color.Black, 1), x+(width/2), write_height, x + (width/2), y+height-70);
 
@@ -485,11 +489,8 @@ namespace Factory_Inventory
             write(e, x + (int)(0.02 * width), write_height, (int)(0.23* width), "Cheese", basic_size+3, 'l', 0, 0);
             write(e, x + (int)(0.25 * width), write_height, (int)(0.25* width), ":  " + carton_data["Number_Of_Cones"].ToString(), basic_size + 3, 'l', 0, 0);
             write(e, x + (int)(0.52 * width), write_height, (int)(0.13* width), "Date", basic_size+3, 'l', 0, 0);
-            write_height += write(e, x + (int)(0.65* width), write_height, (int)(0.33 * width), ":  " + carton_data["Date_Of_Production"].ToString().Substring(0, 10), basic_size+3, 'l', 0, 0);
-
-            write(e, x + (int)(0.02 * width), write_height, (int)(0.23 * width), "Grade", basic_size + 3, 'l', 0, 0);
-            write_height += write(e, x + (int)(0.25 * width), write_height, (int)(0.25 * width), ":  " + carton_data["Grade"].ToString(), basic_size + 3, 'l', 0, 0)+gap;
-            e.Graphics.DrawLine(new Pen(Color.Black, 1), x, write_height, x + (width/2), write_height);
+            write_height += write(e, x + (int)(0.65* width), write_height, (int)(0.33 * width), ":  " + carton_data["Date_Of_Production"].ToString().Substring(0, 10), basic_size+3, 'l', 0, 0)+gap;
+            e.Graphics.DrawLine(new Pen(Color.Black, 1), x, write_height, x + width, write_height);
             Barcode barcode = new Barcode();
             //barcode.IncludeLabel = true;
             //barcode.StandardizeLabel = true;
@@ -523,6 +524,12 @@ namespace Factory_Inventory
             write(e, x + (int)(0.02 * width), y+height-20, (int)(0.96* width), "Note: Please do not mix two different Batches", basic_size, 'c', 0, 0);
             return 0;
         }
+
+        private void loadcartonButton_Click(object sender, EventArgs e)
+        {
+            this.load_cartons();
+        }
+
         int drawDGV(int write_height, System.Drawing.Printing.PrintPageEventArgs e)
         {
             //inputs write_height(not including the margin)

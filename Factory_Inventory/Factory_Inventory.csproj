@@ -167,6 +167,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoolPrintPreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CoolPrintPreviewDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CoolPrintPreviewDialog.designer.cs">
+      <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factory_Classes\Global.cs" />
     <Compile Include="Display_Carton_Produced.cs">
       <SubType>Form</SubType>
@@ -205,6 +214,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FactoryInventoryDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Factory_Classes\PageImageList.cs" />
     <Compile Include="Factory_Classes\SuccessBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -470,6 +480,9 @@
     <Compile Include="TwistERP.Designer.cs">
       <DependentUpon>TwistERP.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CoolPrintPreviewDialog.resx">
+      <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Display_Carton_Produced.resx">
       <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
     </EmbeddedResource>
