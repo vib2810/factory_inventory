@@ -86,6 +86,38 @@ namespace Factory_Inventory.Factory_Classes
             return true;
         }
         //Utility Functions
+        public void printDGVSort(List<string> input, DataGridView d, int date_cols)
+        {
+            d.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+            for (int i=0; i<input.Count; i++)
+            {
+                d.Columns[input[i]].Visible = true;
+                d.Columns[input[i]].DisplayIndex = i;
+                d.Columns[input[i]].HeaderText = input[i].Replace('_', ' ');
+                if(input.Count-date_cols > i)
+                {
+                    Console.WriteLine("when " + input[i] + " like @searchText then '" + (i+1).ToString() + "'");
+                }
+                else
+                {
+                    Console.WriteLine("when " + input[i] + " like @searchText then 'd" + (i+input.Count - date_cols+1).ToString() + "'");
+                }
+            }
+            DataGridViewColumn d1 = new DataGridViewTextBoxColumn();
+            d.Columns.Insert(input.Count - date_cols, d1);
+            for (int i = 0; i < input.Count; i++)
+            {
+                if (input.Count - date_cols > i)
+                {
+                    Console.WriteLine("when " + input[i] + " like @searchText + '%' then 'a" + (i+1).ToString() + "'");
+                }
+                else
+                {
+                    Console.WriteLine("when " + input[i] + " like @searchText + '%' then 'da" + (i+ input.Count - date_cols + 1).ToString() + "'");
+                }
+            }
+
+        }
         public bool isHistoryFormOpen(int vno)
         {
             foreach (Form form in Application.OpenForms)
@@ -5212,6 +5244,31 @@ namespace Factory_Inventory.Factory_Classes
             return dt;
         }
 
+        //Tables
+        public DataTable runProcedure(string procname, string parameters)
+        {
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            try
+            {
+                con.Open();
+                string sql = "EXEC "+procname+"  "+parameters;
+                Console.WriteLine(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                sda.Fill(dt);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Could not execute procedure (runProcedure) \n"+ "EXEC " + procname + "  " + parameters + "\n" + e.Message, "Exception");
+                con.Close();
+                return new DataTable();
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return dt;
+        }
         
     }
 

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_I1_Tables : UserControl
+    public partial class M_I2_TablesUC : UserControl
     {
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -45,7 +45,7 @@ namespace Factory_Inventory
             
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        public M_I1_Tables()
+        public M_I2_TablesUC()
         {
             InitializeComponent();
         }
@@ -57,7 +57,9 @@ namespace Factory_Inventory
 
         private void button6_Click(object sender, EventArgs e)
         {
-           
+            M_I2_Tables f = new M_I2_Tables("SearchInBatch");
+            Global.background.show_form(f);
+            f.Text = "Tables - Batch";
         }
 
         private void button2_Click_1(object sender, EventArgs e)

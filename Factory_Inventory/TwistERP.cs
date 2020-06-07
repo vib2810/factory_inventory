@@ -21,7 +21,7 @@ namespace Factory_Inventory
         public void show_form(Form f)
         {
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
-            if (f.Name == "M_I1_OnDate")
+            if (f.Name.ToString().StartsWith("M_I"))
             {
                 f.Show();
             }

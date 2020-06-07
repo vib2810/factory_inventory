@@ -35,7 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.m_I1_Tables1 = new Factory_Inventory.M_I1_Tables();
+            this.m_I1_Tables1 = new Factory_Inventory.M_I2_TablesUC();
             this.SuspendLayout();
             // 
             // voucherLabel
@@ -143,6 +143,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private M_I1_Tables m_I1_Tables1;
+        private M_I2_TablesUC m_I1_Tables1;
     }
 }
