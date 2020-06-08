@@ -21,9 +21,6 @@ namespace Factory_Inventory
         private string procedurename;
         private DbConnect c = new DbConnect();
         private DataTable dt;
-        private bool date, first_cell_format = false;
-        private int normal_cols;
-        private List<string> l; 
         public M_I2_Tables(string procname)
         {
             InitializeComponent();
@@ -317,7 +314,6 @@ namespace Factory_Inventory
         }
         private void search_tray(bool date)
         {
-            this.date = date;
             List<string> l = new List<string>();
             l.Add("Tray_No");
             l.Add("Quality");
@@ -335,8 +331,6 @@ namespace Factory_Inventory
             l.Add("Dyeing_In_Date");
             l.Add("Tray_State");
             int date_cols = 4, normal_cols = 11;
-            this.normal_cols = normal_cols;
-            this.l = l;
 
             c.printDGVSort(l, this.dataGridView1, date_cols);
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
@@ -351,50 +345,50 @@ namespace Factory_Inventory
 
             for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
             {
-                //DataGridViewRow row = dataGridView1.Rows[i];
-                //if (dt.Rows[i]["Tray_State"].ToString() == "2")
-                //{
-                //    row.DefaultCellStyle.SelectionBackColor = Color.Yellow;
-                //    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
-                //    row.DefaultCellStyle.BackColor = Color.Yellow;
-                //    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "In Dyeing";
-                //}
-                //else if (dt.Rows[i]["Tray_State"].ToString() == "1")
-                //{
-                //    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Produced";
-                //}
-                //else if (dt.Rows[i]["Tray_State"].ToString() == "-1")
-                //{
-                //    row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
-                //    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
-                //    row.DefaultCellStyle.BackColor = Color.LawnGreen;
-                //    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Received from Dyeing (free)";
-                //}
+                DataGridViewRow row = dataGridView1.Rows[i];
+                if (dt.Rows[i]["Tray_State"].ToString() == "2")
+                {
+                    row.DefaultCellStyle.SelectionBackColor = Color.Yellow;
+                    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
+                    row.DefaultCellStyle.BackColor = Color.Yellow;
+                    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "In Dyeing";
+                }
+                else if (dt.Rows[i]["Tray_State"].ToString() == "1")
+                {
+                    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Produced";
+                }
+                else if (dt.Rows[i]["Tray_State"].ToString() == "-1")
+                {
+                    row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
+                    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
+                    row.DefaultCellStyle.BackColor = Color.LawnGreen;
+                    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Received from Dyeing (free)";
+                }
 
-                //row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
-                //row.Cells["nullcol"].Style.BackColor = Color.Gray;
-                //int bold_index = -1;
-                //string bold = dataGridView1.Rows[i].Cells["priority"].Value.ToString();
-                //if (date == true)
-                //{
-                //    if (bold.StartsWith("da"))
-                //    {
-                //        bold_index = int.Parse(bold.Substring(2, bold.Length - 2));
-                //    }
-                //    else bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
-                //    Console.WriteLine(bold_index);
-                //    row.Cells[l[bold_index - 1 + normal_cols]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
-                //}
-                //else
-                //{
-                //    if (bold[0] == 'a')
-                //    {
-                //        bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
-                //    }
-                //    else bold_index = int.Parse(bold);
+                row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
+                row.Cells["nullcol"].Style.BackColor = Color.Gray;
+                int bold_index = -1;
+                string bold = dataGridView1.Rows[i].Cells["priority"].Value.ToString();
+                if (date == true)
+                {
+                    if (bold.StartsWith("da"))
+                    {
+                        bold_index = int.Parse(bold.Substring(2, bold.Length - 2));
+                    }
+                    else bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
+                    Console.WriteLine(bold_index);
+                    row.Cells[l[bold_index - 1 + normal_cols]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
+                }
+                else
+                {
+                    if (bold[0] == 'a')
+                    {
+                        bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
+                    }
+                    else bold_index = int.Parse(bold);
 
-                //    row.Cells[l[bold_index - 1]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
-                //}
+                    row.Cells[l[bold_index - 1]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
+                }
             }
 
             dataGridView1.EnableHeadersVisualStyles = false;
@@ -407,8 +401,8 @@ namespace Factory_Inventory
         private void searchButton_Click(object sender, EventArgs e)
         {   
             this.dt = c.runProcedure(this.procedurename, "@searchText = '" + this.searchTB.Text + "', @date = 0");
-            this.first_cell_format = true;
             this.dataGridView1.DataSource = dt;
+            
             if (this.procedurename == "SearchInBatch")
             {
                 this.search_batch(false);
@@ -472,56 +466,7 @@ namespace Factory_Inventory
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-        //    if (this.first_cell_format == true)
-        //    {
-        //        this.first_cell_format = false;
-        //        this.search_tray(this.date);
-        //    }
-            int i = e.RowIndex;
-            DataGridViewRow row = dataGridView1.Rows[i];
-            if (dt.Rows[i]["Tray_State"].ToString() == "2")
-            {
-                row.DefaultCellStyle.SelectionBackColor = Color.Yellow;
-                row.DefaultCellStyle.SelectionForeColor = Color.Blue;
-                row.DefaultCellStyle.BackColor = Color.Yellow;
-                //this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "In Dyeing";
-            }
-            else if (dt.Rows[i]["Tray_State"].ToString() == "1")
-            {
-                //this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Produced";
-            }
-            else if (dt.Rows[i]["Tray_State"].ToString() == "-1")
-            {
-                row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
-                row.DefaultCellStyle.SelectionForeColor = Color.Blue;
-                row.DefaultCellStyle.BackColor = Color.LawnGreen;
-               // this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Received from Dyeing (free)";
-            }
 
-            //row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
-            //row.Cells["nullcol"].Style.BackColor = Color.Gray;
-            int bold_index = -1;
-            string bold = dataGridView1.Rows[i].Cells["priority"].Value.ToString();
-            if (date == true)
-            {
-                if (bold.StartsWith("da"))
-                {
-                    bold_index = int.Parse(bold.Substring(2, bold.Length - 2));
-                }
-                else bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
-                Console.WriteLine(bold_index);
-                row.Cells[l[bold_index - 1 + normal_cols]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
-            }
-            else
-            {
-                if (bold[0] == 'a')
-                {
-                    bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
-                }
-                else bold_index = int.Parse(bold);
-
-                row.Cells[l[bold_index - 1]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
-            }
         }
     }
 }
