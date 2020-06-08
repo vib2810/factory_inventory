@@ -94,26 +94,29 @@ namespace Factory_Inventory.Factory_Classes
                 d.Columns[input[i]].Visible = true;
                 d.Columns[input[i]].DisplayIndex = i;
                 d.Columns[input[i]].HeaderText = input[i].Replace('_', ' ');
-                if(input.Count-date_cols > i)
+                if (input.Count-date_cols > i)
                 {
                     Console.WriteLine("when " + input[i] + " like @searchText then '" + (i+1).ToString() + "'");
                 }
                 else
                 {
-                    Console.WriteLine("when " + input[i] + " like @searchText then 'd" + (i+input.Count - date_cols+1).ToString() + "'");
+                    Console.WriteLine("when " + input[i] + " like @searchText then 'd" + (i +1-input.Count+date_cols).ToString() + "'");
                 }
             }
             DataGridViewColumn d1 = new DataGridViewTextBoxColumn();
-            d.Columns.Insert(input.Count - date_cols, d1);
+            d1.Name = "nullcol";
+            d1.HeaderText = "";
+            d.Columns.Add(d1);
+            d.Columns["nullcol"].DisplayIndex = input.Count - date_cols;
             for (int i = 0; i < input.Count; i++)
             {
                 if (input.Count - date_cols > i)
                 {
-                    Console.WriteLine("when " + input[i] + " like @searchText + '%' then 'a" + (i+1).ToString() + "'");
+                    Console.WriteLine("when " + input[i] + " like '%' + @searchText + '%' then 'a" + (i+1).ToString() + "'");
                 }
                 else
                 {
-                    Console.WriteLine("when " + input[i] + " like @searchText + '%' then 'da" + (i+ input.Count - date_cols + 1).ToString() + "'");
+                    Console.WriteLine("when " + input[i] + " like '%' + @searchText + '%' then 'da" + (i+1- input.Count + date_cols).ToString() + "'");
                 }
             }
 
@@ -261,8 +264,12 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
-        public bool Cell_Not_NullOrEmpty(DataGridView dgv, int rowIndex, int columnIndex)
+        public bool Cell_Not_NullOrEmpty(DataGridView dgv, int rowIndex, int columnIndex, string columnname="")
         {
+            if(columnname!="")
+            {
+                columnIndex = dgv.Columns[columnname].Index;
+            }
             if(rowIndex>=dgv.Rows.Count || columnIndex>=dgv.Columns.Count || rowIndex<0 || columnIndex<0)
             {
                 return false;

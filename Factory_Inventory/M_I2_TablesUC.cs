@@ -52,7 +52,9 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            M_I2_Tables f = new M_I2_Tables("SearchInCarton");
+            Global.background.show_form(f);
+            f.Text = "Tables - Carton";
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -69,7 +71,9 @@ namespace Factory_Inventory
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
+            M_I2_Tables f = new M_I2_Tables("SearchInCartonProduced");
+            Global.background.show_form(f);
+            f.Text = "Tables - Carton Produced";
         }
     }
 }

@@ -57,7 +57,6 @@
             this.searchTB.Name = "searchTB";
             this.searchTB.Size = new System.Drawing.Size(188, 30);
             this.searchTB.TabIndex = 1;
-            this.searchTB.TextChanged += new System.EventHandler(this.searchTB_TextChanged);
             this.searchTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchTB_KeyDown);
             // 
             // dateTimePicker1
@@ -130,6 +129,7 @@
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.searchTB);
             this.Controls.Add(this.label1);
+            this.DoubleBuffered = true;
             this.Name = "M_I2_Tables";
             this.Text = "M_I2_Tables";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
