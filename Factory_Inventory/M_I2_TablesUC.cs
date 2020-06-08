@@ -66,7 +66,9 @@ namespace Factory_Inventory
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            
+            M_I2_Tables f = new M_I2_Tables("SearchInTray");
+            Global.background.show_form(f);
+            f.Text = "Tables - Tray";
         }
 
         private void button3_Click(object sender, EventArgs e)
