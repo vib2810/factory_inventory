@@ -472,6 +472,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
+            this.DoubleBuffered = true;
             this.Name = "M_V4_printBatchReport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Print - Batch Final Report";

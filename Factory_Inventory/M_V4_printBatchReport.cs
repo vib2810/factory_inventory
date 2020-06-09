@@ -107,7 +107,7 @@ namespace Factory_Inventory
             this.dt4.Columns.Add("Tare Wt");
             this.dt4.Columns.Add("Net Wt");
             this.dt4.Columns.Add("Grade");
-            dataGridView4.Columns["SlNo"].Width = 70;
+            dataGridView4.Columns["SlNo"].Width = 60;
             dataGridView4.Columns["Grade"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView4.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView4.DefaultCellStyle.SelectionForeColor = Color.Black;
@@ -456,7 +456,6 @@ namespace Factory_Inventory
             column_widths[dataGridView4.Columns.Count - 1] += new_total - new_total_real;
             //header dgv
             write_height = drawDGVHeader(lrmargin, write_height, column_widths, e);
-            write_height = drawDGVRow(lrmargin, write_height, column_widths, e, 0);
 
             while (this.rows_to_print - this.printed_rows > 0)
             {
