@@ -250,7 +250,7 @@ namespace Factory_Inventory
             this.old_tray_no = row["Tray_No"].ToString();
             this.gradeCB.SelectedIndex = this.gradeCB.FindStringExact(row["Grade"].ToString());
         }
-        public M_V2_trayInputForm(string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, string grade,  int edit_row_index, M_V3_issueToReDyeingForm f)
+        public M_V2_trayInputForm(string production_date, string tray_no, string spring, int no_of_springs, float tray_tare, float gross_weight, string quality, string company_name, string machine_no, string grade, float redyeing, int no_of_springs_rd,  int edit_row_index, M_V3_issueToReDyeingForm f)
         {
             InitializeComponent();
             this.issuesource = f.dataGridView1;
@@ -344,6 +344,10 @@ namespace Factory_Inventory
             this.tray_details.Columns.Add("Net Weight");
             this.tray_details.Columns.Add("Quality Before Twist");
             this.tray_details.Columns.Add("Grade");
+            this.tray_details.Columns.Add("Redyeing");
+            this.tray_details.Columns.Add("No of Springs RD");
+
+
 
             if (production_date != null) this.dateTimePickerDTP.Value = this.dateTimePickerDTP.Value = Convert.ToDateTime(production_date);
             if (tray_no != null) this.trayNumberTB.Text = tray_no;
@@ -358,6 +362,8 @@ namespace Factory_Inventory
             if (machine_no != null) this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(machine_no);
             if (grade != null) this.gradeCB.SelectedIndex = this.gradeCB.FindStringExact(grade);
             this.gradeCB.Enabled = false;
+            if (redyeing != -1F) this.redyeingPerTB.Text = redyeing.ToString();
+            if (no_of_springs_rd != -1) this.redyeingSpringsTB.Text = no_of_springs_rd.ToString();
 
             this.Text = "Add Tray";
             this.addButton.Text = "Add Tray";
@@ -365,9 +371,16 @@ namespace Factory_Inventory
             if (this.issuesource.Rows.Count != 0) this.tray_details = (DataTable)this.issuesource.DataSource;
             this.StartPosition = FormStartPosition.Manual;
 
-            this.redyeingWtTB.Visible = true;
-            this.zeroRDButton.Visible = true;
-            this.fullRDButton.Visible = true;
+            //set visible and readonly
+            this.redyeingPerTB.Visible = true;
+            this.redyeingSpringsTB.Visible = true;
+            this.add_edit_rd_paramsButton.Visible = true;
+            this.label16.Visible = true;
+            this.label17.Visible = true;
+            this.label18.Visible = true;
+            this.grossWeightTB.ReadOnly = true;
+            this.numberOfSpringsTB.ReadOnly = true;
+            this.traytareTB.ReadOnly = true;
 
             if (edit_row_index != -1)
             {
@@ -498,7 +511,7 @@ namespace Factory_Inventory
                 }
             }
 
-            dynamicWeightLabel.Text = (gross_weight - tray_tare - number_of_springs * spring_weight).ToString("F3") + " kg";
+            dynamicWeightLabel.Text = (gross_weight - tray_tare - number_of_springs * spring_weight).ToString("F3");
             return (gross_weight - tray_tare - number_of_springs * spring_weight);
         }
 
@@ -595,7 +608,9 @@ namespace Factory_Inventory
                 row["Net Weight"] = dynamicLabelChange();
                 row["Quality Before Twist"] = this.qualityBeforeTwistTB.Text;
                 row["Grade"] = this.gradeCB.Text;
-
+                row["No of Springs RD"] = this.redyeingSpringsTB.Text;
+                row["Redyeing"] = this.redyeingPerTB.Text;
+                
                 for (int i = 0; i < this.issuesource.Rows.Count; i++)
                 {
                     if (this.issuesource.Rows[i].Cells["Tray No"].Value.ToString() == row["Tray No"].ToString() && this.edit_reyeing_tray == false)
@@ -642,6 +657,11 @@ namespace Factory_Inventory
                 this.issuesource.Columns["Quality"].Width= 150;
                 this.issuesource.Columns["Net Weight"].Visible = true;
                 this.issuesource.Columns["Net Weight"].DisplayIndex = 6;
+                this.issuesource.Columns["No of Springs RD"].Visible = true;
+                this.issuesource.Columns["No of Springs RD"].DisplayIndex = 8;
+                this.issuesource.Columns["No of Springs RD"].HeaderText = "No of redyeing springs";
+                this.issuesource.Columns["No of Springs"].Visible = true;
+                this.issuesource.Columns["No of Springs"].DisplayIndex = 10;
                 c.auto_adjust_dgv(this.issuesource);
                 this.form.CellSum();
                 if (this.edit_reyeing_tray == true)
@@ -699,11 +719,41 @@ namespace Factory_Inventory
         }
         private void zeroRDButton_Click(object sender, EventArgs e)
         {
-            this.redyeingWtTB.Text = "0";
+            this.redyeingPerTB.Text = "0";
         }
         private void fullRDButton_Click(object sender, EventArgs e)
         {
-            this.redyeingWtTB.Text = this.dynamicLabelChange().ToString();
+            this.redyeingPerTB.Text = this.dynamicLabelChange().ToString();
+        }
+        private void add_edit_rd_paramsButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                float.Parse(springWeightTB.Text);
+            }
+            catch
+            {
+                c.ErrorBox("Please Select Spring Type");
+                return;
+            }
+            this.springCB.Enabled = false;
+            Structures.Tray_Params tray_Params = new Structures.Tray_Params(0);
+            if (String.IsNullOrEmpty(this.grossWeightTB.Text) == false) tray_Params.gross_wt = float.Parse(this.grossWeightTB.Text);
+            tray_Params.net_wt = this.dynamicLabelChange();
+            if (String.IsNullOrEmpty(this.traytareTB.Text) == false) tray_Params.tray_tare = float.Parse(this.traytareTB.Text);
+            if (String.IsNullOrEmpty(this.springWeightTB.Text) == false) tray_Params.spring_wt = float.Parse(this.springWeightTB.Text);
+            if (String.IsNullOrEmpty(this.numberOfSpringsTB.Text) == false) tray_Params.no_of_springs = int.Parse(this.numberOfSpringsTB.Text);
+            if (String.IsNullOrEmpty(this.redyeingPerTB.Text) == false) tray_Params.rd_percentage = float.Parse(this.redyeingPerTB.Text);
+            if (String.IsNullOrEmpty(this.redyeingSpringsTB.Text) == false) tray_Params.s_rd = int.Parse(this.redyeingSpringsTB.Text);
+            TrayCalc f = new TrayCalc(tray_Params);
+            f.ShowDialog();
+            tray_Params = f.tray_Params;
+            this.grossWeightTB.Text = tray_Params.gross_wt.ToString();
+            this.numberOfSpringsTB.Text= tray_Params.no_of_springs.ToString();
+            this.traytareTB.Text= tray_Params.tray_tare.ToString();
+            this.dynamicLabelChange();
+            this.redyeingPerTB.Text = tray_Params.rd_percentage.ToString();
+            this.redyeingSpringsTB.Text = tray_Params.s_rd.ToString();
         }
 
         //Text or Index changed
@@ -711,9 +761,16 @@ namespace Factory_Inventory
         {
             dynamicLabelChange();
         }
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        private void springCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            dynamicLabelChange();
+            float result;
+            //if(string.IsNullOrEmpty(this.redyeingPerTB.Text) == false && float.TryParse(this.dynamicWeightLabel.Text, out result) == true)
+            //{
+            //    float old_net_wt = float.Parse(this.dynamicWeightLabel.Text);
+            //    float new_net_wt = dynamicLabelChange();
+            //    float nrd = old_net_wt * float.Parse(this.redyeingPerTB.Text);
+            //    this.redyeingPerTB.Text = (nrd / new_net_wt).ToString();
+            //}
             string spring_wt = "";
             for (int i = 0; i < spring_table.Rows.Count; i++)
             {
@@ -723,6 +780,7 @@ namespace Factory_Inventory
                 }
             }
             this.springWeightTB.Text = spring_wt;
+
         }
         private void qualityCB_SelectedIndexChanged(object sender, EventArgs e)
         {

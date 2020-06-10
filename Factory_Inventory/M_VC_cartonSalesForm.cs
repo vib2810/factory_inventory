@@ -167,8 +167,8 @@ namespace Factory_Inventory
             var dataSource5 = new List<string>();
             if (tablename == "Carton")
             {
-                this.shadeCB.Items.Add("Grey");
-                this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Grey");
+                this.shadeCB.Items.Add("Gray");
+                this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Gray");
                 this.shadeCB.Enabled = false;
             }
             else
@@ -303,8 +303,8 @@ namespace Factory_Inventory
             var dataSource5 = new List<string>();
             if (tablename == "Carton")
             {
-                this.shadeCB.Items.Add("Grey");
-                this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Grey");
+                this.shadeCB.Items.Add("Gray");
+                this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Gray");
                 this.shadeCB.Enabled = false;
             }
             else
@@ -408,7 +408,7 @@ namespace Factory_Inventory
             for (int i = 0; i < d.Rows.Count; i++)
             {
                 string cartonno = d.Rows[i]["Carton_No"].ToString();
-                string colour = "Grey";
+                string colour = "Gray";
                 if (this.tablename != "Carton") colour = d.Rows[i]["Colour"].ToString();
                 this.carton_fetch_data[cartonno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
             }
@@ -528,7 +528,7 @@ namespace Factory_Inventory
                 string cartonno = d.Rows[i]["Carton_No"].ToString();
                 dgvCmb.Items.Add(d.Rows[i][0].ToString());
                 this.carton_data.Add(d.Rows[i][0].ToString());
-                string colour = "Grey";
+                string colour = "Gray";
                 if (this.tablename != "Carton") colour = d.Rows[i]["Colour"].ToString();
                 this.carton_fetch_data[cartonno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
             }

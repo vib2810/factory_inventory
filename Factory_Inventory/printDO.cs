@@ -61,7 +61,7 @@ namespace Factory_Inventory
             for (int i = 0; i < carton_nos.Length; i++)
             {
                 DataRow dtemp;
-                string colour = "Grey";
+                string colour = "Gray";
                 if (table == "Carton") dtemp = c.getCartonRow(carton_nos[i], cartonfisc);
                 else
                 {
