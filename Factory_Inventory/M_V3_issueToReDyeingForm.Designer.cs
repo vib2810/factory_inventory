@@ -487,7 +487,7 @@
             // fullRedyeCK
             // 
             this.fullRedyeCK.AutoSize = true;
-            this.fullRedyeCK.Location = new System.Drawing.Point(779, 204);
+            this.fullRedyeCK.Location = new System.Drawing.Point(17, 177);
             this.fullRedyeCK.Name = "fullRedyeCK";
             this.fullRedyeCK.Size = new System.Drawing.Size(209, 21);
             this.fullRedyeCK.TabIndex = 10;

@@ -358,12 +358,17 @@ namespace Factory_Inventory
             this.companyNameCB.Enabled = false;
             if (machine_no != null) this.machineNoCB.SelectedIndex = this.machineNoCB.FindStringExact(machine_no);
             if (grade != null) this.gradeCB.SelectedIndex = this.gradeCB.FindStringExact(grade);
-            
+            this.gradeCB.Enabled = false;
+
             this.Text = "Add Tray";
             this.addButton.Text = "Add Tray";
             this.redyeing = true;
             if (this.issuesource.Rows.Count != 0) this.tray_details = (DataTable)this.issuesource.DataSource;
             this.StartPosition = FormStartPosition.Manual;
+
+            this.redyeingWtTB.Visible = true;
+            this.zeroRDButton.Visible = true;
+            this.fullRDButton.Visible = true;
 
             if (edit_row_index != -1)
             {
@@ -463,7 +468,7 @@ namespace Factory_Inventory
             catch
             {
                 dynamicWeightLabel.Text = "Enter numeric gross weight";
-                return 0F;
+                return -1F;
             }
 
             try
@@ -473,7 +478,7 @@ namespace Factory_Inventory
             catch
             {
                 dynamicWeightLabel.Text = "Enter numeric tray tare";
-                return 0F;
+                return -1F;
             }
 
             try
@@ -483,7 +488,7 @@ namespace Factory_Inventory
             catch
             {
                 dynamicWeightLabel.Text = "Enter numeric number of springs";
-                return 0F;
+                return -1F;
             }
             for (int i = 0; i < spring_table.Rows.Count; i++)
             {
@@ -692,6 +697,14 @@ namespace Factory_Inventory
             {
                 return;
             }
+        }
+        private void zeroRDButton_Click(object sender, EventArgs e)
+        {
+            this.redyeingWtTB.Text = "0";
+        }
+        private void fullRDButton_Click(object sender, EventArgs e)
+        {
+            this.redyeingWtTB.Text = this.dynamicLabelChange().ToString();
         }
 
         //Text or Index changed

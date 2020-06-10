@@ -62,8 +62,10 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.gradeCB = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.redyeingWtTB = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
+            this.zeroRDButton = new System.Windows.Forms.Button();
+            this.fullRDButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -173,7 +175,7 @@
             // 
             this.addButton.Location = new System.Drawing.Point(367, 430);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(101, 51);
+            this.addButton.Size = new System.Drawing.Size(121, 51);
             this.addButton.TabIndex = 17;
             this.addButton.Text = "Save Voucher";
             this.addButton.UseVisualStyleBackColor = true;
@@ -237,7 +239,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(500, 341);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(500, 383);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(54, 25);
             this.dynamicWeightLabel.TabIndex = 0;
@@ -247,7 +249,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(500, 316);
+            this.label10.Location = new System.Drawing.Point(500, 358);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(126, 25);
             this.label10.TabIndex = 0;
@@ -288,7 +290,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(502, 264);
+            this.label12.Location = new System.Drawing.Point(40, 293);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(134, 17);
             this.label12.TabIndex = 1002;
@@ -296,7 +298,7 @@
             // 
             // qualityBeforeTwistTB
             // 
-            this.qualityBeforeTwistTB.Location = new System.Drawing.Point(505, 286);
+            this.qualityBeforeTwistTB.Location = new System.Drawing.Point(180, 288);
             this.qualityBeforeTwistTB.Name = "qualityBeforeTwistTB";
             this.qualityBeforeTwistTB.ReadOnly = true;
             this.qualityBeforeTwistTB.Size = new System.Drawing.Size(122, 22);
@@ -358,31 +360,55 @@
             this.label15.TabIndex = 1004;
             this.label15.Text = "Grade";
             // 
-            // textBox1
+            // redyeingWtTB
             // 
-            this.textBox1.Location = new System.Drawing.Point(505, 389);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(122, 22);
-            this.textBox1.TabIndex = 1006;
-            this.textBox1.TabStop = false;
-            this.textBox1.Visible = false;
+            this.redyeingWtTB.Location = new System.Drawing.Point(505, 211);
+            this.redyeingWtTB.Name = "redyeingWtTB";
+            this.redyeingWtTB.Size = new System.Drawing.Size(178, 22);
+            this.redyeingWtTB.TabIndex = 1006;
+            this.redyeingWtTB.TabStop = false;
+            this.redyeingWtTB.Visible = false;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(502, 369);
+            this.label16.Location = new System.Drawing.Point(502, 191);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(116, 17);
             this.label16.TabIndex = 1007;
             this.label16.Text = "Redyeing Weight";
             this.label16.Visible = false;
             // 
+            // zeroRDButton
+            // 
+            this.zeroRDButton.Location = new System.Drawing.Point(505, 242);
+            this.zeroRDButton.Name = "zeroRDButton";
+            this.zeroRDButton.Size = new System.Drawing.Size(86, 28);
+            this.zeroRDButton.TabIndex = 1008;
+            this.zeroRDButton.Text = "0% RD";
+            this.zeroRDButton.UseVisualStyleBackColor = true;
+            this.zeroRDButton.Visible = false;
+            this.zeroRDButton.Click += new System.EventHandler(this.zeroRDButton_Click);
+            // 
+            // fullRDButton
+            // 
+            this.fullRDButton.Location = new System.Drawing.Point(597, 242);
+            this.fullRDButton.Name = "fullRDButton";
+            this.fullRDButton.Size = new System.Drawing.Size(86, 28);
+            this.fullRDButton.TabIndex = 1009;
+            this.fullRDButton.Text = "100% RD";
+            this.fullRDButton.UseVisualStyleBackColor = true;
+            this.fullRDButton.Visible = false;
+            this.fullRDButton.Click += new System.EventHandler(this.fullRDButton_Click);
+            // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 489);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(858, 489);
+            this.Controls.Add(this.fullRDButton);
+            this.Controls.Add(this.zeroRDButton);
+            this.Controls.Add(this.redyeingWtTB);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.gradeCB);
             this.Controls.Add(this.label15);
@@ -460,7 +486,9 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ComboBox gradeCB;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox redyeingWtTB;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button zeroRDButton;
+        private System.Windows.Forms.Button fullRDButton;
     }
 }

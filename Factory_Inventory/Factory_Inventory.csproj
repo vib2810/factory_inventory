@@ -480,6 +480,12 @@
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectFolderDialogBox.cs" />
+    <Compile Include="TrayCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrayCalc.Designer.cs">
+      <DependentUpon>TrayCalc.cs</DependentUpon>
+    </Compile>
     <Compile Include="TwistERP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -638,6 +644,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_vouchersUC.resx">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrayCalc.resx">
+      <DependentUpon>TrayCalc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TwistERP.resx">
       <DependentUpon>TwistERP.cs</DependentUpon>

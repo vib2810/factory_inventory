@@ -313,6 +313,7 @@ namespace Factory_Inventory
             this.saveButton.Enabled = true;
             this.addTrayButton.Enabled = true;
             this.editTrayButton.Enabled = true;
+            this.fullRedyeCK.Enabled = false;
             this.redyeingBatchWeightTB.Text = "0";
             this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
             //Create drop-down Colour list
@@ -342,7 +343,7 @@ namespace Factory_Inventory
         private void addTrayButton_Click(object sender, EventArgs e)
         {
             
-            f = new M_V2_trayInputForm(this.issueDateDTP.Value.Date.ToString().Substring(0,10), null, "135", 18, -1F, -1F, this.qualityTB.Text, this.companyNameTB.Text, null, "1st", -1, this);
+            f = new M_V2_trayInputForm(this.issueDateDTP.Value.Date.ToString().Substring(0,10), null, "135", 18, -1F, -1F, this.qualityTB.Text, this.companyNameTB.Text, null, this.old_batch_row["Grade"].ToString(), -1, this);
             f.Location = new System.Drawing.Point((int)(Screen.PrimaryScreen.Bounds.Width / 1.8), Screen.PrimaryScreen.Bounds.Height/8);
             f.ShowDialog();
             this.all_trays = f.tray_details;
