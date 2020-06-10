@@ -345,7 +345,6 @@ namespace Factory_Inventory
             this.tray_details.Columns.Add("Quality Before Twist");
             this.tray_details.Columns.Add("Grade");
 
-
             if (production_date != null) this.dateTimePickerDTP.Value = this.dateTimePickerDTP.Value = Convert.ToDateTime(production_date);
             if (tray_no != null) this.trayNumberTB.Text = tray_no;
             if (spring != null) this.springCB.SelectedIndex = this.springCB.FindStringExact(spring);

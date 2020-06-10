@@ -304,8 +304,8 @@ namespace Factory_Inventory
             load_batch(); 
             if(this.edit_form==false)
             {
-                this.nonRedyeingBatchNoTB.Text = this.highest_batch_no = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(DateTime.Now));
-                this.redyeingBatchNoTB.Text = (int.Parse(this.nonRedyeingBatchNoTB.Text) + 1).ToString();
+                this.redyeingBatchNoTB.Text = this.highest_batch_no = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(DateTime.Now));
+                this.nonRedyeingBatchNoTB.Text = (int.Parse(this.redyeingBatchNoTB.Text) + 1).ToString();
                 
             }
             this.redyeingColourCB.Enabled = true;
@@ -313,7 +313,6 @@ namespace Factory_Inventory
             this.saveButton.Enabled = true;
             this.addTrayButton.Enabled = true;
             this.editTrayButton.Enabled = true;
-            this.fullRedyeCK.Enabled = false;
             this.redyeingBatchWeightTB.Text = "0";
             this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
             //Create drop-down Colour list
@@ -337,8 +336,14 @@ namespace Factory_Inventory
             this.issueDateDTP.MaxDate = new DateTime(years[1], 03, 31);
 
             this.batchNoCB.Enabled = false;
-            //this.issueDateDTP.Enabled = false;
             this.loadButton.Enabled = false;
+            this.fullRedyeCK.Enabled = false;
+
+            if(this.fullRedyeCK.Checked == true)
+            {
+                this.nonRedyeingBatchNoTB.Text = "NA";
+                this.nonRedyeingBatchWeightTB.Text = "0";
+            }
         }
         private void addTrayButton_Click(object sender, EventArgs e)
         {
@@ -388,27 +393,23 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric dyeing rate");
                 return;
             }
+            
             bool full = false;
+            int nrd_bno;
             if(this.fullRedyeCK.Checked == true)
             {
-                if(this.redyeingBatchWeightTB.Text != this.batchWeightTB.Text)
-                {
-                    c.ErrorBox("When full batch is sent for redyeing, redeying batch weight should be equal original batch weight");
-                    return;
-                }
                 full = true;
+                nrd_bno = -1;
             }
+            else
+            {
+                nrd_bno = int.Parse(this.redyeingBatchNoTB.Text);
+            }
+            
             if (this.edit_form == false)
             {
                 bool added;
-                if(full == false)
-                {
-                    added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, int.Parse(this.nonRedyeingBatchNoTB.Text), int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), full);
-                }
-                else
-                {
-                    added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, -1, int.Parse(this.old_batch_row["Batch_No"].ToString()), 0F, float.Parse(this.batchWeightTB.Text), this.old_batch_row["Fiscal_Year"].ToString(), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), full);
-                }
+                added = c.addRedyeingVoucher(this.inputDateDTP.Value, this.issueDateDTP.Value, this.old_batch_row, nrd_bno, int.Parse(this.redyeingBatchNoTB.Text), float.Parse(nonRedyeingBatchWeightTB.Text), float.Parse(redyeingBatchWeightTB.Text), c.getFinancialYear(this.issueDateDTP.Value), this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), full);
                 if (added == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
