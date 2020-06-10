@@ -252,7 +252,7 @@ namespace Factory_Inventory
                     this.Text = "History - Carton Twist";
                     break;
                 case 3:
-                    this.Text = "History - Grey Carton Sale";
+                    this.Text = "History - Gray Carton Sale";
                     break;
                 case 4:
                     this.Text = "History - Tray Production";
@@ -273,7 +273,7 @@ namespace Factory_Inventory
                     this.Text = "History - Colour Carton Sale";
                     break;
                 case 10:
-                    this.Text = "History - Add Bill to Grey DOs";
+                    this.Text = "History - Add Bill to Gray DOs";
                     break;
                 case 11:
                     this.Text = "History - Add Bill to Coloured DOs";
@@ -512,7 +512,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = 14;
                 this.dataGridView1.Columns["Sale_Bill_No"].HeaderText = "Bill Number";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }       //Grey Sale
+            }       //Gray Sale
             if (this.vno == 4)
             {
                 //this.dt = c.getTrayVoucherHistory();
@@ -748,7 +748,7 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 8;
                 this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
                 c.auto_adjust_dgv(this.dataGridView1);
-            }      //Bill to Grey Sale
+            }      //Bill to Gray Sale
             if (this.vno == 11)
             {
                 this.dt = c.getVoucherHistories("SalesBillNos_Voucher");

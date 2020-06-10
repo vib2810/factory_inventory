@@ -192,7 +192,7 @@ namespace Factory_Inventory
                 }
                 else if (dt.Rows[i]["Carton_State"].ToString() == "1")
                 {
-                    this.dataGridView1.Rows[i].Cells["Carton_State"].Value = "In Grey Godown";
+                    this.dataGridView1.Rows[i].Cells["Carton_State"].Value = "In Gray Godown";
                 }
 
                 row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;

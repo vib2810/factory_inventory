@@ -396,7 +396,7 @@ namespace Factory_Inventory
                     }
                     //pending
                 }
-                this.label5.Text = "Grey: Bill Number Added    Green: Batch sent for production    Orange: Batch sent for redyeing";
+                this.label5.Text = "Gray: Bill Number Added    Green: Batch sent for production    Orange: Batch sent for redyeing";
                 if (!flag)
                 {
                     this.billcheckBoxCK.Checked = true;

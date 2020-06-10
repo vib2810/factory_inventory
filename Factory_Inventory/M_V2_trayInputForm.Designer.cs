@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
             this.trayNumberTB = new System.Windows.Forms.TextBox();
             this.Quality = new System.Windows.Forms.Label();
@@ -51,21 +50,21 @@
             this.dynamicWeightLabel = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.machineNoCB = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.qualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.springWeightTB = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
             this.gradeCB = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.redyeingWtTB = new System.Windows.Forms.TextBox();
+            this.redyeingPerTB = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.zeroRDButton = new System.Windows.Forms.Button();
-            this.fullRDButton = new System.Windows.Forms.Button();
+            this.redyeingSpringsTB = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.add_edit_rd_paramsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -224,7 +223,7 @@
             this.springCB.Size = new System.Drawing.Size(121, 24);
             this.springCB.TabIndex = 4;
             this.springCB.TabStop = false;
-            this.springCB.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            this.springCB.SelectedIndexChanged += new System.EventHandler(this.springCB_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -264,12 +263,6 @@
             this.label1.Size = new System.Drawing.Size(0, 18);
             this.label1.TabIndex = 0;
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // machineNoCB
             // 
             this.machineNoCB.FormattingEnabled = true;
@@ -290,7 +283,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(40, 293);
+            this.label12.Location = new System.Drawing.Point(501, 268);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(134, 17);
             this.label12.TabIndex = 1002;
@@ -298,7 +291,7 @@
             // 
             // qualityBeforeTwistTB
             // 
-            this.qualityBeforeTwistTB.Location = new System.Drawing.Point(180, 288);
+            this.qualityBeforeTwistTB.Location = new System.Drawing.Point(504, 288);
             this.qualityBeforeTwistTB.Name = "qualityBeforeTwistTB";
             this.qualityBeforeTwistTB.ReadOnly = true;
             this.qualityBeforeTwistTB.Size = new System.Drawing.Size(122, 22);
@@ -307,7 +300,7 @@
             // 
             // springWeightTB
             // 
-            this.springWeightTB.Location = new System.Drawing.Point(505, 141);
+            this.springWeightTB.Location = new System.Drawing.Point(504, 142);
             this.springWeightTB.Name = "springWeightTB";
             this.springWeightTB.ReadOnly = true;
             this.springWeightTB.Size = new System.Drawing.Size(122, 22);
@@ -317,20 +310,11 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(502, 119);
+            this.label13.Location = new System.Drawing.Point(501, 121);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(97, 17);
             this.label13.TabIndex = 0;
             this.label13.Text = "Spring Weight";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(628, 144);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(16, 17);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "g";
             // 
             // deleteButton
             // 
@@ -360,60 +344,83 @@
             this.label15.TabIndex = 1004;
             this.label15.Text = "Grade";
             // 
-            // redyeingWtTB
+            // redyeingPerTB
             // 
-            this.redyeingWtTB.Location = new System.Drawing.Point(505, 211);
-            this.redyeingWtTB.Name = "redyeingWtTB";
-            this.redyeingWtTB.Size = new System.Drawing.Size(178, 22);
-            this.redyeingWtTB.TabIndex = 1006;
-            this.redyeingWtTB.TabStop = false;
-            this.redyeingWtTB.Visible = false;
+            this.redyeingPerTB.Location = new System.Drawing.Point(664, 286);
+            this.redyeingPerTB.Name = "redyeingPerTB";
+            this.redyeingPerTB.ReadOnly = true;
+            this.redyeingPerTB.Size = new System.Drawing.Size(178, 22);
+            this.redyeingPerTB.TabIndex = 0;
+            this.redyeingPerTB.TabStop = false;
+            this.redyeingPerTB.Visible = false;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(502, 191);
+            this.label16.Location = new System.Drawing.Point(661, 266);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(116, 17);
-            this.label16.TabIndex = 1007;
-            this.label16.Text = "Redyeing Weight";
+            this.label16.Size = new System.Drawing.Size(145, 17);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "Redyeing Percentage";
             this.label16.Visible = false;
             // 
-            // zeroRDButton
+            // redyeingSpringsTB
             // 
-            this.zeroRDButton.Location = new System.Drawing.Point(505, 242);
-            this.zeroRDButton.Name = "zeroRDButton";
-            this.zeroRDButton.Size = new System.Drawing.Size(86, 28);
-            this.zeroRDButton.TabIndex = 1008;
-            this.zeroRDButton.Text = "0% RD";
-            this.zeroRDButton.UseVisualStyleBackColor = true;
-            this.zeroRDButton.Visible = false;
-            this.zeroRDButton.Click += new System.EventHandler(this.zeroRDButton_Click);
+            this.redyeingSpringsTB.Location = new System.Drawing.Point(664, 235);
+            this.redyeingSpringsTB.Name = "redyeingSpringsTB";
+            this.redyeingSpringsTB.ReadOnly = true;
+            this.redyeingSpringsTB.Size = new System.Drawing.Size(178, 22);
+            this.redyeingSpringsTB.TabIndex = 0;
+            this.redyeingSpringsTB.TabStop = false;
+            this.redyeingSpringsTB.Visible = false;
             // 
-            // fullRDButton
+            // label17
             // 
-            this.fullRDButton.Location = new System.Drawing.Point(597, 242);
-            this.fullRDButton.Name = "fullRDButton";
-            this.fullRDButton.Size = new System.Drawing.Size(86, 28);
-            this.fullRDButton.TabIndex = 1009;
-            this.fullRDButton.Text = "100% RD";
-            this.fullRDButton.UseVisualStyleBackColor = true;
-            this.fullRDButton.Visible = false;
-            this.fullRDButton.Click += new System.EventHandler(this.fullRDButton_Click);
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(661, 215);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(120, 17);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "Redyeing Springs";
+            this.label17.Visible = false;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(659, 184);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(181, 25);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Redyeing Params";
+            this.label18.Visible = false;
+            // 
+            // add_edit_rd_paramsButton
+            // 
+            this.add_edit_rd_paramsButton.Location = new System.Drawing.Point(702, 321);
+            this.add_edit_rd_paramsButton.Name = "add_edit_rd_paramsButton";
+            this.add_edit_rd_paramsButton.Size = new System.Drawing.Size(101, 51);
+            this.add_edit_rd_paramsButton.TabIndex = 0;
+            this.add_edit_rd_paramsButton.TabStop = false;
+            this.add_edit_rd_paramsButton.Text = "Add/Edit Redyeing";
+            this.add_edit_rd_paramsButton.UseVisualStyleBackColor = true;
+            this.add_edit_rd_paramsButton.Visible = false;
+            this.add_edit_rd_paramsButton.Click += new System.EventHandler(this.add_edit_rd_paramsButton_Click);
             // 
             // M_V2_trayInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 489);
-            this.Controls.Add(this.fullRDButton);
-            this.Controls.Add(this.zeroRDButton);
-            this.Controls.Add(this.redyeingWtTB);
+            this.Controls.Add(this.add_edit_rd_paramsButton);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.redyeingSpringsTB);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.redyeingPerTB);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.gradeCB);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.deleteButton);
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.springWeightTB);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.qualityBeforeTwistTB);
@@ -475,20 +482,20 @@
         private System.Windows.Forms.Label dynamicWeightLabel;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ComboBox machineNoCB;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox qualityBeforeTwistTB;
         private System.Windows.Forms.TextBox springWeightTB;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ComboBox gradeCB;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox redyeingWtTB;
+        private System.Windows.Forms.TextBox redyeingPerTB;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Button zeroRDButton;
-        private System.Windows.Forms.Button fullRDButton;
+        private System.Windows.Forms.TextBox redyeingSpringsTB;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button add_edit_rd_paramsButton;
     }
 }

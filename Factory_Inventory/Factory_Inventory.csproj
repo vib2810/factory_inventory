@@ -215,6 +215,7 @@
       <DependentUpon>FactoryInventoryDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Factory_Classes\PageImageList.cs" />
+    <Compile Include="Factory_Classes\Structures.cs" />
     <Compile Include="Factory_Classes\SuccessBox.cs">
       <SubType>Form</SubType>
     </Compile>
