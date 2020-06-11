@@ -50,8 +50,8 @@
             this.loadButton = new System.Windows.Forms.Button();
             this.calcButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -146,7 +146,7 @@
             // 
             // redyeingGrossWtTB
             // 
-            this.redyeingGrossWtTB.BackColor = System.Drawing.Color.Wheat;
+            this.redyeingGrossWtTB.BackColor = System.Drawing.Color.Goldenrod;
             this.redyeingGrossWtTB.Location = new System.Drawing.Point(184, 185);
             this.redyeingGrossWtTB.Name = "redyeingGrossWtTB";
             this.redyeingGrossWtTB.ReadOnly = true;
@@ -267,17 +267,7 @@
             this.label10.Size = new System.Drawing.Size(35, 16);
             this.label10.TabIndex = 0;
             this.label10.Text = "Enter";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Silver;
-            this.label11.Font = new System.Drawing.Font("Microsoft PhagsPa", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(254, 228);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(14, 16);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "c";
+            this.label10.Visible = false;
             // 
             // label9
             // 
@@ -289,6 +279,18 @@
             this.label9.Size = new System.Drawing.Size(20, 16);
             this.label9.TabIndex = 16;
             this.label9.Text = "F1";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Silver;
+            this.label11.Font = new System.Drawing.Font("Microsoft PhagsPa", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(254, 228);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(14, 16);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "c";
+            this.label11.Visible = false;
             // 
             // TrayCalc
             // 
@@ -349,7 +351,7 @@
         private System.Windows.Forms.Button loadButton;
         private System.Windows.Forms.Button calcButton;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label11;
     }
 }

@@ -261,28 +261,34 @@ namespace Factory_Inventory
         }
         public void CellSum()
         {
-            float sum = 0;
+            float sum_pure = 0;
+            float sum_net= 0;
             try
             {
                 if (dataGridView1.Rows.Count == 0)
                 {
                     this.redyeingBatchWeightTB.Text = "0";
-                    this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
+                    this.pureRDWeightTB.Text = "0";
+                    this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.pureRDWeightTB.Text)).ToString("F3");
                     return;
                 }
                 for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                 {
                     if (c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 3) == true)
-                        sum += float.Parse(dataGridView1.Rows[i].Cells["Net Weight"].Value.ToString());
+                    {
+                        sum_pure += float.Parse(dataGridView1.Rows[i].Cells["Net Weight"].Value.ToString()) * float.Parse(dataGridView1.Rows[i].Cells["Redyeing"].Value.ToString()) / 100F;
+                        sum_net += float.Parse(dataGridView1.Rows[i].Cells["Net Weight"].Value.ToString());
+                    }
                 }
-                this.redyeingBatchWeightTB.Text = sum.ToString("F3");
+                this.pureRDWeightTB.Text = sum_pure.ToString("F3");
+                this.redyeingBatchWeightTB.Text = sum_net.ToString("F3");
                 if(this.fullRedyeCK.Checked == false)
                 {
-                    this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.redyeingBatchWeightTB.Text)).ToString("F3");
+                    this.nonRedyeingBatchWeightTB.Text = (float.Parse(this.batchWeightTB.Text) - float.Parse(this.pureRDWeightTB.Text)).ToString("F3");
                 }
                 else
                 {
-                    this.nonRedyeingBatchWeightTB.Text = "N/A";
+                    this.nonRedyeingBatchWeightTB.Text = "0";
                 }
             }
             catch
@@ -404,7 +410,7 @@ namespace Factory_Inventory
             }
             else
             {
-                nrd_bno = int.Parse(this.redyeingBatchNoTB.Text);
+                nrd_bno = int.Parse(this.nonRedyeingBatchNoTB.Text);
             }
             
             if (this.edit_form == false)
@@ -473,21 +479,17 @@ namespace Factory_Inventory
                 this.rateTextBoxTB.Text = "";
             }
         }
-        private void fullRedyeCK_CheckedChanged(object sender, EventArgs e)
+
+        private void label8_Click(object sender, EventArgs e)
         {
-            if(this.fullRedyeCK.Checked == true)
-            {
-                this.nonRedyeingBatchNoTB.Text = "N/A";
-                this.nonRedyeingBatchWeightTB.Text = "N/A";
-                this.redyeingBatchNoTB.Text = this.old_batch_row["Batch_No"].ToString();
-            }
-            else
-            {
-                this.nonRedyeingBatchNoTB.Text = this.highest_batch_no;
-                this.redyeingBatchNoTB.Text = (int.Parse(this.nonRedyeingBatchNoTB.Text) + 1).ToString();
-                this.CellSum();
-            }
+
         }
+
+        private void pureRDWeightTB_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         //DataGridView 1
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {

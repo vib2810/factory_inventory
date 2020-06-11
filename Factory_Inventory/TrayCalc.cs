@@ -23,16 +23,6 @@ namespace Factory_Inventory
                 this.dataGridView1.CurrentCell = dataGridView1[0, 0];
                 return false;
             }
-            if (keyData == Keys.C)
-            {
-                this.calcButton.PerformClick();
-                return false;
-            }
-            if (keyData == Keys.Enter)
-            {
-                this.loadButton.PerformClick();
-                return false;
-            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         public Structures.Tray_Params tray_Params=new Structures.Tray_Params();
@@ -150,6 +140,10 @@ namespace Factory_Inventory
                 //both should be zero together
                 c.ErrorBox("Net Redyeing Weight and No of Redyeing springs have to be either zero or non zero together");
                 return;
+            }
+            if(int.Parse(this.graySpringTB.Text) == 0 && float.Parse(grayGrossWtTB.Text) == 0F)
+            {
+                this.trayTareTB.Text = "0";
             }
             //update direct params
             tray_Params.n_rd= float.Parse(this.netRedyeingWeightTB.Text);

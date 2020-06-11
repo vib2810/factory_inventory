@@ -70,6 +70,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
             this.fullRedyeCK = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.pureRDWeightTB = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -258,7 +260,7 @@
             this.rateTextBoxTB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rateTextBoxTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rateTextBoxTB.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rateTextBoxTB.Location = new System.Drawing.Point(902, 167);
+            this.rateTextBoxTB.Location = new System.Drawing.Point(902, 224);
             this.rateTextBoxTB.Name = "rateTextBoxTB";
             this.rateTextBoxTB.ReadOnly = true;
             this.rateTextBoxTB.Size = new System.Drawing.Size(74, 24);
@@ -268,7 +270,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(898, 147);
+            this.label12.Location = new System.Drawing.Point(898, 204);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(38, 17);
             this.label12.TabIndex = 0;
@@ -278,7 +280,7 @@
             // 
             this.redyeingColourCB.Enabled = false;
             this.redyeingColourCB.FormattingEnabled = true;
-            this.redyeingColourCB.Location = new System.Drawing.Point(776, 167);
+            this.redyeingColourCB.Location = new System.Drawing.Point(776, 224);
             this.redyeingColourCB.Name = "redyeingColourCB";
             this.redyeingColourCB.Size = new System.Drawing.Size(120, 24);
             this.redyeingColourCB.TabIndex = 7;
@@ -287,7 +289,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(773, 147);
+            this.label14.Location = new System.Drawing.Point(773, 204);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(120, 17);
             this.label14.TabIndex = 0;
@@ -411,7 +413,7 @@
             // addTrayButton
             // 
             this.addTrayButton.Enabled = false;
-            this.addTrayButton.Location = new System.Drawing.Point(776, 239);
+            this.addTrayButton.Location = new System.Drawing.Point(776, 260);
             this.addTrayButton.Name = "addTrayButton";
             this.addTrayButton.Size = new System.Drawing.Size(200, 47);
             this.addTrayButton.TabIndex = 11;
@@ -422,7 +424,7 @@
             // editTrayButton
             // 
             this.editTrayButton.Enabled = false;
-            this.editTrayButton.Location = new System.Drawing.Point(776, 297);
+            this.editTrayButton.Location = new System.Drawing.Point(776, 313);
             this.editTrayButton.Name = "editTrayButton";
             this.editTrayButton.Size = new System.Drawing.Size(200, 47);
             this.editTrayButton.TabIndex = 13;
@@ -493,7 +495,29 @@
             this.fullRedyeCK.TabIndex = 10;
             this.fullRedyeCK.Text = "Send Full Batch to Redyeing";
             this.fullRedyeCK.UseVisualStyleBackColor = true;
-            this.fullRedyeCK.CheckedChanged += new System.EventHandler(this.fullRedyeCK_CheckedChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(773, 143);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(157, 17);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "Pure Re-Dyeing Weight";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // pureRDWeightTB
+            // 
+            this.pureRDWeightTB.BackColor = System.Drawing.Color.LightGray;
+            this.pureRDWeightTB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pureRDWeightTB.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pureRDWeightTB.Location = new System.Drawing.Point(776, 163);
+            this.pureRDWeightTB.Name = "pureRDWeightTB";
+            this.pureRDWeightTB.ReadOnly = true;
+            this.pureRDWeightTB.Size = new System.Drawing.Size(200, 22);
+            this.pureRDWeightTB.TabIndex = 0;
+            this.pureRDWeightTB.TabStop = false;
+            this.pureRDWeightTB.TextChanged += new System.EventHandler(this.pureRDWeightTB_TextChanged);
             // 
             // M_V3_issueToReDyeingForm
             // 
@@ -501,6 +525,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1000, 541);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.pureRDWeightTB);
             this.Controls.Add(this.fullRedyeCK);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label7);
@@ -595,5 +621,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.CheckBox fullRedyeCK;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox pureRDWeightTB;
     }
 }
