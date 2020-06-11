@@ -141,9 +141,14 @@ namespace Factory_Inventory
                 c.ErrorBox("Net Redyeing Weight and No of Redyeing springs have to be either zero or non zero together");
                 return;
             }
-            if(int.Parse(this.graySpringTB.Text) == 0 && float.Parse(grayGrossWtTB.Text) == 0F)
+            if(float.Parse(grayGrossWtTB.Text) == 0F || int.Parse(this.graySpringTB.Text) == 0 || float.Parse(trayTareTB.Text) == 0F)
             {
-                this.trayTareTB.Text = "0";
+                if (!(float.Parse(grayGrossWtTB.Text) == 0F && int.Parse(this.graySpringTB.Text) == 0 && float.Parse(trayTareTB.Text) == 0F))
+                {
+                    //both should be zero together
+                    c.ErrorBox("Gross Weight, Number of Springs and Tray Tare for can should be either all 0 or all non-zero");
+                    return;
+                }
             }
             //update direct params
             tray_Params.n_rd= float.Parse(this.netRedyeingWeightTB.Text);

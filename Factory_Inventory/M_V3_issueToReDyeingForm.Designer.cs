@@ -468,7 +468,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(472, 395);
+            this.label7.Location = new System.Drawing.Point(12, 537);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(0, 25);
             this.label7.TabIndex = 17;
@@ -524,7 +524,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 541);
+            this.ClientSize = new System.Drawing.Size(1000, 582);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.pureRDWeightTB);
             this.Controls.Add(this.fullRedyeCK);

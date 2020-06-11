@@ -345,7 +345,7 @@ namespace Factory_Inventory
             this.tray_details.Columns.Add("Quality Before Twist");
             this.tray_details.Columns.Add("Grade");
             this.tray_details.Columns.Add("Redyeing");
-            this.tray_details.Columns.Add("No of Springs RD");
+            this.tray_details.Columns.Add("No Of Springs RD");
 
 
 
@@ -608,7 +608,7 @@ namespace Factory_Inventory
                 row["Net Weight"] = dynamicLabelChange();
                 row["Quality Before Twist"] = this.qualityBeforeTwistTB.Text;
                 row["Grade"] = this.gradeCB.Text;
-                row["No of Springs RD"] = this.redyeingSpringsTB.Text;
+                row["No Of Springs RD"] = this.redyeingSpringsTB.Text;
                 row["Redyeing"] = this.redyeingPerTB.Text;
                 
                 for (int i = 0; i < this.issuesource.Rows.Count; i++)
@@ -657,9 +657,9 @@ namespace Factory_Inventory
                 this.issuesource.Columns["Quality"].Width= 150;
                 this.issuesource.Columns["Net Weight"].Visible = true;
                 this.issuesource.Columns["Net Weight"].DisplayIndex = 6;
-                this.issuesource.Columns["No of Springs RD"].Visible = true;
-                this.issuesource.Columns["No of Springs RD"].DisplayIndex = 8;
-                this.issuesource.Columns["No of Springs RD"].HeaderText = "No of redyeing springs";
+                this.issuesource.Columns["No Of Springs RD"].Visible = true;
+                this.issuesource.Columns["No Of Springs RD"].DisplayIndex = 8;
+                this.issuesource.Columns["No Of Springs RD"].HeaderText = "No of redyeing springs";
                 this.issuesource.Columns["No of Springs"].Visible = true;
                 this.issuesource.Columns["No of Springs"].DisplayIndex = 10;
                 c.auto_adjust_dgv(this.issuesource);
@@ -763,8 +763,7 @@ namespace Factory_Inventory
         }
         private void springCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            float result;
-            //if(string.IsNullOrEmpty(this.redyeingPerTB.Text) == false && float.TryParse(this.dynamicWeightLabel.Text, out result) == true)
+            ////if(string.IsNullOrEmpty(this.redyeingPerTB.Text) == false && float.TryParse(this.dynamicWeightLabel.Text, out result) == true)
             //{
             //    float old_net_wt = float.Parse(this.dynamicWeightLabel.Text);
             //    float new_net_wt = dynamicLabelChange();

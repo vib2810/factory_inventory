@@ -23,7 +23,7 @@ namespace Factory_Inventory
         private bool edit_form = false;
         private int voucher_id;
         private string highest_batch_no;
-
+        private DataRow redyeing_batch, non_redyeing_batch;
         //Form functions
         public M_V3_issueToReDyeingForm()
         {
@@ -76,20 +76,34 @@ namespace Factory_Inventory
             this.batchNoCB.Items.Add(row["Old_Batch_No"].ToString() +"  ("+ row["Old_Batch_Fiscal_Year"].ToString()+")");
             this.batchNoCB.SelectedIndex = 1;
             load_batch();
-            this.redyeingBatchNoTB.Text = row["Redyeing_Batch_No"].ToString();
-            this.nonRedyeingBatchNoTB.Text = row["Non_Redyeing_Batch_No"].ToString();
-            
-            DataRow redyeing_batch = c.getBatchRow_BatchNo(int.Parse(this.redyeingBatchNoTB.Text), row["Redyeing_Batch_Fiscal_Year"].ToString());
-            DataRow non_redyeing_batch = c.getBatchRow_BatchNo(int.Parse(this.nonRedyeingBatchNoTB.Text), row["Redyeing_Batch_Fiscal_Year"].ToString());
 
             
-            float redyeing_wt= float.Parse(redyeing_batch["Net_Weight"].ToString());
-            float non_redyeing_wt = float.Parse(batchWeightTB.Text) - redyeing_wt;
-            this.redyeingBatchWeightTB.Text = redyeing_wt.ToString();
-            this.nonRedyeingBatchWeightTB.Text = non_redyeing_wt.ToString();
+            this.redyeing_batch = c.getBatchRow_BatchNo(int.Parse(row["Redyeing_Batch_No"].ToString()), row["Redyeing_Batch_Fiscal_Year"].ToString());
+            this.non_redyeing_batch = null;
+            float non_redyeing_wt = -1F;
+            string non_redyeing_batch_no = "NA";
+            
+            if (row["Non_Redyeing_Batch_No"].ToString() != "-1")
+            {
+                non_redyeing_batch = c.getBatchRow_BatchNo(int.Parse(row["Non_Redyeing_Batch_No"].ToString()), row["Redyeing_Batch_Fiscal_Year"].ToString());
+                non_redyeing_wt= float.Parse(batchWeightTB.Text) - float.Parse(redyeing_batch["Net_Weight"].ToString());
+                non_redyeing_batch_no= row["Non_Redyeing_Batch_No"].ToString();
+            }
+            else
+            {
+                this.fullRedyeCK.Checked = true;
+            }
+            this.redyeingBatchNoTB.Text = row["Redyeing_Batch_No"].ToString();
+            this.nonRedyeingBatchNoTB.Text = non_redyeing_batch_no;
+            
+            this.redyeingBatchWeightTB.Text = float.Parse(redyeing_batch["Net_Weight"].ToString()).ToString("F3");
+            if (non_redyeing_wt != -1F) this.nonRedyeingBatchWeightTB.Text = non_redyeing_wt.ToString("F3");
+            else this.nonRedyeingBatchWeightTB.Text = "NA";
+
             loadButton_Click(null, null);
             this.redyeingColourCB.SelectedIndex = this.redyeingColourCB.FindStringExact(redyeing_batch["Colour"].ToString());
             this.rateTextBoxTB.Text = redyeing_batch["Dyeing_Rate"].ToString();
+            
             this.all_trays.Columns.Add("Sl No");
             this.all_trays.Columns.Add("Date Of Production");
             this.all_trays.Columns.Add("Tray No");
@@ -103,6 +117,9 @@ namespace Factory_Inventory
             this.all_trays.Columns.Add("Net Weight");
             this.all_trays.Columns.Add("Quality Before Twist");
             this.all_trays.Columns.Add("Grade");
+            this.all_trays.Columns.Add("Redyeing");
+            this.all_trays.Columns.Add("No Of Springs RD");
+
 
             string[] tray_ids = c.csvToArray(redyeing_batch["Tray_ID_Arr"].ToString());
             for(int i=0;i<tray_ids.Length;i++)
@@ -123,6 +140,8 @@ namespace Factory_Inventory
                 to_add["Net Weight"] = tray["Net_Weight"].ToString();
                 to_add["Quality Before Twist"] = tray["Quality_Before_Twist"].ToString();
                 to_add["Grade"] = tray["Grade"].ToString();
+                to_add["Redyeing"] = tray["Redyeing"].ToString();
+                to_add["No Of Springs RD"] = tray["No_Of_Springs_RD"].ToString();
                 this.all_trays.Rows.Add(to_add);
             }
 
@@ -139,28 +158,73 @@ namespace Factory_Inventory
             this.dataGridView1.Columns["Quality"].Width = 150;
             this.dataGridView1.Columns["Net Weight"].Visible = true;
             this.dataGridView1.Columns["Net Weight"].DisplayIndex = 6;
+            this.dataGridView1.Columns["No Of Springs RD"].Visible = true;
+            this.dataGridView1.Columns["No Of Springs RD"].DisplayIndex = 8;
+            this.dataGridView1.Columns["No Of Springs RD"].HeaderText = "No of redyeing springs";
+            this.dataGridView1.Columns["No of Springs"].Visible = true;
+            this.dataGridView1.Columns["No of Springs"].DisplayIndex = 10;
             c.auto_adjust_dgv(this.dataGridView1);
+            this.CellSum();
 
             if (this.dataGridView1.SelectedRows.Count > 0)
             {
                 this.dataGridView1.SelectedRows[0].Selected = false;
             }
 
-            if (redyeing_batch["Batch_State"].ToString() == "2")
+            if (int.Parse(redyeing_batch["Batch_State"].ToString()) > 1)
             {
-                this.label7.Text = "This voucher is not editable \n/deletable as batch " + this.redyeingBatchNoTB.Text + " has \nalready come from redyeing";
+                string prefix = "This voucher is not editable/deletable as batch " + this.redyeingBatchNoTB.Text + " has ";
+                int state = int.Parse(redyeing_batch["Batch_State"].ToString());
+                if(state == 2)
+                {
+                    this.label7.Text = prefix + "already come from redyeing";
+                }
+                else if(state == 3)
+                {
+                    if(string.IsNullOrEmpty(redyeing_batch["Date_OF_Production"].ToString()))
+                    {
+                        this.label7.Text = prefix + "already come from redyeing and is in production";
+                    }
+                    else
+                    {
+                        this.label7.Text = prefix + "already come from redyeing and has been produced";
+                    }
+                }
+                else if(state==4)
+                {
+                    this.label7.Text = prefix + "gone to redyeing again";
+                }
                 this.label7.ForeColor = Color.Red;
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = false;
                 disable_form_edit();
             }
-            if (non_redyeing_batch["Batch_State"].ToString() == "3")
+            if(non_redyeing_batch!=null)
             {
-                this.label7.Text = "This voucher is not editable \n/deletable as batch " + this.nonRedyeingBatchNoTB.Text + " has \nalready been produced";
-                this.label7.ForeColor = Color.Red;
-                this.deleteButton.Visible = true;
-                this.deleteButton.Enabled = false;
-                disable_form_edit();
+                if (int.Parse(non_redyeing_batch["Batch_State"].ToString()) > 2)
+                {
+                    string prefix = "This voucher is not editable/deletable as batch " + this.nonRedyeingBatchNoTB.Text + " has ";
+                    int state = int.Parse(non_redyeing_batch["Batch_State"].ToString());
+                    if (state == 3)
+                    {
+                        if (string.IsNullOrEmpty(non_redyeing_batch["Date_OF_Production"].ToString()))
+                        {
+                            this.label7.Text = prefix + "already come from redyeing and is in production";
+                        }
+                        else
+                        {
+                            this.label7.Text = prefix + "already come from redyeing and has been produced";
+                        }
+                    }
+                    else if (state == 4)
+                    {
+                        this.label7.Text = prefix + "gone to redyeing again";
+                    }
+                    this.label7.ForeColor = Color.Red;
+                    this.deleteButton.Visible = true;
+                    this.deleteButton.Enabled = false;
+                    disable_form_edit();
+                }
             }
             if (isEditable==false)
             {
@@ -168,7 +232,6 @@ namespace Factory_Inventory
                 this.disable_form_edit();
                 this.deleteButton.Visible = true;
                 this.deleteButton.Enabled = true;
-                this.dataGridView1.Enabled = false;
             }
             else
             {
@@ -233,12 +296,6 @@ namespace Factory_Inventory
             int batchno = int.Parse(batch_details[0]);
             string fiscal_year = batch_details[1];
             this.old_batch_row = c.getBatchRow_BatchNo(batchno, fiscal_year);
-            DateTime inward_date = Convert.ToDateTime(this.old_batch_row["Dyeing_In_Date"].ToString());
-            if (inward_date > this.issueDateDTP.Value.Date)
-            {
-                c.ErrorBox("Redyeing issue date should be more or equal to than batch dyeing inward date (" + inward_date.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")");
-                return;
-            }
             this.qualityTB.Text = this.old_batch_row["Quality"].ToString();
             this.colourTB.Text = this.old_batch_row["Colour"].ToString();
             this.batchWeightTB.Text = this.old_batch_row["Net_Weight"].ToString();
@@ -381,9 +438,9 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter atleast one tray");
                 return;
             }
-            if (float.Parse(this.redyeingBatchWeightTB.Text) > float.Parse(this.batchWeightTB.Text))
+            if (float.Parse(this.pureRDWeightTB.Text) > float.Parse(this.batchWeightTB.Text))
             {
-                c.ErrorBox("Weight of batch being sent for redyeing is greater than original batch weight");
+                c.ErrorBox("Redyeing weight of batch being sent for redyeing is greater than original batch weight");
                 return;
             }
             if (redyeingColourCB.SelectedIndex == 0)
@@ -400,11 +457,21 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric dyeing rate");
                 return;
             }
-            
+            DateTime inward_date = Convert.ToDateTime(this.old_batch_row["Dyeing_In_Date"].ToString());
+            if (inward_date > this.issueDateDTP.Value.Date)
+            {
+                c.ErrorBox("Redyeing issue date should be more or equal to than batch dyeing inward date (" + inward_date.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")");
+                return;
+            }
             bool full = false;
             int nrd_bno;
             if(this.fullRedyeCK.Checked == true)
             {
+                if(float.Parse(pureRDWeightTB.Text) != float.Parse(batchWeightTB.Text))
+                {
+                    c.ErrorBox("Pure redyeing weight sould be equal to old batch weight for full redyeing");
+                    return;
+                }
                 full = true;
                 nrd_bno = -1;
             }
@@ -426,7 +493,7 @@ namespace Factory_Inventory
             else
             {
                 string redyeing = this.old_batch_row["Batch_No"].ToString() + "," + this.old_batch_row["Fiscal_Year"].ToString();
-                bool edited = c.editRedyeingVoucher(this.issueDateDTP.Value, this.old_batch_row, this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), float.Parse(this.nonRedyeingBatchWeightTB.Text), float.Parse(this.redyeingBatchWeightTB.Text));
+                bool edited = c.editRedyeingVoucher(this.issueDateDTP.Value, this.old_batch_row, this.dataGridView1.DataSource as DataTable, this.redyeingColourCB.Text, float.Parse(this.rateTextBoxTB.Text), this.redyeing_batch, this.non_redyeing_batch, float.Parse(this.nonRedyeingBatchWeightTB.Text), float.Parse(this.redyeingBatchWeightTB.Text), full);
                 if (edited == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -440,7 +507,7 @@ namespace Factory_Inventory
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                bool deleted = c.deleteRedyeingVoucher(this.voucher_id);
+                bool deleted = c.deleteRedyeingVoucher(this.voucher_id, this.redyeing_batch);
                 if (deleted == true)
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
