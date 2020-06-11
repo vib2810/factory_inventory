@@ -168,9 +168,9 @@ namespace Factory_Inventory
 
             dataGridView1.Columns["Quality"].Width = 150;
             dataGridView1.Columns.Remove(dataGridView1.Columns["Carton_State"]);
-            dataGridView1.Columns.Add("Carton_State", "Carton State");
-            dataGridView1.Columns["Carton_State"].ValueType = typeof(string);
-            dataGridView1.Columns["Carton_State"].Width = 150;
+            dataGridView1.Columns.Add("Carton State", "Carton State");
+            dataGridView1.Columns["Carton State"].ValueType = typeof(string);
+            dataGridView1.Columns["Carton State"].Width = 150;
 
 
             for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
@@ -181,18 +181,18 @@ namespace Factory_Inventory
                     row.DefaultCellStyle.SelectionBackColor = Color.LightGray;
                     row.DefaultCellStyle.SelectionForeColor = Color.Blue;
                     row.DefaultCellStyle.BackColor = Color.LightGray;
-                    this.dataGridView1.Rows[i].Cells["Carton_State"].Value = "In Twist";
+                    this.dataGridView1.Rows[i].Cells["Carton State"].Value = "In Twist";
                 }
                 else if (dt.Rows[i]["Carton_State"].ToString() == "3")
                 {
                     row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
                     row.DefaultCellStyle.SelectionForeColor = Color.Blue;
                     row.DefaultCellStyle.BackColor = Color.LawnGreen;
-                    this.dataGridView1.Rows[i].Cells["Carton_State"].Value = "Sold";
+                    this.dataGridView1.Rows[i].Cells["Carton State"].Value = "Sold";
                 }
                 else if (dt.Rows[i]["Carton_State"].ToString() == "1")
                 {
-                    this.dataGridView1.Rows[i].Cells["Carton_State"].Value = "In Gray Godown";
+                    this.dataGridView1.Rows[i].Cells["Carton State"].Value = "In Gray Godown";
                 }
 
                 row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
