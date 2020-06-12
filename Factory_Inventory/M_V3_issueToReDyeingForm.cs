@@ -367,7 +367,7 @@ namespace Factory_Inventory
             load_batch(); 
             if(this.edit_form==false)
             {
-                this.redyeingBatchNoTB.Text = this.highest_batch_no = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(DateTime.Now));
+                this.redyeingBatchNoTB.Text = this.highest_batch_no = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(this.issueDateDTP.Value));
                 this.nonRedyeingBatchNoTB.Text = (int.Parse(this.redyeingBatchNoTB.Text) + 1).ToString();
                 
             }
