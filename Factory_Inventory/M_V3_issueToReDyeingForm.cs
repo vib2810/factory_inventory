@@ -546,12 +546,10 @@ namespace Factory_Inventory
                 this.rateTextBoxTB.Text = "";
             }
         }
-
         private void label8_Click(object sender, EventArgs e)
         {
 
         }
-
         private void pureRDWeightTB_TextChanged(object sender, EventArgs e)
         {
 
