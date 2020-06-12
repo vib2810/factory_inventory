@@ -67,11 +67,13 @@ namespace Factory_Inventory.Factory_Classes
             Console.WriteLine("Hello there");
             try
             {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = " DROP Table Closing_Stock";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
+                DataTable dt1 = this.getVoucherHistories("Carton_Inward_Voucher", true);
+                for(int i=0; i<dt1.Rows.Count; i++)
+                {
+                    int voucher_id = int.Parse(dt1.Rows[i]["Voucher_ID"].ToString());
+                    string cartons= this.removecom(dt1.Rows[i]["Carton_Nos"].ToString());
+                    //this.runQuery("UPDATE Table Carton set Inward_Voucher_IDs="+voucher_id+" Where carton_nos in ("+cartons+"))
+                }
             }
             catch (Exception e)
             {
@@ -86,6 +88,26 @@ namespace Factory_Inventory.Factory_Classes
             return true;
         }
         //Utility Functions
+        public void runQuery(string sql)
+        {
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+                this.SuccessBox("Query Executed: "+sql);
+            }
+            catch (Exception e)
+            {
+                this.ErrorBox("Could not run Quert (runQuery)\n"+sql+"\n" + e.Message, "Exception");
+            }
+
+            finally
+            {
+                con.Close();
+            }
+        }
         public void printDGVSort(List<string> input, DataGridView d, int date_cols)
         {
             d.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
@@ -195,13 +217,15 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public DataTable getVoucherHistories(string tablename)
+        public DataTable getVoucherHistories(string tablename, bool full=false)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
             try
             {
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT TOP 200 * FROM "+tablename+" ORDER BY Voucher_ID DESC", con);
+                string sql = "SELECT TOP 200 * FROM " + tablename + " ORDER BY Voucher_ID DESC";
+                if (full == true) sql = "SELECT * FROM " + tablename + " ORDER BY Voucher_ID DESC";
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 sda.Fill(dt);
             }
             catch(Exception e)

@@ -67,9 +67,11 @@ namespace Factory_Inventory
             dataGridView1.Columns["Dyeing_Company_Name"].Width = 150;
             dataGridView1.Columns["Quality"].Width = 150;
             dataGridView1.Columns.Remove(dataGridView1.Columns["Batch_State"]);
-            dataGridView1.Columns.Add("Batch_State", "Batch State");
-            dataGridView1.Columns["Batch_State"].ValueType = typeof(string);
-            dataGridView1.Columns["Batch_State"].Width = 150;
+            DataGridViewTextBoxColumn newcol = new DataGridViewTextBoxColumn();
+            newcol.HeaderText = "Batch State";
+            newcol.Name = "Batch State";
+            dataGridView1.Columns.Add(newcol);
+            dataGridView1.Columns["Batch State"].Width = 150;
             dataGridView1.Columns["Bill_No"].Width = 60;
             dataGridView1.Columns["Slip_No"].Width = 60;
 
@@ -82,7 +84,7 @@ namespace Factory_Inventory
                     row.DefaultCellStyle.SelectionBackColor = Color.Yellow;
                     row.DefaultCellStyle.SelectionForeColor = Color.Blue;
                     row.DefaultCellStyle.BackColor = Color.Yellow;
-                    this.dataGridView1.Rows[i].Cells["Batch_State"].Value = "Received from dyeing";
+                    this.dataGridView1.Rows[i].Cells["Batch State"].Value = "Received from dyeing";
                 }
                 else if (dt.Rows[i]["Batch_State"].ToString() == "3")
                 {
@@ -91,11 +93,11 @@ namespace Factory_Inventory
                     row.DefaultCellStyle.BackColor = Color.LawnGreen;
                     if (c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 0, "Date_Of_Production"))
                     {
-                        this.dataGridView1.Rows[i].Cells["Batch_State"].Value = "Produced";
+                        this.dataGridView1.Rows[i].Cells["Batch State"].Value = "Produced";
                     }
                     else
                     {
-                        this.dataGridView1.Rows[i].Cells["Batch_State"].Value = "In Production";
+                        this.dataGridView1.Rows[i].Cells["Batch State"].Value = "In Production";
                     }
                 }
                 else if (dt.Rows[i]["Batch_State"].ToString() == "4")
@@ -103,11 +105,11 @@ namespace Factory_Inventory
                     row.DefaultCellStyle.SelectionBackColor = Color.Orange;
                     row.DefaultCellStyle.SelectionForeColor = Color.Blue;
                     row.DefaultCellStyle.BackColor = Color.Orange;
-                    this.dataGridView1.Rows[i].Cells["Batch_State"].Value = "Redyeing (Destroyed)";
+                    this.dataGridView1.Rows[i].Cells["Batch State"].Value = "Redyeing (Destroyed)";
                 }
                 else if (dt.Rows[i]["Batch_State"].ToString() == "1")
                 {
-                    this.dataGridView1.Rows[i].Cells["Batch_State"].Value = "In Dyeing";
+                    this.dataGridView1.Rows[i].Cells["Batch State"].Value = "In Dyeing";
                 }
 
                 row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
@@ -142,6 +144,92 @@ namespace Factory_Inventory
             dataGridView1.Columns["nullcol"].Width = 20;
 
         }
+        private void search_tray(bool date)
+        {
+            List<string> l = new List<string>();
+            l.Add("Tray_No");
+            l.Add("Quality");
+            l.Add("Batch_No");
+            l.Add("Batch_Fiscal_Year");
+            l.Add("Spring");
+            l.Add("Number_of_Springs");
+            l.Add("Net_Weight");
+            l.Add("Dyeing_Company_Name");
+            l.Add("Machine_No");
+            l.Add("Grade");
+            l.Add("Fiscal_Year");
+            l.Add("Tray_Production_Date");
+            l.Add("Dyeing_Out_Date");
+            l.Add("Dyeing_In_Date");
+            l.Add("Tray_State");
+            int date_cols = 4, normal_cols = 11;
+
+            c.printDGVSort(l, this.dataGridView1, date_cols);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.auto_adjust_dgv(this.dataGridView1);
+            //// Double buffering can make DGV slow in remote desktop
+            dataGridView1.Columns["Quality"].Width = 150;
+            dataGridView1.Columns["Dyeing_Company_Name"].Width = 150;
+            dataGridView1.Columns.Remove(dataGridView1.Columns["Tray_State"]);
+            DataGridViewTextBoxColumn newcol = new DataGridViewTextBoxColumn();
+            newcol.HeaderText = "Tray State";
+            newcol.Name = "Tray State";
+            dataGridView1.Columns.Add(newcol);
+            dataGridView1.Columns["Tray State"].Width = 200;
+
+            for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
+            {
+                DataGridViewRow row = dataGridView1.Rows[i];
+                if (dt.Rows[i]["Tray_State"].ToString() == "2")
+                {
+                    row.DefaultCellStyle.SelectionBackColor = Color.Yellow;
+                    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
+                    row.DefaultCellStyle.BackColor = Color.Yellow;
+                    this.dataGridView1.Rows[i].Cells["Tray State"].Value = "In Dyeing";
+                }
+                else if (dt.Rows[i]["Tray_State"].ToString() == "1")
+                {
+                    this.dataGridView1.Rows[i].Cells["Tray State"].Value = "Produced";
+                }
+                else if (dt.Rows[i]["Tray_State"].ToString() == "-1")
+                {
+                    row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
+                    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
+                    row.DefaultCellStyle.BackColor = Color.LawnGreen;
+                    this.dataGridView1.Rows[i].Cells["Tray State"].Value = "Received from Dyeing (free)";
+                }
+
+                row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
+                row.Cells["nullcol"].Style.BackColor = Color.Gray;
+                int bold_index = -1;
+                string bold = dataGridView1.Rows[i].Cells["priority"].Value.ToString();
+                if (date == true)
+                {
+                    if (bold.StartsWith("da"))
+                    {
+                        bold_index = int.Parse(bold.Substring(2, bold.Length - 2));
+                    }
+                    else bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
+                    Console.WriteLine(bold_index);
+                    row.Cells[l[bold_index - 1 + normal_cols]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
+                }
+                else
+                {
+                    if (bold[0] == 'a')
+                    {
+                        bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
+                    }
+                    else bold_index = int.Parse(bold);
+
+                    row.Cells[l[bold_index - 1]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
+                }
+            }
+
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.Columns["nullcol"].HeaderCell.Style.SelectionBackColor = Color.Gray;
+            dataGridView1.Columns["nullcol"].HeaderCell.Style.BackColor = Color.Gray;
+            dataGridView1.Columns["nullcol"].Width = 20;
+        }
         private void search_carton(bool date)
         {
 
@@ -168,8 +256,10 @@ namespace Factory_Inventory
 
             dataGridView1.Columns["Quality"].Width = 150;
             dataGridView1.Columns.Remove(dataGridView1.Columns["Carton_State"]);
-            dataGridView1.Columns.Add("Carton State", "Carton State");
-            dataGridView1.Columns["Carton State"].ValueType = typeof(string);
+            DataGridViewTextBoxColumn newcol = new DataGridViewTextBoxColumn();
+            newcol.HeaderText = "Carton State";
+            newcol.Name = "Carton State";
+            dataGridView1.Columns.Add(newcol);
             dataGridView1.Columns["Carton State"].Width = 150;
 
 
@@ -258,9 +348,11 @@ namespace Factory_Inventory
             dataGridView1.Columns["Batch_No_Arr"].HeaderText = "Batch Numbers";
             dataGridView1.Columns["Batch_Fiscal_Year_Arr"].HeaderText = "Batch Fiscal Years";
             dataGridView1.Columns.Remove(dataGridView1.Columns["Carton_State"]);
-            dataGridView1.Columns.Add("Carton_State", "Carton State");
-            dataGridView1.Columns["Carton_State"].ValueType = typeof(string);
-            dataGridView1.Columns["Carton_State"].Width = 150;
+            DataGridViewTextBoxColumn newcol = new DataGridViewTextBoxColumn();
+            newcol.HeaderText = "Carton State";
+            newcol.Name = "Carton State";
+            dataGridView1.Columns.Add(newcol);
+            dataGridView1.Columns["Carton State"].Width = 150;
 
             for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
             {
@@ -273,11 +365,11 @@ namespace Factory_Inventory
                     row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
                     row.DefaultCellStyle.SelectionForeColor = Color.Blue;
                     row.DefaultCellStyle.BackColor = Color.LawnGreen;
-                    this.dataGridView1.Rows[i].Cells["Carton_State"].Value = "Sold";
+                    this.dataGridView1.Rows[i].Cells["Carton State"].Value = "Sold";
                 }
                 else if (dt.Rows[i]["Carton_State"].ToString() == "1")
                 {
-                    this.dataGridView1.Rows[i].Cells["Carton_State"].Value = "Produced";
+                    this.dataGridView1.Rows[i].Cells["Carton State"].Value = "Produced";
                 }
 
                 row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
@@ -312,90 +404,7 @@ namespace Factory_Inventory
             dataGridView1.Columns["nullcol"].Width = 20;
 
         }
-        private void search_tray(bool date)
-        {
-            List<string> l = new List<string>();
-            l.Add("Tray_No");
-            l.Add("Quality");
-            l.Add("Batch_No");
-            l.Add("Batch_Fiscal_Year");
-            l.Add("Spring");
-            l.Add("Number_of_Springs");
-            l.Add("Net_Weight");
-            l.Add("Dyeing_Company_Name");
-            l.Add("Machine_No");
-            l.Add("Grade");
-            l.Add("Fiscal_Year");
-            l.Add("Tray_Production_Date");
-            l.Add("Dyeing_Out_Date");
-            l.Add("Dyeing_In_Date");
-            l.Add("Tray_State");
-            int date_cols = 4, normal_cols = 11;
 
-            c.printDGVSort(l, this.dataGridView1, date_cols);
-            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
-            c.auto_adjust_dgv(this.dataGridView1);
-            //// Double buffering can make DGV slow in remote desktop
-            dataGridView1.Columns["Quality"].Width = 150;
-            dataGridView1.Columns["Dyeing_Company_Name"].Width = 150;
-            dataGridView1.Columns.Remove(dataGridView1.Columns["Tray_State"]);
-            dataGridView1.Columns.Add("Tray_State", "Tray State");
-            dataGridView1.Columns["Tray_State"].ValueType = typeof(string);
-            dataGridView1.Columns["Tray_State"].Width = 200;
-
-            for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
-            {
-                DataGridViewRow row = dataGridView1.Rows[i];
-                if (dt.Rows[i]["Tray_State"].ToString() == "2")
-                {
-                    row.DefaultCellStyle.SelectionBackColor = Color.Yellow;
-                    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
-                    row.DefaultCellStyle.BackColor = Color.Yellow;
-                    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "In Dyeing";
-                }
-                else if (dt.Rows[i]["Tray_State"].ToString() == "1")
-                {
-                    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Produced";
-                }
-                else if (dt.Rows[i]["Tray_State"].ToString() == "-1")
-                {
-                    row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
-                    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
-                    row.DefaultCellStyle.BackColor = Color.LawnGreen;
-                    this.dataGridView1.Rows[i].Cells["Tray_State"].Value = "Received from Dyeing (free)";
-                }
-
-                row.Cells["nullcol"].Style.SelectionBackColor = Color.Gray;
-                row.Cells["nullcol"].Style.BackColor = Color.Gray;
-                int bold_index = -1;
-                string bold = dataGridView1.Rows[i].Cells["priority"].Value.ToString();
-                if (date == true)
-                {
-                    if (bold.StartsWith("da"))
-                    {
-                        bold_index = int.Parse(bold.Substring(2, bold.Length - 2));
-                    }
-                    else bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
-                    Console.WriteLine(bold_index);
-                    row.Cells[l[bold_index - 1 + normal_cols]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
-                }
-                else
-                {
-                    if (bold[0] == 'a')
-                    {
-                        bold_index = int.Parse(bold.Substring(1, bold.Length - 1));
-                    }
-                    else bold_index = int.Parse(bold);
-
-                    row.Cells[l[bold_index - 1]].Style.Font = new Font("Arial", dataGridView1.Font.Size, FontStyle.Bold);
-                }
-            }
-
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Columns["nullcol"].HeaderCell.Style.SelectionBackColor = Color.Gray;
-            dataGridView1.Columns["nullcol"].HeaderCell.Style.BackColor = Color.Gray;
-            dataGridView1.Columns["nullcol"].Width = 20;
-        }
 
         //buttons
         private void searchButton_Click(object sender, EventArgs e)
@@ -423,7 +432,6 @@ namespace Factory_Inventory
         private void searchByDateButton_Click(object sender, EventArgs e)
         {
             this.dataGridView1.Columns.Clear();
-            this.doublebuffer(false);
             this.dt = c.runProcedure(this.procedurename, "@searchText = '" + this.dateTimePicker1.Value.Date.ToString("yyyy-MM-dd")+ "', @date = 1");
             this.dataGridView1.DataSource = dt;
             if (this.procedurename == "SearchInBatch")
