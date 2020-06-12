@@ -4933,12 +4933,12 @@ namespace Factory_Inventory.Factory_Classes
                 sda.Fill(dt);
                 Console.WriteLine(sql);
 
-                sql = "SELECT Company_Name, Quality, SUM(Net_Weight) FROM Tray_History WHERE (Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND Redyeing Is NULL) GROUP BY QUALITY, Company_Name";
+                sql = "SELECT Company_Name, Quality, SUM(Net_Weight*(100-Redyeing)/100) FROM Tray_History WHERE (Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "') GROUP BY QUALITY, Company_Name";
                 SqlDataAdapter sdat1 = new SqlDataAdapter(sql, con);
                 sdat1.Fill(dtt1);
                 Console.WriteLine(sql);
 
-                sql = "SELECT Company_Name, Quality, SUM(Net_Weight) FROM Tray_Active WHERE (Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' AND Redyeing Is NULL)  GROUP BY QUALITY, Company_Name";
+                sql = "SELECT Company_Name, Quality, SUM(Net_Weight*(100-Redyeing)/100) FROM Tray_Active WHERE (Tray_Production_Date<='" + d.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "')  GROUP BY QUALITY, Company_Name";
                 SqlDataAdapter sdat2 = new SqlDataAdapter(sql, con);
                 sdat2.Fill(dtt2);
                 Console.WriteLine(sql);
@@ -5140,6 +5140,7 @@ namespace Factory_Inventory.Factory_Classes
             this.printDataTable(dt, "batch on date");
             return dt;
         }
+        
         //From To Inventory
         public DataTable getInventoryCarton(DateTime from, DateTime to)
         {
