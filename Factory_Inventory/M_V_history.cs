@@ -85,7 +85,7 @@ namespace Factory_Inventory
             this.label1.Visible = false;
             loadData();
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
-            if (Global.access == 2)
+            if (Global.access == 2 && this.vno!=8)
             {
                 this.editDetailsButton.Visible = false;
                 this.label2.Visible = false;
