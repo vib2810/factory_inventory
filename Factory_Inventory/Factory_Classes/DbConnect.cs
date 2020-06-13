@@ -4231,12 +4231,13 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     float oil_gain = (carton_net_weight - net_batch_weight) / net_batch_weight * 100F;
                     string max_date = max.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                    sql = "INSERT INTO Carton_Production_Voucher OUTPUT inserted.Voucher_ID (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Oil_Gain, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Date_Of_Production, Grades_Arr, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + oil_gain + ", " + closed + ", '"+batches_fiscal_years+ "', '" + carton_financialYear + "', "+float.Parse(cone_weight)/1000F+", '"+max_date+"', '"+grades_arr+"', '"+min_date+"')";
+                    sql = "INSERT INTO Carton_Production_Voucher (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Oil_Gain, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Date_Of_Production, Grades_Arr, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + oil_gain + ", " + closed + ", '"+batches_fiscal_years+ "', '" + carton_financialYear + "', "+float.Parse(cone_weight)/1000F+", '"+max_date+"', '"+grades_arr+"', '"+min_date+ "'); SELECT SCOPE_IDENTITY();";
                 }
                 else
                 {
-                    sql = "INSERT INTO Carton_Production_Voucher OUTPUT inserted.Voucher_ID (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Grades_Arr, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + closed + ", '"+batches_fiscal_years+"', '"+carton_financialYear+ "', " + float.Parse(cone_weight)/1000F + ", '"+grades_arr+ "', '" + min_date + "')";
+                    sql = "INSERT INTO Carton_Production_Voucher (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Grades_Arr, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + closed + ", '" + batches_fiscal_years + "', '" + carton_financialYear + "', " + float.Parse(cone_weight) / 1000F + ", '" + grades_arr + "', '" + min_date + "'); SELECT SCOPE_IDENTITY();";
                 }
+                Console.WriteLine(sql);
                 DataTable dt = new DataTable();
                 SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 sda.Fill(dt);
@@ -4255,8 +4256,9 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 sql = "SELECT Highest_Carton_Production_No FROM Fiscal_Year WHERE Fiscal_Year='" + carton_financialYear + "'";
                 SqlDataAdapter sda2 = new SqlDataAdapter(sql, con);
-                sda2.Fill(dt);
-                if(int.Parse(dt.Rows[0][0].ToString()) < max_carton_no)
+                DataTable dtt = new DataTable();
+                sda2.Fill(dtt);
+                if(int.Parse(dtt.Rows[0][0].ToString()) < max_carton_no)
                 {
                     //Enter max carton number in Fiscal Year Table
                     sql = "UPDATE Fiscal_Year SET Highest_Carton_Production_No=" + max_carton_no + " WHERE Fiscal_Year='" + carton_financialYear + "'";
