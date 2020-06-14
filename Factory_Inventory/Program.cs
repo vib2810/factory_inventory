@@ -30,7 +30,7 @@ namespace Factory_Inventory
             DbConnect c = new DbConnect();
             if (ConfigurationManager.AppSettings["sql_update"]== "1")
             {
-                bool updated = false; // c.sql_update_query();
+                bool updated = c.sql_update_query();
                 if(updated==true) c.SuccessBox("Updated SQL");
                 Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                 configuration.AppSettings.Settings.Remove("sql_update");

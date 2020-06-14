@@ -355,7 +355,7 @@ namespace Factory_Inventory
                 this.comboBox4CB.Enabled = false;
                 this.saveButton.Enabled = true;
                 this.dataGridView1.ReadOnly = false;
-                this.saleDONoTB.Enabled = false;
+                this.saleDONoTB.ReadOnly = true;
                 this.loadCartonButton.Enabled = false;
                 this.typeCB.Enabled = false;
             }
@@ -487,11 +487,11 @@ namespace Factory_Inventory
             this.comboBox4CB.Enabled = false;
             this.loadCartonButton.Enabled = false;
             this.saveButton.Enabled = false;
-            this.rateTextboxTB.Enabled = false;
+            this.rateTextboxTB.ReadOnly= true;
             this.typeCB.Enabled = false;
             this.dataGridView1.ReadOnly = true;
             this.deleteToolStripMenuItem.Enabled = false;
-            this.saleDONoTB.Enabled = false;
+            this.saleDONoTB.ReadOnly= true;
         }
         private float CellSum()
         {

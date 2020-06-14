@@ -67,17 +67,21 @@ namespace Factory_Inventory.Factory_Classes
             Console.WriteLine("Hello there");
             try
             {
-                con.Open();
-                DataTable dt1 = this.getVoucherHistories("Twist_Voucher", true);
-                for (int i = 0; i < dt1.Rows.Count; i++)
+                DataTable dt1 = this.getVoucherHistories("Carton_Voucher", true);
+                for(int i=0; i<dt1.Rows.Count; i++)
                 {
-                    string sql = "SELECT SUM(Net_Weight) FROM Carton WHERE Carton_No IN (" + this.removecom(dt1.Rows[i]["Carton_No_Arr"].ToString()) + ") AND Carton_Fiscal_Year = "+ dt1.Rows[i]["Carton_Fiscal_Year"].ToString() + "";
-                    DataTable dt = new DataTable();
-                    SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
-                    adapter.Fill(dt);
-                    string cartons = this.removecom(dt1.Rows[i]["Carton_Nos"].ToString());
-                    //this.runQuery("UPDATE Table Carton set Inward_Voucher_IDs="+voucher_id+" Where carton_nos in ("+cartons+"))
+                    int voucher_id = int.Parse(dt1.Rows[i]["Voucher_ID"].ToString());
+                    string cartons= this.removecom(dt1.Rows[i]["Carton_No_Arr"].ToString());
+                    this.runQuery("UPDATE Carton set Inward_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='"+ dt1.Rows[i]["Fiscal_Year"].ToString()+"'");
                 }
+                DataTable dt2 = this.getVoucherHistories("Twist_Voucher", true);
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    int voucher_id = int.Parse(dt2.Rows[i]["Voucher_ID"].ToString());
+                    string cartons = this.removecom(dt2.Rows[i]["Carton_No_Arr"].ToString());
+                    this.runQuery("UPDATE Carton set TS_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='" + dt2.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
+                }
+                this.SuccessBox("SQL Update Successful");
             }
             catch (Exception e)
             {
@@ -100,7 +104,7 @@ namespace Factory_Inventory.Factory_Classes
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
-                this.SuccessBox("Query Executed: "+sql);
+                //this.SuccessBox("Query Executed: \n"+sql);
             }
             catch (Exception e)
             {
@@ -1283,14 +1287,6 @@ namespace Factory_Inventory.Factory_Classes
 
             try
             {
-                con.Open();
-                string sql = "INSERT INTO Carton_Voucher (Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Quality_Arr, Company_Name, Number_of_Cartons, Carton_No_Arr, Carton_Weight_Arr, Net_Weight, Buy_Cost, Fiscal_Year) VALUES ('" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + quality_arr + "', '" + company + "', " + number + ", '" + cartonno + "', '" + weights + "', " + netweight + " , '" + cost + "', '"+financialyear+"'); SELECT SCOPE_IDENTITY();";
-                DataTable dt = new DataTable();
-                Console.WriteLine(sql);
-                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
-                sda.Fill(dt);
-                con.Close();
-
                 string[] qualities = this.csvToArray(quality);
                 string[] qualities_arr = this.csvToArray(quality_arr);
                 string[] carton_weights_arr = this.csvToArray(weights);
@@ -1300,16 +1296,16 @@ namespace Factory_Inventory.Factory_Classes
                 int index = 0;
                 for (int i = 0; i < number; i++)
                 {
-                    bool added = this.addCarton(carton_no[i], inputDate, billDate, billNumber, qualities[int.Parse(qualities_arr[i])], company, float.Parse(carton_weights_arr[i]), float.Parse(buy_cost[int.Parse(qualities_arr[i])]), 1, financialyear, int.Parse(dt.Rows[0][0].ToString()));
-                    if (added == false)
+                    bool added = this.addCarton(carton_no[i], inputDate, billDate, billNumber, qualities[int.Parse(qualities_arr[i])], company, float.Parse(carton_weights_arr[i]), float.Parse(buy_cost[int.Parse(qualities_arr[i])]), 1, financialyear);
+                    if(added == false)
                     {
                         flag = true; //carton not added successfully
                         index = i;
                         break;
                     }
-                    added_carton += carton_no[i] + ",";
+                    added_carton+=carton_no[i]+",";
                 }
-                if (flag == true)
+                if(flag == true)
                 {
                     //Failed to add all cartons
                     //Remove all added cartons
@@ -1317,6 +1313,12 @@ namespace Factory_Inventory.Factory_Classes
                     this.ErrorBox("Carton Number: " + carton_no[index] + " at Row: " + (index + 1).ToString() + " was already added to the Database. Could not add voucher", "Error");
                     return false;
                 }
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "INSERT INTO Carton_Voucher (Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Quality_Arr, Company_Name, Number_of_Cartons, Carton_No_Arr, Carton_Weight_Arr, Net_Weight, Buy_Cost, Fiscal_Year) VALUES ('" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + quality_arr + "', '" + company + "', " + number + ", '" + cartonno + "', '" + weights + "', " + netweight + " , '" + cost + "', '"+financialyear+"')";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
                 this.SuccessBox("Voucher Added Successfully");
             }
             catch (SqlException e)
@@ -1479,7 +1481,7 @@ namespace Factory_Inventory.Factory_Classes
                     bool value2 = carton_editable.TryGetValue(carton_no[i], out value);
                     if (value2 == false)
                     {
-                        this.addCarton(carton_no[i], inputDate, billDate, billNumber, qualities[int.Parse(qualities_arr[i])], company, float.Parse(carton_weights_arr[i]), float.Parse(buy_cost[int.Parse(qualities_arr[i])]), 1, financialyear, voucher_id);
+                        this.addCarton(carton_no[i], inputDate, billDate, billNumber, qualities[int.Parse(qualities_arr[i])], company, float.Parse(carton_weights_arr[i]), float.Parse(buy_cost[int.Parse(qualities_arr[i])]), 1, financialyear);
                     }
                     else
                     {
@@ -1574,7 +1576,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-        public bool addCarton(string carton_no, string inputDate, string billDate, string billNumber, string quality, string company, float carton_weight, float buy_cost, int state, string fiscal_year, int voucher_id)
+        public bool addCarton(string carton_no, string inputDate, string billDate, string billNumber, string quality, string company, float carton_weight, float buy_cost, int state, string fiscal_year)
         {
             //Returns true if carton added successfully, false if not
             try
@@ -1582,15 +1584,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 Console.WriteLine("Carton no:" + carton_no);
-                string sql;
-                if(voucher_id == -1)
-                {
-                    sql = "INSERT INTO Carton (Carton_No, Carton_State, Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Company_Name, Net_Weight, Buy_Cost, Fiscal_Year) VALUES ('" + carton_no + "', " + state + " , '" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + company + "', " + carton_weight + " , " + buy_cost + ", '" + fiscal_year + "')";
-                }
-                else
-                {
-                    sql = "INSERT INTO Carton (Carton_No, Carton_State, Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Company_Name, Net_Weight, Buy_Cost, Fiscal_Year, Inward_Voucher_ID) VALUES ('" + carton_no + "', " + state + " , '" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + company + "', " + carton_weight + " , " + buy_cost + ", '" + fiscal_year + "', "+voucher_id+")";
-                }
+                string sql = "INSERT INTO Carton (Carton_No, Carton_State, Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Company_Name, Net_Weight, Buy_Cost, Fiscal_Year) VALUES ('" + carton_no + "', " + state + " , '" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + company + "', " + carton_weight + " , " + buy_cost + ", '"+fiscal_year+"')";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1629,7 +1623,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-        public void sendCartonTwist(string cartonno, int state, string date_of_issue, string carton_fiscal_year, int voucher_id)
+        public void sendCartonTwist(string cartonno, int state, string date_of_issue, string carton_fiscal_year)
         {
             if (string.IsNullOrEmpty(cartonno)) return;
             try
@@ -1637,13 +1631,13 @@ namespace Factory_Inventory.Factory_Classes
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 string sql;
-                if (date_of_issue == null)
+                if(date_of_issue == null)
                 {
-                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue=NULL, TS_Voucher_ID = NULL WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql= "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue=NULL WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
                 else
                 {
-                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue='" + date_of_issue + "', TS_Voucher_ID = "+voucher_id+" WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE Carton SET Carton_State=" + state + " , Date_Of_Issue='" + date_of_issue + "' WHERE Carton_No='" + cartonno + "' AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
@@ -1658,7 +1652,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
         }
-        public void sendCartonSale(string cartonno, string date_of_sale, float sell_cost, string sale_do_no, string tablename, string type, string carton_fiscal_year, string do_fiscal_year, int voucher_id)
+        public void sendCartonSale(string cartonno, string date_of_sale, float sell_cost, string sale_do_no, string tablename, string type, string carton_fiscal_year, string do_fiscal_year)
         {
             if (string.IsNullOrEmpty(cartonno)) return;
             int state =0;
@@ -1678,11 +1672,11 @@ namespace Factory_Inventory.Factory_Classes
                 if(date_of_sale==null && sell_cost==-1F && sale_do_no==null)
                 {
                     state = 1;
-                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale=NULL, Sale_Rate=NULL, Sale_DO_No=NULL, Type_Of_Sale=NULL, DO_Fiscal_Year=NULL, TS_Voucher_ID=NULL WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale=NULL, Sale_Rate=NULL, Sale_DO_No=NULL, Type_Of_Sale=NULL, DO_Fiscal_Year=NULL WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
                 else
                 {
-                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale='" + date_of_sale + "', Sale_Rate=" + sell_cost + ", Sale_DO_No = '"+sale_do_no+ "', Type_Of_Sale="+int.Parse(type)+", DO_Fiscal_Year = '"+do_fiscal_year+ "', TS_Voucher_ID="+voucher_id+" WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE "+tablename+" SET Carton_State=" + state + " , Date_Of_Sale='" + date_of_sale + "', Sale_Rate=" + sell_cost + ", Sale_DO_No = '"+sale_do_no+ "', Type_Of_Sale="+int.Parse(type)+", DO_Fiscal_Year = '"+do_fiscal_year+"' WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "'";
                 }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1782,17 +1776,16 @@ namespace Factory_Inventory.Factory_Classes
             }
             try
             {
-                con.Open();
-                string sql = "INSERT INTO Twist_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Carton_No_Arr, Number_of_Cartons, Carton_Fiscal_Year, Fiscal_Year) VALUES ('"+inputDate+"', '" + issueDate + "','" + quality + "', '" + company + "','" + cartonno + "', " + number + ", '"+carton_fiscal_year+"', '"+fiscal_year+"'); SELECT SCOPE_IDENTITY();";
-                Console.WriteLine(sql);
-                DataTable dt = new DataTable();
-                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
-                sda.Fill(dt);
-                con.Close();
                 for (int i = 0; i < number; i++)
                 {
-                    this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year, int.Parse(dt.Rows[0][0].ToString()));
+                    this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year);
                 }
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "INSERT INTO Twist_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Carton_No_Arr, Number_of_Cartons, Carton_Fiscal_Year, Fiscal_Year) VALUES ('"+inputDate+"', '" + issueDate + "','" + quality + "', '" + company + "','" + cartonno + "', " + number + ", '"+carton_fiscal_year+"', '"+fiscal_year+"')";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
                 this.SuccessBox("Voucher Added Successfully");
             }
             catch (Exception e)
@@ -1821,7 +1814,7 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
                 string old_carton_nos = old.Rows[0]["Carton_No_Arr"].ToString();
                 string carton_fiscal_year = old.Rows[0]["Carton_Fiscal_Year"].ToString();
-                this.sendCartonTwist(removecom(old_carton_nos), 1, null ,carton_fiscal_year, -1);
+                this.sendCartonTwist(removecom(old_carton_nos), 1, null ,carton_fiscal_year);
                
                 con.Open();
                 string sql = "UPDATE Twist_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucherID;
@@ -1874,13 +1867,13 @@ namespace Factory_Inventory.Factory_Classes
                 string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
                 for (int i = 0; i < old_carton_nos.Length; i++)
                 {
-                    this.sendCartonTwist(old_carton_nos[i], 1, null, carton_fiscal_year, -1);
+                    this.sendCartonTwist(old_carton_nos[i], 1, null, carton_fiscal_year);
                 }
                 //Add all New Cartons
 
                 for (int i = 0; i < carton_no.Length; i++)
                 {
-                    this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year, voucherID);
+                    this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year);
                 }
                 con.Open();
                 string sql = "UPDATE Twist_Voucher SET Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Fiscal_Year = '" + fiscal_year + "' WHERE Voucher_ID='" + voucherID + "'";
@@ -1950,21 +1943,19 @@ namespace Factory_Inventory.Factory_Classes
 
             try
             {
-                
-                con.Open();
-                string sql = "INSERT INTO Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality, Company_Name, Customer, Sale_Rate, Carton_No_Arr, Fiscal_Year, Carton_Fiscal_Year, Type_Of_Sale, Tablename, Sale_DO_No, Net_Weight, Printed) VALUES ('" + inputDate+"' ,'" + issueDate + "','" + quality + "', '" + company + "', '" + customer + "', " + sell_cost + " , '" + cartonno + "', '"+fiscal_year+"', '"+carton_fiscal_year+"', '"+int.Parse(type)+"', '"+tablename+"', '"+sale_do_no+"', "+net_weight+", 0); SELECT SCOPE_IDENTITY();";
-                Console.WriteLine(sql);
-                DataTable dtt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
-                adapter.Fill(dtt);
-                con.Close();
-
                 string carton_nos = "";
                 for (int i = 0; i < carton_no.Length; i++)
                 {
                     carton_nos += carton_no[i] + ",";
                 }
-                this.sendCartonSale(removecom(carton_nos), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year, int.Parse(dtt.Rows[0][0].ToString()));
+                this.sendCartonSale(removecom(carton_nos), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year);
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string sql = "INSERT INTO Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality, Company_Name, Customer, Sale_Rate, Carton_No_Arr, Fiscal_Year, Carton_Fiscal_Year, Type_Of_Sale, Tablename, Sale_DO_No, Net_Weight, Printed) VALUES ('" + inputDate+"' ,'" + issueDate + "','" + quality + "', '" + company + "', '" + customer + "', " + sell_cost + " , '" + cartonno + "', '"+fiscal_year+"', '"+carton_fiscal_year+"', '"+int.Parse(type)+"', '"+tablename+"', '"+sale_do_no+"', "+net_weight+", 0)";
+                Console.WriteLine(sql);
+                adapter.InsertCommand = new SqlCommand(sql, con);
+                adapter.InsertCommand.ExecuteNonQuery();
+                con.Close();
 
                 con.Open();
                 //Enter max carton number in Fiscal Year Table
@@ -2045,7 +2036,7 @@ namespace Factory_Inventory.Factory_Classes
                 sda.Fill(old);
                 con.Close();
                 string old_carton_nos = old.Rows[0][0].ToString();
-                this.sendCartonSale(removecom(old_carton_nos), null, -1F, null, tablename, type, carton_fiscal_year, null, -1);
+                this.sendCartonSale(removecom(old_carton_nos), null, -1F, null, tablename, type, carton_fiscal_year, null);
 
                 //Add all New Cartons
                 string carton_nos = "";
@@ -2053,7 +2044,7 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     carton_nos += carton_no[i] + ",";
                 }
-                this.sendCartonSale(removecom(carton_nos), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year, voucherID);
+                this.sendCartonSale(removecom(carton_nos), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year);
 
                 con.Open();
                 string sql = "UPDATE Sales_Voucher SET Date_Of_Sale='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Carton_No_Arr='" + cartonno + "', Customer='"+customer+"', Sale_Rate="+sell_cost+", Fiscal_Year='"+fiscal_year+"', Type_Of_Sale = "+int.Parse(type)+", Net_Weight="+net_weight+"  WHERE Voucher_ID='" + voucherID + "' AND Tablename = '"+tablename+"'";
@@ -2124,7 +2115,7 @@ namespace Factory_Inventory.Factory_Classes
                 sda.Fill(old);
                 con.Close();
                 string old_carton_nos = old.Rows[0][0].ToString();
-                this.sendCartonSale(removecom(old_carton_nos), null, -1F, null, old.Rows[0]["Tablename"].ToString(), old.Rows[0]["Type_Of_Sale"].ToString(), old.Rows[0]["Carton_Fiscal_Year"].ToString(), null, voucherID);
+                this.sendCartonSale(removecom(old_carton_nos), null, -1F, null, old.Rows[0]["Tablename"].ToString(), old.Rows[0]["Type_Of_Sale"].ToString(), old.Rows[0]["Carton_Fiscal_Year"].ToString(), null);
 
                 con.Open();
                 string sql = "UPDATE Sales_Voucher SET Deleted = 1  WHERE Voucher_ID='" + voucherID + "'";

@@ -35,6 +35,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.searchButton = new System.Windows.Forms.Button();
             this.searchByDateButton = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.detailsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,11 +120,35 @@
             this.searchByDateButton.UseVisualStyleBackColor = true;
             this.searchByDateButton.Click += new System.EventHandler(this.searchByDateButton_Click);
             // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Location = new System.Drawing.Point(1873, 66);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(17, 17);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "V";
+            // 
+            // detailsButton
+            // 
+            this.detailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.detailsButton.Location = new System.Drawing.Point(1773, 50);
+            this.detailsButton.Name = "detailsButton";
+            this.detailsButton.Size = new System.Drawing.Size(117, 33);
+            this.detailsButton.TabIndex = 8;
+            this.detailsButton.Text = "View Details";
+            this.detailsButton.UseVisualStyleBackColor = true;
+            this.detailsButton.Click += new System.EventHandler(this.detailsButton_Click);
+            // 
             // M_I2_Tables
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1902, 1033);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.detailsButton);
             this.Controls.Add(this.searchByDateButton);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.label2);
@@ -149,5 +175,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button searchByDateButton;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button detailsButton;
     }
 }

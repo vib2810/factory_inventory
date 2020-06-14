@@ -278,7 +278,7 @@
             // 
             // saleDONoTB
             // 
-            this.saleDONoTB.Enabled = false;
+            this.saleDONoTB.ReadOnly = true;
             this.saleDONoTB.Location = new System.Drawing.Point(24, 483);
             this.saleDONoTB.Name = "saleDONoTB";
             this.saleDONoTB.Size = new System.Drawing.Size(200, 22);
@@ -463,7 +463,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button deleteButton;
+        public System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ComboBox shadeCB;
         private System.Windows.Forms.Label label11;
     }

@@ -16,6 +16,11 @@ namespace Factory_Inventory
     {
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if (keyData == Keys.V)
+            {
+                this.detailsButton.PerformClick();
+                return false;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private string procedurename;
@@ -408,7 +413,8 @@ namespace Factory_Inventory
 
         //buttons
         private void searchButton_Click(object sender, EventArgs e)
-        {   
+        {
+            this.dataGridView1.Columns.Clear();
             this.dt = c.runProcedure(this.procedurename, "@searchText = '" + this.searchTB.Text + "', @date = 0");
             this.dataGridView1.DataSource = dt;
             
@@ -476,5 +482,32 @@ namespace Factory_Inventory
         {
 
         }
+
+        private void detailsButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedCells.Count <= 0) return;
+            int row_index = dataGridView1.SelectedCells[0].RowIndex;
+            if (this.procedurename == "SearchInBatch")
+            {
+                Display_Batch f = new Display_Batch((dataGridView1.Rows[row_index].DataBoundItem as DataRowView).Row);
+                f.Show();
+            }
+            else if (this.procedurename == "SearchInCarton")
+            {
+                Display_Carton f = new Display_Carton((dataGridView1.Rows[row_index].DataBoundItem as DataRowView).Row);
+                f.Show();
+            }
+            else if (this.procedurename == "SearchInCartonProduced")
+            {
+                Display_Carton_Produced f = new Display_Carton_Produced((dataGridView1.Rows[row_index].DataBoundItem as DataRowView).Row);
+                f.Show();
+            }
+            else if (this.procedurename == "SearchInTray")
+            {
+                Display_Tray f = new Display_Tray((dataGridView1.Rows[row_index].DataBoundItem as DataRowView).Row);
+                f.Show();
+            }
+        }
+
     }
 }

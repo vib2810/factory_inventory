@@ -384,7 +384,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
         private System.Windows.Forms.DataGridViewTextBoxColumn Weight;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total_Price;
-        private System.Windows.Forms.Button deleteButton;
+        public System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.TextBox dynamicWeightLabel;
         private System.Windows.Forms.TextBox label4;
     }

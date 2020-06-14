@@ -382,7 +382,7 @@
             // detailsButton
             // 
             this.detailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.detailsButton.Location = new System.Drawing.Point(1195, 48);
+            this.detailsButton.Location = new System.Drawing.Point(1753, 48);
             this.detailsButton.Name = "detailsButton";
             this.detailsButton.Size = new System.Drawing.Size(117, 33);
             this.detailsButton.TabIndex = 3;
@@ -393,7 +393,7 @@
             // backButton
             // 
             this.backButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.backButton.Location = new System.Drawing.Point(1072, 48);
+            this.backButton.Location = new System.Drawing.Point(1630, 48);
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(117, 33);
             this.backButton.TabIndex = 4;
@@ -406,7 +406,7 @@
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Location = new System.Drawing.Point(1172, 64);
+            this.label8.Location = new System.Drawing.Point(1730, 64);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(17, 17);
             this.label8.TabIndex = 5;
@@ -417,7 +417,7 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(1295, 64);
+            this.label9.Location = new System.Drawing.Point(1853, 64);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(17, 17);
             this.label9.TabIndex = 6;
