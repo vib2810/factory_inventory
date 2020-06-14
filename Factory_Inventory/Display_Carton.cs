@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Factory_Inventory.Factory_Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,9 @@ namespace Factory_Inventory
 {
     public partial class Display_Carton : Form
     {
+        int inward_voucher_id=-1, ts_voucher_id=-1;
+        int ts=0;
+        DbConnect c = new DbConnect();
         public Display_Carton(DataRow Carton)
         {
             InitializeComponent();
@@ -35,6 +39,61 @@ namespace Factory_Inventory
             this.textBox15.Text = Carton["Bill_No"].ToString();
             this.textBox2.Text = Carton["Buy_Cost"].ToString();
             this.textBox3.Text = Carton["Sale_Rate"].ToString();
+            this.textBox4.Text= Carton["Sale_DO_No"].ToString();
+            this.textBox11.Text= Carton["DO_Fiscal_Year"].ToString();
+            this.textBox10.Text= Carton["Type_Of_Sale"].ToString();
+            inward_voucher_id= int.Parse(Carton["Inward_Voucher_ID"].ToString());
+            if(string.IsNullOrEmpty(Carton["TS_Voucher_ID"].ToString())==false) ts_voucher_id =int.Parse(Carton["TS_Voucher_ID"].ToString());
+            if(string.IsNullOrEmpty(this.textBox9.Text)==false)
+            {
+                ts = 1;
+            }
+            if (string.IsNullOrEmpty(this.textBox8.Text) == false)
+            {
+                ts = 2;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (ts_voucher_id == -1)
+            {
+                c.ErrorBox("No Voucher Found/Linked");
+                return;
+            }
+            if(ts==1)
+            {
+                DataTable table = c.getTableRows("Twist_Voucher", "Voucher_ID=" + ts_voucher_id);
+                DataRow voucher = table.Rows[0];
+                M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(voucher, false, new M_V_history(1));
+                f.deleteButton.Visible = false;
+                f.StartPosition = FormStartPosition.CenterScreen;
+                f.Show();
+            }
+            if(ts==2)
+            {
+                DataTable table = c.getTableRows("Sales_Voucher", "Voucher_ID=" + ts_voucher_id);
+                DataRow voucher = table.Rows[0];
+                M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(voucher, false, new M_V_history(1), "Carton");
+                f.deleteButton.Visible = false;
+                f.StartPosition = FormStartPosition.CenterScreen;
+                f.Show();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(inward_voucher_id==-1)
+            {
+                c.ErrorBox("No Voucher Found/Linked");
+                return;
+            }
+            DataTable table = c.getTableRows("Carton_Voucher", "Voucher_ID=" + inward_voucher_id);
+            DataRow voucher = table.Rows[0];
+            M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(voucher, false, new M_V_history(1));
+            f.deleteButton.Visible = false;
+            f.StartPosition = FormStartPosition.CenterScreen;
+            f.Show();
         }
     }
 }
