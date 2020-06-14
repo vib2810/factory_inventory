@@ -20,7 +20,9 @@ CREATE TABLE Carton (
 	Fiscal_Year varchar(15) NOT NULL,
     Sale_DO_No varchar(10) NULL,
     Type_Of_Sale int NULL,
-    DO_Fiscal_Year varchar(15) NULL
+    DO_Fiscal_Year varchar(15) NULL,
+	Inward_Voucher_ID int NULL,
+	TS_Voucher_ID int NULL
 );
 
 GO

@@ -648,13 +648,11 @@ namespace Factory_Inventory
                 this.issuesource.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.issuesource.Columns["Sl No"].Visible = true;
                 this.issuesource.Columns["Sl No"].DisplayIndex=0;
-                this.issuesource.Columns["Sl No"].Width= 80;
                 this.issuesource.Columns["Tray No"].Visible = true;
                 this.issuesource.Columns["Tray No"].HeaderText= "Tray No";
                 this.issuesource.Columns["Tray No"].DisplayIndex = 2;
                 this.issuesource.Columns["Quality"].Visible = true;
                 this.issuesource.Columns["Quality"].DisplayIndex = 4;
-                this.issuesource.Columns["Quality"].Width= 150;
                 this.issuesource.Columns["Net Weight"].Visible = true;
                 this.issuesource.Columns["Net Weight"].DisplayIndex = 6;
                 this.issuesource.Columns["No Of Springs RD"].Visible = true;
@@ -663,6 +661,8 @@ namespace Factory_Inventory
                 this.issuesource.Columns["No of Springs"].Visible = true;
                 this.issuesource.Columns["No of Springs"].DisplayIndex = 10;
                 c.auto_adjust_dgv(this.issuesource);
+                this.issuesource.Columns["Sl No"].Width= 40;
+                this.issuesource.Columns["Quality"].Width= 150;
                 this.form.CellSum();
                 if (this.edit_reyeing_tray == true)
                 {
