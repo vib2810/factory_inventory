@@ -21,6 +21,7 @@ namespace CoolPrintPreview
     /// </remarks>
     internal partial class CoolPrintPreviewDialog : Form
     {
+        public int no_of_pages = 1;
         //--------------------------------------------------------------------
         #region ** fields
 
@@ -133,9 +134,9 @@ namespace CoolPrintPreview
 
                 // show allowed page range
                 var ps = dlg.PrinterSettings;
+                dlg.PrinterSettings.Copies = (short)no_of_pages;
                 ps.MinimumPage = ps.FromPage = 1;
                 ps.MaximumPage = ps.ToPage = _preview.PageCount;
-
                 // show dialog
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
