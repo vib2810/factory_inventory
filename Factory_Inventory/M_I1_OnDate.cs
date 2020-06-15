@@ -472,8 +472,8 @@ namespace Factory_Inventory
                             this.ConningBatch.Rows.Add(batch_inv.Rows[i].ItemArray);
                         else
                         {
-                            Console.WriteLine(batch_inv.Rows[i]["Voucher_ID"].ToString());
-                            semi_batches_vouchers.Add(batch_inv.Rows[i]["Voucher_ID"].ToString());
+                            Console.WriteLine(batch_inv.Rows[i]["Production_Voucher_ID"].ToString());
+                            semi_batches_vouchers.Add(batch_inv.Rows[i]["Production_Voucher_ID"].ToString());
                         }
                     }
                 }

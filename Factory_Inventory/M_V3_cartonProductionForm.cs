@@ -66,7 +66,6 @@ namespace Factory_Inventory
         private bool edit_cmd_send = false;
         private bool edit_form = false;
         private List<string> batch_nos;
-        private string[] tray_no_this, tray_id_this;
         private M_V_history v1_history;
         private int voucher_id;
         private int batch_state;

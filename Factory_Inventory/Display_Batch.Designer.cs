@@ -75,6 +75,19 @@
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.textBox21 = new System.Windows.Forms.TextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.redyeingButton = new System.Windows.Forms.Button();
+            this.cartonProductionButton = new System.Windows.Forms.Button();
+            this.billNumberButton = new System.Windows.Forms.Button();
+            this.dyeingInwardVoucherButton = new System.Windows.Forms.Button();
+            this.dyeingIssueVoucherButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -101,9 +114,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(360, 234);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 17);
+            this.label2.Size = new System.Drawing.Size(144, 17);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Production Date";
+            this.label2.Text = "Start Production Date";
             // 
             // label3
             // 
@@ -505,11 +518,144 @@
             this.textBox21.Size = new System.Drawing.Size(183, 22);
             this.textBox21.TabIndex = 48;
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(714, 48);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(335, 488);
+            this.dataGridView1.TabIndex = 50;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(708, 13);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(73, 29);
+            this.label27.TabIndex = 51;
+            this.label27.Text = "Trays";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(522, 234);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(139, 17);
+            this.label28.TabIndex = 53;
+            this.label28.Text = "End Production Date";
+            // 
+            // textBox22
+            // 
+            this.textBox22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox22.Location = new System.Drawing.Point(525, 254);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.ReadOnly = true;
+            this.textBox22.Size = new System.Drawing.Size(147, 22);
+            this.textBox22.TabIndex = 52;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(552, 473);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(48, 17);
+            this.label29.TabIndex = 55;
+            this.label29.Text = "Grade";
+            // 
+            // textBox23
+            // 
+            this.textBox23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox23.Location = new System.Drawing.Point(555, 493);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.ReadOnly = true;
+            this.textBox23.Size = new System.Drawing.Size(147, 22);
+            this.textBox23.TabIndex = 54;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(1057, 13);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(114, 29);
+            this.label30.TabIndex = 56;
+            this.label30.Text = "Vouchers";
+            // 
+            // redyeingButton
+            // 
+            this.redyeingButton.Location = new System.Drawing.Point(1071, 371);
+            this.redyeingButton.Name = "redyeingButton";
+            this.redyeingButton.Size = new System.Drawing.Size(143, 48);
+            this.redyeingButton.TabIndex = 57;
+            this.redyeingButton.Text = "&Redyeing Voucher";
+            this.redyeingButton.UseVisualStyleBackColor = true;
+            this.redyeingButton.Click += new System.EventHandler(this.redyeingButton_Click);
+            // 
+            // cartonProductionButton
+            // 
+            this.cartonProductionButton.Location = new System.Drawing.Point(1071, 300);
+            this.cartonProductionButton.Name = "cartonProductionButton";
+            this.cartonProductionButton.Size = new System.Drawing.Size(143, 48);
+            this.cartonProductionButton.TabIndex = 58;
+            this.cartonProductionButton.Text = "&Carton Production Voucher";
+            this.cartonProductionButton.UseVisualStyleBackColor = true;
+            this.cartonProductionButton.Click += new System.EventHandler(this.cartonProductionButton_Click);
+            // 
+            // billNumberButton
+            // 
+            this.billNumberButton.Location = new System.Drawing.Point(1071, 228);
+            this.billNumberButton.Name = "billNumberButton";
+            this.billNumberButton.Size = new System.Drawing.Size(143, 48);
+            this.billNumberButton.TabIndex = 59;
+            this.billNumberButton.Text = "&Bill Numbers Voucher";
+            this.billNumberButton.UseVisualStyleBackColor = true;
+            this.billNumberButton.Click += new System.EventHandler(this.billNumberButton_Click);
+            // 
+            // dyeingInwardVoucherButton
+            // 
+            this.dyeingInwardVoucherButton.Location = new System.Drawing.Point(1071, 153);
+            this.dyeingInwardVoucherButton.Name = "dyeingInwardVoucherButton";
+            this.dyeingInwardVoucherButton.Size = new System.Drawing.Size(143, 48);
+            this.dyeingInwardVoucherButton.TabIndex = 60;
+            this.dyeingInwardVoucherButton.Text = "Dyeing &Inward Voucher";
+            this.dyeingInwardVoucherButton.UseVisualStyleBackColor = true;
+            this.dyeingInwardVoucherButton.Click += new System.EventHandler(this.dyeingInwardVoucherButton_Click);
+            // 
+            // dyeingIssueVoucherButton
+            // 
+            this.dyeingIssueVoucherButton.Location = new System.Drawing.Point(1071, 76);
+            this.dyeingIssueVoucherButton.Name = "dyeingIssueVoucherButton";
+            this.dyeingIssueVoucherButton.Size = new System.Drawing.Size(143, 48);
+            this.dyeingIssueVoucherButton.TabIndex = 61;
+            this.dyeingIssueVoucherButton.Text = "&Dyeing Issue Voucher";
+            this.dyeingIssueVoucherButton.UseVisualStyleBackColor = true;
+            this.dyeingIssueVoucherButton.Click += new System.EventHandler(this.dyeingIssueVoucherButton_Click);
+            // 
             // Display_Batch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(752, 541);
+            this.ClientSize = new System.Drawing.Size(1250, 541);
+            this.Controls.Add(this.dyeingIssueVoucherButton);
+            this.Controls.Add(this.dyeingInwardVoucherButton);
+            this.Controls.Add(this.billNumberButton);
+            this.Controls.Add(this.cartonProductionButton);
+            this.Controls.Add(this.redyeingButton);
+            this.Controls.Add(this.label30);
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.textBox23);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.textBox22);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.textBox21);
             this.Controls.Add(this.label20);
@@ -560,6 +706,7 @@
             this.Name = "Display_Batch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Batch Details";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -614,5 +761,17 @@
         private System.Windows.Forms.TextBox textBox20;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBox23;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Button redyeingButton;
+        private System.Windows.Forms.Button cartonProductionButton;
+        private System.Windows.Forms.Button billNumberButton;
+        private System.Windows.Forms.Button dyeingInwardVoucherButton;
+        private System.Windows.Forms.Button dyeingIssueVoucherButton;
     }
 }

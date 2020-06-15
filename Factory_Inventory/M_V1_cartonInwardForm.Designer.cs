@@ -45,10 +45,6 @@
             this.comboBox2CB = new System.Windows.Forms.ComboBox();
             this.costLabel = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.factoryInventoryDataSet = new Factory_Inventory.FactoryInventoryDataSet();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
@@ -57,6 +53,10 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.dynamicWeightLabel = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.TextBox();
+            this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -225,37 +225,6 @@
             this.dataGridView2.TabStop = false;
             this.dataGridView2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellValueChanged);
             // 
-            // Quality
-            // 
-            this.Quality.HeaderText = "Quality";
-            this.Quality.MinimumWidth = 6;
-            this.Quality.Name = "Quality";
-            this.Quality.ReadOnly = true;
-            this.Quality.Width = 125;
-            // 
-            // Cost
-            // 
-            this.Cost.HeaderText = "Price/kg";
-            this.Cost.MinimumWidth = 6;
-            this.Cost.Name = "Cost";
-            this.Cost.Width = 125;
-            // 
-            // Weight
-            // 
-            this.Weight.HeaderText = "Weight";
-            this.Weight.MinimumWidth = 6;
-            this.Weight.Name = "Weight";
-            this.Weight.ReadOnly = true;
-            this.Weight.Width = 125;
-            // 
-            // Total_Price
-            // 
-            this.Total_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Total_Price.HeaderText = "Total Price";
-            this.Total_Price.MinimumWidth = 6;
-            this.Total_Price.Name = "Total_Price";
-            this.Total_Price.ReadOnly = true;
-            // 
             // factoryInventoryDataSet
             // 
             this.factoryInventoryDataSet.DataSetName = "FactoryInventoryDataSet";
@@ -321,6 +290,37 @@
             this.label4.TabIndex = 0;
             this.label4.TabStop = false;
             // 
+            // Quality
+            // 
+            this.Quality.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Quality.HeaderText = "Quality";
+            this.Quality.MinimumWidth = 6;
+            this.Quality.Name = "Quality";
+            this.Quality.ReadOnly = true;
+            // 
+            // Cost
+            // 
+            this.Cost.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Cost.HeaderText = "Price/kg";
+            this.Cost.MinimumWidth = 6;
+            this.Cost.Name = "Cost";
+            // 
+            // Weight
+            // 
+            this.Weight.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Weight.HeaderText = "Weight";
+            this.Weight.MinimumWidth = 6;
+            this.Weight.Name = "Weight";
+            this.Weight.ReadOnly = true;
+            // 
+            // Total_Price
+            // 
+            this.Total_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Total_Price.HeaderText = "Total Price";
+            this.Total_Price.MinimumWidth = 6;
+            this.Total_Price.Name = "Total_Price";
+            this.Total_Price.ReadOnly = true;
+            // 
             // M_V1_cartonInwardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -380,12 +380,12 @@
         private FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter carton_VoucherTableAdapter;
         private System.Windows.Forms.CheckBox lockCartonsCK;
         private System.Windows.Forms.Label label6;
+        public System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.TextBox dynamicWeightLabel;
+        private System.Windows.Forms.TextBox label4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quality;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
         private System.Windows.Forms.DataGridViewTextBoxColumn Weight;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total_Price;
-        public System.Windows.Forms.Button deleteButton;
-        private System.Windows.Forms.TextBox dynamicWeightLabel;
-        private System.Windows.Forms.TextBox label4;
     }
 }
