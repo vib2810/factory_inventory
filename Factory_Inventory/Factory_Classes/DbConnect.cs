@@ -67,21 +67,21 @@ namespace Factory_Inventory.Factory_Classes
             Console.WriteLine("Hello there");
             try
             {
-                DataTable dt1 = this.getVoucherHistories("Carton_Voucher", true);
-                for(int i=0; i<dt1.Rows.Count; i++)
-                {
-                    int voucher_id = int.Parse(dt1.Rows[i]["Voucher_ID"].ToString());
-                    string cartons= this.removecom(dt1.Rows[i]["Carton_No_Arr"].ToString());
-                    this.runQuery("UPDATE Carton set Inward_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='"+ dt1.Rows[i]["Fiscal_Year"].ToString()+"'");
-                }
-                DataTable dt2 = this.getVoucherHistories("Twist_Voucher", true);
-                for (int i = 0; i < dt2.Rows.Count; i++)
-                {
-                    int voucher_id = int.Parse(dt2.Rows[i]["Voucher_ID"].ToString());
-                    string cartons = this.removecom(dt2.Rows[i]["Carton_No_Arr"].ToString());
-                    this.runQuery("UPDATE Carton set TS_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='" + dt2.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
-                }
-                this.SuccessBox("SQL Update Successful");
+                //DataTable dt1 = this.getVoucherHistories("Carton_Voucher", true);
+                //for(int i=0; i<dt1.Rows.Count; i++)
+                //{
+                //    int voucher_id = int.Parse(dt1.Rows[i]["Voucher_ID"].ToString());
+                //    string cartons= this.removecom(dt1.Rows[i]["Carton_No_Arr"].ToString());
+                //    this.runQuery("UPDATE Carton set Inward_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='"+ dt1.Rows[i]["Fiscal_Year"].ToString()+"'");
+                //}
+                //DataTable dt2 = this.getVoucherHistories("Twist_Voucher", true);
+                //for (int i = 0; i < dt2.Rows.Count; i++)
+                //{
+                //    int voucher_id = int.Parse(dt2.Rows[i]["Voucher_ID"].ToString());
+                //    string cartons = this.removecom(dt2.Rows[i]["Carton_No_Arr"].ToString());
+                //    this.runQuery("UPDATE Carton set TS_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='" + dt2.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
+                //}
+                //this.SuccessBox("SQL Update Successful");
             }
             catch (Exception e)
             {

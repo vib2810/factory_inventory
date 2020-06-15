@@ -203,7 +203,7 @@ namespace Factory_Inventory
                 return;
             }
             printDyeingOutward f = new printDyeingOutward(row, this);
-            Global.background.show_form(f);
+            f.Show();
         }
         private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
         {

@@ -30,6 +30,9 @@ namespace Factory_Inventory
         int printed_pages=0;
         float net_carton_wt = 0;
         int printed_voucher_id = -1;
+        int print_mode = 1;
+        int max_rows_print_mode_switch = 14;
+        //print mode 1=  1 in 1 page, 2 means 2 in 1 page
         Dictionary<int, int> vouchers = new Dictionary<int, int>(); //to store active vouchers
         
         public M_V4_printBatchReport()
@@ -125,7 +128,7 @@ namespace Factory_Inventory
             //fill the vouchers dictionary
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                string voucher = dataGridView1.Rows[i].Cells["Voucher_ID"].Value.ToString();
+                string voucher = dataGridView1.Rows[i].Cells["Production_Voucher_ID"].Value.ToString();
                 int voucher_id = -1;
                 if (voucher != "") voucher_id = int.Parse(voucher);
                 vouchers[voucher_id] = 0;
@@ -141,7 +144,7 @@ namespace Factory_Inventory
             //color the dgv
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                string voucher = dataGridView1.Rows[i].Cells["Voucher_ID"].Value.ToString();
+                string voucher = dataGridView1.Rows[i].Cells["Production_Voucher_ID"].Value.ToString();
                 int voucher_id = -1;
                 if (voucher != "") voucher_id = int.Parse(voucher);
                 int printed = vouchers[voucher_id];
@@ -171,7 +174,7 @@ namespace Factory_Inventory
                 }
                 DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
                 batch_no = int.Parse(row["Batch_No"].ToString());
-                voucher_id = int.Parse(row["Voucher_ID"].ToString());
+                voucher_id = int.Parse(row["Production_Voucher_ID"].ToString());
             }
             if (dataGridView2.SelectedRows.Count > 0)
             {
@@ -184,7 +187,7 @@ namespace Factory_Inventory
                 }
                 DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
                 batch_no = int.Parse(row["Batch_No"].ToString());
-                voucher_id = int.Parse(row["Voucher_ID"].ToString());
+                voucher_id = int.Parse(row["Production_Voucher_ID"].ToString());
             }
             if (batch_no == -1 || voucher_id == -1)
             {
@@ -320,7 +323,7 @@ namespace Factory_Inventory
                 this.dataGridView2.Columns["Number_Of_Trays"].Width = 80;
 
                 dataGridView2.Columns["Fiscal_Year"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                int printed = c.getPrint("Carton_Production_Voucher", "Voucher_ID=" + dataGridView2.Rows[0].Cells["Voucher_ID"].Value.ToString());
+                int printed = c.getPrint("Carton_Production_Voucher", "Voucher_ID=" + dataGridView2.Rows[0].Cells["Production_Voucher_ID"].Value.ToString());
                 if (printed>0)
                 {
                     dataGridView2.Rows[0].DefaultCellStyle.BackColor = Global.printedColor;
@@ -338,7 +341,7 @@ namespace Factory_Inventory
         {
             for(int i=0; i<dataGridView1.Rows.Count; i++)
             {
-                string voucher = dataGridView1.Rows[i].Cells["Voucher_ID"].Value.ToString();
+                string voucher = dataGridView1.Rows[i].Cells["Production_Voucher_ID"].Value.ToString();
                 int voucher_id = -1;
                 if (voucher != "") voucher_id = int.Parse(voucher);
                 if(voucher_id==this.printed_voucher_id)
@@ -350,7 +353,7 @@ namespace Factory_Inventory
             for (int i = 0; i < dataGridView2.Rows.Count; i++)
             {
                 string voucher="";
-                try { voucher = dataGridView2.Rows[i].Cells["Voucher_ID"].Value.ToString(); } catch { };
+                try { voucher = dataGridView2.Rows[i].Cells["Production_Voucher_ID"].Value.ToString(); } catch { };
                 int voucher_id = -1;
                 if (voucher != "") voucher_id = int.Parse(voucher);
                 if (voucher_id == this.printed_voucher_id)
@@ -375,11 +378,15 @@ namespace Factory_Inventory
             if (dataGridView3.Rows.Count <= 0) return;
             this.printed_rows = 0;
             this.rows_to_print = dataGridView4.Rows.Count;
+            if (this.rows_to_print <= max_rows_print_mode_switch) this.print_mode = 2;
+            else this.print_mode = 1;
             this.printed_pages = 0;
             c.setPrint("Carton_Production_Voucher", "Voucher_ID=" + this.printed_voucher_id, 1);
             load_color();
             using (var dlg = new CoolPrintPreviewDialog())
             {
+                if (this.print_mode == 2) dlg.no_of_pages = 1;
+                else dlg.no_of_pages = 2;
                 dlg.Document = this.printDocument1;
                 dlg.WindowState = FormWindowState.Maximized;
                 dlg.ShowDialog(this);
@@ -396,78 +403,101 @@ namespace Factory_Inventory
             this.topmargin = (int)(0.03 * e.PageBounds.Height);
             this.lrmargin = (int)(0.05 * e.PageBounds.Width);
             Graphics g = e.Graphics;
-            int page_width = (e.PageBounds.Width - 2 * lrmargin);
-            int page_height = (e.PageBounds.Height - 2 * topmargin);
             this.printed_pages++;
 
-            g.DrawRectangle(Pens.Black, lrmargin-5, topmargin-5, page_width+10, page_height+10);
-
-            int write_height = topmargin;
-            int basic_size = 8;
-            int header_spacing = 3;
-            //header
-            write(e, (int)(0.90 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), "Page No:" + this.printed_pages, basic_size, 'l', 1, 0);
-            write_height += write(e, lrmargin, write_height, page_width, "||Shri||", basic_size, 'c', 0) + header_spacing;
-            write_height += write(e, lrmargin, write_height, page_width, "BATCH FINAL REPORT", basic_size + 6, 'c', 0) + header_spacing-2;
-            write_height += write(e, lrmargin, write_height, page_width, "KRISHANA SALES AND INDUSRIES", basic_size + 8, 'c', 0) + header_spacing;
-            write_height += write(e, lrmargin, write_height, page_width, "550/1, Datta Galli, M. Vadgaon, Belagavi", basic_size + 2, 'c', 1) +header_spacing;
-            write_height += write(e, lrmargin, write_height, page_width, "(GSTIN No. 29AIOPM5869K1Z8)", basic_size + 2, 'c', 1);
-
-            string batch_nos = "";
-            for (int i = 0; i < dataGridView3.Rows.Count - 1; i++) batch_nos += dataGridView3.Rows[i].Cells[1].Value + ", ";
-            batch_nos += dataGridView3.Rows[dataGridView3.Rows.Count-1].Cells[1].Value;
-
-            int gap = 0;
-            write(e, (int)(0.00 * page_width)+lrmargin, write_height, (int)(0.15 * page_width), "Batch Number(s):", basic_size, 'l', 1, 0);
-            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.60 * page_width), batch_nos, basic_size, 'l', 0, 1);
-            write(e, (int)(0.75 * page_width) + lrmargin, write_height, (int)(0.08 * page_width), "Quality:", basic_size, 'r', 1, 0);
-            write_height += write(e, (int)(0.83 * page_width)+lrmargin, write_height, (int)(0.17 * page_width), qualityTB.Text, basic_size, 'l', 0, 1) + gap;
-            
-            write(e, (int)(0.00 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Dyeing Company:", basic_size, 'l', 1, 0);
-            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.25 * page_width), dyeingCompanyTB.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.40 * page_width) + lrmargin, write_height, (int)(0.20 * page_width), "Colour:", basic_size, 'r', 1, 0);
-            write(e, (int)(0.60 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), colourTB.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.75 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), "Springs:", basic_size, 'r', 1, 0);
-            write_height+= write(e, (int)(0.875 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), springTB.Text, basic_size, 'l', 0, 1)+gap;
-
-            write(e, (int)(0.00 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Date of Production:", basic_size, 'l', 1, 0);
-            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), dopTB.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.25 * page_width) + lrmargin, write_height, (int)(0.18 * page_width), "Combined Batch Wt:", basic_size, 'r', 1, 0);
-            write(e, (int)(0.43 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), batchwtTB.Text, basic_size, 'l', 0, 1);
-            write(e, (int)(0.53 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Weight Gain(kg):", basic_size, 'r', 1, 0);
-            write(e, (int)(0.68 * page_width) + lrmargin, write_height, (int)(0.095 * page_width), (this.net_carton_wt- float.Parse(batchwtTB.Text)).ToString("F3") , basic_size, 'l', 0, 1);
-            write(e, (int)(0.775 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), "Oil Gain(%)", basic_size, 'r', 1, 0);
-            write_height += write(e, (int)(0.875 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), oilgainTB.Text, basic_size, 'l', 0, 1) + gap;
-            write_height += 3;
-
-            //rescale widths of datagridview
-            int total_width = 0;
-            for (int j = 0; j < dataGridView4.Columns.Count; j++) total_width += dataGridView4.Columns[j].Width;
-
-            int new_total = page_width;
-            float scale = (float)new_total / total_width;
-            int[] column_widths = new int[dataGridView4.Columns.Count];
-            int new_total_real = 0;
-            for (int j = 0; j < dataGridView4.Columns.Count; j++)
+            if(this.print_mode==1)
             {
-                column_widths[j] = (int)(scale * (float)dataGridView4.Columns[j].Width);
-                new_total_real += column_widths[j];
-            }
-            column_widths[dataGridView4.Columns.Count - 1] += new_total - new_total_real;
-            //header dgv
-            write_height = drawDGVHeader(lrmargin, write_height, column_widths, e);
+                int page_width = (e.PageBounds.Width - 2 * lrmargin);
+                int page_height = (e.PageBounds.Height - 2 * topmargin);
+                g.DrawRectangle(Pens.Black, lrmargin - 5, topmargin - 5, page_width + 10, page_height + 10);
 
-            while (this.rows_to_print - this.printed_rows > 0)
+                int write_height = topmargin;
+                int basic_size = 8;
+                write_height=this.write_header(e, page_width, write_height);
+
+                //rescale widths of datagridview
+                int total_width = 0;
+                for (int j = 0; j < dataGridView4.Columns.Count; j++) total_width += dataGridView4.Columns[j].Width;
+
+                int new_total = page_width;
+                float scale = (float)new_total / total_width;
+                int[] column_widths = new int[dataGridView4.Columns.Count];
+                int new_total_real = 0;
+                for (int j = 0; j < dataGridView4.Columns.Count; j++)
+                {
+                    column_widths[j] = (int)(scale * (float)dataGridView4.Columns[j].Width);
+                    new_total_real += column_widths[j];
+                }
+                column_widths[dataGridView4.Columns.Count - 1] += new_total - new_total_real;
+                //header dgv
+                write_height = drawDGVHeader(lrmargin, write_height, column_widths, e);
+
+                while (this.rows_to_print - this.printed_rows > 0)
+                {
+                    if (write_height + dataGridView4.Rows[0].Height >= topmargin + page_height - 15) break;
+                    if (rows_to_print - printed_rows == 1) write_height = drawDGVRow(lrmargin, write_height, column_widths, e, this.printed_rows, 1);
+                    else write_height = drawDGVRow(lrmargin, write_height, column_widths, e, this.printed_rows);
+                    this.printed_rows++;
+                }
+                write(e, (int)(0.80 * page_width) + lrmargin, topmargin + page_height - 15, (int)(0.20 * page_width), "Signature", basic_size, 'c', 1, 0);
+
+                if (this.rows_to_print - this.printed_rows > 0) e.HasMorePages = true;
+                else e.HasMorePages = false;
+            }
+            if (this.print_mode == 2)
             {
-                if (write_height + dataGridView4.Rows[0].Height >= topmargin + page_height - 15) break;
-                if(rows_to_print-printed_rows==1) write_height = drawDGVRow(lrmargin, write_height, column_widths, e, this.printed_rows, 1);
-                else write_height = drawDGVRow(lrmargin, write_height, column_widths, e, this.printed_rows);
-                this.printed_rows++;
-            }
-            write(e, (int)(0.80 * page_width) + lrmargin, topmargin + page_height - 15, (int)(0.20 * page_width), "Signature", basic_size, 'c', 1, 0) ;
+                int page_width = (e.PageBounds.Width - 2 * lrmargin);
+                int page_height = (e.PageBounds.Height - 2 * topmargin) / 2;
+                g.DrawRectangle(Pens.Black, lrmargin - 5, topmargin - 5, page_width + 10, page_height);
+                g.DrawRectangle(Pens.Black, lrmargin - 5, topmargin + page_height + 5, page_width + 10, page_height);
+                int basic_size = 8;
+                //rescale widths of datagridview
+                int total_width = 0;
+                for (int j = 0; j < dataGridView4.Columns.Count; j++) total_width += dataGridView4.Columns[j].Width;
 
-            if (this.rows_to_print - this.printed_rows > 0) e.HasMorePages = true;
-            else e.HasMorePages = false;
+                int new_total = page_width;
+                float scale = (float)new_total / total_width;
+                int[] column_widths = new int[dataGridView4.Columns.Count];
+                int new_total_real = 0;
+                for (int j = 0; j < dataGridView4.Columns.Count; j++)
+                {
+                    column_widths[j] = (int)(scale * (float)dataGridView4.Columns[j].Width);
+                    new_total_real += column_widths[j];
+                }
+                column_widths[dataGridView4.Columns.Count - 1] += new_total - new_total_real;
+
+                int write_height = topmargin;
+
+                //1
+                write_height = this.write_header(e, page_width, write_height);
+                write_height = drawDGVHeader(lrmargin, write_height, column_widths, e);
+                for(int i=0; i<dataGridView4.Rows.Count; i++)
+                {
+                    if(i==dataGridView4.Rows.Count-1)
+                    {
+                        write_height = drawDGVRow(lrmargin, write_height, column_widths, e, i, 1);
+                    }
+                    else write_height = drawDGVRow(lrmargin, write_height, column_widths, e, i);
+                }
+                write(e, (int)(0.80 * page_width) + lrmargin, topmargin + page_height-5 - 20, (int)(0.20 * page_width), "Signature", basic_size, 'c', 1, 0);
+
+                write_height = topmargin + page_height + 5;
+                //2
+                write_height = this.write_header(e, page_width, write_height);
+                write_height = drawDGVHeader(lrmargin, write_height, column_widths, e);
+                for (int i = 0; i < dataGridView4.Rows.Count; i++)
+                {
+                    if (i == dataGridView4.Rows.Count - 1)
+                    {
+                        write_height = drawDGVRow(lrmargin, write_height, column_widths, e, i, 1);
+                    }
+                    else write_height = drawDGVRow(lrmargin, write_height, column_widths, e, i);
+                }
+                write(e, (int)(0.80 * page_width) + lrmargin, topmargin + 2*page_height+5 - 20, (int)(0.20 * page_width), "Signature", basic_size, 'c', 1, 0);
+            }
+
+
+
         }
         private void printDocument1_BeginPrint(object sender, PrintEventArgs e)
         {
@@ -548,7 +578,46 @@ namespace Factory_Inventory
             return write_height;
         }
 
+        private int write_header(System.Drawing.Printing.PrintPageEventArgs e, int page_width, int write_height)
+        {
+            int basic_size = 8;
+            int header_spacing = -7;
+            //header
+            write(e, (int)(0.90 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), "Page No:" + this.printed_pages, basic_size, 'l', 1, 0);
+            write_height += write(e, lrmargin, write_height, page_width, "||Shri||", basic_size, 'c', 0) + header_spacing;
+            write_height += write(e, lrmargin, write_height, page_width, "BATCH FINAL REPORT", basic_size + 4, 'c', 1) + header_spacing - 2;
+            write_height += write(e, lrmargin, write_height, page_width, "KRISHANA SALES AND INDUSRIES", basic_size + 5, 'c', 1) + header_spacing-3;
+            write_height += write(e, lrmargin, write_height, page_width, "550/1, Datta Galli, M. Vadgaon, Belagavi", basic_size + 1, 'c', 1) + header_spacing;
+            write_height += write(e, lrmargin, write_height, page_width, "(GSTIN No: 29AIOPM5869K1Z8)", basic_size + 1, 'c', 1);
 
+            string batch_nos = "";
+            for (int i = 0; i < dataGridView3.Rows.Count - 1; i++) batch_nos += dataGridView3.Rows[i].Cells[1].Value + ", ";
+            batch_nos += dataGridView3.Rows[dataGridView3.Rows.Count - 1].Cells[1].Value;
+
+            int gap = 0;
+            write(e, (int)(0.00 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Batch Number(s):", basic_size, 'l', 1, 0);
+            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.60 * page_width), batch_nos, basic_size, 'l', 0, 1);
+            write(e, (int)(0.75 * page_width) + lrmargin, write_height, (int)(0.08 * page_width), "Quality:", basic_size, 'r', 1, 0);
+            write_height += write(e, (int)(0.83 * page_width) + lrmargin, write_height, (int)(0.17 * page_width), qualityTB.Text, basic_size, 'l', 0, 1) + gap;
+
+            write(e, (int)(0.00 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Dyeing Company:", basic_size, 'l', 1, 0);
+            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.25 * page_width), dyeingCompanyTB.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.40 * page_width) + lrmargin, write_height, (int)(0.20 * page_width), "Colour:", basic_size, 'r', 1, 0);
+            write(e, (int)(0.60 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), colourTB.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.75 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), "Springs:", basic_size, 'r', 1, 0);
+            write_height += write(e, (int)(0.875 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), springTB.Text, basic_size, 'l', 0, 1) + gap;
+
+            write(e, (int)(0.00 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Date of Production:", basic_size, 'l', 1, 0);
+            write(e, (int)(0.15 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), dopTB.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.25 * page_width) + lrmargin, write_height, (int)(0.18 * page_width), "Combined Batch Wt:", basic_size, 'r', 1, 0);
+            write(e, (int)(0.43 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), batchwtTB.Text, basic_size, 'l', 0, 1);
+            write(e, (int)(0.53 * page_width) + lrmargin, write_height, (int)(0.15 * page_width), "Weight Gain(kg):", basic_size, 'r', 1, 0);
+            write(e, (int)(0.68 * page_width) + lrmargin, write_height, (int)(0.095 * page_width), (this.net_carton_wt - float.Parse(batchwtTB.Text)).ToString("F3"), basic_size, 'l', 0, 1);
+            write(e, (int)(0.775 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), "Oil Gain(%)", basic_size, 'r', 1, 0);
+            write_height += write(e, (int)(0.875 * page_width) + lrmargin, write_height, (int)(0.125 * page_width), oilgainTB.Text, basic_size, 'l', 0, 1) + gap;
+            write_height += 3;
+            return write_height;
+        }
         int drawDGVRow(int x, int write_height, int[] column_widths, System.Drawing.Printing.PrintPageEventArgs e, int row_index, int bold = 0)
         {
             //inputs write_height(not including the margin)
@@ -569,12 +638,13 @@ namespace Factory_Inventory
             {
                 newFont = new Font(dataGridView4.Font.FontFamily, dataGridView4.Font.Size, FontStyle.Bold);
             }
+            int row_height = dataGridView4.Rows[0].Height-2;
             for (int j = 0; j < dataGridView4.Columns.Count; j++)
             {
                 str.Alignment = StringAlignment.Center;
-                g.DrawRectangle(Pens.Black, width, start_height, column_widths[j], dataGridView4.Rows[0].Height);
-                g.DrawString(dataGridView4.Rows[row_index].Cells[j].Value.ToString(), newFont, Brushes.Black, new RectangleF(width, start_height, column_widths[j], dataGridView4.Rows[0].Height), str);
-                if (j == 0) write_height += dataGridView4.Rows[0].Height;
+                g.DrawRectangle(Pens.Black, width, start_height, column_widths[j], row_height);
+                g.DrawString(dataGridView4.Rows[row_index].Cells[j].Value.ToString(), newFont, Brushes.Black, new RectangleF(width, start_height, column_widths[j], row_height), str);
+                if (j == 0) write_height += row_height;
                 width += column_widths[j];
             }
             #endregion
