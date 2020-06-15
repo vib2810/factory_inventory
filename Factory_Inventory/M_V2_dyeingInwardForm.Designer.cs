@@ -353,7 +353,7 @@
         private System.Windows.Forms.ComboBox comboBox3CB;
         private System.Windows.Forms.DateTimePicker billDateDTP;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button deleteButton;
+        public System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label label5;
     }
 }

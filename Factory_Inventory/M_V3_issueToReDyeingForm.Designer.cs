@@ -568,7 +568,6 @@
             this.Controls.Add(this.batchNoCB);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "M_V3_issueToReDyeingForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Issue to Re-Dyeing";
             this.Load += new System.EventHandler(this.M_V3_issueToReDyeingForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -619,7 +618,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button deleteButton;
+        public System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.CheckBox fullRedyeCK;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox pureRDWeightTB;

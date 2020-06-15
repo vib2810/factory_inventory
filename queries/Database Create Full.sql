@@ -369,7 +369,11 @@ CREATE TABLE Batch (
     Slip_No varchar(20) NULL,
     Redyeing varchar(30) NULL,
 	Start_Date_Of_Production date NULL,
-	Grade varchar(10) NULL
+	Grade varchar(10) NULL,
+	Dyeing_Out_Voucher_ID int NULL,
+	Dyeing_In_Voucher_ID int NULL,
+	Bill_Voucher_ID int NULL,
+	Redyeing_Voucher_ID int NULL,
 );
 
 GO
@@ -531,7 +535,9 @@ create table Carton_Production_Voucher
 	Batch_Fiscal_Year_Arr text NOT NULL,
 	Deleted tinyint NULL,
 	Printed tinyint NULL,
-	Start_Date_Of_Production date NULL
+	Start_Date_Of_Production date NULL,
+	Production_Voucher_ID int NULL
+	Sale_Voucher_ID int NULL
 );
 
 GO

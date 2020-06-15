@@ -368,6 +368,6 @@
         private System.Windows.Forms.Label dynamicEditableLabel;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox rateTextBoxTB;
-        private System.Windows.Forms.Button deleteButton;
+        public System.Windows.Forms.Button deleteButton;
     }
 }
