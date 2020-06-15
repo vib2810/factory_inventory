@@ -8,7 +8,7 @@ alter table Batch add Dyeing_In_Voucher_ID int NULL
 alter table Batch add Bill_Voucher_ID int NULL
 alter table Batch add Redyeing_Voucher_ID int NULL
 alter table Carton_Produced add Production_Voucher_ID int NULL
-alter table Carton_Produced add Sale_Voucher_ID int NULL
+alter table Carton_Produced add Sales_Voucher_ID int NULL
 alter table Carton_Production_Voucher drop column Grades_Arr
 
 --alter table Twist_Voucher add Net_Weight decimal(8,3) NULL

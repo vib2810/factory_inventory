@@ -42,7 +42,7 @@ namespace Factory_Inventory
             this.textBox4.Text= Carton["Sale_DO_No"].ToString();
             this.textBox11.Text= Carton["DO_Fiscal_Year"].ToString();
             this.textBox10.Text= Carton["Type_Of_Sale"].ToString();
-            inward_voucher_id= int.Parse(Carton["Inward_Voucher_ID"].ToString());
+            if(string.IsNullOrEmpty(Carton["Inward_Voucher_ID"].ToString()) == false)  inward_voucher_id = int.Parse(Carton["Inward_Voucher_ID"].ToString());
             if(string.IsNullOrEmpty(Carton["TS_Voucher_ID"].ToString())==false) ts_voucher_id =int.Parse(Carton["TS_Voucher_ID"].ToString());
             if(string.IsNullOrEmpty(this.textBox9.Text)==false)
             {

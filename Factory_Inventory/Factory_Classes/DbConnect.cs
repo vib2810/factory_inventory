@@ -82,7 +82,14 @@ namespace Factory_Inventory.Factory_Classes
                     int voucher_id = int.Parse(dt2.Rows[i]["voucher_id"].ToString());
                     string cartons = this.removecom(dt2.Rows[i]["carton_no_arr"].ToString());
                     this.runQuery("update carton set ts_voucher_id=" + voucher_id + " where carton_no in (" + cartons + ") and fiscal_year='" + dt2.Rows[i]["carton_fiscal_year"].ToString() + "'");
-                }
+                    con.Open();
+                    string sql = "update twist_voucher set Net_Weight = (SELECT SUM(Net_Weight) FROM Carton Where Carton_No in ("+cartons+ ") and fiscal_year='" + dt2.Rows[i]["carton_fiscal_year"].ToString() + "') where voucher_id = "+voucher_id+"";
+                    SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    con.Close();
+            }
+
 
                 DataTable dt3 = this.getVoucherHistories("Dyeing_Issue_Voucher", "Voucher_ID", true);
                 for (int i = 0; i < dt3.Rows.Count; i++)
@@ -1815,7 +1822,7 @@ namespace Factory_Inventory.Factory_Classes
 
 
         //Twist Voucher
-        public bool addTwistVoucher(DateTime dtinput, DateTime dtissue, string quality, string company, string cartonno, int number, string carton_fiscal_year)
+        public bool addTwistVoucher(DateTime dtinput, DateTime dtissue, string quality, string company, string cartonno, int number, string carton_fiscal_year, float net_weight)
         {
             string inputDate = dtinput.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -1844,7 +1851,7 @@ namespace Factory_Inventory.Factory_Classes
                 }
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Twist_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Carton_No_Arr, Number_of_Cartons, Carton_Fiscal_Year, Fiscal_Year) VALUES ('" + inputDate + "', '" + issueDate + "','" + quality + "', '" + company + "','" + cartonno + "', " + number + ", '" + carton_fiscal_year + "', '" + fiscal_year + "')";
+                string sql = "INSERT INTO Twist_Voucher (Date_Of_Input, Date_Of_Issue, Quality, Company_Name, Carton_No_Arr, Number_of_Cartons, Carton_Fiscal_Year, Fiscal_Year, Net_Weight) VALUES ('" + inputDate + "', '" + issueDate + "','" + quality + "', '" + company + "','" + cartonno + "', " + number + ", '" + carton_fiscal_year + "', '" + fiscal_year + "', "+net_weight+")";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1897,7 +1904,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public bool editTwistVoucher(int voucherID, DateTime dtissue, string quality, string company, string cartonno, int number, string carton_fiscal_year)
+        public bool editTwistVoucher(int voucherID, DateTime dtissue, string quality, string company, string cartonno, int number, string carton_fiscal_year, float net_weight)
         {
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string fiscal_year = this.getFinancialYear(dtissue);
@@ -1938,7 +1945,7 @@ namespace Factory_Inventory.Factory_Classes
                     this.sendCartonTwist(carton_no[i], 2, issueDate, carton_fiscal_year);
                 }
                 con.Open();
-                string sql = "UPDATE Twist_Voucher SET Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Fiscal_Year = '" + fiscal_year + "' WHERE Voucher_ID='" + voucherID + "'";
+                string sql = "UPDATE Twist_Voucher SET Date_Of_Issue='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Fiscal_Year = '" + fiscal_year + "', Net_Weight = "+net_weight+" WHERE Voucher_ID='" + voucherID + "'";
                 //Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();

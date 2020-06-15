@@ -384,7 +384,7 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
-                bool added = c.addTwistVoucher(inputDate.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
+                bool added = c.addTwistVoucher(inputDate.Value, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString(), float.Parse(dynamicWeightLabel.Text));
                 if (added == false)
                 {
                     return;
@@ -397,7 +397,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited = c.editTwistVoucher(this.voucher_id, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString());
+                bool edited = c.editTwistVoucher(this.voucher_id, issueDateDTP.Value, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, number, this.comboBox3CB.SelectedItem.ToString(), float.Parse(dynamicWeightLabel.Text));
                 if (edited == false)
                 {
                     return;
