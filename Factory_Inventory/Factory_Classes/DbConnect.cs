@@ -135,7 +135,7 @@ namespace Factory_Inventory.Factory_Classes
                 //        this.runQuery("UPDATE Batch set Production_Voucher_ID=" + voucher_id + " Where Batch_No='" + batches[i] + "' AND Fiscal_year='" + batch_fiscal_years[i]+ "'");
                 //    }
                 //}
-                DataTable dt8 = this.getVoucherHistories("Carton_Production_Voucher","Start_Date_OF_Production", true);
+                DataTable dt8 = this.getVoucherHistories("Carton_Production_Voucher","Start_Date_Of_Production", true);
                 for (int i = 0; i < dt8.Rows.Count; i++)
                 {
                     if (dt8.Rows[i]["Deleted"].ToString() == "1") continue;
@@ -302,7 +302,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public DataTable getVoucherHistories(string tablename, string order_by, bool full = false)
+        public DataTable getVoucherHistories(string tablename, string order_by="Voucher_ID", bool full = false)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
             try
@@ -4259,11 +4259,11 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     float oil_gain = (carton_net_weight - net_batch_weight) / net_batch_weight * 100F;
                     string max_date = max.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                    sql = "INSERT INTO Carton_Production_Voucher (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Oil_Gain, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Date_Of_Production, Grades_Arr, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + oil_gain + ", " + closed + ", '" + batches_fiscal_years + "', '" + carton_financialYear + "', " + float.Parse(cone_weight) / 1000F + ", '" + max_date + "', '" + grades_arr + "', '" + min_date + "'); SELECT SCOPE_IDENTITY();";
+                    sql = "INSERT INTO Carton_Production_Voucher (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Oil_Gain, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Date_Of_Production, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + oil_gain + ", " + closed + ", '" + batches_fiscal_years + "', '" + carton_financialYear + "', " + float.Parse(cone_weight) / 1000F + ", '" + max_date + "', '" + min_date + "'); SELECT SCOPE_IDENTITY();";
                 }
                 else
                 {
-                    sql = "INSERT INTO Carton_Production_Voucher (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Grades_Arr, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + closed + ", '" + batches_fiscal_years + "', '" + carton_financialYear + "', " + float.Parse(cone_weight) / 1000F + ", '" + grades_arr + "', '" + min_date + "'); SELECT SCOPE_IDENTITY();";
+                    sql = "INSERT INTO Carton_Production_Voucher (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + closed + ", '" + batches_fiscal_years + "', '" + carton_financialYear + "', " + float.Parse(cone_weight) / 1000F + "', '" + min_date + "'); SELECT SCOPE_IDENTITY();";
                 }
                 Console.WriteLine(sql);
                 DataTable dt = new DataTable();
@@ -4595,11 +4595,11 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     float oil_gain = (net_carton_weight - net_batch_weight) / net_batch_weight * 100F;
                     string max_date = max.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr = '" + batches_to_add + "', Carton_No_Production_Arr = '" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Oil_Gain=" + oil_gain + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + ", Date_Of_Production='" + max_date + "', Grades_Arr='" + grades_arr + "', Start_Date_Of_Production= '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
+                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr = '" + batches_to_add + "', Carton_No_Production_Arr = '" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Oil_Gain=" + oil_gain + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + ", Date_Of_Production='" + max_date + "', Start_Date_Of_Production= '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
                 }
                 else
                 {
-                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr='" + batches_to_add + "', Carton_No_Production_Arr='" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + ", Grades_Arr='" + grades_arr + "', Start_Date_Of_Production = '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
+                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr='" + batches_to_add + "', Carton_No_Production_Arr='" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + "', Start_Date_Of_Production = '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
                 }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
