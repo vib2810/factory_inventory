@@ -365,7 +365,7 @@
             this.Controls.Add(this.label1);
             this.Name = "printDyeingOutward";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "printDyeingOutward";
+            this.Text = "Print Dyeing Outward";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

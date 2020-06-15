@@ -68,19 +68,96 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 //DataTable dt1 = this.getVoucherHistories("Carton_Voucher", true);
-                //for(int i=0; i<dt1.Rows.Count; i++)
+                //for (int i = 0; i < dt1.Rows.Count; i++)
                 //{
+                //    if (dt1.Rows[i]["Deleted"].ToString() == "1") continue;
                 //    int voucher_id = int.Parse(dt1.Rows[i]["Voucher_ID"].ToString());
-                //    string cartons= this.removecom(dt1.Rows[i]["Carton_No_Arr"].ToString());
-                //    this.runQuery("UPDATE Carton set Inward_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='"+ dt1.Rows[i]["Fiscal_Year"].ToString()+"'");
+                //    string cartons = this.removecom(dt1.Rows[i]["Carton_No_Arr"].ToString());
+                //    this.runQuery("UPDATE Carton set Inward_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='" + dt1.Rows[i]["Fiscal_Year"].ToString() + "'");
                 //}
-                //DataTable dt2 = this.getVoucherHistories("Twist_Voucher", true);
+                //DataTable dt2 = this.getVoucherHistories("twist_voucher", true);
                 //for (int i = 0; i < dt2.Rows.Count; i++)
                 //{
-                //    int voucher_id = int.Parse(dt2.Rows[i]["Voucher_ID"].ToString());
-                //    string cartons = this.removecom(dt2.Rows[i]["Carton_No_Arr"].ToString());
-                //    this.runQuery("UPDATE Carton set TS_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='" + dt2.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
+                //    if (dt2.Rows[i]["Deleted"].ToString() == "1") continue;
+                //    int voucher_id = int.Parse(dt2.Rows[i]["voucher_id"].ToString());
+                //    string cartons = this.removecom(dt2.Rows[i]["carton_no_arr"].ToString());
+                //    this.runQuery("update carton set ts_voucher_id=" + voucher_id + " where carton_no in (" + cartons + ") and fiscal_year='" + dt2.Rows[i]["carton_fiscal_year"].ToString() + "'");
                 //}
+
+                //DataTable dt3 = this.getVoucherHistories("Dyeing_Issue_Voucher", true);
+                //for (int i = 0; i < dt3.Rows.Count; i++)
+                //{
+                //    if (dt3.Rows[i]["Deleted"].ToString() == "1") continue;
+                //    int voucher_id = int.Parse(dt3.Rows[i]["Voucher_ID"].ToString());
+                //    string batch = dt3.Rows[i]["Batch_No"].ToString();
+                //    string batch_fiscal_year= dt3.Rows[i]["Batch_Fiscal_Year"].ToString();
+                //    this.runQuery("UPDATE Batch set Dyeing_Out_Voucher_ID=" + voucher_id + " Where Batch_No='" + batch+ "' AND Fiscal_year='" + batch_fiscal_year+ "'");
+                //}
+
+                //DataTable dt4 = this.getVoucherHistories("Dyeing_Inward_Voucher", true);
+                //for (int i = 0; i < dt4.Rows.Count; i++)
+                //{
+                //    if(dt4.Rows[i]["Deleted"].ToString()=="1") continue;
+                //    int voucher_id = int.Parse(dt4.Rows[i]["Voucher_ID"].ToString());
+                //    string batch =this.removecom(dt4.Rows[i]["Batch_No_Arr"].ToString());
+                //    string batch_fiscal_year = dt4.Rows[i]["Batch_Fiscal_Year"].ToString();
+                //    this.runQuery("UPDATE Batch set Dyeing_In_Voucher_ID=" + voucher_id + " Where Batch_No IN (" + batch + ") AND Fiscal_year='" + batch_fiscal_year + "'");
+                //}
+
+                //DataTable dt5 = this.getVoucherHistories("BillNos_Voucher", true);
+                //for (int i = 0; i < dt5.Rows.Count; i++)
+                //{
+                //    if(dt5.Rows[i]["Deleted"].ToString() == "1") continue;
+                //    int voucher_id = int.Parse(dt5.Rows[i]["Voucher_ID"].ToString());
+                //    string batch = this.removecom(dt5.Rows[i]["Batch_No_Arr"].ToString());
+                //    string batch_fiscal_year = dt5.Rows[i]["Batch_Fiscal_Year"].ToString();
+                //    this.runQuery("UPDATE Batch set Bill_Voucher_ID=" + voucher_id + " Where Batch_No IN (" + batch + ") AND Fiscal_year='" + batch_fiscal_year + "'");
+                //}
+
+                //DataTable dt6 = this.getVoucherHistories("Redyeing_Voucher", true);
+                //for (int i = 0; i < dt6.Rows.Count; i++)
+                //{
+                //    if(dt6.Rows[i]["Deleted"].ToString() == "1") continue;
+                //    int voucher_id = int.Parse(dt6.Rows[i]["Voucher_ID"].ToString());
+                //    this.runQuery("UPDATE Batch set Redyeing_Voucher_ID=" + voucher_id + " Where Batch_No='"+dt6.Rows[i]["Old_Batch_No"].ToString()+"' AND Fiscal_year='" + dt6.Rows[i]["Old_Batch_Fiscal_Year"].ToString() + "'");
+                //    this.runQuery("UPDATE Batch set Redyeing_Voucher_ID=" + voucher_id + " Where Batch_No='"+dt6.Rows[i]["Non_Redyeing_Batch_No"].ToString()+"' AND Fiscal_year='" + dt6.Rows[i]["Redyeing_Batch_Fiscal_Year"].ToString() + "'");
+                //    this.runQuery("UPDATE Batch set Redyeing_Voucher_ID=" + voucher_id + " Where Batch_No='" + dt6.Rows[i]["Redyeing_Batch_No"].ToString() + "' AND Fiscal_year='" + dt6.Rows[i]["Redyeing_Batch_Fiscal_Year"].ToString() + "'");
+                //}
+                //DataTable dt7 = this.getVoucherHistories("Redyeing_Voucher", true);
+                //for (int i = 0; i < dt7.Rows.Count; i++)
+                //{
+                //    if (dt7.Rows[i]["Deleted"].ToString() == "1") continue;
+                //    int voucher_id = int.Parse(dt7.Rows[i]["Voucher_ID"].ToString());
+                //    string[] batches= this.csvToArray(dt7.Rows[i]["Batch_No_Arr"].ToString());
+                //    string[] batch_fiscal_years = this.csvToArray(dt7.Rows[i]["Batch_Fiscal_Year_Arr"].ToString());
+                //    for(int j=0; j<batches.Length; j++)
+                //    {
+                //        this.runQuery("UPDATE Batch set Production_Voucher_ID=" + voucher_id + " Where Batch_No='" + batches[i] + "' AND Fiscal_year='" + batch_fiscal_years[i]+ "'");
+                //    }
+                //}
+                DataTable dt8 = this.getVoucherHistories("Carton_Production_Voucher", true);
+                for (int i = 0; i < dt8.Rows.Count; i++)
+                {
+                    if (dt8.Rows[i]["Deleted"].ToString() == "1") continue;
+                    int voucher_id = int.Parse(dt8.Rows[i]["Voucher_ID"].ToString());
+                    string cartons = this.removecom(dt8.Rows[i]["Carton_No_Production_Arr"].ToString());
+                    this.runQuery("UPDATE Carton_Produced set Production_Voucher_ID=" + voucher_id + " Where carton_no in (" + cartons + ") AND Fiscal_year='" + dt8.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
+                }
+                DataTable dt9 = this.getVoucherHistories("Sales_voucher", true);
+                for (int i = 0; i < dt9.Rows.Count; i++)
+                {
+                    if (dt9.Rows[i]["Deleted"].ToString() == "1") continue;
+                    int voucher_id = int.Parse(dt9.Rows[i]["voucher_id"].ToString());
+                    string cartons = this.removecom(dt9.Rows[i]["carton_no_arr"].ToString());
+                    if(dt9.Rows[i]["Tablename"].ToString() == "Carton")
+                    {
+                        this.runQuery("update carton set ts_voucher_id=" + voucher_id + " where carton_no in (" + cartons + ") and fiscal_year='" + dt9.Rows[i]["carton_fiscal_year"].ToString() + "'");
+                    }
+                    if (dt9.Rows[i]["Tablename"].ToString() == "Carton_Produced")
+                    {
+                        this.runQuery("update carton_produced set sales_voucher_id=" + voucher_id + " where carton_no in (" + cartons + ") and fiscal_year='" + dt9.Rows[i]["carton_fiscal_year"].ToString() + "'");
+                    }
+                }
                 //this.SuccessBox("SQL Update Successful");
             }
             catch (Exception e)
