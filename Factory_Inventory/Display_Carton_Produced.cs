@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Factory_Inventory.Factory_Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,8 @@ namespace Factory_Inventory
 {
     public partial class Display_Carton_Produced : Form
     {
+        DbConnect c = new DbConnect();
+        int production_voucher_id = -1, sales_voucher_id = -1;
         public Display_Carton_Produced(DataRow Carton)
         {
             InitializeComponent();
@@ -46,11 +49,43 @@ namespace Factory_Inventory
             this.textBox24.Text = Carton["Sale_Rate"].ToString();
             this.textBox21.Text = Carton["Sale_DO_No"].ToString();
             //this.textBox23.Text = Carton["Sale_Bill_No"].ToString();
+            if (string.IsNullOrEmpty(Carton["Production_Voucher_ID"].ToString()) == false) production_voucher_id = int.Parse(Carton["Production_Voucher_ID"].ToString());
+            if (string.IsNullOrEmpty(Carton["Sales_Voucher_ID"].ToString()) == false) sales_voucher_id = int.Parse(Carton["Sales_Voucher_ID"].ToString());
         }
 
         private void Display_Carton_Produced_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (sales_voucher_id == -1)
+            {
+                c.ErrorBox("No Voucher Found/Linked");
+                return;
+            }
+            DataTable table = c.getTableRows("Sales_Voucher", "Voucher_ID=" + sales_voucher_id);
+            DataRow voucher = table.Rows[0];
+            M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(voucher, false, new M_V_history(1), "Carton_Produced");
+            f.deleteButton.Visible = false;
+            f.StartPosition = FormStartPosition.CenterScreen;
+            f.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (production_voucher_id == -1)
+            {
+                c.ErrorBox("No Voucher Found/Linked");
+                return;
+            }
+            DataTable table = c.getTableRows("Carton_Production_Voucher", "Voucher_ID=" + production_voucher_id);
+            DataRow voucher = table.Rows[0];
+            M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(voucher, false, new M_V_history(1));
+            f.deleteButton.Visible = false;
+            f.StartPosition = FormStartPosition.CenterScreen;
+            f.Show();
         }
     }
 }

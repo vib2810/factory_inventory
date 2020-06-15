@@ -80,6 +80,8 @@
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.textBox24 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -556,11 +558,33 @@
             this.textBox24.Size = new System.Drawing.Size(147, 22);
             this.textBox24.TabIndex = 50;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(569, 309);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(143, 49);
+            this.button2.TabIndex = 60;
+            this.button2.Text = "Sales Voucher";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(569, 244);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(143, 48);
+            this.button1.TabIndex = 59;
+            this.button1.Text = "&Production Voucher";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Display_Carton_Produced
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 642);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.textBox21);
             this.Controls.Add(this.label27);
@@ -676,5 +700,7 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox textBox24;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
