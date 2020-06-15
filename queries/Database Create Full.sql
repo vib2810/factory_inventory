@@ -531,13 +531,12 @@ create table Carton_Production_Voucher
 	Carton_Fiscal_Year varchar(20) NOT NULL,
 	Cone_Weight decimal(5,3) NOT NULL,
 	Date_Of_Production date NULL,
-	Grades_Arr text NOT NULL,
 	Batch_Fiscal_Year_Arr text NOT NULL,
 	Deleted tinyint NULL,
 	Printed tinyint NULL,
 	Start_Date_Of_Production date NULL,
-	Production_Voucher_ID int NULL
-	Sale_Voucher_ID int NULL
+	Production_Voucher_ID int NULL,
+	Sales_Voucher_ID int NULL
 );
 
 GO
