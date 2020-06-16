@@ -1068,7 +1068,7 @@ SELECT Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Company_Name, Number_of
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Factory_Inventory.Properties.Settings.Default.FactoryInventoryConnectionString;
+            this._connection.ConnectionString = global::Factory_Inventory.Properties.Settings.Default.LocalConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

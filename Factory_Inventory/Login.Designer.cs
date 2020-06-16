@@ -35,6 +35,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.iptextbox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -84,6 +85,7 @@
             // 
             this.iptextbox.Location = new System.Drawing.Point(172, 301);
             this.iptextbox.Name = "iptextbox";
+            this.iptextbox.ReadOnly = true;
             this.iptextbox.Size = new System.Drawing.Size(146, 22);
             this.iptextbox.TabIndex = 7;
             this.iptextbox.Text = "Default";
@@ -97,11 +99,25 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Custon Server IP";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(172, 330);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(64, 21);
+            this.checkBox1.TabIndex = 8;
+            this.checkBox1.Text = "Local";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(391, 394);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.iptextbox);
             this.Controls.Add(this.button1);
@@ -130,6 +146,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox iptextbox;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
