@@ -121,5 +121,11 @@ namespace Factory_Inventory
             }
             else this.iptextbox.ReadOnly = true;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            setLocalString f = new setLocalString();
+            f.ShowDialog();
+        }
     }
 }

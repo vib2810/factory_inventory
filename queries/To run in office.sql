@@ -11,5 +11,5 @@ alter table Carton_Produced add Production_Voucher_ID int NULL
 alter table Carton_Produced add Sales_Voucher_ID int NULL
 alter table Carton_Production_Voucher drop column Grades_Arr
 
---alter table Twist_Voucher add Net_Weight decimal(8,3) NULL
+alter table Twist_Voucher add Net_Weight decimal(8,3) NULL
 

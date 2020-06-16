@@ -23,17 +23,6 @@ namespace Factory_Inventory.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-VGJ3NID;Initial Catalog=FactoryData;User ID=sa;Password=Kdvgh" +
-            "r2810@;")]
-        public string LocalConnectionString {
-            get {
-                return ((string)(this["LocalConnectionString"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.12")]
@@ -43,6 +32,18 @@ namespace Factory_Inventory.Properties {
             }
             set {
                 this["LastIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LocalConnectionString {
+            get {
+                return ((string)(this["LocalConnectionString"]));
+            }
+            set {
+                this["LocalConnectionString"] = value;
             }
         }
     }
