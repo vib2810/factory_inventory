@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Management.SqlParser.Parser;
+﻿using Factory_Inventory.Properties;
+using Microsoft.SqlServer.Management.SqlParser.Parser;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,8 +44,7 @@ namespace Factory_Inventory.Factory_Classes
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryInventory;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
             string ip_address = Properties.Settings.Default.LastIP;
             //Connection string for Vob's laptop
-            this.con = new SqlConnection(@"Data Source="+ip_address+", 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
-            //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019, 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;        "); // making connection   
+            this.con = new SqlConnection(Global.connectionstring); // making connection   
         }
 
         public string RandomString(int size, bool lowerCase)

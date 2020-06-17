@@ -14,6 +14,8 @@ namespace Factory_Inventory
         private static TwistERP _form;
         private static int _access = -1;
         private static Color _printedcolor=Color.GreenYellow;
+        private static string _connectionstring = "";
+
         public static TwistERP background
         {
             get { return _form; }
@@ -28,6 +30,11 @@ namespace Factory_Inventory
         {
             get { return _printedcolor; }
             set { _printedcolor = value; }
+        }
+        public static string connectionstring
+        {
+            get { return _connectionstring; }
+            set { _connectionstring = value; }
         }
     }
 }

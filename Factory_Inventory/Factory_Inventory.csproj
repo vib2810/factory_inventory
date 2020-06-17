@@ -481,6 +481,12 @@
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectFolderDialogBox.cs" />
+    <Compile Include="setLocalString.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="setLocalString.Designer.cs">
+      <DependentUpon>setLocalString.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrayCalc.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -645,6 +651,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_vouchersUC.resx">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="setLocalString.resx">
+      <DependentUpon>setLocalString.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrayCalc.resx">
       <DependentUpon>TrayCalc.cs</DependentUpon>
