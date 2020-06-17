@@ -176,6 +176,11 @@ namespace Factory_Inventory
                     return;
                 }
                 row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
+                if(string.IsNullOrEmpty(row["Tray_ID_Arr"].ToString()))
+                {
+                    c.ErrorBox("Batch Derived from Redyeing Batch");
+                    return;
+                }
                 this.dgv1_print_index = index;
                 this.dgv2_print_index = -1;
             }
@@ -189,6 +194,11 @@ namespace Factory_Inventory
                     return;
                 }
                 row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
+                if (string.IsNullOrEmpty(row["Tray_ID_Arr"].ToString()))
+                {
+                    c.ErrorBox("Batch Derived from Redyeing Batch");
+                    return;
+                }
                 this.dgv1_print_index = -1;
                 this.dgv2_print_index = index;
             }
