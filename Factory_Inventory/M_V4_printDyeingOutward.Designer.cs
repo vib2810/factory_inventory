@@ -65,7 +65,7 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(990, 288);
+            this.dataGridView1.Size = new System.Drawing.Size(1102, 288);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.Click += new System.EventHandler(this.dataGridView1_Click);
             // 
@@ -92,7 +92,7 @@
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(990, 110);
+            this.dataGridView2.Size = new System.Drawing.Size(1102, 110);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.Click += new System.EventHandler(this.dataGridView2_Click);
             // 
@@ -134,7 +134,7 @@
             // 
             // searchButton
             // 
-            this.searchButton.Location = new System.Drawing.Point(698, 375);
+            this.searchButton.Location = new System.Drawing.Point(512, 378);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(144, 27);
             this.searchButton.TabIndex = 6;
@@ -144,9 +144,9 @@
             // 
             // printButton
             // 
-            this.printButton.Location = new System.Drawing.Point(1009, 269);
+            this.printButton.Location = new System.Drawing.Point(1120, 48);
             this.printButton.Name = "printButton";
-            this.printButton.Size = new System.Drawing.Size(144, 67);
+            this.printButton.Size = new System.Drawing.Size(70, 470);
             this.printButton.TabIndex = 10;
             this.printButton.Text = "Print";
             this.printButton.UseVisualStyleBackColor = true;
@@ -156,7 +156,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1165, 531);
+            this.ClientSize = new System.Drawing.Size(1199, 531);
             this.Controls.Add(this.printButton);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.label4);

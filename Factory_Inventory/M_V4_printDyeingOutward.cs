@@ -60,9 +60,11 @@ namespace Factory_Inventory
             this.dataGridView1.Columns["Net_Weight"].Visible = true;
             this.dataGridView1.Columns["Number_Of_Trays"].Visible = true;
             this.dataGridView1.Columns["Fiscal_Year"].Visible = true;
+            c.auto_adjust_dgv(dataGridView1);
 
-            this.dataGridView1.Columns["Dyeing_Company_Name"].Width = 150;
-            this.dataGridView1.Columns["Dyeing_Out_Date"].Width = 150;
+            //this.dataGridView1.Columns["Dyeing_Company_Name"].Width = 150;
+            //this.dataGridView1.Columns["Dyeing_Out_Date"].Width = 150;
+            //this.dataGridView1.Columns["Quality"].Width = 150;
 
             this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year";
             this.dataGridView1.Columns["Number_Of_Trays"].HeaderText = "Number of Trays";
@@ -142,9 +144,11 @@ namespace Factory_Inventory
                 this.dataGridView2.Columns["Net_Weight"].Visible = true;
                 this.dataGridView2.Columns["Number_Of_Trays"].Visible = true;
                 this.dataGridView2.Columns["Fiscal_Year"].Visible = true;
+                c.auto_adjust_dgv(dataGridView2);
 
-                this.dataGridView2.Columns["Dyeing_Company_Name"].Width = 150;
-                this.dataGridView2.Columns["Dyeing_Out_Date"].Width = 150;
+                //this.dataGridView2.Columns["Dyeing_Company_Name"].Width = 150;
+                //this.dataGridView2.Columns["Dyeing_Out_Date"].Width = 150;
+                //this.dataGridView2.Columns["Quality"].Width = 150;
 
                 this.dataGridView2.Columns["Fiscal_Year"].HeaderText = "Financial Year";
                 this.dataGridView2.Columns["Number_Of_Trays"].HeaderText = "Number of Trays";
