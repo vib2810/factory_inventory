@@ -309,6 +309,8 @@ namespace Factory_Inventory.Factory_Classes
         }
         public DataTable getVoucherHistories(string tablename, string order_by="Voucher_ID", bool full = false)
         {
+            //disables the order_by param
+            order_by = "Voucher_ID";
             DataTable dt = new DataTable(); //this is creating a virtual table  
             try
             {

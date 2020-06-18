@@ -167,6 +167,7 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Sl_No", "Sl No");
             dataGridView1.Columns[0].ReadOnly = true;
             dataGridView1.Columns.Add("Production_Date", "Production Date");
+            dataGridView1.Columns["Production_Date"].ReadOnly = true;
             dataGridView1.Columns.Add("Carton_Number", "Carton Number");
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Grade";
@@ -293,6 +294,7 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Sl_No", "Sl No");
             dataGridView1.Columns[0].ReadOnly = true;
             dataGridView1.Columns.Add("Production_Date", "Production Date");
+            dataGridView1.Columns["Production_Date"].ReadOnly = true;
             dataGridView1.Columns.Add("Carton_Number", "Carton Number");
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Grade";
@@ -1121,19 +1123,21 @@ namespace Factory_Inventory
                 {
                     if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 1)
                     {
-                        int i = dataGridView1.CurrentCell.RowIndex;
-                        int j = dataGridView1.CurrentCell.ColumnIndex;
-                        dtp.Location = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false).Location;
-                        dtp.Visible = true;
+                        //int i = dataGridView1.CurrentCell.RowIndex;
+                        //int j = dataGridView1.CurrentCell.ColumnIndex;
+                        DateTime d;
                         if (dataGridView1.CurrentCell.Value != DBNull.Value)
                         {
-                            dtp.Value = Convert.ToDateTime(dataGridView1.CurrentCell.Value);
+                            d = Convert.ToDateTime(dataGridView1.CurrentCell.Value);
                         }
                         else
                         {
-                            dtp.Value = DateTime.Today;
+                            d = DateTime.Today;
                         }
-                        dtp.Focus();
+                        setDate f = new setDate(d);
+                        f.setMinMax(dtp.MinDate, dtp.MaxDate);
+                        f.ShowDialog();
+                        dataGridView1.CurrentCell.Value = f.result.Date.ToString().Substring(0, 10);
                         e.Handled = true;
                     }
                     else
@@ -1174,20 +1178,20 @@ namespace Factory_Inventory
             {
                 if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 1)
                 {
-                    dtp.Location = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false).Location;
-                    dtp.Visible = true;
+                    //dtp.Location = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false).Location;
+                    //dtp.Visible = true;
+                    DateTime d;
                     if (dataGridView1.CurrentCell.Value != DBNull.Value)
                     {
-                        dtp.Value = Convert.ToDateTime(dataGridView1.CurrentCell.Value);
+                        d = Convert.ToDateTime(dataGridView1.CurrentCell.Value);
                     }
                     else
                     {
-                        dtp.Value = DateTime.Today;
+                        d = DateTime.Today;
                     }
-                }
-                else
-                {
-                    dtp.Visible = false;
+                    setDate f = new setDate(d);
+                    f.ShowDialog();
+                    dataGridView1.CurrentCell.Value = f.dateTimePicker1.Value.Date.ToString().Substring(0, 10);
                 }
             }
             catch (Exception ex)
@@ -1197,17 +1201,17 @@ namespace Factory_Inventory
         }
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
-                if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 1)
-                {
-                    dataGridView1.CurrentCell.Value = dtp.Value.Date.ToString().Substring(0, 10);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("DTP2 Exception " + ex.Message);
-            }
+            //try
+            //{
+            //    if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 1)
+            //    {
+            //        dataGridView1.CurrentCell.Value = dtp.Value.Date.ToString().Substring(0, 10);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("DTP2 Exception " + ex.Message);
+            //}
 
             //Checks for numeric values
             if (e.ColumnIndex == 4 && e.RowIndex >= 0)
