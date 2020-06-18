@@ -58,18 +58,19 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
-            dataSource1.Add("---Select---");
-
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][3].ToString());
+                input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
             }
-            this.comboBox1CB.DataSource = dataSource1;
+            List<string> final_list = input_qualities.Distinct().ToList();
+            this.comboBox1CB.DataSource = final_list;
             this.comboBox1CB.DisplayMember = "Quality";
             this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            //this.comboBox1.
+
             var dataSource2 = new List<string>();
             DataTable d2 = c.getQC('c');
             dataSource2.Add("---Select---");
@@ -128,13 +129,14 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
-            dataSource1.Add("---Select---");
-
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][3].ToString());
+                input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
             }
-            this.comboBox1CB.DataSource = dataSource1;
+            List<string> final_list = input_qualities.Distinct().ToList();
+            this.comboBox1CB.DataSource = final_list;
             this.comboBox1CB.DisplayMember = "Quality";
             this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;

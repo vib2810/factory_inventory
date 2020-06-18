@@ -55,10 +55,12 @@ namespace Factory_Inventory
             dt.Columns.Add("Spring Wt");
             dt.Columns.Add("Net Wt");
             float net_wt = 0F;
+            int total_springs = 0;
             for (int i=0; i<tray_ids.Length; i++)
             {
                 DataTable dtemp= c.getTrayTable_TrayID(int.Parse(tray_ids[i]));
-                float spring_wt = c.getSpringWeight(dtemp.Rows[0]["Spring"].ToString())*int.Parse(dtemp.Rows[0]["Number_Of_Springs"].ToString());
+                int no_of_springs= int.Parse(dtemp.Rows[0]["Number_Of_Springs"].ToString());
+                float spring_wt = c.getSpringWeight(dtemp.Rows[0]["Spring"].ToString()) * no_of_springs;
                 float gross_wt = float.Parse(dtemp.Rows[0]["Gross_Weight"].ToString());
                 float tray_wt= float.Parse(dtemp.Rows[0]["Net_Weight"].ToString());
                 if (row["Dyeing_Company_Name"].ToString() == "Ichalkaranji Textiles Pvt Ltd")
@@ -67,11 +69,12 @@ namespace Factory_Inventory
                     tray_wt -= 1.25F;
                 }
                 net_wt += tray_wt;
+                total_springs += no_of_springs;
                 dt.Rows.Add(i+1, dtemp.Rows[0]["Tray_No"].ToString(), gross_wt, dtemp.Rows[0]["Tray_Tare"].ToString(), dtemp.Rows[0]["Machine_No"].ToString(), dtemp.Rows[0]["Number_of_Springs"].ToString(), spring_wt, tray_wt);
             }
             this.netwtTextbox.Text = net_wt.ToString("F3");
 
-            dt.Rows.Add("", "", "", "", "", "", "Net Weight", net_wt);
+            dt.Rows.Add("", "", "", "", "Total Springs", total_springs, "Net Weight", net_wt);
             dataGridView1.DataSource = dt;
             int weight_width = 100;
             dataGridView1.Columns["Sl No"].Width = 70;

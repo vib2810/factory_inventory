@@ -3951,23 +3951,37 @@ namespace Factory_Inventory.Factory_Classes
 
             redyeing = old_batch_row["Batch_No"].ToString() + "," + old_batch_row["Fiscal_Year"].ToString() + ";";
 
-            bool added1 = true;
+            bool added1 = false;
             if (full == false)
             {
-                added1 = addRDBatch(NRD_batch_no, old_batch_row["Colour"].ToString(), old_batch_row["Dyeing_Company_Name"].ToString(), dyeing_out_date, null, NRD_batch_weight, old_batch_row["Quality"].ToString(), old_batch_row["Company_Name"].ToString(), 0, float.Parse(old_batch_row["Dyeing_Rate"].ToString()), this.getFinancialYear(dtissueDate), dyeing_in_date, 2, bill_no, bill_date, slip_no, redyeing, old_batch_row["Grade"].ToString(), int.Parse(dtt.Rows[0][0].ToString()));
+                added1 = addRDBatch(NRD_batch_no, old_batch_row["Colour"].ToString(), old_batch_row["Dyeing_Company_Name"].ToString(), dyeing_out_date, null, NRD_batch_weight, old_batch_row["Quality"].ToString(), old_batch_row["Company_Name"].ToString(), 0, float.Parse(old_batch_row["Dyeing_Rate"].ToString()), old_batch_row["Fiscal_Year"].ToString(), dyeing_in_date, 2, bill_no, bill_date, slip_no, redyeing, old_batch_row["Grade"].ToString(), int.Parse(dtt.Rows[0][0].ToString()));
             }
+            else added1 = true;
             bool added2 = addRDBatch(RD_batch_no, RD_colour, old_batch_row["Dyeing_Company_Name"].ToString(), issue_date, tray_ids, RD_batch_weight, old_batch_row["Quality"].ToString(), old_batch_row["Company_Name"].ToString(), trays.Rows.Count, RD_rate, this.getFinancialYear(dtissueDate), null, 1, -1, null, null, redyeing, old_batch_row["Grade"].ToString(), int.Parse(dtt.Rows[0][0].ToString()));
             if (added1 == false || added2 == false)
             {
+                this.ErrorBox("Could not add batches. Please contact technical team");
                 return false;
             }
-            int max = Math.Max(NRD_batch_no, RD_batch_no);
-            SqlDataAdapter adapter1 = new SqlDataAdapter();
-            con.Open();
-            sql = "UPDATE Fiscal_Year SET Highest_Batch_No=" + max + " WHERE Fiscal_Year='" + this.getFinancialYear(dtissueDate) + "'";
-            adapter1.InsertCommand = new SqlCommand(sql, con);
-            adapter1.InsertCommand.ExecuteNonQuery();
-            con.Close();
+            if(this.getFinancialYear(dtissueDate) == old_batch_row["Fiscal_Year"].ToString())
+            {
+                int max = Math.Max(NRD_batch_no, RD_batch_no);
+                SqlDataAdapter adapter1 = new SqlDataAdapter();
+                con.Open();
+                sql = "UPDATE Fiscal_Year SET Highest_Batch_No=" + max + " WHERE Fiscal_Year='" + this.getFinancialYear(dtissueDate) + "'";
+                adapter1.InsertCommand = new SqlCommand(sql, con);
+                adapter1.InsertCommand.ExecuteNonQuery();
+                con.Close();
+            }
+            else
+            {
+                SqlDataAdapter adapter1 = new SqlDataAdapter();
+                con.Open();
+                sql = "UPDATE Fiscal_Year SET Highest_Batch_No=" + RD_batch_no + " WHERE Fiscal_Year='" + this.getFinancialYear(dtissueDate) + "'; UPDATE Fiscal_Year SET Highest_Batch_No=" + NRD_batch_no + " WHERE Fiscal_Year='" + old_batch_row["Fiscal_Year"].ToString() + "';";
+                adapter1.InsertCommand = new SqlCommand(sql, con);
+                adapter1.InsertCommand.ExecuteNonQuery();
+                con.Close();
+            }
             this.SuccessBox("Voucher Added Successfully");
             return true;
         }
@@ -4011,9 +4025,11 @@ namespace Factory_Inventory.Factory_Classes
             {
                 edited1 = editRDBatch(int.Parse(non_redyeing_batch["Batch_No"].ToString()), non_redyeing_batch["Fiscal_Year"].ToString(), NRD_Batch_Weight, null, 0, null, -1F);
             }
+            else edited1 = true;
             bool edited2 = editRDBatch(int.Parse(redyeing_batch["Batch_No"].ToString()), redyeing_batch["Fiscal_Year"].ToString(), RD_Batch_Weight, tray_ids, trays.Rows.Count, colour, dyeing_rate);
             if (edited1 == false || edited2 == false)
             {
+                this.ErrorBox("Error in editing Batches. Please contact technical team");
                 return false;
             }
             this.SuccessBox("Voucher Edited Successfully");
@@ -5243,8 +5259,8 @@ namespace Factory_Inventory.Factory_Classes
             return dt;
         }
 
-        }
-
-
     }
+
+
+}
 
