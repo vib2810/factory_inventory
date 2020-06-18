@@ -22,7 +22,6 @@ namespace Factory_Inventory
         private M_V_history v1_history;
         private bool edit_form = false;
         private int voucher_id;
-        private string highest_batch_no;
         private DataRow redyeing_batch, non_redyeing_batch;
         //Form functions
         public M_V3_issueToReDyeingForm()
@@ -77,7 +76,6 @@ namespace Factory_Inventory
             this.batchNoCB.SelectedIndex = 1;
             load_batch();
 
-            
             this.redyeing_batch = c.getBatchRow_BatchNo(int.Parse(row["Redyeing_Batch_No"].ToString()), row["Redyeing_Batch_Fiscal_Year"].ToString());
             this.non_redyeing_batch = null;
             float non_redyeing_wt = -1F;
@@ -85,7 +83,7 @@ namespace Factory_Inventory
             
             if (row["Non_Redyeing_Batch_No"].ToString() != "-1")
             {
-                non_redyeing_batch = c.getBatchRow_BatchNo(int.Parse(row["Non_Redyeing_Batch_No"].ToString()), row["Redyeing_Batch_Fiscal_Year"].ToString());
+                non_redyeing_batch = c.getBatchRow_BatchNo(int.Parse(row["Non_Redyeing_Batch_No"].ToString()), row["Old_Batch_Fiscal_Year"].ToString());
                 non_redyeing_wt= float.Parse(batchWeightTB.Text) - float.Parse(redyeing_batch["Net_Weight"].ToString());
                 non_redyeing_batch_no= row["Non_Redyeing_Batch_No"].ToString();
             }
@@ -364,12 +362,19 @@ namespace Factory_Inventory
                 c.ErrorBox("Please Select Batch Number", "Error");
                 return;
             }
-            load_batch(); 
-            if(this.edit_form==false)
+            load_batch();
+            string fiscal_year = c.getFinancialYear(this.issueDateDTP.Value);
+            if (this.edit_form==false)
             {
-                this.redyeingBatchNoTB.Text = this.highest_batch_no = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(this.issueDateDTP.Value));
-                this.nonRedyeingBatchNoTB.Text = (int.Parse(this.redyeingBatchNoTB.Text) + 1).ToString();
-                
+                this.redyeingBatchNoTB.Text = c.getNextNumber_FiscalYear("Highest_Batch_No", c.getFinancialYear(this.issueDateDTP.Value));
+                if (fiscal_year == c.repeated_batch_csv(this.batchNoCB.Text)[1])
+                {
+                    this.nonRedyeingBatchNoTB.Text = (int.Parse(this.redyeingBatchNoTB.Text) + 1).ToString();
+                }
+                else
+                {
+                    this.nonRedyeingBatchNoTB.Text = c.getNextNumber_FiscalYear("Highest_Batch_No", c.repeated_batch_csv(this.batchNoCB.Text)[1]);
+                }
             }
             this.redyeingColourCB.Enabled = true;
             this.rateTextBoxTB.ReadOnly = false;
@@ -393,7 +398,6 @@ namespace Factory_Inventory
             this.redyeingColourCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.redyeingColourCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            string fiscal_year = c.getFinancialYear(this.issueDateDTP.Value);
             List<int> years = c.getFinancialYearArr(fiscal_year);
             this.issueDateDTP.MinDate = new DateTime(years[0], 04, 01);
             this.issueDateDTP.MaxDate = new DateTime(years[1], 03, 31);
@@ -563,12 +567,5 @@ namespace Factory_Inventory
                 //dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
-       
-        
-       
-        
-       
-        
-        
     }
 }

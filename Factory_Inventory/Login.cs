@@ -1,4 +1,5 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,20 +31,51 @@ namespace Factory_Inventory
         public Login()
         {
             InitializeComponent();
+            if(Properties.Settings.Default.localState == true)
+            {
+                this.checkBox1.Checked = true;
+                this.iptextbox.BackColor = Color.SandyBrown;
+            }
+            else
+            {
+                this.checkBox1.Checked = false;
+            }
             this.c = new DbConnect();
-            this.iptextbox.Text = "Default (" + Properties.Settings.Default.LastIP+")";
+            if (Properties.Settings.Default.LastIP=="-1")
+            {
+                this.iptextbox.Text = "Local";
+            }
+            else this.iptextbox.Text = Properties.Settings.Default.LastIP + ": Default";
             this.FormClosing += new FormClosingEventHandler(Login_FormClosing);
             this.CenterToScreen();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (this.iptextbox.Text.StartsWith("Default")!=true)
+            bool properties_changed = false;
+            string[] split = this.iptextbox.Text.Split(':');
+            if(this.checkBox1.Checked==true)
             {
-                Console.WriteLine("setting: " + this.iptextbox.Text.Replace(" ", ""));
-                Properties.Settings.Default.LastIP = this.iptextbox.Text.Replace(" ", ""); ;
-                Properties.Settings.Default.Save();
+                Global.connectionstring = Properties.Settings.Default.LocalConnectionString;
             }
+            else
+            {
+                split[0] = split[0].Replace(" ", "");
+                string con = "Data Source=" + split[0] + ", 1433;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;";
+                if(split[0] != Properties.Settings.Default.LastIP)
+                {
+                    Properties.Settings.Default.LastIP = split[0];
+                    properties_changed = true;
+                    Properties.Settings.Default.Save();
+                }
+                Global.connectionstring = con;
+             }
+            if(Properties.Settings.Default.localState != this.checkBox1.Checked)
+            {
+                Properties.Settings.Default.localState = this.checkBox1.Checked;
+                properties_changed = true;
+            }
+            if (properties_changed == true) Properties.Settings.Default.Save();
             this.c = new DbConnect();
             this.access=this.c.checkLogin(textBox1.Text, textBox2.Text);
             if(access==1 || access==2)
@@ -82,6 +114,26 @@ namespace Factory_Inventory
             {
                 c.buttonEvent(button);
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBox1.Checked == false)
+            {
+                this.iptextbox.ReadOnly = false;
+                this.iptextbox.BackColor = Color.White;
+            }
+            else
+            {
+                this.iptextbox.ReadOnly = true;
+                this.iptextbox.BackColor = Color.SandyBrown;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            setLocalString f = new setLocalString();
+            f.ShowDialog();
         }
     }
 }

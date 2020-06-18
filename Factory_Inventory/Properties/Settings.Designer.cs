@@ -23,28 +23,6 @@ namespace Factory_Inventory.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.1.12, 1433;Initial Catalog=FactoryData;User ID=sa;Password=Kd" +
-            "vghr2810@")]
-        public string FactoryInventoryConnectionString {
-            get {
-                return ((string)(this["FactoryInventoryConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-MOUBPNG\\MSSQLSERVER2019;Initial Catalog=FactoryData;User ID=s" +
-            "a;Password=Kdvghr2810@")]
-        public string FactoryDataConnectionString {
-            get {
-                return ((string)(this["FactoryDataConnectionString"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.12")]
@@ -54,6 +32,30 @@ namespace Factory_Inventory.Properties {
             }
             set {
                 this["LastIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LocalConnectionString {
+            get {
+                return ((string)(this["LocalConnectionString"]));
+            }
+            set {
+                this["LocalConnectionString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool localState {
+            get {
+                return ((bool)(this["localState"]));
+            }
+            set {
+                this["localState"] = value;
             }
         }
     }

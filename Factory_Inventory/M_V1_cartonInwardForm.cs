@@ -72,18 +72,23 @@ namespace Factory_Inventory
 
             this.billDateChanged = false;
             DataTable d1 = c.getQC('q');
-
+            List<string> input_qualities = new List<string>();
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataGridView2.Rows.Add(d1.Rows[i]["Quality_Before_Twist"].ToString(),"", "");
+                input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
+            }
+            List<string> final_list = input_qualities.Distinct().ToList();
+            for (int i = 0; i < final_list.Count; i++)
+            {
+                dataGridView2.Rows.Add(final_list[i],"", "");
             }
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Quality";
             dgvCmb.Items.Add("---Select---");
-            for (int i = 0; i < d1.Rows.Count; i++)
+            for (int i = 0; i < final_list.Count; i++)
             {
-                dgvCmb.Items.Add(d1.Rows[i][3].ToString());
+                dgvCmb.Items.Add(final_list[i]);
             }
             dgvCmb.Name = "Quality";
             dataGridView1.Columns.Insert(1, dgvCmb);

@@ -148,7 +148,7 @@ namespace Factory_Inventory
                 }
                 DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
                 batch_no = int.Parse(row["Batch_No"].ToString());
-                voucher_id = int.Parse(row["Voucher_ID"].ToString());
+                voucher_id = int.Parse(row["Production_Voucher_ID"].ToString());
             }
             if (dataGridView2.SelectedRows.Count > 0)
             {
@@ -161,7 +161,7 @@ namespace Factory_Inventory
                 }
                 DataRow row = (dataGridView2.Rows[index].DataBoundItem as DataRowView).Row;
                 batch_no = int.Parse(row["Batch_No"].ToString());
-                voucher_id = int.Parse(row["Voucher_ID"].ToString());
+                voucher_id = int.Parse(row["Production_Voucher_ID"].ToString());
             }
             if (batch_no == -1 || voucher_id == -1)
             {

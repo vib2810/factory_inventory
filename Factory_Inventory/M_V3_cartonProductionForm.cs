@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Forms;
@@ -75,7 +76,7 @@ namespace Factory_Inventory
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
         Dictionary<Tuple<string, string>, DataRow> batch_data = new Dictionary<Tuple<string, string>, DataRow>();
         DataTable dt;
-        DateTimePicker dtp;
+        DateTimePicker dtp = new DateTimePicker();
         public M_V3_cartonProductionForm()
         {
             InitializeComponent();
@@ -418,14 +419,16 @@ namespace Factory_Inventory
                 full_batch_nos.Add(temp_batch_no_arr[i]);
                 this.batch_fiscal_year_list.Add(batch_fiscal_year_arr[i]);
             }
-            
-            this.loadData();
+            string today_fiscal_year = c.getFinancialYear(DateTime.Now);
+            List<int> minmax_years = c.getFinancialYearArr(this.financialYearComboboxCB.Text);
+            this.loadData(today_fiscal_year, minmax_years);
             for(int i=0;i<temp_batch_no_arr.Length;i++)
             {
                 Tuple<string, string> temp = new Tuple<string, string>(temp_batch_no_arr[i], batch_fiscal_year_arr[i]);
                 DataTable batch_row = c.getTableData("Batch", "*", "Batch_No = " + temp_batch_no_arr[i] + " AND Fiscal_Year = '" + batch_fiscal_year_arr[i] + "'");
                 this.batch_data.Add(temp, batch_row.Rows[i]);
             }
+
             for (int i = 0; i < this.batch_nos.Count; i++)
             {
                 this.show_batches.Add(this.batch_nos[i]);
@@ -453,11 +456,9 @@ namespace Factory_Inventory
             this.nextcartonnoTB.Text = this.highest_carton_no.ToString();
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
-
         }
         private void M_V3_cartonProductionForm_Load(object sender, EventArgs e)
         {
-            dtp = new DateTimePicker();
             dtp.Format = DateTimePickerFormat.Short;
             dtp.Visible = false;
             dtp.Width = 100;
@@ -546,7 +547,7 @@ namespace Factory_Inventory
             this.coneComboboxCB.Enabled = false;
             this.closedCheckboxCK.Enabled = false;
         }
-        private bool loadData()
+        private bool loadData(string today_fiscal_year, List<int> minmax_years)
         {
             this.dt = c.getTableData("Batch", "*", "Batch_State = 2 AND Colour = '"+colourComboboxCB.SelectedItem.ToString()+"' AND Dyeing_Company_Name = '"+dyeingCompanyComboboxCB.SelectedItem.ToString()+"'AND Quality = '"+qualityComboboxCB.SelectedItem.ToString()+"'");
             for(int i=0;i<dt.Rows.Count;i++)
@@ -578,6 +579,20 @@ namespace Factory_Inventory
             if (this.edit_form == false)
             {
                 c.SuccessBox("Loaded " + dt.Rows.Count.ToString() + " Batches");
+            }
+
+            this.dtp.MinDate = new DateTime(minmax_years[0], 04, 01);
+            if (today_fiscal_year == this.financialYearComboboxCB.Text)
+            {
+                this.dtp.MaxDate = this.inputDate.Value;
+                if(this.edit_form == true)
+                {
+                    this.dtp.MaxDate = DateTime.Now;
+                }
+            }
+            else
+            {
+                this.dtp.MaxDate = new DateTime(minmax_years[1], 03, 31);
             }
             return true;
         }
@@ -928,7 +943,7 @@ namespace Factory_Inventory
                 c.ErrorBox("You cannot select Carton Financial Year in the future");
                 return;
             }
-            bool loaded =this.loadData();
+            bool loaded =this.loadData(today_fiscal_year, minmax_years);
             if (loaded == false && this.edit_form==false) return;
             //Set the first date in form
             string current_fiscal_year = c.getFinancialYear(DateTime.Now);
@@ -956,16 +971,6 @@ namespace Factory_Inventory
             this.dyeingCompanyComboboxCB.Enabled = false;
             this.saveButton.Enabled = true;
             this.dataGridView1.Enabled = true;
-
-            this.dtp.MinDate = new DateTime(minmax_years[0], 04, 01);
-            if(today_fiscal_year == this.financialYearComboboxCB.Text)
-            {
-                this.dtp.MaxDate = this.inputDate.Value;
-            }
-            else
-            {
-                this.dtp.MaxDate = new DateTime(minmax_years[1], 03, 31);
-            }
             
         }
         private void coneCombobox_SelectedIndexChanged(object sender, EventArgs e)

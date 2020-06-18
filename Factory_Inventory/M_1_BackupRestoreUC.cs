@@ -11,6 +11,7 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using MyCoolCompany.Shuriken;
 using Factory_Inventory.Factory_Classes;
+using System.Data.SqlClient;
 
 namespace Factory_Inventory
 {
@@ -61,7 +62,8 @@ namespace Factory_Inventory
             progressBar1.Value = 0;
             try
             {
-                Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
+               // Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
                 string backup_location = this.backupLoactionTB.Text + this.database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/','-') + ")" + ".bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
@@ -79,14 +81,6 @@ namespace Factory_Inventory
 
         private void browseButton_Click(object sender, EventArgs e)
         {
-            //FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-            //folderDlg.ShowNewFolderButton = true; 
-            //DialogResult result = folderDlg.ShowDialog();
-            //if (result == DialogResult.OK)
-            //{
-            //    this.backupLoactionTB.Text = folderDlg.SelectedPath+ @"\FactoryData.bak";
-            //    Environment.SpecialFolder root = folderDlg.RootFolder;
-            //}
             var dialog = new FolderSelectDialog
             {
                 InitialDirectory = @"D:\",
@@ -132,7 +126,8 @@ namespace Factory_Inventory
             }
             try
             {
-                Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
+                //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database };
                 string s = this.restoreLocationTB.Text;
                 string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + "restorebackup.bak";
@@ -149,8 +144,8 @@ namespace Factory_Inventory
             progressBar2.Value = 0;
             try
             {
-
-                Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP +", 1433", "sa", "Kdvghr2810@"));
+                //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP +", 1433", "sa", "Kdvghr2810@"));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
                 Database db = dbServer.Databases[this.database];
                 dbServer.KillAllProcesses(db.Name);
                 db.DatabaseOptions.UserAccess = DatabaseUserAccess.Multiple;

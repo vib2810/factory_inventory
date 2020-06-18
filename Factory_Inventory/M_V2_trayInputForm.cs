@@ -28,7 +28,7 @@ namespace Factory_Inventory
         public DataGridView issuesource = new DataGridView();
         private bool edit_reyeing_tray = false;
         private int edit_redyeing_tray_index;
-        
+        private string edit_redyeing_old_tray_no="";
         //Form functions
         public M_V2_trayInputForm()
         {
@@ -350,7 +350,11 @@ namespace Factory_Inventory
 
 
             if (production_date != null) this.dateTimePickerDTP.Value = this.dateTimePickerDTP.Value = Convert.ToDateTime(production_date);
-            if (tray_no != null) this.trayNumberTB.Text = tray_no;
+            if (tray_no != null)
+            {
+                this.trayNumberTB.Text = tray_no;
+                this.edit_redyeing_old_tray_no = tray_no;
+            }
             if (spring != null) this.springCB.SelectedIndex = this.springCB.FindStringExact(spring);
             if (no_of_springs != -1) this.numberOfSpringsTB.Text = no_of_springs.ToString();
             if (tray_tare != -1F) this.traytareTB.Text = tray_tare.ToString();
@@ -622,8 +626,23 @@ namespace Factory_Inventory
                 DataTable dttray = c.getTableRows("Tray_Active", "Tray_No='" + row["Tray No"].ToString() + "'");
                 if(dttray.Rows.Count!=0)
                 {
-                    c.ErrorBox("Tray number "+row["Tray No"].ToString()+" is already in use", "Error");
-                    return;
+                    if(this.edit_reyeing_tray==true)
+                    {
+                        if (dttray.Rows[0]["Tray_No"].ToString() == this.edit_redyeing_old_tray_no)
+                        {
+                            //allowed
+                        }
+                        else
+                        {
+                            c.ErrorBox("Tray number " + row["Tray No"].ToString() + " is already in use", "Error");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        c.ErrorBox("Tray number " + row["Tray No"].ToString() + " is already in use", "Error");
+                        return;
+                    }
                 }
                 if(this.edit_reyeing_tray == true)
                 {
