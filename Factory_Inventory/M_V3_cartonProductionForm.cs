@@ -73,6 +73,7 @@ namespace Factory_Inventory
         private List<string> batch_fiscal_year_list; //Stroes fiscal year of batches during edit only
         private List<string> show_batches; //Stores the batches in fiscal year format only during edit mode
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
+        Dictionary<Tuple<string, string>, DataRow> batch_data = new Dictionary<Tuple<string, string>, DataRow>();
         DataTable dt;
         DateTimePicker dtp;
         public M_V3_cartonProductionForm()
@@ -362,11 +363,17 @@ namespace Factory_Inventory
             }
 
             string[] produced_cartons = c.csvToArray(row["Carton_No_Production_Arr"].ToString());
-            dataGridView1.RowCount= produced_cartons.Length + 1;
+            Dictionary<string, DataRow> carton_dict = new Dictionary<string, DataRow>();
+            DataTable carton_info = c.getTableData("Carton_Produced", "*", "Carton_No IN (" + c.removecom(row["Carton_No_Production_Arr"].ToString()) + ") AND Fiscal_Year = '" + row["Carton_Fiscal_Year"].ToString() + "'");
+            for(int i=0;i<carton_info.Rows.Count;i++)
+            {
+                carton_dict.Add(carton_info.Rows[i]["Carton_No"].ToString(), carton_info.Rows[i]);
+            }
+            dataGridView1.RowCount = produced_cartons.Length + 1;
             bool flag = false;
             for (int i = 0; i < produced_cartons.Length; i++)
             {
-                DataRow carton_row = c.getProducedCartonRow(produced_cartons[i], row["Carton_Fiscal_Year"].ToString());
+                DataRow carton_row = carton_dict[produced_cartons[i]];
                 if (carton_row == null)
                 {
                     continue;
@@ -413,9 +420,14 @@ namespace Factory_Inventory
             }
             
             this.loadData();
+            for(int i=0;i<temp_batch_no_arr.Length;i++)
+            {
+                Tuple<string, string> temp = new Tuple<string, string>(temp_batch_no_arr[i], batch_fiscal_year_arr[i]);
+                DataTable batch_row = c.getTableData("Batch", "*", "Batch_No = " + temp_batch_no_arr[i] + " AND Fiscal_Year = '" + batch_fiscal_year_arr[i] + "'");
+                this.batch_data.Add(temp, batch_row.Rows[i]);
+            }
             for (int i = 0; i < this.batch_nos.Count; i++)
             {
-                Console.WriteLine("============" + this.batch_nos[i]);
                 this.show_batches.Add(this.batch_nos[i]);
                 full_batch_nos.Add(this.batch_nos[i]);
                 this.batch_fiscal_year_list.Add(this.dt.Rows[i]["Fiscal_Year"].ToString());
@@ -488,11 +500,33 @@ namespace Factory_Inventory
                 c.buttonEvent(button);
             }
 
+            this.dtp.ValueChanged += new System.EventHandler(this.dtp_ValueChanged);
+            this.dtp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dtp_keydown);
             this.colourComboboxCB.Focus();
             if (Global.access == 2)
             {
                 this.deleteButton.Visible = false;
             }
+        }
+
+        private void dtp_keydown(object sender, EventArgs e)
+        {
+            try
+            {
+                Console.WriteLine(dataGridView1.CurrentCell.RowIndex.ToString() + " llllll " + dataGridView1.CurrentCell.ColumnIndex);
+                if (dtp.Focused && dataGridView1.CurrentCell.ColumnIndex == 1)
+                {
+                    //c.SuccessBox("Changed dtp");
+                    Console.WriteLine("SETTING is " + dtp.Value.Date.ToString().Substring(0, 10));
+
+                    dataGridView1.CurrentCell.Value = dtp.Value.Date.ToString().Substring(0, 10);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DTP2 Exception " + ex.Message);
+            }
+            Console.WriteLine("The value is " +dtp.Value.Date.ToString().Substring(0, 10));
         }
 
         //user
@@ -514,7 +548,12 @@ namespace Factory_Inventory
         }
         private bool loadData()
         {
-            this.dt = c.getBatchFiscalYearWeight_StateDyeingCompanyColourQuality(2, dyeingCompanyComboboxCB.SelectedItem.ToString(), colourComboboxCB.SelectedItem.ToString(), qualityComboboxCB.SelectedItem.ToString());
+            this.dt = c.getTableData("Batch", "*", "Batch_State = 2 AND Colour = '"+colourComboboxCB.SelectedItem.ToString()+"' AND Dyeing_Company_Name = '"+dyeingCompanyComboboxCB.SelectedItem.ToString()+"'AND Quality = '"+qualityComboboxCB.SelectedItem.ToString()+"'");
+            for(int i=0;i<dt.Rows.Count;i++)
+            {
+                Tuple<string, string> temp = new Tuple<string, string>(dt.Rows[i]["Batch_No"].ToString(), dt.Rows[i]["Fiscal_Year"].ToString());
+                this.batch_data.Add(temp, dt.Rows[i]);
+            }
             List<string> batch_no_arr = new List<string>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -782,7 +821,7 @@ namespace Factory_Inventory
             }
             if (this.edit_form == false)
             {
-                bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), grades);
+                bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), grades, batch_data);
                 if (added == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -792,7 +831,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable);
+                bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable, batch_data);
                 if (edited == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
@@ -1293,95 +1332,15 @@ namespace Factory_Inventory
                 {
                     return;
                 }
-                string batch = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
-                int index = -1;
-                if (this.edit_form == false)
+                if(c.check_if_batch_repeated(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString()))
                 {
-                    for (int i = 0; i < this.batch_nos.Count; i++)
-                    {
-                        if (this.batch_nos[i] == batch)
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
+                    string[] batch = c.repeated_batch_csv(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    Tuple<string, string> temp = new Tuple<string, string>(batch[0], batch[1]);
+                    dataGridView2.Rows[e.RowIndex].Cells[2].Value = batch_data[temp]["Net_Weight"].ToString();
+                    batchnwtTextbox.Text = CellSum2(2).ToString("F3");
                 }
-                else
-                {
-                    for (int i = 0; i < this.show_batches.Count; i++)
-                    {
-                        if (this.show_batches[i] == batch)
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
-                }
-                if (index != -1)
-                {
-                    if (this.edit_form == false)
-                    {
-                        dataGridView2.Rows[e.RowIndex].Cells[2].Value = this.dt.Rows[index]["Net_Weight"].ToString();
-                    }
-                    else
-                    {
-                        int batch_no;
-                        if (c.check_if_batch_repeated(batch))
-                        {
-                            string[] temp = c.repeated_batch_csv(batch);
-                            batch_no = int.Parse(temp[0]);
-                        }
-                        else
-                        {
-                            batch_no = int.Parse(batch);
-                        }
-                        dataGridView2.Rows[e.RowIndex].Cells[2].Value = c.getColumnBatchNo("Net_Weight", batch_no, this.batch_fiscal_year_list[index]);
-                    }
-                }
-                batchnwtTextbox.Text = CellSum2(2).ToString("F3");
             }
         }
-
-        private void dynamicEditableLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void oilGainTextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void closedCheckboxCK_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
@@ -1390,5 +1349,29 @@ namespace Factory_Inventory
             }
         }
 
+        private void oilGainTextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void closedCheckboxCK_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtp_ValueChanged(object sender, EventArgs e)
+        {
+            //try
+            //{
+            //    if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 1)
+            //    {
+            //        c.SuccessBox("Changed dtp");
+            //        dataGridView1.CurrentCell.Value = dtp.Value.Date.ToString().Substring(0, 10);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("DTP2 Exception " + ex.Message);
+            //}
+        }
     }
 }

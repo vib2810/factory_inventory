@@ -30,10 +30,6 @@ namespace Factory_Inventory.Factory_Classes
         public SqlConnection con;
         public DateTime loginTime;
         private string useractive;
-        public struct pair
-        {
-            public string batch_no, fiscal_year;
-        };
         public DbConnect()
         {
             //Connection string for Gaurang's Laptop
@@ -1316,7 +1312,9 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT " + cols + " FROM " + tablename + " WHERE " + where, con);
+                string sql = "SELECT " + cols + " FROM " + tablename + " WHERE " + where;
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
+                Console.WriteLine(sql);
                 sda.Fill(dt);
             }
             catch (Exception e)
@@ -4154,7 +4152,7 @@ namespace Factory_Inventory.Factory_Classes
         }
 
         //Carton Production Voucher
-        public bool addCartonProductionVoucher(DateTime dtinputDate, string colour, string quality, string dyeingCompany, string carton_financialYear, string cone_weight, string production_dates, string carton_nos, string gross_weights, string carton_weights, string number_of_cones, string net_weights, string batch_nos, int closed, float net_batch_weight, float carton_net_weight, string grades_arr)
+        public bool addCartonProductionVoucher(DateTime dtinputDate, string colour, string quality, string dyeingCompany, string carton_financialYear, string cone_weight, string production_dates, string carton_nos, string gross_weights, string carton_weights, string number_of_cones, string net_weights, string batch_nos, int closed, float net_batch_weight, float carton_net_weight, string grades_arr, Dictionary<Tuple<string, string>, DataRow> batch_data)
         {
             string fiscal_year = this.getFinancialYear(dtinputDate);
             string inputDate = dtinputDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -4190,31 +4188,29 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
 
-            //Store batch number and respective fiscal years in batches list
-            List<pair> batches = new List<pair>();
-            for (int i = 0; i < tempBatchNos.Length; i++)
+            //Store batch number and respective fiscal years in batches list and get min dyeing inward date
+            DateTime max_dyeing_inward = DateTime.MinValue;
+            List<Tuple<string, string> > batches = new List<Tuple<string, string> >();
+            int batch_index=-1;
+            int index = -1;
+            string Dyeing_In_Date = "";
+            foreach (KeyValuePair<Tuple<string, string>, DataRow> entry in batch_data)
             {
-                if (this.check_if_batch_repeated(tempBatchNos[i]))
+                index++;
+                batches_to_add += entry.Key.Item1+",";
+                batches_fiscal_years += entry.Key.Item2 + ",";
+                batches.Add(entry.Key);
+                Dyeing_In_Date = entry.Value["Dyeing_In_Date"].ToString().Substring(0, 10);
+                Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
+                Console.WriteLine(Dyeing_In_Date);
+                DateTime dyeing_inward_date = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                if (dyeing_inward_date > max_dyeing_inward)
                 {
-                    string[] temp = this.repeated_batch_csv(tempBatchNos[i]);
-                    pair thisbatch = new pair();
-                    thisbatch.batch_no = temp[0];
-                    thisbatch.fiscal_year = temp[1];
-                    batches.Add(thisbatch);
-                    batches_to_add += temp[0] + ",";
-                    batches_fiscal_years += temp[1] + ",";
-                }
-                else
-                {
-                    pair thisbatch = new pair();
-                    thisbatch.batch_no = tempBatchNos[i];
-                    thisbatch.fiscal_year = this.getFiscalYear_BatchNoState(tempBatchNos[i], 2);
-                    batches.Add(thisbatch);
-                    batches_to_add += tempBatchNos[i] + ",";
-                    batches_fiscal_years += thisbatch.fiscal_year + ",";
+                    max_dyeing_inward = dyeing_inward_date;
+                    batch_index = index;
                 }
             }
-
+            
             //Check if future entry is not being done and get highest carton number
             int max_carton_no = int.Parse(cartonNos[0]);
             for (int i = 0; i < productionDates.Length; i++)
@@ -4231,7 +4227,7 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
 
-            //Get Max carton production dates
+            //Get Max and min carton production dates
             DateTime max = DateTime.Parse(productionDates[0]);
             DateTime min = DateTime.Parse(productionDates[0]);
             bool addDate = false;
@@ -4239,6 +4235,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 addDate = true;
             }
+            int min_index = 0;
             for (int i = 1; i < productionDates.Length; i++)
             {
                 DateTime temp = DateTime.Parse(productionDates[i]);
@@ -4249,9 +4246,18 @@ namespace Factory_Inventory.Factory_Classes
                 if (temp < min)
                 {
                     min = temp;
+                    min_index = i;
                 }
             }
             string min_date = min.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+            Console.WriteLine(batch_index);
+            //Check if max dyeing inward date <= min production date
+            if (max_dyeing_inward > min)
+            {
+                this.ErrorBox("Carton Number " + cartonNos[min_index] + " at row " + (min_index + 1).ToString() + " has Date of Production ("+ min.Date.ToString("dd-MM-yyyy").Substring(0, 10)+") less than Dyeing Inward Date ("+Dyeing_In_Date+") of Batch " + batches[batch_index].Item1 + " (" + batches[batch_index].Item2 + ")");
+                return false;
+            }
+
             try
             {
                 con.Open();
@@ -4324,7 +4330,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public bool sendBatch_StateVoucherIDProductionDate(pair batch, int state, int voucher_id, DateTime max, bool addDate, DateTime min)
+        public bool sendBatch_StateVoucherIDProductionDate(Tuple<string, string> batch, int state, int voucher_id, DateTime max, bool addDate, DateTime min)
         {
             try
             {
@@ -4336,17 +4342,17 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     if (voucher_id == -1)
                     {
-                        sql = "UPDATE Batch SET Batch_State=" + state + ", Production_Voucher_ID = NULL, Date_Of_Production=NULL, Start_Date_Of_Production=NULL WHERE Batch_No='" + int.Parse(batch.batch_no) + "' AND Fiscal_Year='" + batch.fiscal_year + "'";
+                        sql = "UPDATE Batch SET Batch_State=" + state + ", Production_Voucher_ID = NULL, Date_Of_Production=NULL, Start_Date_Of_Production=NULL WHERE Batch_No='" + int.Parse(batch.Item1) + "' AND Fiscal_Year='" + batch.Item2 + "'";
                     }
                     else
                     {
                         string max_date = max.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                        sql = "UPDATE Batch SET Batch_State=" + state + ", Production_Voucher_ID = " + voucher_id + ", Date_Of_Production='" + max_date + "', Start_Date_Of_Production='" + min_date + "' WHERE Batch_No='" + int.Parse(batch.batch_no) + "' AND Fiscal_Year='" + batch.fiscal_year + "'";
+                        sql = "UPDATE Batch SET Batch_State=" + state + ", Production_Voucher_ID = " + voucher_id + ", Date_Of_Production='" + max_date + "', Start_Date_Of_Production='" + min_date + "' WHERE Batch_No='" + int.Parse(batch.Item1) + "' AND Fiscal_Year='" + batch.Item2 + "'";
                     }
                 }
                 else
                 {
-                    sql = "UPDATE Batch SET Batch_State=" + state + ", Production_Voucher_ID = " + voucher_id + ", Start_Date_Of_Production='" + min_date + "' WHERE Batch_No='" + int.Parse(batch.batch_no) + "' AND Fiscal_Year='" + batch.fiscal_year + "'";
+                    sql = "UPDATE Batch SET Batch_State=" + state + ", Production_Voucher_ID = " + voucher_id + ", Start_Date_Of_Production='" + min_date + "' WHERE Batch_No='" + int.Parse(batch.Item1) + "' AND Fiscal_Year='" + batch.Item2 + "'";
                 }
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
@@ -4386,12 +4392,22 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
-        public bool editCartonProductionVoucher(int voucherID, string colour, string quality, string dyeing_company_name, string cartonfinancialYear, string cone_weight, string production_dates_arr, string carton_nos_arr, string gross_weights_arr, string carton_weights_arr, string number_of_cones_arr, string net_weights_arr, string batch_nos_arr, int closed, float net_batch_weight, float net_carton_weight, string grades_arr, Dictionary<string, bool> carton_editable)
+        public bool editCartonProductionVoucher(int voucherID, string colour, string quality, string dyeing_company_name, string cartonfinancialYear, string cone_weight, string production_dates_arr, string carton_nos_arr, string gross_weights_arr, string carton_weights_arr, string number_of_cones_arr, string net_weights_arr, string batch_nos_arr, int closed, float net_batch_weight, float net_carton_weight, string grades_arr, Dictionary<string, bool> carton_editable, Dictionary<Tuple<string, string>, DataRow> batch_data)
         {
             //Dictionary carton_editable contains entries for carton_nos with state =2 or state=3
             Dictionary<string, bool> old_cartons_hash = new Dictionary<string, bool>();
             List<string> added_cartons = new List<string>(); //to store cartons added by the function
             string[] carton_no = this.csvToArray(carton_nos_arr);
+
+            string[] grossWeights = this.csvToArray(gross_weights_arr);
+            string[] cartonWeights = this.csvToArray(carton_weights_arr);
+            string[] numberOfCones = this.csvToArray(number_of_cones_arr);
+            string[] netWeights = this.csvToArray(net_weights_arr);
+            string[] tempBatchNos = this.csvToArray(batch_nos_arr);
+            string[] grades = this.csvToArray(grades_arr);
+            string[] production_dates = this.csvToArray(production_dates_arr);
+            string batches_to_add = "";
+            string batches_fiscal_years = "";
 
             //Get all carton_nos, batch_nos and batch_fiscal_years which were previously present
             con.Open();
@@ -4402,7 +4418,6 @@ namespace Factory_Inventory.Factory_Classes
             string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
             string[] old_batch_nos = this.csvToArray(old.Rows[0][1].ToString());
             string[] old_batch_fiscal_years = this.csvToArray(old.Rows[0][2].ToString());
-            Console.WriteLine("selected1");
 
             /*<------------------Check for duplicates------------------->*/
             //Insert old cartons into hash 
@@ -4442,9 +4457,59 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
 
-            string[] production_dates = this.csvToArray(production_dates_arr);
+            //Store batch number and respective fiscal years in batches list and get min dyeing inward date
+            DateTime max_dyeing_inward = DateTime.MinValue;
+            List<Tuple<string, string> > batches = new List<Tuple<string, string> >();
+            int batch_index = -1;
+            int index = -1;
+            string Dyeing_In_Date = "";
+            foreach (KeyValuePair<Tuple<string, string>, DataRow> entry in batch_data)
+            {
+                index++;
+                batches_to_add += entry.Key.Item1 + ",";
+                batches_fiscal_years += entry.Key.Item2 + ",";
+                batches.Add(entry.Key);
+                Dyeing_In_Date = entry.Value["Dyeing_In_Date"].ToString().Substring(0,10);
+                Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
+                DateTime dyeing_inward_date = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                if (dyeing_inward_date > max_dyeing_inward)
+                {
+                    max_dyeing_inward = dyeing_inward_date;
+                    batch_index = index;
+                }
+            }
 
-            Console.WriteLine("selected3");
+            //Get Max and min carton production dates
+            DateTime max = DateTime.Parse(production_dates[0]);
+            DateTime min = DateTime.Parse(production_dates[0]);
+            bool addDate = false;
+            if (closed == 1)
+            {
+                addDate = true;
+            }
+            int min_index = 0;
+            for (int i = 1; i < production_dates.Length; i++)
+            {
+                DateTime temp = DateTime.Parse(production_dates[i]);
+                if (temp > max)
+                {
+                    max = temp;
+                }
+                if (temp < min)
+                {
+                    min = temp;
+                    min_index = i;
+                }
+            }
+
+            //Check if max dyeing inward date <= min production date
+            if (max_dyeing_inward > min)
+            {
+                this.ErrorBox("Carton Number " + carton_no[min_index] + " at row " + (min_index + 1).ToString() + " has Date of Production ("+ min.Date.ToString("dd-MM-yyyy").Substring(0, 10)+") less than Dyeing Inward Date ("+Dyeing_In_Date+") of Batch " + batches[batch_index].Item1 + " (" + batches[batch_index].Item2 + ")");
+                return false;
+            }
+
+
             string cartons = "";
             //Remove cartons with state 1 in the old voucher
             for (int i = 0; i < old_carton_nos.Length; i++)
@@ -4459,45 +4524,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             this.removeCarton(removecom(cartons), cartonfinancialYear, "Carton_Produced");
             Console.WriteLine("selected4");
-
-            string[] grossWeights = this.csvToArray(gross_weights_arr);
-            string[] cartonWeights = this.csvToArray(carton_weights_arr);
-            string[] numberOfCones = this.csvToArray(number_of_cones_arr);
-            string[] netWeights = this.csvToArray(net_weights_arr);
-            string[] tempBatchNos = this.csvToArray(batch_nos_arr);
-            string[] grades = this.csvToArray(grades_arr);
-            string batches_to_add = "";
-            string batches_fiscal_years = "";
-
-            //Store batch number and respective fiscal years in batches list
-            List<pair> batches = new List<pair>();
-            for (int i = 0; i < tempBatchNos.Length; i++)
-            {
-                if (this.check_if_batch_repeated(tempBatchNos[i]))
-                {
-                    string[] temp = this.repeated_batch_csv(tempBatchNos[i]);
-                    pair thisbatch = new pair();
-                    thisbatch.batch_no = temp[0];
-                    thisbatch.fiscal_year = temp[1];
-                    batches.Add(thisbatch);
-                    batches_to_add += temp[0] + ",";
-                    batches_fiscal_years += temp[1] + ",";
-                }
-                else
-                {
-                    pair thisbatch = new pair();
-                    thisbatch.batch_no = tempBatchNos[i];
-                    string batch_finyear = this.getFiscalYear_BatchNoState(tempBatchNos[i], 2);
-                    if (batch_finyear == null)
-                    {
-                        batch_finyear = this.getFiscalYear_BatchNoState(tempBatchNos[i], 3);
-                    }
-                    thisbatch.fiscal_year = batch_finyear;
-                    batches.Add(thisbatch);
-                    batches_to_add += tempBatchNos[i] + ",";
-                    batches_fiscal_years += thisbatch.fiscal_year + ",";
-                }
-            }
 
             Console.WriteLine("selected5");
 
@@ -4533,37 +4559,10 @@ namespace Factory_Inventory.Factory_Classes
 
             Console.WriteLine("selected7");
 
-
-            //Get Max carton production dates
-            DateTime max = DateTime.Parse(production_dates[0]);
-            DateTime min = DateTime.Parse(production_dates[0]);
-            bool addDate = false;
-            if (closed == 1)
-            {
-                addDate = true;
-            }
-            for (int i = 1; i < production_dates.Length; i++)
-            {
-                DateTime temp = DateTime.Parse(production_dates[i]);
-                if (temp > max)
-                {
-                    max = temp;
-                }
-                if (temp < min)
-                {
-                    min = temp;
-                }
-            }
-
-            Console.WriteLine("selected8");
-
-
             //Remove old batches
             for (int i = 0; i < old_batch_nos.Length; i++)
             {
-                pair batch;
-                batch.batch_no = old_batch_nos[i];
-                batch.fiscal_year = old_batch_fiscal_years[i];
+                Tuple<string, string> batch = new Tuple<string, string>(old_batch_nos[i], old_batch_fiscal_years[i]);
                 bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, max, true, min);
                 if (!flag)
                 {
@@ -4667,9 +4666,7 @@ namespace Factory_Inventory.Factory_Classes
                 //Remove old batches
                 for (int i = 0; i < old_batch_nos.Length; i++)
                 {
-                    pair batch;
-                    batch.batch_no = old_batch_nos[i];
-                    batch.fiscal_year = old_batch_fiscal_years[i];
+                    Tuple<string, string> batch = new Tuple<string, string>(old_batch_nos[i], old_batch_fiscal_years[i]);
                     bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, DateTime.Now, true, DateTime.Now);
                     if (!flag)
                     {
