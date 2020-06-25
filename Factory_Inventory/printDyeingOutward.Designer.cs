@@ -56,6 +56,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.rdLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -333,11 +334,24 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
+            // rdLabel
+            // 
+            this.rdLabel.AutoSize = true;
+            this.rdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdLabel.Location = new System.Drawing.Point(828, 9);
+            this.rdLabel.Name = "rdLabel";
+            this.rdLabel.Size = new System.Drawing.Size(112, 25);
+            this.rdLabel.TabIndex = 0;
+            this.rdLabel.Text = "REDYEING";
+            this.rdLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.rdLabel.Visible = false;
+            // 
             // printDyeingOutward
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(952, 718);
+            this.Controls.Add(this.rdLabel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.hsnnumber);
             this.Controls.Add(this.label14);
@@ -401,5 +415,6 @@
         private System.Windows.Forms.Button button1;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.Label rdLabel;
     }
 }

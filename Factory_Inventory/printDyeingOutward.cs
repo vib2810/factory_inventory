@@ -23,6 +23,7 @@ namespace Factory_Inventory
         string where = "";
         int basic_font_size = 9;
         M_V4_printDyeingOutward parent;
+        bool redyeing = false;
         public printDyeingOutward(DataRow row, M_V4_printDyeingOutward f)
         {
             InitializeComponent();
@@ -45,6 +46,11 @@ namespace Factory_Inventory
             DataTable quality= c.getTableRows("Quality", "Quality='" + row["Quality"].ToString()+"'");
             this.hsnnumber.Text = quality.Rows[0]["HSN_No"].ToString();
             string[] tray_ids = c.csvToArray(row["Tray_ID_Arr"].ToString());
+            if(!string.IsNullOrEmpty(row["Redyeing"].ToString()))
+            {
+                this.redyeing = true;
+                this.rdLabel.Visible = true;
+            }
             DataTable dt = new DataTable();
             dt.Columns.Add("Sl No");
             dt.Columns.Add("Tray No.");
@@ -144,11 +150,7 @@ namespace Factory_Inventory
             Graphics g = e.Graphics;
             StringFormat format = new StringFormat();
             format.LineAlignment = StringAlignment.Center;
-            if (width == 0)
-            {
-                format.Alignment = StringAlignment.Center;
-            }
-            else if (lr == 'l')
+            if (lr == 'l')
             {
                 format.Alignment = StringAlignment.Near;
             }
@@ -188,6 +190,7 @@ namespace Factory_Inventory
             int basic_size = this.basic_font_size;
             int header_size_sub = 5;
 
+            if (this.redyeing == true) write(e, -1, write_height, 0, "REDYEING", basic_size + 3, 'r', 1);
             write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
             write_height += write(e, -1, write_height, 0, "FOR JOB WORK", basic_size + 3, 'c', 1) - header_size_sub-3;
             write_height += write(e, -1, write_height, 0, "Krishana Sales and Industries", basic_size + 6, 'c', 1) - header_size_sub - 3;
