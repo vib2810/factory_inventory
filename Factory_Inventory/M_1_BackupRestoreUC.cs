@@ -12,6 +12,7 @@ using Microsoft.SqlServer.Management.Common;
 using MyCoolCompany.Shuriken;
 using Factory_Inventory.Factory_Classes;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace Factory_Inventory
 {
@@ -59,13 +60,27 @@ namespace Factory_Inventory
                 c.ErrorBox("Please select backup loaction", "Error");
                 return;
             }
+            string path = this.backupLoactionTB.Text + DateTime.Now.Date.ToString().Substring(0,10).Replace(":", "-").Replace('/', '-');
+            Console.WriteLine(path);
             progressBar1.Value = 0;
             try
             {
-               // Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
+                if (!Directory.Exists(path))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(path);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Backup failed\n" + ex.ToString());
+                return;
+            }
+            try
+            {
                 Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
-                string backup_location = this.backupLoactionTB.Text + this.database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/','-') + ")" + ".bak";
+                string backup_location = path + @"\" + this.database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/','-') + ")" + ".bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbBackup_PercentComplete;
