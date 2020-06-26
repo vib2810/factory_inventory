@@ -4489,13 +4489,14 @@ namespace Factory_Inventory.Factory_Classes
             int batch_index = -1;
             int index = -1;
             string Dyeing_In_Date = "";
-            foreach (KeyValuePair<Tuple<string, string>, DataRow> entry in batch_data)
+            for (int i = 0; i < tempBatchNos.Length; i++)
             {
-                index++;
-                batches_to_add += entry.Key.Item1 + ",";
-                batches_fiscal_years += entry.Key.Item2 + ",";
-                batches.Add(entry.Key);
-                Dyeing_In_Date = entry.Value["Dyeing_In_Date"].ToString().Substring(0,10);
+                string[] thisbatch = this.repeated_batch_csv(tempBatchNos[i]);
+                Tuple<string, string> temp = new Tuple<string, string>(thisbatch[0], thisbatch[1]);
+                batches_to_add += thisbatch[0] + ",";
+                batches_fiscal_years += thisbatch[1] + ",";
+                batches.Add(temp);
+                Dyeing_In_Date = batch_data[temp]["Dyeing_In_Date"].ToString().Substring(0, 10);
                 Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
                 DateTime dyeing_inward_date = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 if (dyeing_inward_date > max_dyeing_inward)
@@ -4568,6 +4569,10 @@ namespace Factory_Inventory.Factory_Classes
                         return false;
                     }
                 }
+                else
+                {
+                    this.runQuery("UPDATE Carton_Produced SET Batch_No_Arr = '" + batches_to_add + "', Net_Weight = " + float.Parse(netWeights[i]) + ", Cone_Weight = " + float.Parse(cone_weight) + ", Batch_Fiscal_Year_Arr = '" + batches_fiscal_years + "' WHERE Carton_No = '" + carton_no[i] + "' AND Fiscal_Year = '" + cartonfinancialYear + "'");
+                }
             }
 
             Console.WriteLine("selected6");
@@ -4592,6 +4597,7 @@ namespace Factory_Inventory.Factory_Classes
                 bool flag = this.sendBatch_StateVoucherIDProductionDate(batch, 2, -1, max, true, min);
                 if (!flag)
                 {
+                    this.ErrorBox("Could not remove old batch numbers. Contact technical team");
                     return false;
                 }
             }
@@ -4605,6 +4611,7 @@ namespace Factory_Inventory.Factory_Classes
                 bool flag = this.sendBatch_StateVoucherIDProductionDate(batches[i], 3, voucherID, max, addDate, min);
                 if (!flag)
                 {
+                    this.ErrorBox("Could not add new batch numbers. Contact technical team");
                     return false;
                 }
             }

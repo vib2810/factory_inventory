@@ -401,14 +401,14 @@ namespace Factory_Inventory
                     r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
                 }
             }
-            if(flag == true)
-            {
-                //If any one carton in the voucher is sold, batch cannot be edited
-                this.dataGridView2.ReadOnly = true;
-                this.deleteToolStripMenuItem1.Enabled = false;
-                this.label14.Text = "This batches cannot be edited or deleted as some cartons have already been sold. Delete sale DO to edit it";
-                this.deleteButton.Enabled = false;
-            }
+            //if(flag == true)
+            //{
+            //    //If any one carton in the voucher is sold, batch cannot be edited
+            //    this.dataGridView2.ReadOnly = true;
+            //    this.deleteToolStripMenuItem1.Enabled = false;
+            //    this.label14.Text = "This batches cannot be edited or deleted as some cartons have already been sold. Delete sale DO to edit it";
+            //    this.deleteButton.Enabled = false;
+            //}
             this.cartonweight.Text = CellSum1(7).ToString("F3");
             
             //Adding batch numbers to datagridview 2
@@ -428,7 +428,7 @@ namespace Factory_Inventory
             {
                 Tuple<string, string> temp = new Tuple<string, string>(temp_batch_no_arr[i], batch_fiscal_year_arr[i]);
                 DataTable batch_row = c.getTableData("Batch", "*", "Batch_No = " + temp_batch_no_arr[i] + " AND Fiscal_Year = '" + batch_fiscal_year_arr[i] + "'");
-                this.batch_data.Add(temp, batch_row.Rows[i]);
+                this.batch_data.Add(temp, batch_row.Rows[0]);
             }
 
             for (int i = 0; i < this.batch_nos.Count; i++)
