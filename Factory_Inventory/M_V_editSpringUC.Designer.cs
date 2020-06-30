@@ -52,7 +52,7 @@
             // 
             this.userLabel.AutoSize = true;
             this.userLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userLabel.Location = new System.Drawing.Point(53, 20);
+            this.userLabel.Location = new System.Drawing.Point(15, 20);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(107, 25);
             this.userLabel.TabIndex = 1;
@@ -63,15 +63,17 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(236, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(220, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(383, 393);
+            this.dataGridView1.Size = new System.Drawing.Size(580, 700);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.userDataView_SelectionChanged);
             // 
@@ -79,7 +81,7 @@
             // 
             this.confirmButton.Location = new System.Drawing.Point(19, 182);
             this.confirmButton.Name = "confirmButton";
-            this.confirmButton.Size = new System.Drawing.Size(75, 23);
+            this.confirmButton.Size = new System.Drawing.Size(75, 30);
             this.confirmButton.TabIndex = 3;
             this.confirmButton.Text = "Confirm";
             this.confirmButton.UseVisualStyleBackColor = true;
@@ -103,7 +105,7 @@
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(16, 261);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(17, 449);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(141, 17);
             this.newConfirmPasswordLabel.TabIndex = 7;
@@ -120,7 +122,7 @@
             // 
             // newQualityTextbox
             // 
-            this.newQualityTextbox.Location = new System.Drawing.Point(20, 281);
+            this.newQualityTextbox.Location = new System.Drawing.Point(21, 469);
             this.newQualityTextbox.Name = "newQualityTextbox";
             this.newQualityTextbox.Size = new System.Drawing.Size(144, 22);
             this.newQualityTextbox.TabIndex = 11;
@@ -148,7 +150,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(53, 227);
+            this.label1.Location = new System.Drawing.Point(15, 415);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 25);
             this.label1.TabIndex = 15;
@@ -156,9 +158,9 @@
             // 
             // addQualityButton
             // 
-            this.addQualityButton.Location = new System.Drawing.Point(19, 354);
+            this.addQualityButton.Location = new System.Drawing.Point(20, 542);
             this.addQualityButton.Name = "addQualityButton";
-            this.addQualityButton.Size = new System.Drawing.Size(75, 23);
+            this.addQualityButton.Size = new System.Drawing.Size(75, 30);
             this.addQualityButton.TabIndex = 16;
             this.addQualityButton.Text = "Add";
             this.addQualityButton.UseVisualStyleBackColor = true;
@@ -183,7 +185,7 @@
             // 
             // addSpringWeightTextbox
             // 
-            this.addSpringWeightTextbox.Location = new System.Drawing.Point(21, 326);
+            this.addSpringWeightTextbox.Location = new System.Drawing.Point(22, 514);
             this.addSpringWeightTextbox.Name = "addSpringWeightTextbox";
             this.addSpringWeightTextbox.Size = new System.Drawing.Size(144, 22);
             this.addSpringWeightTextbox.TabIndex = 20;
@@ -192,7 +194,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 306);
+            this.label3.Location = new System.Drawing.Point(18, 494);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(135, 17);
             this.label3.TabIndex = 19;
@@ -219,7 +221,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
             this.Name = "editSpring";
-            this.Size = new System.Drawing.Size(619, 393);
+            this.Size = new System.Drawing.Size(800, 700);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
