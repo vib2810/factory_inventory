@@ -66,15 +66,17 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(236, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(230, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(383, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(570, 700);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
@@ -106,7 +108,7 @@
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(12, 307);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(17, 441);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(106, 17);
             this.newConfirmPasswordLabel.TabIndex = 7;
@@ -123,7 +125,7 @@
             // 
             // newQualityTextbox
             // 
-            this.newQualityTextbox.Location = new System.Drawing.Point(15, 327);
+            this.newQualityTextbox.Location = new System.Drawing.Point(20, 461);
             this.newQualityTextbox.Name = "newQualityTextbox";
             this.newQualityTextbox.Size = new System.Drawing.Size(144, 22);
             this.newQualityTextbox.TabIndex = 11;
@@ -151,7 +153,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 282);
+            this.label1.Location = new System.Drawing.Point(14, 416);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(138, 25);
             this.label1.TabIndex = 15;
@@ -159,7 +161,7 @@
             // 
             // addQualityButton
             // 
-            this.addQualityButton.Location = new System.Drawing.Point(14, 445);
+            this.addQualityButton.Location = new System.Drawing.Point(19, 579);
             this.addQualityButton.Name = "addQualityButton";
             this.addQualityButton.Size = new System.Drawing.Size(75, 27);
             this.addQualityButton.TabIndex = 16;
@@ -201,7 +203,7 @@
             // 
             // addGSTINTextbox
             // 
-            this.addGSTINTextbox.Location = new System.Drawing.Point(15, 372);
+            this.addGSTINTextbox.Location = new System.Drawing.Point(20, 506);
             this.addGSTINTextbox.Name = "addGSTINTextbox";
             this.addGSTINTextbox.Size = new System.Drawing.Size(144, 22);
             this.addGSTINTextbox.TabIndex = 30;
@@ -209,7 +211,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 352);
+            this.label6.Location = new System.Drawing.Point(17, 486);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 17);
             this.label6.TabIndex = 29;
@@ -217,7 +219,7 @@
             // 
             // addAddressTextbox
             // 
-            this.addAddressTextbox.Location = new System.Drawing.Point(15, 417);
+            this.addAddressTextbox.Location = new System.Drawing.Point(20, 551);
             this.addAddressTextbox.Name = "addAddressTextbox";
             this.addAddressTextbox.Size = new System.Drawing.Size(209, 22);
             this.addAddressTextbox.TabIndex = 28;
@@ -225,7 +227,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 397);
+            this.label7.Location = new System.Drawing.Point(17, 531);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(60, 17);
             this.label7.TabIndex = 27;
@@ -255,7 +257,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
             this.Name = "editCustomer";
-            this.Size = new System.Drawing.Size(619, 486);
+            this.Size = new System.Drawing.Size(800, 700);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

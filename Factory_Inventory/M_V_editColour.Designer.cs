@@ -68,14 +68,15 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(236, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(230, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(383, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(570, 700);
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
@@ -107,7 +108,7 @@
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(16, 297);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(16, 424);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(87, 17);
             this.newConfirmPasswordLabel.TabIndex = 7;
@@ -124,7 +125,7 @@
             // 
             // newQualityTextbox
             // 
-            this.newQualityTextbox.Location = new System.Drawing.Point(19, 317);
+            this.newQualityTextbox.Location = new System.Drawing.Point(19, 444);
             this.newQualityTextbox.Name = "newQualityTextbox";
             this.newQualityTextbox.Size = new System.Drawing.Size(144, 22);
             this.newQualityTextbox.TabIndex = 11;
@@ -152,7 +153,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(15, 272);
+            this.label1.Location = new System.Drawing.Point(15, 399);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(111, 25);
             this.label1.TabIndex = 15;
@@ -160,7 +161,7 @@
             // 
             // addQualityButton
             // 
-            this.addQualityButton.Location = new System.Drawing.Point(19, 437);
+            this.addQualityButton.Location = new System.Drawing.Point(19, 564);
             this.addQualityButton.Name = "addQualityButton";
             this.addQualityButton.Size = new System.Drawing.Size(75, 35);
             this.addQualityButton.TabIndex = 16;
@@ -186,7 +187,7 @@
             // 
             // addDyeingRateTexbox
             // 
-            this.addDyeingRateTexbox.Location = new System.Drawing.Point(19, 362);
+            this.addDyeingRateTexbox.Location = new System.Drawing.Point(19, 489);
             this.addDyeingRateTexbox.Name = "addDyeingRateTexbox";
             this.addDyeingRateTexbox.Size = new System.Drawing.Size(144, 22);
             this.addDyeingRateTexbox.TabIndex = 20;
@@ -194,7 +195,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 342);
+            this.label3.Location = new System.Drawing.Point(17, 469);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(86, 17);
             this.label3.TabIndex = 19;
@@ -203,7 +204,7 @@
             // addQualityCombobox
             // 
             this.addQualityCombobox.FormattingEnabled = true;
-            this.addQualityCombobox.Location = new System.Drawing.Point(19, 407);
+            this.addQualityCombobox.Location = new System.Drawing.Point(19, 534);
             this.addQualityCombobox.Name = "addQualityCombobox";
             this.addQualityCombobox.Size = new System.Drawing.Size(121, 24);
             this.addQualityCombobox.TabIndex = 21;
@@ -228,7 +229,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 387);
+            this.label5.Location = new System.Drawing.Point(16, 514);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 17);
             this.label5.TabIndex = 24;
@@ -258,7 +259,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
             this.Name = "editColour";
-            this.Size = new System.Drawing.Size(619, 486);
+            this.Size = new System.Drawing.Size(800, 700);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
