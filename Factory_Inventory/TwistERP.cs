@@ -14,41 +14,64 @@ namespace Factory_Inventory
     {
         public bool temp;
         int hello = 0;
+        List<Form> attendance_forms = new List<Form>();
         public TwistERP()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
         }
-        public void show_form(Form f)
+        //group 0- ERP
+        //group 1- Attendance
+        public void show_form(Form f, int group=0)
         {
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
-            if (f.Name.ToString().StartsWith("M_I"))
+            if (group==0)
             {
+                if (f.Name.ToString().StartsWith("M_I"))
+                {
+                    f.Show();
+                }
+                else
+                {
+                    f.Location = new Point(0, 0);
+                    f.MaximizeBox = false;
+                    f.MdiParent = this;
+                }
                 f.Show();
             }
-            else
+            if (group==1)
             {
-                //if(f1 .StartPosition!= FormStartPosition.CenterScreen)
-                //{
-                //    f.StartPosition = FormStartPosition.Manual;
-                //    f.Location = new System.Drawing.Point((int)(Screen.PrimaryScreen.Bounds.Width/20), Screen.PrimaryScreen.Bounds.Height/20);
-                //}
+                this.attendance_forms.Add(f);
                 f.Location = new Point(0, 0);
                 f.MaximizeBox = false;
                 f.MdiParent = this;
+                f.Show();
             }
-            f.Show();
             this.LayoutMdi(MdiLayout.Cascade);
-            //foreach (var child in this.MdiChildren)
-            //{
-            //    if (child.Name== "M_1_MainS")
-            //    {
-            //        child.SendToBack();
-            //        child.SendToBack();
-            //        break;
-            //    }
-            //}
         }
 
+
+        private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach(Form f in this.MdiChildren)
+            {
+                f.Visible = false;
+            }
+            for (int i = 0; i < this.attendance_forms.Count; i++) this.attendance_forms[i].Visible = true;
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void eRPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (this.attendance_forms.Contains(f))
+                {
+                    f.Visible = false;
+                }
+                else f.Visible = true;
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
     }
 }
