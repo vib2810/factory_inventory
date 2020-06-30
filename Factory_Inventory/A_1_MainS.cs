@@ -15,15 +15,6 @@ namespace Factory_Inventory
     {
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-         
-            //if (this.usersUC.conformPasswordTextbox.Focused == true || this.usersUC.passwordTextbox.Focused == true || this.usersUC.usernameTextbox.Focused == true)
-            //{
-            //    if (keyData == Keys.Escape)
-            //    {
-            //        this.UsersButton.Focus();
-            //    }
-            //    return false;
-            //}
             if (keyData == Keys.E)
             {
                 this.employeesButton.PerformClick();
@@ -70,17 +61,12 @@ namespace Factory_Inventory
         }
         private void hide_all_UCs()
         {
-            
+            this.a_1_EmployeesUC1.Hide();
         }
         private void close_form()
         {
             this.close_from_code = true;
             this.Close();
-        }
-        public void closeAllForms()
-        {
-            if(f2!=null) f2.Close();
-            this.close_form();
         }
         private void MainS_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -105,21 +91,16 @@ namespace Factory_Inventory
             }
 
         }
-        private void logOutButton_Click_1(object sender, EventArgs e)
-        {
-            this.logout = true;
-            this.Close();
-        }
         private void vouchersButton_Click_1(object sender, EventArgs e)
         {
             hide_all_UCs();
-            //vouchersUC.Show();
-            //vouchersUC.BringToFront();
-            //vouchersUC.Focus();
+            a_1_EmployeesUC1.Show();
+            a_1_EmployeesUC1.BringToFront();
+            a_1_EmployeesUC1.Focus();
             this.decolour_all_buttons();
             this.employeesButton.BackColor = select;
             this.last_clicked = this.employeesButton;
-            this.Text = "Factory Inventory - Home - Vouchers";
+            this.Text = "Attendance - Home - Employees";
         }
         private void inventoryButton_Click_1(object sender, EventArgs e)
         {

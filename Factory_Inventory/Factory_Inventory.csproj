@@ -250,6 +250,12 @@
     <Compile Include="A_1_EmployeesUC.Designer.cs">
       <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="A_1_AddEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="A_1_AddEmployee.Designer.cs">
+      <DependentUpon>A_1_AddEmployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_2_newMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -547,6 +553,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="A_1_EmployeesUC.resx">
       <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="A_1_AddEmployee.resx">
+      <DependentUpon>A_1_AddEmployee.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_2_newMain.resx">
       <DependentUpon>M_2_newMain.cs</DependentUpon>

@@ -62,6 +62,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(515, 477);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
+            this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             // 
             // deleteButton
             // 
@@ -71,7 +72,6 @@
             this.deleteButton.TabIndex = 5;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
-            this.deleteButton.Click += new System.EventHandler(this.confirmButton_Click);
             // 
             // contextMenuStrip1
             // 
@@ -96,6 +96,7 @@
             this.AddButton.TabIndex = 1;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // A_1_EmployeesUC
             // 

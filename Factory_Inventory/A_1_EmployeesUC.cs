@@ -17,22 +17,28 @@ namespace Factory_Inventory
         public A_1_EmployeesUC()
         {
             InitializeComponent();
+            loadDatabase();
         }
-
-        
 
         public void loadDatabase()
         {
-            DataTable d = new DataTable()/* = a.getEmployeeData()*/;
+            DataTable d = a.runQuery("SELECT * FROM Employees INNER JOIN Group_Names ON Employees.Group_ID = Group_Names.Group_ID");
             d.Columns.Add("SLNO", typeof(int)).SetOrdinal(0);
             dataGridView1.DataSource = d;
         }
 
-
-
-        private void confirmButton_Click(object sender, EventArgs e)
+        private void AddButton_Click(object sender, EventArgs e)
         {
-                loadDatabase();
+            A_1_AddEmployee f = new A_1_AddEmployee(this);
+            f.ShowDialog();
+        }
+
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            {
+                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
         }
     }
 }
