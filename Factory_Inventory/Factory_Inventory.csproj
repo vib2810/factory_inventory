@@ -176,6 +176,7 @@
     <Compile Include="CoolPrintPreviewDialog.designer.cs">
       <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factory_Classes\AttConnect.cs" />
     <Compile Include="Factory_Classes\Global.cs" />
     <Compile Include="Display_Carton_Produced.cs">
       <SubType>Form</SubType>
@@ -236,6 +237,18 @@
     </Compile>
     <Compile Include="M_1_inventoryUC.Designer.cs">
       <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="A_1_MainS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="A_1_MainS.Designer.cs">
+      <DependentUpon>A_1_MainS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="A_1_EmployeesUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="A_1_EmployeesUC.Designer.cs">
+      <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
     </Compile>
     <Compile Include="M_2_newMain.cs">
       <SubType>Form</SubType>
@@ -528,6 +541,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_inventoryUC.resx">
       <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="A_1_MainS.resx">
+      <DependentUpon>A_1_MainS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="A_1_EmployeesUC.resx">
+      <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_2_newMain.resx">
       <DependentUpon>M_2_newMain.cs</DependentUpon>

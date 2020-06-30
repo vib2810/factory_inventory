@@ -46,7 +46,6 @@ namespace Factory_Inventory
             this.usersUC = new Factory_Inventory.M_1_usersUC();
             this.inventoryUC = new Factory_Inventory.M_1_inventoryUC();
             this.vouchersUC = new Factory_Inventory.M_1_vouchersUC();
-            this.AttendanceButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logOutButton
@@ -224,23 +223,11 @@ namespace Factory_Inventory
             this.vouchersUC.Size = new System.Drawing.Size(671, 427);
             this.vouchersUC.TabIndex = 0;
             // 
-            // AttendanceButton
-            // 
-            this.AttendanceButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.AttendanceButton.BackColor = System.Drawing.Color.DarkGray;
-            this.AttendanceButton.Location = new System.Drawing.Point(704, 273);
-            this.AttendanceButton.Name = "AttendanceButton";
-            this.AttendanceButton.Size = new System.Drawing.Size(111, 38);
-            this.AttendanceButton.TabIndex = 7;
-            this.AttendanceButton.Text = "Attendance";
-            this.AttendanceButton.UseVisualStyleBackColor = false;
-            // 
             // M_1_MainS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(848, 496);
-            this.Controls.Add(this.AttendanceButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -287,6 +274,5 @@ namespace Factory_Inventory
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button AttendanceButton;
     }
 }

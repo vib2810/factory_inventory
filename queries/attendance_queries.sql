@@ -10,6 +10,8 @@ create table Employees
 	Employee_Name varchar (50) not null,
 	Employee_Group varchar(50) not null,
 	Date_Of_Joining date not null,
+	End_Date date null,
+	Deleted tinyint null,
 )
 GO
 create table Salary

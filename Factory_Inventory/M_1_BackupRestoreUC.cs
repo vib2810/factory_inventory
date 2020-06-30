@@ -78,7 +78,7 @@ namespace Factory_Inventory
             }
             try
             {
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.defaultconnectionstring)));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
                 string backup_location = path + @"\" + this.database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/','-') + ")" + ".bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
@@ -142,7 +142,7 @@ namespace Factory_Inventory
             try
             {
                 //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.defaultconnectionstring)));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database };
                 string s = this.restoreLocationTB.Text;
                 string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + "restorebackup.bak";
@@ -160,7 +160,7 @@ namespace Factory_Inventory
             try
             {
                 //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP +", 1433", "sa", "Kdvghr2810@"));
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.defaultconnectionstring)));
                 Database db = dbServer.Databases[this.database];
                 dbServer.KillAllProcesses(db.Name);
                 db.DatabaseOptions.UserAccess = DatabaseUserAccess.Multiple;
