@@ -396,9 +396,9 @@ namespace Factory_Inventory
             DataTable d = new DataTable();
             if (this.tablename == "Carton")
             {
-                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_No IN ("+ c.removecom(row["Carton_No_Arr"].ToString())+") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "'");
+                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "'");
             }
-            else d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "'");
+            else d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "'");
 
             for (int i=0; i<carton_no.Length; i++)
             {
