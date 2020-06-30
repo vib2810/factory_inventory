@@ -14,7 +14,7 @@ namespace Factory_Inventory
     {
         public bool temp;
         int hello = 0;
-        List<Form> attendance_forms = new List<Form>();
+        List<string> attendance_forms = new List<string>();
         public TwistERP()
         {
             InitializeComponent();
@@ -41,8 +41,7 @@ namespace Factory_Inventory
             }
             if (group==1)
             {
-                this.attendance_forms.Add(f);
-                f.Location = new Point(0, 0);
+                if(!this.attendance_forms.Contains(f.Name)) this.attendance_forms.Add(f.Name);
                 f.MaximizeBox = false;
                 f.MdiParent = this;
                 f.Show();
@@ -53,11 +52,32 @@ namespace Factory_Inventory
 
         private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach(Form f in this.MdiChildren)
+            A_1_MainS frm = new A_1_MainS();
+            bool a_1_mains = false;
+            foreach (Form f in this.MdiChildren)
             {
-                f.Visible = false;
+                if(f.Name == frm.Name)
+                {
+                    a_1_mains = true;
+                }
+                if(this.attendance_forms.Contains(f.Name))
+                {
+                    f.Visible = true;
+                }
+                else
+                {
+                    f.Visible = false;
+                }
             }
-            for (int i = 0; i < this.attendance_forms.Count; i++) this.attendance_forms[i].Visible = true;
+            if(a_1_mains == false)
+            {
+                frm.MdiParent = Global.background;
+                frm.Scale(new SizeF(1.3F, 1.3F));
+                frm.AutoScaleMode = AutoScaleMode.Font;
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                if (!this.attendance_forms.Contains(frm.Name)) this.attendance_forms.Add(frm.Name);
+                frm.Show();
+            }
             this.LayoutMdi(MdiLayout.Cascade);
         }
 
@@ -65,7 +85,7 @@ namespace Factory_Inventory
         {
             foreach (Form f in this.MdiChildren)
             {
-                if (this.attendance_forms.Contains(f))
+                if (this.attendance_forms.Contains(f.Name))
                 {
                     f.Visible = false;
                 }
