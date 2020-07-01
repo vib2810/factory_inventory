@@ -183,5 +183,15 @@ namespace Factory_Inventory
         {
             this.MdiParent.Close();
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset);
+        }
     }
 }

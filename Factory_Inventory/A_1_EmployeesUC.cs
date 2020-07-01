@@ -17,6 +17,7 @@ namespace Factory_Inventory
         public A_1_EmployeesUC()
         {
             InitializeComponent();
+            a.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
 
         public void loadDatabase()

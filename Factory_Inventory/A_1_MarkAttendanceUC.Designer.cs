@@ -34,6 +34,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.markButton = new System.Windows.Forms.Button();
             this.dateTimePickerDTP = new System.Windows.Forms.DateTimePicker();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,17 +51,20 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 41);
+            this.dataGridView1.Location = new System.Drawing.Point(20, 41);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(665, 391);
+            this.dataGridView1.Size = new System.Drawing.Size(648, 391);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
+            this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             // 
             // contextMenuStrip1
@@ -71,9 +75,9 @@
             // 
             // markButton
             // 
-            this.markButton.Location = new System.Drawing.Point(557, 443);
+            this.markButton.Location = new System.Drawing.Point(559, 443);
             this.markButton.Name = "markButton";
-            this.markButton.Size = new System.Drawing.Size(109, 24);
+            this.markButton.Size = new System.Drawing.Size(109, 34);
             this.markButton.TabIndex = 3;
             this.markButton.Text = "Mark";
             this.markButton.UseVisualStyleBackColor = true;
@@ -84,13 +88,21 @@
             this.dateTimePickerDTP.Location = new System.Drawing.Point(65, 10);
             this.dateTimePickerDTP.Name = "dateTimePickerDTP";
             this.dateTimePickerDTP.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePickerDTP.TabIndex = 6;
+            this.dateTimePickerDTP.TabIndex = 1;
             this.dateTimePickerDTP.ValueChanged += new System.EventHandler(this.dateTimePickerDTP_ValueChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(20, 438);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(259, 36);
+            this.panel1.TabIndex = 4;
             // 
             // A_1_MarkAttendanceUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.dateTimePickerDTP);
             this.Controls.Add(this.markButton);
             this.Controls.Add(this.dataGridView1);
@@ -107,9 +119,10 @@
         #endregion
 
         private System.Windows.Forms.Label userLabel;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button markButton;
         private System.Windows.Forms.DateTimePicker dateTimePickerDTP;
+        private System.Windows.Forms.Panel panel1;
     }
 }

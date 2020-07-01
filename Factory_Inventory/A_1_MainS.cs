@@ -25,20 +25,23 @@ namespace Factory_Inventory
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.E)
+            if(a_1_MarkAttendanceUC1.Visible == false)
             {
-                this.employeesButton.PerformClick();
-                return false;
-            }
-            if (keyData == Keys.A)
-            {
-                this.markAttendanceButton.PerformClick();
-                return false;
-            }
-            if (keyData == Keys.R)
-            {
-                this.reportsButton.PerformClick();
-                return false;
+                if (keyData == Keys.E)
+                {
+                    this.employeesButton.PerformClick();
+                    return false;
+                }
+                if (keyData == Keys.A)
+                {
+                    this.markAttendanceButton.PerformClick();
+                    return false;
+                }
+                if (keyData == Keys.R)
+                {
+                    this.reportsButton.PerformClick();
+                    return false;
+                }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -69,8 +72,8 @@ namespace Factory_Inventory
         }
         private void hide_all_UCs()
         {
-            this.a_1_EmployeesUC1.Hide();
-            this.a_1_MarkAttendanceUC1.Hide();
+            this.a_1_EmployeesUC1.Visible = false;
+            this.a_1_MarkAttendanceUC1.Visible = false;
         }
         private void MainS_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -93,6 +96,7 @@ namespace Factory_Inventory
             a_1_MarkAttendanceUC1.Show();
             a_1_MarkAttendanceUC1.BringToFront();
             a_1_MarkAttendanceUC1.Focus();
+            a_1_MarkAttendanceUC1.loadDatabase();
             this.decolour_all_buttons();
             this.markAttendanceButton.BackColor = select;
             this.last_clicked = this.markAttendanceButton;
@@ -109,6 +113,16 @@ namespace Factory_Inventory
             this.reportsButton.BackColor = select;
             this.last_clicked = this.reportsButton;
             this.Text = "Factory Inventory - Home - Login Log";
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset);
         }
     }
 }
