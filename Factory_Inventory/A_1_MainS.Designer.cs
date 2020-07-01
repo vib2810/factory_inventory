@@ -44,7 +44,7 @@ namespace Factory_Inventory
             // 
             this.employeesButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.employeesButton.BackColor = System.Drawing.Color.DarkGray;
-            this.employeesButton.Location = new System.Drawing.Point(689, 45);
+            this.employeesButton.Location = new System.Drawing.Point(785, 36);
             this.employeesButton.Name = "employeesButton";
             this.employeesButton.Size = new System.Drawing.Size(126, 60);
             this.employeesButton.TabIndex = 3;
@@ -56,7 +56,7 @@ namespace Factory_Inventory
             // 
             this.markAttendanceButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.markAttendanceButton.BackColor = System.Drawing.Color.DarkGray;
-            this.markAttendanceButton.Location = new System.Drawing.Point(689, 111);
+            this.markAttendanceButton.Location = new System.Drawing.Point(785, 102);
             this.markAttendanceButton.Name = "markAttendanceButton";
             this.markAttendanceButton.Size = new System.Drawing.Size(126, 60);
             this.markAttendanceButton.TabIndex = 4;
@@ -68,7 +68,7 @@ namespace Factory_Inventory
             // 
             this.reportsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.reportsButton.BackColor = System.Drawing.Color.DarkGray;
-            this.reportsButton.Location = new System.Drawing.Point(689, 175);
+            this.reportsButton.Location = new System.Drawing.Point(785, 166);
             this.reportsButton.Name = "reportsButton";
             this.reportsButton.Size = new System.Drawing.Size(126, 60);
             this.reportsButton.TabIndex = 6;
@@ -83,7 +83,7 @@ namespace Factory_Inventory
             this.label2.BackColor = System.Drawing.Color.Gainsboro;
             this.label2.Cursor = System.Windows.Forms.Cursors.Default;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(794, 150);
+            this.label2.Location = new System.Drawing.Point(890, 141);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 17);
             this.label2.TabIndex = 0;
@@ -96,7 +96,7 @@ namespace Factory_Inventory
             this.label1.BackColor = System.Drawing.Color.Gainsboro;
             this.label1.Cursor = System.Windows.Forms.Cursors.Default;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(794, 84);
+            this.label1.Location = new System.Drawing.Point(890, 75);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 17);
             this.label1.TabIndex = 0;
@@ -109,7 +109,7 @@ namespace Factory_Inventory
             this.label3.BackColor = System.Drawing.Color.Gainsboro;
             this.label3.Cursor = System.Windows.Forms.Cursors.Default;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(794, 214);
+            this.label3.Location = new System.Drawing.Point(890, 205);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(18, 17);
             this.label3.TabIndex = 7;
@@ -117,9 +117,9 @@ namespace Factory_Inventory
             // 
             // a_1_EmployeesUC1
             // 
-            this.a_1_EmployeesUC1.Location = new System.Drawing.Point(-4, 7);
+            this.a_1_EmployeesUC1.Location = new System.Drawing.Point(108, 36);
             this.a_1_EmployeesUC1.Name = "a_1_EmployeesUC1";
-            this.a_1_EmployeesUC1.Size = new System.Drawing.Size(671, 477);
+            this.a_1_EmployeesUC1.Size = new System.Drawing.Size(671, 491);
             this.a_1_EmployeesUC1.TabIndex = 8;
             // 
             // a_1_MarkAttendanceUC1
@@ -133,8 +133,7 @@ namespace Factory_Inventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 496);
-            this.Controls.Add(this.a_1_MarkAttendanceUC1);
+            this.ClientSize = new System.Drawing.Size(950, 550);
             this.Controls.Add(this.a_1_EmployeesUC1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -143,7 +142,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.markAttendanceButton);
             this.Controls.Add(this.employeesButton);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "A_1_MainS";

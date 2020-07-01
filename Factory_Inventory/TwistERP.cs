@@ -13,13 +13,15 @@ namespace Factory_Inventory
     public partial class TwistERP : Form
     {
         public bool temp;
-        int hello = 0;
         List<string> attendance_forms = new List<string>();
+        public M_1_MainS main_form = null;
+        public bool logout = false;
         public TwistERP()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
         }
+
         //group 0- ERP
         //group 1- Attendance
         public void show_form(Form f, int group=0)
@@ -48,7 +50,6 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
-
 
         private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -92,6 +93,19 @@ namespace Factory_Inventory
                 else f.Visible = true;
             }
             this.LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void TwistERP_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                this.logout = true;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

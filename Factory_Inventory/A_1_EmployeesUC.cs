@@ -34,7 +34,11 @@ namespace Factory_Inventory
 
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
+            if (dataGridView1.Rows[e.RowIndex].Cells[0].Value == null)
+            {
+                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
+            }
+            else if(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString()=="")
             {
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
