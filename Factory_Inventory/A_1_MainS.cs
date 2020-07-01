@@ -13,6 +13,16 @@ namespace Factory_Inventory
 {
     public partial class A_1_MainS : Form
     {
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.E)
@@ -36,9 +46,7 @@ namespace Factory_Inventory
         public bool logout = false;
         public Button last_clicked;
         public Color select = Color.SteelBlue;
-        //Declare all sub-forms globally so we can close them all
-        M_1_Signup f2=null;
-        private bool close_from_code = false;
+
         public A_1_MainS()
         {
             
@@ -63,33 +71,9 @@ namespace Factory_Inventory
         {
             this.a_1_EmployeesUC1.Hide();
         }
-        private void close_form()
-        {
-            this.close_from_code = true;
-            this.Close();
-        }
         private void MainS_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(this.close_from_code!=true)
-            {
-                DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    this.logout = true;
-                    Form parent = this.MdiParent;
-                    this.close_form();
-                    parent.Close();
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    e.Cancel=true; 
-                }
-            }
-            else
-            {
-                this.close_from_code = false;
-            }
-
+            //e.Cancel = true;
         }
         private void vouchersButton_Click_1(object sender, EventArgs e)
         {
