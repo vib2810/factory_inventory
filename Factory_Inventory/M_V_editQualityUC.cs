@@ -15,14 +15,13 @@ namespace Factory_Inventory
 {
     public partial class editQuality : UserControl
     {
-        private DbConnect c;
+        private DbConnect c = new DbConnect();
         public string currentUser;
         List<string> l = new List<string>();
         //private int selectedRowIndex = -1;
         public editQuality()
         {
             InitializeComponent();
-            this.c = new DbConnect();
             l.Add("");
             l.Add("Percent10");
             l.Add("Percent90");

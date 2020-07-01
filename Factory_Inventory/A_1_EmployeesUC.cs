@@ -17,7 +17,6 @@ namespace Factory_Inventory
         public A_1_EmployeesUC()
         {
             InitializeComponent();
-            loadDatabase();
         }
 
         public void loadDatabase()
@@ -39,6 +38,11 @@ namespace Factory_Inventory
             {
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
+        }
+
+        private void A_1_EmployeesUC_Load(object sender, EventArgs e)
+        {
+            loadDatabase();
         }
     }
 }

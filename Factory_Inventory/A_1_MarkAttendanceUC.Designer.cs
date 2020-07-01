@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class A_1_EmployeesUC
+    partial class A_1_MarkAttendanceUC
     {
         /// <summary> 
         /// Required designer variable.
@@ -31,47 +31,37 @@
             this.components = new System.ComponentModel.Container();
             this.userLabel = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.deleteButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editButton = new System.Windows.Forms.Button();
-            this.AddButton = new System.Windows.Forms.Button();
+            this.markButton = new System.Windows.Forms.Button();
+            this.dateTimePickerDTP = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(11, 16);
+            this.userLabel.Location = new System.Drawing.Point(17, 13);
             this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(136, 17);
+            this.userLabel.Size = new System.Drawing.Size(42, 17);
             this.userLabel.TabIndex = 0;
-            this.userLabel.Text = " Manage Employees";
+            this.userLabel.Text = " Date";
             // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(153, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 41);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(515, 477);
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(665, 391);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.Location = new System.Drawing.Point(20, 168);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(109, 36);
-            this.deleteButton.TabIndex = 5;
-            this.deleteButton.Text = "Delete";
-            this.deleteButton.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip1
             // 
@@ -79,35 +69,33 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // editButton
+            // markButton
             // 
-            this.editButton.Location = new System.Drawing.Point(20, 113);
-            this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(109, 36);
-            this.editButton.TabIndex = 3;
-            this.editButton.Text = "Edit";
-            this.editButton.UseVisualStyleBackColor = true;
+            this.markButton.Location = new System.Drawing.Point(557, 443);
+            this.markButton.Name = "markButton";
+            this.markButton.Size = new System.Drawing.Size(109, 24);
+            this.markButton.TabIndex = 3;
+            this.markButton.Text = "Mark";
+            this.markButton.UseVisualStyleBackColor = true;
+            this.markButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
-            // AddButton
+            // dateTimePickerDTP
             // 
-            this.AddButton.Location = new System.Drawing.Point(20, 60);
-            this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(109, 36);
-            this.AddButton.TabIndex = 1;
-            this.AddButton.Text = "Add";
-            this.AddButton.UseVisualStyleBackColor = true;
-            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
+            this.dateTimePickerDTP.Location = new System.Drawing.Point(65, 10);
+            this.dateTimePickerDTP.Name = "dateTimePickerDTP";
+            this.dateTimePickerDTP.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePickerDTP.TabIndex = 6;
+            this.dateTimePickerDTP.ValueChanged += new System.EventHandler(this.dateTimePickerDTP_ValueChanged);
             // 
-            // A_1_EmployeesUC
+            // A_1_MarkAttendanceUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.AddButton);
-            this.Controls.Add(this.editButton);
-            this.Controls.Add(this.deleteButton);
+            this.Controls.Add(this.dateTimePickerDTP);
+            this.Controls.Add(this.markButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
-            this.Name = "A_1_EmployeesUC";
+            this.Name = "A_1_MarkAttendanceUC";
             this.Size = new System.Drawing.Size(671, 477);
             this.Load += new System.EventHandler(this.A_1_EmployeesUC_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -120,9 +108,8 @@
 
         private System.Windows.Forms.Label userLabel;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Button editButton;
-        private System.Windows.Forms.Button AddButton;
+        private System.Windows.Forms.Button markButton;
+        private System.Windows.Forms.DateTimePicker dateTimePickerDTP;
     }
 }

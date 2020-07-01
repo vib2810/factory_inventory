@@ -62,6 +62,7 @@ namespace Factory_Inventory
         private void hide_all_UCs()
         {
             this.a_1_EmployeesUC1.Hide();
+            this.a_1_MarkAttendanceUC1.Hide();
         }
         private void close_form()
         {
@@ -105,13 +106,13 @@ namespace Factory_Inventory
         private void inventoryButton_Click_1(object sender, EventArgs e)
         {
             hide_all_UCs();
-            //inventoryUC.Show();
-            //inventoryUC.BringToFront();
-            //inventoryUC.Focus();
+            a_1_MarkAttendanceUC1.Show();
+            a_1_MarkAttendanceUC1.BringToFront();
+            a_1_MarkAttendanceUC1.Focus();
             this.decolour_all_buttons();
             this.markAttendanceButton.BackColor = select;
             this.last_clicked = this.markAttendanceButton;
-            this.Text = "Factory Inventory - Home - Inventory";
+            this.Text = "Attendance - Home - Mark Attendance";
         }
         private void loginLogButton_Click(object sender, EventArgs e)
         {

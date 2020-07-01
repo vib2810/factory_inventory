@@ -37,6 +37,7 @@ namespace Factory_Inventory
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.a_1_EmployeesUC1 = new Factory_Inventory.A_1_EmployeesUC();
+            this.a_1_MarkAttendanceUC1 = new Factory_Inventory.A_1_MarkAttendanceUC();
             this.SuspendLayout();
             // 
             // employeesButton
@@ -121,11 +122,19 @@ namespace Factory_Inventory
             this.a_1_EmployeesUC1.Size = new System.Drawing.Size(671, 477);
             this.a_1_EmployeesUC1.TabIndex = 8;
             // 
+            // a_1_MarkAttendanceUC1
+            // 
+            this.a_1_MarkAttendanceUC1.Location = new System.Drawing.Point(-4, 7);
+            this.a_1_MarkAttendanceUC1.Name = "a_1_MarkAttendanceUC1";
+            this.a_1_MarkAttendanceUC1.Size = new System.Drawing.Size(671, 477);
+            this.a_1_MarkAttendanceUC1.TabIndex = 9;
+            // 
             // A_1_MainS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(848, 496);
+            this.Controls.Add(this.a_1_MarkAttendanceUC1);
             this.Controls.Add(this.a_1_EmployeesUC1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -153,5 +162,6 @@ namespace Factory_Inventory
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private A_1_EmployeesUC a_1_EmployeesUC1;
+        private A_1_MarkAttendanceUC a_1_MarkAttendanceUC1;
     }
 }
