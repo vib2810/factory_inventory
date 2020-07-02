@@ -32,6 +32,7 @@ namespace Factory_Inventory
             dataGridView1.Columns["Date"].DefaultCellStyle.Format = "dd/MM/yyyy";
             this.dataGridView1.Rows.Add();
             this.dataGridView1.Rows[0].Cells[0].Value = this.joiningdateDTP.Value.Date;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
         }
         public A_1_AddEmployee(DataRow input_row, A_1_EmployeesUC a_1_EmployeesUC)
         {
@@ -52,6 +53,7 @@ namespace Factory_Inventory
             {
                 dataGridView1.Rows.Add(salaries.Rows[i][0], salaries.Rows[i][1]);
             }
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
         }
 
         private void Form2_Load(object sender, EventArgs e)

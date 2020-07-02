@@ -17,14 +17,31 @@ namespace Factory_Inventory
         public A_1_EmployeesUC()
         {
             InitializeComponent();
+            this.loadDatabase();
             a.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
 
         public void loadDatabase()
         {
-            DataTable d = a.runQuery("SELECT * FROM Employees INNER JOIN Group_Names ON Employees.Group_ID = Group_Names.Group_ID");
+            DataTable d = a.runQuery("select * from (select *, ROW_NUMBER() OVER(PARTITION BY Employee_ID ORDER BY Change_Date DESC) as Rank from (select T.*, Salary.Change_Date, Salary.Salary from (SELECT Employees.Employee_ID, Employees.Date_Of_Joining, Employees.Employee_Name, Group_Names.Group_Name FROM Employees INNER JOIN Group_Names ON Employees.Group_ID = Group_Names.Group_ID) as T INNER JOIN Salary ON T.Employee_ID = Salary.Employee_ID) as B) as A where A.Rank = 1");
             d.Columns.Add("SLNO", typeof(int)).SetOrdinal(0);
             dataGridView1.DataSource = d;
+            this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+            this.dataGridView1.Columns["Employee_Name"].Visible = true;
+            this.dataGridView1.Columns["Employee_Name"].DisplayIndex = 0;
+            this.dataGridView1.Columns["Employee_Name"].HeaderText = "Employee Name";
+            this.dataGridView1.Columns["Group_Name"].Visible = true;
+            this.dataGridView1.Columns["Group_Name"].DisplayIndex = 2;
+            this.dataGridView1.Columns["Group_Name"].HeaderText = "Group Name";
+            this.dataGridView1.Columns["Date_Of_Joining"].Visible = true;
+            this.dataGridView1.Columns["Date_Of_Joining"].DisplayIndex = 4;
+            this.dataGridView1.Columns["Date_Of_Joining"].HeaderText = "Date of Joining";
+            this.dataGridView1.Columns["Salary"].Visible = true;
+            this.dataGridView1.Columns["Salary"].DisplayIndex = 6;
+            this.dataGridView1.Columns["Salary"].HeaderText = "Salary";
+            a.auto_adjust_dgv(dataGridView1);
+            a.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
         }
 
         private void AddButton_Click(object sender, EventArgs e)

@@ -42,6 +42,7 @@ namespace Factory_Inventory
             
             a.auto_adjust_dgv(this.dataGridView1);
             this.panel1.BackColor = Color.Green;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, System.Drawing.FontStyle.Bold);
         }
         private void AddButton_Click(object sender, EventArgs e)
         {
