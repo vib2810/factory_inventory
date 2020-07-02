@@ -1191,7 +1191,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not connect to database (getQC) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getQC) " + e.Message +"\n"+tablename, "Exception");
             }
             finally
             {

@@ -82,7 +82,6 @@ namespace Factory_Inventory
         {
 
         }
-
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;

@@ -167,6 +167,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="A_1_MarkAttendanceUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="A_1_MarkAttendanceUC.Designer.cs">
+      <DependentUpon>A_1_MarkAttendanceUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="CoolPrintPreviewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -530,6 +536,9 @@
     <Compile Include="TwistERP.Designer.cs">
       <DependentUpon>TwistERP.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="A_1_MarkAttendanceUC.resx">
+      <DependentUpon>A_1_MarkAttendanceUC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CoolPrintPreviewDialog.resx">
       <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
     </EmbeddedResource>
