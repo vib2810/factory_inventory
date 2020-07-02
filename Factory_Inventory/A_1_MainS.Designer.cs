@@ -116,9 +116,9 @@ namespace Factory_Inventory
             // 
             // a_1_EmployeesUC1
             // 
-            this.a_1_EmployeesUC1.Location = new System.Drawing.Point(108, 36);
+            this.a_1_EmployeesUC1.Location = new System.Drawing.Point(82, 36);
             this.a_1_EmployeesUC1.Name = "a_1_EmployeesUC1";
-            this.a_1_EmployeesUC1.Size = new System.Drawing.Size(671, 491);
+            this.a_1_EmployeesUC1.Size = new System.Drawing.Size(671, 483);
             this.a_1_EmployeesUC1.TabIndex = 8;
             // 
             // A_1_MainS

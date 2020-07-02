@@ -500,6 +500,12 @@
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectFolderDialogBox.cs" />
+    <Compile Include="setSalary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="setSalary.Designer.cs">
+      <DependentUpon>setSalary.cs</DependentUpon>
+    </Compile>
     <Compile Include="setDate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -685,6 +691,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_vouchersUC.resx">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="setSalary.resx">
+      <DependentUpon>setSalary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="setDate.resx">
       <DependentUpon>setDate.cs</DependentUpon>

@@ -41,7 +41,7 @@
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(11, 16);
+            this.userLabel.Location = new System.Drawing.Point(11, 11);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(136, 17);
             this.userLabel.TabIndex = 0;
@@ -59,14 +59,14 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(515, 477);
+            this.dataGridView1.Size = new System.Drawing.Size(518, 483);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(20, 168);
+            this.deleteButton.Location = new System.Drawing.Point(25, 147);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(109, 36);
             this.deleteButton.TabIndex = 5;
@@ -81,16 +81,17 @@
             // 
             // editButton
             // 
-            this.editButton.Location = new System.Drawing.Point(20, 113);
+            this.editButton.Location = new System.Drawing.Point(25, 92);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(109, 36);
             this.editButton.TabIndex = 3;
             this.editButton.Text = "Edit";
             this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(20, 60);
+            this.AddButton.Location = new System.Drawing.Point(25, 39);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(109, 36);
             this.AddButton.TabIndex = 1;
@@ -108,7 +109,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
             this.Name = "A_1_EmployeesUC";
-            this.Size = new System.Drawing.Size(671, 477);
+            this.Size = new System.Drawing.Size(671, 483);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

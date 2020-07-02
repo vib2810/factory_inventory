@@ -188,7 +188,6 @@ namespace Factory_Inventory
                     dataSource2.Add(d2.Rows[i][0].ToString());
                 }
                 this.comboBox2CB.DataSource = dataSource2;
-                Console.WriteLine(this.comboBox2CB.FindStringExact(row["Company_Name"].ToString()));
                 if(this.comboBox2CB.FindStringExact(row["Company_Name"].ToString())==-1)
                 {
                     dataSource2.Add(row["Company_Name"].ToString());

@@ -44,5 +44,13 @@ namespace Factory_Inventory
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count <= 0) return;
+            DataRow input_row = (dataGridView1.SelectedRows[0].DataBoundItem as DataRowView).Row;
+            A_1_AddEmployee f = new A_1_AddEmployee(input_row, this);
+            f.ShowDialog();
+        }
     }
 }
