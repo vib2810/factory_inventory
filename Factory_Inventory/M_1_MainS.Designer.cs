@@ -37,11 +37,8 @@ namespace Factory_Inventory
             this.loginLogButton = new System.Windows.Forms.Button();
             this.UsersButton = new System.Windows.Forms.Button();
             this.usernameLabel = new System.Windows.Forms.Label();
-            this.backupRestoreButton = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.m_1_BackupRestoreUC = new Factory_Inventory.M_1_BackupRestoreUC();
             this.loginlogUC = new Factory_Inventory.M_1_loginlogUC();
             this.usersUC = new Factory_Inventory.M_1_usersUC();
             this.inventoryUC = new Factory_Inventory.M_1_inventoryUC();
@@ -100,7 +97,7 @@ namespace Factory_Inventory
             // 
             this.loginLogButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.loginLogButton.BackColor = System.Drawing.Color.DarkGray;
-            this.loginLogButton.Location = new System.Drawing.Point(779, 256);
+            this.loginLogButton.Location = new System.Drawing.Point(779, 204);
             this.loginLogButton.Name = "loginLogButton";
             this.loginLogButton.Size = new System.Drawing.Size(111, 38);
             this.loginLogButton.TabIndex = 6;
@@ -132,31 +129,6 @@ namespace Factory_Inventory
             this.usernameLabel.TabIndex = 0;
             this.usernameLabel.Text = "label1";
             // 
-            // backupRestoreButton
-            // 
-            this.backupRestoreButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.backupRestoreButton.BackColor = System.Drawing.Color.DarkGray;
-            this.backupRestoreButton.Location = new System.Drawing.Point(779, 204);
-            this.backupRestoreButton.Name = "backupRestoreButton";
-            this.backupRestoreButton.Size = new System.Drawing.Size(111, 46);
-            this.backupRestoreButton.TabIndex = 5;
-            this.backupRestoreButton.Text = "&Backup and Restore";
-            this.backupRestoreButton.UseVisualStyleBackColor = false;
-            this.backupRestoreButton.Click += new System.EventHandler(this.backupRestoreButton_Click);
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Gainsboro;
-            this.label4.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(869, 233);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(17, 17);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "B";
-            // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -182,14 +154,6 @@ namespace Factory_Inventory
             this.label1.Size = new System.Drawing.Size(17, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "V";
-            // 
-            // m_1_BackupRestoreUC
-            // 
-            this.m_1_BackupRestoreUC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.m_1_BackupRestoreUC.Location = new System.Drawing.Point(63, 72);
-            this.m_1_BackupRestoreUC.Name = "m_1_BackupRestoreUC";
-            this.m_1_BackupRestoreUC.Size = new System.Drawing.Size(671, 427);
-            this.m_1_BackupRestoreUC.TabIndex = 0;
             // 
             // loginlogUC
             // 
@@ -228,11 +192,8 @@ namespace Factory_Inventory
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 550);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.m_1_BackupRestoreUC);
-            this.Controls.Add(this.backupRestoreButton);
             this.Controls.Add(this.loginlogUC);
             this.Controls.Add(this.usersUC);
             this.Controls.Add(this.inventoryUC);
@@ -269,9 +230,6 @@ namespace Factory_Inventory
         private M_1_inventoryUC inventoryUC;
         private M_1_usersUC usersUC;
         private M_1_loginlogUC loginlogUC;
-        private System.Windows.Forms.Button backupRestoreButton;
-        private M_1_BackupRestoreUC m_1_BackupRestoreUC;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
     }

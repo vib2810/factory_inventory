@@ -232,11 +232,11 @@
     <Compile Include="HSComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="M_1_BackupRestoreUC.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="BackupRestore.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="M_1_BackupRestoreUC.Designer.cs">
-      <DependentUpon>M_1_BackupRestoreUC.cs</DependentUpon>
+    <Compile Include="BackupRestore.Designer.cs">
+      <DependentUpon>BackupRestore.cs</DependentUpon>
     </Compile>
     <Compile Include="M_1_inventoryUC.cs">
       <SubType>UserControl</SubType>
@@ -557,8 +557,8 @@
     <EmbeddedResource Include="Factory_Classes\SuccessBox.resx">
       <DependentUpon>SuccessBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_1_BackupRestoreUC.resx">
-      <DependentUpon>M_1_BackupRestoreUC.cs</DependentUpon>
+    <EmbeddedResource Include="BackupRestore.resx">
+      <DependentUpon>BackupRestore.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_inventoryUC.resx">
       <DependentUpon>M_1_inventoryUC.cs</DependentUpon>

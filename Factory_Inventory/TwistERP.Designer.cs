@@ -32,6 +32,7 @@
             this.openWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eRPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backupRestoreStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,7 +42,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openWindowsToolStripMenuItem,
             this.eRPToolStripMenuItem,
-            this.attendanceToolStripMenuItem});
+            this.attendanceToolStripMenuItem,
+            this.backupRestoreStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.MdiWindowListItem = this.openWindowsToolStripMenuItem;
             this.menuStrip1.Name = "menuStrip1";
@@ -70,6 +72,14 @@
             this.attendanceToolStripMenuItem.Text = "Attendance";
             this.attendanceToolStripMenuItem.Click += new System.EventHandler(this.attendanceToolStripMenuItem_Click);
             // 
+            // backupRestoreStripMenuItem
+            // 
+            this.backupRestoreStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.backupRestoreStripMenuItem.Name = "backupRestoreStripMenuItem";
+            this.backupRestoreStripMenuItem.Size = new System.Drawing.Size(154, 24);
+            this.backupRestoreStripMenuItem.Text = "Backup and Restore";
+            this.backupRestoreStripMenuItem.Click += new System.EventHandler(this.backupRestoreStripMenuItem_Click);
+            // 
             // TwistERP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -97,5 +107,6 @@
         private System.Windows.Forms.ToolStripMenuItem openWindowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eRPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backupRestoreStripMenuItem;
     }
 }

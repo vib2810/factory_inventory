@@ -14,6 +14,7 @@ namespace Factory_Inventory
     {
         public bool temp;
         List<string> attendance_forms = new List<string>();
+        List<string> backup_form = new List<string>();
         public M_1_MainS main_form = null;
         public bool logout = false;
         public TwistERP()
@@ -86,7 +87,7 @@ namespace Factory_Inventory
         {
             foreach (Form f in this.MdiChildren)
             {
-                if (this.attendance_forms.Contains(f.Name))
+                if (this.attendance_forms.Contains(f.Name) || this.backup_form.Contains(f.Name))
                 {
                     f.Visible = false;
                 }
@@ -105,6 +106,41 @@ namespace Factory_Inventory
             else if (dialogResult == DialogResult.No)
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void backupRestoreStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (this.attendance_forms.Contains(f.Name))
+                {
+                    f.Visible = false;
+                }
+            }
+
+            BackupRestore frm = new BackupRestore();
+            bool backup = false;
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == frm.Name)
+                {
+                    backup = true;
+                }
+                if (!this.attendance_forms.Contains(f.Name))
+                {
+                    f.Visible = false;
+                }
+                if (backup == false)
+                {
+                    frm.MdiParent = Global.background;
+                    frm.Scale(new SizeF(1.3F, 1.3F));
+                    frm.AutoScaleMode = AutoScaleMode.Font;
+                    frm.StartPosition = FormStartPosition.CenterScreen;
+                    if (!this.backup_form.Contains(frm.Name)) this.backup_form.Add(frm.Name);
+                    frm.Show();
+                }
+                this.LayoutMdi(MdiLayout.Cascade);
             }
         }
     }

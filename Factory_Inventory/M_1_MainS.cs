@@ -25,14 +25,6 @@ namespace Factory_Inventory
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if(this.m_1_BackupRestoreUC.backupLoactionTB.Focused == true || this.m_1_BackupRestoreUC.restoreLocationTB.Focused == true)
-            {
-                if(keyData == Keys.Escape)
-                {
-                    this.backupRestoreButton.Focus();
-                }
-                return false;
-            }
             if (this.usersUC.conformPasswordTextbox.Focused == true || this.usersUC.passwordTextbox.Focused == true || this.usersUC.usernameTextbox.Focused == true)
             {
                 if (keyData == Keys.Escape)
@@ -49,11 +41,6 @@ namespace Factory_Inventory
             if (keyData == Keys.I)
             {
                 this.inventoryButton.PerformClick();
-                return false;
-            }
-            if (keyData == Keys.B)
-            {
-                this.backupRestoreButton.PerformClick();
                 return false;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -108,7 +95,6 @@ namespace Factory_Inventory
             inventoryUC.Hide();
             usersUC.Hide();
             loginlogUC.Hide();
-            m_1_BackupRestoreUC.Hide();
         }
         private void newUser_Click(object sender, EventArgs e)
         {
@@ -162,17 +148,6 @@ namespace Factory_Inventory
             this.loginLogButton.BackColor = select;
             this.last_clicked = this.loginLogButton;
             this.Text = "Factory Inventory - Home - Login Log";
-        }
-        private void backupRestoreButton_Click(object sender, EventArgs e)
-        {
-            hide_all_UCs();
-            m_1_BackupRestoreUC.Show();
-            m_1_BackupRestoreUC.BringToFront();
-            m_1_BackupRestoreUC.Focus();
-            this.decolour_all_buttons();
-            this.backupRestoreButton.BackColor = select;
-            this.last_clicked = this.backupRestoreButton;
-            this.Text = "Factory Inventory - Home - Backup and Restore";
         }
        // bool first = false;
         private void MainS_FormClosing(object sender, FormClosingEventArgs e)

@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class M_1_BackupRestoreUC
+    partial class BackupRestore
     {
         /// <summary> 
         /// Required designer variable.
@@ -43,12 +43,20 @@
             this.browseRestoreButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.backupLoactionLabel = new System.Windows.Forms.Label();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.fileNameTB = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // backupStatusLabel
             // 
             this.backupStatusLabel.AutoSize = true;
-            this.backupStatusLabel.Location = new System.Drawing.Point(118, 159);
+            this.backupStatusLabel.Location = new System.Drawing.Point(298, 190);
             this.backupStatusLabel.Name = "backupStatusLabel";
             this.backupStatusLabel.Size = new System.Drawing.Size(52, 17);
             this.backupStatusLabel.TabIndex = 0;
@@ -56,22 +64,23 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(175, 74);
+            this.progressBar1.Location = new System.Drawing.Point(304, 109);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(326, 23);
             this.progressBar1.TabIndex = 0;
             // 
             // backupLoactionTB
             // 
-            this.backupLoactionTB.Location = new System.Drawing.Point(175, 31);
+            this.backupLoactionTB.Location = new System.Drawing.Point(304, 81);
             this.backupLoactionTB.Name = "backupLoactionTB";
+            this.backupLoactionTB.ReadOnly = true;
             this.backupLoactionTB.Size = new System.Drawing.Size(246, 22);
             this.backupLoactionTB.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(175, 11);
+            this.label1.Location = new System.Drawing.Point(301, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 17);
             this.label1.TabIndex = 0;
@@ -79,9 +88,9 @@
             // 
             // backupButton
             // 
-            this.backupButton.Location = new System.Drawing.Point(296, 103);
+            this.backupButton.Location = new System.Drawing.Point(304, 138);
             this.backupButton.Name = "backupButton";
-            this.backupButton.Size = new System.Drawing.Size(75, 23);
+            this.backupButton.Size = new System.Drawing.Size(157, 36);
             this.backupButton.TabIndex = 5;
             this.backupButton.Text = "Backup";
             this.backupButton.UseVisualStyleBackColor = true;
@@ -89,7 +98,7 @@
             // 
             // browseBackupButton
             // 
-            this.browseBackupButton.Location = new System.Drawing.Point(430, 30);
+            this.browseBackupButton.Location = new System.Drawing.Point(559, 80);
             this.browseBackupButton.Name = "browseBackupButton";
             this.browseBackupButton.Size = new System.Drawing.Size(71, 23);
             this.browseBackupButton.TabIndex = 3;
@@ -100,7 +109,7 @@
             // restoreStatusLabel
             // 
             this.restoreStatusLabel.AutoSize = true;
-            this.restoreStatusLabel.Location = new System.Drawing.Point(115, 376);
+            this.restoreStatusLabel.Location = new System.Drawing.Point(298, 463);
             this.restoreStatusLabel.Name = "restoreStatusLabel";
             this.restoreStatusLabel.Size = new System.Drawing.Size(52, 17);
             this.restoreStatusLabel.TabIndex = 0;
@@ -108,15 +117,16 @@
             // 
             // progressBar2
             // 
-            this.progressBar2.Location = new System.Drawing.Point(172, 291);
+            this.progressBar2.Location = new System.Drawing.Point(301, 378);
             this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(326, 23);
+            this.progressBar2.Size = new System.Drawing.Size(329, 23);
             this.progressBar2.TabIndex = 0;
             // 
             // restoreLocationTB
             // 
-            this.restoreLocationTB.Location = new System.Drawing.Point(172, 248);
+            this.restoreLocationTB.Location = new System.Drawing.Point(301, 350);
             this.restoreLocationTB.Name = "restoreLocationTB";
+            this.restoreLocationTB.ReadOnly = true;
             this.restoreLocationTB.Size = new System.Drawing.Size(246, 22);
             this.restoreLocationTB.TabIndex = 7;
             // 
@@ -124,7 +134,7 @@
             // 
             this.label3.AllowDrop = true;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(172, 228);
+            this.label3.Location = new System.Drawing.Point(298, 330);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(94, 17);
             this.label3.TabIndex = 0;
@@ -132,9 +142,9 @@
             // 
             // restoreButton
             // 
-            this.restoreButton.Location = new System.Drawing.Point(293, 320);
+            this.restoreButton.Location = new System.Drawing.Point(301, 407);
             this.restoreButton.Name = "restoreButton";
-            this.restoreButton.Size = new System.Drawing.Size(75, 23);
+            this.restoreButton.Size = new System.Drawing.Size(160, 38);
             this.restoreButton.TabIndex = 11;
             this.restoreButton.Text = "Restore";
             this.restoreButton.UseVisualStyleBackColor = true;
@@ -142,7 +152,7 @@
             // 
             // browseRestoreButton
             // 
-            this.browseRestoreButton.Location = new System.Drawing.Point(430, 247);
+            this.browseRestoreButton.Location = new System.Drawing.Point(559, 349);
             this.browseRestoreButton.Name = "browseRestoreButton";
             this.browseRestoreButton.Size = new System.Drawing.Size(71, 23);
             this.browseRestoreButton.TabIndex = 9;
@@ -157,15 +167,97 @@
             // backupLoactionLabel
             // 
             this.backupLoactionLabel.AutoSize = true;
-            this.backupLoactionLabel.Location = new System.Drawing.Point(118, 176);
+            this.backupLoactionLabel.Location = new System.Drawing.Point(301, 207);
             this.backupLoactionLabel.Name = "backupLoactionLabel";
             this.backupLoactionLabel.Size = new System.Drawing.Size(0, 17);
             this.backupLoactionLabel.TabIndex = 12;
             // 
-            // M_1_BackupRestoreUC
+            // checkedListBox1
+            // 
+            this.checkedListBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.checkedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.checkedListBox1.CheckOnClick = true;
+            this.checkedListBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "Factory Data",
+            "Factory Attendance"});
+            this.checkedListBox1.Location = new System.Drawing.Point(105, 80);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(174, 57);
+            this.checkedListBox1.TabIndex = 0;
+            this.checkedListBox1.TabStop = false;
+            this.checkedListBox1.UseTabStops = false;
+            // 
+            // fileNameTB
+            // 
+            this.fileNameTB.Location = new System.Drawing.Point(643, 81);
+            this.fileNameTB.Name = "fileNameTB";
+            this.fileNameTB.Size = new System.Drawing.Size(196, 22);
+            this.fileNameTB.TabIndex = 0;
+            this.fileNameTB.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(643, 61);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(131, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Save File Name As:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Factory Data",
+            "Factory Attendance"});
+            this.comboBox1.Location = new System.Drawing.Point(105, 348);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(154, 24);
+            this.comboBox1.TabIndex = 0;
+            this.comboBox1.TabStop = false;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(102, 61);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(69, 17);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Database";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(102, 330);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 17);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Database";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Gray;
+            this.pictureBox1.Location = new System.Drawing.Point(10, 270);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(930, 10);
+            this.pictureBox1.TabIndex = 16;
+            this.pictureBox1.TabStop = false;
+            // 
+            // BackupRestore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(950, 550);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.fileNameTB);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.backupLoactionLabel);
             this.Controls.Add(this.browseRestoreButton);
             this.Controls.Add(this.restoreStatusLabel);
@@ -179,8 +271,9 @@
             this.Controls.Add(this.backupLoactionTB);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.backupButton);
-            this.Name = "M_1_BackupRestoreUC";
-            this.Size = new System.Drawing.Size(671, 427);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "BackupRestore";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -203,5 +296,12 @@
         private System.Windows.Forms.Button browseRestoreButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label backupLoactionLabel;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        public System.Windows.Forms.TextBox fileNameTB;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
