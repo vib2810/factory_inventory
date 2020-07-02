@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.userLabel = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.deleteButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editButton = new System.Windows.Forms.Button();
             this.AddButton = new System.Windows.Forms.Button();
@@ -63,15 +62,6 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.Location = new System.Drawing.Point(25, 147);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(109, 36);
-            this.deleteButton.TabIndex = 5;
-            this.deleteButton.Text = "Delete";
-            this.deleteButton.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip1
             // 
@@ -105,7 +95,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.AddButton);
             this.Controls.Add(this.editButton);
-            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
             this.Name = "A_1_EmployeesUC";
@@ -120,7 +109,6 @@
 
         private System.Windows.Forms.Label userLabel;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button AddButton;

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -46,6 +46,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.addButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
+            this.terminateDTP = new System.Windows.Forms.DateTimePicker();
+            this.terminateButton = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -74,7 +77,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(18, 192);
+            this.label3.Location = new System.Drawing.Point(18, 154);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 20);
             this.label3.TabIndex = 0;
@@ -90,7 +93,7 @@
             // 
             // SubmitButton
             // 
-            this.SubmitButton.Location = new System.Drawing.Point(21, 289);
+            this.SubmitButton.Location = new System.Drawing.Point(22, 224);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(200, 56);
             this.SubmitButton.TabIndex = 7;
@@ -102,7 +105,7 @@
             // 
             this.joiningdateDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.joiningdateDTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.joiningdateDTP.Location = new System.Drawing.Point(21, 215);
+            this.joiningdateDTP.Location = new System.Drawing.Point(21, 177);
             this.joiningdateDTP.Name = "joiningdateDTP";
             this.joiningdateDTP.Size = new System.Drawing.Size(201, 27);
             this.joiningdateDTP.TabIndex = 5;
@@ -112,7 +115,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(18, 118);
+            this.label4.Location = new System.Drawing.Point(18, 100);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(55, 20);
             this.label4.TabIndex = 0;
@@ -121,7 +124,7 @@
             // groupCB
             // 
             this.groupCB.FormattingEnabled = true;
-            this.groupCB.Location = new System.Drawing.Point(21, 141);
+            this.groupCB.Location = new System.Drawing.Point(21, 123);
             this.groupCB.Name = "groupCB";
             this.groupCB.Size = new System.Drawing.Size(201, 24);
             this.groupCB.TabIndex = 3;
@@ -143,16 +146,16 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(359, 268);
+            this.dataGridView1.Size = new System.Drawing.Size(359, 304);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             // 
             // Date
             // 
-            dataGridViewCellStyle1.Format = "d";
-            dataGridViewCellStyle1.NullValue = null;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = null;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle4;
             this.Date.HeaderText = "Date";
             this.Date.MinimumWidth = 6;
             this.Date.Name = "Date";
@@ -190,7 +193,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(259, 307);
+            this.addButton.Location = new System.Drawing.Point(259, 349);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(165, 38);
             this.addButton.TabIndex = 8;
@@ -201,7 +204,7 @@
             // 
             // editButton
             // 
-            this.editButton.Location = new System.Drawing.Point(453, 307);
+            this.editButton.Location = new System.Drawing.Point(453, 349);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(165, 38);
             this.editButton.TabIndex = 9;
@@ -210,11 +213,48 @@
             this.editButton.Visible = false;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
+            // terminateDTP
+            // 
+            this.terminateDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.terminateDTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.terminateDTP.Location = new System.Drawing.Point(21, 310);
+            this.terminateDTP.Name = "terminateDTP";
+            this.terminateDTP.Size = new System.Drawing.Size(201, 27);
+            this.terminateDTP.TabIndex = 11;
+            this.terminateDTP.Visible = false;
+            // 
+            // terminateButton
+            // 
+            this.terminateButton.BackColor = System.Drawing.Color.Red;
+            this.terminateButton.Location = new System.Drawing.Point(21, 343);
+            this.terminateButton.Name = "terminateButton";
+            this.terminateButton.Size = new System.Drawing.Size(200, 44);
+            this.terminateButton.TabIndex = 12;
+            this.terminateButton.TabStop = false;
+            this.terminateButton.Text = "Terminate";
+            this.terminateButton.UseVisualStyleBackColor = false;
+            this.terminateButton.Visible = false;
+            this.terminateButton.Click += new System.EventHandler(this.terminateButton_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(18, 287);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(138, 20);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Termination Date";
+            this.label6.Visible = false;
+            // 
             // A_1_AddEmployee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 361);
+            this.ClientSize = new System.Drawing.Size(649, 407);
+            this.Controls.Add(this.terminateDTP);
+            this.Controls.Add(this.terminateButton);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.label5);
@@ -255,5 +295,8 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn Salary;
+        private System.Windows.Forms.DateTimePicker terminateDTP;
+        private System.Windows.Forms.Button terminateButton;
+        private System.Windows.Forms.Label label6;
     }
 }

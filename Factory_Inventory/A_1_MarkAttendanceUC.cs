@@ -23,10 +23,11 @@ namespace Factory_Inventory
             this.Visible = false;
             this.Visible = true;
             a.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            this.dateTimePickerDTP.MaxDate = DateTime.Now;
         }
         public void loadDatabase()
         {
-            DataTable d = a.runQuery("select Employees.Employee_ID as Emp_ID,* from (select * from Attendance_Log where Record_Date='" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "') as T right outer join Employees on T.Employee_ID= Employees.Employee_ID where Date_Of_Joining <= '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'");
+            DataTable d = a.runQuery("select Employees.Employee_ID as Emp_ID,* from (select * from Attendance_Log where Record_Date='" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "') as T right outer join Employees on T.Employee_ID= Employees.Employee_ID where Date_Of_Joining <= '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' and End_Date >= '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' or End_Date is null");
             dataGridView1.DataSource = d;
             this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
             this.dataGridView1.Columns["Employee_Name"].Visible = true;

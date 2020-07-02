@@ -54,6 +54,7 @@ namespace Factory_Inventory
                 dataGridView1.Rows.Add(salaries.Rows[i][0], salaries.Rows[i][1]);
             }
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
+            this.terminateButton.Visible = true;
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -191,6 +192,34 @@ namespace Factory_Inventory
             {
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
+        }
+
+        private void terminateButton_Click(object sender, EventArgs e)
+        {
+            if(this.terminateButton.Text == "Terminate")
+            {
+                this.terminateButton.Text = "Confirm";
+                this.terminateDTP.Visible = true;
+                this.label6.Visible = true;
+                this.nameTB.ReadOnly = true;
+                this.groupCB.Enabled = true;
+                this.joiningdateDTP.Enabled = true;
+                this.dataGridView1.ReadOnly = true;
+            }
+            else if(this.terminateButton.Text == "Confirm")
+            {
+                DateTime d = DateTime.ParseExact(this.dataGridView1.Rows[dataGridView1.Rows.Count-1].Cells["Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                if (terminateDTP.Value <  d)
+                {
+                    a.ErrorBox("Termination date should be more than or equal to last salary increament day: " + this.dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["Date"].Value.ToString().Substring(0, 10));
+                    return;
+                }
+                a.runQuery("UPDATE Employees SET End_Date = '" + terminateDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' WHERE Employee_ID = " + this.employee_id + "");
+                a.SuccessBox("Employee Deleted");
+                this.parent.loadDatabase();
+                this.Close();
+            }
+
         }
     }
 }
