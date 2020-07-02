@@ -23,7 +23,7 @@ namespace Factory_Inventory
 
         public void loadDatabase()
         {
-            DataTable d = a.runQuery("select * from (select *, ROW_NUMBER() OVER(PARTITION BY Employee_ID ORDER BY Change_Date DESC) as Rank from (select T.*, Salary.Change_Date, Salary.Salary from (SELECT Employees.Employee_ID, Employees.Date_Of_Joining, Employees.Employee_Name, Group_Names.Group_Name FROM Employees INNER JOIN Group_Names ON Employees.Group_ID = Group_Names.Group_ID where Employees.End_Date IS NULL) as T INNER JOIN Salary ON T.Employee_ID = Salary.Employee_ID) as B) as A where A.Rank = 1");
+            DataTable d = a.runQuery("select * from (select *, ROW_NUMBER() OVER(PARTITION BY Employee_ID ORDER BY Change_Date DESC) as Rank from (select T.*, Salary.Change_Date, Salary.Salary from (SELECT Employees.Employee_ID, Employees.Date_Of_Joining, Employees.Employee_Name, Employees.End_Date, Group_Names.Group_Name FROM Employees INNER JOIN Group_Names ON Employees.Group_ID = Group_Names.Group_ID where Employees.End_Date IS NULL) as T INNER JOIN Salary ON T.Employee_ID = Salary.Employee_ID) as B) as A where A.Rank = 1");
             d.Columns.Add("SLNO", typeof(int)).SetOrdinal(0);
             dataGridView1.DataSource = d;
             this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
