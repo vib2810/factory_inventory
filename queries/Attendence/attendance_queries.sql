@@ -1,4 +1,5 @@
 USE master;  
+drop database FactoryAttendance
 CREATE DATABASE [FactoryAttendance]  
 ON      ( NAME = N'FactoryAttendance', FILENAME = 'D:\Databases\FactoryAttendance.mdf') 
 GO
@@ -43,7 +44,7 @@ create table Attendance_Log
 	Record_Date date not null,
 	Attendance decimal(4,3) not null,
 	Comments text null,
-	Primary Key(Employee_ID, Record_Date)
+	CONSTRAINT unq UNIQUE(Employee_ID, Record_Date)
 )
 GO
 CREATE CLUSTERED INDEX Employee_ID

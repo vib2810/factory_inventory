@@ -30,23 +30,6 @@ namespace Factory_Inventory
 
             DbConnect c = new DbConnect();
 
-            // Get the application configuration file.
-            System.Configuration.Configuration config =ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            ConfigurationManager.RefreshSection("appSettings");
-
-            // Get the AppSettings section.
-            AppSettingsSection appSettingSection =(AppSettingsSection)config.GetSection("appSettings");
-            if (appSettingSection.Settings["sql_update"].Value == "1")
-            {
-                bool updated = c.sql_update_query();
-                if(updated==true) c.SuccessBox("Updated SQL");
-                Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                //configuration.AppSettings.Settings.Remove("sql_update");
-                configuration.AppSettings.Settings["sql_update"].Value = "lala";
-                configuration.Save(ConfigurationSaveMode.Full, true);
-                ConfigurationManager.RefreshSection("appSettings");
-            }
-
             while (true)
             {
                 Login f1 = new Login();
@@ -54,6 +37,23 @@ namespace Factory_Inventory
                 if (f1.access == 1 || f1.access == 2)
                 {
                     c = new DbConnect();
+                    // Get the application configuration file.
+                    System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    ConfigurationManager.RefreshSection("appSettings");
+
+                    // Get the AppSettings section.
+                    AppSettingsSection appSettingSection = (AppSettingsSection)config.GetSection("appSettings");
+                    if (appSettingSection.Settings["sql_update"].Value == "1")
+                    {
+                        bool updated = c.sql_update_query();
+                        if (updated == true) c.SuccessBox("Updated SQL");
+                        Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                        //configuration.AppSettings.Settings.Remove("sql_update");
+                        configuration.AppSettings.Settings["sql_update"].Value = "lala";
+                        configuration.Save(ConfigurationSaveMode.Full, true);
+                        ConfigurationManager.RefreshSection("appSettings");
+                    }
+
                     c.recordLogin(f1.username);
                     Console.WriteLine(Properties.Settings.Default.LastIP);
                     Global.background = new TwistERP();
