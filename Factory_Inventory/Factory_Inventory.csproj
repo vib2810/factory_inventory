@@ -406,6 +406,18 @@
     <Compile Include="M_V_editDyeingCompanyUC.Designer.cs">
       <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_V_editQBTUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="M_V_editQBTUC.Designer.cs">
+      <DependentUpon>M_V_editQBTUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="M_V_editMachineNoUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="M_V_editMachineNoUC.Designer.cs">
+      <DependentUpon>M_V_editMachineNoUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V_history.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -643,6 +655,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_V_editDyeingCompanyUC.resx">
       <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V_editQBTUC.resx">
+      <DependentUpon>M_V_editQBTUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V_editMachineNoUC.resx">
+      <DependentUpon>M_V_editMachineNoUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V_history.resx">
       <DependentUpon>M_V_history.cs</DependentUpon>

@@ -177,6 +177,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        
         //Utility Functions
         public DataTable runQuery(string sql)
         {
@@ -457,6 +458,12 @@ namespace Factory_Inventory.Factory_Classes
                 return tb;
             }
         }
+        public void hideallDGVcols(DataGridView d)
+        {
+            d.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+            return;
+        }
+        
         //Arrow Key Events
         public void comboBoxEvent(ComboBox c)
         {

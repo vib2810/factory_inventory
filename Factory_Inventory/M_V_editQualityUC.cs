@@ -141,7 +141,7 @@ namespace Factory_Inventory
                 editQualityBeforeTwistTB.Text = "";
                 this.deleteUserCheckboxCK.Checked = false;
                 loadDatabase();
-                if(RowIndex>=0)
+                if (RowIndex >= 0 && RowIndex<=dataGridView1.Rows.Count-1)
                 {
                     this.dataGridView1.Rows[RowIndex].Selected = true;
                 }

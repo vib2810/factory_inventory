@@ -82,15 +82,12 @@ namespace Factory_Inventory
 
             //Create drop-down Spring list
             var dataSource4 = new List<string>();
+            DataTable dm = c.getTableData("Machine_No", "*", "");
             dataSource4.Add("---Select---");
-            dataSource4.Add("1u");
-            dataSource4.Add("2u");
-            dataSource4.Add("3u");
-            dataSource4.Add("4u");
-            dataSource4.Add("1d");
-            dataSource4.Add("2d");
-            dataSource4.Add("3d");
-            dataSource4.Add("4d");
+            for (int i = 0; i < dm.Rows.Count; i++)
+            {
+                dataSource4.Add(dm.Rows[i]["Machine_No"].ToString());
+            }
             this.machineNoCB.DataSource = dataSource4;
             this.machineNoCB.DisplayMember = "Machine_Number";
             this.machineNoCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
@@ -165,17 +162,13 @@ namespace Factory_Inventory
             this.springCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.springCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            //Create drop-down Spring list
             var dataSource4 = new List<string>();
+            DataTable dm = c.getTableData("Machine_No", "*", "");
             dataSource4.Add("---Select---");
-            dataSource4.Add("1u");
-            dataSource4.Add("2u");
-            dataSource4.Add("3u");
-            dataSource4.Add("4u");
-            dataSource4.Add("1d");
-            dataSource4.Add("2d");
-            dataSource4.Add("3d");
-            dataSource4.Add("4d");
+            for (int i = 0; i < dm.Rows.Count; i++)
+            {
+                dataSource4.Add(dm.Rows[i]["Machine_No"].ToString());
+            }
             this.machineNoCB.DataSource = dataSource4;
             this.machineNoCB.DisplayMember = "Machine_Number";
             this.machineNoCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
@@ -304,15 +297,12 @@ namespace Factory_Inventory
 
             //Create drop-down Spring list
             var dataSource4 = new List<string>();
+            DataTable dm = c.getTableData("Machine_No", "*", "");
             dataSource4.Add("---Select---");
-            dataSource4.Add("1u");
-            dataSource4.Add("2u");
-            dataSource4.Add("3u");
-            dataSource4.Add("4u");
-            dataSource4.Add("1d");
-            dataSource4.Add("2d");
-            dataSource4.Add("3d");
-            dataSource4.Add("4d");
+            for (int i = 0; i < dm.Rows.Count; i++)
+            {
+                dataSource4.Add(dm.Rows[i]["Machine_No"].ToString());
+            }
             this.machineNoCB.DataSource = dataSource4;
             this.machineNoCB.DisplayMember = "Machine_Number";
             this.machineNoCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
