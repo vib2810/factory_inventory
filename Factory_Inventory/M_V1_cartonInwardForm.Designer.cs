@@ -45,6 +45,10 @@
             this.comboBox2CB = new System.Windows.Forms.ComboBox();
             this.costLabel = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.factoryInventoryDataSet = new Factory_Inventory.FactoryInventoryDataSet();
             this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.carton_VoucherTableAdapter = new Factory_Inventory.FactoryInventoryDataSetTableAdapters.Carton_VoucherTableAdapter();
@@ -53,10 +57,6 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.dynamicWeightLabel = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.TextBox();
-            this.Quality = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -74,7 +74,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(695, 668);
+            this.dataGridView1.Size = new System.Drawing.Size(695, 775);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
@@ -160,7 +160,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(57, 586);
+            this.saveButton.Location = new System.Drawing.Point(57, 709);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(144, 57);
             this.saveButton.TabIndex = 9;
@@ -172,7 +172,7 @@
             // 
             this.totalWeightLabel.AutoSize = true;
             this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(53, 508);
+            this.totalWeightLabel.Location = new System.Drawing.Point(53, 631);
             this.totalWeightLabel.Name = "totalWeightLabel";
             this.totalWeightLabel.Size = new System.Drawing.Size(121, 20);
             this.totalWeightLabel.TabIndex = 0;
@@ -189,9 +189,10 @@
             // costLabel
             // 
             this.costLabel.AutoSize = true;
-            this.costLabel.Location = new System.Drawing.Point(9, 268);
+            this.costLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.costLabel.Location = new System.Drawing.Point(8, 250);
             this.costLabel.Name = "costLabel";
-            this.costLabel.Size = new System.Drawing.Size(80, 17);
+            this.costLabel.Size = new System.Drawing.Size(95, 20);
             this.costLabel.TabIndex = 0;
             this.costLabel.Text = "Cost per kg";
             // 
@@ -215,80 +216,15 @@
             this.Cost,
             this.Weight,
             this.Total_Price});
-            this.dataGridView2.Location = new System.Drawing.Point(12, 288);
+            this.dataGridView2.Location = new System.Drawing.Point(12, 273);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersVisible = false;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(438, 210);
+            this.dataGridView2.Size = new System.Drawing.Size(438, 350);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.TabStop = false;
             this.dataGridView2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellValueChanged);
-            // 
-            // factoryInventoryDataSet
-            // 
-            this.factoryInventoryDataSet.DataSetName = "FactoryInventoryDataSet";
-            this.factoryInventoryDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // cartonVoucherBindingSource
-            // 
-            this.cartonVoucherBindingSource.DataMember = "Carton_Voucher";
-            this.cartonVoucherBindingSource.DataSource = this.factoryInventoryDataSet;
-            // 
-            // carton_VoucherTableAdapter
-            // 
-            this.carton_VoucherTableAdapter.ClearBeforeFill = true;
-            // 
-            // lockCartonsCK
-            // 
-            this.lockCartonsCK.AutoSize = true;
-            this.lockCartonsCK.Location = new System.Drawing.Point(337, 218);
-            this.lockCartonsCK.Name = "lockCartonsCK";
-            this.lockCartonsCK.Size = new System.Drawing.Size(113, 21);
-            this.lockCartonsCK.TabIndex = 10;
-            this.lockCartonsCK.Text = "Lock Cartons";
-            this.lockCartonsCK.UseVisualStyleBackColor = true;
-            this.lockCartonsCK.CheckedChanged += new System.EventHandler(this.lockCartonsCK_CheckedChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(53, 535);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(96, 20);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Total Rate";
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.Location = new System.Drawing.Point(259, 586);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(144, 57);
-            this.deleteButton.TabIndex = 11;
-            this.deleteButton.TabStop = false;
-            this.deleteButton.Text = "Delete Voucher";
-            this.deleteButton.UseVisualStyleBackColor = true;
-            this.deleteButton.Visible = false;
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            // 
-            // dynamicWeightLabel
-            // 
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(203, 506);
-            this.dynamicWeightLabel.Name = "dynamicWeightLabel";
-            this.dynamicWeightLabel.ReadOnly = true;
-            this.dynamicWeightLabel.Size = new System.Drawing.Size(200, 22);
-            this.dynamicWeightLabel.TabIndex = 0;
-            this.dynamicWeightLabel.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(203, 535);
-            this.label4.Name = "label4";
-            this.label4.ReadOnly = true;
-            this.label4.Size = new System.Drawing.Size(200, 22);
-            this.label4.TabIndex = 0;
-            this.label4.TabStop = false;
             // 
             // Quality
             // 
@@ -321,11 +257,76 @@
             this.Total_Price.Name = "Total_Price";
             this.Total_Price.ReadOnly = true;
             // 
+            // factoryInventoryDataSet
+            // 
+            this.factoryInventoryDataSet.DataSetName = "FactoryInventoryDataSet";
+            this.factoryInventoryDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // cartonVoucherBindingSource
+            // 
+            this.cartonVoucherBindingSource.DataMember = "Carton_Voucher";
+            this.cartonVoucherBindingSource.DataSource = this.factoryInventoryDataSet;
+            // 
+            // carton_VoucherTableAdapter
+            // 
+            this.carton_VoucherTableAdapter.ClearBeforeFill = true;
+            // 
+            // lockCartonsCK
+            // 
+            this.lockCartonsCK.AutoSize = true;
+            this.lockCartonsCK.Location = new System.Drawing.Point(337, 218);
+            this.lockCartonsCK.Name = "lockCartonsCK";
+            this.lockCartonsCK.Size = new System.Drawing.Size(113, 21);
+            this.lockCartonsCK.TabIndex = 10;
+            this.lockCartonsCK.Text = "Lock Cartons";
+            this.lockCartonsCK.UseVisualStyleBackColor = true;
+            this.lockCartonsCK.CheckedChanged += new System.EventHandler(this.lockCartonsCK_CheckedChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(53, 658);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(96, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Total Rate";
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(259, 709);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(144, 57);
+            this.deleteButton.TabIndex = 11;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete Voucher";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // dynamicWeightLabel
+            // 
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(203, 629);
+            this.dynamicWeightLabel.Name = "dynamicWeightLabel";
+            this.dynamicWeightLabel.ReadOnly = true;
+            this.dynamicWeightLabel.Size = new System.Drawing.Size(200, 22);
+            this.dynamicWeightLabel.TabIndex = 0;
+            this.dynamicWeightLabel.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(203, 658);
+            this.label4.Name = "label4";
+            this.label4.ReadOnly = true;
+            this.label4.Size = new System.Drawing.Size(200, 22);
+            this.label4.TabIndex = 0;
+            this.label4.TabStop = false;
+            // 
             // M_V1_cartonInwardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1168, 668);
+            this.ClientSize = new System.Drawing.Size(1168, 776);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dynamicWeightLabel);
             this.Controls.Add(this.deleteButton);

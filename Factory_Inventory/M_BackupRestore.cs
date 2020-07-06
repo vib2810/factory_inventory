@@ -16,12 +16,12 @@ using System.IO;
 
 namespace Factory_Inventory
 {
-    public partial class BackupRestore : Form
+    public partial class M_BackupRestore : Form
     {
         public bool wait = false;
         public string backupname;
         public DbConnect c;
-        public BackupRestore()
+        public M_BackupRestore()
         {
             InitializeComponent();
             c = new DbConnect(); 
@@ -31,28 +31,41 @@ namespace Factory_Inventory
             this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
-        private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
+
+        protected override void OnPaint(PaintEventArgs e)
         {
-            if (e.Error != null)
+            base.OnPaint(e);
+            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset);
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.restoreLocationTB.Text = "";
+        }
+        private void backup(string path, string database)
+        {
+            try
             {
-                backupStatusLabel.Invoke((MethodInvoker)delegate
-                {
-                    backupStatusLabel.Text = e.Error.Message;
-                });
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
+                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database };
+                string backup_location = path + @"\" + this.fileNameTB.Text + database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
+                dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
+                dbBackup.Initialize = true;
+                dbBackup.PercentComplete += DbBackup_PercentComplete;
+                dbBackup.Complete += DbBackup_Complete;
+                dbBackup.SqlBackupAsync(dbServer);
+                this.backupLoactionLabel.Text += "Backup stored as: " + backup_location + "\n";
+            }
+            catch (Exception ex)
+            {
+                c.ErrorBox(ex.Message, "Error");
             }
         }
-        private void DbBackup_PercentComplete(object sender, PercentCompleteEventArgs e)
-        {
-            progressBar1.Invoke((MethodInvoker)delegate
-            {
-                progressBar1.Value = e.Percent;
-                progressBar1.Update();
-            });
-            backupStatusLabel.Invoke((MethodInvoker)delegate
-            {
-                backupStatusLabel.Text = $"{e.Percent}%";
-            });
-        }
+        
+        //Button Click
         private void backupButton_Click_1(object sender, EventArgs e)
         {
             this.backupLoactionLabel.Text = "";
@@ -89,25 +102,6 @@ namespace Factory_Inventory
             if (checkedListBox1.CheckedIndices.Contains(1))
             {
                 this.backup(path, "FactoryAttendance");
-            }
-        }
-        private void backup(string path, string database)
-        {
-            try
-            {
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
-                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database };
-                string backup_location = path + @"\" + this.fileNameTB.Text + database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
-                dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
-                dbBackup.Initialize = true;
-                dbBackup.PercentComplete += DbBackup_PercentComplete;
-                dbBackup.Complete += DbBackup_Complete;
-                dbBackup.SqlBackupAsync(dbServer);
-                this.backupLoactionLabel.Text += "Backup stored as: " + backup_location + "\n";
-            }
-            catch (Exception ex)
-            {
-                c.ErrorBox(ex.Message, "Error");
             }
         }
         private void browseButton_Click(object sender, EventArgs e)
@@ -192,15 +186,19 @@ namespace Factory_Inventory
                 c.ErrorBox(ex.Message, "Error");
             }
         }
-        private void DbRestore_Complete(object sender, ServerMessageEventArgs e)
+
+        //complete bars
+        private void DbBackup_PercentComplete(object sender, PercentCompleteEventArgs e)
         {
-            if(e.Error!=null)
+            progressBar1.Invoke((MethodInvoker)delegate
             {
-                this.restoreStatusLabel.Invoke((MethodInvoker)delegate
-                {
-                    this.restoreStatusLabel.Text = e.Error.Message;
-                });
-            }
+                progressBar1.Value = e.Percent;
+                progressBar1.Update();
+            });
+            backupStatusLabel.Invoke((MethodInvoker)delegate
+            {
+                backupStatusLabel.Text = $"{e.Percent}%";
+            });
         }
         private void DbRestore_PercentComplete(object sender, PercentCompleteEventArgs e)
         {
@@ -214,19 +212,25 @@ namespace Factory_Inventory
                 restoreStatusLabel.Text = $"{e.Percent}%";
             });
         }
-        protected override void OnPaint(PaintEventArgs e)
+        private void DbRestore_Complete(object sender, ServerMessageEventArgs e)
         {
-            base.OnPaint(e);
-            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
-                                         Color.Black, 10, ButtonBorderStyle.Inset,
-                                         Color.Black, 10, ButtonBorderStyle.Inset,
-                                         Color.Black, 10, ButtonBorderStyle.Inset,
-                                         Color.Black, 10, ButtonBorderStyle.Inset);
+            if (e.Error != null)
+            {
+                this.restoreStatusLabel.Invoke((MethodInvoker)delegate
+                {
+                    this.restoreStatusLabel.Text = e.Error.Message;
+                });
+            }
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
         {
-            this.restoreLocationTB.Text = "";
+            if (e.Error != null)
+            {
+                backupStatusLabel.Invoke((MethodInvoker)delegate
+                {
+                    backupStatusLabel.Text = e.Error.Message;
+                });
+            }
         }
     }
 }

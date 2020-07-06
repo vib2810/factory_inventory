@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 //using System.Windows.Controls;
 using System.Windows.Forms;
 
@@ -321,6 +322,14 @@ namespace Factory_Inventory
             if (Global.access == 2)
             {
                 this.deleteButton.Visible = false;
+            }
+            //Double Buffer DGV
+            if (!System.Windows.Forms.SystemInformation.TerminalServerSession)
+            {
+                Type dgvType = dataGridView1.GetType();
+                PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+                pi.SetValue(dataGridView1, true, null);
             }
         }
         

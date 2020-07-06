@@ -51,7 +51,6 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
-
         private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             A_1_MainS frm = new A_1_MainS();
@@ -82,7 +81,6 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
-
         private void eRPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Form f in this.MdiChildren)
@@ -95,7 +93,6 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
-
         private void TwistERP_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -108,7 +105,6 @@ namespace Factory_Inventory
                 e.Cancel = true;
             }
         }
-
         private void backupRestoreStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Form f in this.MdiChildren)
@@ -119,7 +115,7 @@ namespace Factory_Inventory
                 }
             }
 
-            BackupRestore frm = new BackupRestore();
+            M_BackupRestore frm = new M_BackupRestore();
             bool backup = false;
             foreach (Form f in this.MdiChildren)
             {
