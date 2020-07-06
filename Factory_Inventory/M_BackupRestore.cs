@@ -16,48 +16,67 @@ using System.IO;
 
 namespace Factory_Inventory
 {
-    public partial class M_1_BackupRestoreUC : UserControl
+    public partial class M_BackupRestore : Form
     {
-        public string database="FactoryData";
         public bool wait = false;
         public string backupname;
         public DbConnect c;
-        public M_1_BackupRestoreUC()
+        public M_BackupRestore()
         {
             InitializeComponent();
             c = new DbConnect(); 
             this.backupLoactionTB.Text = @"D:\Backups\";
+            this.comboBox1.SelectedIndex = 0;
+            this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
-        private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
-            if (e.Error != null)
+            base.OnPaint(e);
+            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset);
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.restoreLocationTB.Text = "";
+        }
+        private void backup(string path, string database)
+        {
+            try
             {
-                backupStatusLabel.Invoke((MethodInvoker)delegate
-                {
-                    backupStatusLabel.Text = e.Error.Message;
-                });
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
+                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database };
+                string backup_location = path + @"\" + this.fileNameTB.Text + database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
+                dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
+                dbBackup.Initialize = true;
+                dbBackup.PercentComplete += DbBackup_PercentComplete;
+                dbBackup.Complete += DbBackup_Complete;
+                dbBackup.SqlBackupAsync(dbServer);
+                this.backupLoactionLabel.Text += "Backup stored as: " + backup_location + "\n";
+            }
+            catch (Exception ex)
+            {
+                c.ErrorBox(ex.Message, "Error");
             }
         }
-
-        private void DbBackup_PercentComplete(object sender, PercentCompleteEventArgs e)
-        {
-            progressBar1.Invoke((MethodInvoker)delegate
-            {
-                progressBar1.Value = e.Percent;
-                progressBar1.Update();
-            });
-            backupStatusLabel.Invoke((MethodInvoker)delegate
-            {
-                backupStatusLabel.Text = $"{e.Percent}%";
-            });
-        }
-
+        
+        //Button Click
         private void backupButton_Click_1(object sender, EventArgs e)
         {
-            if(this.backupLoactionTB.Text==string.Empty)
+            this.backupLoactionLabel.Text = "";
+            if (this.backupLoactionTB.Text==string.Empty)
             {
                 c.ErrorBox("Please select backup loaction", "Error");
+                return;
+            }
+            if(!(checkedListBox1.CheckedIndices.Contains(0) || checkedListBox1.CheckedIndices.Contains(1)))
+            {
+                c.ErrorBox("Please select atleast one database");
                 return;
             }
             string path = this.backupLoactionTB.Text + DateTime.Now.Date.ToString().Substring(0,10).Replace(":", "-").Replace('/', '-');
@@ -76,24 +95,15 @@ namespace Factory_Inventory
                 MessageBox.Show("Backup failed\n" + ex.ToString());
                 return;
             }
-            try
+            if (checkedListBox1.CheckedIndices.Contains(0))
             {
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
-                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database};
-                string backup_location = path + @"\" + this.database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/','-') + ")" + ".bak";
-                dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
-                dbBackup.Initialize = true;
-                dbBackup.PercentComplete += DbBackup_PercentComplete;
-                dbBackup.Complete += DbBackup_Complete;
-                dbBackup.SqlBackupAsync(dbServer);
-                this.backupLoactionLabel.Text += "Backup stored as: "+ backup_location;
+                this.backup(path, "FactoryData");
             }
-            catch (Exception ex)
+            if (checkedListBox1.CheckedIndices.Contains(1))
             {
-                c.ErrorBox(ex.Message, "Error");
+                this.backup(path, "FactoryAttendance");
             }
         }
-
         private void browseButton_Click(object sender, EventArgs e)
         {
             var dialog = new FolderSelectDialog
@@ -106,9 +116,9 @@ namespace Factory_Inventory
                 this.backupLoactionTB.Text = dialog.FileName + @"\";
             }
         }
-
         private void browseRestoreButton_Click(object sender, EventArgs e)
         {
+            string database = this.comboBox1.SelectedItem.ToString().Replace(" ", String.Empty);
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
                 InitialDirectory = @"D:\",
@@ -118,7 +128,7 @@ namespace Factory_Inventory
                 CheckPathExists = true,
 
                 DefaultExt = "bak",
-                Filter = "bak files (*.bak)|*.bak",
+                Filter = "bak files ( *"+database+ "*.bak) | *" + database + "*.bak",
                 FilterIndex = 2,
                 RestoreDirectory = true,
 
@@ -131,7 +141,6 @@ namespace Factory_Inventory
                 this.restoreLocationTB.Text = openFileDialog1.FileName;
             }
         }
-
         private void restoreButton_Click(object sender, EventArgs e)
         {
             if (this.restoreLocationTB.Text == string.Empty)
@@ -139,11 +148,12 @@ namespace Factory_Inventory
                 c.ErrorBox("Please select restore file", "Error");
                 return;
             }
+            string database = this.comboBox1.SelectedItem.ToString().Replace(" ", String.Empty);
             try
             {
                 //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
-                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = this.database };
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
+                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database };
                 string s = this.restoreLocationTB.Text;
                 string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + "restorebackup.bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
@@ -160,12 +170,12 @@ namespace Factory_Inventory
             try
             {
                 //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP +", 1433", "sa", "Kdvghr2810@"));
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.connectionstring)));
-                Database db = dbServer.Databases[this.database];
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
+                Database db = dbServer.Databases[database];
                 dbServer.KillAllProcesses(db.Name);
                 db.DatabaseOptions.UserAccess = DatabaseUserAccess.Multiple;
                 db.Alter(TerminationClause.RollbackTransactionsImmediately);
-                Restore dbRestore = new Restore() { Database = this.database, Action = RestoreActionType.Database, ReplaceDatabase = true, NoRecovery = false };
+                Restore dbRestore = new Restore() { Database = database, Action = RestoreActionType.Database, ReplaceDatabase = true, NoRecovery = false };
                 dbRestore.Devices.AddDevice(this.restoreLocationTB.Text, DeviceType.File);
                 dbRestore.PercentComplete += DbRestore_PercentComplete;
                 dbRestore.Complete += DbRestore_Complete;
@@ -177,17 +187,19 @@ namespace Factory_Inventory
             }
         }
 
-        private void DbRestore_Complete(object sender, ServerMessageEventArgs e)
+        //complete bars
+        private void DbBackup_PercentComplete(object sender, PercentCompleteEventArgs e)
         {
-            if(e.Error!=null)
+            progressBar1.Invoke((MethodInvoker)delegate
             {
-                this.restoreStatusLabel.Invoke((MethodInvoker)delegate
-                {
-                    this.restoreStatusLabel.Text = e.Error.Message;
-                });
-            }
+                progressBar1.Value = e.Percent;
+                progressBar1.Update();
+            });
+            backupStatusLabel.Invoke((MethodInvoker)delegate
+            {
+                backupStatusLabel.Text = $"{e.Percent}%";
+            });
         }
-
         private void DbRestore_PercentComplete(object sender, PercentCompleteEventArgs e)
         {
             progressBar2.Invoke((MethodInvoker)delegate
@@ -199,6 +211,26 @@ namespace Factory_Inventory
             {
                 restoreStatusLabel.Text = $"{e.Percent}%";
             });
+        }
+        private void DbRestore_Complete(object sender, ServerMessageEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                this.restoreStatusLabel.Invoke((MethodInvoker)delegate
+                {
+                    this.restoreStatusLabel.Text = e.Error.Message;
+                });
+            }
+        }
+        private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                backupStatusLabel.Invoke((MethodInvoker)delegate
+                {
+                    backupStatusLabel.Text = e.Error.Message;
+                });
+            }
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Factory_Inventory
             string[] split = this.iptextbox.Text.Split(':');
             if(this.checkBox1.Checked==true)
             {
-                Global.connectionstring = Properties.Settings.Default.LocalConnectionString;
+                Global.defaultconnectionstring = Properties.Settings.Default.LocalConnectionString;
             }
             else
             {
@@ -68,7 +68,7 @@ namespace Factory_Inventory
                     properties_changed = true;
                     Properties.Settings.Default.Save();
                 }
-                Global.connectionstring = con;
+                Global.defaultconnectionstring = con;
              }
             if(Properties.Settings.Default.localState != this.checkBox1.Checked)
             {

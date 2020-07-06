@@ -43,6 +43,7 @@ create table Attendance_Log
 	Record_Date date not null,
 	Attendance decimal(4,3) not null,
 	Comments text null,
+	Primary Key(Employee_ID, Record_Date)
 )
 GO
 CREATE CLUSTERED INDEX Employee_ID

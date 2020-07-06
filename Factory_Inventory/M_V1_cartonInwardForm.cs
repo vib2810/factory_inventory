@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 //using System.Windows.Controls;
 using System.Windows.Forms;
 
@@ -188,7 +189,6 @@ namespace Factory_Inventory
                     dataSource2.Add(d2.Rows[i][0].ToString());
                 }
                 this.comboBox2CB.DataSource = dataSource2;
-                Console.WriteLine(this.comboBox2CB.FindStringExact(row["Company_Name"].ToString()));
                 if(this.comboBox2CB.FindStringExact(row["Company_Name"].ToString())==-1)
                 {
                     dataSource2.Add(row["Company_Name"].ToString());
@@ -322,6 +322,14 @@ namespace Factory_Inventory
             if (Global.access == 2)
             {
                 this.deleteButton.Visible = false;
+            }
+            //Double Buffer DGV
+            if (!System.Windows.Forms.SystemInformation.TerminalServerSession)
+            {
+                Type dgvType = dataGridView1.GetType();
+                PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+                pi.SetValue(dataGridView1, true, null);
             }
         }
         

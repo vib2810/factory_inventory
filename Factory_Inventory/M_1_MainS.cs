@@ -13,16 +13,18 @@ namespace Factory_Inventory
 {
     public partial class M_1_MainS : Form
     {
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if(this.m_1_BackupRestoreUC.backupLoactionTB.Focused == true || this.m_1_BackupRestoreUC.restoreLocationTB.Focused == true)
-            {
-                if(keyData == Keys.Escape)
-                {
-                    this.backupRestoreButton.Focus();
-                }
-                return false;
-            }
             if (this.usersUC.conformPasswordTextbox.Focused == true || this.usersUC.passwordTextbox.Focused == true || this.usersUC.usernameTextbox.Focused == true)
             {
                 if (keyData == Keys.Escape)
@@ -41,20 +43,13 @@ namespace Factory_Inventory
                 this.inventoryButton.PerformClick();
                 return false;
             }
-            if (keyData == Keys.B)
-            {
-                this.backupRestoreButton.PerformClick();
-                return false;
-            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         public DbConnect c;
         public bool logout = false;
         public Button last_clicked;
         public Color select = Color.SteelBlue;
-        //Declare all sub-forms globally so we can close them all
-        M_1_Signup f2=null;
-        private bool close_from_code = false;
+
         public M_1_MainS(DbConnect input, string user, int access)
         {
             Global.access = access;
@@ -100,52 +95,13 @@ namespace Factory_Inventory
             inventoryUC.Hide();
             usersUC.Hide();
             loginlogUC.Hide();
-            m_1_BackupRestoreUC.Hide();
-        }
-        private void close_form()
-        {
-            this.close_from_code = true;
-            this.Close();
         }
         private void newUser_Click(object sender, EventArgs e)
         {
-            f2 = new M_1_Signup(c, this);
+            M_1_Signup f2 = new M_1_Signup(c, this);
             f2.Show();
             this.decolour_all_buttons();
             this.newUserButton.BackColor = select;
-        }
-        public void closeAllForms()
-        {
-            if(f2!=null) f2.Close();
-            this.close_form();
-        }
-        private void MainS_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if(this.close_from_code!=true)
-            {
-                DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    this.logout = true;
-                    Form parent = this.MdiParent;
-                    this.close_form();
-                    parent.Close();
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    e.Cancel=true; 
-                }
-            }
-            else
-            {
-                this.close_from_code = false;
-            }
-
-        }
-        private void logOutButton_Click_1(object sender, EventArgs e)
-        {
-            this.logout = true;
-            this.Close();
         }
         private void vouchersButton_Click_1(object sender, EventArgs e)
         {
@@ -193,16 +149,24 @@ namespace Factory_Inventory
             this.last_clicked = this.loginLogButton;
             this.Text = "Factory Inventory - Home - Login Log";
         }
-        private void backupRestoreButton_Click(object sender, EventArgs e)
+       // bool first = false;
+        private void MainS_FormClosing(object sender, FormClosingEventArgs e)
         {
-            hide_all_UCs();
-            m_1_BackupRestoreUC.Show();
-            m_1_BackupRestoreUC.BringToFront();
-            m_1_BackupRestoreUC.Focus();
-            this.decolour_all_buttons();
-            this.backupRestoreButton.BackColor = select;
-            this.last_clicked = this.backupRestoreButton;
-            this.Text = "Factory Inventory - Home - Backup and Restore";
+            //e.Cancel = true;
+        }
+        private void logOutButton_Click_1(object sender, EventArgs e)
+        {
+            this.MdiParent.Close();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset);
         }
     }
 }

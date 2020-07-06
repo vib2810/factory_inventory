@@ -40,7 +40,7 @@ namespace Factory_Inventory.Factory_Classes
             //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryInventory;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
             string ip_address = Properties.Settings.Default.LastIP;
             //Connection string for Vob's laptop
-            this.con = new SqlConnection(Global.connectionstring); // making connection   
+            this.con = new SqlConnection(Global.defaultconnectionstring); // making connection   
         }
 
         public string RandomString(int size, bool lowerCase)
@@ -178,26 +178,26 @@ namespace Factory_Inventory.Factory_Classes
             return true;
         }
         //Utility Functions
-        public void runQuery(string sql)
+        public DataTable runQuery(string sql)
         {
+            DataTable dt = new DataTable();
             try
             {
                 con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
                 Console.WriteLine(sql);
-                //this.SuccessBox("Query Executed: \n"+sql);
+                adapter.Fill(dt);
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not run Quert (runQuery)\n" + sql + "\n" + e.Message, "Exception");
+                this.ErrorBox("Could not run Query (runQuery)\n" + sql + "\n" + e.Message, "Exception");
             }
 
             finally
             {
                 con.Close();
             }
+            return dt;
         }
         public void printDGVSort(List<string> input, DataGridView d, int date_cols)
         {
@@ -1191,7 +1191,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Could not connect to database (getQC) " + e.Message, "Exception");
+                this.ErrorBox("Could not connect to database (getQC) " + e.Message +"\n"+tablename, "Exception");
             }
             finally
             {
@@ -1330,8 +1330,17 @@ namespace Factory_Inventory.Factory_Classes
             DataTable dt = new DataTable(); //this is creating a virtual table
             try
             {
+                Console.WriteLine(con.ConnectionString);
                 con.Open();
-                string sql = "SELECT " + cols + " FROM " + tablename + " WHERE " + where;
+                string sql;
+                if(string.IsNullOrEmpty(where))
+                {
+                    sql = "SELECT " + cols + " FROM " + tablename;
+                }
+                else
+                {
+                    sql = "SELECT " + cols + " FROM " + tablename + " WHERE " + where;
+                }
                 SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 Console.WriteLine(sql);
                 sda.Fill(dt);
@@ -5300,6 +5309,30 @@ namespace Factory_Inventory.Factory_Classes
 
             }
             return dt;
+        }
+        public bool runProcedure_bool(string procname, string parameters)
+        {
+            try
+            {
+                con.Open();
+                string sql = "EXEC " + procname + "  " + parameters;
+                Console.WriteLine(sql);
+                SqlDataAdapter sda = new SqlDataAdapter();
+                sda.InsertCommand = new SqlCommand(sql, con);
+                sda.InsertCommand.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                ErrorBox("Could not execute procedure (runProcedure) "+e.Number +"\n" + "EXEC " + procname + "  " + parameters + "\n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+            return true;
         }
 
     }
