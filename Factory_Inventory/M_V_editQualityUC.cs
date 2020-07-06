@@ -104,6 +104,23 @@ namespace Factory_Inventory
             List<string> l2 = new List<string>(l);;
             this.hsComboBox2.DataSource = l;
             this.hsComboBox3.DataSource = l2;
+
+            DataTable dt = c.runQuery("SELECT * FROM Quality_Before_Twist");
+            List<string> datasource = new List<string>();
+            datasource.Add("---Select---");
+            for(int i=0;i<dt.Rows.Count;i++)
+            {
+                datasource.Add(dt.Rows[i]["Quality_Before_Twist"].ToString());
+            }
+            this.addQBTCB.DataSource = datasource;
+            this.addQBTCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.addQBTCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.addQBTCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            this.editQBTCB.DataSource = datasource;
+            this.editQBTCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.editQBTCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.editQBTCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
         public void loadDatabase()
         {
@@ -127,18 +144,18 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    if (editedQualityTextboxTB.Text == "" || editHSNNoTB.Text == "" || this.hsComboBox3.SelectedIndex <= 0 || editQualityBeforeTwistTB.Text == "")
+                    if (editedQualityTextboxTB.Text == "" || editHSNNoTB.Text == "" || this.hsComboBox3.SelectedIndex <= 0 || editQBTCB.SelectedIndex == 0)
                     {
                         c.ErrorBox("Enter all values", "Error");
                         return;
                     }
-                    c.editQuality(editQualityBeforeTwistTB.Text, editHSNNoTB.Text, this.hsComboBox3.SelectedItem.ToString(), editedQualityTextboxTB.Text, dataGridView1.Rows[row].Cells[0].Value.ToString());
+                    c.editQuality(editQBTCB.Text, editHSNNoTB.Text, this.hsComboBox3.SelectedItem.ToString(), editedQualityTextboxTB.Text, dataGridView1.Rows[row].Cells[0].Value.ToString());
                 }
                 
                 //this.selectedRowIndex = -1;
                 this.editedQualityTextboxTB.Text = "";
                 editHSNNoTB.Text = "";
-                editQualityBeforeTwistTB.Text = "";
+                editQBTCB.SelectedIndex = 0;
                 this.deleteUserCheckboxCK.Checked = false;
                 loadDatabase();
                 if (RowIndex >= 0 && RowIndex<=dataGridView1.Rows.Count-1)
@@ -149,15 +166,15 @@ namespace Factory_Inventory
         }
         private void addQualityButton_Click_1(object sender, EventArgs e)
         {
-            if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.hsComboBox2.SelectedIndex <= 0 || addQualityBeforeTwistTB.Text == "")
+            if (newQualityTextboxTB.Text == "" || addHSNNoTB.Text == "" || this.hsComboBox2.SelectedIndex <= 0 || addQBTCB.SelectedIndex == 0)
             {
                 c.ErrorBox("Enter all values", "Error");
                 return;
             }
-            c.addQuality(addQualityBeforeTwistTB.Text, addHSNNoTB.Text, this.hsComboBox2.SelectedItem.ToString(), this.newQualityTextboxTB.Text); 
+            c.addQuality(addQBTCB.Text, addHSNNoTB.Text, this.hsComboBox2.SelectedItem.ToString(), this.newQualityTextboxTB.Text); 
             this.newQualityTextboxTB.Text = "";
             this.addHSNNoTB.Text = "";
-            this.addQualityBeforeTwistTB.Text = "";
+            this.addQBTCB.SelectedIndex = 0;
             loadDatabase();
         }
         private void hsComboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -213,7 +230,7 @@ namespace Factory_Inventory
                 editedQualityTextboxTB.Text = dataGridView1.Rows[RowIndex].Cells[0].Value.ToString();
                 editHSNNoTB.Text = dataGridView1.Rows[RowIndex].Cells[1].Value.ToString();
                 hsComboBox3.SelectedIndex = this.hsComboBox3.FindStringExact(this.dataGridView1.Rows[RowIndex].Cells[2].Value.ToString());
-                editQualityBeforeTwistTB.Text = dataGridView1.Rows[RowIndex].Cells[3].Value.ToString();
+                editQBTCB.SelectedIndex = editQBTCB.FindStringExact(dataGridView1.Rows[RowIndex].Cells[3].Value.ToString());
             }
         }
     }

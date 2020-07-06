@@ -39,9 +39,7 @@ namespace Factory_Inventory
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.editQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.addQualityButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,6 +61,8 @@ namespace Factory_Inventory
             this.hsComboBox3 = new HatchStyleComboBox.HSComboBox();
             this.hsComboBox2 = new HatchStyleComboBox.HSComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.editQBTCB = new System.Windows.Forms.ComboBox();
+            this.addQBTCB = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -93,13 +93,6 @@ namespace Factory_Inventory
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // addQualityBeforeTwistTB
-            // 
-            this.addQualityBeforeTwistTB.Location = new System.Drawing.Point(12, 635);
-            this.addQualityBeforeTwistTB.Name = "addQualityBeforeTwistTB";
-            this.addQualityBeforeTwistTB.Size = new System.Drawing.Size(149, 22);
-            this.addQualityBeforeTwistTB.TabIndex = 19;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -108,14 +101,6 @@ namespace Factory_Inventory
             this.label7.Size = new System.Drawing.Size(133, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Quality before Twist";
-            // 
-            // editQualityBeforeTwistTB
-            // 
-            this.editQualityBeforeTwistTB.Location = new System.Drawing.Point(15, 246);
-            this.editQualityBeforeTwistTB.Name = "editQualityBeforeTwistTB";
-            this.editQualityBeforeTwistTB.ReadOnly = true;
-            this.editQualityBeforeTwistTB.Size = new System.Drawing.Size(147, 22);
-            this.editQualityBeforeTwistTB.TabIndex = 7;
             // 
             // label2
             // 
@@ -284,6 +269,62 @@ namespace Factory_Inventory
             this.hsComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hsComboBox3.FormattingEnabled = true;
             this.hsComboBox3.Items.AddRange(new object[] {
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
             "Horizontal",
             "Min",
             "Vertical",
@@ -1415,6 +1456,62 @@ namespace Factory_Inventory
             "SmallCheckerBoard",
             "LargeCheckerBoard",
             "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
             "SolidDiamond"});
             this.hsComboBox2.Location = new System.Drawing.Point(12, 519);
             this.hsComboBox2.Name = "hsComboBox2";
@@ -1431,10 +1528,29 @@ namespace Factory_Inventory
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Visible = false;
             // 
+            // editQBTCB
+            // 
+            this.editQBTCB.Enabled = false;
+            this.editQBTCB.FormattingEnabled = true;
+            this.editQBTCB.Location = new System.Drawing.Point(13, 248);
+            this.editQBTCB.Name = "editQBTCB";
+            this.editQBTCB.Size = new System.Drawing.Size(147, 24);
+            this.editQBTCB.TabIndex = 29;
+            // 
+            // addQBTCB
+            // 
+            this.addQBTCB.FormattingEnabled = true;
+            this.addQBTCB.Location = new System.Drawing.Point(11, 635);
+            this.addQBTCB.Name = "addQBTCB";
+            this.addQBTCB.Size = new System.Drawing.Size(147, 24);
+            this.addQBTCB.TabIndex = 30;
+            // 
             // editQuality
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.addQBTCB);
+            this.Controls.Add(this.editQBTCB);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label6);
@@ -1445,9 +1561,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.label5);
             this.Controls.Add(this.addHSNNoTB);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.addQualityBeforeTwistTB);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.editQualityBeforeTwistTB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.addQualityButton);
             this.Controls.Add(this.label1);
@@ -1474,9 +1588,7 @@ namespace Factory_Inventory
         #endregion
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.TextBox addQualityBeforeTwistTB;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox editQualityBeforeTwistTB;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button addQualityButton;
         private System.Windows.Forms.Label label1;
@@ -1498,5 +1610,7 @@ namespace Factory_Inventory
         private Label label6;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
+        private ComboBox editQBTCB;
+        private ComboBox addQBTCB;
     }
 }
