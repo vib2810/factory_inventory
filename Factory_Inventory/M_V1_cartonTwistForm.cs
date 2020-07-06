@@ -220,7 +220,7 @@ namespace Factory_Inventory
             this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
-            DataTable carton_data = c.getTableData("Carton", "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "'");
+            DataTable carton_data = c.getTableData("Carton", "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "' AND Quality = '" + row["Quality"].ToString() + "'");
             for (int i=0; i<carton_no.Length; i++)
             {
                 this.carton_data.Add(carton_no[i]);

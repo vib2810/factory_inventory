@@ -519,7 +519,7 @@ namespace Factory_Inventory
             }
 
             //Iterate to check for mistakes in dataGridView1
-            List<int> temp = new List<int>();
+            Dictionary<Tuple<string, string>, bool> dup_carton_check = new Dictionary<Tuple<string, string>, bool>();
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
                 int count = 0;
@@ -540,8 +540,21 @@ namespace Factory_Inventory
                 {
                     if (count == 0)
                     {
-                        temp.Add(int.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString()));
-                        string q = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                        //Check for duplicate values for corresponding quality
+                        bool value;
+                        string carton_no_i = dataGridView1.Rows[i].Cells[2].Value.ToString(), quality_i = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                        bool present = dup_carton_check.TryGetValue(new Tuple<string, string>(carton_no_i, quality_i), out value);
+                        if(present==true)
+                        {
+                            c.ErrorBox("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
+                            return;
+                        }
+                        else
+                        {
+                            dup_carton_check[new Tuple<string, string>(carton_no_i, quality_i)] = true;
+                        }
+
+                        string q = quality_i;
                         int index = -1;
                         int index2 = -1;
                         for (int j = 0; j < dataGridView2.Rows.Count; j++)
@@ -562,13 +575,6 @@ namespace Factory_Inventory
                         cartonno += dataGridView1.Rows[i].Cells[2].Value + ",";
                         weights += dataGridView1.Rows[i].Cells[3].Value + ",";
                         number++;
-                        var distinctBytes = new HashSet<int>(temp);
-                        bool allDifferent = distinctBytes.Count == temp.Count;
-                        if (allDifferent == false)
-                        {
-                            c.ErrorBox("Please Enter Distinct Carton Nos at Row: " + (i + 1).ToString(), "Error");
-                            return;
-                        }
                     }
                 }
             }
