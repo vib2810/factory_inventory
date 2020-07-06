@@ -1126,7 +1126,7 @@ namespace Factory_Inventory
                         //int i = dataGridView1.CurrentCell.RowIndex;
                         //int j = dataGridView1.CurrentCell.ColumnIndex;
                         DateTime d;
-                        if (dataGridView1.CurrentCell.Value != DBNull.Value)
+                        if (string.IsNullOrEmpty(dataGridView1.CurrentCell.Value.ToString()) == false)
                         {
                             d = Convert.ToDateTime(dataGridView1.CurrentCell.Value);
                         }
@@ -1366,7 +1366,6 @@ namespace Factory_Inventory
         {
 
         }
-
         private void dtp_ValueChanged(object sender, EventArgs e)
         {
             //try
