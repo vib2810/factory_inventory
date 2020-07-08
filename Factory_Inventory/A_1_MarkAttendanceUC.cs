@@ -19,15 +19,16 @@ namespace Factory_Inventory
         public A_1_MarkAttendanceUC()
         {
             InitializeComponent();
-            this.loadDatabase();
             this.Visible = false;
             this.Visible = true;
             a.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.dateTimePickerDTP.MaxDate = DateTime.Now;
+            this.label1.Text = "Current date is: " + dateTimePickerDTP.Value.Date.ToString("dd-MM-yyyy").Substring(0, 10);
         }
         public void loadDatabase()
         {
-            DataTable d = a.runQuery("select Employees.Employee_ID as Emp_ID,* from (select * from Attendance_Log where Record_Date='" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "') as T right outer join Employees on T.Employee_ID= Employees.Employee_ID where Date_Of_Joining <= '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' and End_Date >= '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "' or End_Date is null");
+            string dat = dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+            DataTable d = a.runQuery("declare @dat date = '"+dat+"'; select Employees.Employee_Name, Employees.Group_ID, A.*  from Employees inner join (select Employee_Session.Session_ID as Sess_ID, Employee_Session.Employee_ID, T.* from (select * from Attendance_Log where Record_Date=@dat) as T right outer join Employee_Session on T.Session_ID = Employee_Session.Session_ID where Employee_Session.Begin_Date <= @dat and (End_Date >= @dat or End_Date is null)) as A on A.Employee_ID=Employees.Employee_ID");
             dataGridView1.DataSource = d;
             this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
             this.dataGridView1.Columns["Employee_Name"].Visible = true;
@@ -45,6 +46,8 @@ namespace Factory_Inventory
             this.panel1.BackColor = Color.Green;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, System.Drawing.FontStyle.Bold);
         }
+
+        //Clicks
         private void AddButton_Click(object sender, EventArgs e)
         {
             //checks
@@ -90,29 +93,20 @@ namespace Factory_Inventory
                     {
                         comment = "";
                     }
-                    a.runQuery("INSERT INTO Attendance_Log VALUES (" + int.Parse(dataGridView1.Rows[i].Cells["Emp_ID"].Value.ToString()) + ", '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'," + float.Parse(dataGridView1.Rows[i].Cells["Attendance"].Value.ToString()) + ", '" + comment + "')");
+                    a.runQuery("INSERT INTO Attendance_Log VALUES (" + int.Parse(dataGridView1.Rows[i].Cells["Sess_ID"].Value.ToString()) + ", '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'," + float.Parse(dataGridView1.Rows[i].Cells["Attendance"].Value.ToString()) + ", '" + comment + "')");
                 }
             }
             this.loadDatabase();
         }
-        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            if (e.RowIndex != dataGridView1.Rows.Count - 1)
-            {
-                dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
-            }
-        }
-        private void A_1_EmployeesUC_Load(object sender, EventArgs e)
-        {
-        }
+
+        //DTP
         private void dateTimePickerDTP_ValueChanged(object sender, EventArgs e)
         {
             this.loadDatabase();
+            this.label1.Text = "Current date is: " + dateTimePickerDTP.Value.Date.ToString("dd-MM-yyyy").Substring(0, 10);
         }
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
+        
+        //DGV
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             this.panel1.BackColor = Color.Red;

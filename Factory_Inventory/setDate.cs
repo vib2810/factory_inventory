@@ -15,6 +15,7 @@ namespace Factory_Inventory
     {
         DbConnect c = new DbConnect();
         public DateTime result;
+        public bool values_set = false;
         public setDate(DateTime d)
         {
             InitializeComponent();
@@ -66,9 +67,15 @@ namespace Factory_Inventory
             }
             this.ActiveControl = this.dateTimePicker1;
         }
+        public void set_Message(string msg)
+        {
+            this.messageLabel.Visible = true;
+            this.messageLabel.Text = msg;
+        }
         private void saveButton_Click(object sender, EventArgs e)
         {
             result = this.dateTimePicker1.Value;
+            this.values_set = true;
             this.Close();
         }
 

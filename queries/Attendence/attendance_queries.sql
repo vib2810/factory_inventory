@@ -18,9 +18,6 @@ create table Employees
 	Employee_ID int primary key identity(1,1) not null,
 	Employee_Name varchar (50) not null,
 	Group_ID int FOREIGN KEY REFERENCES  Group_Names(Group_ID) not null,
-	Date_Of_Joining date not null,
-	End_Date date null,
-	Deleted tinyint null,
 )
 GO
 CREATE NONCLUSTERED INDEX Group_ID
@@ -37,20 +34,33 @@ GO
 CREATE CLUSTERED INDEX Employee_ID
     ON dbo.Salary(Employee_ID);
 
+create table Employee_Session 
+(
+	Session_ID int Primary Key Identity(1,1) NOT NULL,
+	Employee_ID int FOREIGN KEY REFERENCES Employees(Employee_ID) not null,
+	Begin_Date date NOT NULL,
+	End_Date date NULL
+)
+
+CREATE NONCLUSTERED INDEX Employee_ID
+    ON dbo.Employee_Session(Employee_ID Desc);
+GO
+
 --Attendance Table
 create table Attendance_Log
 (
-	Employee_ID int FOREIGN KEY REFERENCES Employees(Employee_ID) not null,
+	Session_ID int FOREIGN KEY REFERENCES Employee_Session(Session_ID) not null,
 	Record_Date date not null,
 	Attendance decimal(4,3) not null,
 	Comments text null,
-	CONSTRAINT unq UNIQUE(Employee_ID, Record_Date)
+	CONSTRAINT unq UNIQUE(Session_ID, Record_Date)
 )
 GO
-CREATE CLUSTERED INDEX Employee_ID
-    ON dbo.Attendance_Log(Employee_ID);
+CREATE CLUSTERED INDEX Session_ID
+    ON dbo.Attendance_Log(Session_ID);
 
 ---check if its being used
 CREATE NONCLUSTERED INDEX Record_Date
     ON dbo.Attendance_Log(Record_Date Desc);
 GO
+

@@ -42,6 +42,11 @@ namespace Factory_Inventory
                     this.reportsButton.PerformClick();
                     return false;
                 }
+                if (keyData == Keys.M)
+                {
+                    this.masterButton.PerformClick();
+                    return false;
+                }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -82,9 +87,11 @@ namespace Factory_Inventory
         private void vouchersButton_Click_1(object sender, EventArgs e)
         {
             hide_all_UCs();
+            a_1_EmployeesUC1.Visible = true;
             a_1_EmployeesUC1.Show();
             a_1_EmployeesUC1.BringToFront();
             a_1_EmployeesUC1.Focus();
+            a_1_EmployeesUC1.loadDatabase();
             this.decolour_all_buttons();
             this.employeesButton.BackColor = select;
             this.last_clicked = this.employeesButton;
@@ -93,6 +100,7 @@ namespace Factory_Inventory
         private void inventoryButton_Click_1(object sender, EventArgs e)
         {
             hide_all_UCs();
+            a_1_MarkAttendanceUC1.Visible = true;
             a_1_MarkAttendanceUC1.Show();
             a_1_MarkAttendanceUC1.BringToFront();
             a_1_MarkAttendanceUC1.Focus();
@@ -123,6 +131,12 @@ namespace Factory_Inventory
                                          Color.Black, 10, ButtonBorderStyle.Inset,
                                          Color.Black, 10, ButtonBorderStyle.Inset,
                                          Color.Black, 10, ButtonBorderStyle.Inset);
+        }
+
+        private void masterButton_Click(object sender, EventArgs e)
+        {
+            A_1_AddEditDropDowns f = new A_1_AddEditDropDowns();
+            f.Show();
         }
     }
 }

@@ -388,6 +388,12 @@
     <Compile Include="M_V4_printDyeingOutward.Designer.cs">
       <DependentUpon>M_V4_printDyeingOutward.cs</DependentUpon>
     </Compile>
+    <Compile Include="A_1_AddEditDropDowns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="A_1_AddEditDropDowns.Designer.cs">
+      <DependentUpon>A_1_AddEditDropDowns.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V_editColour.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -405,6 +411,12 @@
     </Compile>
     <Compile Include="M_V_editDyeingCompanyUC.Designer.cs">
       <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="A_1_editGroup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="A_1_editGroup.Designer.cs">
+      <DependentUpon>A_1_editGroup.cs</DependentUpon>
     </Compile>
     <Compile Include="M_V_editQBTUC.cs">
       <SubType>UserControl</SubType>
@@ -647,6 +659,9 @@
     <EmbeddedResource Include="M_V1_cartonInwardForm.resx">
       <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="A_1_AddEditDropDowns.resx">
+      <DependentUpon>A_1_AddEditDropDowns.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="M_V_editColour.resx">
       <DependentUpon>M_V_editColour.cs</DependentUpon>
     </EmbeddedResource>
@@ -655,6 +670,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_V_editDyeingCompanyUC.resx">
       <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="A_1_editGroup.resx">
+      <DependentUpon>A_1_editGroup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V_editQBTUC.resx">
       <DependentUpon>M_V_editQBTUC.cs</DependentUpon>

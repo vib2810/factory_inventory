@@ -35,6 +35,7 @@
             this.markButton = new System.Windows.Forms.Button();
             this.dateTimePickerDTP = new System.Windows.Forms.DateTimePicker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,8 +65,6 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
-            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
-            this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             // 
             // contextMenuStrip1
             // 
@@ -98,10 +97,21 @@
             this.panel1.Size = new System.Drawing.Size(259, 36);
             this.panel1.TabIndex = 4;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(388, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 25);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "lebel1";
+            // 
             // A_1_MarkAttendanceUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dateTimePickerDTP);
             this.Controls.Add(this.markButton);
@@ -109,7 +119,6 @@
             this.Controls.Add(this.userLabel);
             this.Name = "A_1_MarkAttendanceUC";
             this.Size = new System.Drawing.Size(671, 477);
-            this.Load += new System.EventHandler(this.A_1_EmployeesUC_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -124,5 +133,6 @@
         private System.Windows.Forms.Button markButton;
         private System.Windows.Forms.DateTimePicker dateTimePickerDTP;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
     }
 }

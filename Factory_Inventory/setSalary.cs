@@ -69,7 +69,6 @@ namespace Factory_Inventory
             dateTimePicker1.MinDate = mindate;
             dateTimePicker1.MaxDate = maxdate;
         }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             try

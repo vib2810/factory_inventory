@@ -541,38 +541,31 @@ namespace Factory_Inventory.Factory_Classes
             dynamic x;
             if (e.KeyCode == Keys.Up)
             {
-                Console.WriteLine("Up");
                 x = f.GetNextControl((Control)sender, false);
             }
             else if (e.KeyCode == Keys.Down)
             {
-                Console.WriteLine("Down");
                 x = f.GetNextControl((Control)sender, true);
             }
             else
             {
-                Console.WriteLine("Else");
                 return;
             }
 
             if (x == null)
             {
-                Console.WriteLine("null");
                 return;
             }
             if (x.GetType().Name.ToString() == "Label")
             {
-                Console.WriteLine("label");
                 return;
             }
             if (x.TabIndex == 0)
             {
-                Console.WriteLine("tabindex 0");
                 return;
             }
             else if (x.Enabled == false)
             {
-                Console.WriteLine("enabled");
                 return;
             }
             Console.WriteLine(x.Name);

@@ -107,37 +107,30 @@ namespace Factory_Inventory
         }
         private void backupRestoreStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Form f in this.MdiChildren)
-            {
-                if (this.attendance_forms.Contains(f.Name))
-                {
-                    f.Visible = false;
-                }
-            }
-
-            M_BackupRestore frm = new M_BackupRestore();
             bool backup = false;
+            M_BackupRestore frm = new M_BackupRestore();
             foreach (Form f in this.MdiChildren)
             {
                 if (f.Name == frm.Name)
                 {
                     backup = true;
+                    f.Show();
                 }
-                if (!this.attendance_forms.Contains(f.Name))
+                else
                 {
                     f.Visible = false;
                 }
-                if (backup == false)
-                {
-                    frm.MdiParent = Global.background;
-                    frm.Scale(new SizeF(1.3F, 1.3F));
-                    frm.AutoScaleMode = AutoScaleMode.Font;
-                    frm.StartPosition = FormStartPosition.CenterScreen;
-                    if (!this.backup_form.Contains(frm.Name)) this.backup_form.Add(frm.Name);
-                    frm.Show();
-                }
-                this.LayoutMdi(MdiLayout.Cascade);
             }
+            if (backup == false)
+            {
+                frm.MdiParent = Global.background;
+                frm.Scale(new SizeF(1.3F, 1.3F));
+                frm.AutoScaleMode = AutoScaleMode.Font;
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                if (!this.backup_form.Contains(frm.Name)) this.backup_form.Add(frm.Name);
+                frm.Show();
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
         }
     }
 }

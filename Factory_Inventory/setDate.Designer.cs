@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.messageLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -39,9 +40,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(42, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(151, 25);
+            this.label1.Size = new System.Drawing.Size(53, 25);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Production Date";
+            this.label1.Text = "Date";
             // 
             // saveButton
             // 
@@ -62,12 +63,23 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 30);
             this.dateTimePicker1.TabIndex = 9;
             // 
+            // messageLabel
+            // 
+            this.messageLabel.AutoSize = true;
+            this.messageLabel.Location = new System.Drawing.Point(12, 143);
+            this.messageLabel.Name = "messageLabel";
+            this.messageLabel.Size = new System.Drawing.Size(69, 17);
+            this.messageLabel.TabIndex = 0;
+            this.messageLabel.Text = "Message:";
+            this.messageLabel.Visible = false;
+            // 
             // setDate
             // 
             this.AcceptButton = this.saveButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(295, 157);
+            this.ClientSize = new System.Drawing.Size(295, 172);
+            this.Controls.Add(this.messageLabel);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label1);
@@ -86,5 +98,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button saveButton;
         public System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label messageLabel;
     }
 }
