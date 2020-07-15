@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,35 +46,7 @@ namespace Factory_Inventory
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        bool check_showing(form_data data)
-        {
-            for (int i = 0; i < this.child_forms.Count; i++)
-            {
 
-                form_data value = child_forms[i];
-                //Console.WriteLine("value " + value.form.Name + " " + value.type + " " + value.index);
-                //Console.WriteLine("data " + data.form.Name + " " + data.type + " " + data.index);
-
-                if (data.form.Name == value.form.Name && data.index == value.index && value.form.IsDisposed==false)
-                {
-                    if(data.type != value.type)
-                    {
-                        Console.WriteLine("DIfferent types");
-                        value.form.Focus();
-                        if(data.type==1) MessageBox.Show("Voucher is already open in View Mode", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        else MessageBox.Show("Voucher is already open in Edit Mode", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        return false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Same types");
-                        value.form.Focus();
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
         public M_V_history(int vno)
         {
             InitializeComponent();
@@ -91,158 +64,17 @@ namespace Factory_Inventory
                 this.label2.Visible = false;
             }
         }
-        private void DataGridView1_VisibleChanged(object sender, EventArgs e)
-        {
-            if (_firstLoaded && dataGridView1.Visible)
-            {
-                _firstLoaded = false;
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
-                {
-                    try
-                    {
-                        string deleted = dataGridView1.Rows[i].Cells["Deleted"].Value.ToString();
-                        if (deleted == "1")
-                        {
-                            Console.WriteLine("Setting for " + i);
-                            foreach (DataGridViewCell c in dataGridView1.Rows[i].Cells)
-                            {
-                                c.Style.BackColor = Color.Red;
-                                c.Style.SelectionBackColor = Color.Red;
-                            }
 
-                        }
-                    }
-                    catch (Exception x) { Console.WriteLine("ERROR: " + x.Message); }
-                }
-            }
-        }
-        private void viewDetailsButton_Click(object sender, EventArgs e)
-        {
-            if (this.dataGridView1.SelectedRows.Count <= 0)
-                return;
-            int index = this.dataGridView1.SelectedRows[0].Index;
-            Console.WriteLine(index);
-            if (index > this.dataGridView1.Rows.Count - 1)
-            {
-                c.ErrorBox("Please select valid voucher", "Error");
-            }
-            else
-            {
-                DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
-                if (this.vno == 1)
-                {
-
-                    M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 2)
-                {
-                    M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 3)
-                {
-                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 4)
-                {
-                    M_V2_trayInputForm f = new M_V2_trayInputForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 5)
-                {
-                    M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 6)
-                {
-                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "dyeingInward");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 7)
-                {
-                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "addBill");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 8)
-                {
-                    M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 9)
-                {
-                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 10)
-                {
-                    M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 11)
-                {
-                    M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                if (this.vno == 12)
-                {
-                    M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
-                    }
-                }
-                this.prev_selected_row = index;
-            }
-        }
         private void M_V_history_Load(object sender, EventArgs e)
         {
+            //Double Buffer DGV
+            if (!System.Windows.Forms.SystemInformation.TerminalServerSession)
+            {
+                Type dgvType = dataGridView1.GetType();
+                PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+                pi.SetValue(dataGridView1, true, null);
+            }
             switch (vno)
             {
                 case 1:
@@ -284,128 +116,58 @@ namespace Factory_Inventory
 
             }
         }
-        private void editDetailsButton_Click(object sender, EventArgs e)
+        private void M_V_history_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.dataGridView1.SelectedRows.Count <= 0)
-                return;
-            int index = this.dataGridView1.SelectedRows[0].Index;
-            if (index > this.dataGridView1.Rows.Count - 1)
+            int count = 0;
+            for (int i = 0; i < child_forms.Count; i++) if (child_forms[i].form.IsDisposed == false) count++;
+            if (count > 0)
             {
-                c.ErrorBox("Please select valid voucher", "Error");
+                DialogResult dialogResult = MessageBox.Show("Closing this will close all sub forms. Continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    for (int i = 0; i < this.child_forms.Count; i++)
+                    {
+                        form_data value = this.child_forms[i];
+                        value.form.Dispose();
+                        value.form.Close();
+                    }
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    e.Cancel = true;
+                    return;
+                }
             }
-            else
+        }
+        //user
+        bool check_showing(form_data data)
+        {
+            for (int i = 0; i < this.child_forms.Count; i++)
             {
-                DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
-                if (this.vno == 1)
+
+                form_data value = child_forms[i];
+                //Console.WriteLine("value " + value.form.Name + " " + value.type + " " + value.index);
+                //Console.WriteLine("data " + data.form.Name + " " + data.type + " " + data.index);
+
+                if (data.form.Name == value.form.Name && data.index == value.index && value.form.IsDisposed == false)
                 {
-                    M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (data.type != value.type)
                     {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        Console.WriteLine("DIfferent types");
+                        value.form.Focus();
+                        if (data.type == 1) MessageBox.Show("Voucher is already open in View Mode", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        else MessageBox.Show("Voucher is already open in Edit Mode", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Same types");
+                        value.form.Focus();
+                        return false;
                     }
                 }
-                if (this.vno == 2)
-                {
-                    M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 3)
-                {
-                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 4)
-                {
-                    M_V2_trayInputForm f = new M_V2_trayInputForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 5)
-                {
-                    M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 6)
-                {
-                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "dyeingInward");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 7)
-                {
-                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "addBill");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 8)
-                {
-                    M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 9)
-                {
-                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 10)
-                {
-                    M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 11)
-                {
-                    M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                if (this.vno == 12)
-                {
-                    M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
-                    {
-                        Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
-                    }
-                }
-                this.prev_selected_row = index;
             }
+            return true;
         }
         public void loadData()
         {
@@ -822,7 +584,7 @@ namespace Factory_Inventory
         private DataTable remove_sales_rows()
         {
             int rows = this.dt.Rows.Count;
-            DataTable d = dt.Clone(); 
+            DataTable d = dt.Clone();
             if (rows == 0)
                 return d;
             for (int i = 0; i < rows; i++)
@@ -838,6 +600,33 @@ namespace Factory_Inventory
                 d.Rows.Add(this.dt.Rows[i].ItemArray);
             }
             return d;
+        }
+        
+        //Datagridview
+        private void DataGridView1_VisibleChanged(object sender, EventArgs e)
+        {
+            if (_firstLoaded && dataGridView1.Visible)
+            {
+                _firstLoaded = false;
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    try
+                    {
+                        string deleted = dataGridView1.Rows[i].Cells["Deleted"].Value.ToString();
+                        if (deleted == "1")
+                        {
+                            Console.WriteLine("Setting for " + i);
+                            foreach (DataGridViewCell c in dataGridView1.Rows[i].Cells)
+                            {
+                                c.Style.BackColor = Color.Red;
+                                c.Style.SelectionBackColor = Color.Red;
+                            }
+
+                        }
+                    }
+                    catch (Exception x) { Console.WriteLine("ERROR: " + x.Message); }
+                }
+            }
         }
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
@@ -874,27 +663,254 @@ namespace Factory_Inventory
             }
 
         }
-        private void M_V_history_FormClosing(object sender, FormClosingEventArgs e)
+
+        //click
+        private void viewDetailsButton_Click(object sender, EventArgs e)
         {
-            int count = 0;
-            for (int i = 0; i < child_forms.Count; i++) if (child_forms[i].form.IsDisposed == false) count++;
-            if (count> 0)
+            if (this.dataGridView1.SelectedRows.Count <= 0)
+                return;
+            int index = this.dataGridView1.SelectedRows[0].Index;
+            Console.WriteLine(index);
+            if (index > this.dataGridView1.Rows.Count - 1)
             {
-                DialogResult dialogResult = MessageBox.Show("Closing this will close all sub forms. Continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (dialogResult == DialogResult.Yes)
+                c.ErrorBox("Please select valid voucher", "Error");
+            }
+            else
+            {
+                DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
+                if (this.vno == 1)
                 {
-                    for (int i = 0; i < this.child_forms.Count; i++)
+
+                    M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, false, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
                     {
-                        form_data value = this.child_forms[i];
-                        value.form.Dispose();
-                        value.form.Close();
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
-                else if (dialogResult == DialogResult.No)
+                if (this.vno == 2)
                 {
-                    e.Cancel = true;
-                    return;
+                    M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, false, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
                 }
+                if (this.vno == 3)
+                {
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton");
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 4)
+                {
+                    M_V2_trayInputForm f = new M_V2_trayInputForm(row, false, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 5)
+                {
+                    M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, false, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 6)
+                {
+                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "dyeingInward");
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 7)
+                {
+                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "addBill");
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 8)
+                {
+                    M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, false, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 9)
+                {
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton_Produced");
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 10)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton");
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 11)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton_Produced");
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                if (this.vno == 12)
+                {
+                    M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, false, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
+                this.prev_selected_row = index;
+            }
+        }
+        private void editDetailsButton_Click(object sender, EventArgs e)
+        {
+            if (this.dataGridView1.SelectedRows.Count <= 0)
+                return;
+            int index = this.dataGridView1.SelectedRows[0].Index;
+            if (index > this.dataGridView1.Rows.Count - 1)
+            {
+                c.ErrorBox("Please select valid voucher", "Error");
+            }
+            else
+            {
+                DataRow row = (dataGridView1.Rows[index].DataBoundItem as DataRowView).Row;
+                if (this.vno == 1)
+                {
+                    M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, true, this);
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 2)
+                {
+                    M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, true, this);
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 3)
+                {
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton");
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 4)
+                {
+                    M_V2_trayInputForm f = new M_V2_trayInputForm(row, true, this);
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 5)
+                {
+                    M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, true, this);
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 6)
+                {
+                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "dyeingInward");
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 7)
+                {
+                    M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "addBill");
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 8)
+                {
+                    M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, true, this);
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 9)
+                {
+                    M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton_Produced");
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 10)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton");
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 11)
+                {
+                    M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton_Produced");
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 12)
+                {
+                    M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, true, this);
+                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                this.prev_selected_row = index;
             }
         }
     }

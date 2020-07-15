@@ -23,6 +23,7 @@ namespace Factory_Inventory
         string where = "";
         int basic_font_size = 9;
         M_V4_printDyeingOutward parent;
+        bool redyeing = false;
         public printDyeingOutward(DataRow row, M_V4_printDyeingOutward f)
         {
             InitializeComponent();
@@ -45,6 +46,11 @@ namespace Factory_Inventory
             DataTable quality= c.getTableRows("Quality", "Quality='" + row["Quality"].ToString()+"'");
             this.hsnnumber.Text = quality.Rows[0]["HSN_No"].ToString();
             string[] tray_ids = c.csvToArray(row["Tray_ID_Arr"].ToString());
+            if(!string.IsNullOrEmpty(row["Redyeing"].ToString()))
+            {
+                this.redyeing = true;
+                this.rdLabel.Visible = true;
+            }
             DataTable dt = new DataTable();
             dt.Columns.Add("Sl No");
             dt.Columns.Add("Tray No.");
@@ -55,10 +61,12 @@ namespace Factory_Inventory
             dt.Columns.Add("Spring Wt");
             dt.Columns.Add("Net Wt");
             float net_wt = 0F;
+            int total_springs = 0;
             for (int i=0; i<tray_ids.Length; i++)
             {
                 DataTable dtemp= c.getTrayTable_TrayID(int.Parse(tray_ids[i]));
-                float spring_wt = c.getSpringWeight(dtemp.Rows[0]["Spring"].ToString())*int.Parse(dtemp.Rows[0]["Number_Of_Springs"].ToString());
+                int no_of_springs= int.Parse(dtemp.Rows[0]["Number_Of_Springs"].ToString());
+                float spring_wt = c.getSpringWeight(dtemp.Rows[0]["Spring"].ToString()) * no_of_springs;
                 float gross_wt = float.Parse(dtemp.Rows[0]["Gross_Weight"].ToString());
                 float tray_wt= float.Parse(dtemp.Rows[0]["Net_Weight"].ToString());
                 if (row["Dyeing_Company_Name"].ToString() == "Ichalkaranji Textiles Pvt Ltd")
@@ -67,11 +75,12 @@ namespace Factory_Inventory
                     tray_wt -= 1.25F;
                 }
                 net_wt += tray_wt;
+                total_springs += no_of_springs;
                 dt.Rows.Add(i+1, dtemp.Rows[0]["Tray_No"].ToString(), gross_wt, dtemp.Rows[0]["Tray_Tare"].ToString(), dtemp.Rows[0]["Machine_No"].ToString(), dtemp.Rows[0]["Number_of_Springs"].ToString(), spring_wt, tray_wt);
             }
             this.netwtTextbox.Text = net_wt.ToString("F3");
 
-            dt.Rows.Add("", "", "", "", "", "", "Net Weight", net_wt);
+            dt.Rows.Add("", "", "", "", "Total Springs", total_springs, "Net Weight", net_wt);
             dataGridView1.DataSource = dt;
             int weight_width = 100;
             dataGridView1.Columns["Sl No"].Width = 70;
@@ -141,11 +150,7 @@ namespace Factory_Inventory
             Graphics g = e.Graphics;
             StringFormat format = new StringFormat();
             format.LineAlignment = StringAlignment.Center;
-            if (width == 0)
-            {
-                format.Alignment = StringAlignment.Center;
-            }
-            else if (lr == 'l')
+            if (lr == 'l')
             {
                 format.Alignment = StringAlignment.Near;
             }
@@ -185,6 +190,7 @@ namespace Factory_Inventory
             int basic_size = this.basic_font_size;
             int header_size_sub = 5;
 
+            if (this.redyeing == true) write(e, -1, write_height, 0, "REDYEING", basic_size + 3, 'r', 1);
             write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
             write_height += write(e, -1, write_height, 0, "FOR JOB WORK", basic_size + 3, 'c', 1) - header_size_sub-3;
             write_height += write(e, -1, write_height, 0, "Krishana Sales and Industries", basic_size + 6, 'c', 1) - header_size_sub - 3;

@@ -46,5 +46,17 @@ namespace Factory_Inventory.Properties {
                 this["LocalConnectionString"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool localState {
+            get {
+                return ((bool)(this["localState"]));
+            }
+            set {
+                this["localState"] = value;
+            }
+        }
     }
 }

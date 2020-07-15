@@ -86,23 +86,23 @@ namespace Factory_Inventory
 
             this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(c.getFinancialYear(this.inputDate.Value));
 
-            //Create drop-down Quality lists
-            var dataSource3 = new List<string>();
-            DataTable d3 = c.getQC('q');
-            dataSource3.Add("---Select---");
-
-            for (int i = 0; i < d3.Rows.Count; i++)
+            //Create drop-down quality list
+            DataTable d1 = c.getQC('q');
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
+            for (int i = 0; i < d1.Rows.Count; i++)
             {
                 if (this.tablename == "Carton")
                 {
-                    dataSource3.Add(d3.Rows[i]["Quality_Before_Twist"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
                 }
                 else if (this.tablename == "Carton_Produced")
                 {
-                    dataSource3.Add(d3.Rows[i]["Quality"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality"].ToString());
                 }
             }
-            this.qualityCB.DataSource = dataSource3;
+            List<string> norep_quality_list = input_qualities.Distinct().ToList();
+            this.qualityCB.DataSource = norep_quality_list;
             this.qualityCB.DisplayMember = "Quality";
             this.qualityCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -177,22 +177,22 @@ namespace Factory_Inventory
 
 
             //Create drop-down Quality lists
-            var dataSource3 = new List<string>();
-            DataTable d3 = c.getQC('q');
-            dataSource3.Add("---Select---");
-
-            for (int i = 0; i < d3.Rows.Count; i++)
+            DataTable d1 = c.getQC('q');
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
+            for (int i = 0; i < d1.Rows.Count; i++)
             {
-                if(this.tablename=="Carton")
+                if (this.tablename == "Carton")
                 {
-                    dataSource3.Add(d3.Rows[i]["Quality_Before_Twist"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
                 }
-                else if(this.tablename=="Carton_Produced")
+                else if (this.tablename == "Carton_Produced")
                 {
-                    dataSource3.Add(d3.Rows[i]["Quality"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality"].ToString());
                 }
             }
-            this.qualityCB.DataSource = dataSource3;
+            List<string> norep_quality_list = input_qualities.Distinct().ToList();
+            this.qualityCB.DataSource = norep_quality_list;
             this.qualityCB.DisplayMember = "Quality";
             this.qualityCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;

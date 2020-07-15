@@ -13,42 +13,124 @@ namespace Factory_Inventory
     public partial class TwistERP : Form
     {
         public bool temp;
-        int hello = 0;
+        List<string> attendance_forms = new List<string>();
+        List<string> backup_form = new List<string>();
+        public M_1_MainS main_form = null;
+        public bool logout = false;
         public TwistERP()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
         }
-        public void show_form(Form f)
+
+        //group 0- ERP
+        //group 1- Attendance
+        public void show_form(Form f, int group=0)
         {
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
-            if (f.Name.ToString().StartsWith("M_I"))
+            if (group==0)
             {
+                if (f.Name.ToString().StartsWith("M_I"))
+                {
+                    f.Show();
+                }
+                else
+                {
+                    f.Location = new Point(0, 0);
+                    f.MaximizeBox = false;
+                    f.MdiParent = this;
+                }
                 f.Show();
             }
-            else
+            if (group==1)
             {
-                //if(f1 .StartPosition!= FormStartPosition.CenterScreen)
-                //{
-                //    f.StartPosition = FormStartPosition.Manual;
-                //    f.Location = new System.Drawing.Point((int)(Screen.PrimaryScreen.Bounds.Width/20), Screen.PrimaryScreen.Bounds.Height/20);
-                //}
-                f.Location = new Point(0, 0);
+                if(!this.attendance_forms.Contains(f.Name)) this.attendance_forms.Add(f.Name);
                 f.MaximizeBox = false;
                 f.MdiParent = this;
+                f.Show();
             }
-            f.Show();
             this.LayoutMdi(MdiLayout.Cascade);
-            //foreach (var child in this.MdiChildren)
-            //{
-            //    if (child.Name== "M_1_MainS")
-            //    {
-            //        child.SendToBack();
-            //        child.SendToBack();
-            //        break;
-            //    }
-            //}
         }
-
+        private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            A_1_MainS frm = new A_1_MainS();
+            bool a_1_mains = false;
+            foreach (Form f in this.MdiChildren)
+            {
+                if(f.Name == frm.Name)
+                {
+                    a_1_mains = true;
+                }
+                if(this.attendance_forms.Contains(f.Name))
+                {
+                    f.Visible = true;
+                }
+                else
+                {
+                    f.Visible = false;
+                }
+            }
+            if(a_1_mains == false)
+            {
+                frm.MdiParent = Global.background;
+                frm.Scale(new SizeF(1.3F, 1.3F));
+                frm.AutoScaleMode = AutoScaleMode.Font;
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                if (!this.attendance_forms.Contains(frm.Name)) this.attendance_forms.Add(frm.Name);
+                frm.Show();
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
+        private void eRPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (this.attendance_forms.Contains(f.Name) || this.backup_form.Contains(f.Name))
+                {
+                    f.Visible = false;
+                }
+                else f.Visible = true;
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
+        private void TwistERP_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                this.logout = true;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+        private void backupRestoreStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool backup = false;
+            M_BackupRestore frm = new M_BackupRestore();
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == frm.Name)
+                {
+                    backup = true;
+                    f.Show();
+                }
+                else
+                {
+                    f.Visible = false;
+                }
+            }
+            if (backup == false)
+            {
+                frm.MdiParent = Global.background;
+                frm.Scale(new SizeF(1.3F, 1.3F));
+                frm.AutoScaleMode = AutoScaleMode.Font;
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                if (!this.backup_form.Contains(frm.Name)) this.backup_form.Add(frm.Name);
+                frm.Show();
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
     }
 }

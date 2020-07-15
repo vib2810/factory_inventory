@@ -55,7 +55,7 @@ namespace Factory_Inventory
                 this.editedQualityTextbox.Text = "";
                 this.deleteUserCheckbox.Checked = false;
                 loadDatabase();
-                if(RowIndex>=0)
+                if (RowIndex >= 0 && RowIndex<=dataGridView1.Rows.Count-1)
                 {
                     dataGridView1.Rows[RowIndex].Selected = true;
                 }
@@ -82,7 +82,6 @@ namespace Factory_Inventory
         {
 
         }
-
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count <= 0) return;

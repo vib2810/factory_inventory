@@ -58,18 +58,19 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
-            dataSource1.Add("---Select---");
-
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][3].ToString());
+                input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
             }
-            this.comboBox1CB.DataSource = dataSource1;
+            List<string> final_list = input_qualities.Distinct().ToList();
+            this.comboBox1CB.DataSource = final_list;
             this.comboBox1CB.DisplayMember = "Quality";
             this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox1CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            //this.comboBox1.
+
             var dataSource2 = new List<string>();
             DataTable d2 = c.getQC('c');
             dataSource2.Add("---Select---");
@@ -128,13 +129,14 @@ namespace Factory_Inventory
             //Create drop-down lists
             var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
-            dataSource1.Add("---Select---");
-
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                dataSource1.Add(d1.Rows[i][3].ToString());
+                input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
             }
-            this.comboBox1CB.DataSource = dataSource1;
+            List<string> final_list = input_qualities.Distinct().ToList();
+            this.comboBox1CB.DataSource = final_list;
             this.comboBox1CB.DisplayMember = "Quality";
             this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -218,7 +220,7 @@ namespace Factory_Inventory
             this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
-            DataTable carton_data = c.getTableData("Carton", "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year='" + row["Carton_Fiscal_Year"].ToString() + "'");
+            DataTable carton_data = c.getTableData("Carton", "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "' AND Quality = '" + row["Quality"].ToString() + "'");
             for (int i=0; i<carton_no.Length; i++)
             {
                 this.carton_data.Add(carton_no[i]);

@@ -82,22 +82,22 @@ namespace Factory_Inventory
             this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             //Create drop-down quality list
-            var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
-            dataSource1.Add("---Select---");
-
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
                 if (this.tablename == "Carton")
                 {
-                    dataSource1.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
                 }
                 else if (this.tablename == "Carton_Produced")
                 {
-                    dataSource1.Add(d1.Rows[i]["Quality"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality"].ToString());
                 }
             }
-            this.comboBox1CB.DataSource = dataSource1;
+            List<string> final_list = input_qualities.Distinct().ToList();
+            this.comboBox1CB.DataSource = final_list;
             this.comboBox1CB.DisplayMember = "Quality";
             this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -179,8 +179,8 @@ namespace Factory_Inventory
                 {
                     dataSource5.Add(d5.Rows[i][0].ToString());
                 }
-                List<string> final_list = dataSource5.Distinct().ToList();
-                this.shadeCB.DataSource = final_list;
+                List<string> final_list1 = dataSource5.Distinct().ToList();
+                this.shadeCB.DataSource = final_list1;
                 this.shadeCB.DisplayMember = "Colours";
                 this.shadeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
                 this.shadeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -230,21 +230,22 @@ namespace Factory_Inventory
 
             #region //dropdown
             //Create drop-down list for quality
-            var dataSource1 = new List<string>();
             DataTable d1 = c.getQC('q');
-            dataSource1.Add("---Select---");
+            List<string> input_qualities = new List<string>();
+            input_qualities.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
                 if (this.tablename == "Carton")
                 {
-                    dataSource1.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
                 }
                 else if (this.tablename == "Carton_Produced")
                 {
-                    dataSource1.Add(d1.Rows[i]["Quality"].ToString());
+                    input_qualities.Add(d1.Rows[i]["Quality"].ToString());
                 }
             }
-            this.comboBox1CB.DataSource = dataSource1;
+            List<string> norep_quality_list = input_qualities.Distinct().ToList();
+            this.comboBox1CB.DataSource = norep_quality_list;
             this.comboBox1CB.DisplayMember = "Quality";
             this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox1CB.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -315,8 +316,8 @@ namespace Factory_Inventory
                 {
                     dataSource5.Add(d5.Rows[i][0].ToString());
                 }
-                List<string> final_list = dataSource5.Distinct().ToList();
-                this.shadeCB.DataSource = final_list;
+                List<string> final_list1 = dataSource5.Distinct().ToList();
+                this.shadeCB.DataSource = final_list1;
                 this.shadeCB.DisplayMember = "Colours";
                 this.shadeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
                 this.shadeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -364,10 +365,9 @@ namespace Factory_Inventory
             this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
             if (this.comboBox1CB.FindStringExact(row["Quality"].ToString()) == -1)
             {
-                dataSource1.Add(row["Quality"].ToString());
+                norep_quality_list.Add(row["Quality"].ToString());
                 this.comboBox1CB.DataSource = null;
-                this.comboBox1CB.DataSource = dataSource1;
-
+                this.comboBox1CB.DataSource = norep_quality_list;
             }
             this.comboBox1CB.SelectedIndex = this.comboBox1CB.FindStringExact(row["Quality"].ToString());
             if (this.comboBox2CB.FindStringExact(row["Company_Name"].ToString()) == -1)
@@ -396,9 +396,9 @@ namespace Factory_Inventory
             DataTable d = new DataTable();
             if (this.tablename == "Carton")
             {
-                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_No IN ("+ c.removecom(row["Carton_No_Arr"].ToString())+") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "'");
+                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "' AND Quality = '" + row["Quality"].ToString() + "'");
             }
-            else d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "'");
+            else d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "' AND Quality = '" + row["Quality"].ToString() + "'");
 
             for (int i=0; i<carton_no.Length; i++)
             {

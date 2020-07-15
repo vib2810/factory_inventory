@@ -52,7 +52,7 @@ namespace Factory_Inventory
                 this.editAddressTextbox.Text = "";
                 this.deleteUserCheckbox.Checked = false;
                 loadDatabase();
-                if(RowIndex>=0)
+                if (RowIndex >= 0 && RowIndex<=dataGridView1.Rows.Count-1)
                 {
                     dataGridView1.Rows[RowIndex].Selected = true;
                 }

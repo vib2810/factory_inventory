@@ -21,8 +21,8 @@ namespace Factory_Inventory
         public void decolour_all_buttons()
         {
             var buttons = this.Controls
-     .OfType<Button>()
-     .Where(x => x.Name.EndsWith("Button"));
+             .OfType<Button>()
+             .Where(x => x.Name.EndsWith("Button"));
 
             foreach (var button in buttons)
             {
@@ -38,6 +38,7 @@ namespace Factory_Inventory
             editColour1.Hide();
             editDyeingCompany1.Hide();
             editCone1.Hide();
+            m_V_editMachineNoUC1.Hide();
         }
         private void editQualityButton_Click(object sender, EventArgs e)
         {
@@ -121,6 +122,32 @@ namespace Factory_Inventory
             this.decolour_all_buttons();
             this.conesButton.BackColor = select;
             this.Text = "Add/Edit Fixed Details - Cone";
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            hide_all_UCs();
+            m_V_editMachineNoUC1.Show();
+            m_V_editMachineNoUC1.BringToFront();
+            m_V_editMachineNoUC1.loadDatabase();
+            m_V_editMachineNoUC1.Focus();
+            this.decolour_all_buttons();
+            Button b = sender as Button;
+            b.BackColor = select;
+            this.Text = "Add/Edit Fixed Details - Machine Number";
+        }
+
+        private void qbtButton_Click(object sender, EventArgs e)
+        {
+            hide_all_UCs();
+            m_V_editQBTUC1.Show();
+            m_V_editQBTUC1.BringToFront();
+            m_V_editQBTUC1.loadDatabase();
+            m_V_editQBTUC1.Focus();
+            this.decolour_all_buttons();
+            Button b = sender as Button;
+            b.BackColor = select;
+            this.Text = "Add/Edit Fixed Details - Quality Before Twist";
         }
     }
 }

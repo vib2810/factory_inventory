@@ -49,6 +49,7 @@ namespace Factory_Inventory
         private int voucherID;
         private bool addBill = false;
         Dictionary<string, int> batch_editable = new Dictionary<string, int>();
+
         struct fetch_data
         {
             public float net_wt;
@@ -781,7 +782,7 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos);
+                    bool edited = c.editDyeingInwardVoucher(this.voucherID, inputDate.Value, inwardDateDTP.Value, dyeingCompanyCB.SelectedItem.ToString(), sendbill_no, batch_nos, this.comboBox3CB.SelectedItem.ToString(), send_bill_date, slip_nos, batch_editable);
                     if (edited == true)
                     {
                         dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;

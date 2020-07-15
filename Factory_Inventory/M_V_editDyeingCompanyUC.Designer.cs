@@ -67,21 +67,23 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(236, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(230, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(383, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(570, 700);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // confirmButton
             // 
-            this.confirmButton.Location = new System.Drawing.Point(16, 221);
+            this.confirmButton.Location = new System.Drawing.Point(16, 234);
             this.confirmButton.Name = "confirmButton";
             this.confirmButton.Size = new System.Drawing.Size(75, 27);
             this.confirmButton.TabIndex = 3;
@@ -98,7 +100,7 @@
             // newPasswordLabel
             // 
             this.newPasswordLabel.AutoSize = true;
-            this.newPasswordLabel.Location = new System.Drawing.Point(13, 41);
+            this.newPasswordLabel.Location = new System.Drawing.Point(13, 54);
             this.newPasswordLabel.Name = "newPasswordLabel";
             this.newPasswordLabel.Size = new System.Drawing.Size(156, 17);
             this.newPasswordLabel.TabIndex = 6;
@@ -107,7 +109,7 @@
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(13, 295);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(13, 469);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(194, 17);
             this.newConfirmPasswordLabel.TabIndex = 7;
@@ -116,7 +118,7 @@
             // newAccessLevelLabel
             // 
             this.newAccessLevelLabel.AutoSize = true;
-            this.newAccessLevelLabel.Location = new System.Drawing.Point(13, 174);
+            this.newAccessLevelLabel.Location = new System.Drawing.Point(13, 187);
             this.newAccessLevelLabel.Name = "newAccessLevelLabel";
             this.newAccessLevelLabel.Size = new System.Drawing.Size(29, 17);
             this.newAccessLevelLabel.TabIndex = 8;
@@ -124,14 +126,14 @@
             // 
             // newQualityTextbox
             // 
-            this.newQualityTextbox.Location = new System.Drawing.Point(17, 315);
+            this.newQualityTextbox.Location = new System.Drawing.Point(17, 489);
             this.newQualityTextbox.Name = "newQualityTextbox";
             this.newQualityTextbox.Size = new System.Drawing.Size(143, 22);
             this.newQualityTextbox.TabIndex = 11;
             // 
             // editedQualityTextbox
             // 
-            this.editedQualityTextbox.Location = new System.Drawing.Point(16, 61);
+            this.editedQualityTextbox.Location = new System.Drawing.Point(16, 74);
             this.editedQualityTextbox.Name = "editedQualityTextbox";
             this.editedQualityTextbox.ReadOnly = true;
             this.editedQualityTextbox.Size = new System.Drawing.Size(144, 22);
@@ -141,7 +143,7 @@
             // 
             this.deleteUserCheckbox.AutoSize = true;
             this.deleteUserCheckbox.Enabled = false;
-            this.deleteUserCheckbox.Location = new System.Drawing.Point(16, 194);
+            this.deleteUserCheckbox.Location = new System.Drawing.Point(16, 207);
             this.deleteUserCheckbox.Name = "deleteUserCheckbox";
             this.deleteUserCheckbox.Size = new System.Drawing.Size(135, 21);
             this.deleteUserCheckbox.TabIndex = 14;
@@ -152,7 +154,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(11, 270);
+            this.label1.Location = new System.Drawing.Point(11, 433);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(204, 25);
             this.label1.TabIndex = 15;
@@ -160,7 +162,7 @@
             // 
             // addQualityButton
             // 
-            this.addQualityButton.Location = new System.Drawing.Point(17, 433);
+            this.addQualityButton.Location = new System.Drawing.Point(17, 607);
             this.addQualityButton.Name = "addQualityButton";
             this.addQualityButton.Size = new System.Drawing.Size(80, 26);
             this.addQualityButton.TabIndex = 16;
@@ -170,7 +172,7 @@
             // 
             // editAddressTextbox
             // 
-            this.editAddressTextbox.Location = new System.Drawing.Point(16, 151);
+            this.editAddressTextbox.Location = new System.Drawing.Point(16, 164);
             this.editAddressTextbox.Name = "editAddressTextbox";
             this.editAddressTextbox.Size = new System.Drawing.Size(209, 22);
             this.editAddressTextbox.TabIndex = 18;
@@ -178,7 +180,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 131);
+            this.label2.Location = new System.Drawing.Point(13, 144);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 17);
             this.label2.TabIndex = 17;
@@ -186,7 +188,7 @@
             // 
             // editGSTINTextbox
             // 
-            this.editGSTINTextbox.Location = new System.Drawing.Point(16, 106);
+            this.editGSTINTextbox.Location = new System.Drawing.Point(16, 119);
             this.editGSTINTextbox.Name = "editGSTINTextbox";
             this.editGSTINTextbox.Size = new System.Drawing.Size(144, 22);
             this.editGSTINTextbox.TabIndex = 20;
@@ -194,7 +196,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 86);
+            this.label3.Location = new System.Drawing.Point(13, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(50, 17);
             this.label3.TabIndex = 19;
@@ -202,7 +204,7 @@
             // 
             // addGSTINTextbox
             // 
-            this.addGSTINTextbox.Location = new System.Drawing.Point(17, 360);
+            this.addGSTINTextbox.Location = new System.Drawing.Point(17, 534);
             this.addGSTINTextbox.Name = "addGSTINTextbox";
             this.addGSTINTextbox.Size = new System.Drawing.Size(143, 22);
             this.addGSTINTextbox.TabIndex = 30;
@@ -210,7 +212,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(14, 340);
+            this.label6.Location = new System.Drawing.Point(14, 514);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 17);
             this.label6.TabIndex = 29;
@@ -218,7 +220,7 @@
             // 
             // addAddressTextbox
             // 
-            this.addAddressTextbox.Location = new System.Drawing.Point(17, 405);
+            this.addAddressTextbox.Location = new System.Drawing.Point(17, 579);
             this.addAddressTextbox.Name = "addAddressTextbox";
             this.addAddressTextbox.Size = new System.Drawing.Size(208, 22);
             this.addAddressTextbox.TabIndex = 28;
@@ -226,7 +228,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 385);
+            this.label7.Location = new System.Drawing.Point(14, 559);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(60, 17);
             this.label7.TabIndex = 27;
@@ -256,7 +258,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.userLabel);
             this.Name = "editDyeingCompany";
-            this.Size = new System.Drawing.Size(619, 486);
+            this.Size = new System.Drawing.Size(800, 700);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

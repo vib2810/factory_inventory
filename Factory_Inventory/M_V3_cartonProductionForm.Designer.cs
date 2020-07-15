@@ -87,7 +87,6 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged);
@@ -296,7 +295,6 @@
             this.label8.Size = new System.Drawing.Size(27, 17);
             this.label8.TabIndex = 0;
             this.label8.Text = "gm";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label11
             // 
@@ -376,7 +374,6 @@
             this.label1.Size = new System.Drawing.Size(70, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Oil Gain";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label10
             // 
@@ -387,7 +384,6 @@
             this.label10.Size = new System.Drawing.Size(24, 20);
             this.label10.TabIndex = 0;
             this.label10.Text = "%";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // label14
             // 
@@ -397,7 +393,6 @@
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(0, 25);
             this.label14.TabIndex = 0;
-            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // deleteButton
             // 

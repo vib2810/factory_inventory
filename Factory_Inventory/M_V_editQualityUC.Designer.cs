@@ -39,9 +39,7 @@ namespace Factory_Inventory
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.editQualityBeforeTwistTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.addQualityButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,6 +61,8 @@ namespace Factory_Inventory
             this.hsComboBox3 = new HatchStyleComboBox.HSComboBox();
             this.hsComboBox2 = new HatchStyleComboBox.HSComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.editQBTCB = new System.Windows.Forms.ComboBox();
+            this.addQBTCB = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -72,15 +72,17 @@ namespace Factory_Inventory
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(236, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(230, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(485, 589);
+            this.dataGridView1.Size = new System.Drawing.Size(570, 700);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
@@ -91,34 +93,19 @@ namespace Factory_Inventory
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // addQualityBeforeTwistTB
-            // 
-            this.addQualityBeforeTwistTB.Location = new System.Drawing.Point(13, 539);
-            this.addQualityBeforeTwistTB.Name = "addQualityBeforeTwistTB";
-            this.addQualityBeforeTwistTB.Size = new System.Drawing.Size(149, 22);
-            this.addQualityBeforeTwistTB.TabIndex = 19;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 519);
+            this.label7.Location = new System.Drawing.Point(9, 615);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(133, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Quality before Twist";
             // 
-            // editQualityBeforeTwistTB
-            // 
-            this.editQualityBeforeTwistTB.Location = new System.Drawing.Point(15, 232);
-            this.editQualityBeforeTwistTB.Name = "editQualityBeforeTwistTB";
-            this.editQualityBeforeTwistTB.ReadOnly = true;
-            this.editQualityBeforeTwistTB.Size = new System.Drawing.Size(147, 22);
-            this.editQualityBeforeTwistTB.TabIndex = 7;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 213);
+            this.label2.Location = new System.Drawing.Point(12, 227);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(133, 17);
             this.label2.TabIndex = 0;
@@ -126,7 +113,7 @@ namespace Factory_Inventory
             // 
             // addQualityButton
             // 
-            this.addQualityButton.Location = new System.Drawing.Point(156, 561);
+            this.addQualityButton.Location = new System.Drawing.Point(11, 663);
             this.addQualityButton.Name = "addQualityButton";
             this.addQualityButton.Size = new System.Drawing.Size(75, 28);
             this.addQualityButton.TabIndex = 21;
@@ -138,7 +125,7 @@ namespace Factory_Inventory
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(10, 305);
+            this.label1.Location = new System.Drawing.Point(10, 384);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(114, 25);
             this.label1.TabIndex = 0;
@@ -148,7 +135,7 @@ namespace Factory_Inventory
             // 
             this.deleteUserCheckboxCK.AutoSize = true;
             this.deleteUserCheckboxCK.Enabled = false;
-            this.deleteUserCheckboxCK.Location = new System.Drawing.Point(14, 281);
+            this.deleteUserCheckboxCK.Location = new System.Drawing.Point(47, 275);
             this.deleteUserCheckboxCK.Name = "deleteUserCheckboxCK";
             this.deleteUserCheckboxCK.Size = new System.Drawing.Size(119, 21);
             this.deleteUserCheckboxCK.TabIndex = 11;
@@ -157,7 +144,7 @@ namespace Factory_Inventory
             // 
             // editedQualityTextboxTB
             // 
-            this.editedQualityTextboxTB.Location = new System.Drawing.Point(15, 45);
+            this.editedQualityTextboxTB.Location = new System.Drawing.Point(15, 47);
             this.editedQualityTextboxTB.Name = "editedQualityTextboxTB";
             this.editedQualityTextboxTB.ReadOnly = true;
             this.editedQualityTextboxTB.Size = new System.Drawing.Size(144, 22);
@@ -165,7 +152,7 @@ namespace Factory_Inventory
             // 
             // newQualityTextboxTB
             // 
-            this.newQualityTextboxTB.Location = new System.Drawing.Point(13, 350);
+            this.newQualityTextboxTB.Location = new System.Drawing.Point(13, 429);
             this.newQualityTextboxTB.Name = "newQualityTextboxTB";
             this.newQualityTextboxTB.Size = new System.Drawing.Size(149, 22);
             this.newQualityTextboxTB.TabIndex = 13;
@@ -173,7 +160,7 @@ namespace Factory_Inventory
             // newAccessLevelLabel
             // 
             this.newAccessLevelLabel.AutoSize = true;
-            this.newAccessLevelLabel.Location = new System.Drawing.Point(12, 261);
+            this.newAccessLevelLabel.Location = new System.Drawing.Point(12, 275);
             this.newAccessLevelLabel.Name = "newAccessLevelLabel";
             this.newAccessLevelLabel.Size = new System.Drawing.Size(29, 17);
             this.newAccessLevelLabel.TabIndex = 0;
@@ -182,7 +169,7 @@ namespace Factory_Inventory
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(9, 330);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(12, 409);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(52, 17);
             this.newConfirmPasswordLabel.TabIndex = 0;
@@ -191,7 +178,7 @@ namespace Factory_Inventory
             // newPasswordLabel
             // 
             this.newPasswordLabel.AutoSize = true;
-            this.newPasswordLabel.Location = new System.Drawing.Point(12, 26);
+            this.newPasswordLabel.Location = new System.Drawing.Point(12, 28);
             this.newPasswordLabel.Name = "newPasswordLabel";
             this.newPasswordLabel.Size = new System.Drawing.Size(52, 17);
             this.newPasswordLabel.TabIndex = 0;
@@ -199,7 +186,7 @@ namespace Factory_Inventory
             // 
             // confirmButton
             // 
-            this.confirmButton.Location = new System.Drawing.Point(155, 271);
+            this.confirmButton.Location = new System.Drawing.Point(15, 302);
             this.confirmButton.Name = "confirmButton";
             this.confirmButton.Size = new System.Drawing.Size(75, 31);
             this.confirmButton.TabIndex = 9;
@@ -219,7 +206,7 @@ namespace Factory_Inventory
             // 
             // addHSNNoTB
             // 
-            this.addHSNNoTB.Location = new System.Drawing.Point(14, 395);
+            this.addHSNNoTB.Location = new System.Drawing.Point(14, 474);
             this.addHSNNoTB.Name = "addHSNNoTB";
             this.addHSNNoTB.Size = new System.Drawing.Size(147, 22);
             this.addHSNNoTB.TabIndex = 15;
@@ -227,7 +214,7 @@ namespace Factory_Inventory
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(11, 375);
+            this.label4.Location = new System.Drawing.Point(11, 454);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 17);
             this.label4.TabIndex = 0;
@@ -235,7 +222,7 @@ namespace Factory_Inventory
             // 
             // editHSNNoTB
             // 
-            this.editHSNNoTB.Location = new System.Drawing.Point(15, 90);
+            this.editHSNNoTB.Location = new System.Drawing.Point(15, 92);
             this.editHSNNoTB.Name = "editHSNNoTB";
             this.editHSNNoTB.Size = new System.Drawing.Size(147, 22);
             this.editHSNNoTB.TabIndex = 3;
@@ -243,7 +230,7 @@ namespace Factory_Inventory
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 70);
+            this.label5.Location = new System.Drawing.Point(12, 72);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(91, 17);
             this.label5.TabIndex = 0;
@@ -252,7 +239,7 @@ namespace Factory_Inventory
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 115);
+            this.label3.Location = new System.Drawing.Point(12, 117);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 17);
             this.label3.TabIndex = 25;
@@ -261,7 +248,7 @@ namespace Factory_Inventory
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 420);
+            this.label6.Location = new System.Drawing.Point(12, 499);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(87, 17);
             this.label6.TabIndex = 26;
@@ -269,9 +256,9 @@ namespace Factory_Inventory
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(15, 163);
+            this.pictureBox1.Location = new System.Drawing.Point(15, 165);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(215, 47);
+            this.pictureBox1.Size = new System.Drawing.Size(209, 59);
             this.pictureBox1.TabIndex = 27;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
@@ -561,8 +548,344 @@ namespace Factory_Inventory
             "SmallCheckerBoard",
             "LargeCheckerBoard",
             "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
             "SolidDiamond"});
-            this.hsComboBox3.Location = new System.Drawing.Point(15, 133);
+            this.hsComboBox3.Location = new System.Drawing.Point(15, 135);
             this.hsComboBox3.Name = "hsComboBox3";
             this.hsComboBox3.Size = new System.Drawing.Size(147, 23);
             this.hsComboBox3.TabIndex = 5;
@@ -853,8 +1176,344 @@ namespace Factory_Inventory
             "SmallCheckerBoard",
             "LargeCheckerBoard",
             "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
             "SolidDiamond"});
-            this.hsComboBox2.Location = new System.Drawing.Point(12, 440);
+            this.hsComboBox2.Location = new System.Drawing.Point(12, 519);
             this.hsComboBox2.Name = "hsComboBox2";
             this.hsComboBox2.Size = new System.Drawing.Size(149, 23);
             this.hsComboBox2.TabIndex = 17;
@@ -862,17 +1521,36 @@ namespace Factory_Inventory
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(12, 469);
+            this.pictureBox2.Location = new System.Drawing.Point(11, 553);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(215, 47);
+            this.pictureBox2.Size = new System.Drawing.Size(209, 59);
             this.pictureBox2.TabIndex = 28;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Visible = false;
+            // 
+            // editQBTCB
+            // 
+            this.editQBTCB.Enabled = false;
+            this.editQBTCB.FormattingEnabled = true;
+            this.editQBTCB.Location = new System.Drawing.Point(13, 248);
+            this.editQBTCB.Name = "editQBTCB";
+            this.editQBTCB.Size = new System.Drawing.Size(147, 24);
+            this.editQBTCB.TabIndex = 29;
+            // 
+            // addQBTCB
+            // 
+            this.addQBTCB.FormattingEnabled = true;
+            this.addQBTCB.Location = new System.Drawing.Point(11, 635);
+            this.addQBTCB.Name = "addQBTCB";
+            this.addQBTCB.Size = new System.Drawing.Size(147, 24);
+            this.addQBTCB.TabIndex = 30;
             // 
             // editQuality
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.addQBTCB);
+            this.Controls.Add(this.editQBTCB);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label6);
@@ -883,9 +1561,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.label5);
             this.Controls.Add(this.addHSNNoTB);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.addQualityBeforeTwistTB);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.editQualityBeforeTwistTB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.addQualityButton);
             this.Controls.Add(this.label1);
@@ -899,7 +1575,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.dataGridView1);
             this.Name = "editQuality";
-            this.Size = new System.Drawing.Size(721, 589);
+            this.Size = new System.Drawing.Size(800, 700);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.editQuality_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -912,9 +1588,7 @@ namespace Factory_Inventory
         #endregion
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.TextBox addQualityBeforeTwistTB;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox editQualityBeforeTwistTB;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button addQualityButton;
         private System.Windows.Forms.Label label1;
@@ -936,5 +1610,7 @@ namespace Factory_Inventory
         private Label label6;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
+        private ComboBox editQBTCB;
+        private ComboBox addQBTCB;
     }
 }

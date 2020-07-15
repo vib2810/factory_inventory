@@ -13,33 +13,11 @@ namespace Factory_Inventory
 {
     public partial class editColour : UserControl
     {
-        private DbConnect c;
+        private DbConnect c = new DbConnect();
         public string currentUser;
         public editColour()
         {
             InitializeComponent();
-            this.c = new DbConnect();
-
-            //Create drop-down lists
-            var dataSource1 = new List<string>();
-            DataTable d1 = c.getQC('q');
-            dataSource1.Add("---Select---");
-
-            for (int i = 0; i < d1.Rows.Count; i++)
-            {
-                dataSource1.Add(d1.Rows[i][0].ToString());
-            }
-            this.addQualityCombobox.DataSource = dataSource1;
-            this.addQualityCombobox.DisplayMember = "Quality";
-            this.addQualityCombobox.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
-            this.addQualityCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.addQualityCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
-            var dataSource2 = new List<string>(dataSource1);
-            this.editQualityCombobox.DataSource = dataSource2;
-            this.editQualityCombobox.DisplayMember = "Quality";
-            this.editQualityCombobox.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
-            this.editQualityCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.editQualityCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
         public void loadDatabase()
         {
@@ -163,6 +141,30 @@ namespace Factory_Inventory
                 editDyeingRateTexbox.Text = dataGridView1.Rows[RowIndex].Cells[2].Value.ToString();
                 this.editQualityCombobox.SelectedIndex = this.editQualityCombobox.FindStringExact(dataGridView1.Rows[RowIndex].Cells[1].Value.ToString());
             }
+        }
+
+        private void editColour_Load(object sender, EventArgs e)
+        {
+            //Create drop-down lists
+            var dataSource1 = new List<string>();
+            DataTable d1 = c.getQC('q');
+            dataSource1.Add("---Select---");
+
+            for (int i = 0; i < d1.Rows.Count; i++)
+            {
+                dataSource1.Add(d1.Rows[i][0].ToString());
+            }
+            this.addQualityCombobox.DataSource = dataSource1;
+            this.addQualityCombobox.DisplayMember = "Quality";
+            this.addQualityCombobox.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.addQualityCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.addQualityCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            var dataSource2 = new List<string>(dataSource1);
+            this.editQualityCombobox.DataSource = dataSource2;
+            this.editQualityCombobox.DisplayMember = "Quality";
+            this.editQualityCombobox.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.editQualityCombobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.editQualityCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
     }
 }

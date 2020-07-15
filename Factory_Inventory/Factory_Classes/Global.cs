@@ -31,10 +31,15 @@ namespace Factory_Inventory
             get { return _printedcolor; }
             set { _printedcolor = value; }
         }
-        public static string connectionstring
+        public static string defaultconnectionstring
         {
             get { return _connectionstring; }
             set { _connectionstring = value; }
+        }
+
+        public static string getconnectionstring(string database)
+        {
+            return _connectionstring.Replace("FactoryData", database);
         }
     }
 }
