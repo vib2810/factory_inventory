@@ -44,7 +44,7 @@ namespace Factory_Inventory
         private DbConnect c;
         private bool edit_cmd_send = false;
         private bool edit_form = false;               //True if form is being edited
-        private List<string> carton_data;           //List that stores carton numbers from SQL
+        private List<Tuple<string, string>> carton_data;           //List that stores carton numbers from SQL
         private M_V_history v1_history;
         private int voucher_id;
         private string tablename;
@@ -58,15 +58,14 @@ namespace Factory_Inventory
                 this.colour = shade;
             }
         }
-        Dictionary<string, fetch_data> carton_fetch_data = new Dictionary<string, fetch_data>();
+        Dictionary<Tuple<string, string>, fetch_data> carton_fetch_data = new Dictionary<Tuple<string, string>, fetch_data>();
 
         //Form Functions
         public M_VC_cartonSalesForm(string form)
         {
             InitializeComponent();
             this.c = new DbConnect();
-            this.carton_data = new List<string>();
-            this.carton_data.Add("");
+            this.carton_data = new List<Tuple<string, string>>();
             this.tablename = form;
 
             #region //combobox
@@ -147,21 +146,6 @@ namespace Factory_Inventory
             this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
             this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-            //Create drop-down lists
-            var dataSource4 = new List<string>();
-            DataTable d4 = c.getQC('f');
-            for (int i = 0; i < d4.Rows.Count; i++)
-            {
-                dataSource4.Add(d4.Rows[i][0].ToString());
-            }
-            this.comboBox4CB.DataSource = dataSource4;
-            this.comboBox4CB.DisplayMember = "Financial Year";
-            this.comboBox4CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(c.getFinancialYear(this.saleDateDTP.Value));
             
             //Create drop-down Colour lists
             var dataSource5 = new List<string>();
@@ -194,7 +178,7 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
             dataGridView1.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i]);
+            for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i].Item1 + " (" + this.carton_data[i].Item2 + ")");
             //dgvCmb.DataSource = this.carton_data;
 
             dgvCmb.HeaderText = "Carton Number";
@@ -213,8 +197,7 @@ namespace Factory_Inventory
             this.edit_form = true;
             this.v1_history = v1_history;
             this.c = new DbConnect();
-            this.carton_data = new List<string>();
-            this.carton_data.Add("");
+            this.carton_data = new List<Tuple<string, string>>();
             this.tablename = form;
 
             //Create frop down type list
@@ -288,19 +271,6 @@ namespace Factory_Inventory
             this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.Append;
 
-            //Create drop-down lists
-            var dataSource4 = new List<string>();
-            DataTable d4 = c.getQC('f');
-            for (int i = 0; i < d4.Rows.Count; i++)
-            {
-                dataSource4.Add(d4.Rows[i][0].ToString());
-            }
-            this.comboBox4CB.DataSource = dataSource4;
-            this.comboBox4CB.DisplayMember = "Financial Year";
-            this.comboBox4CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox4CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox4CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
             var dataSource5 = new List<string>();
             if (tablename == "Carton")
             {
@@ -331,7 +301,7 @@ namespace Factory_Inventory
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Carton Number";
-            for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i]);
+            for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i].Item1 + " (" + this.carton_data[i].Item2 + ")");
             //dgvCmb.DataSource = this.carton_data;
             dataGridView1.Columns.Insert(1, dgvCmb);
             dataGridView1.Columns.Add("Weight", "Weight");
@@ -353,7 +323,6 @@ namespace Factory_Inventory
                 this.saleDateDTP.Enabled = true;
                 this.comboBox1CB.Enabled = false;
                 this.comboBox2CB.Enabled = false;
-                this.comboBox4CB.Enabled = false;
                 this.saveButton.Enabled = true;
                 this.dataGridView1.ReadOnly = false;
                 this.saleDONoTB.ReadOnly = true;
@@ -387,39 +356,29 @@ namespace Factory_Inventory
 
             }
             this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Customer"].ToString());
-            this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
             this.saleDONoTB.Text = row["Sale_DO_No"].ToString();
             this.rateTextboxTB.Text = row["Sale_Rate"].ToString();
 
-            string[] carton_no = c.csvToArray(row["Carton_No_Arr"].ToString());
             
             DataTable d = new DataTable();
             if (this.tablename == "Carton")
             {
-                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "' AND Quality = '" + row["Quality"].ToString() + "'");
+                d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Fiscal_Year", "TS_Voucher_ID = "+ row["Voucher_ID"].ToString()+" AND Date_Of_Sale IS NOT NULL");
             }
-            else d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_No IN (" + c.removecom(row["Carton_No_Arr"].ToString()) + ") AND Fiscal_Year ='" + row["Carton_Fiscal_Year"].ToString() + "' AND Company_Name = '" + row["Company_Name"].ToString() + "' AND Quality = '" + row["Quality"].ToString() + "'");
+            else d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour, Fiscal_Year", "Sales_Voucher_ID = " + row["Voucher_ID"].ToString() + "");
+            
+            dataGridView1.RowCount = d.Rows.Count + 1;
 
-            for (int i=0; i<carton_no.Length; i++)
+            for (int i=0; i<d.Rows.Count; i++)
             {
-                this.carton_data.Add(carton_no[i]);
-                dgvCmb.Items.Add(carton_no[i]);
-            }
-            for (int i = 0; i < d.Rows.Count; i++)
-            {
-                string cartonno = d.Rows[i]["Carton_No"].ToString();
+                this.carton_data.Add(new Tuple<string, string>(d.Rows[i]["Carton_No"].ToString(), d.Rows[i]["Fiscal_Year"].ToString()));
+                dgvCmb.Items.Add(d.Rows[i]["Carton_No"].ToString()+" ("+ d.Rows[i]["Fiscal_Year"].ToString()+")");
                 string colour = "Gray";
                 if (this.tablename != "Carton") colour = d.Rows[i]["Colour"].ToString();
-                this.carton_fetch_data[cartonno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
+                this.carton_fetch_data[new Tuple<string, string>(d.Rows[i]["Carton_No"].ToString(), d.Rows[i]["Fiscal_Year"].ToString())] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
+                dataGridView1.Rows[i].Cells[1].Value = d.Rows[i]["Carton_No"].ToString() + " (" + d.Rows[i]["Fiscal_Year"].ToString() + ")";
             }
-            this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString(), row["Carton_Fiscal_Year"].ToString());
-
-            dataGridView1.RowCount = carton_no.Length + 1;
-
-            for (int i = 0; i < carton_no.Length; i++)
-            {
-                dataGridView1.Rows[i].Cells[1].Value = carton_no[i];
-            }
+            this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString());
 
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
@@ -475,6 +434,7 @@ namespace Factory_Inventory
             {
                 this.deleteButton.Visible = false;
             }
+            dataGridView1.Columns[1].Width = 200;
         }
 
         //Own Functions
@@ -484,7 +444,6 @@ namespace Factory_Inventory
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;
             this.comboBox3CB.Enabled = false;
-            this.comboBox4CB.Enabled = false;
             this.loadCartonButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.rateTextboxTB.ReadOnly= true;
@@ -514,24 +473,33 @@ namespace Factory_Inventory
                 return sum;
             }
         }
-        private void loadData(string quality, string company, string carton_financial_year)
+        private void loadData(string quality, string company)
         {
             DataTable d = new DataTable();
             if(this.tablename=="Carton")
             {
-                d = c.getTableData(this.tablename, "Carton_No, Net_Weight", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "' AND Fiscal_Year ='" + carton_financial_year +"'");
+                d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Fiscal_Year", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "'");
             }
-            else d= c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "' AND Fiscal_Year ='" + carton_financial_year + "'");
+            else d= c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour, Fiscal_Year", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "'");
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns[1];
             for (int i = 0; i < d.Rows.Count; i++)
             {
                 string cartonno = d.Rows[i]["Carton_No"].ToString();
-                dgvCmb.Items.Add(d.Rows[i][0].ToString());
-                this.carton_data.Add(d.Rows[i][0].ToString());
+                string carton_fiscal_year = d.Rows[i]["Fiscal_Year"].ToString();
+                string to_show = cartonno + " (" + carton_fiscal_year + ")";
+                dgvCmb.Items.Add(to_show);
+                this.carton_data.Add(new Tuple<string, string>(cartonno, carton_fiscal_year));
                 string colour = "Gray";
                 if (this.tablename != "Carton") colour = d.Rows[i]["Colour"].ToString();
-                this.carton_fetch_data[cartonno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
+                this.carton_fetch_data[new Tuple<string, string>(cartonno, carton_fiscal_year)] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
             }
+            int j = 0;
+            foreach(Tuple<string, string> item in carton_fetch_data.Keys)
+            {
+                Console.WriteLine(item.Item1 + "," + item.Item2 + carton_fetch_data[item].colour+" "+carton_fetch_data[item].net_wt);
+                j++;
+            }
+            Console.WriteLine(j);
             
         }
         private void amountTB_Value()
@@ -561,11 +529,11 @@ namespace Factory_Inventory
         {
             if (this.typeCB.SelectedIndex == 1)
             {
-                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_0_DO_No", this.comboBox4CB.Text);
+                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_0_DO_No", c.getFinancialYear(this.saleDateDTP.Value));
             }
             else if (this.typeCB.SelectedIndex == 2)
             {
-                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_1_DO_No", this.comboBox4CB.Text);
+                this.saleDONoTB.Text = c.getNextNumber_FiscalYear("Highest_1_DO_No", c.getFinancialYear(this.saleDateDTP.Value));
             }
             else
             {
@@ -632,10 +600,10 @@ namespace Factory_Inventory
                 this.comboBox3CB.SelectedIndex = 0;
                 return;
             }
-            string cartonno = "";
+            List<Tuple<string, string> > cartonno = new List<Tuple<string, string>>();
             int number = 0;
 
-            List<int> temp = new List<int>();
+            List<string> temp = new List<string>();
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
                 if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1))
@@ -644,11 +612,12 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    cartonno += dataGridView1.Rows[i].Cells[1].Value + ",";
+                    string[] carton = c.repeated_batch_csv(dataGridView1.Rows[i].Cells[1].Value.ToString());
+                    cartonno.Add(new Tuple<string, string>(carton[0], carton[1]));
                     number++;
-                    temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
+                    temp.Add(dataGridView1.Rows[i].Cells[1].Value.ToString());
 
-                    var distinctBytes = new HashSet<int>(temp);
+                    var distinctBytes = new HashSet<string>(temp);
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
@@ -661,7 +630,7 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
-                bool added = c.addSalesVoucher(inputDate.Value, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename, float.Parse(this.totalWeightTB.Text));
+                bool added = c.addSalesVoucher(inputDate.Value, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString(), cartonno, float.Parse(rateTextboxTB.Text), this.saleDONoTB.Text, this.tablename, float.Parse(this.totalWeightTB.Text));
                 if (added == false)
                 {
                     return;
@@ -674,7 +643,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited = c.editSalesVoucher(this.voucher_id, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), cartonno, comboBox3CB.SelectedItem.ToString(), float.Parse(rateTextboxTB.Text), comboBox4CB.SelectedItem.ToString(), this.saleDONoTB.Text, this.tablename, float.Parse(this.totalWeightTB.Text));
+                bool edited = c.editSalesVoucher(this.voucher_id, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString(), cartonno, float.Parse(rateTextboxTB.Text), this.saleDONoTB.Text, this.tablename, float.Parse(this.totalWeightTB.Text));
                 if (edited == false)
                 {
                     return;
@@ -705,7 +674,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Select Company Name", "Error");
                 return;
             }
-            this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString(), this.comboBox4CB.SelectedItem.ToString());
+            this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString());
             if(this.carton_data.Count-1==0)
             {
                 c.WarningBox("No Cartons Loaded");
@@ -723,7 +692,6 @@ namespace Factory_Inventory
             this.typeCB.Enabled = false;
             this.comboBox1CB.Enabled = false;
             this.comboBox2CB.Enabled = false;
-            this.comboBox4CB.Enabled = false;
             string fiscal_year = c.getFinancialYear(this.saleDateDTP.Value);
             List<int> years = c.getFinancialYearArr(fiscal_year);
             this.saleDateDTP.MinDate = new DateTime(years[0], 04, 01);
@@ -785,18 +753,22 @@ namespace Factory_Inventory
                 ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
                 ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
                 ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
-                ComboBox c = (ComboBox)e.Control;
+                ComboBox cb = (ComboBox)e.Control;
                 if (this.shadeCB.Text == "---Select---") return;
                 
-                List<string> temp=new List<string>();
-                foreach (string item in c.Items) temp.Add(item);
-                foreach(string item in temp)
+                List<Tuple<string, string>> temp=new List<Tuple<string, string>>();
+                foreach (string item in cb.Items)
+                {
+                    string[] carton_data = c.repeated_batch_csv(item);
+                    temp.Add(new Tuple<string, string>(carton_data[0], carton_data[1]));
+                }
+                foreach(Tuple<string, string> item in temp)
                 {
                     fetch_data value = new fetch_data(-1F, "");
                     this.carton_fetch_data.TryGetValue(item, out value);
                     if (value.colour!=this.shadeCB.Text)
                     {
-                        c.Items.Remove(item);
+                        cb.Items.Remove(item.Item1 + " (" + item.Item2 + ")");
                     }
                 }
             }
@@ -812,13 +784,11 @@ namespace Factory_Inventory
                     this.totalWeightLabel.Text = CellSum().ToString("F3");
                     return;
                 }
-                string cartoon = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                if (this.comboBox4CB.SelectedIndex < 0)
-                {
-                    return;
-                }
+                Console.WriteLine(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                string[] carton_data_changed = c.repeated_batch_csv(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                Console.WriteLine("setting " + carton_data_changed[0] + " " + carton_data_changed[1]);
                 fetch_data data = new fetch_data(-1F, "");
-                this.carton_fetch_data.TryGetValue(cartoon, out data);
+                this.carton_fetch_data.TryGetValue(new Tuple<string, string>(carton_data_changed[0], carton_data_changed[1]), out data);
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = data.net_wt.ToString("F3");
                 dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = data.colour;
                 this.totalWeightTB.Text = CellSum().ToString("F3");

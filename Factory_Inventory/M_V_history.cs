@@ -252,9 +252,6 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Sale_DO_No"].Visible = true;
                 this.dataGridView1.Columns["Sale_DO_No"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Sale_DO_No"].HeaderText = "DO Number";
-                this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
-                this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 3;
-                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
                 this.dataGridView1.Columns["Customer"].Visible = true;
                 this.dataGridView1.Columns["Customer"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Customer"].HeaderText = "Party";

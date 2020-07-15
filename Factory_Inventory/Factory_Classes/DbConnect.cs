@@ -266,9 +266,10 @@ namespace Factory_Inventory.Factory_Classes
         }
         public string[] repeated_batch_csv(string str)
         {
+            if (string.IsNullOrEmpty(str)) return null;
             string[] ans = str.Split('(');
             //ans = ans.Skip(1).ToArray();
-            ans[0] = ans[0].Substring(0, ans[0].Length - 2);
+            ans[0] = ans[0].Replace(" ","");
             ans[1] = ans[1].Substring(0, ans[1].Length - 1);
             return ans;
         }
@@ -1784,11 +1785,11 @@ namespace Factory_Inventory.Factory_Classes
                 if (date_of_sale == null && sell_cost == -1F && sale_do_no == null)
                 {
                     state = 1;
-                    sql = "UPDATE " + tablename + " SET Carton_State=" + state + " , Date_Of_Sale=NULL, Sale_Rate=NULL, Sale_DO_No=NULL, Type_Of_Sale=NULL, DO_Fiscal_Year=NULL, " + column + " = NULL WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "' AND Company_Name = '"+company_name+"' AND Quality = '"+quality+"'";
+                    sql = "UPDATE " + tablename + " SET Carton_State=" + state + " , Date_Of_Sale=NULL, Sale_Rate=NULL, Sale_DO_No=NULL, Type_Of_Sale=NULL, DO_Fiscal_Year=NULL, " + column + " = NULL WHERE Carton_No =" + cartonno + " AND Fiscal_Year='" + carton_fiscal_year + "' AND Company_Name = '"+company_name+"' AND Quality = '"+quality+"'";
                 }
                 else
                 {
-                    sql = "UPDATE " + tablename + " SET Carton_State=" + state + " , Date_Of_Sale='" + date_of_sale + "', Sale_Rate=" + sell_cost + ", Sale_DO_No = '" + sale_do_no + "', Type_Of_Sale=" + int.Parse(type) + ", DO_Fiscal_Year = '" + do_fiscal_year + "', " + column + " = " + voucher_id + " WHERE Carton_No IN (" + cartonno + ") AND Fiscal_Year='" + carton_fiscal_year + "' AND Company_Name = '"+company_name+ "' AND Quality = '" + quality + "'";
+                    sql = "UPDATE " + tablename + " SET Carton_State=" + state + " , Date_Of_Sale='" + date_of_sale + "', Sale_Rate=" + sell_cost + ", Sale_DO_No = '" + sale_do_no + "', Type_Of_Sale=" + int.Parse(type) + ", DO_Fiscal_Year = '" + do_fiscal_year + "', " + column + " = " + voucher_id + " WHERE Carton_No = " + cartonno + " AND Fiscal_Year='" + carton_fiscal_year + "' AND Company_Name = '"+company_name+ "' AND Quality = '" + quality + "'";
                 }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -1992,76 +1993,71 @@ namespace Factory_Inventory.Factory_Classes
         }
 
         //Sales voucher
-        public bool addSalesVoucher(DateTime dtinput, DateTime dtissue, string type, string quality, string company, string cartonno, string customer, float sell_cost, string carton_fiscal_year, string sale_do_no, string tablename, float net_weight)
+        public bool addSalesVoucher(DateTime dtinput, DateTime dtissue, string type, string quality, string company, string customer, List<Tuple<string, string>> cartonno, float sell_cost, string sale_do_no, string tablename, float net_weight)
         {
             string inputDate = dtinput.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string fiscal_year = this.getFinancialYear(dtissue);
-            string[] carton_no = this.csvToArray(cartonno);
 
             //check if bill dates/Production Dates of all cartons are <= issue date
-            DataTable dt = new DataTable();
-            if (tablename == "Carton")
+            Dictionary<Tuple<string, string>, string> dates = new Dictionary<Tuple<string, string>, string>();
+            for (int i=0;i<cartonno.Count;i++)
             {
-                con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "' AND Company_Name = '"+company+"' AND Quality = '"+quality+"'", con);
-                sda1.Fill(dt);
-                con.Close();
+                DataTable dt = new DataTable();
+                if (tablename == "Carton")
+                {
+                    con.Open();
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Billing FROM Carton WHERE Carton_No = "+cartonno[i].Item1+" AND Fiscal_Year='" + cartonno[i].Item2 + "' AND Company_Name = '" + company + "' AND Quality = '" + quality + "'", con);
+                    sda1.Fill(dt);
+                    con.Close();
+                }
+                else
+                {
+                    con.Open();
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Production FROM Carton_Produced WHERE Carton_No = "+ cartonno[i].Item1 +" AND Fiscal_Year ='" + cartonno[i].Item2 + "' AND Company_Name = '" + company + "' AND Quality = '" + quality + "'", con);
+                    sda1.Fill(dt);
+                    con.Close();
+                }
+                if (tablename == "Carton") dates[cartonno[i]] = dt.Rows[0]["Date_Of_Billing"].ToString();
+                else dates[cartonno[i]] = dt.Rows[0]["Date_Of_Production"].ToString();
             }
-            else
+            
+            for (int i = 0; i < cartonno.Count; i++)
             {
-                con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "' AND Company_Name = '" + company + "' AND Quality = '" + quality + "'", con);
-                sda1.Fill(dt);
-                con.Close();
-            }
-
-            //create a dictionary of values and the output values are not in the same order
-            Dictionary<string, string> dates = new Dictionary<string, string>();
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                string thiscartonno = dt.Rows[i]["Carton_No"].ToString();
-                if (tablename == "Carton") dates[thiscartonno] = dt.Rows[i]["Date_Of_Billing"].ToString();
-                else dates[thiscartonno] = dt.Rows[i]["Date_Of_Production"].ToString();
-            }
-            for (int i = 0; i < carton_no.Length; i++)
-            {
-                DateTime bill = Convert.ToDateTime(dates[carton_no[i]]);
+                DateTime bill = Convert.ToDateTime(dates[cartonno[i]]);
                 string billprod = "Billing";
                 if (tablename == "Carton_Produced") billprod = "Production";
                 if (dtissue < bill)
                 {
-                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of " + billprod + " (" + bill.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")", "Error");
+                    this.ErrorBox("Carton number: " + cartonno[i].Item1 + " at row " + (i + 1).ToString() + " has Date of " + billprod + " (" + bill.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")", "Error");
                     return false;
                 }
             }
 
             try
             {
-                string carton_nos = "";
-                for (int i = 0; i < carton_no.Length; i++)
-                {
-                    carton_nos += carton_no[i] + ",";
-                }
                 con.Open();
-                string sql = "INSERT INTO Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality, Company_Name, Customer, Sale_Rate, Carton_No_Arr, Fiscal_Year, Carton_Fiscal_Year, Type_Of_Sale, Tablename, Sale_DO_No, Net_Weight, Printed) VALUES ('" + inputDate + "' ,'" + issueDate + "','" + quality + "', '" + company + "', '" + customer + "', " + sell_cost + " , '" + cartonno + "', '" + fiscal_year + "', '" + carton_fiscal_year + "', '" + int.Parse(type) + "', '" + tablename + "', '" + sale_do_no + "', " + net_weight + ", 0); SELECT SCOPE_IDENTITY()";
+                string sql = "INSERT INTO Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality, Company_Name, Customer, Sale_Rate, Fiscal_Year, Type_Of_Sale, Tablename, Sale_DO_No, Net_Weight, Printed) VALUES ('" + inputDate + "' ,'" + issueDate + "','" + quality + "', '" + company + "', '" + customer + "', " + sell_cost + " , '" + fiscal_year + "', '" + int.Parse(type) + "', '" + tablename + "', '" + sale_do_no + "', " + net_weight + ", 0); SELECT SCOPE_IDENTITY()";
                 Console.WriteLine(sql);
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
                 DataTable dtt = new DataTable();
                 adapter.Fill(dtt);
                 con.Close();
 
-                this.sendCartonSale(removecom(carton_nos), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year, int.Parse(dtt.Rows[0][0].ToString()), company, quality);
+                for(int i=0;i<cartonno.Count;i++)
+                {
+                    this.sendCartonSale(cartonno[i].Item1, issueDate, sell_cost, sale_do_no, tablename, type, cartonno[i].Item2, fiscal_year, int.Parse(dtt.Rows[0][0].ToString()), company, quality);
+                }
 
                 con.Open();
                 //Enter max carton number in Fiscal Year Table
                 if (type == "0")
                 {
-                    sql = "UPDATE Fiscal_Year SET Highest_0_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE Fiscal_Year SET Highest_0_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + fiscal_year + "'";
                 }
                 else if (type == "1")
                 {
-                    sql = "UPDATE Fiscal_Year SET Highest_1_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + carton_fiscal_year + "'";
+                    sql = "UPDATE Fiscal_Year SET Highest_1_DO_No='" + sale_do_no + "' WHERE Fiscal_Year='" + fiscal_year + "'";
                 }
 
                 adapter.InsertCommand = new SqlCommand(sql, con);
@@ -2081,43 +2077,42 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public bool editSalesVoucher(int voucherID, DateTime dtissue, string type, string quality, string company, string cartonno, string customer, float sell_cost, string carton_fiscal_year, string sale_do_no, string tablename, float net_weight)
+        public bool editSalesVoucher(int voucherID, DateTime dtissue, string type, string quality, string company, string customer, List<Tuple<string, string>> cartonno, float sell_cost, string sale_do_no, string tablename, float net_weight)
         {
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             string fiscal_year = this.getFinancialYear(dtissue);
-            string[] carton_no = this.csvToArray(cartonno);
-            DataTable dt = new DataTable();
-            if (tablename == "Carton")
+            
+            //check if bill dates/Production Dates of all cartons are <= issue date
+            Dictionary<Tuple<string, string>, string> dates = new Dictionary<Tuple<string, string>, string>();
+            for (int i = 0; i < cartonno.Count; i++)
             {
-                con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Billing FROM Carton WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "' AND Company_Name = '" + company + "' AND Quality = '" + quality + "'", con);
-                sda1.Fill(dt);
-                con.Close();
+                DataTable dt = new DataTable();
+                if (tablename == "Carton")
+                {
+                    con.Open();
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Billing FROM Carton WHERE Carton_No = " + cartonno[i].Item1 + " AND Fiscal_Year='" + cartonno[i].Item2 + "' AND Company_Name = '" + company + "' AND Quality = '" + quality + "'", con);
+                    sda1.Fill(dt);
+                    con.Close();
+                }
+                else
+                {
+                    con.Open();
+                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Production FROM Carton_Produced WHERE Carton_No = " + cartonno[i].Item1 + " AND Fiscal_Year ='" + cartonno[i].Item2 + "' AND Company_Name = '" + company + "' AND Quality = '" + quality + "'", con);
+                    sda1.Fill(dt);
+                    con.Close();
+                }
+                if (tablename == "Carton") dates[cartonno[i]] = dt.Rows[0]["Date_Of_Billing"].ToString();
+                else dates[cartonno[i]] = dt.Rows[0]["Date_Of_Production"].ToString();
             }
-            else
+            
+            for (int i = 0; i < cartonno.Count; i++)
             {
-                con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Production FROM Carton_Produced WHERE Carton_No IN (" + removecom(cartonno) + ") AND Fiscal_Year='" + carton_fiscal_year + "', AND Company_Name = '" + company + "' AND Quality = '" + quality + "'", con);
-                sda1.Fill(dt);
-                con.Close();
-            }
-
-            //create a dictionary of values and the output values are not in the same order
-            Dictionary<string, string> dates = new Dictionary<string, string>();
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                string thiscartonno = dt.Rows[i]["Carton_No"].ToString();
-                if (tablename == "Carton") dates[thiscartonno] = dt.Rows[i]["Date_Of_Billing"].ToString();
-                else dates[thiscartonno] = dt.Rows[i]["Date_Of_Production"].ToString();
-            }
-            for (int i = 0; i < carton_no.Length; i++)
-            {
-                DateTime bill = Convert.ToDateTime(dates[carton_no[i]]);
+                DateTime bill = Convert.ToDateTime(dates[cartonno[i]]);
                 string billprod = "Billing";
                 if (tablename == "Carton_Produced") billprod = "Production";
                 if (dtissue < bill)
                 {
-                    this.ErrorBox("Carton number: " + carton_no[i] + " at row " + (i + 1).ToString() + " has Date of " + billprod + " (" + bill.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")", "Error");
+                    this.ErrorBox("Carton number: " + cartonno[i].Item1 + " at row " + (i + 1).ToString() + " has Date of " + billprod + " (" + bill.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ") earlier than given Date of Issue (" + dtissue.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ")", "Error");
                     return false;
                 }
             }
@@ -2126,24 +2121,27 @@ namespace Factory_Inventory.Factory_Classes
             {
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 //Delete all Previous Cartons
+                string column = "TS_Voucher_ID";
+                if (tablename == "Carton_Produced") column = "Sales_Voucher_ID";
+
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr FROM Sales_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No, Fiscal_Year FROM "+tablename+" WHERE "+column+"=" + voucherID + " AND Date_Of_Sale IS NOT NULL", con);
                 DataTable old = new DataTable();
                 sda.Fill(old);
                 con.Close();
-                string old_carton_nos = old.Rows[0][0].ToString();
-                this.sendCartonSale(removecom(old_carton_nos), null, -1F, null, tablename, type, carton_fiscal_year, null, -1, company, quality);
+                for(int i=0;i<old.Rows.Count;i++)
+                {
+                    this.sendCartonSale(old.Rows[i]["Carton_No"].ToString(), null, -1F, null, tablename, type, old.Rows[i]["Fiscal_Year"].ToString(), null, -1, company, quality);
+                }
 
                 //Add all New Cartons
-                string carton_nos = "";
-                for (int i = 0; i < carton_no.Length; i++)
+                for(int i=0;i<cartonno.Count;i++)
                 {
-                    carton_nos += carton_no[i] + ",";
+                    this.sendCartonSale(cartonno[i].Item1, issueDate, sell_cost, sale_do_no, tablename, type, cartonno[i].Item2, fiscal_year, voucherID, company, quality);
                 }
-                this.sendCartonSale(removecom(carton_nos), issueDate, sell_cost, sale_do_no, tablename, type, carton_fiscal_year, fiscal_year, voucherID, company, quality);
 
                 con.Open();
-                string sql = "UPDATE Sales_Voucher SET Date_Of_Sale='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Carton_No_Arr='" + cartonno + "', Customer='" + customer + "', Sale_Rate=" + sell_cost + ", Fiscal_Year='" + fiscal_year + "', Type_Of_Sale = " + int.Parse(type) + ", Net_Weight=" + net_weight + "  WHERE Voucher_ID='" + voucherID + "' AND Tablename = '" + tablename + "'";
+                string sql = "UPDATE Sales_Voucher SET Date_Of_Sale='" + issueDate + "', Quality='" + quality + "', Company_Name='" + company + "', Customer='" + customer + "', Sale_Rate=" + sell_cost + ", Fiscal_Year='" + fiscal_year + "', Type_Of_Sale = " + int.Parse(type) + ", Net_Weight=" + net_weight + "  WHERE Voucher_ID='" + voucherID + "' AND Tablename = '" + tablename + "'";
                 //Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -2171,12 +2169,17 @@ namespace Factory_Inventory.Factory_Classes
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 //Send all Previous Cartons to state 1
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Tablename, Type_Of_Sale, Carton_Fiscal_Year, Company_Name FROM Sales_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Tablename, Type_Of_Sale, Company_Name, Quality FROM Sales_Voucher WHERE Voucher_ID=" + voucherID + "", con);
                 DataTable old = new DataTable();
                 sda.Fill(old);
                 con.Close();
-                string old_carton_nos = old.Rows[0][0].ToString();
-                this.sendCartonSale(removecom(old_carton_nos), null, -1F, null, old.Rows[0]["Tablename"].ToString(), old.Rows[0]["Type_Of_Sale"].ToString(), old.Rows[0]["Carton_Fiscal_Year"].ToString(), null, -1, old.Rows[0]["Company_Name"].ToString(), old.Rows[0]["Quality"].ToString());
+                string column = "TS_Voucher_ID";
+                if (old.Rows[0]["Tablename"].ToString() == "Carton_Produced") column = "Sales_Voucher_ID";
+                DataTable old_cartons = this.runQuery("SELECT Carton_No, Fiscal_Year FROM " + old.Rows[0]["Tablename"].ToString() + " WHERE " + column + " = " + voucherID + " AND Date_Of_Sale IS NOT NULL");
+                for(int i=0;i<old_cartons.Rows.Count;i++)
+                {
+                    this.sendCartonSale(old_cartons.Rows[i]["Carton_No"].ToString(), null, -1F, null, old.Rows[0]["Tablename"].ToString(), old.Rows[0]["Type_Of_Sale"].ToString(), old_cartons.Rows[i]["Fiscal_Year"].ToString(), null, -1, old.Rows[0]["Company_Name"].ToString(), old.Rows[0]["Quality"].ToString());
+                }
 
                 con.Open();
                 string sql = "UPDATE Sales_Voucher SET Deleted = 1  WHERE Voucher_ID='" + voucherID + "'";

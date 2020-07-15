@@ -49,8 +49,6 @@
             this.comboBox3CB = new System.Windows.Forms.ComboBox();
             this.inputDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox4CB = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.typeCB = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.saleDONoTB = new System.Windows.Forms.TextBox();
@@ -108,7 +106,7 @@
             // comboBox2CB
             // 
             this.comboBox2CB.FormattingEnabled = true;
-            this.comboBox2CB.Location = new System.Drawing.Point(24, 277);
+            this.comboBox2CB.Location = new System.Drawing.Point(24, 238);
             this.comboBox2CB.Name = "comboBox2CB";
             this.comboBox2CB.Size = new System.Drawing.Size(200, 24);
             this.comboBox2CB.TabIndex = 7;
@@ -137,7 +135,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(21, 256);
+            this.label5.Location = new System.Drawing.Point(21, 217);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 17);
             this.label5.TabIndex = 0;
@@ -166,7 +164,7 @@
             // comboBox1CB
             // 
             this.comboBox1CB.FormattingEnabled = true;
-            this.comboBox1CB.Location = new System.Drawing.Point(24, 228);
+            this.comboBox1CB.Location = new System.Drawing.Point(24, 189);
             this.comboBox1CB.Name = "comboBox1CB";
             this.comboBox1CB.Size = new System.Drawing.Size(200, 24);
             this.comboBox1CB.TabIndex = 5;
@@ -174,7 +172,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 208);
+            this.label2.Location = new System.Drawing.Point(21, 169);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 17);
             this.label2.TabIndex = 0;
@@ -182,7 +180,7 @@
             // 
             // loadCartonButton
             // 
-            this.loadCartonButton.Location = new System.Drawing.Point(24, 314);
+            this.loadCartonButton.Location = new System.Drawing.Point(24, 268);
             this.loadCartonButton.Name = "loadCartonButton";
             this.loadCartonButton.Size = new System.Drawing.Size(200, 38);
             this.loadCartonButton.TabIndex = 9;
@@ -242,23 +240,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Input Date";
             // 
-            // comboBox4CB
-            // 
-            this.comboBox4CB.FormattingEnabled = true;
-            this.comboBox4CB.Location = new System.Drawing.Point(24, 181);
-            this.comboBox4CB.Name = "comboBox4CB";
-            this.comboBox4CB.Size = new System.Drawing.Size(200, 24);
-            this.comboBox4CB.TabIndex = 3;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 144);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(168, 34);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Financial Year of Date of \nInward of Cartons";
-            // 
             // typeCB
             // 
             this.typeCB.FormattingEnabled = true;
@@ -278,9 +259,9 @@
             // 
             // saleDONoTB
             // 
-            this.saleDONoTB.ReadOnly = true;
             this.saleDONoTB.Location = new System.Drawing.Point(24, 483);
             this.saleDONoTB.Name = "saleDONoTB";
+            this.saleDONoTB.ReadOnly = true;
             this.saleDONoTB.Size = new System.Drawing.Size(200, 22);
             this.saleDONoTB.TabIndex = 0;
             this.saleDONoTB.TabStop = false;
@@ -400,8 +381,6 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.typeCB);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBox4CB);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.inputDate);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox3CB);
@@ -451,8 +430,6 @@
         private System.Windows.Forms.ComboBox comboBox3CB;
         private System.Windows.Forms.DateTimePicker inputDate;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox4CB;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox typeCB;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox saleDONoTB;
