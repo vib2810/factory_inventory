@@ -1822,28 +1822,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt.Rows[0];
         }
-        public int getCartonState(string carton_no, string fiscal_year)
-        {
-            //Returns -1 if carton not found
-            int ans = -1;
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_State FROM Carton WHERE Carton_No='" + carton_no + "' AND Fiscal_Year='" + fiscal_year + "'", con);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getCartonState) " + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return ans;
-        }
 
 
         //Twist Voucher
@@ -1904,8 +1882,10 @@ namespace Factory_Inventory.Factory_Classes
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 //Send all Previous Cartons to state 1
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Carton_Fiscal_Year, Company_Name FROM Twist_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+                string sql = "SELECT Carton_No_Arr, Carton_Fiscal_Year, Company_Name, Quality FROM Twist_Voucher WHERE Voucher_ID=" + voucherID + "";
+                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
                 DataTable old = new DataTable();
+                Console.WriteLine(sql);
                 sda.Fill(old);
                 con.Close();
                 string old_carton_nos = old.Rows[0]["Carton_No_Arr"].ToString();
@@ -1913,8 +1893,8 @@ namespace Factory_Inventory.Factory_Classes
                 this.sendCartonTwist(removecom(old_carton_nos), 1, null, carton_fiscal_year, voucherID, old.Rows[0]["Company_Name"].ToString(), old.Rows[0]["Quality"].ToString());
 
                 con.Open();
-                string sql = "UPDATE Twist_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucherID;
-                //Console.WriteLine(sql);
+                sql = "UPDATE Twist_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucherID;
+                Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
             }
