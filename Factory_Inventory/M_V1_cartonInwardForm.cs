@@ -240,8 +240,8 @@ namespace Factory_Inventory
                 //Check if this carton is issued
                 string this_carton_no = dataGridView1.Rows[i].Cells[2].Value.ToString();
                 string this_quality = dataGridView1.Rows[i].Cells[1].Value.ToString();
-
-                DataTable carton_state_dt = c.runQuery("SELECT Carton_State FROM Carton WHERE Carton_No = '" + this_carton_no + "' AND Fiscal_Year = '" + carton_financial_year + "' AND Quality='" + this_quality + "'");
+                string this_company = row["Company_Name"].ToString();
+                DataTable carton_state_dt = c.runQuery("SELECT Carton_State FROM Carton WHERE Carton_No = '" + this_carton_no + "' AND Fiscal_Year = '" + carton_financial_year + "' AND Quality='" + this_quality + "' AND Company_Name = '"+this_company+"'");
                 int carton_state = -1;
                 if(carton_state_dt.Rows.Count>0) carton_state=int.Parse(carton_state_dt.Rows[0][0].ToString());
                 if (carton_state == -1)

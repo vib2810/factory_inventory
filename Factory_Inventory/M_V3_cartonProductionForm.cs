@@ -838,6 +838,7 @@ namespace Factory_Inventory
             }
             if (this.edit_form == false)
             {
+                Console.WriteLine("Batch Nos: " + batch_nos);
                 bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), grades, batch_data);
                 if (added == true)
                 {

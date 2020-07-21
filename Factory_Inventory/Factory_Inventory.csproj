@@ -292,6 +292,18 @@
     <Compile Include="M_I2_Tables.Designer.cs">
       <DependentUpon>M_I2_Tables.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_V5_OpeningUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="M_V5_OpeningUC.Designer.cs">
+      <DependentUpon>M_V5_OpeningUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="M_V5_cartonProductionOpeningForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="M_V5_cartonProductionOpeningForm.Designer.cs">
+      <DependentUpon>M_V5_cartonProductionOpeningForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_V3_issueToReDyeingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -610,6 +622,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_I2_Tables.resx">
       <DependentUpon>M_I2_Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V5_OpeningUC.resx">
+      <DependentUpon>M_V5_OpeningUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_V5_cartonProductionOpeningForm.resx">
+      <DependentUpon>M_V5_cartonProductionOpeningForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V3_issueToReDyeingForm.resx">
       <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>

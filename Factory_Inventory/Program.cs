@@ -33,11 +33,11 @@ namespace Factory_Inventory
             while (true)
             {
                 Login f1 = new Login();
+                
                 Application.Run(f1);
                 if (f1.access == 1 || f1.access == 2)
                 {
                     c = new DbConnect();
-                    // Get the application configuration file.
                     System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                     ConfigurationManager.RefreshSection("appSettings");
 

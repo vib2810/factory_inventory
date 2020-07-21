@@ -113,7 +113,9 @@ namespace Factory_Inventory
                 case 12:
                     this.Text = "History - Redyeing";
                     break;
-
+                case 13:
+                    this.Text = "History - Carton Production Opening";
+                    break;
             }
         }
         private void M_V_history_FormClosing(object sender, FormClosingEventArgs e)
@@ -570,6 +572,18 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].HeaderText = "New Batch Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Redyeing
+            if (this.vno == 13)
+            {
+                this.dt = c.runQuery("Select * from Opening_Stock where voucher_name='Carton Production'");
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.DataSource = dt;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Date of Input";
+                c.auto_adjust_dgv(this.dataGridView1);
+            } 
+
             #endregion
             _firstLoaded = true;
             dataGridView1.Visible = false;
@@ -784,6 +798,15 @@ namespace Factory_Inventory
                         this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
+                if (this.vno == 13)
+                {
+                    M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, false, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
+                    }
+                }
                 this.prev_selected_row = index;
             }
         }
@@ -905,6 +928,15 @@ namespace Factory_Inventory
                     {
                         Global.background.show_form(f);
                         this.child_forms.Add(new form_data(f, 1, index));
+                    }
+                }
+                if (this.vno == 13)
+                {
+                    M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, true, this);
+                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, index));
                     }
                 }
                 this.prev_selected_row = index;

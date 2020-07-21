@@ -35,6 +35,11 @@ namespace Factory_Inventory
                 this.printButton.PerformClick();
                 return false;
             }
+            if (keyData == Keys.O)
+            {
+                this.openingStockButton.PerformClick();
+                return false;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private DbConnect c;
@@ -69,6 +74,7 @@ namespace Factory_Inventory
             m_V2_voucherInput2UC1.Hide();
             m_V3_voucherInput3UC1.Hide();
             m_V4_printUC1.Hide();
+            m_V5_OpeningUC1.Hide();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -110,6 +116,16 @@ namespace Factory_Inventory
             m_V4_printUC1.Focus();
             this.decolour_all_buttons();
             this.printButton.BackColor = Color.Orange;
+        }
+
+        private void openingStockButton_Click(object sender, EventArgs e)
+        {
+            hide_all_UCs();
+            m_V5_OpeningUC1.Show();
+            m_V5_OpeningUC1.BringToFront();
+            m_V5_OpeningUC1.Focus();
+            this.decolour_all_buttons();
+            this.openingStockButton.BackColor = Color.Orange;
         }
     }
 }

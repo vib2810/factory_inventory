@@ -13,6 +13,15 @@ namespace Factory_Inventory
 {
     public partial class setDate : Form
     {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                this.ActiveControl = saveButton;
+                return false;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         DbConnect c = new DbConnect();
         public DateTime result;
         public bool values_set = false;
@@ -74,11 +83,11 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
+            SendKeys.Send("{left}");
+            SendKeys.Send("{right}");
             result = this.dateTimePicker1.Value;
             this.values_set = true;
             this.Close();
         }
-
-
     }
 }
