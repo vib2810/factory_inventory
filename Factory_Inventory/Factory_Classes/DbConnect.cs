@@ -193,6 +193,7 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 this.ErrorBox("Could not run Query (runQuery)\n" + sql + "\n" + e.Message, "Exception");
+                con.Close();
                 return null;
             }
 

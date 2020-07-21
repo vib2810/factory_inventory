@@ -327,10 +327,10 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(22, 767);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 25);
+            this.label10.Size = new System.Drawing.Size(0, 20);
             this.label10.TabIndex = 44;
             // 
             // deleteButton

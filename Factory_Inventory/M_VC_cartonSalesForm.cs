@@ -385,7 +385,6 @@ namespace Factory_Inventory
             if(row["Sale_Bill_No"].ToString()!="")
             {
                 this.label10.Text = "This DO cannot be edited/deleted as its bill as already been made. Delete/Edit its bill first";
-                this.label10.ForeColor = Color.Red;
                 this.deleteButton.Enabled = false;
                 this.disable_form_edit();
             }

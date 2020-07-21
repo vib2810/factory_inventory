@@ -399,6 +399,8 @@ namespace Factory_Inventory
                     dataGridView1.Rows[i].ReadOnly = true;
                     r.DefaultCellStyle.BackColor = Color.LightGreen;
                     r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
+                    this.deleteButton.Enabled = false;
+                    this.label16.Text = "This voucher cannot be deleted as some cartons have ben sold";
                 }
             }
             //if(flag == true)

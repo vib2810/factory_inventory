@@ -30,6 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Sl_No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date_Of_Production = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Carton_No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Grade = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Colour = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Quality = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Net_Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveButton = new System.Windows.Forms.Button();
@@ -44,13 +51,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
-            this.Sl_No = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date_Of_Production = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Carton_No = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Grade = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Colour = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Quality = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Net_Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -85,6 +86,61 @@
             this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint_1);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            // 
+            // Sl_No
+            // 
+            this.Sl_No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Sl_No.FillWeight = 187.1658F;
+            this.Sl_No.HeaderText = "Sl No";
+            this.Sl_No.MinimumWidth = 6;
+            this.Sl_No.Name = "Sl_No";
+            this.Sl_No.ReadOnly = true;
+            this.Sl_No.Width = 50;
+            // 
+            // Date_Of_Production
+            // 
+            this.Date_Of_Production.FillWeight = 85.47237F;
+            this.Date_Of_Production.HeaderText = "Production Date";
+            this.Date_Of_Production.MinimumWidth = 6;
+            this.Date_Of_Production.Name = "Date_Of_Production";
+            this.Date_Of_Production.ReadOnly = true;
+            // 
+            // Carton_No
+            // 
+            this.Carton_No.FillWeight = 85.47237F;
+            this.Carton_No.HeaderText = "Carton No";
+            this.Carton_No.MinimumWidth = 6;
+            this.Carton_No.Name = "Carton_No";
+            // 
+            // Grade
+            // 
+            this.Grade.FillWeight = 85.47237F;
+            this.Grade.HeaderText = "Grade";
+            this.Grade.MinimumWidth = 6;
+            this.Grade.Name = "Grade";
+            this.Grade.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Grade.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // Colour
+            // 
+            this.Colour.FillWeight = 85.47237F;
+            this.Colour.HeaderText = "Colour";
+            this.Colour.MinimumWidth = 6;
+            this.Colour.Name = "Colour";
+            // 
+            // Quality
+            // 
+            this.Quality.FillWeight = 85.47237F;
+            this.Quality.HeaderText = "Quality";
+            this.Quality.MinimumWidth = 6;
+            this.Quality.Name = "Quality";
+            // 
+            // Net_Weight
+            // 
+            this.Net_Weight.FillWeight = 85.47237F;
+            this.Net_Weight.HeaderText = "Net Weight";
+            this.Net_Weight.MinimumWidth = 6;
+            this.Net_Weight.Name = "Net_Weight";
             // 
             // contextMenuStrip1
             // 
@@ -199,66 +255,21 @@
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
-            // Sl_No
+            // label1
             // 
-            this.Sl_No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Sl_No.FillWeight = 187.1658F;
-            this.Sl_No.HeaderText = "Sl No";
-            this.Sl_No.MinimumWidth = 6;
-            this.Sl_No.Name = "Sl_No";
-            this.Sl_No.ReadOnly = true;
-            this.Sl_No.Width = 50;
-            // 
-            // Date_Of_Production
-            // 
-            this.Date_Of_Production.FillWeight = 85.47237F;
-            this.Date_Of_Production.HeaderText = "Production Date";
-            this.Date_Of_Production.MinimumWidth = 6;
-            this.Date_Of_Production.Name = "Date_Of_Production";
-            this.Date_Of_Production.ReadOnly = true;
-            // 
-            // Carton_No
-            // 
-            this.Carton_No.FillWeight = 85.47237F;
-            this.Carton_No.HeaderText = "Carton No";
-            this.Carton_No.MinimumWidth = 6;
-            this.Carton_No.Name = "Carton_No";
-            // 
-            // Grade
-            // 
-            this.Grade.FillWeight = 85.47237F;
-            this.Grade.HeaderText = "Grade";
-            this.Grade.MinimumWidth = 6;
-            this.Grade.Name = "Grade";
-            this.Grade.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Grade.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // Colour
-            // 
-            this.Colour.FillWeight = 85.47237F;
-            this.Colour.HeaderText = "Colour";
-            this.Colour.MinimumWidth = 6;
-            this.Colour.Name = "Colour";
-            // 
-            // Quality
-            // 
-            this.Quality.FillWeight = 85.47237F;
-            this.Quality.HeaderText = "Quality";
-            this.Quality.MinimumWidth = 6;
-            this.Quality.Name = "Quality";
-            // 
-            // Net_Weight
-            // 
-            this.Net_Weight.FillWeight = 85.47237F;
-            this.Net_Weight.HeaderText = "Net Weight";
-            this.Net_Weight.MinimumWidth = 6;
-            this.Net_Weight.Name = "Net_Weight";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 592);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 20);
+            this.label1.TabIndex = 37;
             // 
             // M_V5_cartonProductionOpeningForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1057, 598);
+            this.ClientSize = new System.Drawing.Size(1057, 617);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label12);
@@ -306,5 +317,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn Colour;
         private System.Windows.Forms.DataGridViewComboBoxColumn Quality;
         private System.Windows.Forms.DataGridViewTextBoxColumn Net_Weight;
+        private System.Windows.Forms.Label label1;
     }
 }
