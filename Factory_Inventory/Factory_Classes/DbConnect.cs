@@ -164,7 +164,7 @@ namespace Factory_Inventory.Factory_Classes
                 //    }
                 //}
 
-                this.SuccessBox("SQL Update Successful");
+                //this.SuccessBox("SQL Update Successful");
             }
             catch (Exception e)
             {
