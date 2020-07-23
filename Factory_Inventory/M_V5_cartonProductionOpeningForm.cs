@@ -393,7 +393,7 @@ namespace Factory_Inventory
                 string sql_check = "SELECT * FROM Carton_Produced WHERE ";
                 for(int i=0;i<dt.Rows.Count;i++)
                 {
-                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     string pd = pd_dtp.ToString("yyyy-MM-dd").Substring(0, 10);
                     sql_check += "(Carton_No = " + dt.Rows[i]["Carton_No"].ToString() + " AND Fiscal_Year = '" + c.getFinancialYear(pd_dtp) + "') OR ";
                 }
@@ -405,7 +405,7 @@ namespace Factory_Inventory
                     {
                         try
                         {
-                            DateTime pd_dtp = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Date_Of_Production"].Value.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime pd_dtp = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Date_Of_Production"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             if (dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() == d.Rows[0]["Carton_No"].ToString() && c.getFinancialYear(pd_dtp) == d.Rows[0]["Fiscal_year"].ToString())
                             {
                                 c.ErrorBox("Carton number " + d.Rows[i]["Carton_No"].ToString() + " at row " + (i + 1).ToString() + " already exists in Financial Year " + c.getFinancialYear(pd_dtp), "Error");
@@ -425,7 +425,7 @@ namespace Factory_Inventory
                 sql += "SELECT @voucherID = SCOPE_IDENTITY(); ";
                 for(int i=0;i<dt.Rows.Count;i++)
                 {
-                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     string pd = pd_dtp.ToString("yyyy-MM-dd").Substring(0, 10);
                     sql += "INSERT INTO Carton_Produced (Carton_No, Carton_State, Date_Of_Production, Quality, Colour, Net_Weight, Fiscal_Year, Grade, Company_Name, Opening_Voucher_ID) VALUES ('" + dt.Rows[i]["Carton_No"].ToString() + "' ,1, '" + pd + "', '" + dt.Rows[i]["Quality"].ToString() + "', '" + dt.Rows[i]["Colour"].ToString() + "', " + float.Parse(dt.Rows[i]["Net_Weight"].ToString()) + ", '" + c.getFinancialYear(pd_dtp) + "', '" + dt.Rows[i]["Grade"].ToString() + "', 'Self', @voucherID); ";
                 }
@@ -462,7 +462,7 @@ namespace Factory_Inventory
                 {
                     //Check if its a new carton(not present in Hash)
                     bool value = false;
-                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     string fiscal_year_i = c.getFinancialYear(pd_dtp);
                     bool value2 = old_cartons_hash.TryGetValue(new Tuple<string, string>(dt.Rows[i]["Carton_No"].ToString(), fiscal_year_i), out value);
                     if (value2 == false && value == false) //Carton not present in the hash, hence its new
@@ -486,7 +486,7 @@ namespace Factory_Inventory
                         try
                         {
                             dataGridView1.Rows[i].Cells["Date_Of_Production"].Value.ToString();
-                            DateTime pd_dtp = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Date_Of_Production"].Value.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime pd_dtp = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Date_Of_Production"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             if (dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() == d.Rows[0]["Carton_No"].ToString() && c.getFinancialYear(pd_dtp) == d.Rows[0]["Fiscal_year"].ToString())
                             {
                                 c.ErrorBox("Carton number " + d.Rows[i]["Carton_No"].ToString() + " at row " + (i + 1).ToString() + " already exists in Financial Year " + c.getFinancialYear(pd_dtp), "Error");
@@ -520,7 +520,7 @@ namespace Factory_Inventory
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     bool value;
-                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     bool value2 = carton_editable.TryGetValue(new Tuple<string, string>(dt.Rows[i]["Carton_No"].ToString(), c.getFinancialYear(pd_dtp)), out value);
                     if (value2 == false)
                     {
@@ -577,7 +577,7 @@ namespace Factory_Inventory
                         continue;
                     }
                     string carton_no = dataGridView1.Rows[rowindex].Cells[2].Value.ToString();
-                    DateTime d = DateTime.ParseExact(dataGridView1.Rows[rowindex].Cells["Date_Of_Production"].Value.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime d = DateTime.ParseExact(dataGridView1.Rows[rowindex].Cells["Date_Of_Production"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     bool value = true;
                     bool value2 = this.carton_editable.TryGetValue(new Tuple<string, string>(carton_no, c.getFinancialYear(d)), out value);
                     if (value2 == true && value == false)
