@@ -22,7 +22,7 @@ use FactoryData
 --alter table Carton_Produced alter column Gross_Weight decimal(7, 3) NULL;
 --alter table Carton_Produced alter column Batch_Fiscal_Year_Arr text NULL;
 
---RUN IN Polyester: N Cotton: Y 21-07
+--RUN IN Polyester: Y 23-07 Cotton: Y 21-07
 alter table Opening_Stock add Deleted tinyint NULL
 alter table Carton_Produced add Opening_Voucher_ID int NULL
 
