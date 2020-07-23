@@ -95,7 +95,7 @@ namespace Factory_Inventory
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
 
             Dictionary<Tuple<string, string>, DataRow> carton_dict = new Dictionary<Tuple<string, string>, DataRow>();
-            DataTable carton_info = c.getTableData("Carton_Produced", "*", "Production_Voucher_ID = "+this.voucher_id+" AND Batch_No_Arr IS NULL");
+            DataTable carton_info = c.getTableData("Carton_Produced", "*", "Opening_Voucher_ID = "+this.voucher_id+"");
             c.printDataTable(carton_info);
             for (int i = 0; i < carton_info.Rows.Count; i++)
             {
@@ -130,6 +130,8 @@ namespace Factory_Inventory
                     dataGridView1.Rows[i].ReadOnly = true;
                     r.DefaultCellStyle.BackColor = Color.LightGreen;
                     r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
+                    this.deleteButton.Enabled = false;
+                    this.label1.Text = "This voucher cannot be deleted as some cartons have alrady been sold";
                 }
             }
             this.cartonweight.Text = CellSum1(6).ToString("F3");
@@ -425,7 +427,7 @@ namespace Factory_Inventory
                 {
                     DateTime pd_dtp = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     string pd = pd_dtp.ToString("yyyy-MM-dd").Substring(0, 10);
-                    sql += "INSERT INTO Carton_Produced (Carton_No, Carton_State, Date_Of_Production, Quality, Colour, Net_Weight, Fiscal_Year, Grade, Company_Name, Production_Voucher_ID) VALUES ('" + dt.Rows[i]["Carton_No"].ToString() + "' ,1, '" + pd + "', '" + dt.Rows[i]["Quality"].ToString() + "', '" + dt.Rows[i]["Colour"].ToString() + "', " + float.Parse(dt.Rows[i]["Net_Weight"].ToString()) + ", '" + c.getFinancialYear(pd_dtp) + "', '" + dt.Rows[i]["Grade"].ToString() + "', 'Self', @voucherID); ";
+                    sql += "INSERT INTO Carton_Produced (Carton_No, Carton_State, Date_Of_Production, Quality, Colour, Net_Weight, Fiscal_Year, Grade, Company_Name, Opening_Voucher_ID) VALUES ('" + dt.Rows[i]["Carton_No"].ToString() + "' ,1, '" + pd + "', '" + dt.Rows[i]["Quality"].ToString() + "', '" + dt.Rows[i]["Colour"].ToString() + "', " + float.Parse(dt.Rows[i]["Net_Weight"].ToString()) + ", '" + c.getFinancialYear(pd_dtp) + "', '" + dt.Rows[i]["Grade"].ToString() + "', 'Self', @voucherID); ";
                 }
                 //catch
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction; ";
@@ -444,7 +446,7 @@ namespace Factory_Inventory
                 //check
                 //Get all carton_nos and fiscal_years which were previously present
                 DataTable old = new DataTable();
-                old = c.runQuery("SELECT Carton_No, Fiscal_Year FROM Carton_Produced WHERE Production_Voucher_ID='" + this.voucher_id + "' AND Batch_No_Arr IS NULL");
+                old = c.runQuery("SELECT Carton_No, Fiscal_Year FROM Carton_Produced WHERE Opening_Voucher_ID='" + this.voucher_id + "'");
                 Dictionary<Tuple<string, string>, bool> old_cartons_hash = new Dictionary<Tuple<string, string>, bool>();
                 //Insert old cartons into hash 
                 for (int i=0;i<old.Rows.Count;i++)
@@ -523,7 +525,7 @@ namespace Factory_Inventory
                     if (value2 == false)
                     {
                         string pd = pd_dtp.ToString("yyyy-MM-dd").Substring(0, 10);
-                        sql += "INSERT INTO Carton_Produced (Carton_No, Carton_State, Date_Of_Production, Quality, Colour, Net_Weight, Fiscal_Year, Grade, Company_Name, Production_Voucher_ID) VALUES ('" + dt.Rows[i]["Carton_No"].ToString() + "' ,1, '" + pd + "', '" + dt.Rows[i]["Quality"].ToString() + "', '" + dt.Rows[i]["Colour"].ToString() + "', " + float.Parse(dt.Rows[i]["Net_Weight"].ToString()) + ", '" + c.getFinancialYear(pd_dtp) + "', '" + dt.Rows[i]["Grade"].ToString() + "', 'Self', '" + this.voucher_id + "'); ";
+                        sql += "INSERT INTO Carton_Produced (Carton_No, Carton_State, Date_Of_Production, Quality, Colour, Net_Weight, Fiscal_Year, Grade, Company_Name, Opening_Voucher_ID) VALUES ('" + dt.Rows[i]["Carton_No"].ToString() + "' ,1, '" + pd + "', '" + dt.Rows[i]["Quality"].ToString() + "', '" + dt.Rows[i]["Colour"].ToString() + "', " + float.Parse(dt.Rows[i]["Net_Weight"].ToString()) + ", '" + c.getFinancialYear(pd_dtp) + "', '" + dt.Rows[i]["Grade"].ToString() + "', 'Self', '" + this.voucher_id + "'); ";
                     }
                 }
                 //catch
@@ -595,8 +597,10 @@ namespace Factory_Inventory
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                bool deleted = c.deleteCartonProductionVoucher(this.voucher_id);
-                if (deleted == true)
+                string sql = "UPDATE Opening_Stock SET Deleted = 1 WHERE Voucher_ID = " + voucher_id + "; ";
+                sql += "DELETE FROM Carton_Produced WHERE Opening_Voucher_ID = " + voucher_id + "";
+                DataTable dt = c.runQuery(sql);
+                if (dt != null)
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
                     this.deleteButton.Enabled = false;

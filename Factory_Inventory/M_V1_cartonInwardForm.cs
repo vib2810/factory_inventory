@@ -270,6 +270,7 @@ namespace Factory_Inventory
             {
                 comboBox2CB.Enabled = false;
                 this.deleteButton.Enabled = false;
+                this.label7.Text = "This carton cannot be edited as some cartons have been sold/sent to twist";
             }
             else if(isEditable==false)
             {
