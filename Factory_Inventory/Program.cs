@@ -29,7 +29,8 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
 
             DbConnect c = new DbConnect();
-
+            string[] temp = c.repeated_batch_csv("48(2019-2020)");
+            Console.WriteLine(temp[0] + "  " + temp[1]);
             while (true)
             {
                 Login f1 = new Login();
