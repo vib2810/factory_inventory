@@ -4261,7 +4261,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 index++;
                 string[] batch_info = this.repeated_batch_csv(full_batch);
-                batches_to_add += batch_nos[0]+",";
+                batches_to_add += batch_info[0]+",";
                 batches_fiscal_years += batch_info[1]+ ",";
                 Tuple<string, string> temp = new Tuple<string, string>(batch_info[0], batch_info[1]);
                 batches.Add(temp);
