@@ -45,9 +45,10 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 25);
+            this.label1.Location = new System.Drawing.Point(9, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 25);
+            this.label1.Size = new System.Drawing.Size(60, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Search";
             // 
@@ -55,9 +56,10 @@
             // 
             this.searchTB.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.searchTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.searchTB.Location = new System.Drawing.Point(17, 53);
+            this.searchTB.Location = new System.Drawing.Point(13, 43);
+            this.searchTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.searchTB.Name = "searchTB";
-            this.searchTB.Size = new System.Drawing.Size(188, 30);
+            this.searchTB.Size = new System.Drawing.Size(142, 26);
             this.searchTB.TabIndex = 1;
             this.searchTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchTB_KeyDown);
             // 
@@ -65,9 +67,10 @@
             // 
             this.dateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(433, 53);
+            this.dateTimePicker1.Location = new System.Drawing.Point(325, 43);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 30);
+            this.dateTimePicker1.Size = new System.Drawing.Size(151, 26);
             this.dateTimePicker1.TabIndex = 2;
             this.dateTimePicker1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyDown);
             // 
@@ -78,12 +81,13 @@
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(17, 93);
+            this.dataGridView1.Location = new System.Drawing.Point(13, 76);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1873, 928);
+            this.dataGridView1.Size = new System.Drawing.Size(1405, 754);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
@@ -92,18 +96,20 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(428, 25);
+            this.label2.Location = new System.Drawing.Point(321, 20);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 25);
+            this.label2.Size = new System.Drawing.Size(44, 20);
             this.label2.TabIndex = 5;
             this.label2.Text = "Date";
             // 
             // searchButton
             // 
             this.searchButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.searchButton.Location = new System.Drawing.Point(211, 53);
+            this.searchButton.Location = new System.Drawing.Point(158, 43);
+            this.searchButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(123, 30);
+            this.searchButton.Size = new System.Drawing.Size(92, 24);
             this.searchButton.TabIndex = 6;
             this.searchButton.Text = "Search";
             this.searchButton.UseVisualStyleBackColor = true;
@@ -112,9 +118,10 @@
             // searchByDateButton
             // 
             this.searchByDateButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.searchByDateButton.Location = new System.Drawing.Point(639, 53);
+            this.searchByDateButton.Location = new System.Drawing.Point(479, 43);
+            this.searchByDateButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.searchByDateButton.Name = "searchByDateButton";
-            this.searchByDateButton.Size = new System.Drawing.Size(123, 30);
+            this.searchByDateButton.Size = new System.Drawing.Size(92, 24);
             this.searchByDateButton.TabIndex = 7;
             this.searchByDateButton.Text = "Search by Date";
             this.searchByDateButton.UseVisualStyleBackColor = true;
@@ -125,18 +132,20 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(1873, 66);
+            this.label9.Location = new System.Drawing.Point(1405, 54);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(17, 17);
+            this.label9.Size = new System.Drawing.Size(14, 13);
             this.label9.TabIndex = 11;
             this.label9.Text = "V";
             // 
             // detailsButton
             // 
             this.detailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.detailsButton.Location = new System.Drawing.Point(1773, 50);
+            this.detailsButton.Location = new System.Drawing.Point(1330, 41);
+            this.detailsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.detailsButton.Name = "detailsButton";
-            this.detailsButton.Size = new System.Drawing.Size(117, 33);
+            this.detailsButton.Size = new System.Drawing.Size(88, 27);
             this.detailsButton.TabIndex = 8;
             this.detailsButton.Text = "View Details";
             this.detailsButton.UseVisualStyleBackColor = true;
@@ -144,9 +153,10 @@
             // 
             // M_I2_Tables
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1902, 1033);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(1028, 609);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.detailsButton);
             this.Controls.Add(this.searchByDateButton);
@@ -157,6 +167,7 @@
             this.Controls.Add(this.searchTB);
             this.Controls.Add(this.label1);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "M_I2_Tables";
             this.Text = "M_I2_Tables";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
