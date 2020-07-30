@@ -27,4 +27,3 @@ use FactoryData
 alter table Carton_Produced add Opening_Voucher_ID int NULL
 
 
-

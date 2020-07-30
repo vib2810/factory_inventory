@@ -137,7 +137,8 @@ namespace Factory_Inventory
             float salary = -1F;
             try
             {
-                salary = float.Parse(dataGridView1.Rows[row_index].Cells["Salary"].Value.ToString());
+                string temp = dataGridView1.Rows[row_index].Cells["Salary"].Value.ToString();
+                salary = float.Parse(temp);
             }
             catch { };
             setSalary f = new setSalary(d, salary);
@@ -351,11 +352,13 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
+                DateTime dtime = DateTime.ParseExact(this.dataGridView1.Rows[0].Cells["Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                string date = dtime.ToString("yyyy-MM-dd");
                 string sql = "begin transaction; begin try; ";
                 sql += "DECLARE @employeeID int; INSERT INTO Employees (Employee_Name, Group_ID) VALUES ('" + nameTB.Text + "'," + int.Parse(dt.Rows[groupCB.SelectedIndex]["Group_ID"].ToString()) + "); ";
                 sql += "SELECT @employeeID = SCOPE_IDENTITY(); ";
-                sql += "INSERT INTO Salary VALUES (@employeeID, '" + dataGridView1.Rows[0].Cells["Date"].Value.ToString() + "', " + float.Parse(dataGridView1.Rows[0].Cells["Salary"].Value.ToString()) + "); ";
-                sql += "INSERT INTO Employee_Session (Employee_ID, Begin_Date) VALUES (@employeeID, '" + dataGridView1.Rows[0].Cells["Date"].Value.ToString() + "' ); SELECT SCOPE_IDENTITY(); ";
+                sql += "INSERT INTO Salary VALUES (@employeeID, '" + date + "', " + float.Parse(dataGridView1.Rows[0].Cells["Salary"].Value.ToString()) + "); ";
+                sql += "INSERT INTO Employee_Session (Employee_ID, Begin_Date) VALUES (@employeeID, '" + date + "' ); SELECT SCOPE_IDENTITY(); ";
                 //catch
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction; ";
                 sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); ";
