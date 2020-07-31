@@ -62,8 +62,7 @@ namespace Factory_Inventory
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Blue;
             dataGridView2.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView2.DefaultCellStyle.SelectionForeColor = Color.Blue;
-
-            DataTable DO_Nos = c.getDOTable(c.getFinancialYear(DateTime.Now), 1);
+            DataTable DO_Nos = c.runQuery("SELECT * FROM Sales_Voucher WHERE Type_Of_Sale = 1 AND Fiscal_Year = '" + c.getFinancialYear(DateTime.Now) + "'");
             dataGridView1.DataSource = DO_Nos;
             
             this.set_columns(dataGridView1);
@@ -135,8 +134,8 @@ namespace Factory_Inventory
             d.Columns["Customer"].DisplayIndex = 2;
             d.Columns["Quality"].Visible = true;
             d.Columns["Quality"].DisplayIndex = 4;
-            d.Columns["Carton_No_Arr"].Visible = true;
-            d.Columns["Carton_No_Arr"].DisplayIndex = 6;
+            //d.Columns["Carton_No_Arr"].Visible = true;
+            //d.Columns["Carton_No_Arr"].DisplayIndex = 6;
             d.Columns["Net_Weight"].Visible = true;
             d.Columns["Net_Weight"].DisplayIndex = 8;
             d.Columns["Sale_Rate"].Visible = true;
@@ -144,15 +143,16 @@ namespace Factory_Inventory
             d.Columns["Fiscal_Year"].Visible = true;
             d.Columns["Fiscal_Year"].DisplayIndex = 12;
 
-            d.Columns["Carton_No_Arr"].Width = 125;
+            //d.Columns["Carton_No_Arr"].Width = 125;
             d.Columns["Customer"].Width = 125;
             d.Columns["Fiscal_Year"].HeaderText = "Financial Year";
             d.Columns["Sale_DO_No"].HeaderText = "DO Number";
             d.Columns["Sale_DO_No"].Width = 80;
-            d.Columns["Carton_No_Arr"].HeaderText = "Carton Nos";
+            //d.Columns["Carton_No_Arr"].HeaderText = "Carton Nos";
             d.Columns["Net_Weight"].HeaderText = "Net Weight";
             d.Columns["Net_Weight"].Width = 80;
             d.Columns["Sale_Rate"].HeaderText = "Sale Rate";
+            c.auto_adjust_dgv(d);
             d.Columns["Fiscal_Year"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
         private void search_DO()
@@ -243,7 +243,7 @@ namespace Factory_Inventory
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            DataTable dt = c.getDOTable(this.fiscal1CB.Text, int.Parse(this.type1CB.Text));
+            DataTable dt= c.runQuery("SELECT * FROM Sales_Voucher WHERE Type_Of_Sale = "+ this.type1CB.Text +" AND Fiscal_Year = '" + this.fiscal1CB.Text + "'");
             dataGridView1.DataSource = dt;
             this.set_columns(dataGridView1);
         }

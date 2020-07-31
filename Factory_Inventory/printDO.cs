@@ -48,8 +48,8 @@ namespace Factory_Inventory
             //this.netwtTextbox.Text = net_weight.ToString("F3");
             this.rateTB.Text = sale_rate.ToString("F2");
 
-            string[] carton_nos = c.csvToArray(row["Carton_No_Arr"].ToString());
-            string cartonfisc = row["Carton_Fiscal_Year"].ToString();
+            //string[] carton_nos = c.csvToArray(row["Carton_No_Arr"].ToString());
+            //string cartonfisc = row["Carton_Fiscal_Year"].ToString();
             string table = row["Tablename"].ToString();
             DataTable dt = new DataTable();
             dt.Columns.Add("Sl No");
@@ -58,14 +58,21 @@ namespace Factory_Inventory
             dt.Columns.Add("Net Wt.");
             dt.Columns.Add("Rate");
             float net_wt = 0F, net_rate=0F;
-            for (int i = 0; i < carton_nos.Length; i++)
+            DataTable cartons = new DataTable();
+            if (table == "Carton")
             {
-                DataRow dtemp;
+                cartons = c.getTableData("Carton", "*", "TS_Voucher_ID=" + row["Voucher_ID"].ToString() + " AND Date_Of_Sale IS Not Null");
+            }
+            else
+            {
+                cartons = c.getTableData("Carton_Produced", "*", "Sales_Voucher_ID=" + row["Voucher_ID"].ToString());
+            }
+            for (int i = 0; i < cartons.Rows.Count; i++)
+            {
+                DataRow dtemp = cartons.Rows[i];
                 string colour = "Gray";
-                if (table == "Carton") dtemp = c.getCartonRow(carton_nos[i], cartonfisc);
-                else
-                {
-                    dtemp = c.getProducedCartonRow(carton_nos[i], cartonfisc);
+                if (table != "Carton")
+                { 
                     colour = dtemp["Colour"].ToString();
                 }
                 net_wt += float.Parse(dtemp["Net_Weight"].ToString());

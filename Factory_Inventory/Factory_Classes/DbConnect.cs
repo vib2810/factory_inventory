@@ -2184,25 +2184,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public DataTable getDOTable(string fiscal_year, int type)
-        {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Sales_Voucher WHERE Type_Of_Sale=" + type + " AND Fiscal_Year='" + fiscal_year + "'", con);
-                sda.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get weight (getDOTable) \n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return dt;
-        }
         public DataTable getDOTable(string fiscal_year, string do_no)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
