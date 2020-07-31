@@ -27,4 +27,3 @@ alter table Opening_Stock add Deleted tinyint NULL
 alter table Carton_Produced add Opening_Voucher_ID int NULL
 
 
-

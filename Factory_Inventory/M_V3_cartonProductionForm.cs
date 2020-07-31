@@ -163,6 +163,7 @@ namespace Factory_Inventory
             grade.Add("PQ");
             grade.Add("CLQ");
             grade.Add("Redyeing");
+            grade.Add("Waste");
             //DatagridView 1
             dataGridView1.Columns.Add("Sl_No", "Sl No");
             dataGridView1.Columns[0].ReadOnly = true;
