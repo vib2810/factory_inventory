@@ -17,8 +17,8 @@ INTO @columnName
 WHILE @@FETCH_STATUS = 0
 
 BEGIN
-
-    SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR '
+	if @columnName not like 'Voucher'
+	begin	SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR ' end
     FETCH NEXT FROM columns
     INTO @columnName    
 END

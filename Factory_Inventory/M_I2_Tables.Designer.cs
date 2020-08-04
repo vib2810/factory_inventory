@@ -85,7 +85,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1303, 676);
+            this.dataGridView1.Size = new System.Drawing.Size(1269, 573);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
@@ -126,7 +126,7 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(1851, 68);
+            this.label9.Location = new System.Drawing.Point(1834, 17);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(17, 17);
             this.label9.TabIndex = 11;
@@ -135,7 +135,7 @@
             // detailsButton
             // 
             this.detailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.detailsButton.Location = new System.Drawing.Point(1751, 52);
+            this.detailsButton.Location = new System.Drawing.Point(1734, 1);
             this.detailsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailsButton.Name = "detailsButton";
             this.detailsButton.Size = new System.Drawing.Size(117, 33);
@@ -149,7 +149,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1327, 755);
+            this.ClientSize = new System.Drawing.Size(1293, 652);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.detailsButton);
             this.Controls.Add(this.searchByDateButton);

@@ -257,7 +257,9 @@ namespace Factory_Inventory
             }
             else
             {
-                this.dt = c.runProcedure("SearchInTable", "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "'");
+                string prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=0";
+                if (date == true) prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=1";
+                this.dt = c.runProcedure("SearchInTable",prod);
                 this.dataGridView1.DataSource = this.dt;
             }
             c.printDataTable(this.dt);

@@ -80,17 +80,15 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dateTimePicker1.Location = new System.Drawing.Point(12, 59);
+            this.dateTimePicker1.Location = new System.Drawing.Point(12, 34);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker1.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 39);
+            this.label1.Location = new System.Drawing.Point(9, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 17);
             this.label1.TabIndex = 1;
@@ -98,8 +96,7 @@
             // 
             // button1
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.Location = new System.Drawing.Point(237, 48);
+            this.button1.Location = new System.Drawing.Point(237, 23);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(117, 33);
             this.button1.TabIndex = 2;
@@ -277,9 +274,8 @@
             // 
             this.dataGridViewQuality.AllowUserToAddRows = false;
             this.dataGridViewQuality.AllowUserToDeleteRows = false;
-            this.dataGridViewQuality.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridViewQuality.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewQuality.Location = new System.Drawing.Point(12, 111);
+            this.dataGridViewQuality.Location = new System.Drawing.Point(12, 85);
             this.dataGridViewQuality.MultiSelect = false;
             this.dataGridViewQuality.Name = "dataGridViewQuality";
             this.dataGridViewQuality.RowHeadersVisible = false;
@@ -294,9 +290,8 @@
             // 
             this.dataGridViewCompany.AllowUserToAddRows = false;
             this.dataGridViewCompany.AllowUserToDeleteRows = false;
-            this.dataGridViewCompany.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridViewCompany.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCompany.Location = new System.Drawing.Point(12, 389);
+            this.dataGridViewCompany.Location = new System.Drawing.Point(12, 363);
             this.dataGridViewCompany.MultiSelect = false;
             this.dataGridViewCompany.Name = "dataGridViewCompany";
             this.dataGridViewCompany.RowHeadersVisible = false;
@@ -328,9 +323,8 @@
             // 
             // allQualityCK
             // 
-            this.allQualityCK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.allQualityCK.AutoSize = true;
-            this.allQualityCK.Location = new System.Drawing.Point(12, 89);
+            this.allQualityCK.Location = new System.Drawing.Point(12, 63);
             this.allQualityCK.Name = "allQualityCK";
             this.allQualityCK.Size = new System.Drawing.Size(45, 21);
             this.allQualityCK.TabIndex = 0;
@@ -340,9 +334,8 @@
             // 
             // allColourCK
             // 
-            this.allColourCK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.allColourCK.AutoSize = true;
-            this.allColourCK.Location = new System.Drawing.Point(12, 365);
+            this.allColourCK.Location = new System.Drawing.Point(12, 339);
             this.allColourCK.Name = "allColourCK";
             this.allColourCK.Size = new System.Drawing.Size(45, 21);
             this.allColourCK.TabIndex = 0;
@@ -352,9 +345,8 @@
             // 
             // allCompanyCK
             // 
-            this.allCompanyCK.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.allCompanyCK.AutoSize = true;
-            this.allCompanyCK.Location = new System.Drawing.Point(12, 802);
+            this.allCompanyCK.Location = new System.Drawing.Point(12, 776);
             this.allCompanyCK.Name = "allCompanyCK";
             this.allCompanyCK.Size = new System.Drawing.Size(45, 21);
             this.allCompanyCK.TabIndex = 0;
@@ -366,9 +358,8 @@
             // 
             this.dataGridViewCName.AllowUserToAddRows = false;
             this.dataGridViewCName.AllowUserToDeleteRows = false;
-            this.dataGridViewCName.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridViewCName.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCName.Location = new System.Drawing.Point(12, 828);
+            this.dataGridViewCName.Location = new System.Drawing.Point(12, 802);
             this.dataGridViewCName.MultiSelect = false;
             this.dataGridViewCName.Name = "dataGridViewCName";
             this.dataGridViewCName.RowHeadersVisible = false;
@@ -376,13 +367,13 @@
             this.dataGridViewCName.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridViewCName.RowTemplate.Height = 24;
             this.dataGridViewCName.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewCName.Size = new System.Drawing.Size(215, 159);
+            this.dataGridViewCName.Size = new System.Drawing.Size(215, 241);
             this.dataGridViewCName.TabIndex = 0;
             // 
             // detailsButton
             // 
             this.detailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.detailsButton.Location = new System.Drawing.Point(1753, 48);
+            this.detailsButton.Location = new System.Drawing.Point(1753, 59);
             this.detailsButton.Name = "detailsButton";
             this.detailsButton.Size = new System.Drawing.Size(117, 33);
             this.detailsButton.TabIndex = 3;
@@ -393,7 +384,7 @@
             // backButton
             // 
             this.backButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.backButton.Location = new System.Drawing.Point(1630, 48);
+            this.backButton.Location = new System.Drawing.Point(1630, 59);
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(117, 33);
             this.backButton.TabIndex = 4;
@@ -406,7 +397,7 @@
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Location = new System.Drawing.Point(1730, 64);
+            this.label8.Location = new System.Drawing.Point(1730, 75);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(17, 17);
             this.label8.TabIndex = 5;
@@ -417,7 +408,7 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(1853, 64);
+            this.label9.Location = new System.Drawing.Point(1853, 75);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(17, 17);
             this.label9.TabIndex = 6;
@@ -425,7 +416,9 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.dataGridView5);
             this.panel1.Controls.Add(this.label10);
@@ -441,9 +434,9 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(237, 88);
+            this.panel1.Location = new System.Drawing.Point(237, 59);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1665, 899);
+            this.panel1.Size = new System.Drawing.Size(1665, 984);
             this.panel1.TabIndex = 7;
             // 
             // dataGridView5
@@ -479,7 +472,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1902, 1033);
+            this.ClientSize = new System.Drawing.Size(1902, 1055);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);

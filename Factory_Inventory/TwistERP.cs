@@ -28,6 +28,8 @@ namespace Factory_Inventory
         public void show_form(Form f, int group=0)
         {
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
+            f.AutoScroll = true;
+
             if (group==0)
             {
                 if (f.Name.ToString().StartsWith("M_I"))
