@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media.TextFormatting;
 
 namespace Factory_Inventory
@@ -21,14 +22,16 @@ namespace Factory_Inventory
         public int vno = 0;
         public bool _firstLoaded = true;
         private int prev_selected_row = 0;
+        Dictionary<int, string> vno_table_map = new Dictionary<int, string>();
+
         struct form_data
         {
             public Form form;
             public int type;
-            public int index;
-            public form_data(Form f, int type, int index)
+            public int voucher_id;
+            public form_data(Form f, int type, int voucher_id)
             {
-                this.form = f; this.type = type; this.index = index;
+                this.form = f; this.type = type; this.voucher_id = voucher_id;
             }
         }
         List<form_data> child_forms = new List<form_data>();
@@ -56,15 +59,31 @@ namespace Factory_Inventory
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
             //dataGridView1.DefaultCellStyle.BackColor = Color.LightGreen;
             this.label1.Visible = false;
+
+            vno_table_map[1] = "Carton_Voucher";
+            vno_table_map[2] = "Twist_Voucher";
+            vno_table_map[3] = "Sales_Voucher";
+            vno_table_map[4] = "Tray_Voucher";
+            vno_table_map[5] = "Dyeing_Issue_Voucher";
+            vno_table_map[6] = "Dyeing_Inward_Voucher";
+            vno_table_map[7] = "BillNos_Voucher";
+            vno_table_map[8] = "Carton_Production_Voucher";
+            vno_table_map[9] = "Sales_Voucher";
+            vno_table_map[10] = "SalesBillNos_Voucher";
+            vno_table_map[11] = "SalesBillNos_Voucher";
+            vno_table_map[12] = "Redyeing_Voucher";
             loadData();
+
+            //Opening
+            vno_table_map[100] = "Carton Production";
+            
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
-            if (Global.access == 2 && this.vno!=8)
+            if (Global.access == 2 && this.vno != 8)
             {
                 this.editDetailsButton.Visible = false;
                 this.label2.Visible = false;
             }
         }
-
         private void M_V_history_Load(object sender, EventArgs e)
         {
             //Double Buffer DGV
@@ -113,7 +132,7 @@ namespace Factory_Inventory
                 case 12:
                     this.Text = "History - Redyeing";
                     break;
-                case 13:
+                case 100:
                     this.Text = "History - Carton Production Opening";
                     break;
             }
@@ -141,8 +160,9 @@ namespace Factory_Inventory
                 }
             }
         }
+        
         //user
-        bool check_showing(form_data data)
+        bool check_not_showing(form_data data)
         {
             for (int i = 0; i < this.child_forms.Count; i++)
             {
@@ -151,7 +171,7 @@ namespace Factory_Inventory
                 //Console.WriteLine("value " + value.form.Name + " " + value.type + " " + value.index);
                 //Console.WriteLine("data " + data.form.Name + " " + data.type + " " + data.index);
 
-                if (data.form.Name == value.form.Name && data.index == value.index && value.form.IsDisposed == false)
+                if (data.form.Name == value.form.Name && data.voucher_id == value.voucher_id && value.form.IsDisposed == false)
                 {
                     if (data.type != value.type)
                     {
@@ -171,15 +191,85 @@ namespace Factory_Inventory
             }
             return true;
         }
+        private DataTable remove_sales_rows(DataTable input)
+        {
+            int rows = input.Rows.Count;
+            DataTable d = input.Clone();
+            if (rows == 0)
+                return d;
+            for (int i = 0; i < rows; i++)
+            {
+                if ((this.vno == 3 || this.vno == 10) && input.Rows[i]["Tablename"].ToString() == "Carton_Produced")
+                {
+                    continue;
+                }
+                else if ((this.vno == 9 || this.vno == 11) && input.Rows[i]["Tablename"].ToString() == "Carton")
+                {
+                    continue;
+                }
+                d.Rows.Add(input.Rows[i].ItemArray);
+            }
+            return d;
+        }
         public void loadData()
         {
-            #region
+            //Get dt
+            if(this.vno<100)
+            {
+                this.dt = c.getVoucherHistories(vno_table_map[this.vno]);
+            }
+            else
+            {
+                this.dt = c.runQuery("Select * from Opening_Stock where voucher_name='"+vno_table_map[this.vno]+"'");
+            }
+
+            //assign datasource
+            if (this.vno == 9 || this.vno==10 || this.vno==11)
+            {
+                this.dataGridView1.DataSource = this.remove_sales_rows(this.dt);
+            }
+            else 
+            {
+                this.dataGridView1.DataSource = this.dt;
+            }
+
+            //set columns
+            this.adjust_dgv();
+            
+            _firstLoaded = true;
+            dataGridView1.Visible = false;
+            dataGridView1.Visible = true;
+            try { this.dataGridView1.Rows[this.prev_selected_row].Selected = true; }
+            catch { }
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+        }
+        void search_in_voucher_table(bool date=false)
+        {
+            string to_search = "";
+            if (date == false) to_search = this.searchTB.Text;
+            else to_search = this.dateTimePicker1.Value.Date.ToString("yyyy-MM-dd");
+
+            //if null search
+            if(string.IsNullOrEmpty(to_search)==true)
+            {
+                this.dt = c.getVoucherHistories(vno_table_map[this.vno]);
+                this.dataGridView1.DataSource = this.dt;
+            }
+            else
+            {
+                this.dt = c.runProcedure("SearchInTable", "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "'");
+                this.dataGridView1.DataSource = this.dt;
+            }
+            c.printDataTable(this.dt);
+            this.adjust_dgv();
+        }
+        
+        void adjust_dgv()
+        {
             if (this.vno == 1)
             {
                 //this.dt = c.getCartonVoucherHistory();
-                this.dt = c.getVoucherHistories("Carton_Voucher", "Date_Of_Billing");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Date_Of_Billing"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 0;
@@ -210,9 +300,7 @@ namespace Factory_Inventory
             if (this.vno == 2)
             {
                 //this.dt = c.getTwistVoucherHistory();
-                this.dt = c.getVoucherHistories("Twist_Voucher", "Date_Of_Issue");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Issue"].DisplayIndex = 0;
@@ -241,9 +329,7 @@ namespace Factory_Inventory
             if (this.vno == 3)
             {
                 //this.dt = c.getSalesVoucherHistory();
-                this.dt = c.getVoucherHistories("Sales_Voucher", "Date_Of_Sale");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = this.remove_sales_rows();
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Date_Of_Sale"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Sale"].DisplayIndex = 0;
@@ -276,10 +362,7 @@ namespace Factory_Inventory
             }       //Gray Sale
             if (this.vno == 4)
             {
-                //this.dt = c.getTrayVoucherHistory();
-                this.dt = c.getVoucherHistories("Tray_Voucher", "Tray_Production_Date");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Tray_Production_Date"].Visible = true;
                 this.dataGridView1.Columns["Tray_Production_Date"].DisplayIndex = 0;
@@ -303,10 +386,7 @@ namespace Factory_Inventory
             }       //Tray
             if (this.vno == 5)
             {
-                //this.dt = c.getDyeingIssueVoucherHistory();
-                this.dt = c.getVoucherHistories("Dyeing_Issue_Voucher", "Date_Of_Issue");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Issue"].DisplayIndex = 0;
@@ -337,9 +417,7 @@ namespace Factory_Inventory
             }       //Dyeing Issue
             if (this.vno == 6)
             {
-                this.dt = c.getVoucherHistories("Dyeing_Inward_Voucher", "Inward_Date");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Inward_Date"].Visible = true;
                 this.dataGridView1.Columns["Inward_Date"].DisplayIndex = 0;
@@ -368,9 +446,7 @@ namespace Factory_Inventory
             }       //Dyeing Inward
             if (this.vno == 7)
             {
-                this.dt = c.getVoucherHistories("BillNos_Voucher", "Bill_Date");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Bill_Date"].Visible = true;
                 this.dataGridView1.Columns["Bill_Date"].DisplayIndex = 0;
@@ -391,9 +467,7 @@ namespace Factory_Inventory
             }       //Bill to Dyeing Inward
             if (this.vno == 8)
             {
-                this.dt = c.getVoucherHistories("Carton_Production_Voucher", "Start_Date_Of_Production");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns["Voucher_ID"].Visible = false;
                 if (dataGridView1.Rows.Count >= 1 && dataGridView1.SelectedRows.Count > 0)
                 {
@@ -447,10 +521,8 @@ namespace Factory_Inventory
             }       //Carton Production
             if (this.vno == 9)
             {
-                //this.dt = c.getSalesVoucherHistory();
-                this.dt = c.getVoucherHistories("Sales_Voucher", "Date_Of_Sale");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = this.remove_sales_rows();
+
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Date_Of_Sale"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Sale"].DisplayIndex = 0;
@@ -483,9 +555,7 @@ namespace Factory_Inventory
             }       //Colour Sale
             if (this.vno == 10)
             {
-                this.dt = c.getVoucherHistories("SalesBillNos_Voucher", "Sale_Bill_Date");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = this.remove_sales_rows();
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
                 this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
@@ -512,9 +582,7 @@ namespace Factory_Inventory
             }      //Bill to Gray Sale
             if (this.vno == 11)
             {
-                this.dt = c.getVoucherHistories("SalesBillNos_Voucher", "Sale_Bill_Date");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = this.remove_sales_rows();
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
                 this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
@@ -541,9 +609,7 @@ namespace Factory_Inventory
             }      //Bill to Colour Sale
             if (this.vno == 12)
             {
-                this.dt = c.getVoucherHistories("Redyeing_Voucher", "Date_Of_Issue");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Voucher_ID"].Visible = false;
                 this.dataGridView1.Columns["Date_Of_Issue"].Visible = true;
@@ -569,47 +635,17 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].HeaderText = "New Batch Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Redyeing
-            if (this.vno == 13)
+            if (this.vno == 100)
             {
-                this.dt = c.runQuery("Select * from Opening_Stock where voucher_name='Carton Production'");
                 this.dataGridView1.ReadOnly = true;
-                this.dataGridView1.DataSource = dt;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
                 this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 0;
                 this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Date of Input";
                 c.auto_adjust_dgv(this.dataGridView1);
-            } 
+            }     //Opening
 
-            #endregion
-            _firstLoaded = true;
-            dataGridView1.Visible = false;
-            dataGridView1.Visible = true;
-            try { this.dataGridView1.Rows[this.prev_selected_row].Selected = true; }
-            catch { }
-            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
-        private DataTable remove_sales_rows()
-        {
-            int rows = this.dt.Rows.Count;
-            DataTable d = dt.Clone();
-            if (rows == 0)
-                return d;
-            for (int i = 0; i < rows; i++)
-            {
-                if ((this.vno == 3 || this.vno == 10) && this.dt.Rows[i]["Tablename"].ToString() == "Carton_Produced")
-                {
-                    continue;
-                }
-                else if ((this.vno == 9 || this.vno == 11) && this.dt.Rows[i]["Tablename"].ToString() == "Carton")
-                {
-                    continue;
-                }
-                d.Rows.Add(this.dt.Rows[i].ItemArray);
-            }
-            return d;
-        }
-        
         //Datagridview
         private void DataGridView1_VisibleChanged(object sender, EventArgs e)
         {
@@ -675,10 +711,10 @@ namespace Factory_Inventory
         //click
         private void viewDetailsButton_Click(object sender, EventArgs e)
         {
-            if (this.dataGridView1.SelectedRows.Count <= 0)
-                return;
+            if (this.dataGridView1.SelectedRows.Count <= 0) return;
             int index = this.dataGridView1.SelectedRows[0].Index;
-            Console.WriteLine(index);
+            int voucher_id = int.Parse(this.dataGridView1.Rows[index].Cells["Voucher_ID"].Value.ToString());
+            Console.WriteLine(voucher_id);
             if (index > this.dataGridView1.Rows.Count - 1)
             {
                 c.ErrorBox("Please select valid voucher", "Error");
@@ -690,118 +726,118 @@ namespace Factory_Inventory
                 {
 
                     M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 2)
                 {
                     M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 3)
                 {
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 4)
                 {
                     M_V2_trayInputForm f = new M_V2_trayInputForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 5)
                 {
                     M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 6)
                 {
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "dyeingInward");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 7)
                 {
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, false, this, "addBill");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 8)
                 {
                     M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 9)
                 {
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, false, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 10)
                 {
                     M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 11)
                 {
                     M_VC_addBill f = new M_VC_addBill(row, false, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 if (this.vno == 12)
                 {
                     M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
-                if (this.vno == 13)
+                if (this.vno == 100)
                 {
                     M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, false, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 this.prev_selected_row = index;
@@ -812,6 +848,7 @@ namespace Factory_Inventory
             if (this.dataGridView1.SelectedRows.Count <= 0)
                 return;
             int index = this.dataGridView1.SelectedRows[0].Index;
+            int voucher_id = int.Parse(this.dataGridView1.Rows[index].Cells["Voucher_ID"].Value.ToString());
             if (index > this.dataGridView1.Rows.Count - 1)
             {
                 c.ErrorBox("Please select valid voucher", "Error");
@@ -822,122 +859,137 @@ namespace Factory_Inventory
                 if (this.vno == 1)
                 {
                     M_V1_cartonInwardForm f = new M_V1_cartonInwardForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 2)
                 {
                     M_V1_cartonTwistForm f = new M_V1_cartonTwistForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 3)
                 {
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 4)
                 {
                     M_V2_trayInputForm f = new M_V2_trayInputForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 5)
                 {
                     M_V2_dyeingIssueForm f = new M_V2_dyeingIssueForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 6)
                 {
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "dyeingInward");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 7)
                 {
                     M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm(row, true, this, "addBill");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 8)
                 {
                     M_V3_cartonProductionForm f = new M_V3_cartonProductionForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 9)
                 {
                     M_VC_cartonSalesForm f = new M_VC_cartonSalesForm(row, true, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 10)
                 {
                     M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 11)
                 {
                     M_VC_addBill f = new M_VC_addBill(row, true, this, "Carton_Produced");
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
                 if (this.vno == 12)
                 {
                     M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 1, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 1, index));
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
-                if (this.vno == 13)
+                if (this.vno == 100)
                 {
                     M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, true, this);
-                    if (this.check_showing(new form_data(f, 0, index)) == true)
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
-                        this.child_forms.Add(new form_data(f, 0, index));
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
                 this.prev_selected_row = index;
             }
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            this.search_in_voucher_table();
+        }
+
+        private void searchTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter) this.search_in_voucher_table();
+        }
+
+        private void searchByDateButton_Click(object sender, EventArgs e)
+        {
+            this.search_in_voucher_table(true);
         }
     }
 }

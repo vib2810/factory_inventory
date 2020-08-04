@@ -1,5 +1,5 @@
 --use FactoryData
-CREATE PROCEDURE SearchInBatch @tableName nvarchar(50), @searchText nvarchar(50)
+CREATE PROCEDURE SearchInTable @tableName nvarchar(50), @searchText nvarchar(50)
 AS
 SET NOCOUNT ON;
 DECLARE @columnName NVARCHAR(100)
