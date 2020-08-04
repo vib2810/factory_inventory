@@ -100,7 +100,7 @@ namespace Factory_Inventory
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            c.setPrint("Batch", this.where, 1);
+            c.setPrint("Sales_Voucher", this.where, 1);
             parent.load_color();
             using (var dlg = new CoolPrintPreviewDialog())
             {

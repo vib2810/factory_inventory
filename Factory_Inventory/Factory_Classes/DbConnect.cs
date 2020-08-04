@@ -4507,7 +4507,7 @@ namespace Factory_Inventory.Factory_Classes
             DateTime max_dyeing_inward = DateTime.MinValue;
             List<Tuple<string, string> > batches = new List<Tuple<string, string> >();
             int batch_index = -1;
-            int index = -1;
+            //int index = -1;
             string Dyeing_In_Date = "";
             for (int i = 0; i < tempBatchNos.Length; i++)
             {
@@ -4522,7 +4522,7 @@ namespace Factory_Inventory.Factory_Classes
                 if (dyeing_inward_date > max_dyeing_inward)
                 {
                     max_dyeing_inward = dyeing_inward_date;
-                    batch_index = index;
+                    batch_index = i;
                 }
             }
 
@@ -4548,6 +4548,9 @@ namespace Factory_Inventory.Factory_Classes
                     min_index = i;
                 }
             }
+            Console.WriteLine(carton_no[min_index] + " " + min_index);
+            Console.WriteLine(batches[batch_index].Item1 +" " + batch_index);
+            //Console.WriteLine(carton_no[min_index] + min_index)
 
             //Check if max dyeing inward date <= min production date
             if (max_dyeing_inward > min)
