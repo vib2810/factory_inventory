@@ -26,7 +26,7 @@ use FactoryData
 --alter table Opening_Stock add Deleted tinyint NULL
 --alter table Carton_Produced add Opening_Voucher_ID int NULL
 
---RUN IN Polyester: N Cotton: N
+--RUN IN Polyester: Y 05-08 Cotton: N
 GO
 /****** Object:  StoredProcedure [dbo].[SearchInTable]    Script Date: 05-08-2020 18:16:25 ******/
 SET ANSI_NULLS ON
