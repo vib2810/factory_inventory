@@ -32,6 +32,7 @@
             this.openWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eRPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupRestoreStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -44,6 +45,7 @@
             this.openWindowsToolStripMenuItem,
             this.eRPToolStripMenuItem,
             this.attendanceToolStripMenuItem,
+            this.settingsToolStripMenuItem,
             this.backupRestoreStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.MdiWindowListItem = this.openWindowsToolStripMenuItem;
@@ -57,7 +59,7 @@
             this.openWindowsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.openWindowsToolStripMenuItem.Name = "openWindowsToolStripMenuItem";
             this.openWindowsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            this.openWindowsToolStripMenuItem.Size = new System.Drawing.Size(155, 29);
+            this.openWindowsToolStripMenuItem.Size = new System.Drawing.Size(140, 27);
             this.openWindowsToolStripMenuItem.Text = "&Open Windows";
             // 
             // eRPToolStripMenuItem
@@ -72,16 +74,24 @@
             // 
             this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
             this.attendanceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(122, 29);
+            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(112, 27);
             this.attendanceToolStripMenuItem.Text = "&Attendance";
             this.attendanceToolStripMenuItem.Click += new System.EventHandler(this.attendanceToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(85, 27);
+            this.settingsToolStripMenuItem.Text = "&Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // backupRestoreStripMenuItem
             // 
             this.backupRestoreStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.backupRestoreStripMenuItem.Name = "backupRestoreStripMenuItem";
             this.backupRestoreStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.B)));
-            this.backupRestoreStripMenuItem.Size = new System.Drawing.Size(191, 29);
+            this.backupRestoreStripMenuItem.Size = new System.Drawing.Size(175, 27);
             this.backupRestoreStripMenuItem.Text = "&Backup and Restore";
             this.backupRestoreStripMenuItem.Click += new System.EventHandler(this.backupRestoreStripMenuItem_Click);
             // 
@@ -113,5 +123,6 @@
         private System.Windows.Forms.ToolStripMenuItem eRPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backupRestoreStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }

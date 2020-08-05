@@ -586,9 +586,9 @@ namespace Factory_Inventory
             write(e, (int)(0.90 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), "Page No:" + this.printed_pages, basic_size, 'l', 1, 0);
             write_height += write(e, lrmargin, write_height, page_width, "||Shri||", basic_size, 'c', 0) + header_spacing;
             write_height += write(e, lrmargin, write_height, page_width, "BATCH FINAL REPORT", basic_size + 4, 'c', 1) + header_spacing - 2;
-            write_height += write(e, lrmargin, write_height, page_width, "KRISHANA SALES AND INDUSRIES", basic_size + 5, 'c', 1) + header_spacing-3;
-            write_height += write(e, lrmargin, write_height, page_width, "550/1, Datta Galli, M. Vadgaon, Belagavi", basic_size + 1, 'c', 1) + header_spacing;
-            write_height += write(e, lrmargin, write_height, page_width, "(GSTIN No: 29AIOPM5869K1Z8)", basic_size + 1, 'c', 1);
+            write_height += write(e, lrmargin, write_height, page_width, Properties.Settings.Default.FirmName, basic_size + 5, 'c', 1) + header_spacing-3;
+            write_height += write(e, lrmargin, write_height, page_width, Properties.Settings.Default.Address, basic_size + 1, 'c', 1) + header_spacing;
+            write_height += write(e, lrmargin, write_height, page_width, "(GSTIN No: " + Properties.Settings.Default.GSTIN + ")", basic_size + 1, 'c', 1);
 
             string batch_nos = "";
             for (int i = 0; i < dataGridView3.Rows.Count - 1; i++) batch_nos += dataGridView3.Rows[i].Cells[1].Value + ", ";

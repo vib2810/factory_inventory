@@ -1,6 +1,7 @@
 ﻿using BarcodeLib;
 using CoolPrintPreview;
 using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -464,9 +465,9 @@ namespace Factory_Inventory
             DataRow carton_data = c.getProducedCartonRow(carton_no.ToString(), fiscal_year);
             //header
             write_height += 6;
-            write(e, x + (int)(0.02 * width), write_height, (int)(0.35 * width), "Phone No : 9880035444", basic_size-2, 'r', 0, 0);
+            write(e, x + (int)(0.02 * width), write_height, (int)(0.35 * width), "Phone No : "+Properties.Settings.Default.PhoneNo, basic_size-2, 'r', 0, 0);
             write(e, x + (int)(0.37 * width), write_height-2, (int)(0.26* width), "||Shri||", basic_size, 'c', 0, 0);
-            write_height += write(e, x + (int)(0.63* width), write_height, (int)(0.35* width), "mohtapolysoft@yahoo.com", basic_size-2, 'l', 0)+gap;
+            write_height += write(e, x + (int)(0.63* width), write_height, (int)(0.35* width), Properties.Settings.Default.EmailID, basic_size-2, 'l', 0)+gap;
             write_height += write(e, x, write_height, width, "MOHTA GROUP", basic_size + 8, 'c', 1) +gap;
             e.Graphics.DrawLine(new Pen(Color.Black, 2), x, write_height, x+width, write_height);
             ////main
