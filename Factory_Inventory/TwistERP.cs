@@ -28,7 +28,7 @@ namespace Factory_Inventory
         public void show_form(Form f, int group=0)
         {
             f.Scale(new SizeF(Properties.Settings.Default.ScaleX, Properties.Settings.Default.ScaleY));
-            f.Size = new Size((int)Properties.Settings.Default.SizeX*f.Size.Width , (int)Properties.Settings.Default.SizeY*f.Size.Height);
+            f.Size = new Size((int)((float)Properties.Settings.Default.SizeX*f.Size.Width) , (int)((float)Properties.Settings.Default.SizeY*f.Size.Height));
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
             f.AutoScroll = true;
 

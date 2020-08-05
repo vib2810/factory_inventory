@@ -72,11 +72,11 @@ namespace Factory_Inventory
             vno_table_map[10] = "SalesBillNos_Voucher";
             vno_table_map[11] = "SalesBillNos_Voucher";
             vno_table_map[12] = "Redyeing_Voucher";
-            loadData();
 
             //Opening
             vno_table_map[100] = "Carton Production";
-            
+            loadData();
+
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
             if (Global.access == 2 && this.vno != 8)
             {
