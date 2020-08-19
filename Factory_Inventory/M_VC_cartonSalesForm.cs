@@ -434,7 +434,9 @@ namespace Factory_Inventory
                 this.deleteButton.Visible = false;
             }
             dataGridView1.Columns[1].Width = 200;
-        }
+            this.saleDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
+            this.saleDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
+    }
 
         //Own Functions
         public void disable_form_edit()

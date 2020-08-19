@@ -34,7 +34,7 @@ namespace Factory_Inventory
             while (true)
             {
                 Login f1 = new Login();
-                
+                //f1.access = 1;
                 Application.Run(f1);
                 if (f1.access == 1 || f1.access == 2)
                 {

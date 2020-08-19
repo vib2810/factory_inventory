@@ -280,11 +280,11 @@ namespace Factory_Inventory
             }
             dgvCmb.DataSource = this.do_no;
 
-            if (typeCB.Text == "1")
-            {
-                this.billDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
-                this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
-            }
+            //if (typeCB.Text == "1")
+            //{
+            //    this.billDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
+            //    this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
+            //}
 
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
@@ -548,11 +548,11 @@ namespace Factory_Inventory
                 this.billCustomerNameCB.TabIndex = 8;
                 this.billCustomerNameCB.TabStop = true;
             }
-            if(typeCB.Text=="1")
-            {
-                this.billDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
-                this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
-            }
+            //if(typeCB.Text=="1")
+            //{
+            //    this.billDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
+            //    this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
+            //}
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
