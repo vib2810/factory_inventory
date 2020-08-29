@@ -224,7 +224,7 @@ namespace Factory_Inventory
             }
 
             //assign datasource
-            if (this.vno == 9 || this.vno==10 || this.vno==11)
+            if (this.vno==3 || this.vno == 9 || this.vno==10 || this.vno==11)
             {
                 this.dataGridView1.DataSource = this.remove_sales_rows(this.dt);
             }
