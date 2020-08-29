@@ -590,6 +590,11 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter numeric selling price only", "Error");
                 return;
             }
+            if(float.Parse(rateTextboxTB.Text)<100F)
+            {
+                c.ErrorBox("Please enter a valid selling price", "Error");
+                return;
+            }
             if (inputDate.Value.Date < saleDateDTP.Value.Date)
             {
                 c.ErrorBox("Issue Date is in the future", "Error");
