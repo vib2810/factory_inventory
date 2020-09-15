@@ -182,7 +182,7 @@ namespace Factory_Inventory.Factory_Classes
                             Console.WriteLine("Start: " + batch.Rows[0]["Start_Date_Of_Production"].ToString() + " " + dt.Rows[i]["Start_Date_Of_Production"].ToString());
                             Console.WriteLine("End: " + batch.Rows[0]["Date_Of_Production"].ToString() + " " + dt.Rows[i]["Date_Of_Production"].ToString());
                             this.ErrorBox("Inconsistancy in Voucher_ID: " + dt.Rows[i]["Voucher_ID"].ToString() + " Batch Number: " + batch_nos[j] + " Batch Fiscal Year: " + batch_fiscal_years[j]);
-                            DateTime d1 = DateTime.ParseExact(dt.Rows[i]["Start_Date_Of_Production"].ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime d1 = DateTime.ParseExact(dt.Rows[i]["Start_Date_Of_Production"].ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             this.runQuery("UPDATE Batch SET Start_Date_Of_Production = '" + d1.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
                             DateTime d2 = DateTime.Now;
                             if (dt.Rows[i]["Date_Of_Production"].ToString() == "")
@@ -191,7 +191,7 @@ namespace Factory_Inventory.Factory_Classes
                             }
                             else
                             {
-                                d2 = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                                d2 = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                                 this.runQuery("UPDATE Batch SET Date_Of_Production = '" + d2.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
                             }
                             this.SuccessBox("Set Batch: "+ batch_nos[j] + batch_fiscal_years[j]+ " Start Date = " + d1.ToString("yyyy-MM-dd") + " End date = " + d2.ToString("yyyy-MM-dd"));
