@@ -164,10 +164,39 @@ namespace Factory_Inventory.Factory_Classes
                 //    }
                 //}
 
-                DataTable dt = this.runQuery("SELECT * FROM Carton_Production_Voucher");
+                //DataTable dt = this.runQuery("SELECT * FROM Carton_Production_Voucher");
+                //for(int i=0;i<dt.Rows.Count;i++)
+                //{
+                //    this.runQuery("UPDATE Carton_Produced SET Batch_No_Arr = '" + dt.Rows[i]["Batch_No_Arr"].ToString() + "' WHERE Carton_No IN (" + this.removecom(dt.Rows[i]["Carton_No_Production_Arr"].ToString()) + ") AND Fiscal_Year = '" + dt.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
+                //}
+                DataTable dt = runQuery("SELECT * FROM Carton_Production_Voucher WHERE Deleted IS NULL");
                 for(int i=0;i<dt.Rows.Count;i++)
                 {
-                    this.runQuery("UPDATE Carton_Produced SET Batch_No_Arr = '" + dt.Rows[i]["Batch_No_Arr"].ToString() + "' WHERE Carton_No IN (" + this.removecom(dt.Rows[i]["Carton_No_Production_Arr"].ToString()) + ") AND Fiscal_Year = '" + dt.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
+                    string[] batch_nos = this.csvToArray(dt.Rows[i]["Batch_No_Arr"].ToString());
+                    string[] batch_fiscal_years = this.csvToArray(dt.Rows[i]["Batch_Fiscal_Year_Arr"].ToString());
+                    for(int j = 0;j<batch_nos.Length;j++)
+                    {
+                        DataTable batch = this.runQuery("SELECT Start_Date_Of_Production, Date_Of_Production FROM Batch WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j]+"'");
+                        if (batch.Rows[0]["Start_Date_Of_Production"].ToString() != dt.Rows[i]["Start_Date_Of_Production"].ToString() || batch.Rows[0]["Date_Of_Production"].ToString() != dt.Rows[i]["Date_Of_Production"].ToString())
+                        {
+                            Console.WriteLine("Start: " + batch.Rows[0]["Start_Date_Of_Production"].ToString() + " " + dt.Rows[i]["Start_Date_Of_Production"].ToString());
+                            Console.WriteLine("End: " + batch.Rows[0]["Date_Of_Production"].ToString() + " " + dt.Rows[i]["Date_Of_Production"].ToString());
+                            this.ErrorBox("Inconsistancy in Voucher_ID: " + dt.Rows[i]["Voucher_ID"].ToString() + " Batch Number: " + batch_nos[j] + " Batch Fiscal Year: " + batch_fiscal_years[j]);
+                            DateTime d1 = DateTime.ParseExact(dt.Rows[i]["Start_Date_Of_Production"].ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            this.runQuery("UPDATE Batch SET Start_Date_Of_Production = '" + d1.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
+                            DateTime d2 = DateTime.Now;
+                            if (dt.Rows[i]["Date_Of_Production"].ToString() == "")
+                            {
+                                this.runQuery("UPDATE Batch SET Date_Of_Production = NULL  WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
+                            }
+                            else
+                            {
+                                d2 = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                                this.runQuery("UPDATE Batch SET Date_Of_Production = '" + d2.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
+                            }
+                            this.SuccessBox("Set Batch: "+ batch_nos[j] + batch_fiscal_years[j]+ " Start Date = " + d1.ToString("yyyy-MM-dd") + " End date = " + d2.ToString("yyyy-MM-dd"));
+                        }
+                    }
                 }
                 this.SuccessBox("SQL Update Successful");
             }
@@ -3205,7 +3234,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Batch (Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Batch_State, Dyeing_Rate, Fiscal_Year, Grade, Dyeing_Out_Voucher_ID) VALUES (" + batch_no + " ,'" + colour + "', '" + dyeing_company_name + "', '" + dyeing_out_date + "', '" + tray_id_arr + "' , " + net_wt + ", '" + quality + "', '" + company_name + "', " + number + ", '1', " + rate + ", '" + fiscal_year + "', '" + grade + "', " + dyeing_out_voucher_id + ")";
+                string sql = "INSERT INTO Batch (Batch_No, Colour, Dyeing_Company_Name, Dyeing_Out_Date, Tray_ID_Arr, Net_Weight, Quality, Company_Name, Number_Of_Trays, Batch_State, Dyeing_Rate, Fiscal_Year, Grade, Dyeing_Out_Voucher_ID, Bill_No) VALUES (" + batch_no + " ,'" + colour + "', '" + dyeing_company_name + "', '" + dyeing_out_date + "', '" + tray_id_arr + "' , " + net_wt + ", '" + quality + "', '" + company_name + "', " + number + ", '1', " + rate + ", '" + fiscal_year + "', '" + grade + "', " + dyeing_out_voucher_id + ", 0)";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -3251,7 +3280,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return ans;
         }
-        public DataTable sendBatchStateDateBillNo(int batch_no, int state, string date, string bill_no, string batch_fiscal_year, string bill_date, string slip_no, int dyeing_in_voucher_id)
+        public DataTable sendBatchStateTwo(int batch_no, int state, string date, string bill_no, string batch_fiscal_year, string bill_date, string slip_no, int dyeing_in_voucher_id)
         {
             //returns datatable of tray_ids
             DataTable tray_ids = new DataTable();
@@ -3580,7 +3609,7 @@ namespace Factory_Inventory.Factory_Classes
                 string all_tray_ids = "";
                 for (int i = 0; i < batchnos.Length; i++)
                 {
-                    DataTable tray_id = sendBatchStateDateBillNo(int.Parse(batchnos[i]), 2, inward_date, bill_no, batch_fiscal_year, bill_date, slipnos[i], int.Parse(dtt.Rows[0][0].ToString()));
+                    DataTable tray_id = sendBatchStateTwo(int.Parse(batchnos[i]), 2, inward_date, bill_no, batch_fiscal_year, bill_date, slipnos[i], int.Parse(dtt.Rows[0][0].ToString()));
                     string i_tray_id = tray_id.Rows[0][0].ToString();
                     all_tray_ids += i_tray_id;
                 }
@@ -3651,19 +3680,35 @@ namespace Factory_Inventory.Factory_Classes
                     old_batch_nos_to_send += old_batch_nos[i] + ",";
                 }
             }
+
+            string sql;
             //send old batch numbers to state 1 which are not present in batch_editable dictioanry and remove Dyeing_In_Date, get their tray ids
-            DataTable tray_ids = new DataTable();
-            string sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=NULL, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_to_send) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
-            SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
-            adapter.Fill(tray_ids);
-            con.Close();
-            string all_old_tray_ids = "";
-            for (int i = 0; i < tray_ids.Rows.Count; i++)
+            if (old_batch_nos_to_send!="")
             {
-                string trayids = tray_ids.Rows[i][0].ToString();
-                all_old_tray_ids += trayids;
+                DataTable tray_ids = new DataTable();
+                sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=0, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_to_send) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
+                Console.WriteLine(sql);
+                try
+                {
+                    adapter.Fill(tray_ids);
+                }
+                catch (Exception e)
+                {
+                    printDataTable(tray_ids);
+                    MessageBox.Show(e.Message);
+                    return false;
+                }
+
+                con.Close();
+                string all_old_tray_ids = "";
+                for (int i = 0; i < tray_ids.Rows.Count; i++)
+                {
+                    string trayids = tray_ids.Rows[i][0].ToString();
+                    all_old_tray_ids += trayids;
+                }
+                unfreeTray(removecom(all_old_tray_ids));
             }
-            unfreeTray(removecom(all_old_tray_ids));
 
             //Add all the new batches and respective tray ids            
             //Set Batch State to 2 for each batch not present in batch_editable
@@ -3675,7 +3720,7 @@ namespace Factory_Inventory.Factory_Classes
                 bool present = batch_editable.TryGetValue(batchnos[i], out value);
                 if (present == false)
                 {
-                    DataTable tray_id = sendBatchStateDateBillNo(int.Parse(batchnos[i]), 2, inward_date, bill_no, batch_fiscal_year, bill_date, slipnos[i], voucher_id);
+                    DataTable tray_id = sendBatchStateTwo(int.Parse(batchnos[i]), 2, inward_date, bill_no, batch_fiscal_year, bill_date, slipnos[i], voucher_id);
                     string i_tray_id = tray_id.Rows[0][0].ToString();
                     all_tray_ids += i_tray_id;
                 }
@@ -3724,7 +3769,7 @@ namespace Factory_Inventory.Factory_Classes
                 //send old batch numbers to state 1 and remove Dyeing_In_Date, get their tray ids 
                 string old_batch_nos_str = old.Rows[0]["Batch_No_Arr"].ToString();
                 DataTable tray_ids = new DataTable();
-                sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=NULL, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_str) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
+                sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=0, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_str) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
                 Console.WriteLine(sql);
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
                 adapter.Fill(tray_ids);

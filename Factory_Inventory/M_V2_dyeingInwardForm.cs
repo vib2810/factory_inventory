@@ -831,17 +831,25 @@ namespace Factory_Inventory
                         continue;
                     }
                     int rowindex = dataGridView1.SelectedRows[0].Index;
-                    string batch_no = dataGridView1.Rows[rowindex].Cells[1].Value.ToString();
-                    int value = -1;
-                    bool value2 = this.batch_editable.TryGetValue(batch_no, out value);
-                    if (value2 == true && value>=0)
+                    try
                     {
-                        c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
-                        dataGridView1.Rows[rowindex].Selected = false;
-                        continue;
+                        string batch_no = "";
+                        if(dataGridView1.Rows[rowindex].Cells[1].Value != null) batch_no = dataGridView1.Rows[rowindex].Cells[1].Value.ToString();
+                        int value = -1;
+                        bool value2 = this.batch_editable.TryGetValue(batch_no, out value);
+                        if (value2 == true && value >= 0)
+                        {
+                            c.ErrorBox("Cannot delete entry at row: " + (rowindex + 1).ToString(), "Error");
+                            dataGridView1.Rows[rowindex].Selected = false;
+                            continue;
+                        }
                     }
-                    dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-                    Console.WriteLine("Deleting row: " + rowindex);
+                    finally
+                    {
+                        dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                        Console.WriteLine("Deleting row: " + rowindex);
+                    }
+                    
 
                 }
                 dynamicWeightLabel.Text = CellSum(5).ToString("F3");
