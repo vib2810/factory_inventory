@@ -107,9 +107,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(111, 32);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(392, 32);
+            this.label3.Size = new System.Drawing.Size(153, 32);
             this.label3.TabIndex = 5;
-            this.label3.Text = Properties.Settings.Default.FirmName;
+            this.label3.Text = global::Factory_Inventory.Properties.Settings.Default.FirmName;
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label5
@@ -118,9 +118,9 @@
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(137, 64);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(363, 25);
+            this.label5.Size = new System.Drawing.Size(85, 25);
             this.label5.TabIndex = 7;
-            this.label5.Text = Properties.Settings.Default.Address;
+            this.label5.Text = global::Factory_Inventory.Properties.Settings.Default.Address;
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label6
@@ -132,9 +132,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(163, 90);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(282, 24);
+            this.label6.Size = new System.Drawing.Size(118, 24);
             this.label6.TabIndex = 8;
-            this.label6.Text = "(GSTIN No. "+Properties.Settings.Default.GSTIN+")";
+            this.label6.Text = "(GSTIN No. )";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label7

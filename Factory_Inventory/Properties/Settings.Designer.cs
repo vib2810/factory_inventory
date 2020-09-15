@@ -61,7 +61,7 @@ namespace Factory_Inventory.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Firm Name")]
         public string FirmName {
             get {
                 return ((string)(this["FirmName"]));
@@ -73,7 +73,7 @@ namespace Factory_Inventory.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Address")]
         public string Address {
             get {
                 return ((string)(this["Address"]));

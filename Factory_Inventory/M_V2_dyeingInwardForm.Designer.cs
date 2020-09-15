@@ -98,7 +98,7 @@
             // 
             this.dynamicWeightLabel.AutoSize = true;
             this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(19, 370);
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(19, 415);
             this.dynamicWeightLabel.Name = "dynamicWeightLabel";
             this.dynamicWeightLabel.Size = new System.Drawing.Size(42, 25);
             this.dynamicWeightLabel.TabIndex = 0;
@@ -108,7 +108,7 @@
             // 
             this.totalWeightLabel.AutoSize = true;
             this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(19, 345);
+            this.totalWeightLabel.Location = new System.Drawing.Point(19, 390);
             this.totalWeightLabel.Name = "totalWeightLabel";
             this.totalWeightLabel.Size = new System.Drawing.Size(117, 25);
             this.totalWeightLabel.TabIndex = 0;
@@ -117,7 +117,7 @@
             // saveButton
             // 
             this.saveButton.Enabled = false;
-            this.saveButton.Location = new System.Drawing.Point(65, 479);
+            this.saveButton.Location = new System.Drawing.Point(65, 524);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(111, 52);
             this.saveButton.TabIndex = 15;
@@ -147,7 +147,7 @@
             // 
             // loadBatchButton
             // 
-            this.loadBatchButton.Location = new System.Drawing.Point(21, 291);
+            this.loadBatchButton.Location = new System.Drawing.Point(21, 336);
             this.loadBatchButton.Name = "loadBatchButton";
             this.loadBatchButton.Size = new System.Drawing.Size(200, 38);
             this.loadBatchButton.TabIndex = 7;
@@ -205,7 +205,7 @@
             // dyeingCompanyCB
             // 
             this.dyeingCompanyCB.FormattingEnabled = true;
-            this.dyeingCompanyCB.Location = new System.Drawing.Point(24, 252);
+            this.dyeingCompanyCB.Location = new System.Drawing.Point(24, 297);
             this.dyeingCompanyCB.Name = "dyeingCompanyCB";
             this.dyeingCompanyCB.Size = new System.Drawing.Size(200, 24);
             this.dyeingCompanyCB.TabIndex = 5;
@@ -213,7 +213,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 232);
+            this.label4.Location = new System.Drawing.Point(21, 277);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(115, 17);
             this.label4.TabIndex = 0;
@@ -236,7 +236,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(21, 167);
+            this.label6.Location = new System.Drawing.Point(21, 212);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(206, 34);
             this.label6.TabIndex = 0;
@@ -245,7 +245,7 @@
             // comboBox3CB
             // 
             this.comboBox3CB.FormattingEnabled = true;
-            this.comboBox3CB.Location = new System.Drawing.Point(24, 203);
+            this.comboBox3CB.Location = new System.Drawing.Point(24, 248);
             this.comboBox3CB.Name = "comboBox3CB";
             this.comboBox3CB.Size = new System.Drawing.Size(200, 24);
             this.comboBox3CB.TabIndex = 4;
@@ -272,7 +272,7 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(65, 417);
+            this.deleteButton.Location = new System.Drawing.Point(65, 462);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(111, 47);
             this.deleteButton.TabIndex = 44;

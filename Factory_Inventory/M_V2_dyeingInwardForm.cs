@@ -150,29 +150,29 @@ namespace Factory_Inventory
                 this.batch_no = new List<string>();
                 this.batch_no.Add("");
 
-                this.billcheckBoxCK.Enabled = true;
-                this.billcheckBoxCK.Checked = false;
-                this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
+                //this.billcheckBoxCK.Enabled = true;
+                //this.billcheckBoxCK.Checked = false;
+                //this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
 
+                this.label7.Location = label1.Location;
                 this.billNumberTextboxTB.Visible = true;
                 this.billNumberTextboxTB.Enabled = true;
                 this.billNumberTextboxTB.ReadOnly = false;
                 this.billNumberTextboxTB.TabIndex = 2;
                 this.billNumberTextboxTB.TabStop = true;
-                this.billNumberTextboxTB.Location = new System.Drawing.Point(24, 94);
+                this.billNumberTextboxTB.Location = inwardDateDTP.Location;
 
+                this.label2.Location = new System.Drawing.Point(billNumberTextboxTB.Location.X, billNumberTextboxTB.Location.Y + 25);
                 this.billDateDTP.Visible = true;
                 this.billDateDTP.TabIndex = 3;
                 this.billDateDTP.TabStop = true;
-                this.billDateDTP.Location = new System.Drawing.Point(24, 140);
+                this.billDateDTP.Location = new System.Drawing.Point(label2.Location.X, label2.Location.Y+25);
                 this.billDateDTP.Enabled = true;
 
                 this.inwardDateDTP.Visible = false;
                 this.label1.Visible = false;
                 this.label7.Visible = true;
-                this.label7.Location = new System.Drawing.Point(24, 74);
                 this.label2.Visible = true;
-                this.label2.Location = new System.Drawing.Point(24, 120);
                 this.saveButton.Enabled = false;
 
                 //Create drop-down Dyeing Company lists

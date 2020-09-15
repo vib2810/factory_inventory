@@ -434,7 +434,9 @@ namespace Factory_Inventory
                 this.deleteButton.Visible = false;
             }
             dataGridView1.Columns[1].Width = 200;
-        }
+            this.saleDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
+            this.saleDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
+    }
 
         //Own Functions
         public void disable_form_edit()
@@ -586,6 +588,11 @@ namespace Factory_Inventory
             catch
             {
                 c.ErrorBox("Please enter numeric selling price only", "Error");
+                return;
+            }
+            if(float.Parse(rateTextboxTB.Text)<100F)
+            {
+                c.ErrorBox("Please enter a valid selling price", "Error");
                 return;
             }
             if (inputDate.Value.Date < saleDateDTP.Value.Date)
