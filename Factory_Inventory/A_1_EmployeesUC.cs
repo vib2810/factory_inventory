@@ -77,7 +77,7 @@ namespace Factory_Inventory
                 return;
             }
             A_1_AddEmployee f = new A_1_AddEmployee((dataGridView1.SelectedRows[0].DataBoundItem as DataRowView).Row, this);
-            a.runQuery("UPDATE Employees SET End_Date = '" + DateTime.Today.ToString("yyyy-MM-dd").Substring(0, 10) + "' WHERE Employee_ID = " + int.Parse(dataGridView1.SelectedRows[0].Cells["Employee_ID"].Value.ToString()) + "");
+            a.runQuery("UPDATE Employees SET End_Date = '" + DateTime.Today.ToString("yyyy-MM-dd").Substring(0, 10).Replace('/', '-') + "' WHERE Employee_ID = " + int.Parse(dataGridView1.SelectedRows[0].Cells["Employee_ID"].Value.ToString()) + "");
             loadDatabase();
         }
     }

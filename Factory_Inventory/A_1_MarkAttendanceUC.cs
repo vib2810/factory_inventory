@@ -23,11 +23,11 @@ namespace Factory_Inventory
             this.Visible = true;
             a.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.dateTimePickerDTP.MaxDate = DateTime.Now;
-            this.label1.Text = "Current date is: " + dateTimePickerDTP.Value.Date.ToString("dd-MM-yyyy").Substring(0, 10);
+            this.label1.Text = "Current date is: " + dateTimePickerDTP.Value.Date.ToString("dd-MM-yyyy").Substring(0, 10).Replace('/', '-');
         }
         public void loadDatabase()
         {
-            string dat = dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+            string dat = dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10).Replace('/', '-');
             DataTable d = a.runQuery("declare @dat date = '"+dat+"'; select Employees.Employee_Name, Employees.Group_ID, A.*  from Employees inner join (select Employee_Session.Session_ID as Sess_ID, Employee_Session.Employee_ID, T.* from (select * from Attendance_Log where Record_Date=@dat) as T right outer join Employee_Session on T.Session_ID = Employee_Session.Session_ID where Employee_Session.Begin_Date <= @dat and (End_Date >= @dat or End_Date is null)) as A on A.Employee_ID=Employees.Employee_ID");
             dataGridView1.DataSource = d;
             this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
@@ -78,7 +78,7 @@ namespace Factory_Inventory
                 }
             }
             //delete previous
-            a.runQuery("DELETE FROM Attendance_Log WHERE Record_Date = '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'");
+            a.runQuery("DELETE FROM Attendance_Log WHERE Record_Date = '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10).Replace('/', '-') + "'");
             //add attendance
             for (int i=0;i<dataGridView1.Rows.Count;i++)
             {
@@ -93,7 +93,7 @@ namespace Factory_Inventory
                     {
                         comment = "";
                     }
-                    a.runQuery("INSERT INTO Attendance_Log VALUES (" + int.Parse(dataGridView1.Rows[i].Cells["Sess_ID"].Value.ToString()) + ", '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10) + "'," + float.Parse(dataGridView1.Rows[i].Cells["Attendance"].Value.ToString()) + ", '" + comment + "')");
+                    a.runQuery("INSERT INTO Attendance_Log VALUES (" + int.Parse(dataGridView1.Rows[i].Cells["Sess_ID"].Value.ToString()) + ", '" + this.dateTimePickerDTP.Value.Date.ToString("yyyy-MM-dd").Substring(0, 10).Replace('/', '-') + "'," + float.Parse(dataGridView1.Rows[i].Cells["Attendance"].Value.ToString()) + ", '" + comment + "')");
                 }
             }
             this.loadDatabase();

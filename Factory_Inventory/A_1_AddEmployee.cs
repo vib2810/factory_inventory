@@ -225,7 +225,7 @@ namespace Factory_Inventory
                     while (true)
                     {
                         setDate end = new setDate(DateTime.Now);
-                        end.set_Message("Enter End Date (Start Date: " + start.result.ToString().Substring(0, 10) + ")");
+                        end.set_Message("Enter End Date (Start Date: " + start.result.ToString().Substring(0, 10).Replace('/', '-') + ")");
                         end.ShowDialog();
                         if (end.values_set == false) return;
                         if (end.result.Date <= start.result.Date)
@@ -273,7 +273,7 @@ namespace Factory_Inventory
                     while (true)
                     {
                         setDate end = new setDate(DateTime.Now);
-                        end.set_Message("Enter End Date (Start Date: " + start.result.ToString().Substring(0, 10) + ")");
+                        end.set_Message("Enter End Date (Start Date: " + start.result.ToString().Substring(0, 10).Replace('/', '-') + ")");
                         end.ShowDialog();
                         if (end.values_set == false) return;
                         if (end.result.Date <= start.result.Date)
@@ -352,7 +352,7 @@ namespace Factory_Inventory
 
             if (this.edit_form == false)
             {
-                DateTime dtime = DateTime.ParseExact(this.dataGridView1.Rows[0].Cells["Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime dtime = DateTime.ParseExact(this.dataGridView1.Rows[0].Cells["Date"].Value.ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 string date = dtime.ToString("yyyy-MM-dd");
                 string sql = "begin transaction; begin try; ";
                 sql += "DECLARE @employeeID int; INSERT INTO Employees (Employee_Name, Group_ID) VALUES ('" + nameTB.Text + "'," + int.Parse(dt.Rows[groupCB.SelectedIndex]["Group_ID"].ToString()) + "); ";
@@ -382,7 +382,7 @@ namespace Factory_Inventory
                 sql += "DELETE FROM Salary WHERE Employee_ID = " + this.employee_id + "; ";
                 for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
                 {
-                    DateTime d = DateTime.ParseExact(this.dataGridView1.Rows[i].Cells["Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime d = DateTime.ParseExact(this.dataGridView1.Rows[i].Cells["Date"].Value.ToString().Substring(0, 10).Replace('/','-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     string date = d.ToString("yyyy-MM-dd");
                     sql += "INSERT INTO Salary VALUES (" + this.employee_id + ", '" + date + "', " + float.Parse(this.dataGridView1.Rows[i].Cells["Salary"].Value.ToString()) + "); ";
                 }
@@ -403,15 +403,15 @@ namespace Factory_Inventory
                     {
                         if(dataGridView2.Rows[i].Cells["End_Date"].Value.ToString() == "Active Session")
                         {
-                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             string date = start.ToString("yyyy-MM-dd");
                             sql += "INSERT INTO Employee_Session (Employee_ID, Begin_Date) VALUES (" + this.employee_id + ", '" + date + "'); Insert into #ScopeIDs VALUES (SCOPE_IDENTITY()); ";
                         }
                         else
                         {
-                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             string date_start = start.ToString("yyyy-MM-dd");
-                            DateTime end = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["End_Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime end = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["End_Date"].Value.ToString().Substring(0, 10).Replace('/', '-').Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             string date_end = end.ToString("yyyy-MM-dd");
                             sql += "INSERT INTO Employee_Session (Employee_ID, Begin_Date, End_Date) VALUES (" + this.employee_id + ", '" + date_start + "', '" + date_end+ "'); Insert into #ScopeIDs VALUES (SCOPE_IDENTITY()); ";
                         }
@@ -421,15 +421,15 @@ namespace Factory_Inventory
                         int session_id = int.Parse(dataGridView2.Rows[i].Cells["Session_ID"].Value.ToString());
                         if (dataGridView2.Rows[i].Cells["End_Date"].Value.ToString() == "Active Session")
                         {
-                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             string date = start.ToString("yyyy-MM-dd");
                             sql += "UPDATE Employee_Session SET Begin_Date = '" + date + "' WHERE Session_ID = "+session_id+"; ";
                         }
                         else
                         {
-                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime start = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["Begin_Date"].Value.ToString().Substring(0, 10).Replace('/','-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             string date_start = start.ToString("yyyy-MM-dd");
-                            DateTime end = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["End_Date"].Value.ToString().Substring(0, 10), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime end = DateTime.ParseExact(this.dataGridView2.Rows[i].Cells["End_Date"].Value.ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             string date_end = end.ToString("yyyy-MM-dd");
                             sql += "UPDATE Employee_Session SET Begin_Date = '" + date_start + "', End_Date = '" + date_end + "' WHERE Session_ID = " + session_id + "; ";
                         }
@@ -466,8 +466,8 @@ namespace Factory_Inventory
                         }
                         setDate f = new setDate(d);
                         f.ShowDialog();
-                        dataGridView2.CurrentCell.Value = f.result.Date.ToString().Substring(0, 10);
-                        dataGridView1.Rows[0].Cells["Date"].Value = f.result.Date.ToString().Substring(0, 10);
+                        dataGridView2.CurrentCell.Value = f.result.Date.ToString().Substring(0, 10).Replace('/', '-');
+                        dataGridView1.Rows[0].Cells["Date"].Value = f.result.Date.ToString().Substring(0, 10).Replace('/', '-');
                         e.Handled = true;
                     }
                     else
