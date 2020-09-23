@@ -3686,7 +3686,7 @@ namespace Factory_Inventory.Factory_Classes
             if (old_batch_nos_to_send!="")
             {
                 DataTable tray_ids = new DataTable();
-                sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=0, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_to_send) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
+                sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=NULL, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_to_send) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
                 Console.WriteLine(sql);
                 try
@@ -3731,7 +3731,7 @@ namespace Factory_Inventory.Factory_Classes
                
             }
             freeTray(removecom(all_tray_ids), inward_date);
-            this.runQuery("UPDATE Batch SET Dyeing_In_Date = '" + inward_date + "' WHERE Batch_No IN (" + removecom(next_state_batches) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'");
+            if(next_state_batches!="") this.runQuery("UPDATE Batch SET Dyeing_In_Date = '" + inward_date + "' WHERE Batch_No IN (" + removecom(next_state_batches) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'");
             try
             {
                 con.Open();
@@ -3769,7 +3769,7 @@ namespace Factory_Inventory.Factory_Classes
                 //send old batch numbers to state 1 and remove Dyeing_In_Date, get their tray ids 
                 string old_batch_nos_str = old.Rows[0]["Batch_No_Arr"].ToString();
                 DataTable tray_ids = new DataTable();
-                sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=0, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_str) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
+                sql = "UPDATE Batch SET Batch_State=1, Dyeing_In_Date=NULL, Bill_No=NULL, Bill_Date=NULL, Slip_No=NULL, Dyeing_In_Voucher_ID = NULL OUTPUT inserted.Tray_ID_Arr WHERE Batch_No IN (" + removecom(old_batch_nos_str) + ") AND Fiscal_Year = '" + batch_fiscal_year + "'";
                 Console.WriteLine(sql);
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
                 adapter.Fill(tray_ids);

@@ -308,15 +308,6 @@ namespace Factory_Inventory
                     this.loadBatchButton.Enabled = false;
                     this.dataGridView1.ReadOnly = false;
                     this.comboBox3CB.Enabled = false;
-                    if(row["Bill_No"].ToString()=="0")
-                    {
-                        this.billcheckBoxCK.Checked = true;
-                    }
-                    else
-                    {
-                        this.billcheckBoxCK.Checked = false;
-                    }
-                    this.billcheckBoxCK.Enabled = true ;
                 }
 
                 //Fill in required fields
@@ -325,19 +316,6 @@ namespace Factory_Inventory
                 this.dyeingCompanyCB.SelectedIndex = this.dyeingCompanyCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
                 this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Batch_Fiscal_Year"].ToString());
                 if(row["Bill_Date"].ToString() != null && row["Bill_Date"].ToString() != "") this.billDateDTP.Value = Convert.ToDateTime(row["Bill_Date"].ToString());
-
-                if (int.Parse(row["Bill_No"].ToString()) == 0)
-                {
-                    billcheckBoxCK.Checked = true;
-                    billNumberTextboxTB.Enabled = false;
-                }
-                else
-                {
-                    billcheckBoxCK.Checked = false;
-                    billNumberTextboxTB.Enabled = true;
-                    billNumberTextboxTB.Text = row["Bill_No"].ToString();
-                }
-
                 this.voucherID = int.Parse(row["Voucher_ID"].ToString());
                 string[] batch_nos = c.csvToArray(row["Batch_No_Arr"].ToString());
                 DataTable batch_data = c.getTableData("Batch", "Batch_No, Net_Weight, Colour, Quality, Dyeing_Rate, Slip_No, Dyeing_In_Date", "Batch_No IN (" +c.removecom(row["Batch_No_Arr"].ToString())+") AND Fiscal_Year = '" + row["Batch_Fiscal_Year"].ToString() + "'");
@@ -398,10 +376,6 @@ namespace Factory_Inventory
                     //pending
                 }
                 this.label5.Text = "Gray: Bill Number Added    Green: Batch sent for production    Orange: Batch sent for redyeing";
-                if (!flag)
-                {
-                    this.billcheckBoxCK.Checked = true;
-                }
                 if (isEditable == false) 
                 { 
                     this.deleteButton.Visible = true;
@@ -423,10 +397,6 @@ namespace Factory_Inventory
                 this.batch_no.Add("");
 
                 //graphics placement
-                this.billcheckBoxCK.Enabled = true;
-                this.billcheckBoxCK.Checked = false;
-                this.billcheckBoxCK.Location = new System.Drawing.Point(139, 94);
-
                 this.billNumberTextboxTB.Visible = true;
                 this.billNumberTextboxTB.Enabled = true;
                 this.billNumberTextboxTB.ReadOnly = false;
@@ -638,7 +608,7 @@ namespace Factory_Inventory
             DataTable d = new DataTable();
             if (this.addBill == true)
             {
-                d = c.getTableData("Batch", "Batch_No, Net_Weight, Colour, Quality, Dyeing_Rate, Slip_No, Dyeing_In_Date", "Bill_No = 0 AND Dyeing_Company_Name='" + dyeing_company + "' AND Fiscal_Year = '" + batch_fiscal_year + "'");
+                d = c.getTableData("Batch", "Batch_No, Net_Weight, Colour, Quality, Dyeing_Rate, Slip_No, Dyeing_In_Date", "Dyeing_In_Date IS NOT NULL AND Bill_No = 0 AND Dyeing_Company_Name='" + dyeing_company + "' AND Fiscal_Year = '" + batch_fiscal_year + "'");
                 //d = c.getBatchesWithBillNoDyeingCompanyName(0, dyeing_company, batch_fiscal_year);
             }
             else
@@ -677,12 +647,12 @@ namespace Factory_Inventory
                 c.ErrorBox("Enter Select Dyeing Company Name", "Error");
                 return;
             }
-            if ((billNumberTextboxTB.Text == null || billNumberTextboxTB.Text == "") && billcheckBoxCK.Checked == false)
+            if ((billNumberTextboxTB.Text == null || billNumberTextboxTB.Text == "") && addBill==true)
             {
                 c.ErrorBox("Enter Bill Number", "Error");
                 return;
             }
-            if (billcheckBoxCK.Checked == true && this.addBill == false)
+            if (this.addBill == false)
             {
                 for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
                 {
@@ -738,7 +708,7 @@ namespace Factory_Inventory
                 {
                     string batchno = dataGridView1.Rows[i].Cells[1].Value.ToString();
                     batch_nos += batchno + ",";
-                    if (this.billcheckBoxCK.Checked == true && this.addBill == false)
+                    if (this.addBill == false)
                     {
                         slip_nos += dataGridView1.Rows[i].Cells[6].Value.ToString() + ",";
                     }
@@ -752,7 +722,7 @@ namespace Factory_Inventory
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        c.ErrorBox("Please Enter Distinct Tray Nos at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Please Enter Distinct Batch Nos at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
@@ -760,7 +730,7 @@ namespace Factory_Inventory
             }
             string sendbill_no = "-1";
             string send_bill_date = null;
-            if (this.billcheckBoxCK.Checked == true) sendbill_no = "0";
+            if (this.addBill == false) sendbill_no = "0";
             else
             {
                 sendbill_no = billNumberTextboxTB.Text.ToString();
@@ -1023,7 +993,7 @@ namespace Factory_Inventory
                     Console.WriteLine("col4");
                     SendKeys.Send("{tab}");
                 }
-                if (col == 5 && this.addBill == false && this.billcheckBoxCK.Checked==false)
+                if (col == 5 && this.addBill == false)
                 {
                     Console.WriteLine("col5 no slip");
                     SendKeys.Send("{tab}");

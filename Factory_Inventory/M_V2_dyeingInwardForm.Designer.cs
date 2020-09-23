@@ -47,7 +47,6 @@
             this.dynamicEditableLabel = new System.Windows.Forms.Label();
             this.dyeingCompanyCB = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.billcheckBoxCK = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox3CB = new System.Windows.Forms.ComboBox();
             this.billDateDTP = new System.Windows.Forms.DateTimePicker();
@@ -219,20 +218,6 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Dyeing Company";
             // 
-            // billcheckBoxCK
-            // 
-            this.billcheckBoxCK.AutoSize = true;
-            this.billcheckBoxCK.Checked = true;
-            this.billcheckBoxCK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.billcheckBoxCK.Location = new System.Drawing.Point(716, 381);
-            this.billcheckBoxCK.Name = "billcheckBoxCK";
-            this.billcheckBoxCK.Size = new System.Drawing.Size(64, 21);
-            this.billcheckBoxCK.TabIndex = 0;
-            this.billcheckBoxCK.TabStop = false;
-            this.billcheckBoxCK.Text = "None";
-            this.billcheckBoxCK.UseVisualStyleBackColor = true;
-            this.billcheckBoxCK.Visible = false;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -302,7 +287,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBox3CB);
-            this.Controls.Add(this.billcheckBoxCK);
             this.Controls.Add(this.dyeingCompanyCB);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dynamicEditableLabel);
@@ -348,7 +332,6 @@
         private System.Windows.Forms.Label dynamicEditableLabel;
         private System.Windows.Forms.ComboBox dyeingCompanyCB;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox billcheckBoxCK;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBox3CB;
         private System.Windows.Forms.DateTimePicker billDateDTP;
