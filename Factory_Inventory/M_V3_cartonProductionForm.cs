@@ -1,4 +1,5 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Properties;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 using System;
 using System.Collections.Generic;
@@ -135,13 +136,14 @@ namespace Factory_Inventory
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 dataSource4.Add(dt.Rows[i][0].ToString());
+                if (Settings.Default.DefaultCone == dt.Rows[i][0].ToString()) Console.WriteLine("hi");
             }
             this.coneComboboxCB.DataSource = dataSource4;
             this.coneComboboxCB.DisplayMember = "Cones";
             this.coneComboboxCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.coneComboboxCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.coneComboboxCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.coneComboboxCB.SelectedIndex = 1; //default selected cone
+            this.coneComboboxCB.SelectedIndex = this.coneComboboxCB.FindStringExact(Settings.Default.DefaultCone.ToString()); //default selected cone
 
             //Create drop-down Fiscal Year lists
             var dataSource5 = new List<string>();
@@ -747,6 +749,15 @@ namespace Factory_Inventory
                 c.ErrorBox("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
                 return;
             }
+            if(coneComboboxCB.Text!=Settings.Default.DefaultCone)
+            {
+                DialogResult dialogResult = MessageBox.Show("You have selected " + coneComboboxCB.Text + "g as cone weight!", "Warning",  MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if(dialogResult == DialogResult.Cancel)
+                {
+                    return;
+                }
+                
+            }
 
             string production_dates = "", carton_nos = "", gross_weights = "", carton_weights = "", number_of_cones = "", net_weights = "", grades="";
             int number = 0;
@@ -977,7 +988,6 @@ namespace Factory_Inventory
             this.dyeingCompanyComboboxCB.Enabled = false;
             this.saveButton.Enabled = true;
             this.dataGridView1.Enabled = true;
-            
         }
         private void coneCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {

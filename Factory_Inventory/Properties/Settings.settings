@@ -38,5 +38,8 @@
     <Setting Name="ScaleY" Type="System.Single" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="DefaultCone" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

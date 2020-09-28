@@ -166,5 +166,17 @@ namespace Factory_Inventory.Properties {
                 this["ScaleY"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultCone {
+            get {
+                return ((string)(this["DefaultCone"]));
+            }
+            set {
+                this["DefaultCone"] = value;
+            }
+        }
     }
 }

@@ -21,5 +21,10 @@ namespace Factory_Inventory
         {
 
         }
+
+        private void m_S_display1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
