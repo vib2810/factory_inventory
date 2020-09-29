@@ -169,34 +169,41 @@ namespace Factory_Inventory.Factory_Classes
                 //{
                 //    this.runQuery("UPDATE Carton_Produced SET Batch_No_Arr = '" + dt.Rows[i]["Batch_No_Arr"].ToString() + "' WHERE Carton_No IN (" + this.removecom(dt.Rows[i]["Carton_No_Production_Arr"].ToString()) + ") AND Fiscal_Year = '" + dt.Rows[i]["Carton_Fiscal_Year"].ToString() + "'");
                 //}
-                DataTable dt = runQuery("SELECT * FROM Carton_Production_Voucher WHERE Deleted IS NULL");
-                for(int i=0;i<dt.Rows.Count;i++)
+                //DataTable dt = runQuery("SELECT * FROM Carton_Production_Voucher WHERE Deleted IS NULL");
+                //for(int i=0;i<dt.Rows.Count;i++)
+                //{
+                //    string[] batch_nos = this.csvToArray(dt.Rows[i]["Batch_No_Arr"].ToString());
+                //    string[] batch_fiscal_years = this.csvToArray(dt.Rows[i]["Batch_Fiscal_Year_Arr"].ToString());
+                //    for(int j = 0;j<batch_nos.Length;j++)
+                //    {
+                //        DataTable batch = this.runQuery("SELECT Start_Date_Of_Production, Date_Of_Production FROM Batch WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j]+"'");
+                //        if (batch.Rows[0]["Start_Date_Of_Production"].ToString() != dt.Rows[i]["Start_Date_Of_Production"].ToString() || batch.Rows[0]["Date_Of_Production"].ToString() != dt.Rows[i]["Date_Of_Production"].ToString())
+                //        {
+                //            Console.WriteLine("Start: " + batch.Rows[0]["Start_Date_Of_Production"].ToString() + " " + dt.Rows[i]["Start_Date_Of_Production"].ToString());
+                //            Console.WriteLine("End: " + batch.Rows[0]["Date_Of_Production"].ToString() + " " + dt.Rows[i]["Date_Of_Production"].ToString());
+                //            this.ErrorBox("Inconsistancy in Voucher_ID: " + dt.Rows[i]["Voucher_ID"].ToString() + " Batch Number: " + batch_nos[j] + " Batch Fiscal Year: " + batch_fiscal_years[j]);
+                //            DateTime d1 = DateTime.ParseExact(dt.Rows[i]["Start_Date_Of_Production"].ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                //            this.runQuery("UPDATE Batch SET Start_Date_Of_Production = '" + d1.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
+                //            DateTime d2 = DateTime.Now;
+                //            if (dt.Rows[i]["Date_Of_Production"].ToString() == "")
+                //            {
+                //                this.runQuery("UPDATE Batch SET Date_Of_Production = NULL  WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
+                //            }
+                //            else
+                //            {
+                //                d2 = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                //                this.runQuery("UPDATE Batch SET Date_Of_Production = '" + d2.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
+                //            }
+                //            this.SuccessBox("Set Batch: "+ batch_nos[j] + batch_fiscal_years[j]+ " Start Date = " + d1.ToString("yyyy-MM-dd") + " End date = " + d2.ToString("yyyy-MM-dd"));
+                //        }
+                //    }
+                //}
+
+                DataTable dt = this.runQuery("select Tray_ID_Arr from Batch where Batch_No = 167 and Fiscal_Year = '2020-2021'");
+                string[] tray_ids = csvToArray(dt.Rows[0][0].ToString());
+                for(int i=0;i<tray_ids.Length;i++)
                 {
-                    string[] batch_nos = this.csvToArray(dt.Rows[i]["Batch_No_Arr"].ToString());
-                    string[] batch_fiscal_years = this.csvToArray(dt.Rows[i]["Batch_Fiscal_Year_Arr"].ToString());
-                    for(int j = 0;j<batch_nos.Length;j++)
-                    {
-                        DataTable batch = this.runQuery("SELECT Start_Date_Of_Production, Date_Of_Production FROM Batch WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j]+"'");
-                        if (batch.Rows[0]["Start_Date_Of_Production"].ToString() != dt.Rows[i]["Start_Date_Of_Production"].ToString() || batch.Rows[0]["Date_Of_Production"].ToString() != dt.Rows[i]["Date_Of_Production"].ToString())
-                        {
-                            Console.WriteLine("Start: " + batch.Rows[0]["Start_Date_Of_Production"].ToString() + " " + dt.Rows[i]["Start_Date_Of_Production"].ToString());
-                            Console.WriteLine("End: " + batch.Rows[0]["Date_Of_Production"].ToString() + " " + dt.Rows[i]["Date_Of_Production"].ToString());
-                            this.ErrorBox("Inconsistancy in Voucher_ID: " + dt.Rows[i]["Voucher_ID"].ToString() + " Batch Number: " + batch_nos[j] + " Batch Fiscal Year: " + batch_fiscal_years[j]);
-                            DateTime d1 = DateTime.ParseExact(dt.Rows[i]["Start_Date_Of_Production"].ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                            this.runQuery("UPDATE Batch SET Start_Date_Of_Production = '" + d1.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
-                            DateTime d2 = DateTime.Now;
-                            if (dt.Rows[i]["Date_Of_Production"].ToString() == "")
-                            {
-                                this.runQuery("UPDATE Batch SET Date_Of_Production = NULL  WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
-                            }
-                            else
-                            {
-                                d2 = DateTime.ParseExact(dt.Rows[i]["Date_Of_Production"].ToString().Substring(0, 10).Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                                this.runQuery("UPDATE Batch SET Date_Of_Production = '" + d2.ToString("yyyy-MM-dd") + "' WHERE Batch_No = " + batch_nos[j] + " AND Fiscal_Year = '" + batch_fiscal_years[j] + "'");
-                            }
-                            this.SuccessBox("Set Batch: "+ batch_nos[j] + batch_fiscal_years[j]+ " Start Date = " + d1.ToString("yyyy-MM-dd") + " End date = " + d2.ToString("yyyy-MM-dd"));
-                        }
-                    }
+                    tray_voucher_to_trayactive(int.Parse(tray_ids[i]));
                 }
                 this.SuccessBox("SQL Update Successful");
             }
@@ -211,6 +218,13 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return true;
+        }
+
+        private void tray_voucher_to_trayactive(int tray_id)
+        {
+            DataTable dt = this.runQuery("SELECT * FROM Tray_Voucher WHERE Tray_ID = +" + tray_id + "");
+            MessageBox.Show(dt.Rows[0]["Tray_Production_Date"].ToString());
+            this.addTrayActive(DateTime.ParseExact(dt.Rows[0]["Tray_Production_Date"].ToString(), "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture).Date.ToString("MM-dd-yyyy").Substring(0,10).Replace('/','-'), dt.Rows[0]["Tray_No"].ToString(), dt.Rows[0]["Spring"].ToString(), int.Parse(dt.Rows[0]["Number_Of_Springs"].ToString()), float.Parse(dt.Rows[0]["Tray_Tare"].ToString()), float.Parse(dt.Rows[0]["Gross_Weight"].ToString()), dt.Rows[0]["Quality"].ToString(), dt.Rows[0]["Company_Name"].ToString(), float.Parse(dt.Rows[0]["Net_Weight"].ToString()), dt.Rows[0]["Fiscal_Year"].ToString(), dt.Rows[0]["Machine_No"].ToString(), dt.Rows[0]["Quality_Before_Twist"].ToString(), dt.Rows[0]["Grade"].ToString());
         }
         
         //Utility Functions
