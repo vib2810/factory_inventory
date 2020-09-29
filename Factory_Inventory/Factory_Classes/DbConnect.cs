@@ -199,12 +199,12 @@ namespace Factory_Inventory.Factory_Classes
                 //    }
                 //}
 
-                DataTable dt = this.runQuery("select Tray_ID_Arr from Batch where Batch_No = 167 and Fiscal_Year = '2020-2021'");
-                string[] tray_ids = csvToArray(dt.Rows[0][0].ToString());
-                for(int i=0;i<tray_ids.Length;i++)
-                {
-                    tray_voucher_to_trayactive(int.Parse(tray_ids[i]));
-                }
+                //DataTable dt = this.runQuery("select Tray_ID_Arr from Batch where Batch_No = 167 and Fiscal_Year = '2020-2021'");
+                //string[] tray_ids = csvToArray(dt.Rows[0][0].ToString());
+                //for(int i=0;i<tray_ids.Length;i++)
+                //{
+                //    tray_voucher_to_trayactive(int.Parse(tray_ids[i]));
+                //}
                 this.SuccessBox("SQL Update Successful");
             }
             catch (Exception e)
