@@ -46,6 +46,9 @@ namespace Factory_Inventory
             this.customergstin.Text = dyeing_company.Rows[0]["GSTIN"].ToString();
             DataTable quality= c.getTableRows("Quality", "Quality='" + row["Quality"].ToString()+"'");
             this.hsnnumber.Text = quality.Rows[0]["HSN_No"].ToString();
+            this.label6.Text = "(GSTIN No. " + c.getDefault("Print", "GSTIN") + ")";
+            this.label5.Text = c.getDefault("Print", "Address");
+            this.label3.Text = c.getDefault("Print", "Firm Name");
             string[] tray_ids = c.csvToArray(row["Tray_ID_Arr"].ToString());
             if(!string.IsNullOrEmpty(row["Redyeing"].ToString()))
             {

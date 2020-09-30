@@ -109,7 +109,6 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(153, 32);
             this.label3.TabIndex = 5;
-            this.label3.Text = c.getDefault("Print", "Firm Name");
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label5
@@ -120,7 +119,6 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 25);
             this.label5.TabIndex = 7;
-            this.label5.Text = c.getDefault("Print", "Address");
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label6

@@ -43,8 +43,11 @@ namespace Factory_Inventory
             this.saleDateTextbox.Text = row["Date_Of_Sale"].ToString().Substring(0, 10);
             this.customerNameTextbox.Text = row["Customer"].ToString();
             this.qualityTextbox.Text = row["Quality"].ToString();
+            this.label3.Text = c.getDefault("Print", "Firm Name");
+            this.label5.Text = c.getDefault("Print", "Address");
             float sale_rate = float.Parse(row["Sale_Rate"].ToString());
             float net_weight = float.Parse(row["Net_Weight"].ToString());
+
             //this.amountTextbox.Text = (sale_rate * net_weight).ToString("F2");
             //this.netwtTextbox.Text = net_weight.ToString("F3");
             this.rateTB.Text = sale_rate.ToString("F2");
