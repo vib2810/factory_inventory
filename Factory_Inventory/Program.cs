@@ -39,20 +39,25 @@ namespace Factory_Inventory
                 if (f1.access == 1 || f1.access == 2)
                 {
                     c = new DbConnect();
-                    System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                    ConfigurationManager.RefreshSection("appSettings");
+                    //System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    //ConfigurationManager.RefreshSection("appSettings");
 
-                    // Get the AppSettings section.
-                    AppSettingsSection appSettingSection = (AppSettingsSection)config.GetSection("appSettings");
-                    if (appSettingSection.Settings["sql_update"].Value == "1")
+                    //// Get the AppSettings section.
+                    //AppSettingsSection appSettingSection = (AppSettingsSection)config.GetSection("appSettings");
+                    //if (appSettingSection.Settings["sql_update"].Value == "1")
+                    //{
+                    //    bool updated = c.sql_update_query();
+                    //    if (updated == true) c.SuccessBox("Updated SQL");
+                    //    Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    //    //configuration.AppSettings.Settings.Remove("sql_update");
+                    //    configuration.AppSettings.Settings["sql_update"].Value = "lala";
+                    //    configuration.Save(ConfigurationSaveMode.Full, true);
+                    //    ConfigurationManager.RefreshSection("appSettings");
+                    //}
+                    if(f1.checkBox2.Checked==true)
                     {
                         bool updated = c.sql_update_query();
-                        if (updated == true) c.SuccessBox("Updated SQL");
-                        Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                        //configuration.AppSettings.Settings.Remove("sql_update");
-                        configuration.AppSettings.Settings["sql_update"].Value = "lala";
-                        configuration.Save(ConfigurationSaveMode.Full, true);
-                        ConfigurationManager.RefreshSection("appSettings");
+                        //if (updated == true) c.SuccessBox("Updated SQL");
                     }
 
                     c.recordLogin(f1.username);

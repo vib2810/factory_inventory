@@ -205,6 +205,7 @@ namespace Factory_Inventory.Factory_Classes
                 //{
                 //    tray_voucher_to_trayactive(int.Parse(tray_ids[i]));
                 //}
+                this.runQuery("create table Defaults(Default_Type varchar(50) NOT NULL, Default_Name varchar(50) NOT NULL, Default_Value varchar(50) NOT NULL);");
                 this.SuccessBox("SQL Update Successful");
             }
             catch (Exception e)
@@ -250,6 +251,12 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return dt;
+        }
+        public string getDefault(string type, string name)
+        {
+            DataTable dt = this.runQuery("SELECT Default_Value FROM Defaults WHERE Default_Type = '" + type + "' AND Default_Name = '" + name + "'");
+            return dt.Rows[0][0].ToString();
+
         }
         public void printDGVSort(List<string> input, DataGridView d, int date_cols)
         {
@@ -2489,55 +2496,21 @@ namespace Factory_Inventory.Factory_Classes
             int ans = -1;
             try
             {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
                 string sql = "";
                 if (redyeing == -1F)
                 {
-                    sql = "INSERT INTO Tray_Active (Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_State, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Grade, Redyeing, No_Of_Springs_RD) VALUES ('" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare + ", " + gross_weight + ", '" + quality + "', '" + company_name + "', 1, " + net_weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + grade + "', 0, 0)";
+                    sql = "INSERT INTO Tray_Active (Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_State, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Grade, Redyeing, No_Of_Springs_RD) VALUES ('" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare + ", " + gross_weight + ", '" + quality + "', '" + company_name + "', 1, " + net_weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + grade + "', 0, 0); SELECT SCOPE_IDENTITY()";
                 }
                 else
                 {
-                    sql = "INSERT INTO Tray_Active (Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_State, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Grade, Redyeing, No_Of_Springs_RD) VALUES ('" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare + ", " + gross_weight + ", '" + quality + "', '" + company_name + "', 1, " + net_weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + grade + "', " + redyeing + ", " + no_of_springs_rd + ")";
+                    sql = "INSERT INTO Tray_Active (Tray_Production_Date, Tray_No, Spring, Number_Of_Springs, Tray_Tare, Gross_Weight, Quality, Company_Name, Tray_State, Net_Weight, Fiscal_Year, Machine_No, Quality_Before_Twist, Grade, Redyeing, No_Of_Springs_RD) VALUES ('" + tray_production_date + "', '" + tray_no + "', '" + spring + "', " + number_of_springs + " , " + tray_tare + ", " + gross_weight + ", '" + quality + "', '" + company_name + "', 1, " + net_weight + ", '" + fiscal_year + "', '" + machine_no + "', '" + quality_before_twist + "', '" + grade + "', " + redyeing + ", " + no_of_springs_rd + "); SELECT SCOPE_IDENTITY()";
                 }
-                Console.WriteLine(sql);
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_ID FROM Tray_Active WHERE Tray_No='" + tray_no + "'", con);
-                sda.Fill(dt);
+                DataTable dt = this.runQuery(sql);
                 if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
             }
             catch (Exception e)
             {
                 this.ErrorBox("Could not add tray voucher (addTrayVoucher) \n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
-            return ans;
-        }
-        public int getTrayState(string tray_no)
-        {
-            int ans = -1;
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_State FROM Tray_Active WHERE Tray_No='" + tray_no + "'", con);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
-
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not check tray (checkTray) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
             }
             return ans;
         }
@@ -2556,29 +2529,6 @@ namespace Factory_Inventory.Factory_Classes
             catch (Exception e)
             {
                 this.ErrorBox("Could not check tray (checkTray) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
-            return ans;
-        }
-        public int getTrayID(string tray_no)
-        {
-            int ans = -1;
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_ID FROM Tray_Active WHERE Tray_No='" + tray_no + "'", con);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
-
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get tray id tray (getTrayID) \n" + e.Message, "Exception");
             }
 
             finally
@@ -2749,9 +2699,9 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-        public void sendTraytoDyeing(string tray_nos, int state, string dyeing_out_date, string dyeing_company, int batchno, string batch_fiscal_year)
+        public void sendTraytoDyeing(string tray_ids, int state, string dyeing_out_date, string dyeing_company, int batchno, string batch_fiscal_year)
         {
-            if (string.IsNullOrEmpty(tray_nos)) return;
+            if (string.IsNullOrEmpty(tray_ids)) return;
             try
             {
                 con.Open();
@@ -2759,9 +2709,9 @@ namespace Factory_Inventory.Factory_Classes
                 string sql;
                 if (dyeing_out_date == null && dyeing_company == null && batchno == 0)
                 {
-                    sql = "UPDATE Tray_Active SET Tray_State=" + state + ", Dyeing_Out_Date=NULL, Dyeing_Company_Name=NULL, Batch_No=NULL, Batch_Fiscal_Year=NULL WHERE Tray_No IN (" + tray_nos + ")";
+                    sql = "UPDATE Tray_Active SET Tray_State=" + state + ", Dyeing_Out_Date=NULL, Dyeing_Company_Name=NULL, Batch_No=NULL, Batch_Fiscal_Year=NULL WHERE Tray_ID IN (" + tray_ids + ")";
                 }
-                else sql = "UPDATE Tray_Active SET Tray_State=" + state + ", Dyeing_Out_Date='" + dyeing_out_date + "', Dyeing_Company_Name='" + dyeing_company + "', Batch_No=" + batchno + ", Batch_Fiscal_Year = '" + batch_fiscal_year + "' WHERE Tray_No='" + tray_nos + "'";
+                else sql = "UPDATE Tray_Active SET Tray_State=" + state + ", Dyeing_Out_Date='" + dyeing_out_date + "', Dyeing_Company_Name='" + dyeing_company + "', Batch_No=" + batchno + ", Batch_Fiscal_Year = '" + batch_fiscal_year + "' WHERE Tray_ID='" + tray_ids + "'";
                 Console.WriteLine(sql);
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -2916,12 +2866,12 @@ namespace Factory_Inventory.Factory_Classes
             string tray_production_date = dttray_production_date.Date.ToString("MM-dd-yyyy");
             string fiscal_year = this.getFinancialYear(dttray_production_date);
             //check if tray is present in Tray_Active
-            int tray_state = getTrayState(tray_no);
-            if (tray_state == 1 || tray_state == 2)
-            {
-                this.ErrorBox("Tray " + tray_no.ToString() + " is already in use", "Error");
-                return false;
-            }
+            //int tray_state = getTrayState(tray_no);
+            //if (tray_state == 1 || tray_state == 2)
+            //{
+            //    this.ErrorBox("Tray " + tray_no.ToString() + " is already in use", "Error");
+            //    return false;
+            //}
             //insert into Tray_Active and get unique tray_id
             int tray_id = addTrayActive(tray_production_date, tray_no, spring, number_of_springs, tray_tare, gross_weight, quality, company_name, net_weight, fiscal_year, machine_no, quality_before_twist, grade);
             //insert into Tray_Voucher with unique tray_id
@@ -2955,12 +2905,12 @@ namespace Factory_Inventory.Factory_Classes
             //The data you are getting has already been checked for if the voucher has been processed or has gone for dyeing
             //This means that the unique tray_id is present in the Voucher_Active table with state 1
             //check if tray is present in Tray_Active
-            int tray_state = getTrayState(new_tray_no);
-            if (tray_state != -1 && old_tray_no != new_tray_no)
-            {
-                this.ErrorBox("Tray " + new_tray_no.ToString() + " is already in use", "Error");
-                return false;
-            }
+            //int tray_state = getTrayState(new_tray_no);
+            //if (tray_state != -1 && old_tray_no != new_tray_no)
+            //{
+            //    this.ErrorBox("Tray " + new_tray_no.ToString() + " is already in use", "Error");
+            //    return false;
+            //}
             //insert into Tray_Voucher with unique tray_id
             try
             {
@@ -3055,9 +3005,9 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             //change Tray_State in Tray_Active
-            for (int i = 0; i < tray_nos.Length; i++)
+            for (int i = 0; i < tray_ids.Length; i++)
             {
-                this.sendTraytoDyeing(tray_nos[i], 2, issueDate, dyeing_company_name, batchno, fiscal_year);
+                this.sendTraytoDyeing(tray_ids[i], 2, issueDate, dyeing_company_name, batchno, fiscal_year);
             }
 
             try
@@ -3116,20 +3066,20 @@ namespace Factory_Inventory.Factory_Classes
 
             //Send all previous trays in Tray_Active to state 1, clearing batch_no, dyeing_company_name, dyeing_issue_date
             con.Open();
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_No_Arr FROM Dyeing_Issue_Voucher WHERE Voucher_ID=" + voucherID + "", con);
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT Tray_ID_Arr FROM Dyeing_Issue_Voucher WHERE Voucher_ID=" + voucherID + "", con);
             DataTable old = new DataTable();
             sda.Fill(old);
             con.Close();
-            string[] old_tray_nos = this.csvToArray(old.Rows[0][0].ToString());
-            for (int i = 0; i < old_tray_nos.Length; i++)
+            string[] old_tray_ids = this.csvToArray(old.Rows[0][0].ToString());
+            for (int i = 0; i < old_tray_ids.Length; i++)
             {
-                this.sendTraytoDyeing(old_tray_nos[i], 1, null, null, 0, null);
+                this.sendTraytoDyeing(old_tray_ids[i], 1, null, null, 0, null);
             }
 
             //Send all current trays in Tray_Active to state 2, adding batch_no, dyeing_company_name, dyeing_issue_date
-            for (int i = 0; i < tray_nos.Length; i++)
+            for (int i = 0; i < tray_ids.Length; i++)
             {
-                this.sendTraytoDyeing(tray_nos[i], 2, issueDate, dyeing_company_name, batchno, fiscal_year);
+                this.sendTraytoDyeing(tray_ids[i], 2, issueDate, dyeing_company_name, batchno, fiscal_year);
             }
 
             try
@@ -3949,7 +3899,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 DateTime prod_date = Convert.ToDateTime(trays.Rows[i]["Date Of Production"].ToString());
                 int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), trays.Rows[i]["Grade"].ToString(), float.Parse(trays.Rows[i]["Redyeing"].ToString()), int.Parse(trays.Rows[i]["No Of Springs RD"].ToString()));
-                this.sendTraytoDyeing(trays.Rows[i]["Tray No"].ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), RD_batch_no, RD_fiscal_year);
+                this.sendTraytoDyeing(tray_id.ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), RD_batch_no, RD_fiscal_year);
                 tray_ids += tray_id.ToString() + ",";
             }
             string sql = "";
@@ -4092,7 +4042,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 DateTime prod_date = Convert.ToDateTime(trays.Rows[i]["Date Of Production"].ToString());
                 int tray_id = addTrayActive(prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10), trays.Rows[i]["Tray No"].ToString(), trays.Rows[i]["Spring"].ToString(), int.Parse(trays.Rows[i]["No Of Springs"].ToString()), float.Parse(trays.Rows[i]["Tray Tare"].ToString()), float.Parse(trays.Rows[i]["Gross Weight"].ToString()), trays.Rows[i]["Quality"].ToString(), trays.Rows[i]["Company Name"].ToString(), float.Parse(trays.Rows[i]["Net Weight"].ToString()), this.getFinancialYear(prod_date), trays.Rows[i]["Machine No"].ToString(), trays.Rows[i]["Quality Before Twist"].ToString(), trays.Rows[i]["Grade"].ToString(), float.Parse(trays.Rows[i]["Redyeing"].ToString()), int.Parse(trays.Rows[i]["No Of Springs RD"].ToString()));
-                this.sendTraytoDyeing(trays.Rows[i]["Tray No"].ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), int.Parse(redyeing_batch["Batch_No"].ToString()), redyeing_batch["Fiscal_Year"].ToString());
+                this.sendTraytoDyeing(tray_id.ToString(), 2, issue_date, old_batch_row["Dyeing_Company_Name"].ToString(), int.Parse(redyeing_batch["Batch_No"].ToString()), redyeing_batch["Fiscal_Year"].ToString());
                 tray_ids += tray_id.ToString() + ",";
             }
 
@@ -4292,7 +4242,7 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             //Store batch number and respective fiscal years in batches list and get min dyeing inward date
-            DateTime max_dyeing_inward = DateTime.MinValue;
+            DateTime min_dyeing_inward = DateTime.MinValue;
             List<Tuple<string, string> > batches = new List<Tuple<string, string> >();
             int batch_index=-1;
             int index = -1;
@@ -4309,9 +4259,9 @@ namespace Factory_Inventory.Factory_Classes
                 Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
                 Console.WriteLine(Dyeing_In_Date);
                 DateTime dyeing_inward_date = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                if (dyeing_inward_date > max_dyeing_inward)
+                if (dyeing_inward_date < min_dyeing_inward)
                 {
-                    max_dyeing_inward = dyeing_inward_date;
+                    min_dyeing_inward = dyeing_inward_date;
                     batch_index = index;
                 }
             }
@@ -4333,8 +4283,8 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             //Get Max and min carton production dates
-            DateTime max = DateTime.Parse(productionDates[0]);
-            DateTime min = DateTime.Parse(productionDates[0]);
+            DateTime max_prod_date = DateTime.Parse(productionDates[0]);
+            DateTime min_prod_date = DateTime.Parse(productionDates[0]);
             bool addDate = false;
             if (closed == 1)
             {
@@ -4344,22 +4294,22 @@ namespace Factory_Inventory.Factory_Classes
             for (int i = 1; i < productionDates.Length; i++)
             {
                 DateTime temp = DateTime.Parse(productionDates[i]);
-                if (temp > max)
+                if (temp > max_prod_date)
                 {
-                    max = temp;
+                    max_prod_date = temp;
                 }
-                if (temp < min)
+                if (temp < min_prod_date)
                 {
-                    min = temp;
+                    min_prod_date = temp;
                     min_index = i;
                 }
             }
-            string min_date = min.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+            string min_date = min_prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10);
             Console.WriteLine(batch_index);
-            //Check if max dyeing inward date <= min production date
-            if (max_dyeing_inward > min)
+            //Check if min dyeing inward date <= min production date
+            if (min_dyeing_inward > min_prod_date)
             {
-                this.ErrorBox("Carton Number " + cartonNos[min_index] + " at row " + (min_index + 1).ToString() + " has Date of Production ("+ min.Date.ToString("dd-MM-yyyy").Substring(0, 10)+") less than Dyeing Inward Date ("+Dyeing_In_Date+") of Batch " + batches[batch_index].Item1 + " (" + batches[batch_index].Item2 + ")");
+                this.ErrorBox("Carton Number " + cartonNos[min_index] + " at row " + (min_index + 1).ToString() + " has Date of Production ("+ min_prod_date.Date.ToString("dd-MM-yyyy").Substring(0, 10)+") less than Dyeing Inward Date ("+Dyeing_In_Date+") of Batch " + batches[batch_index].Item1 + " (" + batches[batch_index].Item2 + ")");
                 return false;
             }
 
@@ -4370,7 +4320,7 @@ namespace Factory_Inventory.Factory_Classes
                 if (closed == 1)
                 {
                     float oil_gain = (carton_net_weight - net_batch_weight) / net_batch_weight * 100F;
-                    string max_date = max.Date.ToString("MM-dd-yyyy").Substring(0, 10);
+                    string max_date = max_prod_date.Date.ToString("MM-dd-yyyy").Substring(0, 10);
                     sql = "INSERT INTO Carton_Production_Voucher (Date_Of_Input, Colour, Quality, Dyeing_Company_Name, Batch_No_Arr, Carton_No_Production_Arr, Fiscal_Year, Net_Batch_Weight, Net_Carton_Weight, Oil_Gain, Voucher_Closed, Batch_Fiscal_Year_Arr, Carton_Fiscal_Year, Cone_Weight, Date_Of_Production, Start_Date_Of_Production) VALUES ('" + inputDate + "','" + colour + "', '" + quality + "', '" + dyeingCompany + "', '" + batches_to_add + "' , '" + carton_nos + "', '" + fiscal_year + "', " + net_batch_weight + ", " + carton_net_weight + ", " + oil_gain + ", " + closed + ", '" + batches_fiscal_years + "', '" + carton_financialYear + "', " + float.Parse(cone_weight) / 1000F + ", '" + max_date + "', '" + min_date + "'); SELECT SCOPE_IDENTITY();";
                 }
                 else
@@ -4399,7 +4349,7 @@ namespace Factory_Inventory.Factory_Classes
                 //Send Batches
                 for (int i = 0; i < batches.Count; i++)
                 {
-                    bool flag = this.sendBatch_StateVoucherIDProductionDate(batches[i], 3, int.Parse(dt.Rows[0][0].ToString()), max, addDate, min);
+                    bool flag = this.sendBatch_StateVoucherIDProductionDate(batches[i], 3, int.Parse(dt.Rows[0][0].ToString()), max_prod_date, addDate, min_prod_date);
                     if (!flag)
                     {
                         return false;

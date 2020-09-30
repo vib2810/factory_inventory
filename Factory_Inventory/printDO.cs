@@ -93,9 +93,9 @@ namespace Factory_Inventory
             c.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.where = "Voucher_ID=" + int.Parse(row["Voucher_ID"].ToString()) + "";
 
-            this.label3.Text = Settings.Default.FirmName;
-            this.label5.Text = Settings.Default.Address;
-            this.label6.Text = "(GSTIN No. " + Settings.Default.GSTIN + ")";
+            this.label3.Text = c.getDefault("Print", "Firm Name");
+            this.label5.Text = c.getDefault("Print", "Address");
+            this.label6.Text = "(GSTIN No. " + c.getDefault("Print", "GSTIN") + ")";
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;
             IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
@@ -145,9 +145,9 @@ namespace Factory_Inventory
             {
                 write_height += 3;
                 write_height += write(e, x, write_height, width, "||Shri||", basic_size, 'c', 0) - sub_header;
-                write_height += write(e, x, write_height, width, Settings.Default.FirmName, basic_size + 2, 'c', 0) - sub_header-2;
-                write_height += write(e, x, write_height, width, Settings.Default.Address, basic_size + 1, 'c', 0) - sub_header;
-                write_height += write(e, x, write_height, width, "(GSTIN No. "+Settings.Default.GSTIN+")", basic_size + 1, 'c', 0) - sub_header+2;
+                write_height += write(e, x, write_height, width, c.getDefault("Print", "Firm Name"), basic_size + 2, 'c', 0) - sub_header-2;
+                write_height += write(e, x, write_height, width, c.getDefault("Print", "Address"), basic_size + 1, 'c', 0) - sub_header;
+                write_height += write(e, x, write_height, width, "(GSTIN No. "+ c.getDefault("Print", "GSTIN") + ")", basic_size + 1, 'c', 0) - sub_header+2;
             }
             else
             {

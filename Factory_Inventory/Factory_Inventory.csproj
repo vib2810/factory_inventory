@@ -298,23 +298,17 @@
     <Compile Include="M_settings.Designer.cs">
       <DependentUpon>M_settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_S_defaultUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_S_defaultUC.Designer.cs">
-      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
-    </Compile>
     <Compile Include="M_S_displayUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="M_S_displayUC.Designer.cs">
       <DependentUpon>M_S_displayUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_S_printUC.cs">
+    <Compile Include="M_S_defaultUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="M_S_printUC.Designer.cs">
-      <DependentUpon>M_S_printUC.cs</DependentUpon>
+    <Compile Include="M_S_defaultUC.Designer.cs">
+      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
     </Compile>
     <Compile Include="M_V5_OpeningUC.cs">
       <SubType>UserControl</SubType>
@@ -650,14 +644,11 @@
     <EmbeddedResource Include="M_settings.resx">
       <DependentUpon>M_settings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_S_defaultUC.resx">
-      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="M_S_displayUC.resx">
       <DependentUpon>M_S_displayUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_S_printUC.resx">
-      <DependentUpon>M_S_printUC.cs</DependentUpon>
+    <EmbeddedResource Include="M_S_defaultUC.resx">
+      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_V5_OpeningUC.resx">
       <DependentUpon>M_V5_OpeningUC.cs</DependentUpon>

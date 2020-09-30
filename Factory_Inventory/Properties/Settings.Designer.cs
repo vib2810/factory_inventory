@@ -61,66 +61,6 @@ namespace Factory_Inventory.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Firm Name")]
-        public string FirmName {
-            get {
-                return ((string)(this["FirmName"]));
-            }
-            set {
-                this["FirmName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Address")]
-        public string Address {
-            get {
-                return ((string)(this["Address"]));
-            }
-            set {
-                this["Address"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string GSTIN {
-            get {
-                return ((string)(this["GSTIN"]));
-            }
-            set {
-                this["GSTIN"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string PhoneNo {
-            get {
-                return ((string)(this["PhoneNo"]));
-            }
-            set {
-                this["PhoneNo"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string EmailID {
-            get {
-                return ((string)(this["EmailID"]));
-            }
-            set {
-                this["EmailID"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public float SizeX {
             get {
@@ -164,18 +104,6 @@ namespace Factory_Inventory.Properties {
             }
             set {
                 this["ScaleY"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultCone {
-            get {
-                return ((string)(this["DefaultCone"]));
-            }
-            set {
-                this["DefaultCone"] = value;
             }
         }
     }

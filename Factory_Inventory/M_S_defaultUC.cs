@@ -14,30 +14,23 @@ namespace Factory_Inventory
     public partial class M_S_defaultUC : UserControl
     {
         DbConnect c = new DbConnect();
+        Dictionary<int, string> default_map = new Dictionary<int, string>();
+        public string default_type = "NULL";
         public M_S_defaultUC()
         {
             InitializeComponent();
             panel1.BackColor = Color.Green;
-            if(string.IsNullOrEmpty(c.con.ConnectionString))
-            {
-                return; 
-            }
-            //Create drop-down Cone list
-            var dataSource4 = new List<string>();
-            DataTable dt = c.getQC('n');
+        }
+        public void load_data(string default_type)
+        {
+            this.default_type = default_type;
+            this.label1.Text = this.default_type + " Settings";
+            DataTable dt = c.runQuery("SELECT * FROM Defaults WHERE Default_Type = '" + this.default_type + "'");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                dataSource4.Add(dt.Rows[i][0].ToString());
+                dataGridView1.Rows.Add(dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString());
             }
-            this.coneWeightCB.DataSource = dataSource4;
-            this.coneWeightCB.DisplayMember = "Cones";
-            this.coneWeightCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.coneWeightCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.coneWeightCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            coneWeightCB.SelectedIndex = coneWeightCB.FindStringExact(Properties.Settings.Default.DefaultCone.ToString());
-            this.coneWeightCB.SelectedIndexChanged += new System.EventHandler(this.allTB_TextChanged);
         }
-
         private void allTB_TextChanged(object sender, EventArgs e)
         {
             panel1.BackColor = Color.Red;
@@ -46,8 +39,17 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             panel1.BackColor = Color.Green;
-            Properties.Settings.Default.DefaultCone = coneWeightCB.Text;
-            Properties.Settings.Default.Save();
+            for(int i=0;i<dataGridView1.Rows.Count;i++)
+            {
+                string name = dataGridView1.Rows[i].Cells["CName"].Value.ToString();
+                string value = dataGridView1.Rows[i].Cells["Value"].Value.ToString();
+                c.runQuery("UPDATE Defaults SET Default_Value = '" + value + "' WHERE Default_Name = '" + name + "' AND Default_Type = '" + this.default_type + "'");
+            }
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            panel1.BackColor = Color.Red;
         }
     }
 }

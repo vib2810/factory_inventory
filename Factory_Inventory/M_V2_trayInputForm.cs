@@ -613,27 +613,27 @@ namespace Factory_Inventory
                         return;
                     }
                 }
-                DataTable dttray = c.getTableRows("Tray_Active", "Tray_No='" + row["Tray No"].ToString() + "'");
-                if(dttray.Rows.Count!=0)
-                {
-                    if(this.edit_reyeing_tray==true)
-                    {
-                        if (dttray.Rows[0]["Tray_No"].ToString() == this.edit_redyeing_old_tray_no)
-                        {
-                            //allowed
-                        }
-                        else
-                        {
-                            c.ErrorBox("Tray number " + row["Tray No"].ToString() + " is already in use", "Error");
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        c.ErrorBox("Tray number " + row["Tray No"].ToString() + " is already in use", "Error");
-                        return;
-                    }
-                }
+                //DataTable dttray = c.getTableRows("Tray_Active", "Tray_No='" + row["Tray No"].ToString() + "'");
+                //if(dttray.Rows.Count!=0)
+                //{
+                //    if(this.edit_reyeing_tray==true)
+                //    {
+                //        if (dttray.Rows[0]["Tray_No"].ToString() == this.edit_redyeing_old_tray_no)
+                //        {
+                //            //allowed
+                //        }
+                //        else
+                //        {
+                //            c.ErrorBox("Tray number " + row["Tray No"].ToString() + " is already in use", "Error");
+                //            return;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        c.ErrorBox("Tray number " + row["Tray No"].ToString() + " is already in use", "Error");
+                //        return;
+                //    }
+                //}
                 if(this.edit_reyeing_tray == true)
                 {
                     this.tray_details.Rows[this.edit_redyeing_tray_index].Delete();

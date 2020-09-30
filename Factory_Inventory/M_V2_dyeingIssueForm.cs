@@ -55,11 +55,13 @@ namespace Factory_Inventory
             public float net_wt;
             public string mno;
             public string grade;
-            public fetch_data(float net_wt, string mno, string grade)
+            public int tray_id;
+            public fetch_data(float net_wt, string mno, string grade, int tray_id)
             {
                 this.net_wt = net_wt;
                 this.mno = mno;
                 this.grade = grade;
+                this.tray_id = tray_id;
             }
         }
         Dictionary<string, fetch_data> tray_fetch_data = new Dictionary<string, fetch_data>();
@@ -298,6 +300,7 @@ namespace Factory_Inventory
             this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
             this.comboBox3CB.SelectedIndex = this.comboBox3CB.FindStringExact(row["Dyeing_Company_Name"].ToString());
             this.comboBox4CB.SelectedIndex = this.comboBox4CB.FindStringExact(row["Colour"].ToString());
+            this.rateTextBoxTB.Text = row["Dyeing_Rate"].ToString();
             this.old_fiscal_year = row["Batch_Fiscal_Year"].ToString();
             batchNumberTextboxTB.Text = row["Batch_No"].ToString();
 
@@ -309,10 +312,10 @@ namespace Factory_Inventory
             {
                 this.tray_no.Add(tray_no_this[i]);
             }
-            DataTable tray_data = c.getTrayDataBothTables("Tray_No, Net_Weight, Machine_No, Grade", "Tray_ID IN (" + c.removecom(row["Tray_ID_Arr"].ToString()) + ")");
+            DataTable tray_data = c.getTrayDataBothTables("Tray_No, Net_Weight, Machine_No, Grade, Tray_ID", "Tray_ID IN (" + c.removecom(row["Tray_ID_Arr"].ToString()) + ")");
             for (int i = 0; i < tray_data.Rows.Count; i++)
             {
-                this.tray_fetch_data[tray_data.Rows[i]["Tray_No"].ToString()] = new fetch_data(float.Parse(tray_data.Rows[i]["Net_Weight"].ToString()), tray_data.Rows[i]["Machine_No"].ToString(), tray_data.Rows[i]["Grade"].ToString());
+                this.tray_fetch_data[tray_data.Rows[i]["Tray_No"].ToString()] = new fetch_data(float.Parse(tray_data.Rows[i]["Net_Weight"].ToString()), tray_data.Rows[i]["Machine_No"].ToString(), tray_data.Rows[i]["Grade"].ToString(), int.Parse(tray_data.Rows[i]["Tray_ID"].ToString()));
             }
             this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString());
             dataGridView1.RowCount = tray_no_this.Length + 1;
@@ -445,7 +448,7 @@ namespace Factory_Inventory
             {
                 string trayno = d.Rows[i]["Tray_No"].ToString();
                 this.tray_no.Add(trayno);
-                this.tray_fetch_data[trayno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), d.Rows[i]["Machine_No"].ToString(), d.Rows[i]["Grade"].ToString());   
+                this.tray_fetch_data[trayno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), d.Rows[i]["Machine_No"].ToString(), d.Rows[i]["Grade"].ToString(), int.Parse(d.Rows[i]["Tray_ID"].ToString()));   
             }
         }
 
@@ -534,9 +537,8 @@ namespace Factory_Inventory
                 else
                 {
                     trayno += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
-                    trayid += c.getTrayID(dataGridView1.Rows[i].Cells[1].Value.ToString()).ToString() + ",";
+                    trayid += tray_fetch_data[dataGridView1.Rows[i].Cells[1].Value.ToString()].tray_id.ToString()+',';
                     number++;
-
                     //to check for all different tray_nos
                     temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
                     var distinctBytes = new HashSet<int>(temp);
@@ -683,7 +685,7 @@ namespace Factory_Inventory
                     dynamicWeightLabel.Text = CellSum().ToString("F3");
                     return;
                 }
-                fetch_data temp = new fetch_data(-1F, "", "");
+                fetch_data temp = new fetch_data(-1F, "", "",-1);
                 string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 this.tray_fetch_data.TryGetValue(trayno, out temp);
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = temp.net_wt;

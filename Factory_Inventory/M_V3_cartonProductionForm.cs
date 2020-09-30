@@ -136,14 +136,15 @@ namespace Factory_Inventory
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 dataSource4.Add(dt.Rows[i][0].ToString());
-                if (Settings.Default.DefaultCone == dt.Rows[i][0].ToString()) Console.WriteLine("hi");
+                if (c.getDefault("Default", "Cone") == dt.Rows[i][0].ToString()) Console.WriteLine("hi");
             }
             this.coneComboboxCB.DataSource = dataSource4;
             this.coneComboboxCB.DisplayMember = "Cones";
             this.coneComboboxCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.coneComboboxCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.coneComboboxCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.coneComboboxCB.SelectedIndex = this.coneComboboxCB.FindStringExact(Settings.Default.DefaultCone.ToString()); //default selected cone
+            Console.WriteLine("aaaa " + c.getDefault("Default", "Cone"));
+            this.coneComboboxCB.SelectedIndex = this.coneComboboxCB.FindStringExact(c.getDefault("Default", "Cone")); //default selected cone
 
             //Create drop-down Fiscal Year lists
             var dataSource5 = new List<string>();
@@ -749,7 +750,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
                 return;
             }
-            if(coneComboboxCB.Text!=Settings.Default.DefaultCone)
+            if(coneComboboxCB.Text!= c.getDefault("Default", "Cone"))
             {
                 DialogResult dialogResult = MessageBox.Show("You have selected " + coneComboboxCB.Text + "g as cone weight!", "Warning",  MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if(dialogResult == DialogResult.Cancel)

@@ -101,9 +101,9 @@ namespace Factory_Inventory
             c.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.where= "Batch_No="+ this.batchnoTextbox.Text+" AND Fiscal_Year='"+ row["Fiscal_Year"].ToString()+"'";
 
-            this.label3.Text = Settings.Default.FirmName;
-            this.label5.Text = Settings.Default.Address;
-            this.label6.Text = "(GSTIN No. " + Settings.Default.GSTIN + ")";
+            this.label3.Text = c.getDefault("Print", "Firm Name");
+            this.label5.Text = c.getDefault("Print", "Address");
+            this.label6.Text = "(GSTIN No. " + c.getDefault("Print", "GSTIN") + ")";
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;
             IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
@@ -197,9 +197,9 @@ namespace Factory_Inventory
             if (this.redyeing == true) write(e, -1, write_height, 0, "REDYEING", basic_size + 3, 'r', 1);
             write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
             write_height += write(e, -1, write_height, 0, "FOR JOB WORK", basic_size + 3, 'c', 1) - header_size_sub-3;
-            write_height += write(e, -1, write_height, 0, Settings.Default.FirmName, basic_size + 6, 'c', 1) - header_size_sub - 3;
-            write_height += write(e, -1, write_height, 0, Settings.Default.Address, basic_size + 2, 'c', 1) - header_size_sub;
-            write_height += write(e, -1, write_height, 0, "(GSTIN No. "+Settings.Default.GSTIN+")", basic_size + 2, 'c', 1);
+            write_height += write(e, -1, write_height, 0, c.getDefault("Print", "Firm Name"), basic_size + 6, 'c', 1) - header_size_sub - 3;
+            write_height += write(e, -1, write_height, 0, c.getDefault("Print", "Address"), basic_size + 2, 'c', 1) - header_size_sub;
+            write_height += write(e, -1, write_height, 0, "(GSTIN No. "+ c.getDefault("Print", "GSTIN") + ")", basic_size + 2, 'c', 1);
 
             int current_width = e.PageBounds.Width - 2 * lrmargin;
             //first row
