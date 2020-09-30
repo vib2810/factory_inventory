@@ -45,79 +45,74 @@ namespace Factory_Inventory
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(51, 31);
+            this.label1.Location = new System.Drawing.Point(38, 25);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(165, 26);
+            this.label1.Size = new System.Drawing.Size(133, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Display Settings";
             // 
             // label9
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(114, 143);
+            this.label9.Location = new System.Drawing.Point(86, 116);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(62, 23);
+            this.label9.Size = new System.Drawing.Size(51, 20);
             this.label9.TabIndex = 0;
             this.label9.Text = "Size Y:";
             // 
             // label8
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(103, 207);
+            this.label8.Location = new System.Drawing.Point(77, 168);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(73, 23);
+            this.label8.Size = new System.Drawing.Size(60, 20);
             this.label8.TabIndex = 2;
             this.label8.Text = "Scale X:";
             // 
             // label7
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(104, 271);
+            this.label7.Location = new System.Drawing.Point(78, 220);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(72, 23);
+            this.label7.Size = new System.Drawing.Size(59, 20);
             this.label7.TabIndex = 3;
             this.label7.Text = "Scale Y:";
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.SystemColors.Control;
             this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(113, 79);
+            this.label6.Location = new System.Drawing.Point(85, 64);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 23);
+            this.label6.Size = new System.Drawing.Size(52, 20);
             this.label6.TabIndex = 0;
             this.label6.Text = "Size X:";
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Location = new System.Drawing.Point(552, 241);
+            this.panel1.Location = new System.Drawing.Point(414, 196);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(181, 53);
+            this.panel1.Size = new System.Drawing.Size(136, 43);
             this.panel1.TabIndex = 0;
             // 
             // saveButton
             // 
-            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(552, 313);
+            this.saveButton.Location = new System.Drawing.Point(414, 254);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(181, 43);
+            this.saveButton.Size = new System.Drawing.Size(136, 35);
             this.saveButton.TabIndex = 5;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -125,43 +120,39 @@ namespace Factory_Inventory
             // 
             // sizeyTB
             // 
-            this.sizeyTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.sizeyTB.Location = new System.Drawing.Point(182, 145);
+            this.sizeyTB.Location = new System.Drawing.Point(136, 118);
+            this.sizeyTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.sizeyTB.Name = "sizeyTB";
-            this.sizeyTB.Size = new System.Drawing.Size(313, 22);
+            this.sizeyTB.Size = new System.Drawing.Size(236, 20);
             this.sizeyTB.TabIndex = 2;
             // 
             // scaleyTB
             // 
-            this.scaleyTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.scaleyTB.Location = new System.Drawing.Point(182, 272);
+            this.scaleyTB.Location = new System.Drawing.Point(136, 221);
+            this.scaleyTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.scaleyTB.Name = "scaleyTB";
-            this.scaleyTB.Size = new System.Drawing.Size(313, 22);
+            this.scaleyTB.Size = new System.Drawing.Size(236, 20);
             this.scaleyTB.TabIndex = 4;
             // 
             // scalexTB
             // 
-            this.scalexTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.scalexTB.Location = new System.Drawing.Point(182, 209);
+            this.scalexTB.Location = new System.Drawing.Point(136, 170);
+            this.scalexTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.scalexTB.Name = "scalexTB";
-            this.scalexTB.Size = new System.Drawing.Size(313, 22);
+            this.scalexTB.Size = new System.Drawing.Size(236, 20);
             this.scalexTB.TabIndex = 3;
             // 
             // sizexTB
             // 
-            this.sizexTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.sizexTB.Location = new System.Drawing.Point(182, 82);
+            this.sizexTB.Location = new System.Drawing.Point(136, 67);
+            this.sizexTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.sizexTB.Name = "sizexTB";
-            this.sizexTB.Size = new System.Drawing.Size(313, 22);
+            this.sizexTB.Size = new System.Drawing.Size(236, 20);
             this.sizexTB.TabIndex = 1;
             // 
-            // M_S_display
+            // M_S_displayUC
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.sizeyTB);
             this.Controls.Add(this.scaleyTB);
@@ -174,8 +165,9 @@ namespace Factory_Inventory
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
-            this.Name = "M_S_display";
-            this.Size = new System.Drawing.Size(792, 421);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Name = "M_S_displayUC";
+            this.Size = new System.Drawing.Size(594, 342);
             this.ResumeLayout(false);
             this.PerformLayout();
 
