@@ -201,11 +201,17 @@ namespace Factory_Inventory.Factory_Classes
 
                 //DataTable dt = this.runQuery("select Tray_ID_Arr from Batch where Batch_No = 167 and Fiscal_Year = '2020-2021'");
                 //string[] tray_ids = csvToArray(dt.Rows[0][0].ToString());
-                //for(int i=0;i<tray_ids.Length;i++)
+                //for (int i = 0; i < tray_ids.Length; i++)
                 //{
                 //    tray_voucher_to_trayactive(int.Parse(tray_ids[i]));
                 //}
                 this.runQuery("create table Defaults(Default_Type varchar(50) NOT NULL, Default_Name varchar(50) NOT NULL, Default_Value varchar(50) NOT NULL);");
+                this.runQuery("INSERT INTO Defaults VALUES ('Print','Firm Name',' ')");
+                this.runQuery("INSERT INTO Defaults VALUES ('Print','Address',' ')");
+                this.runQuery("INSERT INTO Defaults VALUES ('Print','GSTIN',' ')");
+                this.runQuery("INSERT INTO Defaults VALUES ('Print','Phone Number',' ')");
+                this.runQuery("INSERT INTO Defaults VALUES ('Print','Email ID',' ')");
+                this.runQuery("INSERT INTO Defaults VALUES ('Default','Cone',' ')"); 
                 this.SuccessBox("SQL Update Successful");
             }
             catch (Exception e)

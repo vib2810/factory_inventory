@@ -31,10 +31,7 @@ namespace Factory_Inventory
                 dataGridView1.Rows.Add(dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString());
             }
         }
-        private void allTB_TextChanged(object sender, EventArgs e)
-        {
-            panel1.BackColor = Color.Red;
-        }
+
 
         private void saveButton_Click(object sender, EventArgs e)
         {
