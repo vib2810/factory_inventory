@@ -182,6 +182,18 @@
     <Compile Include="CoolPrintPreviewDialog.designer.cs">
       <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factory_Classes\AA_firmSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Classes\AA_firmSelect.Designer.cs">
+      <DependentUpon>AA_firmSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Classes\AA_IPSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Classes\AA_IPSelect.Designer.cs">
+      <DependentUpon>AA_IPSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factory_Classes\AttConnect.cs" />
     <Compile Include="Factory_Classes\Global.cs" />
     <Compile Include="Display_Carton_Produced.cs">
@@ -607,6 +619,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Display_Tray.resx">
       <DependentUpon>Display_Tray.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Classes\AA_firmSelect.resx">
+      <DependentUpon>AA_firmSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Classes\AA_IPSelect.resx">
+      <DependentUpon>AA_IPSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Classes\SuccessBox.resx">
       <DependentUpon>SuccessBox.cs</DependentUpon>

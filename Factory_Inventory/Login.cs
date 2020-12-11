@@ -85,7 +85,6 @@ namespace Factory_Inventory
                 this.Close();
             }
         }
-
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(this.close_from_code != true) //not called after login
@@ -94,7 +93,6 @@ namespace Factory_Inventory
                 Environment.Exit(0);
             }
         }
-
         private void Login_Load(object sender, EventArgs e)
         {
             var textBoxes = this.Controls
@@ -115,7 +113,6 @@ namespace Factory_Inventory
                 c.buttonEvent(button);
             }
         }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (this.checkBox1.Checked == false)
@@ -129,7 +126,6 @@ namespace Factory_Inventory
                 this.iptextbox.BackColor = Color.SandyBrown;
             }
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             setLocalString f = new setLocalString();

@@ -60,15 +60,10 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
-            string con = "Data Source =" + this.serverNameTB.Text + "; Initial Catalog = FactoryData; User ID = " + this.usernameTB.Text + "; Password = " + this.passwordTB.Text;
-            string con2= "Data Source =" + this.serverNameTB.Text + "; Initial Catalog = FactoryData; User ID = " + this.usernameTB.Text + "; Password = ************";
-            this.connectionStringTB.Text = con2;
-            Properties.Settings.Default.LocalConnectionString = con;
+            Properties.Settings.Default.LocalConnectionString ="Data Source = "+ this.serverNameTB.Text+";";
             Properties.Settings.Default.Save();
             this.saveButton.Enabled = false;
-            //this.Close();
+            this.Close();
         }
-
-
     }
 }

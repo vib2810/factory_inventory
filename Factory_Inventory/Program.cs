@@ -29,16 +29,17 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
 
             DbConnect c = new DbConnect();
-            string[] temp = c.repeated_batch_csv("48(2019-2020)");
-            Console.WriteLine(temp[0] + "  " + temp[1]);
             while (true)
             {
+                AA_firmSelect fs = new AA_firmSelect();
+                Application.Run(fs);
                 Login f1 = new Login();
-                //f1.access = 1;
-                Application.Run(f1);
+                f1.access = 1;
                 if (f1.access == 1 || f1.access == 2)
                 {
                     c = new DbConnect();
+
+                    //for sql query update
                     //System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                     //ConfigurationManager.RefreshSection("appSettings");
 
@@ -54,14 +55,14 @@ namespace Factory_Inventory
                     //    configuration.Save(ConfigurationSaveMode.Full, true);
                     //    ConfigurationManager.RefreshSection("appSettings");
                     //}
-                    if(f1.checkBox2.Checked==true)
-                    {
-                        bool updated = c.sql_update_query();
-                        //if (updated == true) c.SuccessBox("Updated SQL");
-                    }
+                    //if(f1.checkBox2.Checked==true)
+                    //{
+                    //    bool updated = c.sql_update_query();
+                    //    //if (updated == true) c.SuccessBox("Updated SQL");
+                    //}
 
-                    c.recordLogin(f1.username);
-                    Console.WriteLine(Properties.Settings.Default.LastIP);
+                    //c.recordLogin(f1.username);
+                    //Console.WriteLine(Properties.Settings.Default.LastIP);
                     Global.background = new TwistERP();
                     Global.background.IsMdiContainer = true;
                     
