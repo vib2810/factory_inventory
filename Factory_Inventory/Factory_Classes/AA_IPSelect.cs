@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -87,7 +88,33 @@ namespace Factory_Inventory.Factory_Classes
                 properties_changed = true;
             }
             if (properties_changed == true) Properties.Settings.Default.Save();
+
+            //test if the server exists
+            bool result = this.TestForServer(Global.getconnectionstring(this.final_string, "Main"));
+            if (result == false)
+            {
+                Global.ErrorBox("Server Doesnt Exist\nConnection String: "+ this.final_string);
+                this.final_string = "";
+                return;
+            }
+            Console.WriteLine("Server exists!!");
+
             this.Close();
+        }
+
+        private bool TestForServer(string con)
+        {
+            try
+            {
+                SqlConnection temp = new SqlConnection(con + "Connection Timeout=5"); // making connection   
+                temp.Open();
+                temp.Close();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

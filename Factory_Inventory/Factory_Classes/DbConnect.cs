@@ -21,43 +21,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
+using System.Configuration;
+using System.Net.Sockets;
 
 namespace Factory_Inventory.Factory_Classes
 {
     public class DbConnect
     {
-        //Connect to DB
-        //static string myconnstrng = ConfigurationManager.ConnectionStrings["connstrng"].ConnectionString;
         public SqlConnection con;
         public DateTime loginTime;
         private string useractive;
         public DbConnect()
         {
-            //Connection string for Gaurang's Laptop
-            //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryData;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
-
-            //Connection string for old Database
-            //this.con = new SqlConnection(@"Data Source=DESKTOP-MOUBPNG\MSSQLSERVER2019;Initial Catalog=FactoryInventory;Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;"); // making connection   
-            string ip_address = Properties.Settings.Default.LastIP;
-            //Connection string for Vob's laptops
             this.con = new SqlConnection(Global.defaultconnectionstring); // making connection   
         }
 
-        public string RandomString(int size, bool lowerCase)
-        {
-            StringBuilder builder = new StringBuilder();
-            Random random = new Random();
-            char ch;
-            for (int i = 0; i < size; i++)
-            {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
-                builder.Append(ch);
-            }
-            if (lowerCase)
-                return builder.ToString().ToLower();
-            return builder.ToString();
-        }
-        
         //Sql Update
         public bool sql_update_query()
         {
