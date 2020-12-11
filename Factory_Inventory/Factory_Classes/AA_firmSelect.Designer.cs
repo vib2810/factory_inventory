@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.factoryButton = new System.Windows.Forms.Button();
             this.backupAllButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -37,6 +38,8 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.createButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.Firm_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Current_User = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,6 +51,7 @@
             this.factoryButton.TabIndex = 0;
             this.factoryButton.Text = "Factory";
             this.factoryButton.UseVisualStyleBackColor = true;
+            this.factoryButton.Click += new System.EventHandler(this.factoryButton_Click);
             // 
             // backupAllButton
             // 
@@ -60,11 +64,29 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Firm_Name,
+            this.Current_User});
             this.dataGridView1.Location = new System.Drawing.Point(175, 65);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(623, 355);
             this.dataGridView1.TabIndex = 3;
             // 
@@ -96,6 +118,7 @@
             this.tradingButton.TabIndex = 9;
             this.tradingButton.Text = "Trading";
             this.tradingButton.UseVisualStyleBackColor = true;
+            this.tradingButton.Click += new System.EventHandler(this.tradingButton_Click);
             // 
             // deleteButton
             // 
@@ -124,7 +147,20 @@
             this.label1.Size = new System.Drawing.Size(63, 20);
             this.label1.TabIndex = 12;
             this.label1.Text = "Server:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // Firm_Name
+            // 
+            this.Firm_Name.HeaderText = "Firm Name";
+            this.Firm_Name.MinimumWidth = 6;
+            this.Firm_Name.Name = "Firm_Name";
+            this.Firm_Name.ReadOnly = true;
+            // 
+            // Current_User
+            // 
+            this.Current_User.HeaderText = "Current User";
+            this.Current_User.MinimumWidth = 6;
+            this.Current_User.Name = "Current_User";
+            this.Current_User.ReadOnly = true;
             // 
             // AA_firmSelect
             // 
@@ -161,5 +197,7 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button createButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Firm_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Current_User;
     }
 }

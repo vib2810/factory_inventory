@@ -233,6 +233,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FactoryInventoryDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Factory_Classes\MainConnect.cs" />
     <Compile Include="Factory_Classes\PageImageList.cs" />
     <Compile Include="Factory_Classes\Structures.cs" />
     <Compile Include="Factory_Classes\SuccessBox.cs">

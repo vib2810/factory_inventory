@@ -29,6 +29,7 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
 
             DbConnect c = new DbConnect();
+            Console.WriteLine(c.con.ConnectionString);
             while (true)
             {
                 AA_firmSelect fs = new AA_firmSelect();
