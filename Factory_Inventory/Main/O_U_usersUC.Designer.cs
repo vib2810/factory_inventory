@@ -63,22 +63,24 @@
             this.userDataView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.userDataView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.userDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.userDataView.Location = new System.Drawing.Point(181, 0);
             this.userDataView.MultiSelect = false;
             this.userDataView.Name = "userDataView";
             this.userDataView.ReadOnly = true;
+            this.userDataView.RowHeadersVisible = false;
             this.userDataView.RowHeadersWidth = 51;
             this.userDataView.RowTemplate.Height = 24;
             this.userDataView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.userDataView.Size = new System.Drawing.Size(596, 447);
+            this.userDataView.Size = new System.Drawing.Size(697, 434);
             this.userDataView.TabIndex = 0;
             this.userDataView.TabStop = false;
             this.userDataView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellClick);
             // 
             // confirmButton
             // 
-            this.confirmButton.Location = new System.Drawing.Point(20, 282);
+            this.confirmButton.Location = new System.Drawing.Point(20, 270);
             this.confirmButton.Name = "confirmButton";
             this.confirmButton.Size = new System.Drawing.Size(127, 36);
             this.confirmButton.TabIndex = 9;
@@ -89,7 +91,7 @@
             // newUsernameLabel
             // 
             this.newUsernameLabel.AutoSize = true;
-            this.newUsernameLabel.Location = new System.Drawing.Point(17, 47);
+            this.newUsernameLabel.Location = new System.Drawing.Point(17, 35);
             this.newUsernameLabel.Name = "newUsernameLabel";
             this.newUsernameLabel.Size = new System.Drawing.Size(73, 17);
             this.newUsernameLabel.TabIndex = 0;
@@ -104,7 +106,7 @@
             // newPasswordLabel
             // 
             this.newPasswordLabel.AutoSize = true;
-            this.newPasswordLabel.Location = new System.Drawing.Point(17, 95);
+            this.newPasswordLabel.Location = new System.Drawing.Point(17, 83);
             this.newPasswordLabel.Name = "newPasswordLabel";
             this.newPasswordLabel.Size = new System.Drawing.Size(100, 17);
             this.newPasswordLabel.TabIndex = 0;
@@ -113,7 +115,7 @@
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(17, 140);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(17, 128);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(121, 17);
             this.newConfirmPasswordLabel.TabIndex = 0;
@@ -122,7 +124,7 @@
             // newAccessLevelLabel
             // 
             this.newAccessLevelLabel.AutoSize = true;
-            this.newAccessLevelLabel.Location = new System.Drawing.Point(17, 185);
+            this.newAccessLevelLabel.Location = new System.Drawing.Point(17, 173);
             this.newAccessLevelLabel.Name = "newAccessLevelLabel";
             this.newAccessLevelLabel.Size = new System.Drawing.Size(91, 17);
             this.newAccessLevelLabel.TabIndex = 0;
@@ -130,7 +132,7 @@
             // 
             // usernameTextbox
             // 
-            this.usernameTextbox.Location = new System.Drawing.Point(21, 67);
+            this.usernameTextbox.Location = new System.Drawing.Point(21, 55);
             this.usernameTextbox.Name = "usernameTextbox";
             this.usernameTextbox.ReadOnly = true;
             this.usernameTextbox.Size = new System.Drawing.Size(126, 22);
@@ -139,7 +141,7 @@
             // 
             // conformPasswordTextbox
             // 
-            this.conformPasswordTextbox.Location = new System.Drawing.Point(21, 160);
+            this.conformPasswordTextbox.Location = new System.Drawing.Point(21, 148);
             this.conformPasswordTextbox.Name = "conformPasswordTextbox";
             this.conformPasswordTextbox.PasswordChar = '*';
             this.conformPasswordTextbox.Size = new System.Drawing.Size(126, 22);
@@ -147,7 +149,7 @@
             // 
             // passwordTextbox
             // 
-            this.passwordTextbox.Location = new System.Drawing.Point(20, 115);
+            this.passwordTextbox.Location = new System.Drawing.Point(20, 103);
             this.passwordTextbox.Name = "passwordTextbox";
             this.passwordTextbox.PasswordChar = '*';
             this.passwordTextbox.Size = new System.Drawing.Size(127, 22);
@@ -156,7 +158,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(21, 206);
+            this.comboBox1.Location = new System.Drawing.Point(21, 194);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(126, 24);
             this.comboBox1.TabIndex = 5;
@@ -165,7 +167,7 @@
             // deleteUserCheckbox
             // 
             this.deleteUserCheckbox.AutoSize = true;
-            this.deleteUserCheckbox.Location = new System.Drawing.Point(20, 246);
+            this.deleteUserCheckbox.Location = new System.Drawing.Point(20, 234);
             this.deleteUserCheckbox.Name = "deleteUserCheckbox";
             this.deleteUserCheckbox.Size = new System.Drawing.Size(113, 21);
             this.deleteUserCheckbox.TabIndex = 7;
@@ -174,8 +176,7 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(20, 399);
+            this.button1.Location = new System.Drawing.Point(21, 345);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(127, 36);
             this.button1.TabIndex = 10;
@@ -201,7 +202,7 @@
             this.Controls.Add(this.userDataView);
             this.Controls.Add(this.userLabel);
             this.Name = "O_U_usersUC";
-            this.Size = new System.Drawing.Size(777, 447);
+            this.Size = new System.Drawing.Size(878, 437);
             ((System.ComponentModel.ISupportInitialize)(this.userDataView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

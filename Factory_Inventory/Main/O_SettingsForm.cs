@@ -12,6 +12,15 @@ namespace Factory_Inventory
 {
     public partial class M_settings : Form
     {
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset,
+                                         Color.Black, 10, ButtonBorderStyle.Inset);
+        }
         public M_settings()
         {
             InitializeComponent();

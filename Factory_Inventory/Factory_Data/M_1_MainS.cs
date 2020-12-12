@@ -41,9 +41,8 @@ namespace Factory_Inventory
         public Button last_clicked;
         public Color select = Color.SteelBlue;
 
-        public M_1_MainS(DbConnect input, string user, int access)
+        public M_1_MainS()
         {
-            Global.access = access;
             this.FormClosing += new FormClosingEventHandler(MainS_FormClosing);
             InitializeComponent();
             

@@ -24,9 +24,7 @@ namespace Factory_Inventory
             DataTable d = c.getUserLog();
             d.DefaultView.Sort = "LoginTime DESC";
             dataGridView1.DataSource = d;
-            dataGridView1.Columns["LoginTime"].Width = 180;
             dataGridView1.Columns["LoginTime"].HeaderText= "Login Time";
-            dataGridView1.Columns["LogoutTime"].Width = 180;
             dataGridView1.Columns["LogoutTime"].HeaderText = "Logout Time";
         }
 

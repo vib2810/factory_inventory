@@ -70,15 +70,19 @@ namespace Factory_Inventory.Factory_Classes
                 c.recordLogin(l.username);
                 Global.background = new TwistERP(l.username, l.access, this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString());
                 Global.background.IsMdiContainer = true;
-                M_1_MainS ms = new M_1_MainS(c, l.username, l.access);
-                Global.background.main_form = ms;
-                ms.MdiParent = Global.background;
-                ms.Scale(new SizeF(1.3F, 1.3F));
-                ms.AutoScaleMode = AutoScaleMode.Font;
-                ms.StartPosition = FormStartPosition.CenterScreen;
-                ms.Show();
+                
+                //open all 3 main forms
+                T_Main trade = new T_Main();
+                Global.background.show_form(trade, 1, true);
+                A_1_MainS attendance = new A_1_MainS();
+                Global.background.show_form(attendance, 2, true);
+                M_1_MainS ms = new M_1_MainS();
+                Global.background.show_form(ms, 0, true);
+                
+                //show the background form, runtime stops till the dialouge is closed
                 Global.background.ShowDialog();
-
+                
+                //logout
                 if (Global.background.logout == true)
                 {
                     c.recordLogout(l.username);

@@ -13,10 +13,12 @@ namespace Factory_Inventory
     public partial class TwistERP : Form
     {
         public bool temp;
-        List<string> attendance_forms = new List<string>();
-        List<string> backup_form = new List<string>();
-        List<string> trading_forms = new List<string>();
-        public M_1_MainS main_form = null;
+        //dynamic lists which keep adding names of all the forms of various types which have opened atleast once
+        Dictionary<string, int> form_group = new Dictionary<string, int>();
+        //List<string> attendance_forms = new List<string>();
+        //List<string> backup_form = new List<string>();
+        //List<string> trading_forms = new List<string>();
+       // public M_1_MainS main_form = null;
         public bool logout = false;
         public TwistERP(string user, int access, string firmname)
         {
@@ -31,10 +33,11 @@ namespace Factory_Inventory
         }
 
         //group 0- Factory
-        //group 1- Attendance
-        //group 2- Trading
-
-        public void show_form(Form f, int group=0)
+        //group 1- Trading 
+        //group 2- Attendance
+        //group 10- Backup restore
+        //group 11- Manage Users
+        public void show_form(Form f, int group=0, bool ismain=false)
         {
             f.Scale(new SizeF(Properties.Settings.Default.ScaleX, Properties.Settings.Default.ScaleY));
             f.Size = new Size((int)((float)Properties.Settings.Default.SizeX*f.Size.Width) , (int)((float)Properties.Settings.Default.SizeY*f.Size.Height));
@@ -54,20 +57,43 @@ namespace Factory_Inventory
                     f.MdiParent = this;
                 }
                 f.Show();
+                int val;
+                bool exists=form_group.TryGetValue(f.Name, out val);
+                if(exists==false)
+                {
+                    form_group[f.Name] = 0;
+                }
             }
             if (group==1)
             {
-                if(!this.attendance_forms.Contains(f.Name)) this.attendance_forms.Add(f.Name);
+                int val;
+                bool exists = form_group.TryGetValue(f.Name, out val);
+                if (exists == false)
+                {
+                    form_group[f.Name] = 1;
+                }
                 f.MaximizeBox = false;
                 f.MdiParent = this;
                 f.Show();
             }
             if (group == 2)
             {
-                if (!this.trading_forms.Contains(f.Name)) this.trading_forms.Add(f.Name);
+                int val;
+                bool exists = form_group.TryGetValue(f.Name, out val);
+                if (exists == false)
+                {
+                    form_group[f.Name] = 2;
+                }
                 f.MaximizeBox = false;
                 f.MdiParent = this;
                 f.Show();
+            }
+            if (ismain == true)
+            {
+                f.FormBorderStyle = FormBorderStyle.None;
+                f.Scale(new SizeF(1.3F, 1.3F));
+                f.AutoScaleMode = AutoScaleMode.Font;
+                f.StartPosition = FormStartPosition.CenterScreen;
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
@@ -85,79 +111,48 @@ namespace Factory_Inventory
         }
 
 
-        //3 Mode of operation
+        //3 Mains of operation
         private void eRPToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //main form is always open
             foreach (Form f in this.MdiChildren)
             {
-                if (this.attendance_forms.Contains(f.Name) || this.backup_form.Contains(f.Name) || this.trading_forms.Contains(f.Name))
-                {
-                    f.Visible = false;
-                }
-                else f.Visible = true;
+                int val;
+                form_group.TryGetValue(f.Name, out val);
+                //show only forms with group no 0
+                if (val == 0) f.Visible = true;
+                else f.Visible = false;
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
         private void tradingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            T_Main frm = new T_Main();
-            bool t_mains = false;       //Checks whether t_main is already open or not. If not, then opens. Else shows the opeed one
+            //main form is always open
             foreach (Form f in this.MdiChildren)
             {
-                if (f.Name == frm.Name)
-                {
-                    t_mains = true;
-                }
-                if (this.trading_forms.Contains(f.Name))
-                {
-                    f.Visible = true;
-                }
-                else
-                {
-                    f.Visible = false;
-                }
-            }
-            if (t_mains == false)
-            {
-                frm.MdiParent = Global.background;
-                frm.Scale(new SizeF(1.3F, 1.3F));
-                frm.AutoScaleMode = AutoScaleMode.Font;
-                frm.StartPosition = FormStartPosition.CenterScreen;
-                if (!this.trading_forms.Contains(frm.Name)) this.trading_forms.Add(frm.Name);
-                frm.Show();
+                int val = -1;
+                form_group.TryGetValue(f.Name, out val);
+                //show only forms with group no 1
+                if (val == 1) f.Visible = true;
+                else f.Visible = false;
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
         private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            A_1_MainS frm = new A_1_MainS();
-            bool a_1_mains = false;
+            //main form is always open
             foreach (Form f in this.MdiChildren)
             {
-                if(f.Name == frm.Name)
-                {
-                    a_1_mains = true;
-                }
-                if(this.attendance_forms.Contains(f.Name))
-                {
-                    f.Visible = true;
-                }
-                else
-                {
-                    f.Visible = false;
-                }
-            }
-            if(a_1_mains == false)
-            {
-                frm.MdiParent = Global.background;
-                frm.Scale(new SizeF(1.3F, 1.3F));
-                frm.AutoScaleMode = AutoScaleMode.Font;
-                frm.StartPosition = FormStartPosition.CenterScreen;
-                if (!this.attendance_forms.Contains(frm.Name)) this.attendance_forms.Add(frm.Name);
-                frm.Show();
+                int val;
+                form_group.TryGetValue(f.Name, out val);
+                //show only forms with group no 2
+                if (val == 2) f.Visible = true;
+                else f.Visible = false;
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
+
+
 
 
         //Options Menu
@@ -189,16 +184,51 @@ namespace Factory_Inventory
                 frm.Scale(new SizeF(1.3F, 1.3F));
                 frm.AutoScaleMode = AutoScaleMode.Font;
                 frm.StartPosition = FormStartPosition.CenterScreen;
-                if (!this.backup_form.Contains(frm.Name)) this.backup_form.Add(frm.Name);
+                //insert into dictionary with the group no
+                int val;
+                bool exists = form_group.TryGetValue(frm.Name, out val);
+                if (exists == false)
+                {
+                    form_group[frm.Name] = 10;
+                }
                 frm.Show();
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
-
         private void applicationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            M_settings f = new M_settings();
-            Global.background.show_form(f);
+            bool settings = false;
+            M_settings frm = new M_settings();
+            //check if the form is already open but hidden
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == frm.Name)
+                {
+                    settings = true;
+                    f.Show();
+                }
+                else
+                {
+                    f.Visible = false;
+                }
+            }
+            //start a new instance
+            if (settings == false)
+            {
+                frm.MdiParent = Global.background;
+                frm.Scale(new SizeF(1.3F, 1.3F));
+                frm.AutoScaleMode = AutoScaleMode.Font;
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                //insert into dictionary with the group no
+                int val;
+                bool exists = form_group.TryGetValue(frm.Name, out val);
+                if (exists == false)
+                {
+                    form_group[frm.Name] = 10;
+                }
+                frm.Show();
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
         }
         private void manageUsersToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -224,7 +254,13 @@ namespace Factory_Inventory
                 frm.Scale(new SizeF(1.3F, 1.3F));
                 frm.AutoScaleMode = AutoScaleMode.Font;
                 frm.StartPosition = FormStartPosition.CenterScreen;
-                if (!this.backup_form.Contains(frm.Name)) this.backup_form.Add(frm.Name);
+                //insert into dictionary with the group no
+                int val;
+                bool exists = form_group.TryGetValue(frm.Name, out val);
+                if (exists == false)
+                {
+                    form_group[frm.Name] = 11;
+                }
                 frm.Show();
             }
             this.LayoutMdi(MdiLayout.Cascade);

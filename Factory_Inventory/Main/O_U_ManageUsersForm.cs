@@ -18,13 +18,13 @@ namespace Factory_Inventory
 {
     public partial class O_U_ManageUsersForm : Form
     {
-        public bool wait = false;
-        public string backupname;
         public DbConnect c;
         public O_U_ManageUsersForm()
         {
             InitializeComponent();
-            c = new DbConnect(); 
+            c = new DbConnect();
+            o_U_loginlogUC1.loadUserData();
+            o_U_usersUC1.loadDatabase();
         }
 
         protected override void OnPaint(PaintEventArgs e)
