@@ -11,7 +11,7 @@ using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
-    public partial class M_1_vouchersUC : UserControl
+    public partial class T_vouchersUC : UserControl
     {
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -22,37 +22,32 @@ namespace Factory_Inventory
             }
             if (keyData == Keys.T)
             {
-                this.trayProductionButton.PerformClick();
+                this.repackingButton.PerformClick();
                 return false;
             }
             if (keyData == Keys.N)
             {
-                this.cartonProductionButton.PerformClick();
+                this.jobButton.PerformClick();
                 return false;
             }
             if (keyData == Keys.P)
             {
-                this.printButton.PerformClick();
+                this.salesButton.PerformClick();
                 return false;
             }
             if (keyData == Keys.O)
             {
-                this.openingStockButton.PerformClick();
+                this.printButton.PerformClick();
                 return false;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private DbConnect c;
-        public M_1_vouchersUC()
+        public T_vouchersUC()
         {
             InitializeComponent();
             this.c = new DbConnect();
             hide_all_UCs();
-            Console.WriteLine("Access is :" + Global.access);
-            if (Global.access == 2)
-            {
-                this.masterButton.Visible = false;
-            }
         }
         public void decolour_all_buttons()
         {
@@ -70,18 +65,18 @@ namespace Factory_Inventory
         }
         private void hide_all_UCs()
         {
-            voucherInput1UC1.Hide();
-            m_V2_voucherInput2UC1.Hide();
-            m_V3_voucherInput3UC1.Hide();
-            m_V4_printUC1.Hide();
-            m_V5_OpeningUC1.Hide();
+            t_voucherInput1UC1.Hide();
+            t_voucherInput2UC1.Hide();
+            t_voucherInput3UC1.Hide();
+            t_voucherInput4UC1.Hide();
+            //m_V5_OpeningUC1.Hide();
         }
         private void button1_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
-            voucherInput1UC1.Show();
-            voucherInput1UC1.BringToFront();
-            voucherInput1UC1.Focus();
+            t_voucherInput1UC1.Show();
+            t_voucherInput1UC1.BringToFront();
+            t_voucherInput1UC1.Focus();
             this.decolour_all_buttons();
             this.cartonButton.BackColor = Color.Orange;
         }
@@ -93,39 +88,38 @@ namespace Factory_Inventory
         private void trayProductionButton_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
-            m_V2_voucherInput2UC1.Show();
-            m_V2_voucherInput2UC1.BringToFront();
-            m_V2_voucherInput2UC1.Focus();
+            t_voucherInput2UC1.Show();
+            t_voucherInput2UC1.BringToFront();
+            t_voucherInput2UC1.Focus();
             this.decolour_all_buttons();
-            this.trayProductionButton.BackColor = Color.Orange;
+            this.repackingButton.BackColor = Color.Orange;
         }
         private void button3_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
-            m_V3_voucherInput3UC1.Show();
-            m_V3_voucherInput3UC1.BringToFront();
-            m_V3_voucherInput3UC1.Focus();
+            t_voucherInput3UC1.Show();
+            t_voucherInput3UC1.BringToFront();
+            t_voucherInput3UC1.Focus();
             this.decolour_all_buttons();
-            this.cartonProductionButton.BackColor = Color.Orange;
+            this.jobButton.BackColor = Color.Orange;
         }
         private void button4_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
-            m_V4_printUC1.Show();
-            m_V4_printUC1.BringToFront();
-            m_V4_printUC1.Focus();
+            t_voucherInput4UC1.Show();
+            t_voucherInput4UC1.BringToFront();
+            t_voucherInput4UC1.Focus();
             this.decolour_all_buttons();
-            this.printButton.BackColor = Color.Orange;
+            this.salesButton.BackColor = Color.Orange;
         }
-
         private void openingStockButton_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
-            m_V5_OpeningUC1.Show();
-            m_V5_OpeningUC1.BringToFront();
-            m_V5_OpeningUC1.Focus();
+            //m_V5_OpeningUC1.Show();
+            //m_V5_OpeningUC1.BringToFront();
+            //m_V5_OpeningUC1.Focus();
             this.decolour_all_buttons();
-            this.openingStockButton.BackColor = Color.Orange;
+            this.printButton.BackColor = Color.Orange;
         }
     }
 }
