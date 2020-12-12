@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class M_1_usersUC
+    partial class O_U_usersUC
     {
         /// <summary> 
         /// Required designer variable.
@@ -42,15 +42,17 @@
             this.passwordTextbox = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.deleteUserCheckbox = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.userDataView)).BeginInit();
             this.SuspendLayout();
             // 
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(17, 9);
+            this.userLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userLabel.Location = new System.Drawing.Point(11, 9);
             this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(104, 17);
+            this.userLabel.Size = new System.Drawing.Size(136, 20);
             this.userLabel.TabIndex = 0;
             this.userLabel.Text = " Manage Users";
             // 
@@ -58,25 +60,27 @@
             // 
             this.userDataView.AllowUserToAddRows = false;
             this.userDataView.AllowUserToDeleteRows = false;
+            this.userDataView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.userDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.userDataView.Location = new System.Drawing.Point(153, 0);
+            this.userDataView.Location = new System.Drawing.Point(181, 0);
             this.userDataView.MultiSelect = false;
             this.userDataView.Name = "userDataView";
             this.userDataView.ReadOnly = true;
             this.userDataView.RowHeadersWidth = 51;
             this.userDataView.RowTemplate.Height = 24;
             this.userDataView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.userDataView.Size = new System.Drawing.Size(466, 393);
+            this.userDataView.Size = new System.Drawing.Size(596, 447);
             this.userDataView.TabIndex = 0;
             this.userDataView.TabStop = false;
             this.userDataView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellClick);
-            this.userDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDataView_CellContentClick);
             // 
             // confirmButton
             // 
             this.confirmButton.Location = new System.Drawing.Point(20, 282);
             this.confirmButton.Name = "confirmButton";
-            this.confirmButton.Size = new System.Drawing.Size(75, 23);
+            this.confirmButton.Size = new System.Drawing.Size(127, 36);
             this.confirmButton.TabIndex = 9;
             this.confirmButton.Text = "Update";
             this.confirmButton.UseVisualStyleBackColor = true;
@@ -129,7 +133,7 @@
             this.usernameTextbox.Location = new System.Drawing.Point(21, 67);
             this.usernameTextbox.Name = "usernameTextbox";
             this.usernameTextbox.ReadOnly = true;
-            this.usernameTextbox.Size = new System.Drawing.Size(100, 22);
+            this.usernameTextbox.Size = new System.Drawing.Size(126, 22);
             this.usernameTextbox.TabIndex = 0;
             this.usernameTextbox.TabStop = false;
             // 
@@ -138,7 +142,7 @@
             this.conformPasswordTextbox.Location = new System.Drawing.Point(21, 160);
             this.conformPasswordTextbox.Name = "conformPasswordTextbox";
             this.conformPasswordTextbox.PasswordChar = '*';
-            this.conformPasswordTextbox.Size = new System.Drawing.Size(100, 22);
+            this.conformPasswordTextbox.Size = new System.Drawing.Size(126, 22);
             this.conformPasswordTextbox.TabIndex = 3;
             // 
             // passwordTextbox
@@ -146,7 +150,7 @@
             this.passwordTextbox.Location = new System.Drawing.Point(20, 115);
             this.passwordTextbox.Name = "passwordTextbox";
             this.passwordTextbox.PasswordChar = '*';
-            this.passwordTextbox.Size = new System.Drawing.Size(100, 22);
+            this.passwordTextbox.Size = new System.Drawing.Size(127, 22);
             this.passwordTextbox.TabIndex = 1;
             // 
             // comboBox1
@@ -154,7 +158,7 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(21, 206);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 24);
+            this.comboBox1.Size = new System.Drawing.Size(126, 24);
             this.comboBox1.TabIndex = 5;
             this.comboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
             // 
@@ -168,10 +172,22 @@
             this.deleteUserCheckbox.Text = "Delete User?";
             this.deleteUserCheckbox.UseVisualStyleBackColor = true;
             // 
-            // M_1_usersUC
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(20, 399);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(127, 36);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "New User";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // O_U_usersUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.deleteUserCheckbox);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.passwordTextbox);
@@ -184,8 +200,8 @@
             this.Controls.Add(this.confirmButton);
             this.Controls.Add(this.userDataView);
             this.Controls.Add(this.userLabel);
-            this.Name = "M_1_usersUC";
-            this.Size = new System.Drawing.Size(619, 393);
+            this.Name = "O_U_usersUC";
+            this.Size = new System.Drawing.Size(777, 447);
             ((System.ComponentModel.ISupportInitialize)(this.userDataView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -207,5 +223,6 @@
         public System.Windows.Forms.TextBox passwordTextbox;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.CheckBox deleteUserCheckbox;
+        private System.Windows.Forms.Button button1;
     }
 }

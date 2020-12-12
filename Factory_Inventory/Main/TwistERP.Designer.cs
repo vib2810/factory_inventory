@@ -29,19 +29,22 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backupAndRestoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.applicationSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eRPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backupRestoreStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tradingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripSeparator();
             this.usertoolStripButton1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripSeparator();
             this.firmtoolStripButton2 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -51,12 +54,11 @@
             this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem,
             this.openWindowsToolStripMenuItem,
             this.eRPToolStripMenuItem,
             this.tradingToolStripMenuItem,
-            this.attendanceToolStripMenuItem,
-            this.settingsToolStripMenuItem,
-            this.backupRestoreStripMenuItem});
+            this.attendanceToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.MdiWindowListItem = this.openWindowsToolStripMenuItem;
             this.menuStrip1.Name = "menuStrip1";
@@ -64,13 +66,54 @@
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.logoutToolStripMenuItem,
+            this.backupAndRestoreToolStripMenuItem,
+            this.applicationSettingsToolStripMenuItem,
+            this.manageUsersToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(84, 27);
+            this.optionsToolStripMenuItem.Text = "&Options";
+            // 
+            // logoutToolStripMenuItem
+            // 
+            this.logoutToolStripMenuItem.BackColor = System.Drawing.Color.OrangeRed;
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.logoutToolStripMenuItem.Text = "&Logout";
+            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
+            // 
+            // backupAndRestoreToolStripMenuItem
+            // 
+            this.backupAndRestoreToolStripMenuItem.Name = "backupAndRestoreToolStripMenuItem";
+            this.backupAndRestoreToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.backupAndRestoreToolStripMenuItem.Text = "&Backup and Restore";
+            this.backupAndRestoreToolStripMenuItem.Click += new System.EventHandler(this.backupAndRestoreToolStripMenuItem_Click);
+            // 
+            // applicationSettingsToolStripMenuItem
+            // 
+            this.applicationSettingsToolStripMenuItem.Name = "applicationSettingsToolStripMenuItem";
+            this.applicationSettingsToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.applicationSettingsToolStripMenuItem.Text = "&Application Settings";
+            this.applicationSettingsToolStripMenuItem.Click += new System.EventHandler(this.applicationSettingsToolStripMenuItem_Click);
+            // 
+            // manageUsersToolStripMenuItem
+            // 
+            this.manageUsersToolStripMenuItem.Name = "manageUsersToolStripMenuItem";
+            this.manageUsersToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.manageUsersToolStripMenuItem.Text = "&Manage Users";
+            this.manageUsersToolStripMenuItem.Click += new System.EventHandler(this.manageUsersToolStripMenuItem_Click);
+            // 
             // openWindowsToolStripMenuItem
             // 
             this.openWindowsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.openWindowsToolStripMenuItem.Name = "openWindowsToolStripMenuItem";
             this.openWindowsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
             this.openWindowsToolStripMenuItem.Size = new System.Drawing.Size(140, 27);
-            this.openWindowsToolStripMenuItem.Text = "&Open Windows";
+            this.openWindowsToolStripMenuItem.Text = "Open &Windows";
             // 
             // eRPToolStripMenuItem
             // 
@@ -80,6 +123,13 @@
             this.eRPToolStripMenuItem.Text = "Twist &Factory";
             this.eRPToolStripMenuItem.Click += new System.EventHandler(this.eRPToolStripMenuItem_Click);
             // 
+            // tradingToolStripMenuItem
+            // 
+            this.tradingToolStripMenuItem.Name = "tradingToolStripMenuItem";
+            this.tradingToolStripMenuItem.Size = new System.Drawing.Size(81, 27);
+            this.tradingToolStripMenuItem.Text = "&Trading";
+            this.tradingToolStripMenuItem.Click += new System.EventHandler(this.tradingToolStripMenuItem_Click);
+            // 
             // attendanceToolStripMenuItem
             // 
             this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
@@ -87,30 +137,6 @@
             this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(112, 27);
             this.attendanceToolStripMenuItem.Text = "&Attendance";
             this.attendanceToolStripMenuItem.Click += new System.EventHandler(this.attendanceToolStripMenuItem_Click);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(85, 27);
-            this.settingsToolStripMenuItem.Text = "&Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // backupRestoreStripMenuItem
-            // 
-            this.backupRestoreStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.backupRestoreStripMenuItem.Name = "backupRestoreStripMenuItem";
-            this.backupRestoreStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.B)));
-            this.backupRestoreStripMenuItem.Size = new System.Drawing.Size(175, 27);
-            this.backupRestoreStripMenuItem.Text = "&Backup and Restore";
-            this.backupRestoreStripMenuItem.Click += new System.EventHandler(this.backupRestoreStripMenuItem_Click);
-            // 
-            // tradingToolStripMenuItem
-            // 
-            this.tradingToolStripMenuItem.Name = "tradingToolStripMenuItem";
-            this.tradingToolStripMenuItem.Size = new System.Drawing.Size(81, 27);
-            this.tradingToolStripMenuItem.Text = "&Trading";
-            this.tradingToolStripMenuItem.Click += new System.EventHandler(this.tradingToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -129,13 +155,24 @@
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(6, 34);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(6, 34);
+            // 
             // usertoolStripButton1
             // 
             this.usertoolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.usertoolStripButton1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.usertoolStripButton1.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usertoolStripButton1.Name = "usertoolStripButton1";
-            this.usertoolStripButton1.Size = new System.Drawing.Size(350, 31);
+            this.usertoolStripButton1.Size = new System.Drawing.Size(350, 34);
             this.usertoolStripButton1.Text = "Logged in As: ";
             this.usertoolStripButton1.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -143,13 +180,7 @@
             // 
             this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 34);
             // 
             // firmtoolStripButton2
             // 
@@ -162,12 +193,7 @@
             // toolStripButton3
             // 
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(6, 31);
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(6, 31);
+            this.toolStripButton3.Size = new System.Drawing.Size(6, 34);
             // 
             // TwistERP
             // 
@@ -199,8 +225,6 @@
         private System.Windows.Forms.ToolStripMenuItem openWindowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eRPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem backupRestoreStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tradingToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripTextBox usertoolStripButton1;
@@ -209,5 +233,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripButton4;
         private System.Windows.Forms.ToolStripTextBox firmtoolStripButton2;
         private System.Windows.Forms.ToolStripSeparator toolStripButton3;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backupAndRestoreToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem applicationSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageUsersToolStripMenuItem;
     }
 }

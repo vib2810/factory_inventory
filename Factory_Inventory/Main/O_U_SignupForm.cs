@@ -12,14 +12,12 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_1_Signup : Form
+    public partial class O_U_SignupForm : Form
     {
         public DbConnect c;
-        M_1_MainS f;
-        public M_1_Signup(DbConnect input, M_1_MainS form)
+        public O_U_SignupForm(DbConnect input)
         {
             this.c = input;
-            this.f = form;
             InitializeComponent();
         }
 
@@ -39,24 +37,6 @@ namespace Factory_Inventory
 
             // make it readonly
             this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-        }
-       
-        
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //int i = this.comboBox1.SelectedIndex;
-            //Console.WriteLine(i);
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void Submit_Click(object sender, EventArgs e)
@@ -82,17 +62,6 @@ namespace Factory_Inventory
             {
                 c.ErrorBox("Passwords Do Not Match/Password Empty", "Error");
             }
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void M_1_Signup_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            f.decolour_all_buttons();
-            f.last_clicked.BackColor = f.select;
         }
     }
 }

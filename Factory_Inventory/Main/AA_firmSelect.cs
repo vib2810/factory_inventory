@@ -23,8 +23,15 @@ namespace Factory_Inventory.Factory_Classes
             {
                 //previously local was checked
                 string localstring = Properties.Settings.Default.LocalConnectionString;
-                this.localButton.Text = "Local Server: "+ localstring.Substring(0,localstring.Length - 1);
-                con_start = localstring;
+                if (string.IsNullOrEmpty(localstring) != true)
+                {
+                    this.localButton.Text = "Local Server: " + localstring.Substring(0, localstring.Length - 1);
+                    con_start = localstring;
+                }
+                else
+                {
+                    this.localButton.Text = "Local Server: Please set the local server address";
+                }
             }
             else
             {

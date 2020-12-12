@@ -60,6 +60,21 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
+        private void TwistERP_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                this.logout = true;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+
+
+        //3 Mode of operation
         private void eRPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Form f in this.MdiChildren)
@@ -133,22 +148,17 @@ namespace Factory_Inventory
             this.LayoutMdi(MdiLayout.Cascade);
         }
 
-        private void TwistERP_FormClosing(object sender, FormClosingEventArgs e)
+
+        //Options Menu
+        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                this.logout = true;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                e.Cancel = true;
-            }
+            this.Close();
         }
-        private void backupRestoreStripMenuItem_Click(object sender, EventArgs e)
+        private void backupAndRestoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool backup = false;
             M_BackupRestore frm = new M_BackupRestore();
+            //check if the form is already open but hidden
             foreach (Form f in this.MdiChildren)
             {
                 if (f.Name == frm.Name)
@@ -161,6 +171,7 @@ namespace Factory_Inventory
                     f.Visible = false;
                 }
             }
+            //start a new instance
             if (backup == false)
             {
                 frm.MdiParent = Global.background;
@@ -172,12 +183,39 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
-
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void applicationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             M_settings f = new M_settings();
             Global.background.show_form(f);
         }
-
+        private void manageUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool users = false;
+            O_U_ManageUsersForm frm = new O_U_ManageUsersForm();
+            //check if the form is already open but hidden
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == frm.Name)
+                {
+                    users = true;
+                    f.Show();
+                }
+                else
+                {
+                    f.Visible = false;
+                }
+            }
+            //start a new instance
+            if (users == false)
+            {
+                frm.MdiParent = Global.background;
+                frm.Scale(new SizeF(1.3F, 1.3F));
+                frm.AutoScaleMode = AutoScaleMode.Font;
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                if (!this.backup_form.Contains(frm.Name)) this.backup_form.Add(frm.Name);
+                frm.Show();
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
     }
 }

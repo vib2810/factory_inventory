@@ -11,12 +11,12 @@ using Factory_Inventory.Factory_Classes;
 
 namespace Factory_Inventory
 {
-    public partial class M_1_usersUC : UserControl
+    public partial class O_U_usersUC : UserControl
     {
         private DbConnect c;
         public string currentUser;
         //private int selectedRowIndex = -1;
-        public M_1_usersUC()
+        public O_U_usersUC()
         {
             InitializeComponent();
             this.c = new DbConnect();
@@ -36,35 +36,7 @@ namespace Factory_Inventory
             this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        
-
-        public void loadDatabase()
-        {
-            DataTable d = c.getUserData();
-            DataColumn dc = new DataColumn("Access Level", typeof(string));
-            d.Columns.Add(dc);
-            d.Columns.Add("SLNO", typeof(int)).SetOrdinal(0);
-            for(int i=0;i<d.Rows.Count;i++)
-            {
-                d.Rows[i][0] = i + 1;
-                if(d.Rows[i][2].ToString()=="1")
-                {
-                    d.Rows[i][3] = "Super User";
-                }
-                else
-                {
-                    d.Rows[i][3] = "Normal User";
-                }
-            }
-            //DataRow row = d.Rows[d.Rows.Count];
-            //d.Rows.Remove(row);
-            //d.DefaultView.Sort = "SLNO ASC";
-            userDataView.DataSource = d;
-            this.userDataView.Columns["AccessLevel"].Visible = false;
-        }
-
-
-
+        //callbacks
         private void confirmButton_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Confirm Changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -114,14 +86,6 @@ namespace Factory_Inventory
             }
             
         }
-
-        private void userDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //usernameTextbox.Text = userDataView.Rows[e.RowIndex].Cells[1].Value.ToString();
-            //comboBox1.SelectedIndex = Convert.ToInt32(userDataView.Rows[e.RowIndex].Cells[2].Value);
-            //Console.WriteLine("lag?");
-        }
-
         private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             usernameTextbox.Text = userDataView.Rows[e.RowIndex].Cells[1].Value.ToString();
@@ -134,9 +98,7 @@ namespace Factory_Inventory
                 comboBox1.Enabled = true;
             }
             comboBox1.SelectedIndex = Convert.ToInt32(userDataView.Rows[e.RowIndex].Cells[2].Value);
-
         }
-
         private void comboBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
@@ -147,6 +109,38 @@ namespace Factory_Inventory
                     e.Handled = true; 
                 }
             }
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            O_U_SignupForm f2 = new O_U_SignupForm(c);
+            f2.ShowDialog();
+            loadDatabase();
+        }
+
+        //user functions
+        public void loadDatabase()
+        {
+            DataTable d = c.getUserData();
+            DataColumn dc = new DataColumn("Access Level", typeof(string));
+            d.Columns.Add(dc);
+            d.Columns.Add("SLNO", typeof(int)).SetOrdinal(0);
+            for (int i = 0; i < d.Rows.Count; i++)
+            {
+                d.Rows[i][0] = i + 1;
+                if (d.Rows[i][2].ToString() == "1")
+                {
+                    d.Rows[i][3] = "Super User";
+                }
+                else
+                {
+                    d.Rows[i][3] = "Normal User";
+                }
+            }
+            //DataRow row = d.Rows[d.Rows.Count];
+            //d.Rows.Remove(row);
+            //d.DefaultView.Sort = "SLNO ASC";
+            userDataView.DataSource = d;
+            this.userDataView.Columns["AccessLevel"].Visible = false;
         }
     }
 }
