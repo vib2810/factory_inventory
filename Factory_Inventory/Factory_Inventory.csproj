@@ -167,59 +167,44 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AA_firmSelect.cs">
+    <Compile Include="Attendance\A_1_AddEditDropDowns.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AA_firmSelect.Designer.cs">
-      <DependentUpon>AA_firmSelect.cs</DependentUpon>
+    <Compile Include="Attendance\A_1_AddEditDropDowns.Designer.cs">
+      <DependentUpon>A_1_AddEditDropDowns.cs</DependentUpon>
     </Compile>
-    <Compile Include="AA_IPSelect.cs">
+    <Compile Include="Attendance\A_1_AddEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AA_IPSelect.Designer.cs">
-      <DependentUpon>AA_IPSelect.cs</DependentUpon>
+    <Compile Include="Attendance\A_1_AddEmployee.Designer.cs">
+      <DependentUpon>A_1_AddEmployee.cs</DependentUpon>
     </Compile>
-    <Compile Include="A_1_MarkAttendanceUC.cs">
+    <Compile Include="Attendance\A_1_editGroup.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="A_1_MarkAttendanceUC.Designer.cs">
+    <Compile Include="Attendance\A_1_editGroup.Designer.cs">
+      <DependentUpon>A_1_editGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Attendance\A_1_EmployeesUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Attendance\A_1_EmployeesUC.Designer.cs">
+      <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Attendance\A_1_MainS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Attendance\A_1_MainS.Designer.cs">
+      <DependentUpon>A_1_MainS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Attendance\A_1_MarkAttendanceUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Attendance\A_1_MarkAttendanceUC.Designer.cs">
       <DependentUpon>A_1_MarkAttendanceUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CoolPrintPreviewControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CoolPrintPreviewDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CoolPrintPreviewDialog.designer.cs">
-      <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Classes\AttConnect.cs" />
     <Compile Include="Factory_Classes\Global.cs" />
-    <Compile Include="Display_Carton_Produced.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Display_Carton_Produced.Designer.cs">
-      <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Display_Carton.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Display_Carton.Designer.cs">
-      <DependentUpon>Display_Carton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Display_Batch.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Display_Batch.Designer.cs">
-      <DependentUpon>Display_Batch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Display_Tray.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Display_Tray.Designer.cs">
-      <DependentUpon>Display_Tray.cs</DependentUpon>
-    </Compile>
     <Compile Include="FactoryDataDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -242,540 +227,585 @@
     <Compile Include="Factory_Classes\SuccessBox.Designer.cs">
       <DependentUpon>SuccessBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="HSComboBox.cs">
+    <Compile Include="Factory_Classes\DbConnect.cs" />
+    <Compile Include="Factory_Data\CoolPrintPreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\CoolPrintPreviewDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\CoolPrintPreviewDialog.designer.cs">
+      <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Batch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Batch.Designer.cs">
+      <DependentUpon>Display_Batch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Carton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Carton.Designer.cs">
+      <DependentUpon>Display_Carton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Carton_Produced.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Carton_Produced.Designer.cs">
+      <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Tray.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\Display_Tray.Designer.cs">
+      <DependentUpon>Display_Tray.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\HSComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="M_BackupRestore.cs">
+    <Compile Include="Factory_Data\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="M_BackupRestore.Designer.cs">
-      <DependentUpon>M_BackupRestore.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_1_inventoryUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_1_inventoryUC.Designer.cs">
-      <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="A_1_MainS.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="A_1_MainS.Designer.cs">
-      <DependentUpon>A_1_MainS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="A_1_EmployeesUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="A_1_EmployeesUC.Designer.cs">
-      <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="A_1_AddEmployee.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="A_1_AddEmployee.Designer.cs">
-      <DependentUpon>A_1_AddEmployee.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_2_newMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_2_newMain.Designer.cs">
-      <DependentUpon>M_2_newMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_I1_FromToDate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_I1_FromToDate.Designer.cs">
-      <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_I1_OnDate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_I1_OnDate.Designer.cs">
-      <DependentUpon>M_I1_OnDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_I1_temp.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_I1_temp.Designer.cs">
-      <DependentUpon>M_I1_temp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_I2_Tables.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_I2_Tables.Designer.cs">
-      <DependentUpon>M_I2_Tables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_settings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_settings.Designer.cs">
-      <DependentUpon>M_settings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_S_displayUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_S_displayUC.Designer.cs">
-      <DependentUpon>M_S_displayUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_S_defaultUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_S_defaultUC.Designer.cs">
-      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V5_OpeningUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V5_OpeningUC.Designer.cs">
-      <DependentUpon>M_V5_OpeningUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V5_cartonProductionOpeningForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V5_cartonProductionOpeningForm.Designer.cs">
-      <DependentUpon>M_V5_cartonProductionOpeningForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V3_issueToReDyeingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V3_issueToReDyeingForm.Designer.cs">
-      <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V4_printDO.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V4_printDO.Designer.cs">
-      <DependentUpon>M_V4_printDO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_I2_TablesUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_I2_TablesUC.Designer.cs">
-      <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_VC_addBill.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_VC_addBill.Designer.cs">
-      <DependentUpon>M_VC_addBill.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V4_printBatchReport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V4_printBatchReport.Designer.cs">
-      <DependentUpon>M_V4_printBatchReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V4_printCartonSlip.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V4_printCartonSlip.Designer.cs">
-      <DependentUpon>M_V4_printCartonSlip.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V4_printUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V4_printUC.Designer.cs">
-      <DependentUpon>M_V4_printUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V3_voucherInput3UC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V3_voucherInput3UC.Designer.cs">
-      <DependentUpon>M_V3_voucherInput3UC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V2_dyeingInwardForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V2_dyeingInwardForm.Designer.cs">
-      <DependentUpon>M_V2_dyeingInwardForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V3_cartonProductionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V3_cartonProductionForm.Designer.cs">
-      <DependentUpon>M_V3_cartonProductionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V2_dyeingIssueForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V2_dyeingIssueForm.Designer.cs">
-      <DependentUpon>M_V2_dyeingIssueForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V2_trayInputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V2_trayInputForm.Designer.cs">
-      <DependentUpon>M_V2_trayInputForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_VC_cartonSalesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_VC_cartonSalesForm.Designer.cs">
-      <DependentUpon>M_VC_cartonSalesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V1_cartonTwistForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V1_cartonTwistForm.Designer.cs">
-      <DependentUpon>M_V1_cartonTwistForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V1_cartonInwardForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V1_cartonInwardForm.Designer.cs">
-      <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V4_printDyeingOutward.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V4_printDyeingOutward.Designer.cs">
-      <DependentUpon>M_V4_printDyeingOutward.cs</DependentUpon>
-    </Compile>
-    <Compile Include="A_1_AddEditDropDowns.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="A_1_AddEditDropDowns.Designer.cs">
-      <DependentUpon>A_1_AddEditDropDowns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editColour.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editColour.Designer.cs">
-      <DependentUpon>M_V_editColour.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editConeUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editConeUC.Designer.cs">
-      <DependentUpon>M_V_editConeUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editDyeingCompanyUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editDyeingCompanyUC.Designer.cs">
-      <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="A_1_editGroup.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="A_1_editGroup.Designer.cs">
-      <DependentUpon>A_1_editGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editQBTUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editQBTUC.Designer.cs">
-      <DependentUpon>M_V_editQBTUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editMachineNoUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editMachineNoUC.Designer.cs">
-      <DependentUpon>M_V_editMachineNoUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_history.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V_history.Designer.cs">
-      <DependentUpon>M_V_history.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V2_voucherInput2UC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V2_voucherInput2UC.Designer.cs">
-      <DependentUpon>M_V2_voucherInput2UC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_AddEditDropDowns.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_V_AddEditDropDowns.Designer.cs">
-      <DependentUpon>M_V_AddEditDropDowns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editSpringUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editSpringUC.Designer.cs">
-      <DependentUpon>M_V_editSpringUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editCustomerUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editCustomerUC.Designer.cs">
-      <DependentUpon>M_V_editCustomerUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_V_editCompanyUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_V_editCompanyUC.Designer.cs">
-      <DependentUpon>M_V_editCompanyUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Factory_Classes\DbConnect.cs" />
-    <Compile Include="Login.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Login.Designer.cs">
+    <Compile Include="Factory_Data\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_1_Signup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_1_Signup.Designer.cs">
-      <DependentUpon>M_1_Signup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_1_MainS.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="M_1_MainS.Designer.cs">
-      <DependentUpon>M_1_MainS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="printDO.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="printDO.Designer.cs">
-      <DependentUpon>printDO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="printDyeingOutward.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="printDyeingOutward.Designer.cs">
-      <DependentUpon>printDyeingOutward.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="M_V_editQualityUC.cs">
+    <Compile Include="Factory_Data\M_1_InventoryUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="M_V_editQualityUC.Designer.cs">
-      <DependentUpon>M_V_editQualityUC.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_1_InventoryUC.Designer.cs">
+      <DependentUpon>M_1_InventoryUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_1_usersUC.cs">
+    <Compile Include="Factory_Data\M_1_loginlogUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="M_1_usersUC.Designer.cs">
-      <DependentUpon>M_1_usersUC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="M_1_loginlogUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="M_1_loginlogUC.Designer.cs">
+    <Compile Include="Factory_Data\M_1_loginlogUC.Designer.cs">
       <DependentUpon>M_1_loginlogUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_V1_voucherInput1UC.cs">
+    <Compile Include="Factory_Data\M_1_MainS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_1_MainS.Designer.cs">
+      <DependentUpon>M_1_MainS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_1_Signup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_1_Signup.Designer.cs">
+      <DependentUpon>M_1_Signup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_1_usersUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="M_V1_voucherInput1UC.Designer.cs">
-      <DependentUpon>M_V1_voucherInput1UC.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_1_usersUC.Designer.cs">
+      <DependentUpon>M_1_usersUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="M_1_vouchersUC.cs">
+    <Compile Include="Factory_Data\M_1_vouchersUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="M_1_vouchersUC.Designer.cs">
+    <Compile Include="Factory_Data\M_1_vouchersUC.Designer.cs">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectFolderDialogBox.cs" />
-    <Compile Include="setSalary.cs">
+    <Compile Include="Factory_Data\M_2_newMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="setSalary.Designer.cs">
-      <DependentUpon>setSalary.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_2_newMain.Designer.cs">
+      <DependentUpon>M_2_newMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="setDate.cs">
+    <Compile Include="Factory_Data\M_BackupRestore.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="setDate.Designer.cs">
+    <Compile Include="Factory_Data\M_BackupRestore.Designer.cs">
+      <DependentUpon>M_BackupRestore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_I1_FromToDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_I1_FromToDate.Designer.cs">
+      <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_I1_OnDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_I1_OnDate.Designer.cs">
+      <DependentUpon>M_I1_OnDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_I1_temp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_I1_temp.Designer.cs">
+      <DependentUpon>M_I1_temp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_I2_Tables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_I2_Tables.Designer.cs">
+      <DependentUpon>M_I2_Tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_I2_TablesUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_I2_TablesUC.Designer.cs">
+      <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_settings.Designer.cs">
+      <DependentUpon>M_settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_S_defaultUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_S_defaultUC.Designer.cs">
+      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_S_displayUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_S_displayUC.Designer.cs">
+      <DependentUpon>M_S_displayUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V1_cartonInwardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V1_cartonInwardForm.Designer.cs">
+      <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V1_cartonTwistForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V1_cartonTwistForm.Designer.cs">
+      <DependentUpon>M_V1_cartonTwistForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V1_voucherInput1UC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V1_voucherInput1UC.Designer.cs">
+      <DependentUpon>M_V1_voucherInput1UC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_dyeingInwardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_dyeingInwardForm.Designer.cs">
+      <DependentUpon>M_V2_dyeingInwardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_dyeingIssueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_dyeingIssueForm.Designer.cs">
+      <DependentUpon>M_V2_dyeingIssueForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_trayInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_trayInputForm.Designer.cs">
+      <DependentUpon>M_V2_trayInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_voucherInput2UC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V2_voucherInput2UC.Designer.cs">
+      <DependentUpon>M_V2_voucherInput2UC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V3_cartonProductionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V3_cartonProductionForm.Designer.cs">
+      <DependentUpon>M_V3_cartonProductionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V3_issueToReDyeingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V3_issueToReDyeingForm.Designer.cs">
+      <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V3_voucherInput3UC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V3_voucherInput3UC.Designer.cs">
+      <DependentUpon>M_V3_voucherInput3UC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printBatchReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printBatchReport.Designer.cs">
+      <DependentUpon>M_V4_printBatchReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printCartonSlip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printCartonSlip.Designer.cs">
+      <DependentUpon>M_V4_printCartonSlip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printDO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printDO.Designer.cs">
+      <DependentUpon>M_V4_printDO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printDyeingOutward.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printDyeingOutward.Designer.cs">
+      <DependentUpon>M_V4_printDyeingOutward.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V4_printUC.Designer.cs">
+      <DependentUpon>M_V4_printUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V5_cartonProductionOpeningForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V5_cartonProductionOpeningForm.Designer.cs">
+      <DependentUpon>M_V5_cartonProductionOpeningForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V5_OpeningUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V5_OpeningUC.Designer.cs">
+      <DependentUpon>M_V5_OpeningUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_VC_addBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_VC_addBill.Designer.cs">
+      <DependentUpon>M_VC_addBill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_VC_cartonSalesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_VC_cartonSalesForm.Designer.cs">
+      <DependentUpon>M_VC_cartonSalesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_AddEditDropDowns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_AddEditDropDowns.Designer.cs">
+      <DependentUpon>M_V_AddEditDropDowns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editColour.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editColour.Designer.cs">
+      <DependentUpon>M_V_editColour.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editCompanyUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editCompanyUC.Designer.cs">
+      <DependentUpon>M_V_editCompanyUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editConeUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editConeUC.Designer.cs">
+      <DependentUpon>M_V_editConeUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editCustomerUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editCustomerUC.Designer.cs">
+      <DependentUpon>M_V_editCustomerUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editDyeingCompanyUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editDyeingCompanyUC.Designer.cs">
+      <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editMachineNoUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editMachineNoUC.Designer.cs">
+      <DependentUpon>M_V_editMachineNoUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editQBTUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editQBTUC.Designer.cs">
+      <DependentUpon>M_V_editQBTUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editQualityUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editQualityUC.Designer.cs">
+      <DependentUpon>M_V_editQualityUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editSpringUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_editSpringUC.Designer.cs">
+      <DependentUpon>M_V_editSpringUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_history.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_V_history.Designer.cs">
+      <DependentUpon>M_V_history.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\printDO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\printDO.Designer.cs">
+      <DependentUpon>printDO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\printDyeingOutward.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\printDyeingOutward.Designer.cs">
+      <DependentUpon>printDyeingOutward.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\Program.cs" />
+    <Compile Include="Factory_Data\SelectFolderDialogBox.cs" />
+    <Compile Include="Factory_Data\setDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\setDate.Designer.cs">
       <DependentUpon>setDate.cs</DependentUpon>
     </Compile>
-    <Compile Include="setLocalString.cs">
+    <Compile Include="Factory_Data\setLocalString.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="setLocalString.Designer.cs">
+    <Compile Include="Factory_Data\setLocalString.Designer.cs">
       <DependentUpon>setLocalString.cs</DependentUpon>
     </Compile>
-    <Compile Include="TrayCalc.cs">
+    <Compile Include="Factory_Data\setSalary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TrayCalc.Designer.cs">
+    <Compile Include="Factory_Data\setSalary.Designer.cs">
+      <DependentUpon>setSalary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\TrayCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\TrayCalc.Designer.cs">
       <DependentUpon>TrayCalc.cs</DependentUpon>
     </Compile>
-    <Compile Include="TwistERP.cs">
+    <Compile Include="Factory_Data\TwistERP.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TwistERP.Designer.cs">
+    <Compile Include="Factory_Data\TwistERP.Designer.cs">
       <DependentUpon>TwistERP.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AA_firmSelect.resx">
+    <Compile Include="Main\AA_firmSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\AA_firmSelect.Designer.cs">
       <DependentUpon>AA_firmSelect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AA_IPSelect.resx">
+    </Compile>
+    <Compile Include="Main\AA_IPSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\AA_IPSelect.Designer.cs">
       <DependentUpon>AA_IPSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Attendance\A_1_AddEditDropDowns.resx">
+      <DependentUpon>A_1_AddEditDropDowns.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="A_1_MarkAttendanceUC.resx">
+    <EmbeddedResource Include="Attendance\A_1_AddEmployee.resx">
+      <DependentUpon>A_1_AddEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\A_1_editGroup.resx">
+      <DependentUpon>A_1_editGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\A_1_EmployeesUC.resx">
+      <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\A_1_MainS.resx">
+      <DependentUpon>A_1_MainS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\A_1_MarkAttendanceUC.resx">
       <DependentUpon>A_1_MarkAttendanceUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CoolPrintPreviewDialog.resx">
-      <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Display_Carton_Produced.resx">
-      <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Display_Carton.resx">
-      <DependentUpon>Display_Carton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Display_Batch.resx">
-      <DependentUpon>Display_Batch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Display_Tray.resx">
-      <DependentUpon>Display_Tray.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Classes\SuccessBox.resx">
       <DependentUpon>SuccessBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_BackupRestore.resx">
-      <DependentUpon>M_BackupRestore.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\CoolPrintPreviewDialog.resx">
+      <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_1_inventoryUC.resx">
-      <DependentUpon>M_1_inventoryUC.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\Display_Batch.resx">
+      <DependentUpon>Display_Batch.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="A_1_MainS.resx">
-      <DependentUpon>A_1_MainS.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\Display_Carton.resx">
+      <DependentUpon>Display_Carton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="A_1_EmployeesUC.resx">
-      <DependentUpon>A_1_EmployeesUC.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\Display_Carton_Produced.resx">
+      <DependentUpon>Display_Carton_Produced.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="A_1_AddEmployee.resx">
-      <DependentUpon>A_1_AddEmployee.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\Display_Tray.resx">
+      <DependentUpon>Display_Tray.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_2_newMain.resx">
-      <DependentUpon>M_2_newMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_I1_FromToDate.resx">
-      <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_I1_OnDate.resx">
-      <DependentUpon>M_I1_OnDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_I1_temp.resx">
-      <DependentUpon>M_I1_temp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_I2_Tables.resx">
-      <DependentUpon>M_I2_Tables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_settings.resx">
-      <DependentUpon>M_settings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_S_displayUC.resx">
-      <DependentUpon>M_S_displayUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_S_defaultUC.resx">
-      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V5_OpeningUC.resx">
-      <DependentUpon>M_V5_OpeningUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V5_cartonProductionOpeningForm.resx">
-      <DependentUpon>M_V5_cartonProductionOpeningForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V3_issueToReDyeingForm.resx">
-      <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V4_printDO.resx">
-      <DependentUpon>M_V4_printDO.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_I2_TablesUC.resx">
-      <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_VC_addBill.resx">
-      <DependentUpon>M_VC_addBill.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V4_printBatchReport.resx">
-      <DependentUpon>M_V4_printBatchReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V4_printCartonSlip.resx">
-      <DependentUpon>M_V4_printCartonSlip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V4_printDyeingOutward.resx">
-      <DependentUpon>M_V4_printDyeingOutward.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V4_printUC.resx">
-      <DependentUpon>M_V4_printUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V3_voucherInput3UC.resx">
-      <DependentUpon>M_V3_voucherInput3UC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V2_dyeingInwardForm.resx">
-      <DependentUpon>M_V2_dyeingInwardForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V3_cartonProductionForm.resx">
-      <DependentUpon>M_V3_cartonProductionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V2_dyeingIssueForm.resx">
-      <DependentUpon>M_V2_dyeingIssueForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V2_trayInputForm.resx">
-      <DependentUpon>M_V2_trayInputForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_VC_cartonSalesForm.resx">
-      <DependentUpon>M_VC_cartonSalesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V1_cartonTwistForm.resx">
-      <DependentUpon>M_V1_cartonTwistForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V1_cartonInwardForm.resx">
-      <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="A_1_AddEditDropDowns.resx">
-      <DependentUpon>A_1_AddEditDropDowns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editColour.resx">
-      <DependentUpon>M_V_editColour.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editConeUC.resx">
-      <DependentUpon>M_V_editConeUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editDyeingCompanyUC.resx">
-      <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="A_1_editGroup.resx">
-      <DependentUpon>A_1_editGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editQBTUC.resx">
-      <DependentUpon>M_V_editQBTUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editMachineNoUC.resx">
-      <DependentUpon>M_V_editMachineNoUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_history.resx">
-      <DependentUpon>M_V_history.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V2_voucherInput2UC.resx">
-      <DependentUpon>M_V2_voucherInput2UC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_AddEditDropDowns.resx">
-      <DependentUpon>M_V_AddEditDropDowns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editSpringUC.resx">
-      <DependentUpon>M_V_editSpringUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editCustomerUC.resx">
-      <DependentUpon>M_V_editCustomerUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V_editCompanyUC.resx">
-      <DependentUpon>M_V_editCompanyUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
+    <EmbeddedResource Include="Factory_Data\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_1_Signup.resx">
-      <DependentUpon>M_1_Signup.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_1_inventoryUC.resx">
+      <DependentUpon>M_1_InventoryUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="M_1_MainS.resx">
+    <EmbeddedResource Include="Factory_Data\M_1_loginlogUC.resx">
+      <DependentUpon>M_1_loginlogUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_1_MainS.resx">
       <DependentUpon>M_1_MainS.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="printDO.resx">
+    <EmbeddedResource Include="Factory_Data\M_1_Signup.resx">
+      <DependentUpon>M_1_Signup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_1_usersUC.resx">
+      <DependentUpon>M_1_usersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_1_vouchersUC.resx">
+      <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_2_newMain.resx">
+      <DependentUpon>M_2_newMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_BackupRestore.resx">
+      <DependentUpon>M_BackupRestore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_I1_FromToDate.resx">
+      <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_I1_OnDate.resx">
+      <DependentUpon>M_I1_OnDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_I1_temp.resx">
+      <DependentUpon>M_I1_temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_I2_Tables.resx">
+      <DependentUpon>M_I2_Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_I2_TablesUC.resx">
+      <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_settings.resx">
+      <DependentUpon>M_settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_S_defaultUC.resx">
+      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_S_displayUC.resx">
+      <DependentUpon>M_S_displayUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V1_cartonInwardForm.resx">
+      <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V1_cartonTwistForm.resx">
+      <DependentUpon>M_V1_cartonTwistForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V1_voucherInput1UC.resx">
+      <DependentUpon>M_V1_voucherInput1UC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V2_dyeingInwardForm.resx">
+      <DependentUpon>M_V2_dyeingInwardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V2_dyeingIssueForm.resx">
+      <DependentUpon>M_V2_dyeingIssueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V2_trayInputForm.resx">
+      <DependentUpon>M_V2_trayInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V2_voucherInput2UC.resx">
+      <DependentUpon>M_V2_voucherInput2UC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V3_cartonProductionForm.resx">
+      <DependentUpon>M_V3_cartonProductionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V3_issueToReDyeingForm.resx">
+      <DependentUpon>M_V3_issueToReDyeingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V3_voucherInput3UC.resx">
+      <DependentUpon>M_V3_voucherInput3UC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V4_printBatchReport.resx">
+      <DependentUpon>M_V4_printBatchReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V4_printCartonSlip.resx">
+      <DependentUpon>M_V4_printCartonSlip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V4_printDO.resx">
+      <DependentUpon>M_V4_printDO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V4_printDyeingOutward.resx">
+      <DependentUpon>M_V4_printDyeingOutward.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V4_printUC.resx">
+      <DependentUpon>M_V4_printUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V5_cartonProductionOpeningForm.resx">
+      <DependentUpon>M_V5_cartonProductionOpeningForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V5_OpeningUC.resx">
+      <DependentUpon>M_V5_OpeningUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_VC_addBill.resx">
+      <DependentUpon>M_VC_addBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_VC_cartonSalesForm.resx">
+      <DependentUpon>M_VC_cartonSalesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_AddEditDropDowns.resx">
+      <DependentUpon>M_V_AddEditDropDowns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editColour.resx">
+      <DependentUpon>M_V_editColour.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editCompanyUC.resx">
+      <DependentUpon>M_V_editCompanyUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editConeUC.resx">
+      <DependentUpon>M_V_editConeUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editCustomerUC.resx">
+      <DependentUpon>M_V_editCustomerUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editDyeingCompanyUC.resx">
+      <DependentUpon>M_V_editDyeingCompanyUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editMachineNoUC.resx">
+      <DependentUpon>M_V_editMachineNoUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editQBTUC.resx">
+      <DependentUpon>M_V_editQBTUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editQualityUC.resx">
+      <DependentUpon>M_V_editQualityUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_editSpringUC.resx">
+      <DependentUpon>M_V_editSpringUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V_history.resx">
+      <DependentUpon>M_V_history.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\printDO.resx">
       <DependentUpon>printDO.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="printDyeingOutward.resx">
+    <EmbeddedResource Include="Factory_Data\printDyeingOutward.resx">
       <DependentUpon>printDyeingOutward.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\setDate.resx">
+      <DependentUpon>setDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\setLocalString.resx">
+      <DependentUpon>setLocalString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\setSalary.resx">
+      <DependentUpon>setSalary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\TrayCalc.resx">
+      <DependentUpon>TrayCalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\TwistERP.resx">
+      <DependentUpon>TwistERP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\AA_firmSelect.resx">
+      <DependentUpon>AA_firmSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\AA_IPSelect.resx">
+      <DependentUpon>AA_IPSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -786,36 +816,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="M_V_editQualityUC.resx">
-      <DependentUpon>M_V_editQualityUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_1_usersUC.resx">
-      <DependentUpon>M_1_usersUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_1_loginlogUC.resx">
-      <DependentUpon>M_1_loginlogUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_V1_voucherInput1UC.resx">
-      <DependentUpon>M_V1_voucherInput1UC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="M_1_vouchersUC.resx">
-      <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="setSalary.resx">
-      <DependentUpon>setSalary.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="setDate.resx">
-      <DependentUpon>setDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="setLocalString.resx">
-      <DependentUpon>setLocalString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TrayCalc.resx">
-      <DependentUpon>TrayCalc.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TwistERP.resx">
-      <DependentUpon>TwistERP.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="FactoryDataDataSet.xsc">
       <DependentUpon>FactoryDataDataSet.xsd</DependentUpon>
     </None>
