@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class A_1_MainS : Form
+    public partial class T_MainS : Form
     {
         private const int CP_NOCLOSE_BUTTON = 0x200;
         protected override CreateParams CreateParams
@@ -55,7 +55,7 @@ namespace Factory_Inventory
         public Button last_clicked;
         public Color select = Color.SteelBlue;
 
-        public A_1_MainS()
+        public T_MainS()
         {
             
             InitializeComponent();

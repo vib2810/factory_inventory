@@ -97,7 +97,7 @@
             this.Controls.Add(this.ipTB);
             this.Name = "AA_IPSelect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AA_IPSelect";
+            this.Text = "Select IP Address";
             this.ResumeLayout(false);
             this.PerformLayout();
 

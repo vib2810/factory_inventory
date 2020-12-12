@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_1_MainS : Form
+    public partial class T_Main : Form
     {
         private const int CP_NOCLOSE_BUTTON = 0x200;
         protected override CreateParams CreateParams
@@ -50,7 +50,7 @@ namespace Factory_Inventory
         public Button last_clicked;
         public Color select = Color.SteelBlue;
 
-        public M_1_MainS(DbConnect input, string user, int access)
+        public T_Main(DbConnect input, string user, int access)
         {
             Global.access = access;
             this.c = input;
@@ -163,5 +163,6 @@ namespace Factory_Inventory
                                          Color.Black, 10, ButtonBorderStyle.Inset,
                                          Color.Black, 10, ButtonBorderStyle.Inset);
         }
+
     }
 }

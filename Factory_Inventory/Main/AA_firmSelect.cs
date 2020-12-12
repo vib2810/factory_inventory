@@ -14,7 +14,6 @@ namespace Factory_Inventory.Factory_Classes
     public partial class AA_firmSelect : Form
     {
         string con_start;
-        int firm_type;
         DataTable firmdata;
         MainConnect mc;
         public AA_firmSelect()
@@ -33,10 +32,6 @@ namespace Factory_Inventory.Factory_Classes
                 con_start = "Data Source = " + Properties.Settings.Default.LastIP + ", 1433;";
             }
         }
-        private void AA_firmSelect_Load(object sender, EventArgs e)
-        {
-            factoryButton.PerformClick();
-        }
 
         //callbacks
         private void localButton_Click(object sender, EventArgs e)
@@ -48,28 +43,14 @@ namespace Factory_Inventory.Factory_Classes
             {
                 this.con_start = f.final_string;
                 this.localButton.Text = f.button_text;
-                if (this.firm_type == 0) factoryButton.PerformClick();
-                else tradingButton.PerformClick();
+                fillfirms();
             }
-        }
-        private void factoryButton_Click(object sender, EventArgs e)
-        {
-            this.fillfirms(0);
-            factoryButton.BackColor = Color.Gold;
-            tradingButton.BackColor = SystemColors.Control;
-        }
-        private void tradingButton_Click(object sender, EventArgs e)
-        {
-            this.fillfirms(1);
-            tradingButton.BackColor = Color.Gold;
-            factoryButton.BackColor = SystemColors.Control;
         }
         private void enterButton_Click(object sender, EventArgs e)
         {
             this.Hide();
             string firmID = this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_ID"].ToString();
             string dbname = "FactoryData";
-            if (this.firm_type == 1) dbname = "TradingData";
             Global.defaultconnectionstring = Global.getconnectionstring(this.con_start, dbname+"_" + firmID);
             Login l = new Login();
             l.setfirmtb(this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString());
@@ -77,38 +58,35 @@ namespace Factory_Inventory.Factory_Classes
             Console.WriteLine("Hello here");
             if (l.access == 1 || l.access == 2)
             {
-                Global.background = new TwistERP();
+                //set the corresponding global connection string
+                DbConnect c = new DbConnect();
+                c.recordLogin(l.username);
+                Global.background = new TwistERP(l.username, l.access, this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString());
                 Global.background.IsMdiContainer = true;
-                if (this.firm_type == 0)
-                {
-                    //set the corresponding global connection string
-                    DbConnect c = new DbConnect();
-                    c.recordLogin(l.username);
-                    M_1_MainS ms = new M_1_MainS(c, l.username, l.access);
-                    Global.background.main_form = ms;
-                    ms.MdiParent = Global.background;
-                    ms.Scale(new SizeF(1.3F, 1.3F));
-                    ms.AutoScaleMode = AutoScaleMode.Font;
-                    ms.StartPosition = FormStartPosition.CenterScreen;
-                    ms.Show();
-                    Global.background.ShowDialog();
+                M_1_MainS ms = new M_1_MainS(c, l.username, l.access);
+                Global.background.main_form = ms;
+                ms.MdiParent = Global.background;
+                ms.Scale(new SizeF(1.3F, 1.3F));
+                ms.AutoScaleMode = AutoScaleMode.Font;
+                ms.StartPosition = FormStartPosition.CenterScreen;
+                ms.Show();
+                Global.background.ShowDialog();
 
-                    if (Global.background.logout == true)
-                    {
-                        c.recordLogout(l.username);
-                    }
+                if (Global.background.logout == true)
+                {
+                    c.recordLogout(l.username);
                 }
             }
             this.Show();
         }
 
         //user
-        public void fillfirms(int type)
+        public void fillfirms()
         {
             mc = new MainConnect(con_start);
 
             dataGridView1.Rows.Clear();
-            string sql = "SELECT * FROM Firms_List WHERE Firm_Type =" + type.ToString();
+            string sql = "SELECT * FROM Firms_List";
             DataTable dt = mc.runQuery(sql);
             this.firmdata = dt;
             if (dt == null) return;
@@ -116,8 +94,30 @@ namespace Factory_Inventory.Factory_Classes
             {
                 dataGridView1.Rows.Add(dt.Rows[i]["Firm_Name"].ToString(), dt.Rows[i]["Active_User"].ToString());
             }
-            this.firm_type = type;
+        }
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void AA_firmSelect_Load(object sender, EventArgs e)
+        {
+            fillfirms();
         }
 
+        private void AA_firmSelect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                if(dataGridView1.SelectedRows.Count==1)
+                {
+                    enterButton.PerformClick();
+                }
+            }
+        }
     }
 }

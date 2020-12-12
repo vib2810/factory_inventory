@@ -17,10 +17,15 @@ namespace Factory_Inventory
         List<string> backup_form = new List<string>();
         public M_1_MainS main_form = null;
         public bool logout = false;
-        public TwistERP()
+        public TwistERP(string user, int access, string firmname)
         {
             InitializeComponent();
             this.DoubleBuffered = true;
+            string access_type = "";
+            if (access == 1) access_type = "Super User";
+            else if (access == 2) access_type = "User";
+            this.usertoolStripButton1.Text = "Logged in as " + user + ": " + access_type;
+            this.firmtoolStripButton2.Text = firmname;
         }
 
         //group 0- ERP
@@ -55,6 +60,48 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
+        private void eRPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (this.attendance_forms.Contains(f.Name) || this.backup_form.Contains(f.Name))
+                {
+                    f.Visible = false;
+                }
+                else f.Visible = true;
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
+        private void tradingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            A_1_MainS frm = new A_1_MainS();
+            bool a_1_mains = false;
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == frm.Name)
+                {
+                    a_1_mains = true;
+                }
+                if (this.attendance_forms.Contains(f.Name))
+                {
+                    f.Visible = true;
+                }
+                else
+                {
+                    f.Visible = false;
+                }
+            }
+            if (a_1_mains == false)
+            {
+                frm.MdiParent = Global.background;
+                frm.Scale(new SizeF(1.3F, 1.3F));
+                frm.AutoScaleMode = AutoScaleMode.Font;
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                if (!this.attendance_forms.Contains(frm.Name)) this.attendance_forms.Add(frm.Name);
+                frm.Show();
+            }
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
         private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             A_1_MainS frm = new A_1_MainS();
@@ -85,18 +132,7 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
-        private void eRPToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (Form f in this.MdiChildren)
-            {
-                if (this.attendance_forms.Contains(f.Name) || this.backup_form.Contains(f.Name))
-                {
-                    f.Visible = false;
-                }
-                else f.Visible = true;
-            }
-            this.LayoutMdi(MdiLayout.Cascade);
-        }
+
         private void TwistERP_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -142,5 +178,6 @@ namespace Factory_Inventory
             M_settings f = new M_settings();
             Global.background.show_form(f);
         }
+
     }
 }

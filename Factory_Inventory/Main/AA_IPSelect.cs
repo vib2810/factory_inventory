@@ -77,7 +77,6 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     Properties.Settings.Default.LastIP = split[0];
                     properties_changed = true;
-                    Properties.Settings.Default.Save();
                 }
                 this.final_string = con;
                 this.button_text = "Remote Server: " + " Data Source = " + split[0];
@@ -87,7 +86,6 @@ namespace Factory_Inventory.Factory_Classes
                 Properties.Settings.Default.localState = this.checkBox1.Checked;
                 properties_changed = true;
             }
-            if (properties_changed == true) Properties.Settings.Default.Save();
 
             //test if the server exists
             bool result = this.TestForServer(Global.getconnectionstring(this.final_string, "Main"));
@@ -98,6 +96,7 @@ namespace Factory_Inventory.Factory_Classes
                 return;
             }
             Console.WriteLine("Server exists!!");
+            if (properties_changed == true) Properties.Settings.Default.Save();
 
             this.Close();
         }

@@ -2,7 +2,7 @@
 
 namespace Factory_Inventory
 {
-    partial class M_1_MainS
+    partial class T_Main
     {
         /// <summary>
         /// Required designer variable.
@@ -39,8 +39,6 @@ namespace Factory_Inventory
             this.usernameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.loginlogUC = new Factory_Inventory.M_1_loginlogUC();
-            this.usersUC = new Factory_Inventory.M_1_usersUC();
             this.inventoryUC = new Factory_Inventory.M_1_inventoryUC();
             this.vouchersUC = new Factory_Inventory.M_1_vouchersUC();
             this.SuspendLayout();
@@ -155,22 +153,6 @@ namespace Factory_Inventory
             this.label1.TabIndex = 0;
             this.label1.Text = "V";
             // 
-            // loginlogUC
-            // 
-            this.loginlogUC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.loginlogUC.Location = new System.Drawing.Point(69, 71);
-            this.loginlogUC.Name = "loginlogUC";
-            this.loginlogUC.Size = new System.Drawing.Size(671, 427);
-            this.loginlogUC.TabIndex = 0;
-            // 
-            // usersUC
-            // 
-            this.usersUC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.usersUC.Location = new System.Drawing.Point(69, 72);
-            this.usersUC.Name = "usersUC";
-            this.usersUC.Size = new System.Drawing.Size(671, 427);
-            this.usersUC.TabIndex = 0;
-            // 
             // inventoryUC
             // 
             this.inventoryUC.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -187,13 +169,15 @@ namespace Factory_Inventory
             this.vouchersUC.Size = new System.Drawing.Size(671, 427);
             this.vouchersUC.TabIndex = 0;
             // 
-            // M_1_MainS
+            // T_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 550);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.inventoryUC);
+            this.Controls.Add(this.vouchersUC);
             this.Controls.Add(this.usernameLabel);
             this.Controls.Add(this.UsersButton);
             this.Controls.Add(this.loginLogButton);
@@ -201,17 +185,13 @@ namespace Factory_Inventory
             this.Controls.Add(this.vouchersButton);
             this.Controls.Add(this.newUserButton);
             this.Controls.Add(this.logOutButton);
-            this.Controls.Add(this.vouchersUC);
-            this.Controls.Add(this.loginlogUC);
-            this.Controls.Add(this.usersUC);
-            this.Controls.Add(this.inventoryUC);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "M_1_MainS";
+            this.Name = "T_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Factory Inventory - Home";
+            this.Text = "Trading - Home";
             this.Load += new System.EventHandler(this.MainS_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -228,8 +208,6 @@ namespace Factory_Inventory
         private System.Windows.Forms.Label usernameLabel;
         private M_1_vouchersUC vouchersUC;
         private M_1_inventoryUC inventoryUC;
-        private M_1_usersUC usersUC;
-        private M_1_loginlogUC loginlogUC;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
     }
