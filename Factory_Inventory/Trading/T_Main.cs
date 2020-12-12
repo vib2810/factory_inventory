@@ -25,14 +25,6 @@ namespace Factory_Inventory
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (this.usersUC.conformPasswordTextbox.Focused == true || this.usersUC.passwordTextbox.Focused == true || this.usersUC.usernameTextbox.Focused == true)
-            {
-                if (keyData == Keys.Escape)
-                {
-                    this.UsersButton.Focus();
-                }
-                return false;
-            }
             if (keyData == Keys.V)
             {
                 this.vouchersButton.PerformClick();
@@ -45,27 +37,15 @@ namespace Factory_Inventory
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        public DbConnect c;
-        public bool logout = false;
         public Button last_clicked;
         public Color select = Color.SteelBlue;
 
-        public T_Main(DbConnect input, string user, int access)
+        public T_Main()
         {
-            Global.access = access;
-            this.c = input;
-            this.FormClosing += new FormClosingEventHandler(MainS_FormClosing);
             InitializeComponent();
             
             hide_all_UCs();
-            usersUC.currentUser = user;
             this.CenterToScreen();
-            if(Global.access==2)
-            {
-                this.UsersButton.Visible= false;
-                this.newUserButton.Visible = false;
-                this.loginLogButton.Visible = false;
-            }
         }
         private void MainS_Load(object sender, EventArgs e)
         {
@@ -86,24 +66,18 @@ namespace Factory_Inventory
         }
         private void hide_all_UCs()
         {
-            vouchersUC.Hide();
-            inventoryUC.Hide();
-            usersUC.Hide();
-            loginlogUC.Hide();
+            t_vouchersUC1.Hide();
+            //inventoryUC.Hide();
+            //usersUC.Hide();
+            //loginlogUC.Hide();
         }
-        private void newUser_Click(object sender, EventArgs e)
-        {
-            M_1_Signup f2 = new M_1_Signup(c, this);
-            f2.Show();
-            this.decolour_all_buttons();
-            this.newUserButton.BackColor = select;
-        }
+
         private void vouchersButton_Click_1(object sender, EventArgs e)
         {
             hide_all_UCs();
-            vouchersUC.Show();
-            vouchersUC.BringToFront();
-            vouchersUC.Focus();
+            t_vouchersUC1.Show();
+            t_vouchersUC1.BringToFront();
+            t_vouchersUC1.Focus();
             this.decolour_all_buttons();
             this.vouchersButton.BackColor = select;
             this.last_clicked = this.vouchersButton;
@@ -112,46 +86,13 @@ namespace Factory_Inventory
         private void inventoryButton_Click_1(object sender, EventArgs e)
         {
             hide_all_UCs();
-            inventoryUC.Show();
-            inventoryUC.BringToFront();
-            inventoryUC.Focus();
+            //inventoryUC.Show();
+            //inventoryUC.BringToFront();
+            //inventoryUC.Focus();
             this.decolour_all_buttons();
             this.inventoryButton.BackColor = select;
             this.last_clicked = this.inventoryButton;
             this.Text = "Factory Inventory - Home - Inventory";
-        }
-        private void UsersButton_Click_1(object sender, EventArgs e)
-        {
-            hide_all_UCs();
-            usersUC.Show();
-            usersUC.BringToFront();
-            usersUC.loadDatabase();
-            usersUC.Focus();
-            this.decolour_all_buttons();
-            this.UsersButton.BackColor = select;
-            this.last_clicked = this.UsersButton;
-            this.Text = "Factory Inventory - Home - Manage Users";
-        }
-        private void loginLogButton_Click(object sender, EventArgs e)
-        {
-            hide_all_UCs();
-            loginlogUC.Show();
-            loginlogUC.BringToFront();
-            loginlogUC.loadUserData();
-            loginlogUC.Focus();
-            this.decolour_all_buttons();
-            this.loginLogButton.BackColor = select;
-            this.last_clicked = this.loginLogButton;
-            this.Text = "Factory Inventory - Home - Login Log";
-        }
-       // bool first = false;
-        private void MainS_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //e.Cancel = true;
-        }
-        private void logOutButton_Click_1(object sender, EventArgs e)
-        {
-            this.MdiParent.Close();
         }
 
         protected override void OnPaint(PaintEventArgs e)

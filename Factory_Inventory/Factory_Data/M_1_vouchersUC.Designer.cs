@@ -33,17 +33,17 @@
             this.trayProductionButton = new System.Windows.Forms.Button();
             this.cartonProductionButton = new System.Windows.Forms.Button();
             this.printButton = new System.Windows.Forms.Button();
-            this.editCNameQualityButton = new System.Windows.Forms.Button();
+            this.masterButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.openingStockButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.m_V4_printUC1 = new Factory_Inventory.M_V4_printUC();
-            this.m_V3_voucherInput3UC1 = new Factory_Inventory.M_V3_voucherInput3UC();
-            this.m_V2_voucherInput2UC1 = new Factory_Inventory.M_V2_voucherInput2UC();
             this.voucherInput1UC1 = new Factory_Inventory.M_V1_voucherInput1UC();
+            this.m_V2_voucherInput2UC1 = new Factory_Inventory.M_V2_voucherInput2UC();
+            this.m_V3_voucherInput3UC1 = new Factory_Inventory.M_V3_voucherInput3UC();
+            this.m_V4_printUC1 = new Factory_Inventory.M_V4_printUC();
             this.m_V5_OpeningUC1 = new Factory_Inventory.M_V5_OpeningUC();
             this.SuspendLayout();
             // 
@@ -93,7 +93,7 @@
             // printButton
             // 
             this.printButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.printButton.Location = new System.Drawing.Point(16, 192);
+            this.printButton.Location = new System.Drawing.Point(16, 243);
             this.printButton.Name = "printButton";
             this.printButton.Size = new System.Drawing.Size(130, 45);
             this.printButton.TabIndex = 4;
@@ -101,17 +101,17 @@
             this.printButton.UseVisualStyleBackColor = false;
             this.printButton.Click += new System.EventHandler(this.button4_Click);
             // 
-            // editCNameQualityButton
+            // masterButton
             // 
-            this.editCNameQualityButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.editCNameQualityButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.editCNameQualityButton.Location = new System.Drawing.Point(16, 342);
-            this.editCNameQualityButton.Name = "editCNameQualityButton";
-            this.editCNameQualityButton.Size = new System.Drawing.Size(130, 66);
-            this.editCNameQualityButton.TabIndex = 7;
-            this.editCNameQualityButton.Text = "Add/Edit Fixed Details";
-            this.editCNameQualityButton.UseVisualStyleBackColor = false;
-            this.editCNameQualityButton.Click += new System.EventHandler(this.editCNameQualityButton_Click);
+            this.masterButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.masterButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.masterButton.Location = new System.Drawing.Point(16, 342);
+            this.masterButton.Name = "masterButton";
+            this.masterButton.Size = new System.Drawing.Size(130, 66);
+            this.masterButton.TabIndex = 7;
+            this.masterButton.Text = "Master";
+            this.masterButton.UseVisualStyleBackColor = false;
+            this.masterButton.Click += new System.EventHandler(this.editCNameQualityButton_Click);
             // 
             // label1
             // 
@@ -129,7 +129,7 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Gainsboro;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(128, 222);
+            this.label2.Location = new System.Drawing.Point(127, 269);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(15, 15);
             this.label2.TabIndex = 0;
@@ -160,7 +160,7 @@
             // openingStockButton
             // 
             this.openingStockButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.openingStockButton.Location = new System.Drawing.Point(16, 243);
+            this.openingStockButton.Location = new System.Drawing.Point(16, 192);
             this.openingStockButton.Name = "openingStockButton";
             this.openingStockButton.Size = new System.Drawing.Size(130, 45);
             this.openingStockButton.TabIndex = 6;
@@ -173,19 +173,27 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Gainsboro;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(129, 273);
+            this.label5.Location = new System.Drawing.Point(126, 218);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(16, 15);
             this.label5.TabIndex = 0;
             this.label5.Text = "O";
             // 
-            // m_V4_printUC1
+            // voucherInput1UC1
             // 
-            this.m_V4_printUC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
-            this.m_V4_printUC1.Location = new System.Drawing.Point(165, 0);
-            this.m_V4_printUC1.Name = "m_V4_printUC1";
-            this.m_V4_printUC1.Size = new System.Drawing.Size(514, 432);
-            this.m_V4_printUC1.TabIndex = 10;
+            this.voucherInput1UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(205)))));
+            this.voucherInput1UC1.Location = new System.Drawing.Point(165, 0);
+            this.voucherInput1UC1.Name = "voucherInput1UC1";
+            this.voucherInput1UC1.Size = new System.Drawing.Size(514, 432);
+            this.voucherInput1UC1.TabIndex = 6;
+            // 
+            // m_V2_voucherInput2UC1
+            // 
+            this.m_V2_voucherInput2UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(204)))));
+            this.m_V2_voucherInput2UC1.Location = new System.Drawing.Point(165, 0);
+            this.m_V2_voucherInput2UC1.Name = "m_V2_voucherInput2UC1";
+            this.m_V2_voucherInput2UC1.Size = new System.Drawing.Size(514, 432);
+            this.m_V2_voucherInput2UC1.TabIndex = 8;
             // 
             // m_V3_voucherInput3UC1
             // 
@@ -196,21 +204,13 @@
             this.m_V3_voucherInput3UC1.Size = new System.Drawing.Size(514, 432);
             this.m_V3_voucherInput3UC1.TabIndex = 9;
             // 
-            // m_V2_voucherInput2UC1
+            // m_V4_printUC1
             // 
-            this.m_V2_voucherInput2UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(204)))));
-            this.m_V2_voucherInput2UC1.Location = new System.Drawing.Point(165, 0);
-            this.m_V2_voucherInput2UC1.Name = "m_V2_voucherInput2UC1";
-            this.m_V2_voucherInput2UC1.Size = new System.Drawing.Size(514, 432);
-            this.m_V2_voucherInput2UC1.TabIndex = 8;
-            // 
-            // voucherInput1UC1
-            // 
-            this.voucherInput1UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(205)))));
-            this.voucherInput1UC1.Location = new System.Drawing.Point(165, 0);
-            this.voucherInput1UC1.Name = "voucherInput1UC1";
-            this.voucherInput1UC1.Size = new System.Drawing.Size(514, 432);
-            this.voucherInput1UC1.TabIndex = 6;
+            this.m_V4_printUC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
+            this.m_V4_printUC1.Location = new System.Drawing.Point(165, 0);
+            this.m_V4_printUC1.Name = "m_V4_printUC1";
+            this.m_V4_printUC1.Size = new System.Drawing.Size(514, 432);
+            this.m_V4_printUC1.TabIndex = 10;
             // 
             // m_V5_OpeningUC1
             // 
@@ -224,23 +224,23 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.m_V5_OpeningUC1);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.openingStockButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.m_V4_printUC1);
-            this.Controls.Add(this.m_V3_voucherInput3UC1);
-            this.Controls.Add(this.m_V2_voucherInput2UC1);
-            this.Controls.Add(this.editCNameQualityButton);
-            this.Controls.Add(this.voucherInput1UC1);
+            this.Controls.Add(this.masterButton);
             this.Controls.Add(this.printButton);
             this.Controls.Add(this.cartonProductionButton);
             this.Controls.Add(this.trayProductionButton);
             this.Controls.Add(this.cartonButton);
             this.Controls.Add(this.voucherLabel);
+            this.Controls.Add(this.m_V4_printUC1);
+            this.Controls.Add(this.m_V3_voucherInput3UC1);
+            this.Controls.Add(this.m_V2_voucherInput2UC1);
+            this.Controls.Add(this.voucherInput1UC1);
+            this.Controls.Add(this.m_V5_OpeningUC1);
+            this.Controls.Add(this.openingStockButton);
             this.Name = "M_1_vouchersUC";
             this.Size = new System.Drawing.Size(679, 433);
             this.ResumeLayout(false);
@@ -256,16 +256,16 @@
         private System.Windows.Forms.Button cartonProductionButton;
         private System.Windows.Forms.Button printButton;
         private M_V1_voucherInput1UC voucherInput1UC1;
-        private System.Windows.Forms.Button editCNameQualityButton;
-        private M_V2_voucherInput2UC m_V2_voucherInput2UC1;
-        private M_V3_voucherInput3UC m_V3_voucherInput3UC1;
-        private M_V4_printUC m_V4_printUC1;
+        private System.Windows.Forms.Button masterButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button openingStockButton;
         private System.Windows.Forms.Label label5;
+        private M_V2_voucherInput2UC m_V2_voucherInput2UC1;
+        private M_V3_voucherInput3UC m_V3_voucherInput3UC1;
+        private M_V4_printUC m_V4_printUC1;
         private M_V5_OpeningUC m_V5_OpeningUC1;
     }
 }

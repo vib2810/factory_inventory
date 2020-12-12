@@ -15,11 +15,13 @@ namespace Factory_Inventory
         public bool temp;
         List<string> attendance_forms = new List<string>();
         List<string> backup_form = new List<string>();
+        List<string> trading_forms = new List<string>();
         public M_1_MainS main_form = null;
         public bool logout = false;
         public TwistERP(string user, int access, string firmname)
         {
             InitializeComponent();
+            Global.access = access;
             this.DoubleBuffered = true;
             string access_type = "";
             if (access == 1) access_type = "Super User";
@@ -28,8 +30,10 @@ namespace Factory_Inventory
             this.firmtoolStripButton2.Text = firmname;
         }
 
-        //group 0- ERP
+        //group 0- Factory
         //group 1- Attendance
+        //group 2- Trading
+
         public void show_form(Form f, int group=0)
         {
             f.Scale(new SizeF(Properties.Settings.Default.ScaleX, Properties.Settings.Default.ScaleY));
@@ -58,6 +62,13 @@ namespace Factory_Inventory
                 f.MdiParent = this;
                 f.Show();
             }
+            if (group == 2)
+            {
+                if (!this.trading_forms.Contains(f.Name)) this.trading_forms.Add(f.Name);
+                f.MaximizeBox = false;
+                f.MdiParent = this;
+                f.Show();
+            }
             this.LayoutMdi(MdiLayout.Cascade);
         }
         private void TwistERP_FormClosing(object sender, FormClosingEventArgs e)
@@ -79,7 +90,7 @@ namespace Factory_Inventory
         {
             foreach (Form f in this.MdiChildren)
             {
-                if (this.attendance_forms.Contains(f.Name) || this.backup_form.Contains(f.Name))
+                if (this.attendance_forms.Contains(f.Name) || this.backup_form.Contains(f.Name) || this.trading_forms.Contains(f.Name))
                 {
                     f.Visible = false;
                 }
@@ -89,15 +100,15 @@ namespace Factory_Inventory
         }
         private void tradingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            A_1_MainS frm = new A_1_MainS();
-            bool a_1_mains = false;
+            T_Main frm = new T_Main();
+            bool t_mains = false;       //Checks whether t_main is already open or not. If not, then opens. Else shows the opeed one
             foreach (Form f in this.MdiChildren)
             {
                 if (f.Name == frm.Name)
                 {
-                    a_1_mains = true;
+                    t_mains = true;
                 }
-                if (this.attendance_forms.Contains(f.Name))
+                if (this.trading_forms.Contains(f.Name))
                 {
                     f.Visible = true;
                 }
@@ -106,13 +117,13 @@ namespace Factory_Inventory
                     f.Visible = false;
                 }
             }
-            if (a_1_mains == false)
+            if (t_mains == false)
             {
                 frm.MdiParent = Global.background;
                 frm.Scale(new SizeF(1.3F, 1.3F));
                 frm.AutoScaleMode = AutoScaleMode.Font;
                 frm.StartPosition = FormStartPosition.CenterScreen;
-                if (!this.attendance_forms.Contains(frm.Name)) this.attendance_forms.Add(frm.Name);
+                if (!this.trading_forms.Contains(frm.Name)) this.trading_forms.Add(frm.Name);
                 frm.Show();
             }
             this.LayoutMdi(MdiLayout.Cascade);
@@ -183,6 +194,7 @@ namespace Factory_Inventory
             }
             this.LayoutMdi(MdiLayout.Cascade);
         }
+
         private void applicationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             M_settings f = new M_settings();

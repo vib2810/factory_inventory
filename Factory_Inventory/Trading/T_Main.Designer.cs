@@ -30,48 +30,19 @@ namespace Factory_Inventory
         /// </summary>
         private void InitializeComponent()
         {
-            this.logOutButton = new System.Windows.Forms.Button();
-            this.newUserButton = new System.Windows.Forms.Button();
             this.vouchersButton = new System.Windows.Forms.Button();
             this.inventoryButton = new System.Windows.Forms.Button();
-            this.loginLogButton = new System.Windows.Forms.Button();
-            this.UsersButton = new System.Windows.Forms.Button();
             this.usernameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.inventoryUC = new Factory_Inventory.M_1_inventoryUC();
-            this.vouchersUC = new Factory_Inventory.M_1_vouchersUC();
+            this.t_vouchersUC1 = new Factory_Inventory.T_vouchersUC();
             this.SuspendLayout();
-            // 
-            // logOutButton
-            // 
-            this.logOutButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.logOutButton.BackColor = System.Drawing.Color.Red;
-            this.logOutButton.Location = new System.Drawing.Point(779, 72);
-            this.logOutButton.Name = "logOutButton";
-            this.logOutButton.Size = new System.Drawing.Size(111, 38);
-            this.logOutButton.TabIndex = 1;
-            this.logOutButton.Text = "Log Out";
-            this.logOutButton.UseVisualStyleBackColor = false;
-            this.logOutButton.Click += new System.EventHandler(this.logOutButton_Click_1);
-            // 
-            // newUserButton
-            // 
-            this.newUserButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.newUserButton.BackColor = System.Drawing.Color.DarkGray;
-            this.newUserButton.Location = new System.Drawing.Point(779, 433);
-            this.newUserButton.Name = "newUserButton";
-            this.newUserButton.Size = new System.Drawing.Size(111, 66);
-            this.newUserButton.TabIndex = 9;
-            this.newUserButton.Text = "Create New User";
-            this.newUserButton.UseVisualStyleBackColor = false;
-            this.newUserButton.Click += new System.EventHandler(this.newUser_Click);
             // 
             // vouchersButton
             // 
             this.vouchersButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.vouchersButton.BackColor = System.Drawing.Color.DarkGray;
-            this.vouchersButton.Location = new System.Drawing.Point(779, 116);
+            this.vouchersButton.Location = new System.Drawing.Point(766, 108);
             this.vouchersButton.Name = "vouchersButton";
             this.vouchersButton.Size = new System.Drawing.Size(111, 38);
             this.vouchersButton.TabIndex = 3;
@@ -83,37 +54,13 @@ namespace Factory_Inventory
             // 
             this.inventoryButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.inventoryButton.BackColor = System.Drawing.Color.DarkGray;
-            this.inventoryButton.Location = new System.Drawing.Point(779, 160);
+            this.inventoryButton.Location = new System.Drawing.Point(766, 152);
             this.inventoryButton.Name = "inventoryButton";
             this.inventoryButton.Size = new System.Drawing.Size(111, 38);
             this.inventoryButton.TabIndex = 4;
             this.inventoryButton.Text = "&Inventory";
             this.inventoryButton.UseVisualStyleBackColor = false;
             this.inventoryButton.Click += new System.EventHandler(this.inventoryButton_Click_1);
-            // 
-            // loginLogButton
-            // 
-            this.loginLogButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.loginLogButton.BackColor = System.Drawing.Color.DarkGray;
-            this.loginLogButton.Location = new System.Drawing.Point(779, 204);
-            this.loginLogButton.Name = "loginLogButton";
-            this.loginLogButton.Size = new System.Drawing.Size(111, 38);
-            this.loginLogButton.TabIndex = 6;
-            this.loginLogButton.Text = "Login Log";
-            this.loginLogButton.UseVisualStyleBackColor = false;
-            this.loginLogButton.Click += new System.EventHandler(this.loginLogButton_Click);
-            // 
-            // UsersButton
-            // 
-            this.UsersButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.UsersButton.BackColor = System.Drawing.Color.DarkGray;
-            this.UsersButton.Location = new System.Drawing.Point(779, 361);
-            this.UsersButton.Name = "UsersButton";
-            this.UsersButton.Size = new System.Drawing.Size(111, 66);
-            this.UsersButton.TabIndex = 8;
-            this.UsersButton.Text = "Manage Users";
-            this.UsersButton.UseVisualStyleBackColor = false;
-            this.UsersButton.Click += new System.EventHandler(this.UsersButton_Click_1);
             // 
             // usernameLabel
             // 
@@ -123,9 +70,9 @@ namespace Factory_Inventory
             this.usernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usernameLabel.Location = new System.Drawing.Point(34, 20);
             this.usernameLabel.Name = "usernameLabel";
-            this.usernameLabel.Size = new System.Drawing.Size(195, 32);
+            this.usernameLabel.Size = new System.Drawing.Size(119, 32);
             this.usernameLabel.TabIndex = 0;
-            this.usernameLabel.Text = "Twist Factory";
+            this.usernameLabel.Text = "Trading";
             // 
             // label2
             // 
@@ -134,7 +81,7 @@ namespace Factory_Inventory
             this.label2.BackColor = System.Drawing.Color.Gainsboro;
             this.label2.Cursor = System.Windows.Forms.Cursors.Default;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(875, 177);
+            this.label2.Location = new System.Drawing.Point(862, 169);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(11, 17);
             this.label2.TabIndex = 0;
@@ -147,44 +94,30 @@ namespace Factory_Inventory
             this.label1.BackColor = System.Drawing.Color.Gainsboro;
             this.label1.Cursor = System.Windows.Forms.Cursors.Default;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(869, 133);
+            this.label1.Location = new System.Drawing.Point(856, 125);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "V";
             // 
-            // inventoryUC
+            // t_vouchersUC1
             // 
-            this.inventoryUC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.inventoryUC.Location = new System.Drawing.Point(69, 72);
-            this.inventoryUC.Name = "inventoryUC";
-            this.inventoryUC.Size = new System.Drawing.Size(671, 427);
-            this.inventoryUC.TabIndex = 0;
-            // 
-            // vouchersUC
-            // 
-            this.vouchersUC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.vouchersUC.Location = new System.Drawing.Point(69, 72);
-            this.vouchersUC.Name = "vouchersUC";
-            this.vouchersUC.Size = new System.Drawing.Size(671, 427);
-            this.vouchersUC.TabIndex = 0;
+            this.t_vouchersUC1.Location = new System.Drawing.Point(69, 72);
+            this.t_vouchersUC1.Name = "t_vouchersUC1";
+            this.t_vouchersUC1.Size = new System.Drawing.Size(679, 433);
+            this.t_vouchersUC1.TabIndex = 5;
             // 
             // T_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 550);
+            this.Controls.Add(this.t_vouchersUC1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.inventoryUC);
-            this.Controls.Add(this.vouchersUC);
             this.Controls.Add(this.usernameLabel);
-            this.Controls.Add(this.UsersButton);
-            this.Controls.Add(this.loginLogButton);
             this.Controls.Add(this.inventoryButton);
             this.Controls.Add(this.vouchersButton);
-            this.Controls.Add(this.newUserButton);
-            this.Controls.Add(this.logOutButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
@@ -199,16 +132,11 @@ namespace Factory_Inventory
         }
 
         #endregion
-        private System.Windows.Forms.Button logOutButton;
-        private System.Windows.Forms.Button newUserButton;
         private System.Windows.Forms.Button vouchersButton;
         private System.Windows.Forms.Button inventoryButton;
-        private System.Windows.Forms.Button loginLogButton;
-        private System.Windows.Forms.Button UsersButton;
         private System.Windows.Forms.Label usernameLabel;
-        private M_1_vouchersUC vouchersUC;
-        private M_1_inventoryUC inventoryUC;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private T_vouchersUC t_vouchersUC1;
     }
 }

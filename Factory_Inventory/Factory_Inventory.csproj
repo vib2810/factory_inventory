@@ -228,13 +228,13 @@
       <DependentUpon>SuccessBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Classes\DbConnect.cs" />
-    <Compile Include="Additional Forms\CoolPrintPreviewControl.cs">
+    <Compile Include="Factory_Data\CoolPrintPreviewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Additional Forms\CoolPrintPreviewDialog.cs">
+    <Compile Include="Factory_Data\CoolPrintPreviewDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Additional Forms\CoolPrintPreviewDialog.designer.cs">
+    <Compile Include="Factory_Data\CoolPrintPreviewDialog.designer.cs">
       <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\Display_Batch.cs">
@@ -261,13 +261,13 @@
     <Compile Include="Factory_Data\Display_Tray.Designer.cs">
       <DependentUpon>Display_Tray.cs</DependentUpon>
     </Compile>
-    <Compile Include="Additional Forms\HSComboBox.cs">
+    <Compile Include="Factory_Data\HSComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Main\Login.cs">
+    <Compile Include="Factory_Data\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main\Login.Designer.cs">
+    <Compile Include="Factory_Data\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\M_1_InventoryUC.cs">
@@ -276,11 +276,11 @@
     <Compile Include="Factory_Data\M_1_InventoryUC.Designer.cs">
       <DependentUpon>M_1_InventoryUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\O_U_loginlogUC.cs">
+    <Compile Include="Factory_Data\M_1_loginlogUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main\O_U_loginlogUC.Designer.cs">
-      <DependentUpon>O_U_loginlogUC.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_1_loginlogUC.Designer.cs">
+      <DependentUpon>M_1_loginlogUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\M_1_MainS.cs">
       <SubType>Form</SubType>
@@ -288,17 +288,17 @@
     <Compile Include="Factory_Data\M_1_MainS.Designer.cs">
       <DependentUpon>M_1_MainS.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\O_U_SignupForm.cs">
+    <Compile Include="Factory_Data\M_1_Signup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main\O_U_SignupForm.Designer.cs">
-      <DependentUpon>O_U_SignupForm.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_1_Signup.Designer.cs">
+      <DependentUpon>M_1_Signup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\O_U_usersUC.cs">
+    <Compile Include="Factory_Data\M_1_usersUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main\O_U_usersUC.Designer.cs">
-      <DependentUpon>O_U_usersUC.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_1_usersUC.Designer.cs">
+      <DependentUpon>M_1_usersUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\M_1_vouchersUC.cs">
       <SubType>UserControl</SubType>
@@ -312,17 +312,11 @@
     <Compile Include="Factory_Data\M_2_newMain.Designer.cs">
       <DependentUpon>M_2_newMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\O_U_ManageUsersForm.cs">
+    <Compile Include="Factory_Data\M_BackupRestore.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main\O_U_ManageUsersForm.Designer.cs">
-      <DependentUpon>O_U_ManageUsersForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Main\O_BackupRestoreForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Main\O_BackupRestoreForm.Designer.cs">
-      <DependentUpon>O_BackupRestoreForm.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_BackupRestore.Designer.cs">
+      <DependentUpon>M_BackupRestore.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\M_I1_FromToDate.cs">
       <SubType>Form</SubType>
@@ -354,23 +348,23 @@
     <Compile Include="Factory_Data\M_I2_TablesUC.Designer.cs">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\O_SettingsForm.cs">
+    <Compile Include="Factory_Data\M_settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main\O_SettingsForm.Designer.cs">
-      <DependentUpon>O_SettingsForm.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_settings.Designer.cs">
+      <DependentUpon>M_settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\O_S_defaultUC.cs">
+    <Compile Include="Factory_Data\M_S_defaultUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main\O_S_defaultUC.Designer.cs">
-      <DependentUpon>O_S_defaultUC.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_S_defaultUC.Designer.cs">
+      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\O_S_displayUC.cs">
+    <Compile Include="Factory_Data\M_S_displayUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main\O_S_displayUC.Designer.cs">
-      <DependentUpon>O_S_displayUC.cs</DependentUpon>
+    <Compile Include="Factory_Data\M_S_displayUC.Designer.cs">
+      <DependentUpon>M_S_displayUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\M_V1_cartonInwardForm.cs">
       <SubType>Form</SubType>
@@ -564,18 +558,18 @@
     <Compile Include="Factory_Data\printDyeingOutward.Designer.cs">
       <DependentUpon>printDyeingOutward.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\Program.cs" />
-    <Compile Include="Additional Forms\SelectFolderDialogBox.cs" />
+    <Compile Include="Factory_Data\Program.cs" />
+    <Compile Include="Factory_Data\SelectFolderDialogBox.cs" />
     <Compile Include="Factory_Data\setDate.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Factory_Data\setDate.Designer.cs">
       <DependentUpon>setDate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\setLocalString.cs">
+    <Compile Include="Factory_Data\setLocalString.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main\setLocalString.Designer.cs">
+    <Compile Include="Factory_Data\setLocalString.Designer.cs">
       <DependentUpon>setLocalString.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\setSalary.cs">
@@ -590,10 +584,10 @@
     <Compile Include="Factory_Data\TrayCalc.Designer.cs">
       <DependentUpon>TrayCalc.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main\TwistERP.cs">
+    <Compile Include="Factory_Data\TwistERP.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main\TwistERP.Designer.cs">
+    <Compile Include="Factory_Data\TwistERP.Designer.cs">
       <DependentUpon>TwistERP.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\AA_firmSelect.cs">
@@ -609,6 +603,42 @@
       <DependentUpon>AA_IPSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trading\T_voucherInput4UC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_voucherInput4UC.Designer.cs">
+      <DependentUpon>T_voucherInput4UC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_voucherInput3UC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_voucherInput3UC.Designer.cs">
+      <DependentUpon>T_voucherInput3UC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_voucherInput2UC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_voucherInput2UC.Designer.cs">
+      <DependentUpon>T_voucherInput2UC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_voucherInput1UC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_voucherInput1UC.Designer.cs">
+      <DependentUpon>T_voucherInput1UC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\T_Main.Designer.cs">
+      <DependentUpon>T_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_vouchersUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_vouchersUC.Designer.cs">
+      <DependentUpon>T_vouchersUC.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Attendance\A_1_AddEditDropDowns.resx">
       <DependentUpon>A_1_AddEditDropDowns.cs</DependentUpon>
     </EmbeddedResource>
@@ -630,7 +660,7 @@
     <EmbeddedResource Include="Factory_Classes\SuccessBox.resx">
       <DependentUpon>SuccessBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Additional Forms\CoolPrintPreviewDialog.resx">
+    <EmbeddedResource Include="Factory_Data\CoolPrintPreviewDialog.resx">
       <DependentUpon>CoolPrintPreviewDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\Display_Batch.resx">
@@ -645,23 +675,23 @@
     <EmbeddedResource Include="Factory_Data\Display_Tray.resx">
       <DependentUpon>Display_Tray.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\Login.resx">
+    <EmbeddedResource Include="Factory_Data\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_1_inventoryUC.resx">
       <DependentUpon>M_1_InventoryUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_U_loginlogUC.resx">
-      <DependentUpon>O_U_loginlogUC.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_1_loginlogUC.resx">
+      <DependentUpon>M_1_loginlogUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_1_MainS.resx">
       <DependentUpon>M_1_MainS.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_U_SignupForm.resx">
-      <DependentUpon>O_U_SignupForm.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_1_Signup.resx">
+      <DependentUpon>M_1_Signup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_U_usersUC.resx">
-      <DependentUpon>O_U_usersUC.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_1_usersUC.resx">
+      <DependentUpon>M_1_usersUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_1_vouchersUC.resx">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
@@ -669,11 +699,8 @@
     <EmbeddedResource Include="Factory_Data\M_2_newMain.resx">
       <DependentUpon>M_2_newMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_U_ManageUsersForm.resx">
-      <DependentUpon>O_U_ManageUsersForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_BackupRestoreForm.resx">
-      <DependentUpon>O_BackupRestoreForm.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_BackupRestore.resx">
+      <DependentUpon>M_BackupRestore.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_I1_FromToDate.resx">
       <DependentUpon>M_I1_FromToDate.cs</DependentUpon>
@@ -690,14 +717,14 @@
     <EmbeddedResource Include="Factory_Data\M_I2_TablesUC.resx">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_SettingsForm.resx">
-      <DependentUpon>O_SettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_settings.resx">
+      <DependentUpon>M_settings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_S_defaultUC.resx">
-      <DependentUpon>O_S_defaultUC.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_S_defaultUC.resx">
+      <DependentUpon>M_S_defaultUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\O_S_displayUC.resx">
-      <DependentUpon>O_S_displayUC.cs</DependentUpon>
+    <EmbeddedResource Include="Factory_Data\M_S_displayUC.resx">
+      <DependentUpon>M_S_displayUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_V1_cartonInwardForm.resx">
       <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
@@ -798,7 +825,7 @@
     <EmbeddedResource Include="Factory_Data\setDate.resx">
       <DependentUpon>setDate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\setLocalString.resx">
+    <EmbeddedResource Include="Factory_Data\setLocalString.resx">
       <DependentUpon>setLocalString.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\setSalary.resx">
@@ -807,7 +834,7 @@
     <EmbeddedResource Include="Factory_Data\TrayCalc.resx">
       <DependentUpon>TrayCalc.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main\TwistERP.resx">
+    <EmbeddedResource Include="Factory_Data\TwistERP.resx">
       <DependentUpon>TwistERP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main\AA_firmSelect.resx">
@@ -825,6 +852,24 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Trading\T_voucherInput4UC.resx">
+      <DependentUpon>T_voucherInput4UC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_voucherInput3UC.resx">
+      <DependentUpon>T_voucherInput3UC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_voucherInput2UC.resx">
+      <DependentUpon>T_voucherInput2UC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_voucherInput1UC.resx">
+      <DependentUpon>T_voucherInput1UC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_Main.resx">
+      <DependentUpon>T_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_vouchersUC.resx">
+      <DependentUpon>T_vouchersUC.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="FactoryDataDataSet.xsc">
       <DependentUpon>FactoryDataDataSet.xsd</DependentUpon>
     </None>
@@ -873,8 +918,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Trading\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
