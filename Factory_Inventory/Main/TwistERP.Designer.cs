@@ -172,6 +172,7 @@
             this.usertoolStripButton1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.usertoolStripButton1.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usertoolStripButton1.Name = "usertoolStripButton1";
+            this.usertoolStripButton1.ReadOnly = true;
             this.usertoolStripButton1.Size = new System.Drawing.Size(350, 34);
             this.usertoolStripButton1.Text = "Logged in As: ";
             this.usertoolStripButton1.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -187,6 +188,7 @@
             this.firmtoolStripButton2.BackColor = System.Drawing.SystemColors.Info;
             this.firmtoolStripButton2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.firmtoolStripButton2.Name = "firmtoolStripButton2";
+            this.firmtoolStripButton2.ReadOnly = true;
             this.firmtoolStripButton2.Size = new System.Drawing.Size(300, 34);
             this.firmtoolStripButton2.Text = "{firmname}";
             // 

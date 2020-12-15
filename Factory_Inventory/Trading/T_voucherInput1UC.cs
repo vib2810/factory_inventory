@@ -48,7 +48,7 @@ namespace Factory_Inventory
                     return;
                 }
             }
-            M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
+            T_V1_cartonInwardForm f = new T_V1_cartonInwardForm();
             Global.background.show_form(f);
         }
 

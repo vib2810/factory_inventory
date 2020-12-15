@@ -99,6 +99,7 @@
             this.firmTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.firmTB.Location = new System.Drawing.Point(65, 125);
             this.firmTB.Name = "firmTB";
+            this.firmTB.ReadOnly = true;
             this.firmTB.Size = new System.Drawing.Size(213, 60);
             this.firmTB.TabIndex = 17;
             this.firmTB.Text = "Krishana sales and industries";
