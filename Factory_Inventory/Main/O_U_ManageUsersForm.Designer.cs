@@ -70,6 +70,7 @@
             // o_U_usersUC1
             // 
             this.o_U_usersUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.o_U_usersUC1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.o_U_usersUC1.Location = new System.Drawing.Point(3, 3);
             this.o_U_usersUC1.Margin = new System.Windows.Forms.Padding(5);
             this.o_U_usersUC1.Name = "o_U_usersUC1";
@@ -90,6 +91,7 @@
             // o_U_loginlogUC1
             // 
             this.o_U_loginlogUC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.o_U_loginlogUC1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.o_U_loginlogUC1.Location = new System.Drawing.Point(3, 3);
             this.o_U_loginlogUC1.Margin = new System.Windows.Forms.Padding(4);
             this.o_U_loginlogUC1.Name = "o_U_loginlogUC1";
