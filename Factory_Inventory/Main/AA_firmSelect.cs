@@ -72,13 +72,12 @@ namespace Factory_Inventory.Factory_Classes
                 Global.background.IsMdiContainer = true;
                 
                 //open all 3 main forms
-                T_Main trade = new T_Main();
-                Global.background.show_form(trade, 1, true);
                 A_1_MainS attendance = new A_1_MainS();
                 Global.background.show_form(attendance, 2, true);
                 M_1_MainS ms = new M_1_MainS();
                 Global.background.show_form(ms, 0, true);
-                
+                T_Main trade = new T_Main();
+                Global.background.show_form(trade, 1, true);
                 //show the background form, runtime stops till the dialouge is closed
                 Global.background.ShowDialog();
                 

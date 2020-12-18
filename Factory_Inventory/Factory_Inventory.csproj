@@ -609,6 +609,12 @@
       <DependentUpon>TwistERP.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trading\T_V1_cartonInwardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V1_cartonInwardForm.Designer.cs">
+      <DependentUpon>T_V1_cartonInwardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Trading\T_voucherInput4UC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -861,6 +867,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Trading\T_V1_cartonInwardForm.resx">
+      <DependentUpon>T_V1_cartonInwardForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Trading\T_voucherInput4UC.resx">
       <DependentUpon>T_voucherInput4UC.cs</DependentUpon>
     </EmbeddedResource>

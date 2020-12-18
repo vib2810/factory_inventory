@@ -1,12 +1,16 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -72,6 +76,7 @@ namespace Factory_Inventory
             vno_table_map[10] = "SalesBillNos_Voucher";
             vno_table_map[11] = "SalesBillNos_Voucher";
             vno_table_map[12] = "Redyeing_Voucher";
+            vno_table_map[13] = "T_Carton_Inward_Voucher";
 
             //Opening
             vno_table_map[100] = "Carton Production";
@@ -131,6 +136,9 @@ namespace Factory_Inventory
                     break;
                 case 12:
                     this.Text = "History - Redyeing";
+                    break;
+                case 13:
+                    this.Text = "History - Trading Carton Inward Voucher";
                     break;
                 case 100:
                     this.Text = "History - Carton Production Opening";
@@ -211,10 +219,62 @@ namespace Factory_Inventory
             }
             return d;
         }
+        private string select_stuff(string distinct, string column, string column_name)
+        {
+            string sql = "";
+            sql += "    ,STUFF((SELECT " + distinct + " ', ' + " + column + "\n";
+            sql += "        from #temp4 t1\n";
+            sql += "        where t.[Voucher_ID] = t1.[Voucher_ID]\n";
+            sql += "        FOR XML PATH(''), TYPE\n";
+            sql += "        ).value('.', 'NVARCHAR(MAX)')\n";
+            sql += "    ,1,2,'') " + column_name + "\n";
+            return sql;
+        }
+        private string select_function(string function, string column, string column_name)
+        {
+            return ",(Select " + function + "(" + column + ")from((select " + column + " from #temp4 where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
+        }
         public void loadData()
         {
             //Get dt
-            if(this.vno<100)
+            if(this.vno==13)
+            {
+                string sql = "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp4\n";
+                sql += "FROM\n";
+                sql += "    (SELECT temp2.*, T_M_Colours.Colour\n";
+                sql += "    FROM\n";
+                sql += "        (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
+                sql += "        FROM\n";
+                sql += "            (SELECT T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Bill_Type, T_Inward_Carton.Grade\n";
+                sql += "            FROM T_Carton_Inward_Voucher\n";
+                sql += "            FULL OUTER JOIN T_Inward_Carton\n";
+                sql += "            ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID) as temp1\n";
+                sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "        ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
+                sql += "    LEFT OUTER JOIN T_M_Colours\n";
+                sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
+                sql += "LEFT OUTER JOIN T_M_Company_Names\n";
+                sql += "ON T_M_Company_Names.Company_ID = temp3.Company_ID;\n";
+
+                sql += "select distinct t.[Voucher_ID]\n";
+                sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
+                sql += select_stuff("distinct", "t1.Colour", "Colour_Arr");
+                sql += select_stuff("distinct", "t1.Quality_Before_Job", "Quality_Before_Job_Arr");
+                sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
+                sql += select_stuff("", "CONVERT(VARCHAR, t1.Comments)", "Comments_Arr");
+
+                sql += "    ,t.Bill_No, t.Date_Of_Billing, t.Company_Name, t.Date_Of_Input, t.Deleted, t.Fiscal_Year, t.Bill_Type, CONVERT(VARCHAR, t.Narration) Narration\n";
+
+                sql += select_function("sum", "Net_Weight", "Net_Weight");
+                sql += select_function("sum", "Buy_Cost", "Buy_Cost");
+                sql += select_function("count", "Voucher_ID", "Number_Of_Cartons");
+                sql += "from #temp4 t;\n";
+
+                sql += "drop table #temp4;\n";
+                
+                this.dt = c.runQuery(sql);
+            }
+            else if(this.vno<100)
             {
                 this.dt = c.getVoucherHistories(vno_table_map[this.vno]);
             }
@@ -637,6 +697,51 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Redyeing_Batch_Fiscal_Year"].HeaderText = "New Batch Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Redyeing
+            if (this.vno == 13)         
+            {
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Billing"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Billing"].HeaderText = "Bill Date";
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
+                this.dataGridView1.Columns["Bill_No"].Visible = true;
+                this.dataGridView1.Columns["Bill_No"].DisplayIndex = 2;
+                this.dataGridView1.Columns["Bill_No"].HeaderText = "Bill Number";
+                this.dataGridView1.Columns["Bill_Type"].Visible = true;
+                this.dataGridView1.Columns["Bill_Type"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Bill_Type"].HeaderText = "Bill Type";
+                this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
+                this.dataGridView1.Columns["Quality_Before_Job_Arr"].Visible = true;
+                this.dataGridView1.Columns["Quality_Before_Job_Arr"].DisplayIndex = 5;
+                this.dataGridView1.Columns["Quality_Before_Job_Arr"].HeaderText = "Qualities";
+                this.dataGridView1.Columns["Colour_Arr"].Visible = true;
+                this.dataGridView1.Columns["Colour_Arr"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Colour_Arr"].HeaderText = "Colours";
+                this.dataGridView1.Columns["Company_Name"].Visible = true;
+                this.dataGridView1.Columns["Company_Name"].DisplayIndex = 7;
+                this.dataGridView1.Columns["Company_Name"].HeaderText = "Company Name";
+                this.dataGridView1.Columns["Net_Weight"].Visible = true;
+                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
+                this.dataGridView1.Columns["Buy_Cost"].Visible = true;
+                this.dataGridView1.Columns["Buy_Cost"].DisplayIndex = 9;
+                this.dataGridView1.Columns["Buy_Cost"].HeaderText = "Buy Cost";
+                this.dataGridView1.Columns["Number_of_Cartons"].Visible = true;
+                this.dataGridView1.Columns["Number_of_Cartons"].DisplayIndex = 10;
+                this.dataGridView1.Columns["Number_of_Cartons"].HeaderText = "Number of Cartons";
+                this.dataGridView1.Columns["Narration"].Visible = true;
+                this.dataGridView1.Columns["Narration"].DisplayIndex = 11;
+                this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                this.dataGridView1.Columns["Fiscal_Year"].Visible = true;
+                this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 12;
+                this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }      //Trading Carton Inward
             if (this.vno == 100)
             {
                 this.dataGridView1.ReadOnly = true;
@@ -833,6 +938,15 @@ namespace Factory_Inventory
                         this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
+                if (this.vno == 13)
+                {
+                    T_V1_cartonInwardForm f = new T_V1_cartonInwardForm(row, false, this);
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
+                    }
+                }
                 if (this.vno == 100)
                 {
                     M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, false, this);
@@ -966,6 +1080,15 @@ namespace Factory_Inventory
                         this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
+                if (this.vno == 13)
+                {
+                    T_V1_cartonInwardForm f = new T_V1_cartonInwardForm(row, true, this);
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
+                    }
+                }
                 if (this.vno == 100)
                 {
                     M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, true, this);
@@ -979,16 +1102,15 @@ namespace Factory_Inventory
             }
         }
 
+        //search
         private void searchButton_Click(object sender, EventArgs e)
         {
             this.search_in_voucher_table();
         }
-
         private void searchTB_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode==Keys.Enter) this.search_in_voucher_table();
         }
-
         private void searchByDateButton_Click(object sender, EventArgs e)
         {
             this.search_in_voucher_table(true);

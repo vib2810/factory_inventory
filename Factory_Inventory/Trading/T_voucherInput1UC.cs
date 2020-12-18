@@ -54,9 +54,9 @@ namespace Factory_Inventory
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (c.isHistoryFormOpen(1) == false)
+            if (c.isHistoryFormOpen(13) == false)
             {
-                M_V_history f = new M_V_history(1);
+                M_V_history f = new M_V_history(13);
                 Global.background.show_form(f);
             }
             

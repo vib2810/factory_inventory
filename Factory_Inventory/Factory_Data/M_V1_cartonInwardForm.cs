@@ -474,7 +474,7 @@ namespace Factory_Inventory
             }
             if (comboBox2CB.SelectedIndex == 0)
             {
-                c.ErrorBox("Enter Select Company Name", "Error");
+                c.ErrorBox("Select Company Name", "Error");
                 return;
             }
             if (dataGridView1.Rows.Count < 0)

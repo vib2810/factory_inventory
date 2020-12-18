@@ -544,6 +544,7 @@ namespace Factory_Inventory.Factory_Classes
                 e.Handled = true;
             }
         }
+
         private void PKeyDownCb(object sender, PreviewKeyDownEventArgs e)
         {
             ComboBox c = sender as ComboBox;
@@ -5304,7 +5305,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-
     }
 
 
