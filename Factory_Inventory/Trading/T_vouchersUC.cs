@@ -20,7 +20,7 @@ namespace Factory_Inventory
                 this.cartonButton.PerformClick(); ;
                 return false;
             }
-            if (keyData == Keys.T)
+            if (keyData == Keys.R)
             {
                 this.repackingButton.PerformClick();
                 return false;

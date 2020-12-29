@@ -3144,7 +3144,7 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     con.Open();
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    sql = "INSERT INTO Fiscal_Year VALUES ('" + financialyear + "', 0 ,'0', 'BB0', 'RR0')";
+                    sql = "INSERT INTO Fiscal_Year VALUES ('" + financialyear + "', 0 ,'0', 'BB0', 'RR0', '0')";
                     adapter.InsertCommand = new SqlCommand(sql, con);
                     adapter.InsertCommand.ExecuteNonQuery();
 
@@ -3169,7 +3169,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (Exception e)
             {
-                this.ErrorBox("Cannot get next batch number (getNextBatchNumber)\n" + e.Message, "Exception");
+                this.ErrorBox("Cannot get next number (getNextNumber_FiscalYear)\n" + e.Message, "Exception");
             }
             finally
             {

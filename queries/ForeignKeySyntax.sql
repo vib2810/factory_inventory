@@ -1,5 +1,5 @@
 use FactoryData_1
 
-alter table T_Carton_Inward_Voucher
-add constraint FK_Company_ID
-FOREIGN KEY (Company_ID) REFERENCES T_M_Company_Names(Company_ID)
+alter table T_Repacking_Voucher
+add constraint FK_Cone_ID
+FOREIGN KEY (Cone_ID) REFERENCES T_M_Cones(Cone_ID)

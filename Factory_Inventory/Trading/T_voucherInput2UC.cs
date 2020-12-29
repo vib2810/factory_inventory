@@ -41,22 +41,22 @@ namespace Factory_Inventory
         {
             foreach (Form form in Application.OpenForms)
             {
-                if (form.GetType() == typeof(M_V1_cartonInwardForm))
+                if (form.GetType() == typeof(T_V2_repackingForm))
                 {
                     form.WindowState = FormWindowState.Normal;
                     form.Activate();
                     return;
                 }
             }
-            M_V1_cartonInwardForm f = new M_V1_cartonInwardForm();
+            T_V2_repackingForm f = new T_V2_repackingForm();
             Global.background.show_form(f);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (c.isHistoryFormOpen(1) == false)
+            if (c.isHistoryFormOpen(14) == false)
             {
-                M_V_history f = new M_V_history(1);
+                M_V_history f = new M_V_history(14);
                 Global.background.show_form(f);
             }
             
