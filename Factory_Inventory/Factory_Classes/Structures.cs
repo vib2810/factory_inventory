@@ -1,8 +1,11 @@
 ﻿using Microsoft.SqlServer.Management.HadrModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -35,6 +38,17 @@ namespace Factory_Inventory.Factory_Classes
                     this.no_of_springs = 0; this.s_rd = 0; this.s_g = 0;
                     this.rd_percentage = 0F;
                 }
+            }
+        };
+
+        public struct ErrorTable
+        {
+            public DataTable dt;
+            public SqlException e;
+            public ErrorTable(DataTable dti, SqlException ei)
+            {
+                this.dt = dti;
+                this.e = ei;
             }
         };
     }

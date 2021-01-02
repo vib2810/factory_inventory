@@ -75,6 +75,8 @@ namespace Factory_Inventory
         private Dictionary<string, int> colour_dict = new Dictionary<string, int>();
         private Dictionary<string, int> quality_dict = new Dictionary<string, int>();
         private Dictionary<string, int> company_dict = new Dictionary<string, int>();
+        private List<Tuple<string, string>> carton_list = new List<Tuple<string, string>>();    //Will be accessed through selectedindex
+        ComboBox dgv2_cmb = null;
         private Dictionary<string, Tuple<float, int>> cones_dict = new Dictionary<string, Tuple<float, int>>();
         private List<string> batch_fiscal_year_list; //Stroes fiscal year of batches during edit only
         private List<string> show_batches; //Stores the batches in fiscal year format only during edit mode
@@ -121,7 +123,7 @@ namespace Factory_Inventory
             this.qualityComboboxCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.qualityComboboxCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            //Create drop-down Dyeing Company list
+            //Create drop-down Company list
             var dataSource3 = new List<string>();
             dt = c.runQuery("SELECT * FROM T_M_Company_Names");
             dataSource3.Add("---Select---");
@@ -462,7 +464,7 @@ namespace Factory_Inventory
                 dataGridView2.Rows[i].Cells[1].Value = this.show_batches[i];
                 dataGridView2.Rows[i].Cells[2].Value = batch_row["Net_Weight"].ToString();
             }
-            this.batchnwtTextbox.Text = this.CellSum2(2).ToString("F3");
+            this.inwardcartonnwtTextbox.Text = this.CellSum2(2).ToString("F3");
 
             //highest carton number;
             this.highest_carton_no = int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
@@ -564,17 +566,20 @@ namespace Factory_Inventory
         }
         private bool loadData(string today_fiscal_year, List<int> minmax_years)
         {
-            string sql = "SELECT* FROM\n";
+            string sql = "SELECT * FROM\n";
             sql += "    (SELECT T_Inward_Carton.*, T_Carton_Inward_Voucher.Company_ID\n";
             sql += "    FROM T_Inward_Carton\n";
             sql += "    LEFT OUTER JOIN T_Carton_Inward_Voucher\n";
-            sql += "    ON T_Inward_Carton.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID) as temp\n";
-            sql += "WHERE temp.Quality_ID = 2 AND temp.Colour_ID = 3 AND temp.Company_ID = 1\n";
+            sql += "    ON T_Inward_Carton.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID) as temp \n";
+            sql += "WHERE temp.Quality_ID = " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + " AND temp.Colour_ID = " + colour_dict[colourComboboxCB.SelectedItem.ToString()] + " \n";
+            sql += "AND temp.Company_ID = " + company_dict[companyComboboxCB.SelectedItem.ToString()] + " AND temp.Inward_Type = " + typeCB.SelectedItem.ToString() + "\n";
             this.dt = c.runQuery(sql);
+            if (dt == null) return false;
             for(int i=0;i<dt.Rows.Count;i++)
             {
                 this.carton_data.Add(dt.Rows[i]["Carton_ID"].ToString(), dt.Rows[i]);
-                this.carton_nos.Add(dt.Rows[i]["Carton_No"].ToString());
+                this.carton_nos.Add(dt.Rows[i]["Carton_No"].ToString() + "  (" + dt.Rows[i]["Net_Weight"].ToString() + ")");
+                this.carton_list.Add(new Tuple<string, string>(dt.Rows[i]["Carton_No"].ToString(), dt.Rows[i]["Carton_ID"].ToString()));
             }
             if (dt.Rows.Count<=0 && this.edit_form == false)
             {
@@ -646,10 +651,10 @@ namespace Factory_Inventory
         private void oilGainButton_Calculate()
         {
             float net_weight, batch_weight;
-            Console.WriteLine(batchnwtTextbox.Text);
+            Console.WriteLine(inwardcartonnwtTextbox.Text);
             try
             {
-                batch_weight = float.Parse(batchnwtTextbox.Text);
+                batch_weight = float.Parse(inwardcartonnwtTextbox.Text);
             }
             catch
             {
@@ -720,7 +725,7 @@ namespace Factory_Inventory
         private void saveButton_Click(object sender, EventArgs e)
         {
             this.cartonweight.Text = CellSum1(7).ToString("F3");
-            this.batchnwtTextbox.Text = CellSum2(2).ToString("F3");
+            this.inwardcartonnwtTextbox.Text = CellSum2(2).ToString("F3");
             //checks
             if (coneComboboxCB.SelectedIndex == 0)
             {
@@ -735,14 +740,14 @@ namespace Factory_Inventory
             try
             {
                 float.Parse(cartonweight.Text);
-                float.Parse(batchnwtTextbox.Text);
+                float.Parse(inwardcartonnwtTextbox.Text);
             }
             catch
             {
                 c.ErrorBox("Please enter carton/batch numbers");
                 return;
             }
-            if ((float.Parse(cartonweight.Text) - float.Parse(batchnwtTextbox.Text) < 0F) && closedCheckboxCK.Checked==true)
+            if ((float.Parse(cartonweight.Text) - float.Parse(inwardcartonnwtTextbox.Text) < 0F) && closedCheckboxCK.Checked==true)
             {
                 c.ErrorBox("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
                 return;
@@ -931,7 +936,7 @@ namespace Factory_Inventory
                 }
                 dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
             }
-            batchnwtTextbox.Text = CellSum2(2).ToString("F3");
+            inwardcartonnwtTextbox.Text = CellSum2(2).ToString("F3");
         }
         private void loadCartonButton_Click(object sender, EventArgs e)
         {
@@ -948,6 +953,11 @@ namespace Factory_Inventory
             if (companyComboboxCB.SelectedIndex == 0)
             {
                 c.ErrorBox("Select Dyeing Company Name", "Error");
+                return;
+            }
+            if (typeCB.SelectedIndex < 0)
+            {
+                c.ErrorBox("Select Inward Cartons Type", "Error");
                 return;
             }
             string today_fiscal_year = c.getFinancialYear(this.inputDate.Value);
@@ -1018,7 +1028,7 @@ namespace Factory_Inventory
                 return;
             }
         }
-
+            
 
         //dgv
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -1319,7 +1329,10 @@ namespace Factory_Inventory
                 ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
                 ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
                 ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+                ((ComboBox)e.Control).FormattingEnabled = false;
             }
+
+            dgv2_cmb = e.Control as ComboBox;
         }
         private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
@@ -1332,34 +1345,33 @@ namespace Factory_Inventory
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
-                for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
-                {
-                    for (int j = i + 1; j < dataGridView2.Rows.Count - 1; j++)
-                    {
-                        if (dataGridView2.Rows[i].Cells[1].Value == null || dataGridView2.Rows[j].Cells[1].Value == null)
-                        {
-                            continue;
-                        }
-                        if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
-                        {
-                            c.ErrorBox("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
-                            dataGridView2.Rows[j].Cells[1].Value = "";
-                            dataGridView2.Rows[j].Cells[2].Value = "";
-                            return;
-                        }
-                    }
-                }
+                //for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+                //{
+                //    for (int j = i + 1; j < dataGridView2.Rows.Count - 1; j++)
+                //    {
+                //        if (dataGridView2.Rows[i].Cells[1].Value == null || dataGridView2.Rows[j].Cells[1].Value == null)
+                //        {
+                //            continue;
+                //        }
+                //        if (dataGridView2.Rows[i].Cells[1].Value.ToString() == dataGridView2.Rows[j].Cells[1].Value.ToString())
+                //        {
+                //            c.ErrorBox("Rows " + (i + 1).ToString() + " and " + (j + 1).ToString() + " have same Batch Number", "Error");
+                //            dataGridView2.Rows[j].Cells[1].Value = "";
+                //            dataGridView2.Rows[j].Cells[2].Value = "";
+                //            return;
+                //        }
+                //    }
+                //}
                 if(!c.Cell_Not_NullOrEmpty(this.dataGridView2, e.RowIndex, 1))
                 {
                     return;
                 }
-                if(c.check_if_batch_repeated(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString()))
-                {
-                    string[] batch = c.repeated_batch_csv(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
-                    Tuple<string, string> temp = new Tuple<string, string>(batch[0], batch[1]);
-                    //dataGridView2.Rows[e.RowIndex].Cells[2].Value = carton_data[temp]["Net_Weight"].ToString();
-                    batchnwtTextbox.Text = CellSum2(2).ToString("F3");
-                }
+                string carton_id = "";
+                if (dgv2_cmb != null) carton_id = this.carton_list[dgv2_cmb.SelectedIndex].Item2;
+                Console.WriteLine(dgv2_cmb.SelectedIndex);
+                dataGridView2.Rows[e.RowIndex].Cells[2].Value = carton_data[carton_id]["Net_Weight"].ToString();
+                inwardcartonnwtTextbox.Text = CellSum2(2).ToString("F3");
+                
             }
         }
         private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)

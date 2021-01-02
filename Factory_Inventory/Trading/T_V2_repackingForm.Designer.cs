@@ -67,11 +67,13 @@
             this.label16 = new System.Windows.Forms.Label();
             this.typeCB = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.batchnwtTextbox = new System.Windows.Forms.TextBox();
+            this.inwardcartonnwtTextbox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.coneWeightTB = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
+            this.narrationTB = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -83,8 +85,7 @@
             // 
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -94,7 +95,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(829, 689);
+            this.dataGridView1.Size = new System.Drawing.Size(829, 627);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
@@ -122,10 +123,10 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(10, 656);
+            this.saveButton.Location = new System.Drawing.Point(10, 601);
             this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(211, 63);
+            this.saveButton.Size = new System.Drawing.Size(211, 56);
             this.saveButton.TabIndex = 15;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -186,7 +187,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(228, 728);
+            this.label5.Location = new System.Drawing.Point(228, 668);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(103, 20);
             this.label5.TabIndex = 0;
@@ -213,7 +214,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(349, 689);
+            this.dataGridView2.Size = new System.Drawing.Size(349, 627);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.TabStop = false;
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
@@ -311,7 +312,7 @@
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(1284, 854);
+            this.label12.Location = new System.Drawing.Point(1284, 824);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(26, 20);
             this.label12.TabIndex = 0;
@@ -319,9 +320,10 @@
             // 
             // cartonweight
             // 
-            this.cartonweight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cartonweight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cartonweight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cartonweight.Location = new System.Drawing.Point(1195, 721);
+            this.cartonweight.Location = new System.Drawing.Point(1195, 661);
             this.cartonweight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cartonweight.Name = "cartonweight";
             this.cartonweight.ReadOnly = true;
@@ -332,10 +334,11 @@
             // 
             // label13
             // 
-            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(1055, 728);
+            this.label13.Location = new System.Drawing.Point(1055, 668);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(134, 20);
             this.label13.TabIndex = 0;
@@ -361,8 +364,10 @@
             // 
             // oilGainTextbox
             // 
+            this.oilGainTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.oilGainTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oilGainTextbox.Location = new System.Drawing.Point(663, 721);
+            this.oilGainTextbox.Location = new System.Drawing.Point(663, 661);
             this.oilGainTextbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.oilGainTextbox.Name = "oilGainTextbox";
             this.oilGainTextbox.ReadOnly = true;
@@ -373,9 +378,11 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(587, 728);
+            this.label1.Location = new System.Drawing.Point(587, 668);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 20);
             this.label1.TabIndex = 0;
@@ -383,9 +390,11 @@
             // 
             // label10
             // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(836, 728);
+            this.label10.Location = new System.Drawing.Point(836, 668);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 20);
             this.label10.TabIndex = 0;
@@ -395,7 +404,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(7, 757);
+            this.label14.Location = new System.Drawing.Point(9, 731);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(98, 25);
             this.label14.TabIndex = 0;
@@ -404,10 +413,10 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(10, 568);
+            this.deleteButton.Location = new System.Drawing.Point(12, 542);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(209, 65);
+            this.deleteButton.Size = new System.Drawing.Size(209, 55);
             this.deleteButton.TabIndex = 0;
             this.deleteButton.TabStop = false;
             this.deleteButton.Text = "Delete Voucher";
@@ -461,21 +470,21 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(7, 192);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(40, 17);
+            this.label17.Size = new System.Drawing.Size(138, 17);
             this.label17.TabIndex = 38;
-            this.label17.Text = "Type";
+            this.label17.Text = "Inward Cartons Type";
             // 
-            // batchnwtTextbox
+            // inwardcartonnwtTextbox
             // 
-            this.batchnwtTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.batchnwtTextbox.Location = new System.Drawing.Point(337, 721);
-            this.batchnwtTextbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.batchnwtTextbox.Name = "batchnwtTextbox";
-            this.batchnwtTextbox.ReadOnly = true;
-            this.batchnwtTextbox.Size = new System.Drawing.Size(244, 27);
-            this.batchnwtTextbox.TabIndex = 0;
-            this.batchnwtTextbox.TabStop = false;
-            this.batchnwtTextbox.TextChanged += new System.EventHandler(this.batchnwtTextbox_TextChanged);
+            this.inwardcartonnwtTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.inwardcartonnwtTextbox.Location = new System.Drawing.Point(337, 661);
+            this.inwardcartonnwtTextbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.inwardcartonnwtTextbox.Name = "inwardcartonnwtTextbox";
+            this.inwardcartonnwtTextbox.ReadOnly = true;
+            this.inwardcartonnwtTextbox.Size = new System.Drawing.Size(244, 27);
+            this.inwardcartonnwtTextbox.TabIndex = 0;
+            this.inwardcartonnwtTextbox.TabStop = false;
+            this.inwardcartonnwtTextbox.TextChanged += new System.EventHandler(this.batchnwtTextbox_TextChanged);
             // 
             // label11
             // 
@@ -519,11 +528,31 @@
             this.label19.TabIndex = 43;
             this.label19.Text = "Cone Weight";
             // 
+            // narrationTB
+            // 
+            this.narrationTB.Location = new System.Drawing.Point(103, 703);
+            this.narrationTB.Name = "narrationTB";
+            this.narrationTB.Size = new System.Drawing.Size(1313, 22);
+            this.narrationTB.TabIndex = 44;
+            this.narrationTB.TabStop = false;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(10, 705);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(87, 20);
+            this.label20.TabIndex = 45;
+            this.label20.Text = "Narration";
+            // 
             // T_V2_repackingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1417, 821);
+            this.ClientSize = new System.Drawing.Size(1417, 791);
+            this.Controls.Add(this.narrationTB);
+            this.Controls.Add(this.label20);
             this.Controls.Add(this.coneWeightTB);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
@@ -552,7 +581,7 @@
             this.Controls.Add(this.colourComboboxCB);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.batchnwtTextbox);
+            this.Controls.Add(this.inwardcartonnwtTextbox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label6);
@@ -616,10 +645,12 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox typeCB;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox batchnwtTextbox;
+        private System.Windows.Forms.TextBox inwardcartonnwtTextbox;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox coneWeightTB;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox narrationTB;
+        private System.Windows.Forms.Label label20;
     }
 }

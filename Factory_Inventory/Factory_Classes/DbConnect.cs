@@ -23,6 +23,7 @@ using System.Windows.Input;
 using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
 using System.Configuration;
 using System.Net.Sockets;
+using static Factory_Inventory.Factory_Classes.Structures;
 
 namespace Factory_Inventory.Factory_Classes
 {
@@ -223,7 +224,7 @@ namespace Factory_Inventory.Factory_Classes
                 Console.WriteLine(sql);
                 adapter.Fill(dt);
             }
-            catch (Exception e)
+            catch (SqlException e)
             {
                 this.ErrorBox("Could not run Query (runQuery)\n" + sql + "\n" + e.Message, "Exception");
                 con.Close();
@@ -235,6 +236,30 @@ namespace Factory_Inventory.Factory_Classes
                 con.Close();
             }
             return dt;
+        }
+        public ErrorTable runQuerywithError(string sql)
+        {
+            //Return a custom error structure for more details about the error
+            //Datatable is null if there is an error
+            ErrorTable et = new ErrorTable(new DataTable(), null);
+            try
+            {
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
+                Console.WriteLine(sql);
+                adapter.Fill(et.dt);
+            }
+            catch (SqlException e)
+            {
+                con.Close();
+                return new ErrorTable(null, e);
+            }
+
+            finally
+            {
+                con.Close();
+            }
+            return et;
         }
         public string getDefault(string type, string name)
         {

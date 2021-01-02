@@ -15,3 +15,5 @@ create table Firms_List
 );
 
 insert into Firms_List values ('Krishna Sales and Industries',NULL)
+
+alter table fiscal_year add Highest_Repacking_Carton_No varchar(20) null

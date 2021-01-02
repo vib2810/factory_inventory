@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 //using System.Windows.Controls;
 using System.Windows.Forms;
+using static Factory_Inventory.Factory_Classes.Structures;
 
 //Delete Content Menu Strip in DGV2. Redundant ifs in DGV1 Key Down. Save Button
 namespace Factory_Inventory
@@ -231,7 +232,7 @@ namespace Factory_Inventory
                 dataSource2.Add(row["Company_Name"].ToString());
                 this.comboBox2CB.DataSource = dataSource2;
                 this.comboBox2CB.DisplayMember = "Company_Names";
-                dataSource3.Add(row["Bill_Type"].ToString());
+                dataSource3.Add(row["Inward_Type"].ToString());
                 this.typeCB.DataSource = dataSource3;
                 this.typeCB.DisplayMember = "Type";
                 this.disable_form_edit();   
@@ -268,7 +269,7 @@ namespace Factory_Inventory
                 this.comboBox2CB.SelectedIndex = this.comboBox2CB.FindStringExact(row["Company_Name"].ToString());
 
                 //Type CB
-                this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Bill_Type"].ToString());
+                this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Inward_Type"].ToString());
             }
 
             //Company CB
@@ -717,7 +718,7 @@ namespace Factory_Inventory
                         if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments") == true) comments = dataGridView1.Rows[i].Cells["Comments"].Value.ToString();
                         float weight = float.Parse(dataGridView1.Rows[i].Cells["Weight"].Value.ToString());
                         
-                        sql += "INSERT INTO T_Inward_Carton (Carton_No, Carton_State, Quality_ID, Colour_ID, Net_Weight, Buy_Cost, Fiscal_Year, Inward_Voucher_ID, Comments, Bill_Type, Grade) ";
+                        sql += "INSERT INTO T_Inward_Carton (Carton_No, Carton_State, Quality_ID, Colour_ID, Net_Weight, Buy_Cost, Fiscal_Year, Inward_Voucher_ID, Comments, Inward_Type, Grade) ";
                         sql += "VALUES ('" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', 0, " + quality_dict[quality] + ", " + colour_dict[colour] + ", " + weight + ", " + rate[new Tuple<string, string>(quality, colour)] + ", '" + fiscal_year + "', @voucherID, '" + comments + "', " + type + ", '" + grade + "'); ";
                     }
                     
@@ -726,14 +727,25 @@ namespace Factory_Inventory
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction; ";
                 sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); ";
                 sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; ";
-                DataTable d = c.runQuery(sql);
-                if(d!=null)
+                ErrorTable et = c.runQuerywithError(sql);
+
+                if (et.dt != null)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     c.SuccessBox("Voucher Added Successfully");
                     disable_form_edit();
                 }
-                else return;
+                else if(et.e.State== 10)
+                {
+                    //primary key violation
+                    Global.ErrorBox("Repeated Carton Number with the same Quality, Colour, Weight and Financial Year entered\n" + et.e.Message);
+                    return;
+                }
+                else
+                {
+                    Global.ErrorBox("Could not save voucher:\n" + et.e.Message);
+                    return;
+                }
             }
             else
             {
@@ -772,11 +784,11 @@ namespace Factory_Inventory
                         {
                             string carton_id = dataGridView1.Rows[i].Cells["Carton_ID"].Value.ToString();
                             cartons_to_edit[carton_id] = true;
-                            sql += "UPDATE T_Inward_Carton SET Carton_No = '" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', Quality_ID = " + quality_dict[quality] + ", Colour_ID = " + colour_dict[colour] + ", Net_Weight = " + weight + ", Buy_Cost = " + rate[new Tuple<string, string>(quality, colour)] + ", Comments = '" + comments + "', Bill_Type = " + type + ", Grade = '" + grade + "' WHERE Carton_ID = '" + carton_id + "';\n";
+                            sql += "UPDATE T_Inward_Carton SET Carton_No = '" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', Quality_ID = " + quality_dict[quality] + ", Colour_ID = " + colour_dict[colour] + ", Net_Weight = " + weight + ", Buy_Cost = " + rate[new Tuple<string, string>(quality, colour)] + ", Comments = '" + comments + "', Inward_Type = " + type + ", Grade = '" + grade + "' WHERE Carton_ID = '" + carton_id + "';\n";
                         }
                         else
                         {
-                            sql += "INSERT INTO T_Inward_Carton (Carton_No, Carton_State, Quality_ID, Colour_ID, Net_Weight, Buy_Cost, Fiscal_Year, Inward_Voucher_ID, Comments, Bill_Type, Grade) ";
+                            sql += "INSERT INTO T_Inward_Carton (Carton_No, Carton_State, Quality_ID, Colour_ID, Net_Weight, Buy_Cost, Fiscal_Year, Inward_Voucher_ID, Comments, Inward_Type, Grade) ";
                             sql += "VALUES ('" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', 0, " + quality_dict[quality] + ", " + colour_dict[colour] + ", " + weight + ", " + rate[new Tuple<string, string>(quality, colour)] + ", '" + fiscal_year + "', " + this.voucher_id + ", '" + comments + "', " + type + ", '" + grade + "');\n";
                         }
                     }
@@ -794,15 +806,26 @@ namespace Factory_Inventory
                 //catch
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction;\n";
                 sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE();\n";
-                sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH;\n";
-                DataTable d = c.runQuery(sql);
-                if (d != null)
+                sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, 10); END CATCH;\n";
+                //Note the specific error state to check problems with primary key violations
+                ErrorTable et = c.runQuerywithError(sql);
+                if (et.dt != null)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     c.SuccessBox("Voucher Added Successfully");
                     disable_form_edit();
                 }
-                else return;
+                else if (et.e.State == 10)
+                {
+                    //primary key violation
+                    Global.ErrorBox("Repeated Carton Number with the same Quality, Colour, Weight and Financial Year entered " + et.e.Message);
+                    return;
+                }
+                else
+                {
+                    Global.ErrorBox("Could not save voucher:\n"+et.e.Message);
+                    return;
+                }
             }
             dataGridView1.EnableHeadersVisualStyles = false;
         }

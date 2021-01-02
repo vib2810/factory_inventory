@@ -245,7 +245,7 @@ namespace Factory_Inventory
                 sql += "    FROM\n";
                 sql += "        (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
                 sql += "        FROM\n";
-                sql += "            (SELECT T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Bill_Type, T_Inward_Carton.Grade\n";
+                sql += "            (SELECT T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Inward_Type, T_Inward_Carton.Grade\n";
                 sql += "            FROM T_Carton_Inward_Voucher\n";
                 sql += "            FULL OUTER JOIN T_Inward_Carton\n";
                 sql += "            ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID) as temp1\n";
@@ -263,7 +263,7 @@ namespace Factory_Inventory
                 sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
                 sql += select_stuff("", "CONVERT(VARCHAR, t1.Comments)", "Comments_Arr");
 
-                sql += "    ,t.Bill_No, t.Date_Of_Billing, t.Company_Name, t.Date_Of_Input, t.Deleted, t.Fiscal_Year, t.Bill_Type, CONVERT(VARCHAR, t.Narration) Narration\n";
+                sql += "    ,t.Bill_No, t.Date_Of_Billing, t.Company_Name, t.Date_Of_Input, t.Deleted, t.Fiscal_Year, t.Inward_Type, CONVERT(VARCHAR, t.Narration) Narration\n";
 
                 sql += select_function("sum", "Net_Weight", "Net_Weight");
                 sql += select_function("sum", "Buy_Cost", "Buy_Cost");
@@ -710,9 +710,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Bill_No"].Visible = true;
                 this.dataGridView1.Columns["Bill_No"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Bill_No"].HeaderText = "Bill Number";
-                this.dataGridView1.Columns["Bill_Type"].Visible = true;
-                this.dataGridView1.Columns["Bill_Type"].DisplayIndex = 3;
-                this.dataGridView1.Columns["Bill_Type"].HeaderText = "Bill Type";
+                this.dataGridView1.Columns["Inward_Type"].Visible = true;
+                this.dataGridView1.Columns["Inward_Type"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Inward_Type"].HeaderText = "Inward Type";
                 this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
                 this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 4;
                 this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
