@@ -59,6 +59,7 @@ namespace Factory_Inventory.Factory_Classes
             string firmID = this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_ID"].ToString();
             string dbname = "FactoryData";
             Global.defaultconnectionstring = Global.getconnectionstring(this.con_start, dbname+"_" + firmID);
+            Global.firmid = firmID;
             Login l = new Login();
             l.setfirmtb(this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString());
             l.ShowDialog();

@@ -16,6 +16,7 @@ namespace Factory_Inventory
         private static int _access = -1;
         private static Color _printedcolor=Color.GreenYellow;
         private static string _connectionstring = "";
+        private static string _firmid = "";
 
         public static TwistERP background
         {
@@ -36,6 +37,11 @@ namespace Factory_Inventory
         {
             get { return _connectionstring; }
             set { _connectionstring = value; }
+        }
+        public static string firmid
+        {
+            get { return _firmid; }
+            set { _firmid = value; }
         }
 
         public static string getconnectionstring(string database)

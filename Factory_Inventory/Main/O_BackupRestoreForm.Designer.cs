@@ -46,9 +46,7 @@
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.fileNameTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -208,19 +206,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Save File Name As:";
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Factory Data",
-            "Factory Attendance"});
-            this.comboBox1.Location = new System.Drawing.Point(105, 348);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(154, 24);
-            this.comboBox1.TabIndex = 0;
-            this.comboBox1.TabStop = false;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -229,15 +214,6 @@
             this.label4.Size = new System.Drawing.Size(69, 17);
             this.label4.TabIndex = 0;
             this.label4.Text = "Database";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(102, 330);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 17);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Database";
             // 
             // pictureBox1
             // 
@@ -276,9 +252,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.fileNameTB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.checkedListBox1);
@@ -323,9 +297,7 @@
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         public System.Windows.Forms.TextBox fileNameTB;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;

@@ -26,10 +26,6 @@ namespace Factory_Inventory
             InitializeComponent();
             c = new DbConnect(); 
             this.backupLoactionTB.Text = @"D:\Backups\";
-            this.comboBox1.SelectedIndex = 0;
-            this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -49,8 +45,10 @@ namespace Factory_Inventory
         {
             try
             {
+                Console.WriteLine("-----------------");
+                Console.WriteLine(Global.getconnectionstring(database));
                 Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
-                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database };
+                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database + "_" + Global.firmid };
                 string backup_location = path + @"\" + this.fileNameTB.Text + database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
@@ -118,7 +116,7 @@ namespace Factory_Inventory
         }
         private void browseRestoreButton_Click(object sender, EventArgs e)
         {
-            string database = this.comboBox1.SelectedItem.ToString().Replace(" ", String.Empty);
+            string database = "FactoryData_" + Global.firmid;
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
                 InitialDirectory = @"D:\",
@@ -148,7 +146,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Please select restore file", "Error");
                 return;
             }
-            string database = this.comboBox1.SelectedItem.ToString().Replace(" ", String.Empty);
+            string database = "FactoryData_" + Global.firmid;
             try
             {
                 //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
