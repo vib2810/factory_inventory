@@ -33,7 +33,6 @@ namespace Factory_Inventory.Factory_Classes
             string ip_address = Properties.Settings.Default.LastIP;
             //Connection string for Vob's laptop
             this.con = new SqlConnection(Global.getconnectionstring("FactoryAttendance")); // making connection  
-            Console.WriteLine(con.ConnectionString);
         }
 
         public bool addEmployee(string name, int group_id, DateTime dtjoining_date, float salary)

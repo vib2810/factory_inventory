@@ -44,10 +44,9 @@ namespace Factory_Inventory
         private void backup(string path, string database)
         {
             try
-            {
-                Console.WriteLine("-----------------");
+            { 
                 Console.WriteLine(Global.getconnectionstring(database));
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database + "_" + Global.firmid))));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database + "_" + Global.firmid };
                 string backup_location = path + @"\" + this.fileNameTB.Text + database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
@@ -149,11 +148,11 @@ namespace Factory_Inventory
             string database = "FactoryData_" + Global.firmid;
             try
             {
-                //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP + ", 1433", "sa", "Kdvghr2810@"));
                 Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database };
                 string s = this.restoreLocationTB.Text;
                 string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + "restorebackup.bak";
+                Console.WriteLine(backup_location);
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbRestore_PercentComplete;
@@ -167,7 +166,6 @@ namespace Factory_Inventory
             progressBar2.Value = 0;
             try
             {
-                //Server dbServer = new Server(new ServerConnection(Properties.Settings.Default.LastIP +", 1433", "sa", "Kdvghr2810@"));
                 Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
                 Database db = dbServer.Databases[database];
                 dbServer.KillAllProcesses(db.Name);

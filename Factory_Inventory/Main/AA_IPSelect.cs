@@ -65,6 +65,11 @@ namespace Factory_Inventory.Factory_Classes
             {
                 //take the local string
                 this.final_string = Properties.Settings.Default.LocalConnectionString;
+                if(string.IsNullOrWhiteSpace(final_string)==true)
+                {
+                    Global.ErrorBox("Local Connection String not set");
+                    return;
+                }
                 this.button_text = "Local Server: "+ this.final_string.Substring(0, this.final_string.Length-1);
             }
             else
@@ -106,6 +111,7 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 SqlConnection temp = new SqlConnection(con + "Connection Timeout=5"); // making connection   
+                Console.WriteLine(con);
                 temp.Open();
                 temp.Close();
             }
