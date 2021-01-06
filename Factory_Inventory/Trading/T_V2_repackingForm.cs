@@ -67,7 +67,7 @@ namespace Factory_Inventory
         private DbConnect c;
         private bool edit_cmd_send = false;
         private bool edit_form = false;
-        private List<string> carton_nos;
+        private List<string> carton_nos_display;
         private M_V_history v1_history;
         private int voucher_id;
         private int batch_state;
@@ -75,20 +75,20 @@ namespace Factory_Inventory
         private Dictionary<string, int> colour_dict = new Dictionary<string, int>();
         private Dictionary<string, int> quality_dict = new Dictionary<string, int>();
         private Dictionary<string, int> company_dict = new Dictionary<string, int>();
-        private List<Tuple<string, string>> carton_list = new List<Tuple<string, string>>();    //Will be accessed through selectedindex
         ComboBox dgv2_cmb = null;
         private Dictionary<string, Tuple<float, int>> cones_dict = new Dictionary<string, Tuple<float, int>>();
         private List<string> batch_fiscal_year_list; //Stroes fiscal year of batches during edit only
         private List<string> show_batches; //Stores the batches in fiscal year format only during edit mode
         Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
         Dictionary<string, DataRow> carton_data = new Dictionary<string, DataRow>();  //<Carton ID, Carton Row>
+        Dictionary<Tuple<string, string, string>, string> carton_id_get = new Dictionary<Tuple<string, string, string>, string>();  //<{Carton No, Net Weight, Fiscal Year}, Carton ID>
         DataTable dt;
         DateTimePicker dtp = new DateTimePicker();
         public T_V2_repackingForm()
         {
             InitializeComponent();
             this.c = new DbConnect();
-            this.carton_nos = new List<string>();
+            this.carton_nos_display = new List<string>();
             this.saveButton.Enabled = false;
             this.dt = new DataTable();
 
@@ -203,13 +203,16 @@ namespace Factory_Inventory
             dataGridView2.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb1 = new DataGridViewComboBoxColumn();
             dgvCmb1.HeaderText = "Carton Number";
-            dgvCmb1.DataSource = this.carton_nos;
+            dgvCmb1.DataSource = this.carton_nos_display;
             dgvCmb1.Name = "Carton_Number";
             dataGridView2.Columns.Insert(1, dgvCmb1);
             dataGridView2.Columns.Add("Weight", "Weight");
-            dataGridView2.Columns.Add("Carton_ID", "Carton ID");
-            dataGridView2.Columns[3].Visible = false;
+            dataGridView2.Columns[2].ReadOnly = true;
+            dataGridView2.RowCount = 10;
 
+            c.auto_adjust_dgv(dataGridView2);
+            dataGridView2.Columns[0].Width = 50;
+            dataGridView2.Columns[2].Width = 100;
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
         }
@@ -222,7 +225,7 @@ namespace Factory_Inventory
             this.v1_history = v1_history;
             this.saveButton.Enabled = false;
             this.c = new DbConnect();
-            this.carton_nos = new List<string>();
+            this.carton_nos_display = new List<string>();
             this.show_batches = new List<string>();
             this.batch_fiscal_year_list = new List<string>();
 
@@ -446,12 +449,12 @@ namespace Factory_Inventory
                 //this.carton_data.Add(temp, batch_row.Rows[0]);
             }
 
-            for (int i = 0; i < this.carton_nos.Count; i++)
-            {
-                this.show_batches.Add(this.carton_nos[i]);
-                full_batch_nos.Add(this.carton_nos[i]);
-                this.batch_fiscal_year_list.Add(this.dt.Rows[i]["Fiscal_Year"].ToString());
-            }
+            //for (int i = 0; i < this.carton_nos.Count; i++)
+            //{
+            //    this.show_batches.Add(this.carton_nos[i]);
+            //    full_batch_nos.Add(this.carton_nos[i]);
+            //    this.batch_fiscal_year_list.Add(this.dt.Rows[i]["Fiscal_Year"].ToString());
+            //}
             for (int i = 0; i < full_batch_nos.Count; i++)
             {
                 this.show_batches[i] = full_batch_nos[i] + "  (" + this.batch_fiscal_year_list[i] + ")";
@@ -567,7 +570,7 @@ namespace Factory_Inventory
         private bool loadData(string today_fiscal_year, List<int> minmax_years)
         {
             string sql = "SELECT * FROM\n";
-            sql += "    (SELECT T_Inward_Carton.*, T_Carton_Inward_Voucher.Company_ID\n";
+            sql += "    (SELECT T_Inward_Carton.* \n";
             sql += "    FROM T_Inward_Carton\n";
             sql += "    LEFT OUTER JOIN T_Carton_Inward_Voucher\n";
             sql += "    ON T_Inward_Carton.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID) as temp \n";
@@ -578,8 +581,12 @@ namespace Factory_Inventory
             for(int i=0;i<dt.Rows.Count;i++)
             {
                 this.carton_data.Add(dt.Rows[i]["Carton_ID"].ToString(), dt.Rows[i]);
-                this.carton_nos.Add(dt.Rows[i]["Carton_No"].ToString() + "  (" + dt.Rows[i]["Net_Weight"].ToString() + ")");
-                this.carton_list.Add(new Tuple<string, string>(dt.Rows[i]["Carton_No"].ToString(), dt.Rows[i]["Carton_ID"].ToString()));
+                this.carton_nos_display.Add(dt.Rows[i]["Carton_No"].ToString() + "  (" + dt.Rows[i]["Net_Weight"].ToString() + ", " + dt.Rows[i]["Fiscal_Year"].ToString() + ")");
+                Tuple<string, string, string> temp = new Tuple<string, string, string>(dt.Rows[i]["Carton_No"].ToString(), dt.Rows[i]["Net_Weight"].ToString(), dt.Rows[i]["Fiscal_Year"].ToString());
+                Console.WriteLine("----" + temp.Item1 + "----");
+                Console.WriteLine("----" + temp.Item2 + "----");
+                Console.WriteLine("----" + temp.Item3 + "----");
+                this.carton_id_get.Add(temp, dt.Rows[i]["Carton_ID"].ToString());
             }
             if (dt.Rows.Count<=0 && this.edit_form == false)
             {
@@ -679,6 +686,7 @@ namespace Factory_Inventory
         }
         public void calculate_net_wt(int row_index)
         {
+            //null values handle
             if (dataGridView1.Rows[row_index].Cells[4].Value == null || dataGridView1.Rows[row_index].Cells[5].Value == null || dataGridView1.Rows[row_index].Cells[6].Value == null)
             {
                 dataGridView1.Rows[row_index].Cells[7].Value = null;
@@ -691,6 +699,8 @@ namespace Factory_Inventory
                 cartonweight.Text = CellSum1(7).ToString("F3");
                 return;
             }
+
+            //no cone selected
             if (coneComboboxCB.SelectedIndex == 0)
             {
                 dataGridView1.Rows[row_index].Cells[7].Value = "Please select Cone Wt";
@@ -698,9 +708,9 @@ namespace Factory_Inventory
             float net_weight = 0F;
             try
             {
-                float gross_weight = float.Parse(dataGridView1.Rows[row_index].Cells[4].Value.ToString());
-                float carton_weight = float.Parse(dataGridView1.Rows[row_index].Cells[5].Value.ToString());
-                float cone_weight = int.Parse(dataGridView1.Rows[row_index].Cells[6].Value.ToString()) * float.Parse(coneComboboxCB.Text) * 0.001F;
+                float gross_weight = float.Parse(dataGridView1.Rows[row_index].Cells["Gross_Weight"].Value.ToString());
+                float carton_weight = float.Parse(dataGridView1.Rows[row_index].Cells["Carton_Weight"].Value.ToString());
+                float cone_weight = int.Parse(dataGridView1.Rows[row_index].Cells["Number_Of_Cones"].Value.ToString()) * float.Parse(coneWeightTB.Text) * 0.001F;
                 net_weight = (gross_weight - carton_weight - cone_weight);
             }
             catch
@@ -999,7 +1009,15 @@ namespace Factory_Inventory
         }
         private void coneCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++) calculate_net_wt(i);
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+                calculate_net_wt(i);
+            }
+            try
+            {
+                this.coneWeightTB.Text = cones_dict[coneComboboxCB.Text].Item1.ToString("F3");
+            }
+            catch { }
         }
         private void batchnwtTextbox_TextChanged(object sender, EventArgs e)
         {
@@ -1304,6 +1322,53 @@ namespace Factory_Inventory
             {
                 return;
             }
+            if (e.KeyCode == Keys.Tab &&
+                (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            {
+                bool edit_cmd_local = this.edit_cmd_send;
+                this.edit_cmd_send = false;
+                int rowindex_tab = dataGridView2.SelectedCells[0].RowIndex;
+                if (edit_cmd_local == true) rowindex_tab--;
+
+                if (rowindex_tab < 0)
+                {
+                    SendKeys.Send("{tab}");
+                    return;
+                }
+                if (dataGridView2.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView2.Rows[rowindex_tab].Clone();
+                    dataGridView2.Rows.Add(row);
+                }
+                if (dataGridView2.Rows.Count - 1 < rowindex_tab + 1)
+                {
+                    dataGridView2.Rows.Add();
+                }
+                if (edit_cmd_local == false)
+                {
+                    SendKeys.Send("{tab}");
+                }
+            }
+            if (e.KeyCode == Keys.Tab &&
+               (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2)))
+            {
+                int rowindex_tab = dataGridView2.SelectedCells[0].RowIndex;
+                if (rowindex_tab < 0)
+                {
+                    SendKeys.Send("{tab}");
+                    return;
+                }
+                if (dataGridView2.Rows.Count - 2 == rowindex_tab)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dataGridView2.Rows[rowindex_tab].Clone();
+                    dataGridView2.Rows.Add(row);
+                }
+                if (dataGridView2.Rows.Count - 1 < rowindex_tab + 1)
+                {
+                    dataGridView2.Rows.Add();
+                }
+                SendKeys.Send("{tab}");
+            }
             if (e.KeyCode == Keys.Enter &&
             (dataGridView2.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
             {
@@ -1328,7 +1393,7 @@ namespace Factory_Inventory
             {
                 ((ComboBox)e.Control).DropDownStyle = ComboBoxStyle.DropDown;
                 ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
-                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
+                ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 ((ComboBox)e.Control).FormattingEnabled = false;
             }
 
@@ -1366,12 +1431,17 @@ namespace Factory_Inventory
                 {
                     return;
                 }
-                string carton_id = "";
-                if (dgv2_cmb != null) carton_id = this.carton_list[dgv2_cmb.SelectedIndex].Item2;
-                Console.WriteLine(dgv2_cmb.SelectedIndex);
+
+                string data = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                Tuple<string, string, string> values = Global.getCartonNo_Weight_FiscalYear(data);
+                Console.WriteLine("----" + values.Item1 + "----");
+                Console.WriteLine("----" + values.Item2 + "----");
+                Console.WriteLine("----" + values.Item3 + "----");
+                string carton_id = carton_id_get[values];
+                //Console.WriteLine(data.HiddenValue);
                 dataGridView2.Rows[e.RowIndex].Cells[2].Value = carton_data[carton_id]["Net_Weight"].ToString();
                 inwardcartonnwtTextbox.Text = CellSum2(2).ToString("F3");
-                
+
             }
         }
         private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -1404,6 +1474,11 @@ namespace Factory_Inventory
             //{
             //    Console.WriteLine("DTP2 Exception " + ex.Message);
             //}
+        }
+
+        private void dataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
         }
     }
 }

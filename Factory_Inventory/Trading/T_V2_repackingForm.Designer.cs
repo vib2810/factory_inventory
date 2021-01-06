@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(T_V2_repackingForm));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,6 @@
             this.coneComboboxCB = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.closedCheckboxCK = new System.Windows.Forms.CheckBox();
-            this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label8 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.cartonweight = new System.Windows.Forms.TextBox();
@@ -59,7 +59,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.oilGainTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
@@ -74,10 +73,14 @@
             this.label19 = new System.Windows.Forms.Label();
             this.narrationTB = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.cartonVoucherBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,12 +93,12 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView1.Location = new System.Drawing.Point(587, 30);
+            this.dataGridView1.Location = new System.Drawing.Point(641, 30);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(829, 627);
+            this.dataGridView1.Size = new System.Drawing.Size(817, 627);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
@@ -207,11 +210,13 @@
             this.dataGridView2.AllowUserToResizeColumns = false;
             this.dataGridView2.AllowUserToResizeRows = false;
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.ColumnHeadersHeight = 29;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView2.ContextMenuStrip = this.contextMenuStrip2;
             this.dataGridView2.Location = new System.Drawing.Point(232, 30);
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersVisible = false;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(349, 627);
@@ -220,6 +225,7 @@
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
             this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
             this.dataGridView2.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView2_CurrentCellDirtyStateChanged);
+            this.dataGridView2.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView2_DataError);
             this.dataGridView2.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView2_EditingControlShowing);
             this.dataGridView2.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView2_RowPostPaint);
             this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView2_KeyDown);
@@ -312,7 +318,7 @@
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(1284, 824);
+            this.label12.Location = new System.Drawing.Point(1326, 824);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(26, 20);
             this.label12.TabIndex = 0;
@@ -327,7 +333,7 @@
             this.cartonweight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cartonweight.Name = "cartonweight";
             this.cartonweight.ReadOnly = true;
-            this.cartonweight.Size = new System.Drawing.Size(221, 27);
+            this.cartonweight.Size = new System.Drawing.Size(263, 27);
             this.cartonweight.TabIndex = 0;
             this.cartonweight.TabStop = false;
             this.cartonweight.TextChanged += new System.EventHandler(this.cartonweight_TextChanged);
@@ -367,11 +373,11 @@
             this.oilGainTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.oilGainTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oilGainTextbox.Location = new System.Drawing.Point(663, 661);
+            this.oilGainTextbox.Location = new System.Drawing.Point(713, 661);
             this.oilGainTextbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.oilGainTextbox.Name = "oilGainTextbox";
             this.oilGainTextbox.ReadOnly = true;
-            this.oilGainTextbox.Size = new System.Drawing.Size(167, 27);
+            this.oilGainTextbox.Size = new System.Drawing.Size(209, 27);
             this.oilGainTextbox.TabIndex = 0;
             this.oilGainTextbox.TabStop = false;
             this.oilGainTextbox.TextChanged += new System.EventHandler(this.oilGainTextbox_TextChanged);
@@ -382,23 +388,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(587, 668);
+            this.label1.Location = new System.Drawing.Point(637, 668);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Oil Gain";
-            // 
-            // label10
-            // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(836, 668);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(24, 20);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "%";
             // 
             // label14
             // 
@@ -410,13 +404,14 @@
             this.label14.TabIndex = 0;
             this.label14.Tag = "";
             this.label14.Text = "{label14}";
+            this.label14.Visible = false;
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(12, 542);
+            this.deleteButton.Location = new System.Drawing.Point(10, 542);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(209, 55);
+            this.deleteButton.Size = new System.Drawing.Size(211, 55);
             this.deleteButton.TabIndex = 0;
             this.deleteButton.TabStop = false;
             this.deleteButton.Text = "Delete Voucher";
@@ -501,7 +496,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(586, 3);
+            this.label18.Location = new System.Drawing.Point(636, 1);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(190, 25);
             this.label18.TabIndex = 41;
@@ -546,11 +541,35 @@
             this.label20.TabIndex = 45;
             this.label20.Text = "Narration";
             // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(940, 668);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(24, 20);
+            this.label10.TabIndex = 46;
+            this.label10.Text = "%";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(587, 219);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(48, 234);
+            this.pictureBox1.TabIndex = 47;
+            this.pictureBox1.TabStop = false;
+            // 
             // T_V2_repackingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1417, 791);
+            this.ClientSize = new System.Drawing.Size(1459, 791);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.narrationTB);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.coneWeightTB);
@@ -564,7 +583,6 @@
             this.Controls.Add(this.label15);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.oilGainTextbox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.financialYearComboboxCB);
@@ -599,6 +617,7 @@
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -637,7 +656,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox oilGainTextbox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label14;
         public System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label label15;
@@ -652,5 +670,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox narrationTB;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

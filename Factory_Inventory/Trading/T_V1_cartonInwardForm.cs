@@ -718,8 +718,8 @@ namespace Factory_Inventory
                         if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments") == true) comments = dataGridView1.Rows[i].Cells["Comments"].Value.ToString();
                         float weight = float.Parse(dataGridView1.Rows[i].Cells["Weight"].Value.ToString());
                         
-                        sql += "INSERT INTO T_Inward_Carton (Carton_No, Carton_State, Quality_ID, Colour_ID, Net_Weight, Buy_Cost, Fiscal_Year, Inward_Voucher_ID, Comments, Inward_Type, Grade) ";
-                        sql += "VALUES ('" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', 0, " + quality_dict[quality] + ", " + colour_dict[colour] + ", " + weight + ", " + rate[new Tuple<string, string>(quality, colour)] + ", '" + fiscal_year + "', @voucherID, '" + comments + "', " + type + ", '" + grade + "'); ";
+                        sql += "INSERT INTO T_Inward_Carton (Carton_No, Carton_State, Quality_ID, Colour_ID, Company_ID, Net_Weight, Buy_Cost, Fiscal_Year, Inward_Voucher_ID, Comments, Inward_Type, Grade) ";
+                        sql += "VALUES ('" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', 0, " + quality_dict[quality] + ", " + colour_dict[colour] + ", " + company_dict[comboBox2CB.SelectedItem.ToString()] + ", " + weight + ", " + rate[new Tuple<string, string>(quality, colour)] + ", '" + fiscal_year + "', @voucherID, '" + comments + "', " + type + ", '" + grade + "'); ";
                     }
                     
                 }
@@ -738,7 +738,7 @@ namespace Factory_Inventory
                 else if(et.e.State== 10)
                 {
                     //primary key violation
-                    Global.ErrorBox("Repeated Carton Number with the same Quality, Colour, Weight and Financial Year entered\n" + et.e.Message);
+                    Global.ErrorBox("Repeated Carton Number with the same Quality, Colour, Company Name, Weight and Financial Year entered\n" + et.e.Message);
                     return;
                 }
                 else
@@ -784,7 +784,7 @@ namespace Factory_Inventory
                         {
                             string carton_id = dataGridView1.Rows[i].Cells["Carton_ID"].Value.ToString();
                             cartons_to_edit[carton_id] = true;
-                            sql += "UPDATE T_Inward_Carton SET Carton_No = '" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', Quality_ID = " + quality_dict[quality] + ", Colour_ID = " + colour_dict[colour] + ", Net_Weight = " + weight + ", Buy_Cost = " + rate[new Tuple<string, string>(quality, colour)] + ", Comments = '" + comments + "', Inward_Type = " + type + ", Grade = '" + grade + "' WHERE Carton_ID = '" + carton_id + "';\n";
+                            sql += "UPDATE T_Inward_Carton SET Carton_No = '" + dataGridView1.Rows[i].Cells["Carton_No"].Value.ToString() + "', Quality_ID = " + quality_dict[quality] + ", Colour_ID = " + colour_dict[colour] + ", Company_ID = " + company_dict[comboBox2CB.SelectedItem.ToString()] + ", Net_Weight = " + weight + ", Buy_Cost = " + rate[new Tuple<string, string>(quality, colour)] + ", Comments = '" + comments + "', Inward_Type = " + type + ", Grade = '" + grade + "' WHERE Carton_ID = '" + carton_id + "';\n";
                         }
                         else
                         {
@@ -818,7 +818,7 @@ namespace Factory_Inventory
                 else if (et.e.State == 10)
                 {
                     //primary key violation
-                    Global.ErrorBox("Repeated Carton Number with the same Quality, Colour, Weight and Financial Year entered " + et.e.Message);
+                    Global.ErrorBox("Repeated Carton Number with the same Quality, Colour, Company Name, Weight and Financial Year entered\n " + et.e.Message);
                     return;
                 }
                 else

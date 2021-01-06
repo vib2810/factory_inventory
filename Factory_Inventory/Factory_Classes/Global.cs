@@ -81,7 +81,15 @@ namespace Factory_Inventory
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
-
-
-    }
+        public static Tuple<string, string, string> getCartonNo_Weight_FiscalYear(string data)
+        {
+            string[] temp1 = data.Split('(');
+            string str1 = temp1[0].Substring(0, temp1[0].Length - 2);
+            string[] temp2 = temp1[1].Split(',');
+            string str2 = temp2[0].Substring(0, temp2[0].Length);
+            string str3 = temp2[1].Substring(1, temp2[1].Length - 2);
+            Tuple<string, string, string> ans = new Tuple<string, string, string>(str1, str2, str3);
+            return ans;
+        }
+    } 
 }
