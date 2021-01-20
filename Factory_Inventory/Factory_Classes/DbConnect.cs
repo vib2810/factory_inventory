@@ -4252,7 +4252,7 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             //Store batch number and respective fiscal years in batches list and get min dyeing inward date
-            DateTime min_dyeing_inward = DateTime.MinValue;
+            DateTime min_dyeing_inward = DateTime.MaxValue;
             List<Tuple<string, string> > batches = new List<Tuple<string, string> >();
             int batch_index=-1;
             int index = -1;

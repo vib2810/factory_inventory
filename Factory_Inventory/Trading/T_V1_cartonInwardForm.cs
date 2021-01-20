@@ -757,7 +757,6 @@ namespace Factory_Inventory
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
                     int count = 0;
-
                     //ComboBox c = (ComboBox)dataGridView1.EditingControl;
                     if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString() == "---Select---")
                         count++;

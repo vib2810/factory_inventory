@@ -99,7 +99,7 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(817, 627);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.TabIndex = 19;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
@@ -220,7 +220,7 @@
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(349, 627);
-            this.dataGridView2.TabIndex = 0;
+            this.dataGridView2.TabIndex = 17;
             this.dataGridView2.TabStop = false;
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
             this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
@@ -458,7 +458,7 @@
             this.typeCB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.typeCB.Name = "typeCB";
             this.typeCB.Size = new System.Drawing.Size(209, 24);
-            this.typeCB.TabIndex = 39;
+            this.typeCB.TabIndex = 6;
             // 
             // label17
             // 
@@ -511,7 +511,7 @@
             this.coneWeightTB.Name = "coneWeightTB";
             this.coneWeightTB.ReadOnly = true;
             this.coneWeightTB.Size = new System.Drawing.Size(117, 22);
-            this.coneWeightTB.TabIndex = 42;
+            this.coneWeightTB.TabIndex = 0;
             this.coneWeightTB.TabStop = false;
             // 
             // label19
@@ -528,8 +528,7 @@
             this.narrationTB.Location = new System.Drawing.Point(103, 703);
             this.narrationTB.Name = "narrationTB";
             this.narrationTB.Size = new System.Drawing.Size(1313, 22);
-            this.narrationTB.TabIndex = 44;
-            this.narrationTB.TabStop = false;
+            this.narrationTB.TabIndex = 16;
             // 
             // label20
             // 

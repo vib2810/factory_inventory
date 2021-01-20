@@ -43,11 +43,13 @@ namespace Factory_Inventory
         {
             if (keyData == Keys.V)
             {
+                if (this.ActiveControl == searchTB) return false;
                 this.viewDetailsButton.PerformClick(); ;
                 return false;
             }
             if (keyData == Keys.E)
             {
+                if (this.ActiveControl == searchTB) return false;
                 this.editDetailsButton.PerformClick();
                 return false;
             }
@@ -77,13 +79,14 @@ namespace Factory_Inventory
             vno_table_map[11] = "SalesBillNos_Voucher";
             vno_table_map[12] = "Redyeing_Voucher";
             vno_table_map[13] = "T_Carton_Inward_Voucher";
+            vno_table_map[14] = "T_Repacking_Voucher";
 
             //Opening
             vno_table_map[100] = "Carton Production";
             loadData();
 
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
-            if (Global.access == 2 && this.vno != 8)
+            if (Global.access == 2 && (this.vno != 8 ||  this.vno!=14))
             {
                 this.editDetailsButton.Visible = false;
                 this.label2.Visible = false;
@@ -138,7 +141,10 @@ namespace Factory_Inventory
                     this.Text = "History - Redyeing";
                     break;
                 case 13:
-                    this.Text = "History - Trading Carton Inward Voucher";
+                    this.Text = "History - Trading - Carton Inward Voucher";
+                    break;
+                case 14:
+                    this.Text = "History - Trading - Repacking Voucher";
                     break;
                 case 100:
                     this.Text = "History - Carton Production Opening";
@@ -273,6 +279,10 @@ namespace Factory_Inventory
                 sql += "drop table #temp4;\n";
                 
                 this.dt = c.runQuery(sql);
+            }
+            else if(this.vno==14)
+            {
+
             }
             else if(this.vno<100)
             {
