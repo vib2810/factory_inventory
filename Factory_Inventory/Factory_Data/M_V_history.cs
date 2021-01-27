@@ -229,7 +229,7 @@ namespace Factory_Inventory
         {
             string sql = "";
             sql += "    ,STUFF((SELECT " + distinct + " ', ' + " + column + "\n";
-            sql += "        from #temp4 t1\n";
+            sql += "        from #temp t1\n";
             sql += "        where t.[Voucher_ID] = t1.[Voucher_ID]\n";
             sql += "        FOR XML PATH(''), TYPE\n";
             sql += "        ).value('.', 'NVARCHAR(MAX)')\n";
@@ -238,14 +238,15 @@ namespace Factory_Inventory
         }
         private string select_function(string function, string column, string column_name)
         {
-            return ",(Select " + function + "(" + column + ")from((select " + column + " from #temp4 where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
+            return ",(Select " + function + "(" + column + ")from((select " + column + " from #temp where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
         }
         public void loadData()
         {
             //Get dt
             if(this.vno==13)
             {
-                string sql = "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp4\n";
+                
+                string sql = "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp\n";
                 sql += "FROM\n";
                 sql += "    (SELECT temp2.*, T_M_Colours.Colour\n";
                 sql += "    FROM\n";
@@ -261,28 +262,66 @@ namespace Factory_Inventory
                 sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
                 sql += "LEFT OUTER JOIN T_M_Company_Names\n";
                 sql += "ON T_M_Company_Names.Company_ID = temp3.Company_ID;\n";
-
+                
                 sql += "select distinct t.[Voucher_ID]\n";
                 sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
                 sql += select_stuff("distinct", "t1.Colour", "Colour_Arr");
                 sql += select_stuff("distinct", "t1.Quality_Before_Job", "Quality_Before_Job_Arr");
                 sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
                 sql += select_stuff("", "CONVERT(VARCHAR, t1.Comments)", "Comments_Arr");
-
                 sql += "    ,t.Bill_No, t.Date_Of_Billing, t.Company_Name, t.Date_Of_Input, t.Deleted, t.Fiscal_Year, t.Inward_Type, CONVERT(VARCHAR, t.Narration) Narration\n";
 
                 sql += select_function("sum", "Net_Weight", "Net_Weight");
                 sql += select_function("sum", "Buy_Cost", "Buy_Cost");
                 sql += select_function("count", "Voucher_ID", "Number_Of_Cartons");
-                sql += "from #temp4 t;\n";
+                sql += "from #temp t order by Voucher_ID DESC;\n";
 
-                sql += "drop table #temp4;\n";
+                sql += "drop table #temp;\n";
                 
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==14)
             {
+                string sql = "SELECT temp5.*, (T_Inward_Carton.Carton_No)Destroyed_Carton_No, (T_Inward_Carton.Carton_ID)Destroyed_Carton_ID into #temp\n";
+                sql += "FROM\n";
+                sql += "(SELECT temp4.*, T_M_Cones.Cone_Name, T_M_Cones.Cone_Weight\n";
+                sql += "    FROM\n";
+                sql += "        (SELECT temp3.*, T_M_Company_Names.Company_Name\n";
+                sql += "        FROM\n";
+                sql += "            (SELECT temp2.*, T_M_Colours.Colour\n";
+                sql += "            FROM\n";
+                sql += "                (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
+                sql += "                FROM\n";
+                sql += "                    (SELECT T_Repacking_Voucher.*, T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Carton_No, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Repack_Comments, T_Repacked_Cartons.Grade\n";
+                sql += "                    FROM T_Repacking_Voucher\n";
+                sql += "                    FULL OUTER JOIN T_Repacked_Cartons\n";
+                sql += "                    ON T_Repacking_Voucher.Voucher_ID = T_Repacked_Cartons.Repacking_Voucher_ID) as temp1\n";
+                sql += "                LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "                ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
+                sql += "            LEFT OUTER JOIN T_M_Colours\n";
+                sql += "            ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
+                sql += "        LEFT OUTER JOIN T_M_Company_Names\n";
+                sql += "        ON T_M_Company_Names.Company_ID = temp3.Company_ID) as temp4\n";
+                sql += "    LEFT OUTER JOIN T_M_Cones\n";
+                sql += "    ON T_M_Cones.Cone_ID = temp4.Cone_ID) as temp5\n";
+                sql += "LEFT OUTER JOIN T_Inward_Carton\n";
+                sql += "ON T_Inward_Carton.Repacking_Voucher_ID = temp5.Voucher_ID;\n";
 
+                sql += "select distinct t.[Voucher_ID]\n";
+                sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
+                sql += select_stuff("distinct", "t1.Destroyed_Carton_No", "Destroyed_Carton_No_Arr");
+                sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
+                sql += select_stuff("", "CONVERT(VARCHAR, t1.Net_Weight)", "Net_Weight_Arr");
+                sql += select_stuff("", "CONVERT(VARCHAR, t1.Repack_Comments)", "Comments_Arr");
+                sql += "    ,t.Carton_Fiscal_Year, t.Colour, t.Company_Name, t.Date_Of_Input, t.Date_Of_Production, t.Deleted, t.Oil_Gain, CONVERT(VARCHAR, t.Narration) Narration, t.Quality_Before_Job, t.Start_Date_Of_Production, t.Voucher_Closed\n";
+                
+                sql += select_function("sum", "Net_Weight", "Total_Weight");
+                sql += select_function("count", "Voucher_ID", "Number_Of_Repacked_Cartons");
+                
+                sql += "from #temp t order by Voucher_ID DESC;\n";
+                sql += "drop table #temp;\n";
+
+                this.dt = c.runQuery(sql);
             }
             else if(this.vno<100)
             {
@@ -752,6 +791,51 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Trading Carton Inward
+            if (this.vno == 140)
+            {
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Billing"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Date_Of_Billing"].HeaderText = "Bill Date";
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
+                this.dataGridView1.Columns["Bill_No"].Visible = true;
+                this.dataGridView1.Columns["Bill_No"].DisplayIndex = 2;
+                this.dataGridView1.Columns["Bill_No"].HeaderText = "Bill Number";
+                this.dataGridView1.Columns["Inward_Type"].Visible = true;
+                this.dataGridView1.Columns["Inward_Type"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Inward_Type"].HeaderText = "Inward Type";
+                this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
+                this.dataGridView1.Columns["Quality_Before_Job_Arr"].Visible = true;
+                this.dataGridView1.Columns["Quality_Before_Job_Arr"].DisplayIndex = 5;
+                this.dataGridView1.Columns["Quality_Before_Job_Arr"].HeaderText = "Qualities";
+                this.dataGridView1.Columns["Colour_Arr"].Visible = true;
+                this.dataGridView1.Columns["Colour_Arr"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Colour_Arr"].HeaderText = "Colours";
+                this.dataGridView1.Columns["Company_Name"].Visible = true;
+                this.dataGridView1.Columns["Company_Name"].DisplayIndex = 7;
+                this.dataGridView1.Columns["Company_Name"].HeaderText = "Company Name";
+                this.dataGridView1.Columns["Net_Weight"].Visible = true;
+                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
+                this.dataGridView1.Columns["Buy_Cost"].Visible = true;
+                this.dataGridView1.Columns["Buy_Cost"].DisplayIndex = 9;
+                this.dataGridView1.Columns["Buy_Cost"].HeaderText = "Buy Cost";
+                this.dataGridView1.Columns["Number_of_Cartons"].Visible = true;
+                this.dataGridView1.Columns["Number_of_Cartons"].DisplayIndex = 10;
+                this.dataGridView1.Columns["Number_of_Cartons"].HeaderText = "Number of Cartons";
+                this.dataGridView1.Columns["Narration"].Visible = true;
+                this.dataGridView1.Columns["Narration"].DisplayIndex = 11;
+                this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                this.dataGridView1.Columns["Fiscal_Year"].Visible = true;
+                this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 12;
+                this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }      //Trading Repacking
             if (this.vno == 100)
             {
                 this.dataGridView1.ReadOnly = true;

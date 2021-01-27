@@ -48,7 +48,7 @@ namespace Factory_Inventory
                 Console.WriteLine(Global.getconnectionstring(database));
                 Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database + "_" + Global.firmid))));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database + "_" + Global.firmid };
-                string backup_location = path + @"\" + this.fileNameTB.Text + database + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
+                string backup_location = path + @"\" + this.fileNameTB.Text + database + "_" + Global.firmid + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
                 dbBackup.PercentComplete += DbBackup_PercentComplete;
