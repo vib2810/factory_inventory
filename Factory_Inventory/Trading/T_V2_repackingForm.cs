@@ -67,7 +67,7 @@ namespace Factory_Inventory
         private DbConnect c;
         private bool edit_cmd_send = false;
         private bool edit_form = false;
-        private List<string> carton_nos_display;
+        private List<string> destroyed_carton_nos_display;
         private M_V_history v1_history;
         private int voucher_id;
         private int highest_carton_no;
@@ -76,18 +76,18 @@ namespace Factory_Inventory
         private Dictionary<string, int> company_dict = new Dictionary<string, int>();
         ComboBox dgv2_cmb = null;
         private Dictionary<string, Tuple<float, int>> cones_dict = new Dictionary<string, Tuple<float, int>>(); //(name, <weight, ID>)
-        private List<string> batch_fiscal_year_list; //Stroes fiscal year of batches during edit only
-        private List<string> show_batches; //Stores the batches in fiscal year format only during edit mode
-        Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();
-        Dictionary<string, DataRow> carton_data = new Dictionary<string, DataRow>();  //<Carton ID, Carton Row>
-        Dictionary<Tuple<string, string, string>, string> carton_id_get = new Dictionary<Tuple<string, string, string>, string>();  //<{Carton No, Net Weight, Fiscal Year}, Carton ID>
+        Dictionary<string, bool> carton_editable = new Dictionary<string, bool>();  //<Carton ID, bool>
+        Dictionary<string, DataRow> destroyed_carton_dict = new Dictionary<string, DataRow>();  //<Carton ID, Carton Row>
+        Dictionary<string, Tuple<DataRow, bool>> old_destroyed_carton_dict = new Dictionary<string, Tuple<DataRow, bool>>();  //<Carton ID, <Row, present in edited voucher>> Only used in edit mode to store old cartons
+        Dictionary<string, Tuple<DataRow, bool>> old_repacked_carton_dict = new Dictionary<string, Tuple<DataRow, bool>>();    //<Carton_No, <Row, present in edited voucher>> Only used in edit mode to store old cartons. Indexed with Carton Number as CartonNo and Fiscal year are PK.
+        Dictionary<Tuple<string, string, string>, string> destroyed_carton_id_get = new Dictionary<Tuple<string, string, string>, string>();  //<{Carton No, Net Weight, Fiscal Year}, Carton ID>
         DataTable dt;
         DateTimePicker dtp = new DateTimePicker();
         public T_V2_repackingForm()
         {
             InitializeComponent();
             this.c = new DbConnect();
-            this.carton_nos_display = new List<string>();
+            this.destroyed_carton_nos_display = new List<string>();
             this.saveButton.Enabled = false;
             this.dt = new DataTable();
 
@@ -203,7 +203,7 @@ namespace Factory_Inventory
             dataGridView2.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb1 = new DataGridViewComboBoxColumn();
             dgvCmb1.HeaderText = "Carton Number";
-            dgvCmb1.DataSource = this.carton_nos_display;
+            dgvCmb1.DataSource = this.destroyed_carton_nos_display;
             dgvCmb1.Name = "Carton_Number";
             dataGridView2.Columns.Insert(1, dgvCmb1);
             dataGridView2.Columns.Add("Weight", "Weight");
@@ -225,17 +225,16 @@ namespace Factory_Inventory
             this.v1_history = v1_history;
             this.saveButton.Enabled = false;
             this.c = new DbConnect();
-            this.carton_nos_display = new List<string>();
-            this.show_batches = new List<string>();
-            this.batch_fiscal_year_list = new List<string>();
+            this.destroyed_carton_nos_display = new List<string>();
 
             //Create drop-down Colour list
             var dataSource1 = new List<string>();
-            DataTable dt = c.getQC('l');
+            DataTable dt = c.runQuery("SELECT * FROM T_M_Colours");
             dataSource1.Add("---Select---");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                dataSource1.Add(dt.Rows[i][0].ToString());
+                dataSource1.Add(dt.Rows[i]["Colour"].ToString());
+                colour_dict[dt.Rows[i]["Colour"].ToString()] = int.Parse(dt.Rows[i]["Colour_ID"].ToString());
             }
             List<string> final_list = dataSource1.Distinct().ToList();
             this.colourComboboxCB.DataSource = final_list;
@@ -246,11 +245,12 @@ namespace Factory_Inventory
 
             //Create drop-down Quality list
             var dataSource2 = new List<string>();
-            dt = c.getQC('q');
+            dt = c.runQuery("SELECT * FROM T_M_Quality_Before_Job");
             dataSource2.Add("---Select---");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                dataSource2.Add(dt.Rows[i][0].ToString());
+                dataSource2.Add(dt.Rows[i]["Quality_Before_Job"].ToString());
+                quality_dict[dt.Rows[i]["Quality_Before_Job"].ToString()] = int.Parse(dt.Rows[i]["Quality_Before_Job_ID"].ToString());
             }
             this.qualityComboboxCB.DataSource = dataSource2;
             this.qualityComboboxCB.DisplayMember = "Quality";
@@ -258,34 +258,40 @@ namespace Factory_Inventory
             this.qualityComboboxCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.qualityComboboxCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            //Create drop-down Dyeing Company list
+            //Create drop-down Company list
             var dataSource3 = new List<string>();
-            dt = c.getQC('d');
+            dt = c.runQuery("SELECT * FROM T_M_Company_Names");
             dataSource3.Add("---Select---");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                dataSource3.Add(dt.Rows[i][0].ToString());
+                dataSource3.Add(dt.Rows[i]["Company_Name"].ToString());
+                company_dict[dt.Rows[i]["Company_Name"].ToString()] = int.Parse(dt.Rows[i]["Company_ID"].ToString());
             }
             this.companyComboboxCB.DataSource = dataSource3;
-            this.companyComboboxCB.DisplayMember = "Dyeing_Company_Names";
+            this.companyComboboxCB.DisplayMember = "Company_Names";
             this.companyComboboxCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.companyComboboxCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.companyComboboxCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
+            //Type CB
+            this.typeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
             //Create drop-down Cone list
             var dataSource4 = new List<string>();
-            dt = c.getQC('n');
+            dt = c.runQuery("SELECT * FROM T_M_Cones");
             dataSource4.Add("---Select---");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                dataSource4.Add(dt.Rows[i][0].ToString());
+                dataSource4.Add(dt.Rows[i]["Cone_Name"].ToString());
+                cones_dict[dt.Rows[i]["Cone_Name"].ToString()] = new Tuple<float, int>(float.Parse(dt.Rows[i]["Cone_Weight"].ToString()), int.Parse(dt.Rows[i]["Cone_ID"].ToString()));
             }
             this.coneComboboxCB.DataSource = dataSource4;
             this.coneComboboxCB.DisplayMember = "Cones";
             this.coneComboboxCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.coneComboboxCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.coneComboboxCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.coneComboboxCB.SelectedIndex = 1; //default selected cone
 
             //Create drop-down Fiscal Year lists
             var dataSource5 = new List<string>();
@@ -300,12 +306,12 @@ namespace Factory_Inventory
             this.financialYearComboboxCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.financialYearComboboxCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            //DatagridView 1
+
             List<string> grade = new List<string>();
             grade.Add("1st");
             grade.Add("PQ");
             grade.Add("CLQ");
-            grade.Add("Redyeing");
+
             //DatagridView 1
             dataGridView1.Columns.Add("Sl_No", "Sl No");
             dataGridView1.Columns[0].ReadOnly = true;
@@ -314,7 +320,6 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Carton_Number", "Carton Number");
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             dgvCmb.HeaderText = "Grade";
-            dgvCmb.Items.Add("---Select---");
             dgvCmb.DataSource = grade;
             dgvCmb.Name = "Grade";
             dataGridView1.Columns.Insert(3, dgvCmb);
@@ -322,25 +327,26 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Carton_Weight", "Carton Weight");
             dataGridView1.Columns.Add("Number_Of_Cones", "Number of Cones");
             dataGridView1.Columns.Add("Net_Weight", "Net Weight");
-            dataGridView1.Columns["Net_Weight"].ReadOnly = true;
-            dataGridView1.RowCount = 10;
+            dataGridView1.Columns.Add("Comments", "Comments");
+            dataGridView1.Columns[7].ReadOnly = true;
+            dataGridView1.Enabled = false;
 
             //Datagridview 2
             dataGridView2.Columns.Add("Sl_No", "Sl No");
             dataGridView2.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb1 = new DataGridViewComboBoxColumn();
-            dgvCmb1.HeaderText = "Batch Number";
-            dgvCmb1.Items.Add("---Select---");
-            dgvCmb1.Name = "Batch Number";
+            dgvCmb1.HeaderText = "Carton Number";
+            dgvCmb1.DataSource = this.destroyed_carton_nos_display;
+            dgvCmb1.Name = "Carton_Number";
             dataGridView2.Columns.Insert(1, dgvCmb1);
-            dataGridView2.Columns[0].Width = 50;
-            dataGridView2.Columns[1].Width = 150;
             dataGridView2.Columns.Add("Weight", "Weight");
+            dataGridView2.Columns[2].ReadOnly = true;
 
             this.colourComboboxCB.Enabled = false;
             this.qualityComboboxCB.Enabled = false;
             this.companyComboboxCB.Enabled = false;
             this.financialYearComboboxCB.Enabled = false;
+            this.typeCB.Enabled = false;
             Console.WriteLine(isEditable.ToString());
             if (isEditable == false)
             {
@@ -364,11 +370,12 @@ namespace Factory_Inventory
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
 
             this.colourComboboxCB.SelectedIndex = this.colourComboboxCB.FindStringExact(row["Colour"].ToString());
-            this.qualityComboboxCB.SelectedIndex = this.qualityComboboxCB.FindStringExact(row["Quality"].ToString());
-            this.companyComboboxCB.SelectedIndex = this.companyComboboxCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
+            this.qualityComboboxCB.SelectedIndex = this.qualityComboboxCB.FindStringExact(row["Quality_Before_Job"].ToString());
+            this.companyComboboxCB.SelectedIndex = this.companyComboboxCB.FindStringExact(row["Company_Name"].ToString());
             this.financialYearComboboxCB.SelectedIndex = this.financialYearComboboxCB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
-            this.coneComboboxCB.SelectedIndex = this.coneComboboxCB.FindStringExact((float.Parse(row["Cone_Weight"].ToString()) * 1000F).ToString());
-            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
+            this.coneComboboxCB.SelectedIndex = this.coneComboboxCB.FindStringExact(row["Cone_Name"].ToString());
+            this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Inward_Cartons_Type"].ToString());
+
 
             if (row["Voucher_Closed"].ToString() == "0")
             {
@@ -381,36 +388,52 @@ namespace Factory_Inventory
                 this.oilGainTextbox.Text = row["Oil_Gain"].ToString();
             }
 
-            string[] produced_cartons = c.csvToArray(row["Carton_No_Production_Arr"].ToString());
-            Dictionary<string, DataRow> carton_dict = new Dictionary<string, DataRow>();
-            DataTable carton_info = c.getTableData("Carton_Produced", "*", "Carton_No IN (" + c.removecom(row["Carton_No_Production_Arr"].ToString()) + ") AND Fiscal_Year = '" + row["Carton_Fiscal_Year"].ToString() + "'");
-            for (int i = 0; i < carton_info.Rows.Count; i++)
+            string sql = "SELECT temp2.*, T_M_Company_Names.Company_Name\n";
+            sql += "FROM\n";
+            sql += "    (SELECT temp1.*, T_M_Colours.Colour\n";
+            sql += "    FROM\n";
+            sql += "        (SELECT T_Repacked_Cartons.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
+            sql += "        FROM T_Repacked_Cartons\n";
+            sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+            sql += "        ON T_Repacked_Cartons.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+            sql += "    LEFT OUTER JOIN T_M_Colours\n";
+            sql += "    ON temp1.Colour_ID = T_M_Colours.Colour_ID) as temp2\n";
+            sql += "LEFT OUTER JOIN T_M_Company_Names\n";
+            sql += "ON temp2.Company_ID = T_M_Company_Names.Company_ID\n";
+            sql += "WHERE temp2.Repacking_Voucher_ID = " + this.voucher_id + "\n";
+            sql += "ORDER BY temp2.ID ASC\n";
+            DataTable repacking_carton_data = c.runQuery(sql);
+            dataGridView1.RowCount = repacking_carton_data.Rows.Count + 1;
+            
+            for (int i = 0; i < repacking_carton_data.Rows.Count; i++)
             {
-                carton_dict.Add(carton_info.Rows[i]["Carton_No"].ToString(), carton_info.Rows[i]);
+                old_repacked_carton_dict.Add(repacking_carton_data.Rows[i]["Carton_No"].ToString(), new Tuple<DataRow, bool>(repacking_carton_data.Rows[i], false));
             }
-            dataGridView1.RowCount = produced_cartons.Length + 1;
             bool flag = false;
-            for (int i = 0; i < produced_cartons.Length; i++)
+            for (int i = 0; i < repacking_carton_data.Rows.Count; i++)
             {
-                DataRow carton_row = carton_dict[produced_cartons[i]];
+                string repacking_carton_id = repacking_carton_data.Rows[i]["Carton_ID"].ToString();
+                string repacking_carton_no = repacking_carton_data.Rows[i]["Carton_No"].ToString();
+                DataRow carton_row = old_repacked_carton_dict[repacking_carton_no].Item1;
                 if (carton_row == null)
                 {
                     continue;
                 }
                 string correctformat = Convert.ToDateTime(carton_row["Date_Of_Production"].ToString()).Date.ToString().Substring(0, 10);
                 dataGridView1.Rows[i].Cells[1].Value = correctformat;
-                dataGridView1.Rows[i].Cells[2].Value = produced_cartons[i];
+                dataGridView1.Rows[i].Cells[2].Value = carton_row["Carton_No"].ToString();
                 dataGridView1.Rows[i].Cells[3].Value = carton_row["Grade"].ToString();
                 dataGridView1.Rows[i].Cells[4].Value = carton_row["Gross_Weight"].ToString();
                 dataGridView1.Rows[i].Cells[5].Value = carton_row["Carton_Weight"].ToString();
-                dataGridView1.Rows[i].Cells[6].Value = carton_row["Number_Of_cones"].ToString();
+                dataGridView1.Rows[i].Cells[6].Value = carton_row["Number_Of_Cones"].ToString();
                 dataGridView1.Rows[i].Cells[7].Value = carton_row["Net_Weight"].ToString();
+                dataGridView1.Rows[i].Cells[8].Value = carton_row["Repack_Comments"].ToString();
 
                 //Sold carton will be coloured green
-                if (carton_row["Carton_State"].ToString() != "1")
+                if (carton_row["Carton_State"].ToString() == "1")
                 {
                     flag = true;
-                    this.carton_editable[produced_cartons[i]] = false;
+                    this.carton_editable[repacking_carton_id] = false;
                     DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
                     dataGridView1.Rows[i].ReadOnly = true;
                     r.DefaultCellStyle.BackColor = Color.LightGreen;
@@ -429,51 +452,48 @@ namespace Factory_Inventory
             //}
             this.cartonweight.Text = CellSum1(7).ToString("F3");
 
-            //Adding batch numbers to datagridview 2
-            string[] temp_batch_no_arr = c.csvToArray(row["Batch_No_Arr"].ToString());
-            string[] batch_fiscal_year_arr = c.csvToArray(row["Batch_Fiscal_year_Arr"].ToString());
-            List<string> full_batch_nos = new List<string>();  //stores all batches old and new
-            for (int i = 0; i < temp_batch_no_arr.Length; i++)
+            //Adding Destroyed Cartons to datagridview 2
+            sql = "";
+            sql = "SELECT* FROM\n";
+            sql += "    (SELECT T_Inward_Carton.*\n";
+            sql += "    FROM T_Inward_Carton\n";
+            sql += "    LEFT OUTER JOIN T_Carton_Inward_Voucher\n";
+            sql += "    ON T_Inward_Carton.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID) as temp\n";
+            sql += "WHERE temp.Quality_ID = " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + " AND temp.Colour_ID = " + colour_dict[colourComboboxCB.SelectedItem.ToString()] + " AND temp.Company_ID = " + company_dict[companyComboboxCB.SelectedItem.ToString()] + " AND temp.Inward_Type = " + typeCB.SelectedItem.ToString() + " AND Carton_State = 1 AND temp.Repacking_Voucher_ID = " + this.voucher_id + " ORDER BY Repacking_Display_Order ASC\n";
+            DataTable destroyed_cartons = c.runQuery(sql);
+            for (int i = 0; i < destroyed_cartons.Rows.Count; i++)
             {
-                this.show_batches.Add(temp_batch_no_arr[i]);
-                full_batch_nos.Add(temp_batch_no_arr[i]);
-                this.batch_fiscal_year_list.Add(batch_fiscal_year_arr[i]);
+                this.old_destroyed_carton_dict.Add(destroyed_cartons.Rows[i]["Carton_ID"].ToString(), new Tuple<DataRow, bool>(destroyed_cartons.Rows[i], false));
+                this.destroyed_carton_dict.Add(destroyed_cartons.Rows[i]["Carton_ID"].ToString(), destroyed_cartons.Rows[i]);
+                this.destroyed_carton_nos_display.Add(destroyed_cartons.Rows[i]["Carton_No"].ToString() + "  (" + destroyed_cartons.Rows[i]["Net_Weight"].ToString() + ", " + destroyed_cartons.Rows[i]["Fiscal_Year"].ToString() + ")");
+                Tuple<string, string, string> temp = new Tuple<string, string, string>(destroyed_cartons.Rows[i]["Carton_No"].ToString(), destroyed_cartons.Rows[i]["Net_Weight"].ToString(), destroyed_cartons.Rows[i]["Fiscal_Year"].ToString());
+                this.destroyed_carton_id_get.Add(temp, destroyed_cartons.Rows[i]["Carton_ID"].ToString());
             }
+
             string today_fiscal_year = c.getFinancialYear(DateTime.Now);
             List<int> minmax_years = c.getFinancialYearArr(this.financialYearComboboxCB.Text);
             this.loadData(today_fiscal_year, minmax_years);
-            for (int i = 0; i < temp_batch_no_arr.Length; i++)
-            {
-                Tuple<string, string> temp = new Tuple<string, string>(temp_batch_no_arr[i], batch_fiscal_year_arr[i]);
-                DataTable batch_row = c.getTableData("Batch", "*", "Batch_No = " + temp_batch_no_arr[i] + " AND Fiscal_Year = '" + batch_fiscal_year_arr[i] + "'");
-                //this.carton_data.Add(temp, batch_row.Rows[0]);
-            }
 
-            //for (int i = 0; i < this.carton_nos.Count; i++)
-            //{
-            //    this.show_batches.Add(this.carton_nos[i]);
-            //    full_batch_nos.Add(this.carton_nos[i]);
-            //    this.batch_fiscal_year_list.Add(this.dt.Rows[i]["Fiscal_Year"].ToString());
-            //}
-            for (int i = 0; i < full_batch_nos.Count; i++)
+            dgvCmb1.DataSource = this.destroyed_carton_nos_display;
+            dataGridView2.RowCount = destroyed_cartons.Rows.Count + 1;
+            for (int i = 0; i < destroyed_cartons.Rows.Count; i++)
             {
-                this.show_batches[i] = full_batch_nos[i] + "  (" + this.batch_fiscal_year_list[i] + ")";
-            }
-            dgvCmb1.DataSource = this.show_batches;
-            dataGridView2.RowCount = temp_batch_no_arr.Length + 1;
-            for (int i = 0; i < temp_batch_no_arr.Length; i++)
-            {
-                DataRow batch_row = c.getBatchRow_BatchNo(int.Parse(temp_batch_no_arr[i]), batch_fiscal_year_arr[i]);
-                dataGridView2.Rows[i].Cells[1].Value = this.show_batches[i];
-                dataGridView2.Rows[i].Cells[2].Value = batch_row["Net_Weight"].ToString();
+                string destroyed_carton_id = destroyed_cartons.Rows[i]["Carton_ID"].ToString();
+                DataRow destroyed_carton_row = destroyed_carton_dict[destroyed_carton_id];
+                dataGridView2.Rows[i].Cells[1].Value = this.destroyed_carton_nos_display[i];
+                dataGridView2.Rows[i].Cells[2].Value = destroyed_carton_row["Net_Weight"].ToString();
             }
             this.inwardcartonnwtTextbox.Text = this.CellSum2(2).ToString("F3");
 
             //highest carton number;
-            this.highest_carton_no = int.Parse(c.getNextNumber_FiscalYear("Highest_Carton_Production_No", this.financialYearComboboxCB.Text));
+            this.highest_carton_no = int.Parse(c.getNextNumber_FiscalYear("Highest_Repacking_Carton_No", this.financialYearComboboxCB.Text));
             Console.WriteLine("Constructor: " + this.highest_carton_no.ToString());
             if (isEditable == true) this.dataGridView1.Rows.Add("", "", this.highest_carton_no);
             this.nextcartonnoTB.Text = this.highest_carton_no.ToString();
+            
+            c.auto_adjust_dgv(dataGridView2);
+            dataGridView2.Columns[0].Width = 50;
+            dataGridView2.Columns[2].Width = 100;
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
         }
@@ -580,13 +600,10 @@ namespace Factory_Inventory
             if (dt == null) return false;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                this.carton_data.Add(dt.Rows[i]["Carton_ID"].ToString(), dt.Rows[i]);
-                this.carton_nos_display.Add(dt.Rows[i]["Carton_No"].ToString() + "  (" + dt.Rows[i]["Net_Weight"].ToString() + ", " + dt.Rows[i]["Fiscal_Year"].ToString() + ")");
+                this.destroyed_carton_dict.Add(dt.Rows[i]["Carton_ID"].ToString(), dt.Rows[i]);
+                this.destroyed_carton_nos_display.Add(dt.Rows[i]["Carton_No"].ToString() + "  (" + dt.Rows[i]["Net_Weight"].ToString() + ", " + dt.Rows[i]["Fiscal_Year"].ToString() + ")");
                 Tuple<string, string, string> temp = new Tuple<string, string, string>(dt.Rows[i]["Carton_No"].ToString(), dt.Rows[i]["Net_Weight"].ToString(), dt.Rows[i]["Fiscal_Year"].ToString());
-                Console.WriteLine("----" + temp.Item1 + "----");
-                Console.WriteLine("----" + temp.Item2 + "----");
-                Console.WriteLine("----" + temp.Item3 + "----");
-                this.carton_id_get.Add(temp, dt.Rows[i]["Carton_ID"].ToString());
+                this.destroyed_carton_id_get.Add(temp, dt.Rows[i]["Carton_ID"].ToString());
             }
             if (dt.Rows.Count <= 0 && this.edit_form == false)
             {
@@ -704,6 +721,7 @@ namespace Factory_Inventory
             if (coneComboboxCB.SelectedIndex == 0)
             {
                 dataGridView1.Rows[row_index].Cells[7].Value = "Please select Cone Wt";
+                return;
             }
             float net_weight = 0F;
             try
@@ -862,27 +880,8 @@ namespace Factory_Inventory
             if (this.edit_form == false)
             {
                 string fiscal_year = c.getFinancialYear(inputDate.Value);
-                ////Check for repeated carton no in carton financial year
-                //for (int i = 0; i < cartonNos.Length; i++)
-                //{
-                //    new_cartons += cartonNos[i] + ",";
-                //}
-                ////check for duplicates of all new cartons
-                //DataTable carton_dup = this.getDataIn_FinancialYear("Carton_Produced", carton_financialYear, "Carton_No", "Carton_No", removecom(new_cartons));
-                //Dictionary<string, bool> carton_dup_dict = new Dictionary<string, bool>();
-                //for (int i = 0; i < carton_dup.Rows.Count; i++) carton_dup_dict[carton_dup.Rows[i]["Carton_No"].ToString()] = true;
-                //for (int i = 0; i < cartonNos.Length; i++)
-                //{
-                //    bool nouse;
-                //    bool present = carton_dup_dict.TryGetValue(cartonNos[i], out nouse);
-                //    if (present == true) //if its present in the duplicate dictionary
-                //    {
-                //        this.ErrorBox("Carton number " + cartonNos[i] + " at row " + (i + 1).ToString() + " already exists in Financial Year " + carton_financialYear, "Error");
-                //        return false;
-                //    }
-                //}
 
-                //Store batch number and respective fiscal years in batches list and get min carton inward date
+                //Store carton number and respective fiscal years in batches list and get min carton inward date
                 DateTime min_billing_date = DateTime.MaxValue;
                 string Date_Of_Billing = "";
                 int inward_index = -1;
@@ -890,7 +889,7 @@ namespace Factory_Inventory
                 {
                     if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == false) continue;
                     Console.WriteLine("Carton Inward: "+ dataGridView2.Rows[i].Cells[1].Value.ToString());
-                    string carton_id = carton_id_get[Global.getCartonNo_Weight_FiscalYear(dataGridView2.Rows[i].Cells[1].Value.ToString())];
+                    string carton_id = destroyed_carton_id_get[Global.getCartonNo_Weight_FiscalYear(dataGridView2.Rows[i].Cells[1].Value.ToString())];
                     string sql_temp = "SELECT T_Carton_Inward_Voucher.Date_Of_Billing FROM T_Inward_Carton\n";
                     sql_temp += "JOIN T_Carton_Inward_Voucher ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID WHERE T_Inward_Carton.Carton_ID = '" + carton_id + "'";
                     Date_Of_Billing = c.runQuery(sql_temp).Rows[0]["Date_Of_Billing"].ToString().Substring(0, 10);
@@ -911,7 +910,7 @@ namespace Factory_Inventory
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Carton_Number") == false) continue;
                     Console.WriteLine("Production Date: " + dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/', '-'));
                     DateTime prod = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/','-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    if (inputDate.Value < prod)
+                    if (inputDate.Value > prod)
                     {
                         c.ErrorBox("Carton Number: " + dataGridView1.Rows[i].Cells[2].Value.ToString() + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " in the future", "Error");
                         return;
@@ -945,24 +944,24 @@ namespace Factory_Inventory
                     }
                 }
 
-                string min_date = min_prod_date.Date.ToString("yyyy-MM-dd").Substring(0, 10);
                 //Check if min billing date <= min production date
                 if (min_billing_date > min_prod_date)
                 {
                     c.ErrorBox("Carton Number " + dataGridView1.Rows[min_index].Cells[2].Value.ToString() + " at row " + (min_index + 1).ToString() + " has Date of Production (" + min_prod_date.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ") less than Date of Billing (" + Date_Of_Billing + ") of Inward Carton " + dataGridView2.Rows[inward_index].Cells[1].Value.ToString() + ")");
                     return;
                 }
-
+                
+                string min_date = min_prod_date.Date.ToString("yyyy-MM-dd").Substring(0, 10);
                 string sql = "begin transaction; begin try; DECLARE @voucherID int;\n";
                 if (closed == 1)
                 {
                     float oil_gain = (float.Parse(cartonweight.Text) - float.Parse(inwardcartonnwtTextbox.Text)) / float.Parse(inwardcartonnwtTextbox.Text) * 100F;
                     string max_date = max_prod_date.Date.ToString("yyyy-MM-dd").Substring(0, 10);
-                    sql += "INSERT INTO T_Repacking_Voucher (Date_Of_Input, Colour_ID, Quality_ID, Company_ID, Inward_Cartons_Type, Voucher_Closed, Oil_Gain, Carton_Fiscal_Year, Cone_ID, Date_Of_Production, Start_Date_Of_Production, Narration) VALUES ('" + inputDate.Value.ToString("MM-dd-yyyy") + "'," + colour_dict[colourComboboxCB.SelectedItem.ToString()] + ", " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + ", " + company_dict[companyComboboxCB.SelectedItem.ToString()] + ", " + typeCB.SelectedItem.ToString() + " , " + closed + ", " + oil_gain + ", '" + fiscal_year + "', " + cones_dict[coneComboboxCB.SelectedItem.ToString()].Item2 + ", '" + max_date + "', '" + min_date + "', '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
+                    sql += "INSERT INTO T_Repacking_Voucher (Date_Of_Input, Colour_ID, Quality_ID, Company_ID, Inward_Cartons_Type, Voucher_Closed, Oil_Gain, Carton_Fiscal_Year, Cone_ID, Date_Of_Production, Start_Date_Of_Production, Narration, Fiscal_Year) VALUES ('" + inputDate.Value.ToString("MM-dd-yyyy") + "'," + colour_dict[colourComboboxCB.SelectedItem.ToString()] + ", " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + ", " + company_dict[companyComboboxCB.SelectedItem.ToString()] + ", " + typeCB.SelectedItem.ToString() + " , " + closed + ", " + oil_gain + ", '" + fiscal_year + "', " + cones_dict[coneComboboxCB.SelectedItem.ToString()].Item2 + ", '" + max_date + "', '" + min_date + "', '" + narrationTB.Text + "', '" + c.getFinancialYear(inputDate.Value) + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
                 }
                 else
                 {
-                    sql += "INSERT INTO T_Repacking_Voucher (Date_Of_Input, Colour_ID, Quality_ID, Company_ID, Inward_Cartons_Type, Voucher_Closed, Carton_Fiscal_Year, Cone_ID, Start_Date_Of_Production, Narration) VALUES ('" + inputDate.Value.ToString("MM-dd-yyyy") + "'," + colour_dict[colourComboboxCB.SelectedItem.ToString()] + ", " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + ", " + company_dict[companyComboboxCB.SelectedItem.ToString()] + ", " + typeCB.SelectedItem.ToString() + " , " + closed + ", '" + fiscal_year + "', " + cones_dict[coneComboboxCB.SelectedItem.ToString()].Item2 + ", '" + min_date + "', '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
+                    sql += "INSERT INTO T_Repacking_Voucher (Date_Of_Input, Colour_ID, Quality_ID, Company_ID, Inward_Cartons_Type, Voucher_Closed, Carton_Fiscal_Year, Cone_ID, Start_Date_Of_Production, Narration, Fiscal_Year) VALUES ('" + inputDate.Value.ToString("MM-dd-yyyy") + "'," + colour_dict[colourComboboxCB.SelectedItem.ToString()] + ", " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + ", " + company_dict[companyComboboxCB.SelectedItem.ToString()] + ", " + typeCB.SelectedItem.ToString() + " , " + closed + ", '" + fiscal_year + "', " + cones_dict[coneComboboxCB.SelectedItem.ToString()].Item2 + ", '" + min_date + "', '" + narrationTB.Text + "', '" + c.getFinancialYear(inputDate.Value) + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
                 }
 
                 //Enter into carton produced table
@@ -982,12 +981,12 @@ namespace Factory_Inventory
                     sql += "INSERT INTO T_Repacked_Cartons (Carton_No, Carton_State, Date_Of_Production, Quality_ID, Colour_ID, Company_ID, Carton_Weight, Number_Of_Cones, Gross_Weight, Net_Weight, Fiscal_Year, Grade, Repacking_Voucher_ID, Inward_Type, Repack_Comments) VALUES ('" + carton_no + "' ," + 0 + ", '" + correct_format_date + "', " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + ", " + colour_dict[colourComboboxCB.SelectedItem.ToString()] + ", " + company_dict[companyComboboxCB.SelectedItem.ToString()] + ", " + cartonWeight + ", " + numberOfCones + ", " + grossWeight + ", " + netWeight + ", '" + financialYearComboboxCB.SelectedItem.ToString() + "', '" + grade + "', @voucherID, " + typeCB.SelectedItem.ToString() + ", '" + comments + "'); \n";
                 }
 
-                //Send Inward Cartons State and Repacking Voucher ID
+                //Send Inward Cartons State and Repacking Voucher ID and Display Order
                 for (int i = 0; i < dataGridView2.Rows.Count; i++)
                 {
                     if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == false) continue;
                     Tuple<string, string, string> temp_tup = Global.getCartonNo_Weight_FiscalYear(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                    sql += "UPDATE T_Inward_Carton SET Carton_State = 1, Repacking_Voucher_ID = @voucherID WHERE Carton_ID = '" + carton_id_get[temp_tup] + "'; \n";
+                    sql += "UPDATE T_Inward_Carton SET Carton_State = 1, Repacking_Voucher_ID = @voucherID, Repacking_Display_Order = " + (i + 1).ToString() + " WHERE Carton_ID = '" + destroyed_carton_id_get[temp_tup] + "'; \n";
                 }
 
                 //Update Fiscal Year Table
@@ -995,15 +994,15 @@ namespace Factory_Inventory
                 {
                     sql += "DECLARE @highest_carton_no varchar(20); SELECT @highest_carton_no = Highest_Repacking_Carton_No FROM Fiscal_Year WHERE Fiscal_Year='" + financialYearComboboxCB.SelectedItem.ToString() + "'; \n";
                     sql += "IF @highest_carton_no < " + max_carton_no + "\n";
-                    sql += "UPDATE Fiscal_Year SET Highest_Repacking_Carton_No =" + max_carton_no + " WHERE Fiscal_Year='" + financialYearComboboxCB.SelectedItem.ToString() + "' \n";
+                    sql += "UPDATE Fiscal_Year SET Highest_Repacking_Carton_No =" + max_carton_no + " WHERE Fiscal_Year='" + financialYearComboboxCB.SelectedItem.ToString() + "'; \n";
                 }
                 //catch
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
                 sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
                 sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
-                DataTable dt = c.runQuery(sql);
+                DataTable add = c.runQuery(sql);
 
-                if (dt != null)
+                if (add != null)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     c.SuccessBox("Voucher Added Successfully");
@@ -1013,14 +1012,228 @@ namespace Factory_Inventory
             }
             else
             {
-                //bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, companyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable, carton_data);
-                //if (edited == true)
-                //{
-                //    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                //    disable_form_edit();
-                //}
-                //else return;
-                //this.v1_history.loadData();
+                string fiscal_year = c.getFinancialYear(inputDate.Value);
+
+                //get min carton inward (billing) date
+                DateTime min_billing_date = DateTime.MaxValue;
+                string Date_Of_Billing = "";
+                int inward_index = -1;
+                for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                {
+                    if (c.Cell_Not_NullOrEmpty(dataGridView2, i, 1) == false) continue;
+                    Console.WriteLine("Carton Inward: " + dataGridView2.Rows[i].Cells[1].Value.ToString());
+                    string carton_id = destroyed_carton_id_get[Global.getCartonNo_Weight_FiscalYear(dataGridView2.Rows[i].Cells[1].Value.ToString())];
+                    string sql_temp = "SELECT T_Carton_Inward_Voucher.Date_Of_Billing FROM T_Inward_Carton\n";
+                    sql_temp += "JOIN T_Carton_Inward_Voucher ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID WHERE T_Inward_Carton.Carton_ID = '" + carton_id + "'";
+                    Date_Of_Billing = c.runQuery(sql_temp).Rows[0]["Date_Of_Billing"].ToString().Substring(0, 10);
+                    Date_Of_Billing = Date_Of_Billing.Replace('/', '-');
+                    Console.WriteLine(Date_Of_Billing);
+                    DateTime date_of_billing = DateTime.ParseExact(Date_Of_Billing, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    if (date_of_billing < min_billing_date)
+                    {
+                        min_billing_date = date_of_billing;
+                        inward_index = i;
+                    }
+                }
+
+                //Check if future entry is not being done and get highest carton number
+                int max_carton_no = int.MinValue;
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Carton_Number") == false) continue;
+                    Console.WriteLine("Production Date: " + dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/', '-'));
+                    DateTime prod = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    if (inputDate.Value > prod)
+                    {
+                        c.ErrorBox("Carton Number: " + dataGridView1.Rows[i].Cells[2].Value.ToString() + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " in the future", "Error");
+                        return;
+                    }
+                    int carton_no;
+                    if (int.TryParse(dataGridView1.Rows[i].Cells[2].Value.ToString(), out carton_no))
+                    {
+                        if (carton_no > max_carton_no)
+                        {
+                            max_carton_no = carton_no;
+                        }
+                    }
+                }
+
+                //Get Max and min carton production dates
+                DateTime max_prod_date = DateTime.ParseExact(dataGridView1.Rows[0].Cells["Production_Date"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime min_prod_date = DateTime.ParseExact(dataGridView1.Rows[0].Cells["Production_Date"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                int min_index = 0;
+                for (int i = 1; i < dataGridView1.Rows.Count; i++)
+                {
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Carton_Number") == false) continue;
+                    DateTime dttemp = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture); ;
+                    if (dttemp > max_prod_date)
+                    {
+                        max_prod_date = dttemp;
+                    }
+                    if (dttemp < min_prod_date)
+                    {
+                        min_prod_date = dttemp;
+                        min_index = i;
+                    }
+                }
+
+                //Check if min billing date <= min production date
+                if (min_billing_date > min_prod_date)
+                {
+                    c.ErrorBox("Carton Number " + dataGridView1.Rows[min_index].Cells[2].Value.ToString() + " at row " + (min_index + 1).ToString() + " has Date of Production (" + min_prod_date.Date.ToString("dd-MM-yyyy").Substring(0, 10) + ") less than Date of Billing (" + Date_Of_Billing + ") of Inward Carton " + dataGridView2.Rows[inward_index].Cells[1].Value.ToString() + ")");
+                    return;
+                }
+
+                string start_date_of_prod = min_prod_date.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+
+                //We will make 3 lists for repacked cartons: 1) Old cartons which are there after editing too. 2) Old cartons which are deleted in edited voucher. 3) New cartons 
+                List<Tuple<string, int>> repacked_list1 = new List<Tuple<string, int>>(), repacked_list3 = new List<Tuple<string, int>>();    //<carton number, row index>
+                List<string> repacked_list2 = new List<string>();    //Stores carton no
+                for(int i=0;i<dataGridView1.Rows.Count;i++)
+                {
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Carton_Number") == false) continue;
+                    string carton_no = dataGridView1.Rows[i].Cells["Carton_Number"].Value.ToString();
+                    if (old_repacked_carton_dict.ContainsKey(carton_no))
+                    {
+                        repacked_list1.Add(new Tuple<string, int>(carton_no, i));
+                        DataRow temp_row = old_repacked_carton_dict[carton_no].Item1;
+                        Tuple<DataRow, bool> temp_tup = new Tuple<DataRow, bool>(temp_row, true);
+                        old_repacked_carton_dict[carton_no] = temp_tup;
+                    }
+                    else
+                    {
+                        repacked_list3.Add(new Tuple<string, int>(carton_no, i));
+                    }
+                }
+                foreach (KeyValuePair <string, Tuple<DataRow, bool>> kvp in old_repacked_carton_dict)
+                {
+                    if(kvp.Value.Item2==false)
+                    {
+                        repacked_list2.Add(kvp.Key);
+                    }
+                }
+
+                string sql = "--********************Edit T_Repacking_Voucher**************************\n";
+                sql += "begin transaction; begin try; \n";
+                string carton_fiscal_year = financialYearComboboxCB.SelectedItem.ToString();
+                //Remove cartons with which were deleted in edited voucher (repacked_list2)
+                for (int i=0;i<repacked_list2.Count;i++)
+                {
+                    sql += "DELETE FROM T_Repacked_Cartons WHERE Carton_No = '" + repacked_list2[i] + "' AND Fiscal_Year = '" + carton_fiscal_year + "'; \n";
+                }
+
+                //Add all New Cartons with state 0 (repacked_list3)
+                for(int j=0;j<repacked_list3.Count;j++)
+                {
+                    int i = repacked_list3[j].Item2;
+                    DateTime dttemp = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    string correct_format_date = dttemp.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+                    string carton_no = dataGridView1.Rows[i].Cells["Carton_Number"].Value.ToString();
+                    float cartonWeight = float.Parse(dataGridView1.Rows[i].Cells["Carton_Weight"].Value.ToString());
+                    int numberOfCones = int.Parse(dataGridView1.Rows[i].Cells["Number_Of_Cones"].Value.ToString());
+                    float grossWeight = float.Parse(dataGridView1.Rows[i].Cells["Gross_Weight"].Value.ToString());
+                    float netWeight = float.Parse(dataGridView1.Rows[i].Cells["Net_Weight"].Value.ToString());
+                    string grade = dataGridView1.Rows[i].Cells["Grade"].Value.ToString();
+                    string comments = "";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments")) comments = dataGridView1.Rows[i].Cells["Comments"].Value.ToString();
+                    sql += "INSERT INTO T_Repacked_Cartons (Carton_No, Carton_State, Date_Of_Production, Quality_ID, Colour_ID, Company_ID, Carton_Weight, Number_Of_Cones, Gross_Weight, Net_Weight, Fiscal_Year, Grade, Repacking_Voucher_ID, Inward_Type, Repack_Comments) VALUES ('" + carton_no + "' ," + 0 + ", '" + correct_format_date + "', " + quality_dict[qualityComboboxCB.SelectedItem.ToString()] + ", " + colour_dict[colourComboboxCB.SelectedItem.ToString()] + ", " + company_dict[companyComboboxCB.SelectedItem.ToString()] + ", " + cartonWeight + ", " + numberOfCones + ", " + grossWeight + ", " + netWeight + ", '" + financialYearComboboxCB.SelectedItem.ToString() + "', '" + grade + "', " + this.voucher_id + ", " + typeCB.SelectedItem.ToString() + ", '" + comments + "'); \n";
+                }
+
+                //Update old cartons which are were there in old voucher as well
+                {
+                    for (int j = 0; j < repacked_list1.Count; j++)
+                    {
+                        int i = repacked_list1[j].Item2;
+                        DateTime dttemp = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/', '-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        string correct_format_date = dttemp.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+                        string carton_no = dataGridView1.Rows[i].Cells["Carton_Number"].Value.ToString();
+                        float cartonWeight = float.Parse(dataGridView1.Rows[i].Cells["Carton_Weight"].Value.ToString());
+                        int numberOfCones = int.Parse(dataGridView1.Rows[i].Cells["Number_Of_Cones"].Value.ToString());
+                        float grossWeight = float.Parse(dataGridView1.Rows[i].Cells["Gross_Weight"].Value.ToString());
+                        float netWeight = float.Parse(dataGridView1.Rows[i].Cells["Net_Weight"].Value.ToString());
+                        string grade = dataGridView1.Rows[i].Cells["Grade"].Value.ToString();
+                        string comments = "";
+                        if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments")) comments = dataGridView1.Rows[i].Cells["Comments"].Value.ToString();
+                        sql += "UPDATE T_Repacked_Cartons SET Carton_No = '" + carton_no + "', Date_Of_Production = '" + correct_format_date + "', Carton_Weight = " + cartonWeight + ", Number_Of_Cones = " + numberOfCones + ", Gross_Weight = " + grossWeight + ", Net_Weight = " + netWeight + ", Grade = '" + grade + "', Repack_Comments = '" + comments + "' WHERE Carton_No = '" + repacked_list1[j].Item1 + "' AND Fiscal_Year = '" + carton_fiscal_year + "'; \n";
+                    }
+                }
+
+                //We will make 2 lists for destroyed cartons: 1) Cartons which are there after editing too. 2) Old cartons which are deleted in edited voucher
+                List<Tuple<string, int>> destroyed_list1 = new List<Tuple<string, int>>();    //<carton id, row index (used for display order>
+                List<string> destroyed_list2 = new List<string>();    //Stores carton id
+                for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                {
+                    if (c.Cell_Not_NullOrEmpty(dataGridView2, i, -1, "Carton_Number") == false) continue;
+                    string carton_no_display = dataGridView2.Rows[i].Cells["Carton_Number"].Value.ToString();
+                    Tuple<string, string, string> temp_3_tup = Global.getCartonNo_Weight_FiscalYear(carton_no_display);
+                    string carton_id = destroyed_carton_id_get[temp_3_tup];
+                    if (old_destroyed_carton_dict.ContainsKey(carton_id))
+                    {
+                        destroyed_list1.Add(new Tuple<string, int>(carton_id, i));
+                        DataRow temp_row = old_destroyed_carton_dict[carton_id].Item1;
+                        Tuple<DataRow, bool> temp_tup = new Tuple<DataRow, bool>(temp_row, true);
+                        old_destroyed_carton_dict[carton_id] = temp_tup;
+                    }
+                    else
+                    {
+                        destroyed_list1.Add(new Tuple<string, int>(carton_id, i));
+                    }
+                }
+                foreach (KeyValuePair<string, Tuple<DataRow, bool>> kvp in old_destroyed_carton_dict)
+                {
+                    if (kvp.Value.Item2 == false)
+                    {
+                        destroyed_list2.Add(kvp.Key);
+                    }
+                }
+
+                //Have to add the delete, add and edit destroyed cartons
+                //Remove destroyed cartons which were deleted in edited voucher (destroyed_list2)
+                for (int i = 0; i < destroyed_list2.Count; i++)
+                {
+                    sql += "UPDATE T_Inward_Carton SET Carton_State = 0, Repacking_Voucher_ID = NULL, Repacking_Display_Order = NULL  WHERE Carton_ID = '" + destroyed_list2[i] + "'; \n";
+                }
+
+                //Send cartons which are still present Carton_State=1, Repacking Voucher ID and Repacking Display Order
+                for (int i = 0; i < destroyed_list1.Count; i++)
+                {
+                    sql += "UPDATE T_Inward_Carton SET Carton_State = 1, Repacking_Voucher_ID = " + this.voucher_id + ", Repacking_Display_Order = " + destroyed_list1[i].Item2 + " WHERE Carton_ID = '" + destroyed_list1[i].Item1 + "'; \n";
+                }
+
+                if (closed == 1)
+                {
+                    float oil_gain = (float.Parse(cartonweight.Text) - float.Parse(inwardcartonnwtTextbox.Text)) / float.Parse(inwardcartonnwtTextbox.Text) * 100F;
+                    string max_date = max_prod_date.Date.ToString("yyyy-MM-dd").Substring(0, 10);
+                    sql += "UPDATE T_Repacking_Voucher SET Oil_Gain=" + oil_gain + ", Voucher_Closed=" + closed + ", Cone_ID = " + cones_dict[coneComboboxCB.SelectedItem.ToString()].Item2 + ", Date_Of_Production='" + max_date + "', Start_Date_Of_Production= '" + start_date_of_prod + "', Narration = '" + narrationTB.Text + "' WHERE Voucher_ID = " + this.voucher_id + "; \n";
+                }
+                else
+                {
+                    sql += "UPDATE T_Repacking_Voucher SET Cone_ID=" + cones_dict[coneComboboxCB.SelectedItem.ToString()].Item2 + ", Start_Date_Of_Production = '" + start_date_of_prod + "', Narration = '" + narrationTB.Text + "' WHERE Voucher_ID = " + this.voucher_id + "; \n";
+                }
+
+
+                //Update Fiscal Year Table
+                if (max_carton_no != int.MinValue)  //Check if highest carton number is a number
+                {
+                    sql += "DECLARE @highest_carton_no varchar(20); SELECT @highest_carton_no = Highest_Repacking_Carton_No FROM Fiscal_Year WHERE Fiscal_Year='" + financialYearComboboxCB.SelectedItem.ToString() + "'; \n";
+                    sql += "IF @highest_carton_no < " + max_carton_no + "\n";
+                    sql += "UPDATE Fiscal_Year SET Highest_Repacking_Carton_No =" + max_carton_no + " WHERE Fiscal_Year='" + financialYearComboboxCB.SelectedItem.ToString() + "'; \n";
+                }
+
+                //catch
+                sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
+                sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
+                sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
+                
+                DataTable edit = c.runQuery(sql);
+                if (edit != null)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    c.SuccessBox("Voucher Edited Successfully");
+                    disable_form_edit();
+                }
+                else return;
+                this.v1_history.loadData();
             }
             dataGridView1.EnableHeadersVisualStyles = false;
         }
@@ -1169,10 +1382,21 @@ namespace Factory_Inventory
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                bool deleted = c.deleteCartonProductionVoucher(this.voucher_id);
-                if (deleted == true)
+                //Set deleted = 1 in T_Repacking_Voucher
+                string sql = "--*********************DELETE T_REPACKING_VOUCHER***********************;\n";
+                sql += "UPDATE T_Repacking_Voucher SET Deleted = 1 WHERE Voucher_ID=" + this.voucher_id + ";\n";
+
+                //Remove repacked cartons 
+                sql += "DELETE FROM T_Repacked_Cartons WHERE Repacking_Voucher_ID = " + this.voucher_id + ";\n";
+
+                //Remove destroyed inward cartons
+                sql += "DELETE FROM T_Inward_Carton WHERE Repacking_Voucher_ID = " + this.voucher_id + ";\n";
+
+                DataTable del = c.runQuery(sql);
+                if (del != null)
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
                     this.deleteButton.Enabled = false;
                     this.v1_history.loadData();
                 }
@@ -1599,9 +1823,9 @@ namespace Factory_Inventory
                 Console.WriteLine("----" + values.Item1 + "----");
                 Console.WriteLine("----" + values.Item2 + "----");
                 Console.WriteLine("----" + values.Item3 + "----");
-                string carton_id = carton_id_get[values];
+                string carton_id = destroyed_carton_id_get[values];
                 //Console.WriteLine(data.HiddenValue);
-                dataGridView2.Rows[e.RowIndex].Cells[2].Value = carton_data[carton_id]["Net_Weight"].ToString();
+                dataGridView2.Rows[e.RowIndex].Cells[2].Value = destroyed_carton_dict[carton_id]["Net_Weight"].ToString();
                 inwardcartonnwtTextbox.Text = CellSum2(2).ToString("F3");
 
             }

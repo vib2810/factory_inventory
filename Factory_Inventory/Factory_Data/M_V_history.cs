@@ -313,7 +313,7 @@ namespace Factory_Inventory
                 sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
                 sql += select_stuff("", "CONVERT(VARCHAR, t1.Net_Weight)", "Net_Weight_Arr");
                 sql += select_stuff("", "CONVERT(VARCHAR, t1.Repack_Comments)", "Comments_Arr");
-                sql += "    ,t.Carton_Fiscal_Year, t.Colour, t.Company_Name, t.Date_Of_Input, t.Date_Of_Production, t.Deleted, t.Oil_Gain, CONVERT(VARCHAR, t.Narration) Narration, t.Quality_Before_Job, t.Start_Date_Of_Production, t.Voucher_Closed\n";
+                sql += "    ,t.Carton_Fiscal_Year, t.Colour, t.Company_Name, t.Date_Of_Input, t.Date_Of_Production, t.Deleted, t.Oil_Gain, CONVERT(VARCHAR, t.Narration) Narration, t.Quality_Before_Job, t.Start_Date_Of_Production, t.Voucher_Closed, t.Cone_Name, t.Cone_Weight, t.Fiscal_Year, t.Inward_Cartons_Type\n";
                 
                 sql += select_function("sum", "Net_Weight", "Total_Weight");
                 sql += select_function("count", "Voucher_ID", "Number_Of_Repacked_Cartons");
@@ -791,50 +791,74 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Trading Carton Inward
-            if (this.vno == 140)
+            if (this.vno == 14)
             {
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
-                this.dataGridView1.Columns["Date_Of_Billing"].Visible = true;
-                this.dataGridView1.Columns["Date_Of_Billing"].DisplayIndex = 0;
-                this.dataGridView1.Columns["Date_Of_Billing"].HeaderText = "Bill Date";
+                this.dataGridView1.Columns["Start_Date_Of_Production"].Visible = true;
+                this.dataGridView1.Columns["Start_Date_Of_Production"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Start_Date_Of_Production"].HeaderText = "Start Date of Production";
+                this.dataGridView1.Columns["Date_Of_Production"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Production"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Production"].HeaderText = "End Date of Production";
                 this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
-                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 2;
                 this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
-                this.dataGridView1.Columns["Bill_No"].Visible = true;
-                this.dataGridView1.Columns["Bill_No"].DisplayIndex = 2;
-                this.dataGridView1.Columns["Bill_No"].HeaderText = "Bill Number";
-                this.dataGridView1.Columns["Inward_Type"].Visible = true;
-                this.dataGridView1.Columns["Inward_Type"].DisplayIndex = 3;
-                this.dataGridView1.Columns["Inward_Type"].HeaderText = "Inward Type";
+                this.dataGridView1.Columns["Destroyed_Carton_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Destroyed_Carton_No_Arr"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Destroyed_Carton_No_Arr"].HeaderText = "Destroyed Cartons";
                 this.dataGridView1.Columns["Carton_No_Arr"].Visible = true;
                 this.dataGridView1.Columns["Carton_No_Arr"].DisplayIndex = 4;
-                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Carton Numbers";
-                this.dataGridView1.Columns["Quality_Before_Job_Arr"].Visible = true;
-                this.dataGridView1.Columns["Quality_Before_Job_Arr"].DisplayIndex = 5;
-                this.dataGridView1.Columns["Quality_Before_Job_Arr"].HeaderText = "Qualities";
-                this.dataGridView1.Columns["Colour_Arr"].Visible = true;
-                this.dataGridView1.Columns["Colour_Arr"].DisplayIndex = 6;
-                this.dataGridView1.Columns["Colour_Arr"].HeaderText = "Colours";
+                this.dataGridView1.Columns["Carton_No_Arr"].HeaderText = "Repacked Carton";
+                this.dataGridView1.Columns["Quality_Before_Job"].Visible = true;
+                this.dataGridView1.Columns["Quality_Before_Job"].DisplayIndex = 5;
+                this.dataGridView1.Columns["Quality_Before_Job"].HeaderText = "Quality";
+                this.dataGridView1.Columns["Colour"].Visible = true;
+                this.dataGridView1.Columns["Colour"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Colour"].HeaderText = "Colours";
                 this.dataGridView1.Columns["Company_Name"].Visible = true;
                 this.dataGridView1.Columns["Company_Name"].DisplayIndex = 7;
                 this.dataGridView1.Columns["Company_Name"].HeaderText = "Company Name";
-                this.dataGridView1.Columns["Net_Weight"].Visible = true;
-                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = 8;
-                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
-                this.dataGridView1.Columns["Buy_Cost"].Visible = true;
-                this.dataGridView1.Columns["Buy_Cost"].DisplayIndex = 9;
-                this.dataGridView1.Columns["Buy_Cost"].HeaderText = "Buy Cost";
-                this.dataGridView1.Columns["Number_of_Cartons"].Visible = true;
-                this.dataGridView1.Columns["Number_of_Cartons"].DisplayIndex = 10;
-                this.dataGridView1.Columns["Number_of_Cartons"].HeaderText = "Number of Cartons";
-                this.dataGridView1.Columns["Narration"].Visible = true;
-                this.dataGridView1.Columns["Narration"].DisplayIndex = 11;
-                this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                this.dataGridView1.Columns["Cone_Name"].Visible = true;
+                this.dataGridView1.Columns["Cone_Name"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Cone_Name"].HeaderText = "Cone";
+                this.dataGridView1.Columns["Cone_Weight"].Visible = true;
+                this.dataGridView1.Columns["Cone_Weight"].DisplayIndex = 9;
+                this.dataGridView1.Columns["Cone_Weight"].HeaderText = "Cone Weight";
+                this.dataGridView1.Columns["Inward_Cartons_Type"].Visible = true;
+                this.dataGridView1.Columns["Inward_Cartons_Type"].DisplayIndex = 10;
+                this.dataGridView1.Columns["Inward_Cartons_Type"].HeaderText = "Destroyed Cartons Inward Type";
+                this.dataGridView1.Columns["Oil_Gain"].Visible = true;
+                this.dataGridView1.Columns["Oil_Gain"].DisplayIndex = 11;
+                this.dataGridView1.Columns["Oil_Gain"].HeaderText = "Oil Gain";
+                this.dataGridView1.Columns["Carton_Fiscal_Year"].Visible = true;
+                this.dataGridView1.Columns["Carton_Fiscal_Year"].DisplayIndex = 12;
+                this.dataGridView1.Columns["Carton_Fiscal_Year"].HeaderText = "Carton Fiscal Year";
+                this.dataGridView1.Columns["Total_Weight"].Visible = true;
+                this.dataGridView1.Columns["Total_Weight"].DisplayIndex = 13;
+                this.dataGridView1.Columns["Total_Weight"].HeaderText = "Total Weight";
+                this.dataGridView1.Columns["Net_Weight_Arr"].Visible = true;
+                this.dataGridView1.Columns["Net_Weight_Arr"].DisplayIndex = 14;
+                this.dataGridView1.Columns["Net_Weight_Arr"].HeaderText = "Repaked Carton Weights";
+                this.dataGridView1.Columns["Voucher_Closed"].Visible = true;
+                this.dataGridView1.Columns["Voucher_Closed"].DisplayIndex = 15;
+                this.dataGridView1.Columns["Voucher_Closed"].HeaderText = "Closed";
+                this.dataGridView1.Columns["Grade_Arr"].Visible = true;
+                this.dataGridView1.Columns["Grade_Arr"].DisplayIndex = 16;
+                this.dataGridView1.Columns["Grade_Arr"].HeaderText = "Grades";
+                this.dataGridView1.Columns["Comments_Arr"].Visible = true;
+                this.dataGridView1.Columns["Comments_Arr"].DisplayIndex = 17;
+                this.dataGridView1.Columns["Comments_Arr"].HeaderText = "Comments";
+                this.dataGridView1.Columns["Deleted"].Visible = true;
+                this.dataGridView1.Columns["Deleted"].DisplayIndex = 18;
+                this.dataGridView1.Columns["Deleted"].HeaderText = "Deleted";
+                this.dataGridView1.Columns["Number_Of_Repacked_Cartons"].Visible = true;
+                this.dataGridView1.Columns["Number_Of_Repacked_Cartons"].DisplayIndex = 19;
+                this.dataGridView1.Columns["Number_Of_Repacked_Cartons"].HeaderText = "Number of Repacked Cartons";
                 this.dataGridView1.Columns["Fiscal_Year"].Visible = true;
-                this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 12;
-                this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Financial Year of Carton";
-                c.auto_adjust_dgv(this.dataGridView1);
+                this.dataGridView1.Columns["Fiscal_Year"].DisplayIndex = 20;
+                this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Fiscal Year";
+                //c.auto_adjust_dgv(this.dataGridView1);
             }      //Trading Repacking
             if (this.vno == 100)
             {
@@ -1041,6 +1065,15 @@ namespace Factory_Inventory
                         this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
+                if (this.vno == 14)
+                {
+                    T_V2_repackingForm f = new T_V2_repackingForm(row, false, this);
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
+                    }
+                }
                 if (this.vno == 100)
                 {
                     M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, false, this);
@@ -1177,6 +1210,15 @@ namespace Factory_Inventory
                 if (this.vno == 13)
                 {
                     T_V1_cartonInwardForm f = new T_V1_cartonInwardForm(row, true, this);
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
+                    }
+                }
+                if (this.vno == 14)
+                {
+                    T_V2_repackingForm f = new T_V2_repackingForm(row, true, this);
                     if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);

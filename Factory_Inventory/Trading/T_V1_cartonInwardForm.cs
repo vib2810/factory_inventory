@@ -873,10 +873,18 @@ namespace Factory_Inventory
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                bool deleted = c.deleteCartonVoucher(this.voucher_id);
-                if (deleted == true)
+                string sql="--**********************DELETE T_CARTON INWARD VOUCHER******************************\n";
+                //delete all rows from carton voucher
+                sql += "DELETE FROM T_Inward_Carton WHERE Inward_Voucher_ID = " + this.voucher_id + ";\n";
+
+                //update deleted column in carton_voucher
+                sql += "UPDATE T_Carton_Inward_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucher_id + ";\n";
+                
+                DataTable del = c.runQuery(sql);
+                if (del != null)
                 {
                     c.SuccessBox("Voucher Deleted Successfully");
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
                     this.deleteButton.Enabled = false;
                     this.v1_history.loadData();
                 }
