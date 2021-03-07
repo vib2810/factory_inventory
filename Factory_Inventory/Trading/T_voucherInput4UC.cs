@@ -53,14 +53,14 @@ namespace Factory_Inventory
         {
             foreach (Form form in Application.OpenForms)
             {
-                if (form.GetType() == typeof(M_VC_cartonSalesForm))
+                if (form.GetType() == typeof(T_cartonSalesForm))
                 {
                     form.WindowState = FormWindowState.Normal;
                     form.Activate();
                     return;
                 }
             }
-            M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
+            T_cartonSalesForm f = new T_cartonSalesForm("Carton_Produced");
             Global.background.show_form(f);
         }
 
