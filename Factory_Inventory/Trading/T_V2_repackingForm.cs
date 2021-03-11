@@ -1000,7 +1000,7 @@ namespace Factory_Inventory
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
                 sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
                 sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
-                DataTable add = c.runQuery(sql);
+                DataTable add = c.runQuery(sql);   
 
                 if (add != null)
                 {
@@ -1863,6 +1863,16 @@ namespace Factory_Inventory
         }
 
         private void dataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
         {
 
         }

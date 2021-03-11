@@ -47,7 +47,10 @@ namespace Factory_Inventory
         private List<Tuple<string, string>> carton_data;           //List that stores carton numbers from SQL
         private M_V_history v1_history;
         private int voucher_id;
-        private string tablename;
+        private Dictionary<string, int> quality_dict = new Dictionary<string, int>(); //Quality name to Quality id
+        private Dictionary<string, int> company_dict = new Dictionary<string, int>(); //Comapny name to comapny id 
+        private Dictionary<Tuple< string, string, string>, string> carton_id_get = new Dictionary<Tuple<string, string, string>,string>(); // Carton ID Dictionary 
+        string tablename;
         struct fetch_data
         {
             public float net_wt;
@@ -59,15 +62,14 @@ namespace Factory_Inventory
             }
         }
         Dictionary<Tuple<string, string>, fetch_data> carton_fetch_data = new Dictionary<Tuple<string, string>, fetch_data>();
+        private Dictionary<Tuple<string, string, string>, string> carton_id;
 
         //Form Functions
-        public T_cartonSalesForm(string form)
+        public T_cartonSalesForm()
         {
             InitializeComponent();
             this.c = new DbConnect();
             this.carton_data = new List<Tuple<string, string>>();
-            this.tablename = form;
-
             #region //combobox
             //Create frop down type list
             List<string> dataSource = new List<string>();
@@ -81,21 +83,16 @@ namespace Factory_Inventory
             this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             //Create drop-down quality list
-            DataTable d1 = c.getQC('q');
-            List<string> input_qualities = new List<string>();
-            input_qualities.Add("---Select---");
+            var dataSource2 = new List<string>();
+            DataTable d1 = c.runQuery("SELECT * FROM T_M_Quality_Before_Job");
+            dataSource2.Add("---Select---");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                if (this.tablename == "Carton")
-                {
-                    input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
-                }
-                else if (this.tablename == "Carton_Produced")
-                {
-                    input_qualities.Add(d1.Rows[i]["Quality"].ToString());
-                }
+                dataSource2.Add(d1.Rows[i]["Quality_Before_Job"].ToString());
+                quality_dict[d1.Rows[i]["Quality_Before_Job"].ToString()] = int.Parse(d1.Rows[i]["Quality_Before_Job_ID"].ToString());
             }
-            List<string> final_list = input_qualities.Distinct().ToList();
+
+            List<string> final_list = dataSource2.Distinct().ToList();
             this.comboBox1CB.DataSource = final_list;
             this.comboBox1CB.DisplayMember = "Quality";
             this.comboBox1CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
@@ -104,21 +101,18 @@ namespace Factory_Inventory
 
 
             //Create drop-down Company list
-            var dataSource2 = new List<string>();
-            if (this.tablename == "Carton_Produced")
+            var dataSource3 = new List<string>();
+            DataTable d2 = c.runQuery("SELECT * FROM T_M_Company_Names");
+            dataSource3.Add("---Select---");
+            for (int i = 0; i < d2.Rows.Count; i++)
             {
-                dataSource2.Add("Self");
+                dataSource3.Add(d2.Rows[i]["Company_Name"].ToString());
+                company_dict[d2.Rows[i]["Company_Name"].ToString()] = int.Parse(d2.Rows[i]["Company_ID"].ToString());
             }
-            else if(this.tablename=="Carton")
-            {
-                DataTable d2 = c.getQC('c');
-                dataSource2.Add("---Select---");
-                for (int i = 0; i < d2.Rows.Count; i++)
-                {
-                    dataSource2.Add(d2.Rows[i][0].ToString());
-                }
-            }
-            this.comboBox2CB.DataSource = dataSource2;
+
+
+            List<string> final_list1 = dataSource3.Distinct().ToList();
+            this.comboBox2CB.DataSource = dataSource3;
             this.comboBox2CB.DisplayMember = "Company_Names";
             this.comboBox2CB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
             this.comboBox2CB.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -132,44 +126,44 @@ namespace Factory_Inventory
                 this.comboBox2CB.TabStop = false;
             }
 
-            //Create drop-down Customers list
-            var dataSource3 = new List<string>();
-            DataTable d3 = c.getQC('C');
-            dataSource3.Add("---Select---");
+            ////Create drop-down Customers list
+            //var dataSource3 = new List<string>();
+            //DataTable d3 = c.getQC('C');
+            //dataSource3.Add("---Select---");
 
-            for (int i = 0; i < d3.Rows.Count; i++)
-            {
-                dataSource3.Add(d3.Rows[i][0].ToString());
-            }
-            this.comboBox3CB.DataSource = dataSource3;
-            this.comboBox3CB.DisplayMember = "Customers";
-            this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
-            this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            //for (int i = 0; i < d3.Rows.Count; i++)
+            //{
+            //    dataSource3.Add(d3.Rows[i][0].ToString());
+            //}
+            //this.comboBox3CB.DataSource = dataSource3;
+            //this.comboBox3CB.DisplayMember = "Customers";
+            //this.comboBox3CB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            //this.comboBox3CB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            //this.comboBox3CB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             
-            //Create drop-down Colour lists
-            var dataSource5 = new List<string>();
-            if (tablename == "Carton")
-            {
-                this.shadeCB.Items.Add("Gray");
-                this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Gray");
-                this.shadeCB.Enabled = false;
-            }
-            else
-            {
-                DataTable d5 = c.getQC('l');
-                dataSource5.Add("---Select---");
-                for (int i = 0; i < d5.Rows.Count; i++)
-                {
-                    dataSource5.Add(d5.Rows[i][0].ToString());
-                }
-                List<string> final_list1 = dataSource5.Distinct().ToList();
-                this.shadeCB.DataSource = final_list1;
-                this.shadeCB.DisplayMember = "Colours";
-                this.shadeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-                this.shadeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-                this.shadeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            }
+            ////Create drop-down Colour lists
+            //var dataSource5 = new List<string>();
+            //if (tablename == "Carton")
+            //{
+            //    this.shadeCB.Items.Add("Gray");
+            //    this.shadeCB.SelectedIndex = this.shadeCB.FindStringExact("Gray");
+            //    this.shadeCB.Enabled = false;
+            //}
+            //else
+            //{
+            //    DataTable d5 = c.getQC('l');
+            //    dataSource5.Add("---Select---");
+            //    for (int i = 0; i < d5.Rows.Count; i++)
+            //    {
+            //        dataSource5.Add(d5.Rows[i][0].ToString());
+            //    }
+            //    List<string> final_list1 = dataSource5.Distinct().ToList();
+            //    this.shadeCB.DataSource = final_list1;
+            //    this.shadeCB.DisplayMember = "Colours";
+            //    this.shadeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            //    this.shadeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            //    this.shadeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            //}
 
 
             #endregion //combobox
@@ -474,33 +468,42 @@ namespace Factory_Inventory
                 return sum;
             }
         }
-        private void loadData(string quality, string company)
+        private bool loadData(string quality, string company)
         {
-            DataTable d = new DataTable();
-            if(this.tablename=="Carton")
+           
+            string sql = "SELECT * FROM\n";
+            sql += "    (SELECT T_Inward_Carton.* \n";
+            sql += "    FROM T_Inward_Carton\n";
+            sql += "    LEFT OUTER JOIN T_Carton_Inward_Voucher\n";
+            sql += "    ON T_Inward_Carton.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID) as temp \n";
+           //Below written query is to select the Quality and Company ID
+            sql += "WHERE temp.Quality_ID = " + quality_dict[comboBox1CB.SelectedItem.ToString()]+ "AND temp.Company_ID = " + company_dict[comboBox2CB.SelectedItem.ToString()];
+         
+            DataTable d1 = c.runQuery(sql);//running the query 
+            
+            if (d1 == null) return false;
+            for (int i = 0; i < d1.Rows.Count; i++)
             {
-                d = c.getTableData(this.tablename, "Carton_No, Net_Weight, Fiscal_Year", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "'");
-            }
-            else d= c.getTableData(this.tablename, "Carton_No, Net_Weight, Colour, Fiscal_Year", "Carton_State = 1 AND Quality = '" + quality + "' AND Company_Name = '" + company + "'");
-            DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns[1];
-            for (int i = 0; i < d.Rows.Count; i++)
-            {
-                string cartonno = d.Rows[i]["Carton_No"].ToString();
-                string carton_fiscal_year = d.Rows[i]["Fiscal_Year"].ToString();
-                string to_show = cartonno + " (" + carton_fiscal_year + ")";
-                dgvCmb.Items.Add(to_show);
-                this.carton_data.Add(new Tuple<string, string>(cartonno, carton_fiscal_year));
+                string cartonno = d1.Rows[i]["Carton_No"].ToString();
+                string carton_fiscal_year = d1.Rows[i]["Fiscal_Year"].ToString();
+                string colour_id = d1.Rows[i]["Colour_ID"].ToString();
+                Tuple<string, string, string> temp = new Tuple<string, string, string>(d1.Rows[i]["Carton_No"].ToString(), d1.Rows[i]["Net_Weight"].ToString(), d1.Rows[i]["Fiscal_Year"].ToString());
                 string colour = "Gray";
-                if (this.tablename != "Carton") colour = d.Rows[i]["Colour"].ToString();
-                this.carton_fetch_data[new Tuple<string, string>(cartonno, carton_fiscal_year)] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), colour);
+                this.carton_id_get.Add(temp, d1.Rows[i]["Carton_ID"].ToString());               
             }
-            int j = 0;
-            foreach(Tuple<string, string> item in carton_fetch_data.Keys)
+            if (d1.Rows.Count <= 0 && this.edit_form == false)
             {
-                Console.WriteLine(item.Item1 + "," + item.Item2 + carton_fetch_data[item].colour+" "+carton_fetch_data[item].net_wt);
-                j++;
+                c.WarningBox("No Cartons Found");
+                return false;
             }
-            Console.WriteLine(j);
+            if (this.edit_form == false)
+            {
+                c.SuccessBox("Loaded " + d1.Rows.Count.ToString() + " Cartons");
+            }
+            
+
+            return true;
+            
             
         }
         private void amountTB_Value()
@@ -762,21 +765,30 @@ namespace Factory_Inventory
                 ComboBox cb = (ComboBox)e.Control;
                 if (this.shadeCB.Text == "---Select---") return;
                 
-                List<Tuple<string, string>> temp=new List<Tuple<string, string>>();
-                foreach (string item in cb.Items)
+                List<Tuple<string, string>> temp1=new List<Tuple<string, string>>();
+                foreach(string item in cb.Items)
                 {
-                    string[] carton_data = c.repeated_batch_csv(item);
-                    temp.Add(new Tuple<string, string>(carton_data[0], carton_data[1]));
+                    Tuple<string, string, string> itemx = Global.getCartonNo_Weight_FiscalYear(item);
+
+                    carton_id = carton_id_get;
+                    
+                                        fetch_data value = new fetch_data(-1F, "");
+                    this.carton_fetch_data.TryGetValue(carton_id, out value);//error 
+                    if (value.colour != this.shadeCB.Text)
+                    {
+                        cb.Items.Remove(itemx.Item1 +  itemx.Item2  +  itemx.Item3, ") ");//error
+                    }
                 }
-                foreach(Tuple<string, string> item in temp)
+                foreach(Tuple<string, string> item in temp1)
                 {
                     fetch_data value = new fetch_data(-1F, "");
                     this.carton_fetch_data.TryGetValue(item, out value);
-                    if (value.colour!=this.shadeCB.Text)
+                    if (value.colour != this.shadeCB.Text)
                     {
                         cb.Items.Remove(item.Item1 + " (" + item.Item2 + ")");
                     }
                 }
+
             }
         }
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -884,6 +896,11 @@ namespace Factory_Inventory
             {
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
-        } 
+        }
+
+        private void typeCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

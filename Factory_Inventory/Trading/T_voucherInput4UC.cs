@@ -60,7 +60,7 @@ namespace Factory_Inventory
                     return;
                 }
             }
-            T_cartonSalesForm f = new T_cartonSalesForm("Carton_Produced");
+            T_cartonSalesForm f = new T_cartonSalesForm();
             Global.background.show_form(f);
         }
 

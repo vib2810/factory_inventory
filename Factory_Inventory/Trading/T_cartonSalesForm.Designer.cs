@@ -247,6 +247,7 @@
             this.typeCB.Name = "typeCB";
             this.typeCB.Size = new System.Drawing.Size(200, 24);
             this.typeCB.TabIndex = 2;
+            this.typeCB.SelectedIndexChanged += new System.EventHandler(this.typeCB_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -363,7 +364,7 @@
             this.label11.TabIndex = 45;
             this.label11.Text = "Shade";
             // 
-            // M_VC_cartonSalesForm
+            // T_cartonSalesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
