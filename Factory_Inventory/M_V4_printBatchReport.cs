@@ -34,7 +34,8 @@ namespace Factory_Inventory
         int max_rows_print_mode_switch = 14;
         //print mode 1=  1 in 1 page, 2 means 2 in 1 page
         Dictionary<int, int> vouchers = new Dictionary<int, int>(); //to store active vouchers
-        
+        Dictionary<string, string> firmDetails = new Dictionary<string, string>();
+
         public M_V4_printBatchReport()
         {
             InitializeComponent();
@@ -121,6 +122,23 @@ namespace Factory_Inventory
             IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
             PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4); // setting paper size to A4 size
             printDocument1.DefaultPageSettings.PaperSize = sizeA4;
+
+            //Load firm details
+            DataTable dt = c.runQuery("SELECT * FROM Defaults WHERE Default_Type= 'Print' and default_name = 'Default Print Type'");
+            string default_print_type_id = dt.Rows[0]["Default_Value"].ToString();
+
+            DataTable dt_printTypes = c.runQuery("select * from Print_Types where Print_Type_ID=" + default_print_type_id);
+            if(dt_printTypes==null)
+            {
+                c.WarningBox("Print->Default Print Type is set as " + default_print_type_id + ", not found in Default Print_Type_IDs Table, " +
+                    "defaulting to first entry in Print_Types table");
+                dt_printTypes = c.runQuery("select * from Print_Types");
+            }
+            for (int j = 0; j < dt_printTypes.Columns.Count - 1; j++)
+            {
+                firmDetails[dt_printTypes.Columns[j].ColumnName] = dt_printTypes.Rows[0][j].ToString();
+            }
+
         }
 
         private void M_V4_printBatchReport_Load(object sender, EventArgs e)
@@ -586,9 +604,9 @@ namespace Factory_Inventory
             write(e, (int)(0.90 * page_width) + lrmargin, write_height, (int)(0.10 * page_width), "Page No:" + this.printed_pages, basic_size, 'l', 1, 0);
             write_height += write(e, lrmargin, write_height, page_width, "||Shri||", basic_size, 'c', 0) + header_spacing;
             write_height += write(e, lrmargin, write_height, page_width, "BATCH FINAL REPORT", basic_size + 4, 'c', 1) + header_spacing - 2;
-            write_height += write(e, lrmargin, write_height, page_width, c.getDefault("Print", "Firm Name"), basic_size + 5, 'c', 1) + header_spacing-3;
-            write_height += write(e, lrmargin, write_height, page_width, c.getDefault("Print", "Address"), basic_size + 1, 'c', 1) + header_spacing;
-            write_height += write(e, lrmargin, write_height, page_width, "(GSTIN No: " + c.getDefault("Print", "GSTIN") + ")", basic_size + 1, 'c', 1);
+            write_height += write(e, lrmargin, write_height, page_width, firmDetails["Firm_Name"], basic_size + 5, 'c', 1) + header_spacing-3;
+            write_height += write(e, lrmargin, write_height, page_width, firmDetails["Address"], basic_size + 1, 'c', 1) + header_spacing;
+            write_height += write(e, lrmargin, write_height, page_width, "(GSTIN No: " + firmDetails["GSTIN"] + ")", basic_size + 1, 'c', 1);
 
             string batch_nos = "";
             for (int i = 0; i < dataGridView3.Rows.Count - 1; i++) batch_nos += dataGridView3.Rows[i].Cells[1].Value + ", ";

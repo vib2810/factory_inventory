@@ -25,6 +25,9 @@ namespace Factory_Inventory
         int basic_font_size = 9;
         M_V4_printDyeingOutward parent;
         bool redyeing = false;
+        Dictionary<string, string> firmDetails = new Dictionary<string, string>();
+
+
         public printDyeingOutward(DataRow row, M_V4_printDyeingOutward f)
         {
             InitializeComponent();
@@ -34,7 +37,23 @@ namespace Factory_Inventory
             {
                 return;
             }
-            
+
+            //Load firm details
+            DataTable dt10 = c.runQuery("SELECT * FROM Defaults WHERE Default_Type= 'Print' and default_name = 'Default Print Type'");
+            string default_print_type_id = dt10.Rows[0]["Default_Value"].ToString();
+
+            DataTable dt_printTypes = c.runQuery("select * from Print_Types where Print_Type_ID=" + default_print_type_id);
+            if (dt_printTypes == null)
+            {
+                c.WarningBox("Print->Default Print Type is set as " + default_print_type_id + ", not found in Default Print_Type_IDs Table, " +
+                    "defaulting to first entry in Print_Types table");
+                dt_printTypes = c.runQuery("select * from Print_Types");
+            }
+            for (int j = 0; j < dt_printTypes.Columns.Count - 1; j++)
+            {
+                firmDetails[dt_printTypes.Columns[j].ColumnName] = dt_printTypes.Rows[0][j].ToString();
+            }
+
             this.batchnoTextbox.Text = row["Batch_No"].ToString();
             //this.dateTimePicker1.Value = Convert.ToDateTime(row["Input_Date"].ToString());
             this.outDateTextbox.Text = row["Dyeing_Out_Date"].ToString().Substring(0,10);
@@ -46,9 +65,9 @@ namespace Factory_Inventory
             this.customergstin.Text = dyeing_company.Rows[0]["GSTIN"].ToString();
             DataTable quality= c.getTableRows("Quality", "Quality='" + row["Quality"].ToString()+"'");
             this.hsnnumber.Text = quality.Rows[0]["HSN_No"].ToString();
-            this.label6.Text = "(GSTIN No. " + c.getDefault("Print", "GSTIN") + ")";
-            this.label5.Text = c.getDefault("Print", "Address");
-            this.label3.Text = c.getDefault("Print", "Firm Name");
+            this.label6.Text = "(GSTIN No. " + firmDetails["GSTIN"] + ")";
+            this.label5.Text = firmDetails["Address"];
+            this.label3.Text = firmDetails["Firm_Name"];
             string[] tray_ids = c.csvToArray(row["Tray_ID_Arr"].ToString());
             if(!string.IsNullOrEmpty(row["Redyeing"].ToString()))
             {
@@ -104,9 +123,9 @@ namespace Factory_Inventory
             c.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.where= "Batch_No="+ this.batchnoTextbox.Text+" AND Fiscal_Year='"+ row["Fiscal_Year"].ToString()+"'";
 
-            this.label3.Text = c.getDefault("Print", "Firm Name");
-            this.label5.Text = c.getDefault("Print", "Address");
-            this.label6.Text = "(GSTIN No. " + c.getDefault("Print", "GSTIN") + ")";
+            this.label3.Text = firmDetails["Firm_Name"];
+            this.label5.Text = firmDetails["Address"];
+            this.label6.Text = "(GSTIN No. " + firmDetails["GSTIN"] + ")";
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;
             IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
@@ -200,9 +219,9 @@ namespace Factory_Inventory
             if (this.redyeing == true) write(e, -1, write_height, 0, "REDYEING", basic_size + 3, 'r', 1);
             write_height += write(e, -1, write_height, 0, "|| Shri ||", basic_size + 2, 'c', 1) - header_size_sub;
             write_height += write(e, -1, write_height, 0, "FOR JOB WORK", basic_size + 3, 'c', 1) - header_size_sub-3;
-            write_height += write(e, -1, write_height, 0, c.getDefault("Print", "Firm Name"), basic_size + 6, 'c', 1) - header_size_sub - 3;
-            write_height += write(e, -1, write_height, 0, c.getDefault("Print", "Address"), basic_size + 2, 'c', 1) - header_size_sub;
-            write_height += write(e, -1, write_height, 0, "(GSTIN No. "+ c.getDefault("Print", "GSTIN") + ")", basic_size + 2, 'c', 1);
+            write_height += write(e, -1, write_height, 0, firmDetails["Firm_Name"], basic_size + 6, 'c', 1) - header_size_sub - 3;
+            write_height += write(e, -1, write_height, 0, firmDetails["Address"], basic_size + 2, 'c', 1) - header_size_sub;
+            write_height += write(e, -1, write_height, 0, "(GSTIN No. "+ firmDetails["GSTIN"] + ")", basic_size + 2, 'c', 1);
 
             int current_width = e.PageBounds.Width - 2 * lrmargin;
             //first row
