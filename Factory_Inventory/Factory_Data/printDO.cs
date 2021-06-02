@@ -25,6 +25,8 @@ namespace Factory_Inventory
         private string where;
         int type = -1;
         M_V4_printDO parent;
+        Dictionary<string, string> firmDetails = new Dictionary<string, string>();
+
         public printDO(DataRow row, M_V4_printDO f)
         {
             InitializeComponent();
@@ -38,13 +40,29 @@ namespace Factory_Inventory
                 label6.Visible = false;
                 this.label7.Location = new System.Drawing.Point(268, 48);
             }
+            // Load default firm details
+            DataTable dt10 = c.runQuery("SELECT * FROM Defaults WHERE Default_Type= 'Print' and default_name = 'Default Print Type'");
+            string default_print_type_id = dt10.Rows[0]["Default_Value"].ToString();
+
+            DataTable dt_printTypes = c.runQuery("select * from Print_Types where Print_Type_ID=" + default_print_type_id);
+            if (dt_printTypes == null)
+            {
+                c.WarningBox("Print->Default Print Type is set as " + default_print_type_id + ", not found in Default Print_Type_IDs Table, " +
+                    "defaulting to first entry in Print_Types table");
+                dt_printTypes = c.runQuery("select * from Print_Types");
+            }
+            for (int j = 0; j < dt_printTypes.Columns.Count - 1; j++)
+            {
+                firmDetails[dt_printTypes.Columns[j].ColumnName] = dt_printTypes.Rows[0][j].ToString();
+            }
+
             this.type = int.Parse(row["Type_Of_Sale"].ToString());
             this.donoTextbox.Text = row["Sale_DO_No"].ToString();
             this.saleDateTextbox.Text = row["Date_Of_Sale"].ToString().Substring(0, 10);
             this.customerNameTextbox.Text = row["Customer"].ToString();
             this.qualityTextbox.Text = row["Quality"].ToString();
-            this.label3.Text = c.getDefault("Print", "Firm Name");
-            this.label5.Text = c.getDefault("Print", "Address");
+            this.label3.Text = firmDetails["Firm_Name"];
+            this.label5.Text = firmDetails["Address"];
             float sale_rate = float.Parse(row["Sale_Rate"].ToString());
             float net_weight = float.Parse(row["Net_Weight"].ToString());
 
@@ -96,9 +114,9 @@ namespace Factory_Inventory
             c.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
             this.where = "Voucher_ID=" + int.Parse(row["Voucher_ID"].ToString()) + "";
 
-            this.label3.Text = c.getDefault("Print", "Firm Name");
-            this.label5.Text = c.getDefault("Print", "Address");
-            this.label6.Text = "(GSTIN No. " + c.getDefault("Print", "GSTIN") + ")";
+            this.label3.Text = firmDetails["Firm_Name"];
+            this.label5.Text = firmDetails["Address"];
+            this.label6.Text = "(GSTIN No. " + firmDetails["GSTIN"] + ")";
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;
             IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
@@ -148,9 +166,9 @@ namespace Factory_Inventory
             {
                 write_height += 3;
                 write_height += write(e, x, write_height, width, "||Shri||", basic_size, 'c', 0) - sub_header;
-                write_height += write(e, x, write_height, width, c.getDefault("Print", "Firm Name"), basic_size + 2, 'c', 0) - sub_header-2;
-                write_height += write(e, x, write_height, width, c.getDefault("Print", "Address"), basic_size + 1, 'c', 0) - sub_header;
-                write_height += write(e, x, write_height, width, "(GSTIN No. "+ c.getDefault("Print", "GSTIN") + ")", basic_size + 1, 'c', 0) - sub_header+2;
+                write_height += write(e, x, write_height, width, firmDetails["Firm_Name"], basic_size + 2, 'c', 0) - sub_header-2;
+                write_height += write(e, x, write_height, width, firmDetails["Address"], basic_size + 1, 'c', 0) - sub_header;
+                write_height += write(e, x, write_height, width, "(GSTIN No. "+ firmDetails["GSTIN"] + ")", basic_size + 1, 'c', 0) - sub_header+2;
             }
             else
             {

@@ -53,6 +53,10 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadcartonButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.printFormatCB = new System.Windows.Forms.ComboBox();
+            this.firmDetailsCB = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -165,7 +169,7 @@
             // 
             // printButton
             // 
-            this.printButton.Location = new System.Drawing.Point(1199, 632);
+            this.printButton.Location = new System.Drawing.Point(1198, 573);
             this.printButton.Name = "printButton";
             this.printButton.Size = new System.Drawing.Size(350, 33);
             this.printButton.TabIndex = 10;
@@ -215,7 +219,7 @@
             this.button1.TabIndex = 13;
             this.button1.Text = "Load";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.batchButton_Click);
             // 
             // label5
             // 
@@ -286,7 +290,7 @@
             this.dataGridView5.RowHeadersWidth = 51;
             this.dataGridView5.RowTemplate.Height = 24;
             this.dataGridView5.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView5.Size = new System.Drawing.Size(350, 578);
+            this.dataGridView5.Size = new System.Drawing.Size(350, 519);
             this.dataGridView5.StandardTab = true;
             this.dataGridView5.TabIndex = 16;
             this.dataGridView5.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView5_RowPostPaint);
@@ -317,11 +321,58 @@
             this.loadcartonButton.UseVisualStyleBackColor = true;
             this.loadcartonButton.Click += new System.EventHandler(this.loadcartonButton_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(1196, 615);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(82, 17);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Firm Details";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(1196, 648);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(85, 17);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Print Format";
+            // 
+            // printFormatCB
+            // 
+            this.printFormatCB.FormattingEnabled = true;
+            this.printFormatCB.Items.AddRange(new object[] {
+            "1",
+            "2"});
+            this.printFormatCB.Location = new System.Drawing.Point(1284, 645);
+            this.printFormatCB.Name = "printFormatCB";
+            this.printFormatCB.Size = new System.Drawing.Size(264, 24);
+            this.printFormatCB.TabIndex = 20;
+            // 
+            // firmDetailsCB
+            // 
+            this.firmDetailsCB.FormattingEnabled = true;
+            this.firmDetailsCB.Items.AddRange(new object[] {
+            "1",
+            "2"});
+            this.firmDetailsCB.Location = new System.Drawing.Point(1284, 612);
+            this.firmDetailsCB.Name = "firmDetailsCB";
+            this.firmDetailsCB.Size = new System.Drawing.Size(264, 24);
+            this.firmDetailsCB.TabIndex = 22;
+            this.firmDetailsCB.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.firmDetailsCB_DrawItem);
+            // 
             // M_V4_printCartonSlip
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1560, 677);
+            this.Controls.Add(this.firmDetailsCB);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.printFormatCB);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.loadcartonButton);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dataGridView5);
@@ -379,5 +430,10 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Button loadcartonButton;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox printFormatCB;
+        private System.Windows.Forms.ComboBox firmDetailsCB;
     }
+    
 }
