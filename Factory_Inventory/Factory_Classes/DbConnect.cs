@@ -237,6 +237,7 @@ namespace Factory_Inventory.Factory_Classes
         //Utility Functions
         public DataTable runQuery(string sql)
         {
+            //returns null if couldnt run
             DataTable dt = new DataTable();
             try
             {

@@ -298,6 +298,12 @@
     <Compile Include="M_settings.Designer.cs">
       <DependentUpon>M_settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="M_S_printUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="M_S_printUC.Designer.cs">
+      <DependentUpon>M_S_printUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="M_S_displayUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -560,6 +566,12 @@
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectFolderDialogBox.cs" />
+    <Compile Include="setPrint_Type.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="setPrint_Type.Designer.cs">
+      <DependentUpon>setPrint_Type.cs</DependentUpon>
+    </Compile>
     <Compile Include="setSalary.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -643,6 +655,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_settings.resx">
       <DependentUpon>M_settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="M_S_printUC.resx">
+      <DependentUpon>M_S_printUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="M_S_displayUC.resx">
       <DependentUpon>M_S_displayUC.cs</DependentUpon>
@@ -781,6 +796,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="M_1_vouchersUC.resx">
       <DependentUpon>M_1_vouchersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="setPrint_Type.resx">
+      <DependentUpon>setPrint_Type.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="setSalary.resx">
       <DependentUpon>setSalary.cs</DependentUpon>
