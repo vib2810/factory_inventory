@@ -222,6 +222,7 @@
             this.dataGridView2.Size = new System.Drawing.Size(349, 627);
             this.dataGridView2.TabIndex = 17;
             this.dataGridView2.TabStop = false;
+            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
             this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
             this.dataGridView2.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView2_CurrentCellDirtyStateChanged);
@@ -491,6 +492,7 @@
             this.label11.TabIndex = 40;
             this.label11.Tag = "";
             this.label11.Text = "Cartons to be repacked";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // label18
             // 
