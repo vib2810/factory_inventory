@@ -102,7 +102,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(13, 13);
             this.label5.TabIndex = 22;
-            this.label5.Text = "2";
+            this.label5.Text = "1";
             // 
             // label6
             // 
@@ -113,7 +113,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(46, 13);
             this.label6.TabIndex = 23;
-            this.label6.Text = "Shift + 2";
+            this.label6.Text = "Shift + 1";
             // 
             // label8
             // 
@@ -124,7 +124,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(13, 13);
             this.label8.TabIndex = 24;
-            this.label8.Text = "3";
+            this.label8.Text = "2";
             // 
             // label9
             // 
@@ -135,7 +135,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(46, 13);
             this.label9.TabIndex = 25;
-            this.label9.Text = "Shift + 3";
+            this.label9.Text = "Shift + 2";
             // 
             // T_voucherInput4UC
             // 

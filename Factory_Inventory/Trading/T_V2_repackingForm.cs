@@ -439,7 +439,7 @@ namespace Factory_Inventory
                     r.DefaultCellStyle.BackColor = Color.LightGreen;
                     r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
                     this.deleteButton.Enabled = false;
-                    this.label16.Text = "This voucher cannot be deleted as some cartons have ben sold";
+                    this.label16.Text = "This voucher cannot be deleted as some cartons have been sold";
                 }
             }
             //if(flag == true)
@@ -586,6 +586,7 @@ namespace Factory_Inventory
             this.financialYearComboboxCB.Enabled = false;
             this.coneComboboxCB.Enabled = false;
             this.closedCheckboxCK.Enabled = false;
+            this.narrationTB.ReadOnly = true;
         }
         private bool loadData(string today_fiscal_year, List<int> minmax_years)
         {
@@ -910,9 +911,9 @@ namespace Factory_Inventory
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Carton_Number") == false) continue;
                     Console.WriteLine("Production Date: " + dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/', '-'));
                     DateTime prod = DateTime.ParseExact(dataGridView1.Rows[i].Cells["Production_Date"].Value.ToString().Replace('/','-'), "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    if (inputDate.Value > prod)
+                    if (inputDate.Value < prod)
                     {
-                        c.ErrorBox("Carton Number: " + dataGridView1.Rows[i].Cells[2].Value.ToString() + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + " in the future", "Error");
+                        c.ErrorBox("Carton Number: " + dataGridView1.Rows[i].Cells[2].Value.ToString() + " at row " + (i + 1).ToString() + " has Date of Production (" + prod.Date.ToString("dd-MM-yyyy") + ") in the future", "Error");
                         return;
                     }
                     int carton_no;
@@ -1407,7 +1408,6 @@ namespace Factory_Inventory
                 return;
             }
         }
-            
 
         //dgv
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -1701,7 +1701,7 @@ namespace Factory_Inventory
                 calculate_net_wt(e.RowIndex);
             }
         }
-        
+
         private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
         {
             if (dataGridView2.Enabled == false || dataGridView2.ReadOnly == true)

@@ -80,6 +80,8 @@ namespace Factory_Inventory
             vno_table_map[12] = "Redyeing_Voucher";
             vno_table_map[13] = "T_Carton_Inward_Voucher";
             vno_table_map[14] = "T_Repacking_Voucher";
+            vno_table_map[15] = "T_Sales_Voucher";
+            vno_table_map[15] = "T_SalesBillNos_Voucher";
 
             //Opening
             vno_table_map[100] = "Carton Production";
@@ -145,6 +147,12 @@ namespace Factory_Inventory
                     break;
                 case 14:
                     this.Text = "History - Trading - Repacking Voucher";
+                    break;
+                case 15:
+                    this.Text = "History - Trading - Carton Sale";
+                    break;
+                case 16:
+                    this.Text = "History - Trading - Add Bill to DOs";
                     break;
                 case 100:
                     this.Text = "History - Carton Production Opening";
@@ -238,7 +246,7 @@ namespace Factory_Inventory
         }
         private string select_function(string function, string column, string column_name)
         {
-            return ",(Select " + function + "(" + column + ")from((select " + column + " from #temp where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
+            return ",(Select " + function + "(" + column + ") from ((select " + column + " from #temp where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
         }
         public void loadData()
         {
@@ -321,6 +329,42 @@ namespace Factory_Inventory
                 sql += "from #temp t order by Voucher_ID DESC;\n";
                 sql += "drop table #temp;\n";
 
+                this.dt = c.runQuery(sql);
+            }
+            else if(this.vno==15)
+            {
+                string sql = "SELECT temp2.*, T_M_Customers.Customer_Name\n";
+                sql += "FROM\n";
+                sql += "    (SELECT temp1.*, T_M_Company_Names.Company_Name\n";
+                sql += "    FROM\n";
+                sql += "        (SELECT T_Sales_Voucher.Date_Of_Sale, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Date_Of_Input, T_Sales_Voucher.Net_Weight, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Sale_Bill_Date, T_Sales_Voucher.Sale_Bill_No, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Company_ID, T_Sales_Voucher.Customer_ID, T_Sales_Voucher.Type_Of_Sale, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Narration, T_Sales_Voucher.Deleted, T_M_Quality_Before_Job.Quality_Before_Job\n";
+                sql += "        FROM T_Sales_Voucher\n";
+                sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "        ON T_Sales_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "    LEFT OUTER JOIN T_M_Company_Names\n";
+                sql += "    ON T_M_Company_Names.Company_ID = temp1.Company_ID) as temp2\n";
+                sql += "LEFT OUTER JOIN T_M_Customers\n";
+                sql += "ON T_M_Customers.Customer_ID = temp2.Customer_ID\n";
+                sql += "ORDER BY Voucher_ID DESC";
+
+                this.dt = c.runQuery(sql);
+            }
+            else if(this.vno==16)
+            {
+                string sql = "SELECT temp1.*, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.SalesBillNos_Voucher_ID into #temp\n";
+                sql += "FROM\n";
+                sql += "    (SELECT T_SalesBillNos_Voucher.Sale_Bill_Date, T_SalesBillNos_Voucher.Date_Of_Input, T_SalesBillNos_Voucher.Sale_Bill_No, T_SalesBillNos_Voucher.Sale_Bill_Weight, T_SalesBillNos_Voucher.Sale_Bill_Amount, T_M_Quality_Before_Job.Quality_Before_Job, T_SalesBillNos_Voucher.Voucher_ID, T_SalesBillNos_Voucher.Narration\n";
+                sql += "    FROM T_SalesBillNos_Voucher\n";
+                sql += "    LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "    ON T_SalesBillNos_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
+                sql += "ON temp1.Voucher_ID = T_Sales_Voucher.SalesBillNos_Voucher_ID\n";
+                sql += "select distinct t.[Voucher_ID]\n";
+                sql += select_stuff("", "t1.Sale_DO_No", "DO_No_Arr");
+                sql += "    ,t.Date_Of_Input, t.Quality_Before_Job, t.Sale_Bill_Amount, t.Sale_Bill_Date, t.Sale_Bill_No, t.Sale_Bill_No, t.Sale_Bill_Weight, CONVERT(VARCHAR, t.Narration) Narration\n";
+                sql += "from #temp t order by Voucher_ID DESC;\n";
+                sql += "drop table #temp;\n";
+                
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno<100)
@@ -860,6 +904,77 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Fiscal_Year"].HeaderText = "Fiscal Year";
                 //c.auto_adjust_dgv(this.dataGridView1);
             }      //Trading Repacking
+            if (this.vno == 15)
+            {
+                int i = 0;
+                //this.dt = c.getSalesVoucherHistory();
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Sale"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Sale"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Date_Of_Sale"].HeaderText = "Sale Date";
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
+                this.dataGridView1.Columns["Sale_DO_No"].Visible = true;
+                this.dataGridView1.Columns["Sale_DO_No"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Sale_DO_No"].HeaderText = "DO Number";
+                this.dataGridView1.Columns["Type_Of_Sale"].Visible = true;
+                this.dataGridView1.Columns["Type_Of_Sale"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Type_Of_Sale"].HeaderText = "Type of Sale";
+                this.dataGridView1.Columns["Customer_Name"].Visible = true;
+                this.dataGridView1.Columns["Customer_Name"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Customer_Name"].HeaderText = "Party";
+                this.dataGridView1.Columns["Quality_Before_Job"].Visible = true;
+                this.dataGridView1.Columns["Quality_Before_Job"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Quality_Before_Job"].HeaderText = "Quality";
+                this.dataGridView1.Columns["Company_Name"].Visible = true;
+                this.dataGridView1.Columns["Company_Name"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Company_Name"].HeaderText = "Company";
+                this.dataGridView1.Columns["Net_Weight"].Visible = true;
+                this.dataGridView1.Columns["Net_Weight"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Net_Weight"].HeaderText = "Net Weight";
+                this.dataGridView1.Columns["Sale_Rate"].Visible = true;
+                this.dataGridView1.Columns["Sale_Rate"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Sale_Rate"].HeaderText = "Sale Rate";
+                this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
+                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Sale_Bill_Date"].HeaderText = "Bill Date";
+                this.dataGridView1.Columns["Sale_Bill_No"].Visible = true;
+                this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Sale_Bill_No"].HeaderText = "Bill Number";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }       //Gray Sale
+            if (this.vno == 16)
+            {
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
+                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Sale_Bill_Date"].HeaderText = "Sale Bill Date";
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
+                this.dataGridView1.Columns["DO_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = 2;
+                this.dataGridView1.Columns["DO_No_Arr"].HeaderText = "DO Numbers";
+                this.dataGridView1.Columns["Quality_Before_Job"].Visible = true;
+                this.dataGridView1.Columns["Quality_Before_Job"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Quality_Before_Job"].HeaderText = "Quality";
+                this.dataGridView1.Columns["Sale_Bill_No"].Visible = true;
+                this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Sale_Bill_No"].HeaderText = "Sale Bill Number";
+                this.dataGridView1.Columns["Sale_Bill_Weight"].Visible = true;
+                this.dataGridView1.Columns["Sale_Bill_Weight"].DisplayIndex = 5;
+                this.dataGridView1.Columns["Sale_Bill_Weight"].HeaderText = "Bill Weight";
+                this.dataGridView1.Columns["Sale_Bill_Amount"].Visible = true;
+                this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
+                this.dataGridView1.Columns["Narration"].Visible = true;
+                this.dataGridView1.Columns["Narration"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }      //Bill to Colour Sale
             if (this.vno == 100)
             {
                 this.dataGridView1.ReadOnly = true;
@@ -1074,6 +1189,24 @@ namespace Factory_Inventory
                         this.child_forms.Add(new form_data(f, 0, voucher_id));
                     }
                 }
+                if (this.vno == 15)
+                {
+                    T_V3_cartonSalesForm f = new T_V3_cartonSalesForm(row, false, this);
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
+                    }
+                }
+                if (this.vno == 16)
+                {
+                    T_V3_addBill f = new T_V3_addBill(row, false, this);
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
+                    }
+                }
                 if (this.vno == 100)
                 {
                     M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, false, this);
@@ -1219,6 +1352,15 @@ namespace Factory_Inventory
                 if (this.vno == 14)
                 {
                     T_V2_repackingForm f = new T_V2_repackingForm(row, true, this);
+                    if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 1, voucher_id));
+                    }
+                }
+                if (this.vno == 15)
+                {
+                    T_V3_cartonSalesForm f = new T_V3_cartonSalesForm(row, true, this);
                     if (this.check_not_showing(new form_data(f, 1, voucher_id)) == true)
                     {
                         Global.background.show_form(f);

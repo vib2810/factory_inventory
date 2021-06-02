@@ -17,26 +17,26 @@ namespace Factory_Inventory
         {
             Console.WriteLine(keyData.ToString());
 
-            if (keyData == (Keys.D2) || keyData == (Keys.NumPad2))
+            if (keyData == (Keys.D1) || keyData == (Keys.NumPad1))
             {
                 this.button6.Focus();
                 this.button6.PerformClick();
                 return false;
             }
-            if (keyData == (Keys.D2 | Keys.Shift))
+            if (keyData == (Keys.D1 | Keys.Shift))
             {
                 this.button5.Focus();
                 this.button5.PerformClick();
                 return false;
             }
 
-            if (keyData == (Keys.D3) || keyData == (Keys.NumPad3))
+            if (keyData == (Keys.D2) || keyData == (Keys.NumPad2))
             {
                 this.button8.Focus();
                 this.button8.PerformClick();
                 return false;
             }
-            if (keyData == (Keys.D3 | Keys.Shift))
+            if (keyData == (Keys.D2 | Keys.Shift))
             {
                 this.button7.Focus();
                 this.button7.PerformClick();
@@ -53,29 +53,29 @@ namespace Factory_Inventory
         {
             foreach (Form form in Application.OpenForms)
             {
-                if (form.GetType() == typeof(M_VC_cartonSalesForm))
+                if (form.GetType() == typeof(T_V3_cartonSalesForm))
                 {
                     form.WindowState = FormWindowState.Normal;
                     form.Activate();
                     return;
                 }
             }
-            M_VC_cartonSalesForm f = new M_VC_cartonSalesForm("Carton_Produced");
+            T_V3_cartonSalesForm f = new T_V3_cartonSalesForm();
             Global.background.show_form(f);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (c.isHistoryFormOpen(9) == false)
+            if (c.isHistoryFormOpen(15) == false)
             {
-                M_V_history f = new M_V_history(9);
+                M_V_history f = new M_V_history(15);
                 Global.background.show_form(f);
             }
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            M_VC_addBill f = new M_VC_addBill("Carton_Produced");
+            T_V3_addBill f = new T_V3_addBill();
             Global.background.show_form(f);
         }
 
@@ -83,7 +83,7 @@ namespace Factory_Inventory
         {
             if (c.isHistoryFormOpen(11) == false)
             {
-                M_V_history f = new M_V_history(11);
+                M_V_history f = new M_V_history(16);
                 Global.background.show_form(f);
             }
         }

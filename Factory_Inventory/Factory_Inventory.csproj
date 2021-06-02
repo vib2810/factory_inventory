@@ -614,6 +614,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Trading\T_V3_addBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V3_addBill.Designer.cs">
+      <DependentUpon>T_V3_addBill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_V3_cartonSalesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V3_cartonSalesForm.Designer.cs">
+      <DependentUpon>T_V3_cartonSalesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Trading\T_V2_repackingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -873,6 +885,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_V3_addBill.resx">
+      <DependentUpon>T_V3_addBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_V3_cartonSalesForm.resx">
+      <DependentUpon>T_V3_cartonSalesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\T_V2_repackingForm.resx">
       <DependentUpon>T_V2_repackingForm.cs</DependentUpon>

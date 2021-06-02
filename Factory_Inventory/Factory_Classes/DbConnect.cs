@@ -2125,6 +2125,8 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        
+        //bool edited = c.editSalesVoucher(this.voucher_id, saleDateDTP.Value, typeCB.Text, comboBox1CB.SelectedItem.ToString(), comboBox2CB.SelectedItem.ToString(), comboBox3CB.SelectedItem.ToString(), cartonno, float.Parse(rateTextboxTB.Text), this.saleDONoTB.Text, this.tablename, float.Parse(this.totalWeightTB.Text));
         public bool editSalesVoucher(int voucherID, DateTime dtissue, string type, string quality, string company, string customer, List<Tuple<string, string>> cartonno, float sell_cost, string sale_do_no, string tablename, float net_weight)
         {
             string issueDate = dtissue.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -2317,6 +2319,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return (DataRow)dt.Rows[0];
         }
+        //bool addbill = c.addSalesBillNosVoucher(inputDate.Value, billDateDTP.Value, do_nos, qualityCB.SelectedItem.ToString(), this.financialYearCB.SelectedItem.ToString(), int.Parse(typeCB.Text), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename, customer);
         public bool addSalesBillNosVoucher(DateTime dtinputDate, DateTime dtbillDate, string do_nos, string quality, string do_fiscal_year, int type, string billNumber, float billWeight, float billAmount, float billWeight_calc, float billAmount_calc, string tablename, string customer)
         {
             string input_date = dtinputDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -2365,6 +2368,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
+        
         public bool editSalesBillNosVoucher(int voucherID, DateTime dtinputDate, DateTime dtbillDate, string do_nos, string do_fiscal_year, string billNumber, float billWeight, float billAmount, float billWeight_calc, float billAmount_calc, string tablename, string customer)
         {
             string bill_date = dtbillDate.Date.ToString("MM-dd-yyyy").Substring(0, 10);
@@ -3169,7 +3173,7 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     con.Open();
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    sql = "INSERT INTO Fiscal_Year VALUES ('" + financialyear + "', 0 ,'0', 'BB0', 'RR0', '0')";
+                    sql = "INSERT INTO Fiscal_Year VALUES ('" + financialyear + "', 0 ,'0', 'BB0', 'RR0', '0', 'BB0', 'RR0')";
                     adapter.InsertCommand = new SqlCommand(sql, con);
                     adapter.InsertCommand.ExecuteNonQuery();
 

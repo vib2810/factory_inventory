@@ -30,7 +30,7 @@ namespace Factory_Inventory
                 this.jobButton.PerformClick();
                 return false;
             }
-            if (keyData == Keys.P)
+            if (keyData == Keys.S)
             {
                 this.salesButton.PerformClick();
                 return false;
