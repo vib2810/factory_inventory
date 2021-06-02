@@ -28,13 +28,8 @@ namespace Factory_Inventory
 
         private void M_settings_Load(object sender, EventArgs e)
         {
-            m_S_defaultUC1.load_data("Print");
-            m_S_defaultUC2.load_data("Default");
-        }
-
-        private void m_S_display1_Load(object sender, EventArgs e)
-        {
-
+            m_S_printUC.load_data();
+            m_S_defaultUC.load_data("Default");
         }
     }
 }
