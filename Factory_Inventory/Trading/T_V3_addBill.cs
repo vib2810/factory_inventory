@@ -48,12 +48,15 @@ namespace Factory_Inventory
         private int voucher_id;
         //string tablename;
         private Dictionary<string, int> quality_dict = new Dictionary<string, int>();
+        private Dictionary<int, string> quality_dict_reverse = new Dictionary<int, string>();
         private Dictionary<string, int> customer_dict = new Dictionary<string, int>();
-        
+
         Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
         
         //DO_no -> DataRow
         Dictionary<string, DataRow> DO_fetch_data = new Dictionary<string, DataRow>();
+        //
+        Dictionary<string, DataRow> DO_fetch_data_edit = new Dictionary<string, DataRow>();
 
         //Form functions
         public T_V3_addBill()
@@ -141,153 +144,148 @@ namespace Factory_Inventory
         }
         public T_V3_addBill(DataRow row, bool isEditable, M_V_history v1_history)
         {
-            //InitializeComponent();
-            ////common initializations
-            //this.Name = "Add Bill";
-            //this.tablename = form;
-            //this.edit_form = true;
-            //this.v1_history = v1_history;
-            //this.c = new DbConnect();
-            //this.do_no = new List<string>();
-            //this.do_no.Add("");
+            InitializeComponent();
+            //common initializations
+            this.Name = "Add Bill";
+            this.edit_form = true;
+            this.v1_history = v1_history;
+            this.c = new DbConnect();
+            this.do_no = new List<string>();
 
-            ////Create frop down type list
-            //List<string> dataSource = new List<string>();
-            //dataSource.Add("---Select---");
-            //dataSource.Add("0");
-            //dataSource.Add("1");
-            //this.typeCB.DataSource = dataSource;
-            //this.typeCB.DisplayMember = "Type";
-            //this.typeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            //this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            //this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            //Create rop down type list
+            List<string> dataSource = new List<string>();
+            dataSource.Add("---Select---");
+            dataSource.Add("0");
+            dataSource.Add("1");
+            this.typeCB.DataSource = dataSource;
+            this.typeCB.DisplayMember = "Type";
+            this.typeCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.typeCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.typeCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            ////Create drop-down lists
-            //var dataSource1 = new List<string>();
-            //DataTable d = c.getQC('f');
+            //Create drop-down lists
+            var dataSource1 = new List<string>();
+            DataTable d = c.getQC('f');
 
-            //for (int i = 0; i < d.Rows.Count; i++)
-            //{
-            //    dataSource1.Add(d.Rows[i][0].ToString());
-            //}
-            //this.financialYearCB.DataSource = dataSource1;
-            //this.financialYearCB.DisplayMember = "Financial Year";
-            //this.financialYearCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            //this.financialYearCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            //this.financialYearCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            for (int i = 0; i < d.Rows.Count; i++)
+            {
+                dataSource1.Add(d.Rows[i][0].ToString());
+            }
+            this.financialYearCB.DataSource = dataSource1;
+            this.financialYearCB.DisplayMember = "Financial Year";
+            this.financialYearCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.financialYearCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.financialYearCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
 
-            ////Create drop-down Quality lists
-            //DataTable d1 = c.getQC('q');
-            //List<string> input_qualities = new List<string>();
-            //input_qualities.Add("---Select---");
-            //for (int i = 0; i < d1.Rows.Count; i++)
-            //{
-            //    if (this.tablename == "Carton")
-            //    {
-            //        input_qualities.Add(d1.Rows[i]["Quality_Before_Twist"].ToString());
-            //    }
-            //    else if (this.tablename == "Carton_Produced")
-            //    {
-            //        input_qualities.Add(d1.Rows[i]["Quality"].ToString());
-            //    }
-            //}
-            //List<string> norep_quality_list = input_qualities.Distinct().ToList();
-            //this.qualityCB.DataSource = norep_quality_list;
-            //this.qualityCB.DisplayMember = "Quality";
-            //this.qualityCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
-            //this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            //this.qualityCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            //Create drop-down Quality list
+            var dataSource2 = new List<string>();
+            DataTable dt = c.runQuery("SELECT * FROM T_M_Quality_Before_Job");
+            dataSource2.Add("---Select---");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dataSource2.Add(dt.Rows[i]["Quality_Before_Job"].ToString());
+                quality_dict[dt.Rows[i]["Quality_Before_Job"].ToString()] = int.Parse(dt.Rows[i]["Quality_Before_Job_ID"].ToString());
+            }
+            this.qualityCB.DataSource = dataSource2;
+            this.qualityCB.DisplayMember = "Quality";
+            this.qualityCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.qualityCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.qualityCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            ////Create drop-down Customers list
-            //var dataSource4 = new List<string>();
-            //DataTable d4 = c.getQC('C');
-            //dataSource4.Add("---Select---");
+            //Create drop - down Customers list
+            var dataSource3 = new List<string>();
+            dt = c.runQuery("SELECT * FROM T_M_Customers");
+            dataSource3.Add("---Select---");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dataSource3.Add(dt.Rows[i]["Customer_Name"].ToString());
+                customer_dict[dt.Rows[i]["Customer_Name"].ToString()] = int.Parse(dt.Rows[i]["Customer_ID"].ToString());
+            }
+            this.billCustomerNameCB.DataSource = dataSource3;
+            this.billCustomerNameCB.DisplayMember = "Customers";
+            this.billCustomerNameCB.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+            this.billCustomerNameCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.billCustomerNameCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            //for (int i = 0; i < d4.Rows.Count; i++)
-            //{
-            //    dataSource4.Add(d4.Rows[i][0].ToString());
-            //}
-            //this.billCustomerNameCB.DataSource = dataSource4;
-            //this.billCustomerNameCB.DisplayMember = "Customers";
-            //this.billCustomerNameCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
-            //this.billCustomerNameCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            //this.billCustomerNameCB.AutoCompleteMode = AutoCompleteMode.Append;
 
-            ////DatagridView make
-            //dataGridView1.Columns.Add("Sl_No", "Sl_No");
-            //dataGridView1.Columns[0].ReadOnly = true;
-            //DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            ////List<string> final_list = this.do_no.Distinct().ToList();
-            //dgvCmb.HeaderText = "DO Number";
-            //dataGridView1.Columns.Insert(1, dgvCmb);
-            //dataGridView1.Columns.Add("DO Weight", "DO Weight");
-            //dataGridView1.Columns.Add("DO Amount", "DO Amount");
-            //dataGridView1.Columns[2].ReadOnly = true;
-            //dataGridView1.Columns[3].ReadOnly = true;
+            //DatagridView
+            dataGridView1.Columns.Add("Sl_No", "Sl_No");
+            dataGridView1.Columns[0].ReadOnly = true;
+            DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
+            dgvCmb.DataSource = this.do_no;
+            dgvCmb.HeaderText = "DO Number";
+            dataGridView1.Columns.Insert(1, dgvCmb);
+            dataGridView1.Columns.Add("DO Weight", "DO Weight");
+            dataGridView1.Columns.Add("DO Amount", "DO Amount");
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.Columns.Add("Comments", "Comments");
+            dataGridView1.RowCount = 10;
 
-            ////if only in view mode
-            //if (isEditable == false)
-            //{
-            //    this.Text += "(View Only)";
-            //    this.deleteButton.Visible = true;
-            //    this.deleteButton.Enabled = true;
-            //    this.disable_form_edit();
-            //}
-            //else
-            //{
-            //    this.Text += "(Edit)";
-            //    this.typeCB.Enabled = false;
-            //    this.financialYearCB.Enabled = false;
-            //    this.qualityCB.Enabled = false;
-            //    this.loadDOButton.Enabled = false;
-            //    this.saveButton.Enabled = true;
-            //}
+            //if only in view mode
+            if (isEditable == false)
+            {
+                this.Text += "(View Only)";
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
+                this.disable_form_edit();
+            }
+            else
+            {
+                this.Text += "(Edit)";
+                this.typeCB.Enabled = false;
+                this.financialYearCB.Enabled = false;
+                this.qualityCB.Enabled = false;
+                this.loadDOButton.Enabled = false;
+                this.saveButton.Enabled = true;
+                if (typeCB.Text == "0")   this.billCustomerNameCB.Enabled = true;
+            }
 
-            ////Fill in required values
-            //this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
-            //this.billDateDTP.Value = Convert.ToDateTime(row["Sale_Bill_Date"].ToString());
-            //this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality"].ToString());
-            //this.billNumberTextboxTB.Text = row["Sale_Bill_No"].ToString();
-            //this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
-            //this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(row["DO_Fiscal_Year"].ToString());
-            //this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
-            //this.billWeightTB.Text = row["Sale_Bill_Weight"].ToString();
-            //this.billAmountTB.Text = row["Sale_Bill_Amount"].ToString();
-            //this.netDOWeightTB.Text = row["Sale_Bill_Weight_Calc"].ToString();
-            //this.netDOAmountTB.Text = row["Sale_Bill_Amount_Calc"].ToString();
-            //if (typeCB.Text == "0")
-            //{
-            //    this.label13.Visible = true;
-            //    this.billCustomerNameCB.Visible = true;
-            //    this.billCustomerNameCB.TabIndex = 8;
-            //    this.billCustomerNameCB.TabStop = true;
-            //    this.billCustomerNameCB.SelectedIndex = this.billCustomerNameCB.FindStringExact(row["Bill_Customer"].ToString());
-            //}
+            //Fill in required values
+            this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
+            this.billDateDTP.Value = Convert.ToDateTime(row["Sale_Bill_Date"].ToString());
+            this.qualityCB.SelectedIndex = this.qualityCB.FindStringExact(row["Quality_Before_Job"].ToString());
+            this.billNumberTextboxTB.Text = row["Sale_Bill_No"].ToString();
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());  
+            this.financialYearCB.SelectedIndex = this.financialYearCB.FindStringExact(row["DO_Fiscal_Year"].ToString());
+            this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
+            this.billWeightTB.Text = row["Sale_Bill_Weight"].ToString();
+            this.billAmountTB.Text = row["Sale_Bill_Amount"].ToString();
+            this.netDOWeightTB.Text = row["Sale_Bill_Weight_Calc"].ToString();
+            this.netDOAmountTB.Text = row["Sale_Bill_Amount_Calc"].ToString();
+            this.narrationTB.Text = row["Narration"].ToString();
+            this.billCustomerNameCB.SelectedIndex = this.billCustomerNameCB.FindStringExact(row["Customer_Name"].ToString());
+            this.billCustomerNameCB.Visible = true;
+            this.billCustomerNameCB.TabIndex = 8;
+            this.billCustomerNameCB.TabStop = true;
+            this.label13.Visible = true;
 
-            ////Load data in datagridview dropdown
-            //this.loadData(row["Quality"].ToString(), row["DO_Fiscal_Year"].ToString(), row["Type_Of_Sale"].ToString());
-            ////Load previous data
-            //string[] do_nos = c.csvToArray(row["DO_No_Arr"].ToString());
-            //for(int i=0; i<do_nos.Length; i++)
-            //{
-            //    this.do_no.Add(do_nos[i]);
-            //}
-            //dataGridView1.RowCount = do_nos.Length + 1;
-            ////Fill data in datagridview
-            //for (int i = 0; i < do_nos.Length; i++)
-            //{
-            //    dataGridView1.Rows[i].Cells[1].Value = do_nos[i];
-            //}
-            //dgvCmb.DataSource = this.do_no;
+            string sql = "SELECT Sale_DO_No, Net_Weight, Sale_Rate FROM T_Sales_Voucher WHERE SalesBillNos_Voucher_ID = " + this.voucher_id + " ORDER BY SalesBillNos_Display_Order ASC";
+            DataTable temp = c.runQuery(sql);
+            for (int i = 0; i < temp.Rows.Count; i++)
+            {
+                this.do_no.Add(temp.Rows[i]["Sale_DO_No"].ToString());
+                DO_fetch_data[temp.Rows[i]["Sale_DO_No"].ToString()] = temp.Rows[i];
+            }
+            dataGridView1.RowCount = this.do_no.Count + 1;
+            dgvCmb.DataSource = this.do_no;
+            //Fill data in datagridview
+            for (int i = 0; i < this.do_no.Count; i++)
+            {
+                dataGridView1.Rows[i].Cells[1].Value = this.do_no[i];
+            }
 
-            ////if (typeCB.Text == "1")
-            ////{
-            ////    this.billDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
-            ////    this.billDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
-            ////}
+            //Load data in datagridview dropdown
+            this.loadData(row["Quality_Before_Job"].ToString(), row["DO_Fiscal_Year"].ToString(), row["Type_Of_Sale"].ToString());
+            string[] do_nos = c.csvToArray(row["DO_No_Arr"].ToString());
+            for (int i = 0; i < do_nos.Length; i++)
+            {
+                this.do_no.Add(do_nos[i]);
+            }
+            dgvCmb.DataSource = this.do_no;
 
-            //c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         private void M_V2_dyeingInwardForm_Load(object sender, EventArgs e)
         {
@@ -558,7 +556,9 @@ namespace Factory_Inventory
                 //add bill nos to DOs
                 for(int i=0;i<do_nos.Count;i++)
                 {
-                    sql += "UPDATE T_Sales_Voucher SET Sale_Bill_No='" + billNumberTextboxTB.Text + "', Sale_Bill_Date='" + bill_date + "', SalesBillNos_Voucher_ID = '@voucherID', SalesBillNos_Display_Order = '" + (i + 1).ToString() + "', Bill_Comments = '"+ dataGridView1.Rows[i].Cells["Comments"].Value.ToString() +"' WHERE Sale_DO_No = '" + do_nos[i] + "' AND Fiscal_Year='" + this.financialYearCB.SelectedItem.ToString() + "';\n";
+                    string bill_comments = "";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments")) bill_comments = dataGridView1.Rows[i].Cells["Comments"].Value.ToString();
+                    sql += "UPDATE T_Sales_Voucher SET Sale_Bill_No='" + billNumberTextboxTB.Text + "', Sale_Bill_Date='" + bill_date + "', SalesBillNos_Voucher_ID = @voucherID1, SalesBillNos_Display_Order = '" + (i + 1).ToString() + "', Bill_Comments = '"+ bill_comments +"' WHERE Sale_DO_No = '" + do_nos[i] + "' AND Fiscal_Year='" + this.financialYearCB.SelectedItem.ToString() + "';\n";
                 }
 
                 //catch
@@ -626,7 +626,7 @@ namespace Factory_Inventory
             {
                 if (this.edit_form == false)
                 {
-                    c.SuccessBox("Loaded " + (this.do_no.Count - 1).ToString() + " DOs");
+                    c.SuccessBox("Loaded " + (this.do_no.Count).ToString() + " DOs");
                 }
             }
             this.saveButton.Enabled = true;

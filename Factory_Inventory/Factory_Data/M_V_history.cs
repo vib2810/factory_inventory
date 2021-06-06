@@ -351,17 +351,21 @@ namespace Factory_Inventory
             }
             else if(this.vno==16)
             {
-                string sql = "SELECT temp1.*, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.SalesBillNos_Voucher_ID into #temp\n";
+                string sql = "SELECT temp2.*, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.SalesBillNos_Voucher_ID into #temp\n";
                 sql += "FROM\n";
-                sql += "    (SELECT T_SalesBillNos_Voucher.Sale_Bill_Date, T_SalesBillNos_Voucher.Date_Of_Input, T_SalesBillNos_Voucher.Sale_Bill_No, T_SalesBillNos_Voucher.Sale_Bill_Weight, T_SalesBillNos_Voucher.Sale_Bill_Amount, T_M_Quality_Before_Job.Quality_Before_Job, T_SalesBillNos_Voucher.Voucher_ID, T_SalesBillNos_Voucher.Narration\n";
-                sql += "    FROM T_SalesBillNos_Voucher\n";
-                sql += "    LEFT OUTER JOIN T_M_Quality_Before_Job\n";
-                sql += "    ON T_SalesBillNos_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "    (SELECT temp1.*, T_M_Customers.Customer_Name\n";
+                sql += "    FROM\n";
+                sql += "        (SELECT T_SalesBillNos_Voucher.Sale_Bill_Date, T_SalesBillNos_Voucher.Date_Of_Input, T_SalesBillNos_Voucher.Sale_Bill_No, T_SalesBillNos_Voucher.Sale_Bill_Weight, T_SalesBillNos_Voucher.Sale_Bill_Amount, T_M_Quality_Before_Job.Quality_Before_Job, T_SalesBillNos_Voucher.Voucher_ID, T_SalesBillNos_Voucher.Narration, T_SalesBillNos_Voucher.Bill_Customer_ID, T_SalesBillNos_Voucher.DO_Fiscal_Year, T_SalesBillNos_Voucher.Type_Of_Sale, T_SalesBillNos_Voucher.Sale_Bill_Weight_Calc, T_SalesBillNos_Voucher.Sale_Bill_Amount_Calc\n";
+                sql += "        FROM T_SalesBillNos_Voucher\n";
+                sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "        ON T_SalesBillNos_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "    LEFT OUTER JOIN T_M_Customers\n";
+                sql += "    ON temp1.Bill_Customer_ID = T_M_Customers.Customer_ID) as temp2\n";
                 sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
-                sql += "ON temp1.Voucher_ID = T_Sales_Voucher.SalesBillNos_Voucher_ID\n";
+                sql += "ON temp2.Voucher_ID = T_Sales_Voucher.SalesBillNos_Voucher_ID\n";
                 sql += "select distinct t.[Voucher_ID]\n";
                 sql += select_stuff("", "t1.Sale_DO_No", "DO_No_Arr");
-                sql += "    ,t.Date_Of_Input, t.Quality_Before_Job, t.Sale_Bill_Amount, t.Sale_Bill_Date, t.Sale_Bill_No, t.Sale_Bill_No, t.Sale_Bill_Weight, CONVERT(VARCHAR, t.Narration) Narration\n";
+                sql += "    ,t.Date_Of_Input, t.Quality_Before_Job, t.Customer_Name, t.DO_Fiscal_Year, t.Type_Of_Sale, t.Sale_Bill_Amount, t.Sale_Bill_Date, t.Sale_Bill_No, t.Sale_Bill_No, t.Sale_Bill_Weight, CONVERT(VARCHAR, t.Narration) Narration, t.Sale_Bill_Amount_Calc, t.Sale_Bill_Weight_Calc\n";
                 sql += "from #temp t order by Voucher_ID DESC;\n";
                 sql += "drop table #temp;\n";
                 
@@ -947,32 +951,42 @@ namespace Factory_Inventory
             }       //Gray Sale
             if (this.vno == 16)
             {
+                int i = 0;
                 this.dataGridView1.ReadOnly = true;
                 this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
                 this.dataGridView1.Columns["Sale_Bill_Date"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = 0;
+                this.dataGridView1.Columns["Sale_Bill_Date"].DisplayIndex = i++;
                 this.dataGridView1.Columns["Sale_Bill_Date"].HeaderText = "Sale Bill Date";
+                this.dataGridView1.Columns["Type_Of_Sale"].Visible = true;
+                this.dataGridView1.Columns["Type_Of_Sale"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Type_Of_Sale"].HeaderText = "Sale Type";
                 this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
-                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = 1;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = i++;
                 this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
                 this.dataGridView1.Columns["DO_No_Arr"].Visible = true;
-                this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = 2;
+                this.dataGridView1.Columns["DO_No_Arr"].DisplayIndex = i++;
                 this.dataGridView1.Columns["DO_No_Arr"].HeaderText = "DO Numbers";
                 this.dataGridView1.Columns["Quality_Before_Job"].Visible = true;
-                this.dataGridView1.Columns["Quality_Before_Job"].DisplayIndex = 3;
+                this.dataGridView1.Columns["Quality_Before_Job"].DisplayIndex = i++;
                 this.dataGridView1.Columns["Quality_Before_Job"].HeaderText = "Quality";
+                this.dataGridView1.Columns["Customer_Name"].Visible = true;
+                this.dataGridView1.Columns["Customer_Name"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Customer_Name"].HeaderText = "Bill Customer Name";
                 this.dataGridView1.Columns["Sale_Bill_No"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = 4;
+                this.dataGridView1.Columns["Sale_Bill_No"].DisplayIndex = i++;
                 this.dataGridView1.Columns["Sale_Bill_No"].HeaderText = "Sale Bill Number";
                 this.dataGridView1.Columns["Sale_Bill_Weight"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_Weight"].DisplayIndex = 5;
+                this.dataGridView1.Columns["Sale_Bill_Weight"].DisplayIndex = i++;
                 this.dataGridView1.Columns["Sale_Bill_Weight"].HeaderText = "Bill Weight";
                 this.dataGridView1.Columns["Sale_Bill_Amount"].Visible = true;
-                this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = 6;
+                this.dataGridView1.Columns["Sale_Bill_Amount"].DisplayIndex = i++;
                 this.dataGridView1.Columns["Sale_Bill_Amount"].HeaderText = "Bill Amount";
                 this.dataGridView1.Columns["Narration"].Visible = true;
-                this.dataGridView1.Columns["Narration"].DisplayIndex = 8;
+                this.dataGridView1.Columns["Narration"].DisplayIndex = i++;
                 this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                this.dataGridView1.Columns["DO_Fiscal_Year"].Visible = true;
+                this.dataGridView1.Columns["DO_Fiscal_Year"].DisplayIndex = i++;
+                this.dataGridView1.Columns["DO_Fiscal_Year"].HeaderText = "DO Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Bill to Colour Sale
             if (this.vno == 100)
