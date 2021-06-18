@@ -48,7 +48,6 @@ namespace Factory_Inventory
         private int voucher_id;
         //string tablename;
         private Dictionary<string, int> quality_dict = new Dictionary<string, int>();
-        private Dictionary<int, string> quality_dict_reverse = new Dictionary<int, string>();
         private Dictionary<string, int> customer_dict = new Dictionary<string, int>();
 
         Dictionary<string, bool> batch_editable = new Dictionary<string, bool>();
@@ -56,7 +55,7 @@ namespace Factory_Inventory
         //DO_no -> DataRow
         Dictionary<string, DataRow> DO_fetch_data = new Dictionary<string, DataRow>();
         //
-        Dictionary<string, DataRow> DO_fetch_data_edit = new Dictionary<string, DataRow>();
+        Dictionary<string, Tuple<DataRow, bool>> DO_fetch_data_edit = new Dictionary<string, Tuple<DataRow, bool>>();
 
         //Form functions
         public T_V3_addBill()
@@ -261,12 +260,13 @@ namespace Factory_Inventory
             this.billCustomerNameCB.TabStop = true;
             this.label13.Visible = true;
 
-            string sql = "SELECT Sale_DO_No, Net_Weight, Sale_Rate FROM T_Sales_Voucher WHERE SalesBillNos_Voucher_ID = " + this.voucher_id + " ORDER BY SalesBillNos_Display_Order ASC";
+            string sql = "SELECT Sale_DO_No, Net_Weight, Sale_Rate, Voucher_ID FROM T_Sales_Voucher WHERE SalesBillNos_Voucher_ID = " + this.voucher_id + " ORDER BY SalesBillNos_Display_Order ASC";
             DataTable temp = c.runQuery(sql);
             for (int i = 0; i < temp.Rows.Count; i++)
             {
                 this.do_no.Add(temp.Rows[i]["Sale_DO_No"].ToString());
                 DO_fetch_data[temp.Rows[i]["Sale_DO_No"].ToString()] = temp.Rows[i];
+                DO_fetch_data_edit[temp.Rows[i]["Sale_DO_No"].ToString()] = new Tuple<DataRow, bool>(temp.Rows[i], false);
             }
             dataGridView1.RowCount = this.do_no.Count + 1;
             dgvCmb.DataSource = this.do_no;
@@ -380,14 +380,14 @@ namespace Factory_Inventory
         }
         private void loadData(string quality, string do_fiscal_year, string type)
         {
-            string sql = "";
-            if(type == "0")
+            string sql;
+            if (type == "0")
             {
-                sql = "SELECT Sale_DO_No, Net_Weight, Sale_Rate FROM T_Sales_Voucher WHERE Quality_ID = '" + quality_dict[quality] + "' AND Fiscal_Year='" + do_fiscal_year + "' AND Type_of_Sale='" + type + "' AND Sale_Bill_No IS NULL";
+                sql = "SELECT Sale_DO_No, Net_Weight, Sale_Rate, Voucher_ID FROM T_Sales_Voucher WHERE Quality_ID = '" + quality_dict[quality] + "' AND Fiscal_Year='" + do_fiscal_year + "' AND Type_of_Sale='" + type + "' AND Sale_Bill_No IS NULL";
             }
             else 
             {
-                sql = "SELECT Sale_DO_No, Net_Weight, Sale_Rate FROM T_Sales_Voucher WHERE Quality_ID = '" + quality_dict[quality] + "' AND Fiscal_Year='" + do_fiscal_year + "' AND Type_of_Sale='" + type + "' AND Sale_Bill_No IS NULL AND Customer_ID = '" + customer_dict[billCustomerNameCB.Text].ToString() + "'";
+                sql = "SELECT Sale_DO_No, Net_Weight, Sale_Rate, Voucher_ID FROM T_Sales_Voucher WHERE Quality_ID = '" + quality_dict[quality] + "' AND Fiscal_Year='" + do_fiscal_year + "' AND Type_of_Sale='" + type + "' AND Sale_Bill_No IS NULL AND Customer_ID = '" + customer_dict[billCustomerNameCB.Text].ToString() + "'";
             }
             DataTable dt = c.runQuery(sql);
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -455,6 +455,11 @@ namespace Factory_Inventory
             customer = this.billCustomerNameCB.Text;
             List<string> do_nos = new List<string>();
             List<string> temp = new List<string>();
+
+            //Used for edit only
+            List<Tuple<string, int>> add = new List<Tuple<string, int>>(); //<DO No, Display Order>
+            List<Tuple<string, int>> edit = new List<Tuple<string, int>>();
+            List<string> delete = new List<string>();
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
                 if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1))
@@ -473,83 +478,71 @@ namespace Factory_Inventory
                         c.ErrorBox("Please Enter Distinct DO Numbers at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
-
                 }
+                if(DO_fetch_data_edit.ContainsKey(dataGridView1.Rows[i].Cells[1].Value.ToString()))
+                {
+                    edit.Add(new Tuple<string, int>(dataGridView1.Rows[i].Cells[1].Value.ToString(), i));
+                    DataRow temp_row = DO_fetch_data_edit[dataGridView1.Rows[i].Cells[1].Value.ToString()].Item1;
+                    DO_fetch_data_edit[dataGridView1.Rows[i].Cells[1].Value.ToString()] = new Tuple<DataRow, bool>(temp_row, true);
+                }
+                else
+                {
+                    add.Add(new Tuple<string, int>(dataGridView1.Rows[i].Cells[1].Value.ToString(), i));
+                }
+            }
+            foreach(KeyValuePair<string, Tuple<DataRow,bool>> entry in DO_fetch_data_edit)
+            {
+                if (entry.Value.Item2 == false) delete.Add(entry.Key);
             }
             if (this.edit_form == true)
             {
                 //bool editbill = c.editSalesBillNosVoucher(this.voucher_id, inputDate.Value, billDateDTP.Value, do_nos, this.financialYearCB.SelectedItem.ToString(), billNumberTextboxTB.Text, float.Parse(billWeightTB.Text), float.Parse(billAmountTB.Text), float.Parse(netDOWeightTB.Text), float.Parse(netDOAmountTB.Text), this.tablename, customer);
 
                 string bill_date = billDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                string fiscal_year = c.getFinancialYear(inputDate.Value);
-                //Get all do_nos which were previously present
-                //con.Open();
-                //SqlDataAdapter sda = new SqlDataAdapter("SELECT DO_No_Arr FROM SalesBillNos_Voucher WHERE Voucher_ID=" + voucherID + "", con);
-                //DataTable old = new DataTable();
-                //sda.Fill(old);
-                //con.Close();
-                //string[] old_do_nos = this.csvToArray(old.Rows[0][0].ToString());
-                //string old_dos = "";
-                //for (int i = 0; i < old_do_nos.Length; i++)
-                //{
-                //    old_dos += "'" + old_do_nos[i] + "',";
-                //}
-                ////send old do nos to bill no NULL
-                //addBillNoDate_Sales(removecom(old_dos), null, null, do_fiscal_year, tablename);
+                string fiscal_year = c.getFinancialYear(billDateDTP.Value);
 
+                string sql = "begin transaction; begin try;\n";
+                //Delete pervious DOs
+                for (int i = 0; i < delete.Count; i++)
+                {
+                    sql += "UPDATE T_Sales_Voucher SET Sale_Bill_Date = NULL, Sale_Bill_No = NULL, SalesBillNos_Voucher_ID = NULL, SalesBillNos_Display_Order = NULL, Bill_Comments = NULL WHERE Sale_DO_No = '" + delete[i] + "' AND SalesBillNos_Voucher_ID = " + this.voucher_id.ToString() + ";\n";
+                }
 
-                ////add bill nos to current batches
-                //string[] dos = this.csvToArray(do_nos);
-                //string do_no = "";
-                //for (int i = 0; i < dos.Length; i++)
-                //{
-                //    do_no += "'" + dos[i] + "',";
-                //}
-                //addBillNoDate_Sales(removecom(do_no), billNumber, bill_date, do_fiscal_year, tablename);
+                for (int i = 0; i < add.Count; i++)
+                {
+                    string bill_comments = "";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, add[i].Item2, -1, "Comments")) bill_comments = dataGridView1.Rows[add[i].Item2].Cells["Comments"].Value.ToString();
+                    sql += "UPDATE T_Sales_Voucher SET Sale_Bill_No='" + billNumberTextboxTB.Text + "', Sale_Bill_Date='" + bill_date + "', SalesBillNos_Voucher_ID = '" + this.voucher_id + "', SalesBillNos_Display_Order = '" + add[i].Item2 + "', Bill_Comments = '" + bill_comments + "' WHERE Sale_DO_No = '" + add[i].Item1 + "' AND Fiscal_Year='" + this.financialYearCB.SelectedItem.ToString() + "';\n";
+                }
 
-                ////update voucher
-                //try
-                //{
-                //    con.Open();
-                //    SqlDataAdapter adapter = new SqlDataAdapter();
-                //    string sql;
-                //    if (customer != null)     //tyoe 0
-                //    {
-                //        sql = "UPDATE SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', DO_No_Arr='" + do_nos + "', Fiscal_Year='" + fiscal_year + "', Sale_Bill_No='" + billNumber + "', Sale_Bill_Weight=" + billWeight + ", Sale_Bill_Amount=" + billAmount + ", Sale_Bill_Weight_Calc=" + billWeight_calc + ", Sale_Bill_Amount_Calc=" + billAmount_calc + ", Bill_Customer = '" + customer + "' WHERE Voucher_ID=" + voucherID + "";
-                //    }
-                //    else
-                //    {
-                //        sql = "UPDATE SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', DO_No_Arr='" + do_nos + "', Fiscal_Year='" + fiscal_year + "', Sale_Bill_No='" + billNumber + "', Sale_Bill_Weight=" + billWeight + ", Sale_Bill_Amount=" + billAmount + ", Sale_Bill_Weight_Calc=" + billWeight_calc + ", Sale_Bill_Amount_Calc=" + billAmount_calc + ", Bill_Customer = NULL WHERE Voucher_ID=" + voucherID + "";
-                //    }
-                //    Console.WriteLine(sql);
-                //    adapter.InsertCommand = new SqlCommand(sql, con);
-                //    adapter.InsertCommand.ExecuteNonQuery();
-                //    this.SuccessBox("Voucher Updated Successfully");
-                //}
-                //catch (Exception e)
-                //{
-                //    this.ErrorBox("Could not update Dyeing Inward Voucher (editBillNosVoucher) \n" + e.Message, "Exception");
-                //    con.Close();
-                //    return false;
-                //}
-                //finally
-                //{
-                //    con.Close();
-                //}
-                //return true;
-                //if (editbill == true)
-                //{
-                //    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                //    disable_form_edit();
-                //    this.v1_history.loadData();
-                //}
-                //return;
+                for (int i = 0; i < edit.Count; i++)
+                {
+                    string bill_comments = "";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, edit[i].Item2, -1, "Comments")) bill_comments = dataGridView1.Rows[edit[i].Item2].Cells["Comments"].Value.ToString();
+                    sql += "UPDATE T_Sales_Voucher SET Sale_Bill_No='" + billNumberTextboxTB.Text + "', Sale_Bill_Date='" + bill_date + "', SalesBillNos_Display_Order = '" + edit[i].Item2 + "', Bill_Comments = '" + bill_comments + "' WHERE Sale_DO_No = '" + edit[i].Item1 + "' AND Fiscal_Year='" + this.financialYearCB.SelectedItem.ToString() + "' AND SalesBillNos_Voucher_ID = '" + this.voucher_id + "';\n";
+                }
+
+                sql += "UPDATE T_SalesBillNos_Voucher SET Sale_Bill_Date='" + bill_date + "', Fiscal_Year='" + fiscal_year + "', Sale_Bill_No='" + billNumberTextboxTB.Text + "', Sale_Bill_Weight=" + billWeightTB.Text + ", Sale_Bill_Amount=" + billAmountTB.Text + ", Sale_Bill_Weight_Calc=" + netDOWeightTB.Text + ", Sale_Bill_Amount_Calc=" + netDOAmountTB.Text + ", Bill_Customer_ID = '" + customer_dict[customer] + "', Narration = '" + narrationTB.Text + "' WHERE Voucher_ID=" + this.voucher_id + ";\n";
+                
+                //catch
+                sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
+                sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
+                sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
+                DataTable editbill = c.runQuery(sql); 
+                if (editbill != null)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    disable_form_edit();
+                    this.v1_history.loadData();
+                    c.SuccessBox("Voucher Edited Successfully");
+                }
+                return;
             }
             else
             {
                 string input_date = inputDate.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
                 string bill_date = billDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                string fiscal_year = c.getFinancialYear(inputDate.Value);
+                string fiscal_year = c.getFinancialYear(billDateDTP.Value);
 
                 string sql = "begin transaction; begin try; DECLARE @voucherID int;\n";
                 sql += "INSERT INTO T_SalesBillNos_Voucher (Date_Of_Input, Sale_Bill_Date, Quality_ID, DO_Fiscal_Year, Fiscal_Year, Type_Of_Sale, Sale_Bill_No, Sale_Bill_Weight, Sale_Bill_Amount, Sale_Bill_Weight_Calc, Sale_Bill_Amount_Calc, Bill_Customer_ID) VALUES ('" + input_date + "','" + bill_date + "'," + quality_dict[qualityCB.SelectedItem.ToString()].ToString() + ",'" + this.financialYearCB.SelectedItem.ToString() + "', '" + fiscal_year + "', " + typeCB.Text + ", '" + billNumberTextboxTB.Text + "', " + billWeightTB.Text + ", " + billAmountTB.Text + ", " + netDOWeightTB.Text + ", " + netDOAmountTB.Text + ", '" + customer_dict[customer].ToString() + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
