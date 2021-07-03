@@ -614,6 +614,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Trading\T_printUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_printUC.Designer.cs">
+      <DependentUpon>T_printUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Trading\T_V3_addBill.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -885,6 +891,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_printUC.resx">
+      <DependentUpon>T_printUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\T_V3_addBill.resx">
       <DependentUpon>T_V3_addBill.cs</DependentUpon>

@@ -87,6 +87,7 @@
             this.jobButton.TabIndex = 3;
             this.jobButton.Text = "Job";
             this.jobButton.UseVisualStyleBackColor = false;
+            this.jobButton.Visible = false;
             this.jobButton.Click += new System.EventHandler(this.button3_Click);
             // 
             // salesButton
