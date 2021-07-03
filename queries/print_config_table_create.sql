@@ -1,4 +1,4 @@
-use FactoryData
+use FactoryData_1
 IF  NOT EXISTS (SELECT * FROM sys.objects 
 WHERE object_id = OBJECT_ID(N'[dbo].[Print_Types]') AND type in (N'U'))
 begin
@@ -8,7 +8,6 @@ CREATE TABLE Print_Types (
 	GSTIN varchar(20) NOT NULL,
 	Phone_Number varchar(15) NOT NULL,
 	Email_ID varchar(25) NOT NULL,
-	Print_Form_Type int NOT NULL,
 	Print_Type_ID int NOT NULL Primary Key Identity(1,1),
 );
 end

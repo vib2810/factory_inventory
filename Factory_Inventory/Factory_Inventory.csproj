@@ -319,6 +319,12 @@
     <Compile Include="Factory_Data\M_I2_TablesUC.Designer.cs">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factory_Data\M_S_printUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_S_printUC.Designer.cs">
+      <DependentUpon>M_S_printUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factory_Data\M_V1_cartonInwardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -516,6 +522,12 @@
     </Compile>
     <Compile Include="Factory_Data\setDate.Designer.cs">
       <DependentUpon>setDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory_Data\setPrint_Type.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\setPrint_Type.Designer.cs">
+      <DependentUpon>setPrint_Type.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\setSalary.cs">
       <SubType>Form</SubType>
@@ -743,6 +755,9 @@
     <EmbeddedResource Include="Factory_Data\M_I2_TablesUC.resx">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_S_printUC.resx">
+      <DependentUpon>M_S_printUC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_V1_cartonInwardForm.resx">
       <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -841,6 +856,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\setDate.resx">
       <DependentUpon>setDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\setPrint_Type.resx">
+      <DependentUpon>setPrint_Type.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\setSalary.resx">
       <DependentUpon>setSalary.cs</DependentUpon>
