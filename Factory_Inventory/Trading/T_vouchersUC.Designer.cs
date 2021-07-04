@@ -44,6 +44,7 @@
             this.t_voucherInput2UC1 = new Factory_Inventory.T_voucherInput2UC();
             this.t_voucherInput3UC1 = new Factory_Inventory.T_voucherInput3UC();
             this.t_voucherInput4UC1 = new Factory_Inventory.T_voucherInput4UC();
+            this.t_printUC1 = new Factory_Inventory.T_printUC();
             this.SuspendLayout();
             // 
             // voucherLabel
@@ -145,6 +146,7 @@
             this.label3.Size = new System.Drawing.Size(13, 15);
             this.label3.TabIndex = 0;
             this.label3.Text = "J";
+            this.label3.Visible = false;
             // 
             // label4
             // 
@@ -213,13 +215,18 @@
             this.t_voucherInput4UC1.Size = new System.Drawing.Size(514, 432);
             this.t_voucherInput4UC1.TabIndex = 11;
             // 
+            // t_printUC1
+            // 
+            this.t_printUC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
+            this.t_printUC1.Location = new System.Drawing.Point(165, 0);
+            this.t_printUC1.Name = "t_printUC1";
+            this.t_printUC1.Size = new System.Drawing.Size(514, 432);
+            this.t_printUC1.TabIndex = 12;
+            // 
             // T_vouchersUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.t_voucherInput4UC1);
-            this.Controls.Add(this.t_voucherInput3UC1);
-            this.Controls.Add(this.t_voucherInput2UC1);
             this.Controls.Add(this.t_voucherInput1UC1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.printButton);
@@ -233,6 +240,10 @@
             this.Controls.Add(this.repackingButton);
             this.Controls.Add(this.cartonButton);
             this.Controls.Add(this.voucherLabel);
+            this.Controls.Add(this.t_printUC1);
+            this.Controls.Add(this.t_voucherInput4UC1);
+            this.Controls.Add(this.t_voucherInput3UC1);
+            this.Controls.Add(this.t_voucherInput2UC1);
             this.Name = "T_vouchersUC";
             this.Size = new System.Drawing.Size(679, 433);
             this.ResumeLayout(false);
@@ -258,5 +269,6 @@
         private T_voucherInput2UC t_voucherInput2UC1;
         private T_voucherInput3UC t_voucherInput3UC1;
         private T_voucherInput4UC t_voucherInput4UC1;
+        private T_printUC t_printUC1;
     }
 }

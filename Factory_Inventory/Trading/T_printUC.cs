@@ -51,7 +51,7 @@ namespace Factory_Inventory
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            M_V4_printCartonSlip f = new M_V4_printCartonSlip();
+            T_V5_printCartonSlip f = new T_V5_printCartonSlip();
             Global.background.show_form(f);
         }
 

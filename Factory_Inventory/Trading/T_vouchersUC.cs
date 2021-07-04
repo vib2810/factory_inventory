@@ -35,7 +35,7 @@ namespace Factory_Inventory
                 this.salesButton.PerformClick();
                 return false;
             }
-            if (keyData == Keys.O)
+            if (keyData == Keys.P)
             {
                 this.printButton.PerformClick();
                 return false;
@@ -69,7 +69,7 @@ namespace Factory_Inventory
             t_voucherInput2UC1.Hide();
             t_voucherInput3UC1.Hide();
             t_voucherInput4UC1.Hide();
-            //m_V5_OpeningUC1.Hide();
+            t_printUC1.Hide();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -115,9 +115,9 @@ namespace Factory_Inventory
         private void openingStockButton_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
-            //m_V5_OpeningUC1.Show();
-            //m_V5_OpeningUC1.BringToFront();
-            //m_V5_OpeningUC1.Focus();
+            t_printUC1.Show();
+            t_printUC1.BringToFront();
+            t_printUC1.Focus();
             this.decolour_all_buttons();
             this.printButton.BackColor = Color.Orange;
         }
