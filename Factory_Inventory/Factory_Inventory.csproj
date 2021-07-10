@@ -559,6 +559,18 @@
     <Compile Include="Main\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Trading\T_V_coneMasterUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V_coneMasterUC.Designer.cs">
+      <DependentUpon>T_V_coneMasterUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_V_customerMasterUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V_customerMasterUC.Designer.cs">
+      <DependentUpon>T_V_customerMasterUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main\O_BackupRestoreForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -625,6 +637,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_V_master.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V_master.Designer.cs">
+      <DependentUpon>T_V_master.cs</DependentUpon>
     </Compile>
     <Compile Include="Trading\T_V5_printDO.cs">
       <SubType>Form</SubType>
@@ -887,6 +905,12 @@
     <EmbeddedResource Include="Main\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_V_coneMasterUC.resx">
+      <DependentUpon>T_V_coneMasterUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_V_customerMasterUC.resx">
+      <DependentUpon>T_V_customerMasterUC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main\O_BackupRestoreForm.resx">
       <DependentUpon>O_BackupRestoreForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -921,6 +945,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_V_master.resx">
+      <DependentUpon>T_V_master.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\T_V5_printDO.resx">
       <DependentUpon>T_V5_printDO.cs</DependentUpon>

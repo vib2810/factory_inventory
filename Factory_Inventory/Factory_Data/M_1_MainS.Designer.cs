@@ -116,6 +116,7 @@ namespace Factory_Inventory
             this.vouchersUC.Name = "vouchersUC";
             this.vouchersUC.Size = new System.Drawing.Size(671, 427);
             this.vouchersUC.TabIndex = 0;
+            this.vouchersUC.Load += new System.EventHandler(this.vouchersUC_Load);
             // 
             // M_1_MainS
             // 

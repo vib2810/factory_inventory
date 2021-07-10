@@ -46,7 +46,7 @@
             this.editCustomer1 = new Factory_Inventory.editCustomer();
             this.editCompany1 = new Factory_Inventory.editCompany();
             this.editQuality1 = new Factory_Inventory.editQuality();
-            this.m_V_editQBTUC1 = new Factory_Inventory.M_V_editQBTUC();
+            this.m_V_editQBTUC1 = new Factory_Inventory.M_V_editQBTUC(1);
             this.SuspendLayout();
             // 
             // editQualityButton

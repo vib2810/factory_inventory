@@ -106,5 +106,10 @@ namespace Factory_Inventory
                                          Color.Black, 10, ButtonBorderStyle.Inset,
                                          Color.Black, 10, ButtonBorderStyle.Inset);
         }
+
+        private void vouchersUC_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
