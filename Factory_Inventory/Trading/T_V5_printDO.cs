@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_V4_printDO : Form
+    public partial class T_V5_printDO : Form
     {
         private DbConnect c;
         DataTable dt2= new DataTable();
         int dgv1_print_index = -1;
         int dgv2_print_index = -1;
-        public M_V4_printDO()
+        public T_V5_printDO()
         {
             InitializeComponent();
             this.c = new DbConnect();
@@ -62,7 +62,16 @@ namespace Factory_Inventory
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Blue;
             dataGridView2.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridView2.DefaultCellStyle.SelectionForeColor = Color.Blue;
-            DataTable DO_Nos = c.runQuery("SELECT * FROM Sales_Voucher WHERE Type_Of_Sale = 1 AND Fiscal_Year = '" + c.getFinancialYear(DateTime.Now) + "'");
+            string sql = "SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job as Quality\n";
+            sql += "    FROM(SELECT T_Sales_Voucher.*, T_M_Customers.Customer_Name as Customer\n";
+            sql += "    FROM T_Sales_Voucher\n";
+            sql += "    LEFT OUTER JOIN T_M_Customers\n";
+            sql += "    ON T_Sales_Voucher.Customer_ID = T_M_Customers.Customer_ID) as temp1\n";
+            sql += "LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+            sql += "ON temp1.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID\n";
+            sql += "WHERE Type_Of_Sale = 1 AND Fiscal_Year = '" + c.getFinancialYear(DateTime.Now) + "' AND Deleted IS NULL\n";
+            
+            DataTable DO_Nos = c.runQuery(sql);
             dataGridView1.DataSource = DO_Nos;
             
             this.set_columns(dataGridView1);
@@ -165,7 +174,15 @@ namespace Factory_Inventory
                 this.DOnoTB.Focus();
                 return;
             }
-            DataTable result = c.getDOTable(fiscal_year, DO_no.ToUpper());
+            string sql = "SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job as Quality\n";
+            sql += "    FROM(SELECT T_Sales_Voucher.*, T_M_Customers.Customer_Name as Customer\n";
+            sql += "    FROM T_Sales_Voucher\n";
+            sql += "    LEFT OUTER JOIN T_M_Customers\n";
+            sql += "    ON T_Sales_Voucher.Customer_ID = T_M_Customers.Customer_ID) as temp1\n";
+            sql += "LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+            sql += "ON temp1.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID\n";
+            sql += "WHERE Sale_DO_No = '" + DO_no.ToUpper() + "' AND Fiscal_Year = '" + fiscal_year + "' AND Deleted IS NULL\n";
+            DataTable result = c.runQuery(sql);
             if (result.Rows.Count == 0)
             {
                 this.dt2.Clear();
@@ -234,7 +251,7 @@ namespace Factory_Inventory
             {
                 return;
             }
-            printDO f = new printDO(row, this, null);
+            printDO f = new printDO(row, null, this);
             f.Show();
         }
         private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)
@@ -243,17 +260,21 @@ namespace Factory_Inventory
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            DataTable dt= c.runQuery("SELECT * FROM Sales_Voucher WHERE Type_Of_Sale = "+ this.type1CB.Text +" AND Fiscal_Year = '" + this.fiscal1CB.Text + "'");
+            string sql = "SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job as Quality\n";
+            sql += "    FROM(SELECT T_Sales_Voucher.*, T_M_Customers.Customer_Name as Customer\n";
+            sql += "    FROM T_Sales_Voucher\n";
+            sql += "    LEFT OUTER JOIN T_M_Customers\n";
+            sql += "    ON T_Sales_Voucher.Customer_ID = T_M_Customers.Customer_ID) as temp1\n";
+            sql += "LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+            sql += "ON temp1.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID\n";
+            sql += "WHERE Type_Of_Sale = " + this.type1CB.Text + " AND Fiscal_Year = '" + this.fiscal1CB.Text + "' AND Deleted IS NULL \n";
+            DataTable dt= c.runQuery(sql);
             dataGridView1.DataSource = dt;
             this.set_columns(dataGridView1);
         }
 
 
         //dgv
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
         private void dataGridView1_Click(object sender, EventArgs e)
         {
             if (dataGridView2.SelectedRows.Count != 0) dataGridView2.SelectedRows[0].Selected = false;

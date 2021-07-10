@@ -626,6 +626,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Trading\T_V5_printDO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V5_printDO.Designer.cs">
+      <DependentUpon>T_V5_printDO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Trading\T_V5_printCartonSlip.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -915,6 +921,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_V5_printDO.resx">
+      <DependentUpon>T_V5_printDO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\T_V5_printCartonSlip.resx">
       <DependentUpon>T_V5_printCartonSlip.cs</DependentUpon>

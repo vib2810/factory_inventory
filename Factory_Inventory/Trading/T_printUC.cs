@@ -57,7 +57,7 @@ namespace Factory_Inventory
 
         private void button3_Click(object sender, EventArgs e)
         {
-            M_V4_printDO f = new M_V4_printDO();
+            T_V5_printDO f = new T_V5_printDO();
             Global.background.show_form(f);
         }
     }

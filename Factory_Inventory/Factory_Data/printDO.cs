@@ -25,13 +25,15 @@ namespace Factory_Inventory
         private string where;
         int type = -1;
         M_V4_printDO parent;
+        T_V5_printDO parent1;
         Dictionary<string, string> firmDetails = new Dictionary<string, string>();
 
-        public printDO(DataRow row, M_V4_printDO f)
+        public printDO(DataRow row, M_V4_printDO f, T_V5_printDO f1)
         {
             InitializeComponent();
             this.c = new DbConnect();
-            this.parent = f;
+            if (f != null) this.parent = f;
+            else this.parent1 = f1;
             if (row.Table.Columns.Count < 3) return;
             if (row["Type_Of_Sale"].ToString() == "0")
             {
@@ -72,7 +74,12 @@ namespace Factory_Inventory
 
             //string[] carton_nos = c.csvToArray(row["Carton_No_Arr"].ToString());
             //string cartonfisc = row["Carton_Fiscal_Year"].ToString();
-            string table = row["Tablename"].ToString();
+            string table = "";
+            try
+            {
+                table = row["Tablename"].ToString();
+            }
+            catch{ }
             DataTable dt = new DataTable();
             dt.Columns.Add("Sl No");
             dt.Columns.Add("Carton No.");
@@ -85,9 +92,25 @@ namespace Factory_Inventory
             {
                 cartons = c.getTableData("Carton", "*", "TS_Voucher_ID=" + row["Voucher_ID"].ToString() + " AND Date_Of_Sale IS Not Null");
             }
-            else
+            else if(table == "Carton_Produced")
             {
                 cartons = c.getTableData("Carton_Produced", "*", "Sales_Voucher_ID=" + row["Voucher_ID"].ToString());
+            }
+            else
+            {
+                //THESE CARTONS ARE FROM T_Inward_Cartons TABLE AS WELL. INCLUDE THEM AS WELL
+                string sql = "SELECT T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Carton_No, T_M_Colours.Colour\n";
+                sql+= "FROM T_Repacked_Cartons\n";
+                sql += "LEFT OUTER JOIN T_M_Colours\n";
+                sql += "ON T_Repacked_Cartons.Colour_ID = T_M_Colours.Colour_ID\n";
+                sql += "WHERE T_Repacked_Cartons.Sale_Voucher_ID = " + row["Voucher_ID"].ToString() + "\n";
+                sql += "UNION ALL\n";
+                sql += "SELECT T_Inward_Carton.Carton_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Carton_No, T_M_Colours.Colour\n";
+                sql += "FROM T_Inward_Carton\n";
+                sql += "LEFT OUTER JOIN T_M_Colours\n";
+                sql += "ON T_Inward_Carton.Colour_ID = T_M_Colours.Colour_ID\n";
+                sql += "WHERE T_Inward_Carton.Sale_Voucher_ID = " + row["Voucher_ID"].ToString() + ";\n";
+                cartons = c.runQuery(sql);
             }
             for (int i = 0; i < cartons.Rows.Count; i++)
             {
@@ -126,7 +149,8 @@ namespace Factory_Inventory
         private void button1_Click(object sender, EventArgs e)
         {
             c.setPrint("Sales_Voucher", this.where, 1);
-            parent.load_color();
+            if (this.parent != null) parent.load_color();
+            else parent1.load_color();
             using (var dlg = new CoolPrintPreviewDialog())
             {
                 dlg.Document = this.printDocument1;
