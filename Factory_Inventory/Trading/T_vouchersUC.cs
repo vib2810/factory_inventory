@@ -27,7 +27,7 @@ namespace Factory_Inventory
             }
             if (keyData == Keys.N)
             {
-                this.jobButton.PerformClick();
+                this.jobButtonDisabled.PerformClick();
                 return false;
             }
             if (keyData == Keys.S)
@@ -101,7 +101,7 @@ namespace Factory_Inventory
             t_voucherInput3UC1.BringToFront();
             t_voucherInput3UC1.Focus();
             this.decolour_all_buttons();
-            this.jobButton.BackColor = Color.Orange;
+            this.jobButtonDisabled.BackColor = Color.Orange;
         }
         private void button4_Click(object sender, EventArgs e)
         {

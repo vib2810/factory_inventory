@@ -31,7 +31,7 @@
             this.voucherLabel = new System.Windows.Forms.Label();
             this.cartonButton = new System.Windows.Forms.Button();
             this.repackingButton = new System.Windows.Forms.Button();
-            this.jobButton = new System.Windows.Forms.Button();
+            this.jobButtonDisabled = new System.Windows.Forms.Button();
             this.salesButton = new System.Windows.Forms.Button();
             this.masterButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,10 +41,10 @@
             this.printButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.t_voucherInput1UC1 = new Factory_Inventory.T_voucherInput1UC();
-            this.t_voucherInput2UC1 = new Factory_Inventory.T_voucherInput2UC();
-            this.t_voucherInput3UC1 = new Factory_Inventory.T_voucherInput3UC();
-            this.t_voucherInput4UC1 = new Factory_Inventory.T_voucherInput4UC();
             this.t_printUC1 = new Factory_Inventory.T_printUC();
+            this.t_voucherInput4UC1 = new Factory_Inventory.T_voucherInput4UC();
+            this.t_voucherInput3UC1 = new Factory_Inventory.T_voucherInput3UC();
+            this.t_voucherInput2UC1 = new Factory_Inventory.T_voucherInput2UC();
             this.SuspendLayout();
             // 
             // voucherLabel
@@ -79,17 +79,17 @@
             this.repackingButton.UseVisualStyleBackColor = false;
             this.repackingButton.Click += new System.EventHandler(this.trayProductionButton_Click);
             // 
-            // jobButton
+            // jobButtonDisabled
             // 
-            this.jobButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.jobButton.Location = new System.Drawing.Point(16, 141);
-            this.jobButton.Name = "jobButton";
-            this.jobButton.Size = new System.Drawing.Size(130, 45);
-            this.jobButton.TabIndex = 3;
-            this.jobButton.Text = "Job";
-            this.jobButton.UseVisualStyleBackColor = false;
-            this.jobButton.Visible = false;
-            this.jobButton.Click += new System.EventHandler(this.button3_Click);
+            this.jobButtonDisabled.BackColor = System.Drawing.Color.Tomato;
+            this.jobButtonDisabled.Enabled = false;
+            this.jobButtonDisabled.Location = new System.Drawing.Point(16, 141);
+            this.jobButtonDisabled.Name = "jobButtonDisabled";
+            this.jobButtonDisabled.Size = new System.Drawing.Size(130, 45);
+            this.jobButtonDisabled.TabIndex = 3;
+            this.jobButtonDisabled.Text = "Job";
+            this.jobButtonDisabled.UseVisualStyleBackColor = false;
+            this.jobButtonDisabled.Click += new System.EventHandler(this.button3_Click);
             // 
             // salesButton
             // 
@@ -146,7 +146,6 @@
             this.label3.Size = new System.Drawing.Size(13, 15);
             this.label3.TabIndex = 0;
             this.label3.Text = "J";
-            this.label3.Visible = false;
             // 
             // label4
             // 
@@ -189,22 +188,13 @@
             this.t_voucherInput1UC1.Size = new System.Drawing.Size(514, 432);
             this.t_voucherInput1UC1.TabIndex = 8;
             // 
-            // t_voucherInput2UC1
+            // t_printUC1
             // 
-            this.t_voucherInput2UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(204)))));
-            this.t_voucherInput2UC1.Location = new System.Drawing.Point(165, -2);
-            this.t_voucherInput2UC1.Name = "t_voucherInput2UC1";
-            this.t_voucherInput2UC1.Size = new System.Drawing.Size(514, 432);
-            this.t_voucherInput2UC1.TabIndex = 9;
-            // 
-            // t_voucherInput3UC1
-            // 
-            this.t_voucherInput3UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(222)))), ((int)(((byte)(240)))));
-            this.t_voucherInput3UC1.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.t_voucherInput3UC1.Location = new System.Drawing.Point(165, 0);
-            this.t_voucherInput3UC1.Name = "t_voucherInput3UC1";
-            this.t_voucherInput3UC1.Size = new System.Drawing.Size(514, 432);
-            this.t_voucherInput3UC1.TabIndex = 10;
+            this.t_printUC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
+            this.t_printUC1.Location = new System.Drawing.Point(165, 0);
+            this.t_printUC1.Name = "t_printUC1";
+            this.t_printUC1.Size = new System.Drawing.Size(514, 432);
+            this.t_printUC1.TabIndex = 12;
             // 
             // t_voucherInput4UC1
             // 
@@ -215,13 +205,22 @@
             this.t_voucherInput4UC1.Size = new System.Drawing.Size(514, 432);
             this.t_voucherInput4UC1.TabIndex = 11;
             // 
-            // t_printUC1
+            // t_voucherInput3UC1
             // 
-            this.t_printUC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(234)))), ((int)(((byte)(211)))));
-            this.t_printUC1.Location = new System.Drawing.Point(165, 0);
-            this.t_printUC1.Name = "t_printUC1";
-            this.t_printUC1.Size = new System.Drawing.Size(514, 432);
-            this.t_printUC1.TabIndex = 12;
+            this.t_voucherInput3UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(222)))), ((int)(((byte)(240)))));
+            this.t_voucherInput3UC1.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.t_voucherInput3UC1.Location = new System.Drawing.Point(165, 0);
+            this.t_voucherInput3UC1.Name = "t_voucherInput3UC1";
+            this.t_voucherInput3UC1.Size = new System.Drawing.Size(514, 432);
+            this.t_voucherInput3UC1.TabIndex = 10;
+            // 
+            // t_voucherInput2UC1
+            // 
+            this.t_voucherInput2UC1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(204)))));
+            this.t_voucherInput2UC1.Location = new System.Drawing.Point(165, -2);
+            this.t_voucherInput2UC1.Name = "t_voucherInput2UC1";
+            this.t_voucherInput2UC1.Size = new System.Drawing.Size(514, 432);
+            this.t_voucherInput2UC1.TabIndex = 9;
             // 
             // T_vouchersUC
             // 
@@ -236,7 +235,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.masterButton);
             this.Controls.Add(this.salesButton);
-            this.Controls.Add(this.jobButton);
+            this.Controls.Add(this.jobButtonDisabled);
             this.Controls.Add(this.repackingButton);
             this.Controls.Add(this.cartonButton);
             this.Controls.Add(this.voucherLabel);
@@ -256,7 +255,7 @@
         private System.Windows.Forms.Label voucherLabel;
         private System.Windows.Forms.Button cartonButton;
         private System.Windows.Forms.Button repackingButton;
-        private System.Windows.Forms.Button jobButton;
+        private System.Windows.Forms.Button jobButtonDisabled;
         private System.Windows.Forms.Button salesButton;
         private System.Windows.Forms.Button masterButton;
         private System.Windows.Forms.Label label1;

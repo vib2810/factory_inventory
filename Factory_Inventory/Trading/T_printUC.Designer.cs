@@ -115,7 +115,8 @@
             // 
             // button6
             // 
-            this.button6.BackColor = System.Drawing.Color.Gainsboro;
+            this.button6.BackColor = System.Drawing.Color.Tomato;
+            this.button6.Enabled = false;
             this.button6.Location = new System.Drawing.Point(54, 197);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(179, 63);

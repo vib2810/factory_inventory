@@ -85,6 +85,7 @@ namespace Factory_Inventory
 
             //Opening
             vno_table_map[100] = "Carton Production";
+
             loadData();
 
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
@@ -248,13 +249,13 @@ namespace Factory_Inventory
         {
             return ",(Select " + function + "(" + column + ") from ((select " + column + " from #temp where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
         }
-        public void loadData()
+
+        private string getTradingQuery(string search, bool searching)
         {
-            //Get dt
-            if(this.vno==13)
+            string sql = "";
+            if (this.vno == 13)
             {
-                
-                string sql = "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp\n";
+                sql += "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp\n";
                 sql += "FROM\n";
                 sql += "    (SELECT temp2.*, T_M_Colours.Colour\n";
                 sql += "    FROM\n";
@@ -270,7 +271,7 @@ namespace Factory_Inventory
                 sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
                 sql += "LEFT OUTER JOIN T_M_Company_Names\n";
                 sql += "ON T_M_Company_Names.Company_ID = temp3.Company_ID;\n";
-                
+
                 sql += "select distinct t.[Voucher_ID]\n";
                 sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
                 sql += select_stuff("distinct", "t1.Colour", "Colour_Arr");
@@ -282,10 +283,94 @@ namespace Factory_Inventory
                 sql += select_function("sum", "Net_Weight", "Net_Weight");
                 sql += select_function("sum", "Buy_Cost", "Buy_Cost");
                 sql += select_function("count", "Voucher_ID", "Number_Of_Cartons");
+                sql += "into #tt\n";
                 sql += "from #temp t order by Voucher_ID DESC;\n";
-
+                if (!searching) sql += "select * from #tt;\n";
+                else sql += search;
                 sql += "drop table #temp;\n";
-                
+                sql += "drop table #tt;\n";
+            }
+            return sql;
+        }
+        private string getSearchString(string searchText, bool date)
+        {
+            string search_string = "\nSET NOCOUNT ON;\n";
+            search_string += "DECLARE @columnName NVARCHAR(100)\n";
+            search_string += "DECLARE @sql NVARCHAR(1000) = 'SELECT * FROM #tt WHERE '\n";
+            search_string += "DECLARE @searchText nvarchar(50) = '" + searchText + "';\n";
+            search_string += "DECLARE @date tinyint = " + Convert.ToInt32(date).ToString() + ";\n";
+            search_string += "DECLARE columns CURSOR FOR\n";
+            search_string += "SELECT name\n";
+            search_string += "FROM tempdb.sys.columns\n";
+            search_string += "WHERE  object_id = Object_id('tempdb..#tt')\n";
+            search_string += "OPEN columns\n";
+            search_string += "FETCH NEXT FROM columns\n";
+            search_string += "INTO @columnName\n";
+            search_string += "WHILE @@FETCH_STATUS = 0\n";
+            search_string += "BEGIN\n";
+            search_string += "  if (@columnName not like '%voucher%') and(@columnName not like '%fiscal%') and(@columnName not like '%deleted%')\n";
+            search_string += "  begin\n";
+            search_string += "      if (@date = 1)\n";
+            search_string += "      begin\n";
+            search_string += "          if @columnName like '%date%'\n";
+            search_string += "          begin SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR ' end\n";
+            search_string += "      end\n";
+            search_string += "      else\n";
+            search_string += "      begin\n";
+            search_string += "          if @columnName not like '%date%'\n";
+            search_string += "          begin SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR ' end\n";
+            search_string += "      end\n";
+            search_string += "  end\n";
+            search_string += "  FETCH NEXT FROM columns\n";
+            search_string += "  INTO @columnName\n";
+            search_string += "END\n";
+            search_string += "CLOSE columns;\n";
+            search_string += "DEALLOCATE columns;\n";
+            search_string += "SET @sql = LEFT(RTRIM(@sql), LEN(@sql) - 2)\n";
+            search_string += "EXEC(@sql)\n";
+
+            return search_string;
+        }
+
+        public void loadData()
+        {
+            //Get dt
+            if(this.vno==13)
+            {
+                //string sql = "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp\n";
+                //sql += "FROM\n";
+                //sql += "    (SELECT temp2.*, T_M_Colours.Colour\n";
+                //sql += "    FROM\n";
+                //sql += "        (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
+                //sql += "        FROM\n";
+                //sql += "            (SELECT T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Inward_Type, T_Inward_Carton.Grade\n";
+                //sql += "            FROM T_Carton_Inward_Voucher\n";
+                //sql += "            FULL OUTER JOIN T_Inward_Carton\n";
+                //sql += "            ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID) as temp1\n";
+                //sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                //sql += "        ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
+                //sql += "    LEFT OUTER JOIN T_M_Colours\n";
+                //sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
+                //sql += "LEFT OUTER JOIN T_M_Company_Names\n";
+                //sql += "ON T_M_Company_Names.Company_ID = temp3.Company_ID;\n";
+
+                //sql += "select distinct t.[Voucher_ID]\n";
+                //sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
+                //sql += select_stuff("distinct", "t1.Colour", "Colour_Arr");
+                //sql += select_stuff("distinct", "t1.Quality_Before_Job", "Quality_Before_Job_Arr");
+                //sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
+                //sql += select_stuff("", "CONVERT(VARCHAR, t1.Comments)", "Comments_Arr");
+                //sql += "    ,t.Bill_No, t.Date_Of_Billing, t.Company_Name, t.Date_Of_Input, t.Deleted, t.Fiscal_Year, t.Inward_Type, CONVERT(VARCHAR, t.Narration) Narration\n";
+
+                //sql += select_function("sum", "Net_Weight", "Net_Weight");
+                //sql += select_function("sum", "Buy_Cost", "Buy_Cost");
+                //sql += select_function("count", "Voucher_ID", "Number_Of_Cartons");
+                //sql += "into #tt\n";
+                //sql += "from #temp t order by Voucher_ID DESC;\n";
+                //sql += "select * from #tt;\n";
+                //sql += "drop table #temp;\n";
+                //sql += "drop table #tt;\n";
+                string sql = this.getTradingQuery("", false);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==14)
@@ -409,18 +494,27 @@ namespace Factory_Inventory
             //if null search
             if(string.IsNullOrEmpty(to_search)==true)
             {
-                this.dt = c.getVoucherHistories(vno_table_map[this.vno]);
-                this.dataGridView1.DataSource = this.dt;
+                //this.dt = c.getVoucherHistories(vno_table_map[this.vno]);
+                this.loadData();
             }
             else
             {
-                string prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=0";
-                if (date == true) prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=1";
-                this.dt = c.runProcedure("SearchInTable",prod);
+                if(this.vno<=12 || this.vno==100)
+                {
+                    string prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=0";
+                    if (date == true) prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=1";
+                    this.dt = c.runProcedure("SearchInTable", prod);
+                }
+                else
+                {
+                    string search_string = this.getSearchString(to_search, date);
+                    string sql = this.getTradingQuery(search_string, true);
+                    this.dt = c.runQuery(sql);
+                }
                 this.dataGridView1.DataSource = this.dt;
+                this.adjust_dgv();
             }
-            c.printDataTable(this.dt);
-            this.adjust_dgv();
+           
         }
         
         void adjust_dgv()
