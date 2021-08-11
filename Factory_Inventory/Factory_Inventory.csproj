@@ -553,11 +553,29 @@
     <Compile Include="Main\AA_IPSelect.Designer.cs">
       <DependentUpon>AA_IPSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\FirmCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\FirmCreate.Designer.cs">
+      <DependentUpon>FirmCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main\Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_I_TablesUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_I_TablesUC.Designer.cs">
+      <DependentUpon>T_I_TablesUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trading\T_I_InventoryUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Trading\T_I_InventoryUC.Designer.cs">
+      <DependentUpon>T_I_InventoryUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Trading\T_V_coneMasterUC.cs">
       <SubType>UserControl</SubType>
@@ -902,8 +920,17 @@
     <EmbeddedResource Include="Main\AA_IPSelect.resx">
       <DependentUpon>AA_IPSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Main\FirmCreate.resx">
+      <DependentUpon>FirmCreate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_I_TablesUC.resx">
+      <DependentUpon>T_I_TablesUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_I_InventoryUC.resx">
+      <DependentUpon>T_I_InventoryUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\T_V_coneMasterUC.resx">
       <DependentUpon>T_V_coneMasterUC.cs</DependentUpon>

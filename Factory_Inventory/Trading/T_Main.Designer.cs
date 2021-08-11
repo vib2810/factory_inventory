@@ -36,15 +36,17 @@ namespace Factory_Inventory
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.t_vouchersUC1 = new Factory_Inventory.T_vouchersUC();
+            this.t_I_InventoryUC1 = new Factory_Inventory.T_I_InventoryUC();
             this.SuspendLayout();
             // 
             // vouchersButton
             // 
             this.vouchersButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.vouchersButton.BackColor = System.Drawing.Color.DarkGray;
-            this.vouchersButton.Location = new System.Drawing.Point(766, 108);
+            this.vouchersButton.Location = new System.Drawing.Point(574, 88);
+            this.vouchersButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.vouchersButton.Name = "vouchersButton";
-            this.vouchersButton.Size = new System.Drawing.Size(111, 38);
+            this.vouchersButton.Size = new System.Drawing.Size(83, 31);
             this.vouchersButton.TabIndex = 3;
             this.vouchersButton.Text = "&Vouchers";
             this.vouchersButton.UseVisualStyleBackColor = false;
@@ -54,9 +56,10 @@ namespace Factory_Inventory
             // 
             this.inventoryButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.inventoryButton.BackColor = System.Drawing.Color.DarkGray;
-            this.inventoryButton.Location = new System.Drawing.Point(766, 152);
+            this.inventoryButton.Location = new System.Drawing.Point(574, 124);
+            this.inventoryButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.inventoryButton.Name = "inventoryButton";
-            this.inventoryButton.Size = new System.Drawing.Size(111, 38);
+            this.inventoryButton.Size = new System.Drawing.Size(83, 31);
             this.inventoryButton.TabIndex = 4;
             this.inventoryButton.Text = "&Inventory";
             this.inventoryButton.UseVisualStyleBackColor = false;
@@ -68,9 +71,10 @@ namespace Factory_Inventory
             this.usernameLabel.AutoSize = true;
             this.usernameLabel.Cursor = System.Windows.Forms.Cursors.Default;
             this.usernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.usernameLabel.Location = new System.Drawing.Point(34, 20);
+            this.usernameLabel.Location = new System.Drawing.Point(26, 16);
+            this.usernameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.usernameLabel.Name = "usernameLabel";
-            this.usernameLabel.Size = new System.Drawing.Size(119, 32);
+            this.usernameLabel.Size = new System.Drawing.Size(91, 26);
             this.usernameLabel.TabIndex = 0;
             this.usernameLabel.Text = "Trading";
             // 
@@ -81,9 +85,10 @@ namespace Factory_Inventory
             this.label2.BackColor = System.Drawing.Color.Gainsboro;
             this.label2.Cursor = System.Windows.Forms.Cursors.Default;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(862, 169);
+            this.label2.Location = new System.Drawing.Point(646, 137);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(11, 17);
+            this.label2.Size = new System.Drawing.Size(10, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "I";
             // 
@@ -94,24 +99,35 @@ namespace Factory_Inventory
             this.label1.BackColor = System.Drawing.Color.Gainsboro;
             this.label1.Cursor = System.Windows.Forms.Cursors.Default;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(856, 125);
+            this.label1.Location = new System.Drawing.Point(642, 102);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 17);
+            this.label1.Size = new System.Drawing.Size(14, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "V";
             // 
             // t_vouchersUC1
             // 
-            this.t_vouchersUC1.Location = new System.Drawing.Point(69, 72);
+            this.t_vouchersUC1.Location = new System.Drawing.Point(52, 58);
+            this.t_vouchersUC1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.t_vouchersUC1.Name = "t_vouchersUC1";
-            this.t_vouchersUC1.Size = new System.Drawing.Size(679, 433);
+            this.t_vouchersUC1.Size = new System.Drawing.Size(509, 352);
             this.t_vouchersUC1.TabIndex = 5;
+            // 
+            // t_I_InventoryUC1
+            // 
+            this.t_I_InventoryUC1.Location = new System.Drawing.Point(52, 58);
+            this.t_I_InventoryUC1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.t_I_InventoryUC1.Name = "t_I_InventoryUC1";
+            this.t_I_InventoryUC1.Size = new System.Drawing.Size(509, 352);
+            this.t_I_InventoryUC1.TabIndex = 6;
             // 
             // T_Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(950, 550);
+            this.ClientSize = new System.Drawing.Size(712, 447);
+            this.Controls.Add(this.t_I_InventoryUC1);
             this.Controls.Add(this.t_vouchersUC1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -120,6 +136,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.vouchersButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "T_Main";
@@ -138,5 +155,6 @@ namespace Factory_Inventory
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private T_vouchersUC t_vouchersUC1;
+        private T_I_InventoryUC t_I_InventoryUC1;
     }
 }

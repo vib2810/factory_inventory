@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Factory_Inventory.Factory_Classes
 {
-    class MainConnect : DbConnect
+    public class MainConnect : DbConnect
     {
         public MainConnect(string con_start)
         {
