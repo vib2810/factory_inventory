@@ -290,6 +290,96 @@ namespace Factory_Inventory
                 sql += "drop table #temp;\n";
                 sql += "drop table #tt;\n";
             }
+            else if(this.vno==14)
+            {
+                sql += "SELECT temp5.*, (T_Inward_Carton.Carton_No)Destroyed_Carton_No, (T_Inward_Carton.Carton_ID)Destroyed_Carton_ID into #temp\n";
+                sql += "FROM\n";
+                sql += "(SELECT temp4.*, T_M_Cones.Cone_Name, T_M_Cones.Cone_Weight\n";
+                sql += "    FROM\n";
+                sql += "        (SELECT temp3.*, T_M_Company_Names.Company_Name\n";
+                sql += "        FROM\n";
+                sql += "            (SELECT temp2.*, T_M_Colours.Colour\n";
+                sql += "            FROM\n";
+                sql += "                (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
+                sql += "                FROM\n";
+                sql += "                    (SELECT T_Repacking_Voucher.*, T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Carton_No, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Repack_Comments, T_Repacked_Cartons.Grade\n";
+                sql += "                    FROM T_Repacking_Voucher\n";
+                sql += "                    FULL OUTER JOIN T_Repacked_Cartons\n";
+                sql += "                    ON T_Repacking_Voucher.Voucher_ID = T_Repacked_Cartons.Repacking_Voucher_ID) as temp1\n";
+                sql += "                LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "                ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
+                sql += "            LEFT OUTER JOIN T_M_Colours\n";
+                sql += "            ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
+                sql += "        LEFT OUTER JOIN T_M_Company_Names\n";
+                sql += "        ON T_M_Company_Names.Company_ID = temp3.Company_ID) as temp4\n";
+                sql += "    LEFT OUTER JOIN T_M_Cones\n";
+                sql += "    ON T_M_Cones.Cone_ID = temp4.Cone_ID) as temp5\n";
+                sql += "LEFT OUTER JOIN T_Inward_Carton\n";
+                sql += "ON T_Inward_Carton.Repacking_Voucher_ID = temp5.Voucher_ID;\n";
+
+                sql += "select distinct t.[Voucher_ID]\n";
+                sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
+                sql += select_stuff("distinct", "t1.Destroyed_Carton_No", "Destroyed_Carton_No_Arr");
+                sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
+                sql += select_stuff("", "CONVERT(VARCHAR, t1.Net_Weight)", "Net_Weight_Arr");
+                sql += select_stuff("", "CONVERT(VARCHAR, t1.Repack_Comments)", "Comments_Arr");
+                sql += "    ,t.Carton_Fiscal_Year, t.Colour, t.Company_Name, t.Date_Of_Input, t.Date_Of_Production, t.Deleted, t.Oil_Gain, CONVERT(VARCHAR, t.Narration) Narration, t.Quality_Before_Job, t.Start_Date_Of_Production, t.Voucher_Closed, t.Cone_Name, t.Cone_Weight, t.Fiscal_Year, t.Inward_Cartons_Type\n";
+
+                sql += select_function("sum", "Net_Weight", "Total_Weight");
+                sql += select_function("count", "Voucher_ID", "Number_Of_Repacked_Cartons");
+
+                sql += "into #tt\n";
+                sql += "from #temp t order by Voucher_ID DESC;\n";                
+                if (!searching) sql += "select * from #tt;\n";
+                else sql += search;
+                sql += "drop table #temp;\n";
+                sql += "drop table #tt;\n";
+            }
+            else if(this.vno==15)
+            {
+                sql += "SELECT temp2.*, T_M_Customers.Customer_Name into #temp\n";
+                sql += "FROM\n";
+                sql += "    (SELECT temp1.*, T_M_Company_Names.Company_Name\n";
+                sql += "    FROM\n";
+                sql += "        (SELECT T_Sales_Voucher.Date_Of_Sale, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Date_Of_Input, T_Sales_Voucher.Net_Weight, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Sale_Bill_Date, T_Sales_Voucher.Sale_Bill_No, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Company_ID, T_Sales_Voucher.Customer_ID, T_Sales_Voucher.Type_Of_Sale, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Narration, T_Sales_Voucher.Deleted, T_M_Quality_Before_Job.Quality_Before_Job\n";
+                sql += "        FROM T_Sales_Voucher\n";
+                sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "        ON T_Sales_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "    LEFT OUTER JOIN T_M_Company_Names\n";
+                sql += "    ON T_M_Company_Names.Company_ID = temp1.Company_ID) as temp2\n";
+                sql += "LEFT OUTER JOIN T_M_Customers\n";
+                sql += "ON T_M_Customers.Customer_ID = temp2.Customer_ID\n";
+                sql += "select * into #tt\n";
+                sql += "from #temp t ORDER BY Voucher_ID DESC\n";
+                if (!searching) sql += "select * from #tt;\n";
+                else sql += search;
+                sql += "drop table #temp;\n";
+                sql += "drop table #tt;\n";
+            }
+            else if(this.vno==16)
+            {
+                sql += "SELECT temp2.*, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.SalesBillNos_Voucher_ID into #temp\n";
+                sql += "FROM\n";
+                sql += "    (SELECT temp1.*, T_M_Customers.Customer_Name\n";
+                sql += "    FROM\n";
+                sql += "        (SELECT T_SalesBillNos_Voucher.Sale_Bill_Date, T_SalesBillNos_Voucher.Date_Of_Input, T_SalesBillNos_Voucher.Sale_Bill_No, T_SalesBillNos_Voucher.Sale_Bill_Weight, T_SalesBillNos_Voucher.Sale_Bill_Amount, T_M_Quality_Before_Job.Quality_Before_Job, T_SalesBillNos_Voucher.Voucher_ID, T_SalesBillNos_Voucher.Narration, T_SalesBillNos_Voucher.Bill_Customer_ID, T_SalesBillNos_Voucher.DO_Fiscal_Year, T_SalesBillNos_Voucher.Type_Of_Sale, T_SalesBillNos_Voucher.Sale_Bill_Weight_Calc, T_SalesBillNos_Voucher.Sale_Bill_Amount_Calc\n";
+                sql += "        FROM T_SalesBillNos_Voucher\n";
+                sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+                sql += "        ON T_SalesBillNos_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "    LEFT OUTER JOIN T_M_Customers\n";
+                sql += "    ON temp1.Bill_Customer_ID = T_M_Customers.Customer_ID) as temp2\n";
+                sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
+                sql += "ON temp2.Voucher_ID = T_Sales_Voucher.SalesBillNos_Voucher_ID\n";
+                sql += "select distinct t.[Voucher_ID]\n";
+                sql += select_stuff("", "t1.Sale_DO_No", "DO_No_Arr");
+                sql += "    ,t.Date_Of_Input, t.Quality_Before_Job, t.Customer_Name, t.DO_Fiscal_Year, t.Type_Of_Sale, t.Sale_Bill_Amount, t.Sale_Bill_Date, t.Sale_Bill_No, t.Sale_Bill_Weight, CONVERT(VARCHAR, t.Narration) Narration, t.Sale_Bill_Amount_Calc, t.Sale_Bill_Weight_Calc\n";
+                sql += "into #tt\n";
+                sql += "from #temp t order by Voucher_ID DESC;\n";
+                if (!searching) sql += "select * from #tt;\n";
+                else sql += search;
+                sql += "drop table #temp;\n";
+                sql += "drop table #tt;\n";
+            }
             return sql;
         }
         private string getSearchString(string searchText, bool date)
@@ -337,123 +427,22 @@ namespace Factory_Inventory
             //Get dt
             if(this.vno==13)
             {
-                //string sql = "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp\n";
-                //sql += "FROM\n";
-                //sql += "    (SELECT temp2.*, T_M_Colours.Colour\n";
-                //sql += "    FROM\n";
-                //sql += "        (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
-                //sql += "        FROM\n";
-                //sql += "            (SELECT T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Inward_Type, T_Inward_Carton.Grade\n";
-                //sql += "            FROM T_Carton_Inward_Voucher\n";
-                //sql += "            FULL OUTER JOIN T_Inward_Carton\n";
-                //sql += "            ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID) as temp1\n";
-                //sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
-                //sql += "        ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
-                //sql += "    LEFT OUTER JOIN T_M_Colours\n";
-                //sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
-                //sql += "LEFT OUTER JOIN T_M_Company_Names\n";
-                //sql += "ON T_M_Company_Names.Company_ID = temp3.Company_ID;\n";
-
-                //sql += "select distinct t.[Voucher_ID]\n";
-                //sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
-                //sql += select_stuff("distinct", "t1.Colour", "Colour_Arr");
-                //sql += select_stuff("distinct", "t1.Quality_Before_Job", "Quality_Before_Job_Arr");
-                //sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
-                //sql += select_stuff("", "CONVERT(VARCHAR, t1.Comments)", "Comments_Arr");
-                //sql += "    ,t.Bill_No, t.Date_Of_Billing, t.Company_Name, t.Date_Of_Input, t.Deleted, t.Fiscal_Year, t.Inward_Type, CONVERT(VARCHAR, t.Narration) Narration\n";
-
-                //sql += select_function("sum", "Net_Weight", "Net_Weight");
-                //sql += select_function("sum", "Buy_Cost", "Buy_Cost");
-                //sql += select_function("count", "Voucher_ID", "Number_Of_Cartons");
-                //sql += "into #tt\n";
-                //sql += "from #temp t order by Voucher_ID DESC;\n";
-                //sql += "select * from #tt;\n";
-                //sql += "drop table #temp;\n";
-                //sql += "drop table #tt;\n";
                 string sql = this.getTradingQuery("", false);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==14)
             {
-                string sql = "SELECT temp5.*, (T_Inward_Carton.Carton_No)Destroyed_Carton_No, (T_Inward_Carton.Carton_ID)Destroyed_Carton_ID into #temp\n";
-                sql += "FROM\n";
-                sql += "(SELECT temp4.*, T_M_Cones.Cone_Name, T_M_Cones.Cone_Weight\n";
-                sql += "    FROM\n";
-                sql += "        (SELECT temp3.*, T_M_Company_Names.Company_Name\n";
-                sql += "        FROM\n";
-                sql += "            (SELECT temp2.*, T_M_Colours.Colour\n";
-                sql += "            FROM\n";
-                sql += "                (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
-                sql += "                FROM\n";
-                sql += "                    (SELECT T_Repacking_Voucher.*, T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Carton_No, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Repack_Comments, T_Repacked_Cartons.Grade\n";
-                sql += "                    FROM T_Repacking_Voucher\n";
-                sql += "                    FULL OUTER JOIN T_Repacked_Cartons\n";
-                sql += "                    ON T_Repacking_Voucher.Voucher_ID = T_Repacked_Cartons.Repacking_Voucher_ID) as temp1\n";
-                sql += "                LEFT OUTER JOIN T_M_Quality_Before_Job\n";
-                sql += "                ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
-                sql += "            LEFT OUTER JOIN T_M_Colours\n";
-                sql += "            ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
-                sql += "        LEFT OUTER JOIN T_M_Company_Names\n";
-                sql += "        ON T_M_Company_Names.Company_ID = temp3.Company_ID) as temp4\n";
-                sql += "    LEFT OUTER JOIN T_M_Cones\n";
-                sql += "    ON T_M_Cones.Cone_ID = temp4.Cone_ID) as temp5\n";
-                sql += "LEFT OUTER JOIN T_Inward_Carton\n";
-                sql += "ON T_Inward_Carton.Repacking_Voucher_ID = temp5.Voucher_ID;\n";
-
-                sql += "select distinct t.[Voucher_ID]\n";
-                sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
-                sql += select_stuff("distinct", "t1.Destroyed_Carton_No", "Destroyed_Carton_No_Arr");
-                sql += select_stuff("distinct", "t1.Grade", "Grade_Arr");
-                sql += select_stuff("", "CONVERT(VARCHAR, t1.Net_Weight)", "Net_Weight_Arr");
-                sql += select_stuff("", "CONVERT(VARCHAR, t1.Repack_Comments)", "Comments_Arr");
-                sql += "    ,t.Carton_Fiscal_Year, t.Colour, t.Company_Name, t.Date_Of_Input, t.Date_Of_Production, t.Deleted, t.Oil_Gain, CONVERT(VARCHAR, t.Narration) Narration, t.Quality_Before_Job, t.Start_Date_Of_Production, t.Voucher_Closed, t.Cone_Name, t.Cone_Weight, t.Fiscal_Year, t.Inward_Cartons_Type\n";
-                
-                sql += select_function("sum", "Net_Weight", "Total_Weight");
-                sql += select_function("count", "Voucher_ID", "Number_Of_Repacked_Cartons");
-                
-                sql += "from #temp t order by Voucher_ID DESC;\n";
-                sql += "drop table #temp;\n";
-
+                string sql = this.getTradingQuery("", false);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==15)
             {
-                string sql = "SELECT temp2.*, T_M_Customers.Customer_Name\n";
-                sql += "FROM\n";
-                sql += "    (SELECT temp1.*, T_M_Company_Names.Company_Name\n";
-                sql += "    FROM\n";
-                sql += "        (SELECT T_Sales_Voucher.Date_Of_Sale, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Date_Of_Input, T_Sales_Voucher.Net_Weight, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Sale_Bill_Date, T_Sales_Voucher.Sale_Bill_No, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Company_ID, T_Sales_Voucher.Customer_ID, T_Sales_Voucher.Type_Of_Sale, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Narration, T_Sales_Voucher.Deleted, T_M_Quality_Before_Job.Quality_Before_Job\n";
-                sql += "        FROM T_Sales_Voucher\n";
-                sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
-                sql += "        ON T_Sales_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
-                sql += "    LEFT OUTER JOIN T_M_Company_Names\n";
-                sql += "    ON T_M_Company_Names.Company_ID = temp1.Company_ID) as temp2\n";
-                sql += "LEFT OUTER JOIN T_M_Customers\n";
-                sql += "ON T_M_Customers.Customer_ID = temp2.Customer_ID\n";
-                sql += "ORDER BY Voucher_ID DESC";
-
+                string sql = this.getTradingQuery("", false);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==16)
             {
-                string sql = "SELECT temp2.*, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.SalesBillNos_Voucher_ID into #temp\n";
-                sql += "FROM\n";
-                sql += "    (SELECT temp1.*, T_M_Customers.Customer_Name\n";
-                sql += "    FROM\n";
-                sql += "        (SELECT T_SalesBillNos_Voucher.Sale_Bill_Date, T_SalesBillNos_Voucher.Date_Of_Input, T_SalesBillNos_Voucher.Sale_Bill_No, T_SalesBillNos_Voucher.Sale_Bill_Weight, T_SalesBillNos_Voucher.Sale_Bill_Amount, T_M_Quality_Before_Job.Quality_Before_Job, T_SalesBillNos_Voucher.Voucher_ID, T_SalesBillNos_Voucher.Narration, T_SalesBillNos_Voucher.Bill_Customer_ID, T_SalesBillNos_Voucher.DO_Fiscal_Year, T_SalesBillNos_Voucher.Type_Of_Sale, T_SalesBillNos_Voucher.Sale_Bill_Weight_Calc, T_SalesBillNos_Voucher.Sale_Bill_Amount_Calc\n";
-                sql += "        FROM T_SalesBillNos_Voucher\n";
-                sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
-                sql += "        ON T_SalesBillNos_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
-                sql += "    LEFT OUTER JOIN T_M_Customers\n";
-                sql += "    ON temp1.Bill_Customer_ID = T_M_Customers.Customer_ID) as temp2\n";
-                sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
-                sql += "ON temp2.Voucher_ID = T_Sales_Voucher.SalesBillNos_Voucher_ID\n";
-                sql += "select distinct t.[Voucher_ID]\n";
-                sql += select_stuff("", "t1.Sale_DO_No", "DO_No_Arr");
-                sql += "    ,t.Date_Of_Input, t.Quality_Before_Job, t.Customer_Name, t.DO_Fiscal_Year, t.Type_Of_Sale, t.Sale_Bill_Amount, t.Sale_Bill_Date, t.Sale_Bill_No, t.Sale_Bill_No, t.Sale_Bill_Weight, CONVERT(VARCHAR, t.Narration) Narration, t.Sale_Bill_Amount_Calc, t.Sale_Bill_Weight_Calc\n";
-                sql += "from #temp t order by Voucher_ID DESC;\n";
-                sql += "drop table #temp;\n";
-                
+                string sql = this.getTradingQuery("", false);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno<100)
@@ -513,6 +502,9 @@ namespace Factory_Inventory
                 }
                 this.dataGridView1.DataSource = this.dt;
                 this.adjust_dgv();
+                _firstLoaded = true;
+                this.dataGridView1.Visible = false;
+                this.dataGridView1.Visible = true;
             }
            
         }
