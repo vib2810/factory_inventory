@@ -44,9 +44,9 @@ namespace Factory_Inventory
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
             f.AutoScroll = true;
 
-            if (group==0)
+            if (group == 0)
             {
-                if (f.Name.ToString().StartsWith("M_I"))
+                if (f.Name.ToString().StartsWith("M_I") || f.Name.ToString().StartsWith("T_I"))
                 {
                     f.Show();
                 }
