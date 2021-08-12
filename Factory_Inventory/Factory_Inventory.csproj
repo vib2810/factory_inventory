@@ -1066,5 +1066,11 @@
   <ItemGroup>
     <None Include="rightarrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Queries\Create Main DB.sql" />
+    <Content Include="Queries\Database_Create_Full - Copy.sql" />
+    <Content Include="Queries\Database_Create_Full.sql" />
+    <Content Include="Queries\tables_data_transfer.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

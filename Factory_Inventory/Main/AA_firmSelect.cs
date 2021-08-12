@@ -99,7 +99,7 @@ namespace Factory_Inventory.Factory_Classes
             mc = new MainConnect(con_start);
 
             dataGridView1.Rows.Clear();
-            string sql = "SELECT * FROM Firms_List";
+            string sql = "use main; SELECT * FROM Firms_List";
             DataTable dt = mc.runQuery(sql);
             this.firmdata = dt;
             if (dt == null) return;
@@ -135,25 +135,31 @@ namespace Factory_Inventory.Factory_Classes
 
         private void createButton_Click(object sender, EventArgs e)
         {
+            //Get data from form
             DataTable dt = mc.runQuery("SELECT Firm_ID, Firm_Name FROM Firms_List");
             FirmCreate f = new FirmCreate(dt, mc);
             f.ShowDialog();
-
+            if (f.values_set == false) return;
             string soursedb = "";
-            if (f.comboBox1.SelectedIndex > 0) soursedb = dt.Rows[f.comboBox1.SelectedIndex - 1]["Firm_ID"].ToString();
+            if (f.comboBox1.SelectedIndex > 0) soursedb = "FactoryData_"+dt.Rows[f.comboBox1.SelectedIndex - 1]["Firm_ID"].ToString();
 
             //Create Database
             dt = mc.runQuery("SELECT MAX(Firm_ID) FROM Firms_List");
             int firm_id = int.Parse(dt.Rows[0][0].ToString()) + 1;
             string replace = "FactoryData_" + firm_id.ToString();
-            string script = File.ReadAllText(@"../../Queries/Database_Create_Full.sql");
-            script = script.Replace("FactoryData", replace);
-            mc.runQuery("USE [master]; CREATE DATABASE[" + replace + "]");
-            dt = mc.runQuery(script);
+            dt=mc.runQuery("USE [master]; CREATE DATABASE[" + replace + "]");
             if (dt == null)
             {
                 mc.ErrorBox("Error in creating database");
-                mc.runQuery("DROP DATABASE " + replace);
+                mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
+                return;
+            }
+            string script = File.ReadAllText(@"../../Queries/Database_Create_Full.sql").Replace("FactoryData", replace);
+            bool res= mc.runQueryGo(script);
+            if (res == false)
+            {
+                mc.ErrorBox("Error in creating database");
+                mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
                 return;
             }
 
@@ -170,7 +176,7 @@ namespace Factory_Inventory.Factory_Classes
             if (ans != 1)
             {
                 c.SuccessBox("Could Not Add User");
-                mc.runQuery("DROP DATABASE " + replace);
+                mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
                 return;
             }
 
@@ -185,7 +191,8 @@ namespace Factory_Inventory.Factory_Classes
             if(dt==null)
             {
                 c.ErrorBox("Error in creating database (Fiscal Year)");
-                mc.runQuery("DROP DATABASE " + replace);
+                mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
+                return;
             }
 
             //Fill Print Types Table
@@ -193,7 +200,8 @@ namespace Factory_Inventory.Factory_Classes
             if (ds == null)
             {
                 c.ErrorBox("Error in creating database (Print Types)");
-                mc.runQuery("DROP DATABASE " + replace);
+                mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
+                return;
             }
 
             //Fill Defaults
@@ -204,7 +212,28 @@ namespace Factory_Inventory.Factory_Classes
             if (dt == null)
             {
                 c.ErrorBox("Error in creating database (Fill Defaults)");
-                mc.runQuery("DROP DATABASE " + replace);
+                mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
+                return;
+            }
+
+            //Copy Master Tables
+            if (soursedb!="")
+            {
+                string transfer_query = File.ReadAllText(@"../../Queries/tables_data_transfer.sql");
+                sql = "use "+soursedb+"; DECLARE @sql NVARCHAR(1000); DECLARE @column NVARCHAR(1000);\n";
+                List<string> master_tables = new List<string>(new string[] { "Colours", "Company_Names", "Cones", "Machine_No", "Quality", "Quality_Before_Twist", "Spring", "T_M_Colours", "T_M_Company_Names", "T_M_Cones", "T_M_Customers", "T_M_Quality_Before_Job" });
+                for (int i = 0; i < master_tables.Count; i++)
+                {
+                    sql += transfer_query.Replace("table_name", master_tables[i]).Replace("source_db",  soursedb).Replace("dest_db", replace) +";\n";
+                    // "drop table " + replace + ".dbo." + master_tables[i] + "; select * into " + replace + ".dbo." + master_tables[i] + " from " + soursedb + ".dbo." + master_tables[i] + ";\n";
+                }
+                dt = mc.runQuery(sql);
+                if (dt == null)
+                {
+                    c.ErrorBox("Error in creating database (Firms List)");
+                    mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
+                    return;
+                }
             }
 
             //Enter in Firm_List Table
@@ -212,26 +241,9 @@ namespace Factory_Inventory.Factory_Classes
             if (dt == null)
             {
                 c.ErrorBox("Error in creating database (Firms List)");
-                mc.runQuery("DROP DATABASE " + replace);
+                mc.runQuery("alter database "+replace+" set single_user with rollback immediate; DROP DATABASE " + replace);
+                return;
             }
-
-            //Copy Master Tables
-            if(soursedb!="")
-            {
-                sql = "";
-                List<string> master_tables = new List<string>(new string[] { "Colours", "Company_Names", "Cones", "Machine_No", "Quality", "Quality_Before_Twist", "Spring", "T_M_Colours", "T_M_Company_Names", "T_M_Cones", "T_M_Customers", "T_M_Quality_Before_Job" });
-                for (int i = 0; i < master_tables.Count; i++)
-                {
-                    sql += "select * into " + replace + "." + master_tables[i] + " from " + soursedb + "." + master_tables[i] + "";
-                }
-                dt = mc.runQuery(sql);
-                if (dt == null)
-                {
-                    c.ErrorBox("Error in creating database (Firms List)");
-                    mc.runQuery("DROP DATABASE " + replace);
-                }
-            }
-
             //Success
             fillfirms();
             mc.SuccessBox("New Firm Created Successfully!\nMaster imported from " + f.comboBox1.SelectedItem.ToString());

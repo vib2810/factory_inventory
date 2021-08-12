@@ -13,9 +13,11 @@ namespace Factory_Inventory.Main
 {
     public partial class FirmCreate : Form
     {
+        public bool values_set = false;
         MainConnect mc;
         public FirmCreate(DataTable dt, MainConnect mc)
         {
+            this.values_set = false;
             this.mc = mc;
             InitializeComponent();
             List<string> firm_names = new List<string>();
@@ -80,6 +82,7 @@ namespace Factory_Inventory.Main
                 mc.ErrorBox("Passwords do not match");
                 return;
             }
+            this.values_set = true;
             this.Close();
         }
 
