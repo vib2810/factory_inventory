@@ -216,7 +216,7 @@ namespace Factory_Inventory.Factory_Classes
         }
         
         //Utility Functions
-        public DataTable runQuery(string sql)
+        public DataTable runQuery(string sql, bool print=true)
         {
             //returns null if couldnt run
             DataTable dt = new DataTable();
@@ -224,12 +224,13 @@ namespace Factory_Inventory.Factory_Classes
             {
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
-                Console.WriteLine(sql);
+                if(print) Console.WriteLine(sql);
                 adapter.Fill(dt);
             }
             catch (SqlException e)
             {
                 this.ErrorBox("Could not run Query (runQuery)\n" + sql + "\n" + e.Message, "Exception");
+                Console.WriteLine("Could not run Query (runQuery)\n" + sql + "\n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }

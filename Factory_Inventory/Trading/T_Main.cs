@@ -67,7 +67,7 @@ namespace Factory_Inventory
         private void hide_all_UCs()
         {
             t_vouchersUC1.Hide();
-            //inventoryUC.Hide();
+            t_I_InventoryUC1.Hide();
             //usersUC.Hide();
             //loginlogUC.Hide();
         }
@@ -86,9 +86,9 @@ namespace Factory_Inventory
         private void inventoryButton_Click_1(object sender, EventArgs e)
         {
             hide_all_UCs();
-            //inventoryUC.Show();
-            //inventoryUC.BringToFront();
-            //inventoryUC.Focus();
+            t_I_InventoryUC1.Show();
+            t_I_InventoryUC1.BringToFront();
+            t_I_InventoryUC1.Focus();
             this.decolour_all_buttons();
             this.inventoryButton.BackColor = select;
             this.last_clicked = this.inventoryButton;
