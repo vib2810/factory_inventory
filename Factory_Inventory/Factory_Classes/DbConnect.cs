@@ -24,6 +24,8 @@ using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
 using System.Configuration;
 using System.Net.Sockets;
 using static Factory_Inventory.Factory_Classes.Structures;
+using Microsoft.SqlServer.Management.Smo;
+using Microsoft.SqlServer.Management.Common;
 
 namespace Factory_Inventory.Factory_Classes
 {
@@ -238,6 +240,29 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
+
+        public bool runQueryGo(string sql)
+        {
+            //returns null if couldnt run
+            try
+            {
+                con.Open();
+                Server server = new Server(new ServerConnection(con));
+                server.ConnectionContext.ExecuteNonQuery(sql);
+            }
+            catch (SqlException e)
+            {
+                this.ErrorBox("Could not run Query (runQueryGo)\n" + sql + "\n" + e.Message, "Exception");
+                con.Close();
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return true;
+        }
+
         public ErrorTable runQuerywithError(string sql)
         {
             //Return a custom error structure for more details about the error

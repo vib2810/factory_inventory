@@ -130,6 +130,7 @@
             this.createButton.TabIndex = 11;
             this.createButton.Text = "Create New Firm";
             this.createButton.UseVisualStyleBackColor = false;
+            this.createButton.Click += new System.EventHandler(this.createButton_Click);
             // 
             // label1
             // 

@@ -130,5 +130,10 @@ namespace Factory_Inventory.Factory_Classes
                 }
             }
         }
+
+        private void createButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
