@@ -75,5 +75,10 @@ namespace Factory_Inventory
             Properties.Settings.Default.ScaleY = float.Parse(scaleyTB.Text);
             Properties.Settings.Default.Save();
         }
+
+        private void M_S_displayUC_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

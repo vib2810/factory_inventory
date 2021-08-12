@@ -29,7 +29,7 @@ namespace Factory_Inventory
             Application.SetCompatibleTextRenderingDefault(false);
 
             DbConnect c = new DbConnect();
-            Console.WriteLine(c.con.ConnectionString);
+            //Global.defaultconnectionstring = "Data Source = VIBHAKARPC; Initial Catalog = Factory_Data1; Persist Security Info = True; User ID = sa; Password = Kdvghr2810@;";
             while (true)
             {
                 AA_firmSelect fs = new AA_firmSelect();

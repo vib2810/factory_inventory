@@ -153,8 +153,6 @@ namespace Factory_Inventory
         }
 
 
-
-
         //Options Menu
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -198,7 +196,12 @@ namespace Factory_Inventory
         private void applicationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool settings = false;
-            M_settings frm = new M_settings();
+            O_SettingsForm frm = new O_SettingsForm();
+            //frm.MdiParent = Global.background;
+            //frm.Scale(new SizeF(1.3F, 1.3F));
+            //frm.AutoScaleMode = AutoScaleMode.Font;
+            //frm.StartPosition = FormStartPosition.CenterScreen;
+            //frm.Show();
             //check if the form is already open but hidden
             foreach (Form f in this.MdiChildren)
             {
@@ -206,29 +209,30 @@ namespace Factory_Inventory
                 {
                     settings = true;
                     f.Show();
+                    f.WindowState=FormWindowState.Normal;
                 }
                 else
                 {
-                    f.Visible = false;
+                    //f.Visible = false;
                 }
             }
-            //start a new instance
+            //start a new instance if not already open
             if (settings == false)
             {
                 frm.MdiParent = Global.background;
                 frm.Scale(new SizeF(1.3F, 1.3F));
                 frm.AutoScaleMode = AutoScaleMode.Font;
-                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.StartPosition = FormStartPosition.Manual;
+                frm.Location = new Point(0, 0);
                 //insert into dictionary with the group no
                 int val;
                 bool exists = form_group.TryGetValue(frm.Name, out val);
                 if (exists == false)
                 {
-                    form_group[frm.Name] = 10;
+                    form_group[frm.Name] = 11;
                 }
                 frm.Show();
             }
-            this.LayoutMdi(MdiLayout.Cascade);
         }
         private void manageUsersToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -259,7 +263,7 @@ namespace Factory_Inventory
                 bool exists = form_group.TryGetValue(frm.Name, out val);
                 if (exists == false)
                 {
-                    form_group[frm.Name] = 11;
+                    form_group[frm.Name] = 12;
                 }
                 frm.Show();
             }
