@@ -49,11 +49,11 @@ namespace Factory_Inventory
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(51, 15);
+            this.label1.Location = new System.Drawing.Point(51, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(141, 26);
+            this.label1.Size = new System.Drawing.Size(241, 26);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Print Settings";
+            this.label1.Text = "Firm Names for Printing";
             // 
             // dataGridView1DGV
             // 
@@ -171,9 +171,10 @@ namespace Factory_Inventory
             this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(53, 379);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(437, 36);
+            this.label2.Size = new System.Drawing.Size(359, 36);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Enter the Print Type ID from the above table (after saving\nmodifications) to set defaults. Press SAVE to save.";
+            this.label2.Text = "Enter the Print Type ID from the above table (after saving\nmodifications) to set " +
+    "defaults. Press SAVE to save.";
             // 
             // M_S_printUC
             // 

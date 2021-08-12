@@ -10,18 +10,18 @@ using System.Windows.Forms;
 
 namespace Factory_Inventory
 {
-    public partial class M_settings : Form
+    public partial class O_SettingsForm : Form
     {
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
-                                         Color.Black, 10, ButtonBorderStyle.Inset,
-                                         Color.Black, 10, ButtonBorderStyle.Inset,
-                                         Color.Black, 10, ButtonBorderStyle.Inset,
-                                         Color.Black, 10, ButtonBorderStyle.Inset);
-        }
-        public M_settings()
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    base.OnPaint(e);
+        //    ControlPaint.DrawBorder(e.Graphics, ClientRectangle,
+        //                                 Color.Black, 10, ButtonBorderStyle.Inset,
+        //                                 Color.Black, 10, ButtonBorderStyle.Inset,
+        //                                 Color.Black, 10, ButtonBorderStyle.Inset,
+        //                                 Color.Black, 10, ButtonBorderStyle.Inset);
+        //}
+        public O_SettingsForm()
         {
             InitializeComponent();
         }

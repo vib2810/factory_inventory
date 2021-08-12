@@ -44,6 +44,8 @@ namespace Factory_Inventory
             {
                 this.username = textBox1.Text;
                 this.close_from_code = true;
+                //O_SettingsForm f = new O_SettingsForm();
+                //f.ShowDialog();
                 this.Close();
             }
         }

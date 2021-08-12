@@ -319,11 +319,11 @@
     <Compile Include="Factory_Data\M_I2_TablesUC.Designer.cs">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Factory_Data\M_S_printUC.cs">
+    <Compile Include="Main\O_S_printUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Factory_Data\M_S_printUC.Designer.cs">
-      <DependentUpon>M_S_printUC.cs</DependentUpon>
+    <Compile Include="Main\O_S_printUC.Designer.cs">
+      <DependentUpon>O_S_printUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory_Data\M_V1_cartonInwardForm.cs">
       <SubType>Form</SubType>
@@ -815,8 +815,8 @@
     <EmbeddedResource Include="Factory_Data\M_I2_TablesUC.resx">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Factory_Data\M_S_printUC.resx">
-      <DependentUpon>M_S_printUC.cs</DependentUpon>
+    <EmbeddedResource Include="Main\O_S_printUC.resx">
+      <DependentUpon>O_S_printUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_V1_cartonInwardForm.resx">
       <DependentUpon>M_V1_cartonInwardForm.cs</DependentUpon>
