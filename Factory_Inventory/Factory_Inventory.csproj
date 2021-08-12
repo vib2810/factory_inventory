@@ -565,6 +565,12 @@
     <Compile Include="Main\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Trading\Display_Repacked_Carton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\Display_Repacked_Carton.Designer.cs">
+      <DependentUpon>Display_Repacked_Carton.cs</DependentUpon>
+    </Compile>
     <Compile Include="Trading\Display_Inward_Carton.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -937,6 +943,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\Display_Repacked_Carton.resx">
+      <DependentUpon>Display_Repacked_Carton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\Display_Inward_Carton.resx">
       <DependentUpon>Display_Inward_Carton.cs</DependentUpon>

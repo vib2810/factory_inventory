@@ -81,7 +81,7 @@ namespace Factory_Inventory
             vno_table_map[13] = "T_Carton_Inward_Voucher";
             vno_table_map[14] = "T_Repacking_Voucher";
             vno_table_map[15] = "T_Sales_Voucher";
-            vno_table_map[15] = "T_SalesBillNos_Voucher";
+            vno_table_map[16] = "T_SalesBillNos_Voucher";
 
             //Opening
             vno_table_map[100] = "Carton Production";
