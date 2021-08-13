@@ -1,4 +1,5 @@
-SELECT temp4.*, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Fiscal_Year as DO_Fiscal_Year, T_Sales_Voucher.Sale_Rate
+use FactoryData_1
+SELECT temp4.*, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Fiscal_Year as DO_Fiscal_Year, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Date_Of_Sale
 FROM
 	(SELECT temp3.*, T_M_Company_Names.Company_Name
 	FROM
@@ -6,7 +7,7 @@ FROM
 		FROM	
 			(SELECT temp1.*, T_Repacking_Voucher.Date_Of_Production, T_Repacking_Voucher.Start_Date_Of_Production
 			FROM
-				(SELECT T_Inward_Carton.*, T_Carton_Inward_Voucher.Date_Of_Billing, T_Carton_Inward_Voucher.Bill_No 
+				(SELECT T_Inward_Carton.*, T_Carton_Inward_Voucher.Date_Of_Billing, T_Carton_Inward_Voucher.Bill_No, T_Carton_Inward_Voucher.Date_Of_Input 
 				FROM T_Inward_Carton
 				LEFT OUTER JOIN T_Carton_Inward_Voucher
 				ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID) as temp1

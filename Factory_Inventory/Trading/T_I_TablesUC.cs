@@ -38,14 +38,14 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
-            M_I2_Tables f = new M_I2_Tables("SearchInCarton");
+            T_I_Tables f = new T_I_Tables(1);
             Global.background.show_form(f);
             f.Text = "Tables - Carton";
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            M_I2_Tables f = new M_I2_Tables("SearchInTray");
+            T_I_Tables f = new T_I_Tables(2);
             Global.background.show_form(f);
             f.Text = "Tables - Tray";
         }

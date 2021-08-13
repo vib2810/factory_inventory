@@ -81,7 +81,7 @@ namespace Factory_Inventory
             vno_table_map[13] = "T_Carton_Inward_Voucher";
             vno_table_map[14] = "T_Repacking_Voucher";
             vno_table_map[15] = "T_Sales_Voucher";
-            vno_table_map[15] = "T_SalesBillNos_Voucher";
+            vno_table_map[16] = "T_SalesBillNos_Voucher";
 
             //Opening
             vno_table_map[100] = "Carton Production";
@@ -250,7 +250,7 @@ namespace Factory_Inventory
             return ",(Select " + function + "(" + column + ") from ((select " + column + " from #temp where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
         }
 
-        private string getTradingQuery(string search, bool searching)
+        public string getTradingQuery(string search, bool searching, int voucher_id)
         {
             string sql = "";
             if (this.vno == 13)
@@ -270,7 +270,9 @@ namespace Factory_Inventory
                 sql += "    LEFT OUTER JOIN T_M_Colours\n";
                 sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
                 sql += "LEFT OUTER JOIN T_M_Company_Names\n";
-                sql += "ON T_M_Company_Names.Company_ID = temp3.Company_ID;\n";
+                sql += "ON T_M_Company_Names.Company_ID = temp3.Company_ID\n";
+
+                if (voucher_id > 0) sql += "WHERE Voucher_ID = " + voucher_id.ToString() + "\n";
 
                 sql += "select distinct t.[Voucher_ID]\n";
                 sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
@@ -315,7 +317,9 @@ namespace Factory_Inventory
                 sql += "    LEFT OUTER JOIN T_M_Cones\n";
                 sql += "    ON T_M_Cones.Cone_ID = temp4.Cone_ID) as temp5\n";
                 sql += "LEFT OUTER JOIN T_Inward_Carton\n";
-                sql += "ON T_Inward_Carton.Repacking_Voucher_ID = temp5.Voucher_ID;\n";
+                sql += "ON T_Inward_Carton.Repacking_Voucher_ID = temp5.Voucher_ID\n";
+
+                if (voucher_id > 0) sql += "WHERE Voucher_ID = " + voucher_id.ToString() + "\n";
 
                 sql += "select distinct t.[Voucher_ID]\n";
                 sql += select_stuff("", "t1.Carton_No", "Carton_No_Arr");
@@ -349,6 +353,9 @@ namespace Factory_Inventory
                 sql += "    ON T_M_Company_Names.Company_ID = temp1.Company_ID) as temp2\n";
                 sql += "LEFT OUTER JOIN T_M_Customers\n";
                 sql += "ON T_M_Customers.Customer_ID = temp2.Customer_ID\n";
+                
+                if (voucher_id > 0) sql += "WHERE Voucher_ID = " + voucher_id.ToString() + "\n";
+
                 sql += "select * into #tt\n";
                 sql += "from #temp t ORDER BY Voucher_ID DESC\n";
                 if (!searching) sql += "select * from #tt;\n";
@@ -370,6 +377,9 @@ namespace Factory_Inventory
                 sql += "    ON temp1.Bill_Customer_ID = T_M_Customers.Customer_ID) as temp2\n";
                 sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
                 sql += "ON temp2.Voucher_ID = T_Sales_Voucher.SalesBillNos_Voucher_ID\n";
+                
+                if (voucher_id > 0) sql += "WHERE Voucher_ID = " + voucher_id.ToString() + "\n";
+
                 sql += "select distinct t.[Voucher_ID]\n";
                 sql += select_stuff("", "t1.Sale_DO_No", "DO_No_Arr");
                 sql += "    ,t.Date_Of_Input, t.Quality_Before_Job, t.Customer_Name, t.DO_Fiscal_Year, t.Type_Of_Sale, t.Sale_Bill_Amount, t.Sale_Bill_Date, t.Sale_Bill_No, t.Sale_Bill_Weight, CONVERT(VARCHAR, t.Narration) Narration, t.Sale_Bill_Amount_Calc, t.Sale_Bill_Weight_Calc\n";
@@ -427,22 +437,22 @@ namespace Factory_Inventory
             //Get dt
             if(this.vno==13)
             {
-                string sql = this.getTradingQuery("", false);
+                string sql = this.getTradingQuery("", false, 0);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==14)
             {
-                string sql = this.getTradingQuery("", false);
+                string sql = this.getTradingQuery("", false, 0);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==15)
             {
-                string sql = this.getTradingQuery("", false);
+                string sql = this.getTradingQuery("", false, 0);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno==16)
             {
-                string sql = this.getTradingQuery("", false);
+                string sql = this.getTradingQuery("", false, 0);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno<100)
@@ -497,7 +507,7 @@ namespace Factory_Inventory
                 else
                 {
                     string search_string = this.getSearchString(to_search, date);
-                    string sql = this.getTradingQuery(search_string, true);
+                    string sql = this.getTradingQuery(search_string, true, 0);
                     this.dt = c.runQuery(sql);
                 }
                 this.dataGridView1.DataSource = this.dt;
