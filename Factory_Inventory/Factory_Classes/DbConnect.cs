@@ -287,7 +287,11 @@ namespace Factory_Inventory.Factory_Classes
             }
             return et;
         }
-        
+        public bool check_login_val()
+        {
+
+        }
+
         public string getDefault(string type, string name)
         {
             DataTable dt = this.runQuery("SELECT Default_Value FROM Defaults WHERE Default_Type = '" + type + "' AND Default_Name = '" + name + "'");
@@ -1052,11 +1056,7 @@ namespace Factory_Inventory.Factory_Classes
                 string[] carton_no = this.csvToArray(cartonno);
 
                 //Get all carton_nos which were previously present
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Fiscal_Year FROM Carton_Voucher WHERE Voucher_ID=" + voucher_id, con);
-                DataTable old = new DataTable();
-                sda.Fill(old);
-                con.Close();
+                DataTable old = this.runQuery("SELECT Carton_No_Arr, Fiscal_Year FROM Carton_Voucher WHERE Voucher_ID=" + voucher_id);
                 string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
                 string old_fiscal_year = old.Rows[0][1].ToString();
                 Console.WriteLine("selected1");
@@ -1116,11 +1116,8 @@ namespace Factory_Inventory.Factory_Classes
                 }
                 if (removecom(non_edit_cartons) != "")
                 {
-                    con.Open();
-                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT Carton_No, Date_Of_Issue, Date_Of_Sale FROM Carton WHERE Carton_No IN (" + removecom(non_edit_cartons) + ") AND Fiscal_Year='" + old_fiscal_year + "'", con);
-                    DataTable dt = new DataTable();
-                    sda1.Fill(dt);
-                    con.Close();
+                    string sql2 = "SELECT Carton_No, Date_Of_Issue, Date_Of_Sale FROM Carton WHERE Carton_No IN (" + removecom(non_edit_cartons) + ") AND Fiscal_Year='" + old_fiscal_year + "'";
+                    DataTable dt = this.runQuery(sql2);
 
                     //populate dictionary
                     Dictionary<string, Tuple<string, int>> dates = new Dictionary<string, Tuple<string, int>>();
@@ -1184,12 +1181,8 @@ namespace Factory_Inventory.Factory_Classes
                     }
                 }
 
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
                 string sql = "UPDATE Carton_Voucher SET Date_Of_Billing='" + billDate + "', Bill_No='" + billNumber + "', Quality='" + quality + "', Quality_Arr='" + quality_arr + "', Company_Name='" + company + "', Number_of_Cartons= " + number + ", Carton_No_Arr='" + cartonno + "', Carton_Weight_Arr='" + weights + "', Net_Weight=" + netweight + ", Buy_Cost='" + cost + "', Fiscal_Year='" + financialyear + "' WHERE Voucher_ID=" + voucher_id;
-                Console.WriteLine(sql);
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
+                this.runQuery(sql);
                 this.SuccessBox("Voucher Edited Successfully");
             }
             catch (Exception e)
@@ -1210,10 +1203,8 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 //Get cartons in voucher
+                DataTable old = this.runQuery("SELECT Carton_No_Arr, Fiscal_Year FROM Carton_Voucher WHERE Voucher_ID=" + voucher_id);
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Carton_No_Arr, Fiscal_Year FROM Carton_Voucher WHERE Voucher_ID=" + voucher_id, con);
-                DataTable old = new DataTable();
-                sda.Fill(old);
                 string[] old_carton_nos = this.csvToArray(old.Rows[0][0].ToString());
                 string old_fiscal_year = old.Rows[0][1].ToString();
 
