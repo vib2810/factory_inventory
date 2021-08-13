@@ -45,6 +45,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.firmtoolStripButton2 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.editAccessButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -148,7 +150,8 @@
             this.usertoolStripButton1,
             this.toolStripSeparator1,
             this.firmtoolStripButton2,
-            this.toolStripButton3});
+            this.toolStripButton3,
+            this.toolStripLabel1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 719);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(982, 34);
@@ -197,11 +200,30 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(6, 34);
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(0, 31);
+            // 
+            // editAccessButton
+            // 
+            this.editAccessButton.BackColor = System.Drawing.Color.LawnGreen;
+            this.editAccessButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.editAccessButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editAccessButton.Location = new System.Drawing.Point(0, 694);
+            this.editAccessButton.Name = "editAccessButton";
+            this.editAccessButton.Size = new System.Drawing.Size(982, 25);
+            this.editAccessButton.TabIndex = 10;
+            this.editAccessButton.Text = "Edit Access";
+            this.editAccessButton.UseVisualStyleBackColor = false;
+            this.editAccessButton.Click += new System.EventHandler(this.button1_Click);
+            // 
             // TwistERP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 753);
+            this.Controls.Add(this.editAccessButton);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
@@ -234,11 +256,13 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripButton4;
         private System.Windows.Forms.ToolStripTextBox firmtoolStripButton2;
-        private System.Windows.Forms.ToolStripSeparator toolStripButton3;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backupAndRestoreToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem applicationSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageUsersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripButton3;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        public System.Windows.Forms.Button editAccessButton;
     }
 }

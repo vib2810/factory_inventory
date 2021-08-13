@@ -51,6 +51,7 @@ namespace Factory_Inventory
         }
         private void button6_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(T_V3_cartonSalesForm))
@@ -75,6 +76,7 @@ namespace Factory_Inventory
 
         private void button8_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             T_V3_addBill f = new T_V3_addBill();
             Global.background.show_form(f);
         }

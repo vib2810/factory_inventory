@@ -82,6 +82,7 @@ namespace Factory_Inventory
         }
         private void editCNameQualityButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             T_V_master f = new T_V_master();
             Global.background.show_form(f);
         }

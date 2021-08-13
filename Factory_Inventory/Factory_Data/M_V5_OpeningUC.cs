@@ -61,6 +61,7 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm();
             Global.background.show_form(f);
         }

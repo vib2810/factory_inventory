@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Factory_Inventory.Factory_Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,13 +16,15 @@ namespace Factory_Inventory
         public bool temp;
         //dynamic lists which keep adding names of all the forms of various types which have opened atleast once
         Dictionary<string, int> form_group = new Dictionary<string, int>();
+        MainConnect mc;
         //List<string> attendance_forms = new List<string>();
         //List<string> backup_form = new List<string>();
         //List<string> trading_forms = new List<string>();
-       // public M_1_MainS main_form = null;
+        // public M_1_MainS main_form = null;
         public bool logout = false;
-        public TwistERP(string user, int access, string firmname)
+        public TwistERP(string user, int access, string firmname, MainConnect mc)
         {
+            this.mc = mc;
             InitializeComponent();
             Global.access = access;
             this.DoubleBuffered = true;
@@ -102,7 +105,7 @@ namespace Factory_Inventory
             DialogResult dialogResult = MessageBox.Show("Log Out and Exit?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                this.logout = true;
+                this.logout = true;               
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -268,6 +271,44 @@ namespace Factory_Inventory
                 frm.Show();
             }
             this.LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string sql = "select Active_User from firms_list where Firm_ID = " + Global.firmid;
+            DataTable dt = mc.runQuery(sql);
+            if(dt==null)
+            {
+                mc.ErrorBox("Could not connect to database");
+                return;
+            }
+            if(dt.Rows[0][0].ToString()==Global.accessToken)
+            {
+                editAccessButton.BackColor = Color.LawnGreen;
+                editAccessButton.Text = "Edit Access";
+            }
+            else
+            {
+                editAccessButton.BackColor = Color.OrangeRed;
+                editAccessButton.Text = "No Edit Access";
+            }
+            if (Global.access == 1 && this.editAccessButton.Text=="No Edit Access")
+            {
+                //update token in firms table
+                sql = "update Firms_List set Active_User = '" + Global.accessToken + "' where firm_id = " + Global.firmid;
+                dt= mc.runQuery(sql);
+                if(dt!=null)
+                {
+                    editAccessButton.BackColor = Color.LawnGreen;
+                    editAccessButton.Text = "Edit Access";
+                    mc.SuccessBox("Gained Edit Access");
+                }
+                else
+                {
+                    mc.ErrorBox("Failed to connect to database");
+                    return;
+                }
+            }
         }
     }
 }

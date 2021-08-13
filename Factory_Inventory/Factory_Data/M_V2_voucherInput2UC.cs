@@ -83,6 +83,7 @@ namespace Factory_Inventory
 
         private void trayVoucherButton_Click_1(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_V2_trayInputForm))
@@ -107,6 +108,7 @@ namespace Factory_Inventory
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_V2_dyeingIssueForm))
@@ -131,6 +133,7 @@ namespace Factory_Inventory
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("dyeingInward");
             Global.background.show_form(f);
         }
@@ -146,6 +149,7 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             M_V2_dyeingInwardForm f = new M_V2_dyeingInwardForm("addBill");
             Global.background.show_form(f);
         }

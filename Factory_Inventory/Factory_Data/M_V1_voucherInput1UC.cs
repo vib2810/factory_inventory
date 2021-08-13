@@ -77,6 +77,7 @@ namespace Factory_Inventory
         private DbConnect c = new DbConnect();
         private void button1_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_V1_cartonInwardForm))
@@ -102,6 +103,7 @@ namespace Factory_Inventory
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_V1_cartonTwistForm))
@@ -126,6 +128,7 @@ namespace Factory_Inventory
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_VC_cartonSalesForm))
@@ -150,6 +153,7 @@ namespace Factory_Inventory
 
         private void button8_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             M_VC_addBill f = new M_VC_addBill("Carton");
             Global.background.show_form(f);
         }

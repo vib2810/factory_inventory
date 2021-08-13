@@ -289,8 +289,37 @@ namespace Factory_Inventory.Factory_Classes
         }
         public bool check_login_val()
         {
-
+            MainConnect mc = new MainConnect(Global.con_start);
+            string sql = "select Active_User from firms_list where Firm_ID = " + Global.firmid;
+            DataTable dt = mc.runQuery(sql);
+            if(dt==null)
+            {
+                mc.ErrorBox("Could not connect to database");
+                return false;
+            }
+            if (dt.Rows[0][0].ToString()==Global.accessToken)
+            {
+                return true;
+            }
+            else
+            {
+                mc.ErrorBox("Add/Edit access not available\nPlease logout from all other devices and re-login.\nYou can also claim edit access if super-user by clicking on bottom bar");
+                if(Global.background.editAccessButton.Text!="No Edit Access")
+                {
+                    Global.background.editAccessButton.BackColor = Color.OrangeRed;
+                    Global.background.editAccessButton.Text = "No Edit Access";
+                }
+                return false;
+            }
         }
+        public string RandomString(int length)
+        {
+            Random rand = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[rand.Next(s.Length)]).ToArray());
+        }
+
 
         public string getDefault(string type, string name)
         {

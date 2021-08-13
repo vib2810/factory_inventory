@@ -1331,6 +1331,7 @@ namespace Factory_Inventory
         }
         private void editDetailsButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             if (this.dataGridView1.SelectedRows.Count <= 0)
                 return;
             int index = this.dataGridView1.SelectedRows[0].Index;

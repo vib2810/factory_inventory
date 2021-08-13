@@ -77,6 +77,7 @@ namespace Factory_Inventory
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_V3_cartonProductionForm))
@@ -100,6 +101,7 @@ namespace Factory_Inventory
         }
         private void button6_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_VC_cartonSalesForm))
@@ -124,6 +126,7 @@ namespace Factory_Inventory
 
         private void button8_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             M_VC_addBill f = new M_VC_addBill("Carton_Produced");
             Global.background.show_form(f);
         }
@@ -139,6 +142,7 @@ namespace Factory_Inventory
 
         private void button4_Click_1(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             M_V3_issueToReDyeingForm f = new M_V3_issueToReDyeingForm();
             Global.background.show_form(f);
         }

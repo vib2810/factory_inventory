@@ -39,6 +39,7 @@ namespace Factory_Inventory
         private DbConnect c = new DbConnect();
         private void button1_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == typeof(M_V1_cartonInwardForm))

@@ -40,6 +40,7 @@ namespace Factory_Inventory.Factory_Classes
                 this.localButton.Text = "Remote Server: Data Source = " + Properties.Settings.Default.LastIP;
                 con_start = "Data Source = " + Properties.Settings.Default.LastIP + ", 1433;";
             }
+            Global.con_start = this.con_start;
         }
 
         //callbacks
@@ -65,15 +66,32 @@ namespace Factory_Inventory.Factory_Classes
             Login l = new Login();
             l.setfirmtb(this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString());
             l.ShowDialog();
-            Console.WriteLine("Hello here");
             if (l.access == 1 || l.access == 2)
             {
                 //set the corresponding global connection string
                 DbConnect c = new DbConnect();
                 c.recordLogin(l.username);
-                Global.background = new TwistERP(l.username, l.access, this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString());
+                Global.background = new TwistERP(l.username, l.access, this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString(), mc);
                 Global.background.IsMdiContainer = true;
-                
+
+                //Generate access token and store in Global, and set back color in the global form
+                Global.accessToken = l.username + '_' + c.RandomString(4);
+                //Take edit access if its currently null
+                string sql = "DECLARE @active_user AS VARCHAR(100); SET @active_user = (select Active_User from firms_list where Firm_ID = " + firmID + ")";
+                sql += "if (@active_user IS NULL or @active_user = '') BEGIN update Firms_List set Active_User = '" + Global.accessToken + "' where firm_id = " + firmID + "; select 'true'; END\n else select 'false';";
+                DataTable info = mc.runQuery(sql);
+                if (info.Rows[0][0].ToString() == "false")
+                {
+                    mc.WarningBox("Another User Login is detected. You will be logged in with no ADD/EDIT access");
+                    Global.background.editAccessButton.BackColor = Color.OrangeRed;
+                    Global.background.editAccessButton.Text = "No Edit Access";
+                }
+                else
+                {
+                    Global.background.editAccessButton.BackColor = Color.LawnGreen;
+                    Global.background.editAccessButton.Text = "Edit Access";
+                }
+
                 //open all 3 main forms
                 A_1_MainS attendance = new A_1_MainS();
                 Global.background.show_form(attendance, 2, true);
@@ -88,8 +106,20 @@ namespace Factory_Inventory.Factory_Classes
                 if (Global.background.logout == true)
                 {
                     c.recordLogout(l.username);
+                    sql = "select Active_User from firms_list where Firm_ID = " + Global.firmid;
+                    DataTable dt = mc.runQuery(sql);
+                    if (dt != null)
+                    {
+                        if (dt.Rows[0][0].ToString() == Global.accessToken) //if this user has access
+                        {
+                            sql = "update Firms_List set Active_User = NULL where firm_id = " + Global.firmid;
+                            dt = mc.runQuery(sql);
+                        }
+                    }
                 }
             }
+            this.fillfirms();
+            dataGridView1.Rows[0].Selected = true;
             this.Show();
         }
 
@@ -128,6 +158,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 if(dataGridView1.SelectedRows.Count==1)
                 {
+                    e.Handled = true;
                     enterButton.PerformClick();
                 }
             }
