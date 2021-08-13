@@ -216,7 +216,7 @@ namespace Factory_Inventory.Factory_Classes
         }
         
         //Utility Functions
-        public DataTable runQuery(string sql, bool print=true)
+        public DataTable runQuery(string sql, string error_message="Could not run Query (runQuery)", bool print = true)
         {
             //returns null if couldnt run
             DataTable dt = new DataTable();
@@ -229,8 +229,9 @@ namespace Factory_Inventory.Factory_Classes
             }
             catch (SqlException e)
             {
-                this.ErrorBox("Could not run Query (runQuery)\n" + sql + "\n" + e.Message, "Exception");
-                Console.WriteLine("Could not run Query (runQuery)\n" + sql + "\n" + e.Message, "Exception");
+                if (print == false) sql = "";
+                this.ErrorBox(error_message+"\n" + sql + "\n" + e.Message, "Exception");
+                Console.WriteLine(error_message +"\n" + sql + "\n" + e.Message, "Exception");
                 con.Close();
                 return null;
             }
@@ -241,7 +242,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
-
         public bool runQueryGo(string sql)
         {
             //returns null if couldnt run
@@ -263,7 +263,6 @@ namespace Factory_Inventory.Factory_Classes
             }
             return true;
         }
-
         public ErrorTable runQuerywithError(string sql)
         {
             //Return a custom error structure for more details about the error
@@ -288,6 +287,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return et;
         }
+        
         public string getDefault(string type, string name)
         {
             DataTable dt = this.runQuery("SELECT Default_Value FROM Defaults WHERE Default_Type = '" + type + "' AND Default_Name = '" + name + "'");
@@ -377,56 +377,22 @@ namespace Factory_Inventory.Factory_Classes
         }
         public bool isPresentInColour(string colour, string quality)
         {
-            try
+            DataTable dt2 = this.runQuery("SELECT COUNT(*) FROM Colours WHERE Colours='" + colour + "' AND Quality='" + quality + "'");
+            if (int.Parse(dt2.Rows[0][0].ToString()) >= 1)
             {
-                con.Open();
-                DataTable dt2 = new DataTable();
-                SqlDataAdapter sda2 = new SqlDataAdapter("SELECT COUNT(*) FROM Colours WHERE Colours='" + colour + "' AND Quality='" + quality + "'", con);
-                sda2.Fill(dt2);
-                if (int.Parse(dt2.Rows[0][0].ToString()) >= 1)
-                {
-                    con.Close();
-                    return true;
-                }
-                else
-                {
-                    con.Close();
-                    return false;
-                }
+                return true;
             }
-            catch (Exception e)
+            else
             {
-                this.ErrorBox("Error (isPresentColour)\n" + e.Message, "Exception");
+                return false;
             }
-            finally
-            {
-                con.Close();
-            }
-            return true;
         }
         public DataTable getVoucherHistories(string tablename, string order_by="Voucher_ID", bool full = false)
         {
-            //disables the order_by param
-            order_by = "Voucher_ID";
             DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                string sql = "SELECT TOP 200 * FROM " + tablename + " ORDER BY '" + order_by + "' DESC";
-                if (full == true) sql = "SELECT * FROM " + tablename + " ORDER BY '" + order_by + "' DESC";
-                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
-                sda.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getVoucherHistories)\n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-
-            }
-            return dt;
+            string sql = "SELECT TOP 200 * FROM " + tablename + " ORDER BY '" + order_by + "' DESC";
+            if (full == true) sql = "SELECT * FROM " + tablename + " ORDER BY '" + order_by + "' DESC";
+            return this.runQuery(sql);
         }
         public string getFinancialYear(DateTime d)
         {
@@ -456,34 +422,16 @@ namespace Factory_Inventory.Factory_Classes
         public DataTable getDataIn_FinancialYear(string tablename, string financialyear, string quantitycolumn, string in_column, string quantities, string company_name = "")
         {
             if (string.IsNullOrEmpty(quantities)) return new DataTable();
-            DataTable dt = new DataTable();
-            try
+            string sql;
+            if (company_name == "")
             {
-                con.Open();
-                string sql;
-                if(company_name=="")
-                {
-                    sql = "SELECT " + quantitycolumn + " FROM " + tablename + " WHERE " + in_column + " IN (" + quantities + ") AND Fiscal_Year='" + financialyear + "'";
-                }
-                else
-                {
-                    sql = "SELECT " + quantitycolumn + " FROM " + tablename + " WHERE " + in_column + " IN (" + quantities + ") AND Fiscal_Year='" + financialyear + "' AND Company_Name = '"+company_name+"'";
-                }
-                Console.WriteLine(sql);
-                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
-                sda.Fill(dt);
+                sql = "SELECT " + quantitycolumn + " FROM " + tablename + " WHERE " + in_column + " IN (" + quantities + ") AND Fiscal_Year='" + financialyear + "'";
             }
-            catch (Exception e)
+            else
             {
-                this.ErrorBox("Error (getDataIn_FinancialYear):\n" + e.Message, "Exception");
-                con.Close();
-                return new DataTable();
+                sql = "SELECT " + quantitycolumn + " FROM " + tablename + " WHERE " + in_column + " IN (" + quantities + ") AND Fiscal_Year='" + financialyear + "' AND Company_Name = '" + company_name + "'";
             }
-            finally
-            {
-                con.Close();
-            }
-            return dt;
+            return this.runQuery(sql);
         }
         public bool Cell_Not_NullOrEmpty(DataGridView dgv, int rowIndex, int columnIndex, string columnname = "")
         {
@@ -697,27 +645,12 @@ namespace Factory_Inventory.Factory_Classes
         {
             Debug.Assert(useractive == user);
             DateTime logoutTime = DateTime.Now;
-            try
-            {
-                con.Open();
-                TimeSpan value = logoutTime.Subtract(this.loginTime);
-                //cmd.Parameters.AddWithValue("@value1", this.loginTime);
-                //cmd.Parameters.AddWithValue("@value2", logoutTime);
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                //string sql = "insert Log (Username, LoginTime, LogoutTime) values ('" + this.useractive + "', convert(datetime, '" + this.loginTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5), convert(datetime, '" + logoutTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5))";
-                string sql = "insert Log (Username, LoginTime, LogoutTime, TimeDuration) values ('" + this.useractive + "', convert(datetime, '" + this.loginTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5), convert(datetime, '" + logoutTime.ToString("dd-MM-yy hh:mm:ss tt") + "',5), '" + value.ToString(@"hh\:mm\:ss") + ".0000000')";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-                //cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Login record error \n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
+            TimeSpan value = logoutTime.Subtract(this.loginTime);
+            //cmd.Parameters.AddWithValue("@value1", this.loginTime);
+            //cmd.Parameters.AddWithValue("@value2", logoutTime);
+            //string sql = "insert Log (Username, LoginTime, LogoutTime) values ('" + this.useractive + "', convert(datetime, '" + this.loginTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5), convert(datetime, '" + logoutTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5))";
+            string sql = "insert Log (Username, LoginTime, LogoutTime, TimeDuration) values ('" + this.useractive + "', convert(datetime, '" + this.loginTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5), convert(datetime, '" + logoutTime.ToString("dd-MM-yy hh:mm:ss tt") + "',5), '" + value.ToString(@"hh\:mm\:ss") + ".0000000')";
+            this.runQuery(sql);
             this.useractive = null;
         }
         public int checkLogin(string username, string password)
@@ -728,31 +661,18 @@ namespace Factory_Inventory.Factory_Classes
             DataTable dt = new DataTable(); //this is creating a virtual table  
             DataTable dt2 = new DataTable(); //this is creating a virtual table  
             int ans = -1;
-            try
+            string sql = "SELECT COUNT(*) FROM Users WHERE Username='" + username + "' AND PasswordHash=HASHBYTES('SHA', '" + password + "')";
+            dt2 = this.runQuery(sql, "Error in CheckLogin1", false);
+            if (dt2.Rows[0][0].ToString() == "1")
             {
-                con.Open();
-                SqlDataAdapter sda2 = new SqlDataAdapter("SELECT COUNT(*) FROM Users WHERE Username='" + username + "' AND PasswordHash=HASHBYTES('SHA', '" + password + "')", con);
-                sda2.Fill(dt2);
-                if (dt2.Rows[0][0].ToString() == "1")
-                {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT AccessLevel FROM Users WHERE Username='" + username + "' AND PasswordHash=HASHBYTES('SHA', '" + password + "')", con);
-                    sda.Fill(dt);
-                    //Console.WriteLine(dt.Rows[0][0].ToString());
-                    ans = int.Parse(dt.Rows[0][0].ToString());
-                }
-                else
-                {
-                    this.ErrorBox("Invalid username or password", "Error");
-                    ans = 0;
-                }
+                sql = "SELECT AccessLevel FROM Users WHERE Username='" + username + "' AND PasswordHash=HASHBYTES('SHA', '" + password + "')";
+                dt = this.runQuery(sql, "Error in CheckLogin2", false);
+                ans = int.Parse(dt.Rows[0][0].ToString());
             }
-            catch (Exception e)
+            else
             {
-                this.ErrorBox("Could not connect to database (checkLogin) \n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
+                this.ErrorBox("Invalid username or password", "Error");
+                ans = 0;
             }
             return ans;
         }
@@ -762,118 +682,42 @@ namespace Factory_Inventory.Factory_Classes
         public int addUser(string username, string password, int acc)
         {
             int ans = -1;
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Users (Username, PasswordHash, AccessLevel) VALUES ('" + username + "',HASHBYTES('SHA', '" + password + "'), " + acc + ")";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-                ans = 1;
-            }
-            catch (Exception e)
-            {
-                ans = 0;
-                this.ErrorBox("Could not add user (addUser) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "INSERT INTO Users (Username, PasswordHash, AccessLevel) VALUES ('" + username + "',HASHBYTES('SHA', '" + password + "'), " + acc + ")";
+            DataTable dt = this.runQuery(sql, "Could not add user (addUser)");
+            if (dt != null) ans = 1;
+            else ans = 0;
             return ans;
         }
         public DataTable getUserData()
         {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Username, AccessLevel FROM Users", con);
-                sda.Fill(dt);
-            }
-            catch
-            {
-                this.ErrorBox("Could not connect to database (getUserData)", "Exception");
-            }
-            finally
-            {
-                con.Close();
-
-            }
+            DataTable dt = this.runQuery("SELECT Username, AccessLevel FROM Users");
             return dt;
         }
         public void deleteUser(string username)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "DELETE FROM Users WHERE Username='" + username + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-                this.SuccessBox("User deleted");
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not delete user (deleteUser)\n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-
-            }
+            string sql = "DELETE FROM Users WHERE Username='" + username + "'";
+            DataTable dt=this.runQuery(sql, "Could not delete user (deleteUser)");
+            if (dt!=null) this.SuccessBox("User deleted");
         }
         public void updateUser(string username, string password, int access)
         {
-            try
+            string sql;
+            if (password == "")
             {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql;
-                if (password == "")
-                {
-                    sql = "UPDATE Users AccessLevel = " + access + "  WHERE Username='" + username + "'";
-                    this.SuccessBox("Access Level Updated");
-                }
-                else
-                {
-                    sql = "UPDATE Users SET PasswordHash = HASHBYTES('SHA', '" + password + "') , AccessLevel = " + access + "  WHERE Username='" + username + "'";
-                    this.SuccessBox("Password/Access Level Updated");
-                }
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
+                sql = "UPDATE Users AccessLevel = " + access + "  WHERE Username='" + username + "'";
+                DataTable dt= this.runQuery(sql, "Could not edit user (updateUser)");
+                if (dt!=null) this.SuccessBox("Access Level Updated");
             }
-            catch (Exception e)
+            else
             {
-                this.ErrorBox("Could not edit user (updateUser)\n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
+                sql = "UPDATE Users SET PasswordHash = HASHBYTES('SHA', '" + password + "') , AccessLevel = " + access + "  WHERE Username='" + username + "'";
+                DataTable dt = this.runQuery(sql, "Could not edit user (updateUser)");
+                if (dt != null) this.SuccessBox("Password/Access Level Updated");
             }
         }
         public DataTable getUserLog()
         {
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM Log", con);
-                sda.Fill(dt);
-            }
-            catch
-            {
-                this.ErrorBox("Could not connect to database (getUserLog)", "Exception");
-            }
-            finally
-            {
-                con.Close();
-
-            }
-            return dt;
+            return this.runQuery("SELECT * FROM Log", "Couldnt connect to database (getUserLog)");
         }
 
         //Print
@@ -881,46 +725,17 @@ namespace Factory_Inventory.Factory_Classes
         {
             DataTable dt = new DataTable(); //this is creating a virtual table  
             int ans = -1;
-            try
-            {
-                con.Open();
-                string sql = "SELECT Printed FROM " + table_name + " WHERE " + where;
-                Console.WriteLine(sql);
-                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
-                sda.Fill(dt);
-                if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString() == "") ans = 0;
-                else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not get Print (getCartonProducedPrint) " + table_name + "\n" + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-            }
+            string sql = "SELECT Printed FROM " + table_name + " WHERE " + where;
+            dt = this.runQuery(sql, "Could not get Print (getCartonProducedPrint) " + table_name);
+            if (dt.Rows[0][0].ToString() == null || dt.Rows[0][0].ToString() == "") ans = 0;
+            else if (dt.Rows.Count != 0) ans = int.Parse(dt.Rows[0][0].ToString());
             return ans;
         }
         public bool setPrint(string table_name, string where, int value)
         {
-            try
-            {
-                con.Open();
-                string sql = "UPDATE " + table_name + " SET Printed=" + value + " WHERE " + where;
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not setPrint (getCartonProducedPrint) " + table_name + "\n" + e.Message, "Exception");
-                con.Close();
-                return false;
-            }
-            finally
-            {
-                con.Close();
-            }
+            string sql = "UPDATE " + table_name + " SET Printed=" + value + " WHERE " + where;
+            DataTable dt = this.runQuery(sql, "Could not setPrint (getCartonProducedPrint) " + table_name);
+            if (dt == null) return false;
             return true;
         }
 
@@ -943,83 +758,24 @@ namespace Factory_Inventory.Factory_Classes
                 tablename = "Colours";
             else if (c == 'n')      //Cone
                 tablename = "Cones";
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO " + tablename + " VALUES ('" + name + "') ";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not add " + tablename + " (addQC) \n" + e.Message, "Exception");
-            }
 
-            finally
-            {
-                con.Close();
-            }
+            string sql = "INSERT INTO " + tablename + " VALUES ('" + name + "') ";
+            this.runQuery(sql, "Could not add " + tablename + " (addQC)");
         }
         public void addSpring(string name, float weight, string tablename)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO " + tablename + " VALUES ('" + name + "', " + weight + ") ";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not add Spring (addSpring) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "INSERT INTO " + tablename + " VALUES ('" + name + "', " + weight + ") ";
+            DataTable dt = this.runQuery(sql, "Could not add Spring (addSpring)");
         }
         public void addQuality(string name, string hsn_no, string print_colour, string quality_after_twist)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Quality VALUES ('" + quality_after_twist + "', '" + hsn_no + "', '" + print_colour + "', '" + name + "') ";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not add Quality (addQuality) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "INSERT INTO Quality VALUES ('" + quality_after_twist + "', '" + hsn_no + "', '" + print_colour + "', '" + name + "') ";
+            this.runQuery(sql, "Could not add Quality (addQuality) ");
         }
         public void addColour(string name, float weight, string quality)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO Colours VALUES ('" + name + "', '" + quality + "', " + weight + ") ";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not add Colour (addColour) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "INSERT INTO Colours VALUES ('" + name + "', '" + quality + "', " + weight + ") ";
+            this.runQuery(sql, "Could not add Colour (addColour)");
         }
         public void deleteQC(string name, char c)
         {
@@ -1038,151 +794,39 @@ namespace Factory_Inventory.Factory_Classes
                 tablename = "Colours";
             else if (c == 'n')      //Cone
                 tablename = "Cones";
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql;
-                sql = "DELETE FROM " + tablename + " WHERE " + tablename + "='" + name + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not delete " + tablename + " (deleteQC) \n" + e.Message, "Exception");
-            }
 
-            finally
-            {
-                con.Close();
-
-            }
+            string sql = "DELETE FROM " + tablename + " WHERE " + tablename + "='" + name + "'";
+            this.runQuery(sql, "Could not delete " + tablename + " (deleteQC)");
         }
         public void addCustomer(string name, string gst, string address, string tablename)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "INSERT INTO " + tablename + " VALUES ('" + name + "', '" + gst + "', '" + address + "') ";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not add (addCustomer) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "INSERT INTO " + tablename + " VALUES ('" + name + "', '" + gst + "', '" + address + "') ";
+            this.runQuery(sql, "Could not add (addCustomer)");
         }
         public void deleteCustomer(string name, string tablename)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql;
-                sql = "DELETE FROM " + tablename + " WHERE " + tablename + "='" + name + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not delete (deleteCustomer) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-
-            }
+            string sql = "DELETE FROM " + tablename + " WHERE " + tablename + "='" + name + "'";
+            this.runQuery(sql, "Could not delete (deleteCustomer)");
         }
         public void deleteQuality(string quality_after_twist)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql;
-                sql = "DELETE FROM Quality WHERE Quality='" + quality_after_twist + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not delete (deleteQuality) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-
-            }
+            string sql = "DELETE FROM Quality WHERE Quality='" + quality_after_twist + "'";
+            this.runQuery(sql, "Could not delete (deleteQuality)");
         }
         public void editCustomer(string name, string gst, string address, string oldname, string tablename)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE " + tablename + " SET " + tablename + " ='" + name + "', GSTIN='" + gst + "', Customer_Address = '" + address + "' WHERE " + tablename + "= '" + oldname + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not edit (editCustomer) " + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "UPDATE " + tablename + " SET " + tablename + " ='" + name + "', GSTIN='" + gst + "', Customer_Address = '" + address + "' WHERE " + tablename + "= '" + oldname + "'";
+            this.runQuery(sql, "Could not edit (editCustomer)");
         }
         public void editQuality(string name, string hsn_no, string print_colour, string quality_after_twist, string oldname)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Quality SET Quality='" + quality_after_twist + "', HSN_No='" + hsn_no + "', Print_Colour='" + print_colour + "', Quality_Before_Twist='" + name + "' WHERE Quality= '" + oldname + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not edit (editCustomer) " + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "UPDATE Quality SET Quality='" + quality_after_twist + "', HSN_No='" + hsn_no + "', Print_Colour='" + print_colour + "', Quality_Before_Twist='" + name + "' WHERE Quality= '" + oldname + "'";
+            this.runQuery(sql, "Could not edit (editCustomer)");
         }
         public void deleteColour(string colour, string quality)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql;
-                sql = "DELETE FROM Colours WHERE Colours='" + colour + "' AND Quality='" + quality + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not delete colour (deleteColour) \n" + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-
-            }
+            string sql = "DELETE FROM Colours WHERE Colours='" + colour + "' AND Quality='" + quality + "'";
+            this.runQuery(sql, "Could not delete colour (deleteColour)");
         }
         public void editQC(string newname, string oldname, char c)
         {
@@ -1201,63 +845,19 @@ namespace Factory_Inventory.Factory_Classes
                 tablename = "Colours";
             else if (c == 'n')      //Cone
                 tablename = "Cones";
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE " + tablename + " SET " + tablename + "= '" + newname + "'  WHERE " + tablename + " = '" + oldname + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not edit (editQC) " + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            
+            string sql = "UPDATE " + tablename + " SET " + tablename + "= '" + newname + "'  WHERE " + tablename + " = '" + oldname + "'";
+            this.runQuery(sql, "Could not edit (editQC)");
         }
         public void editSpring(string newname, string oldname, float weight, string tablename, string second_column)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE " + tablename + " SET " + tablename + "='" + newname + "', " + second_column + "=" + weight + "  WHERE " + tablename + "= '" + oldname + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not edit spring (editSpring) " + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "UPDATE " + tablename + " SET " + tablename + "='" + newname + "', " + second_column + "=" + weight + "  WHERE " + tablename + "= '" + oldname + "'";
+            this.runQuery(sql, "Could not edit spring (editSpring)");
         }
         public void editColour(string newname, string oldname, float dyeing_rate, string quality, string old_quality)
         {
-            try
-            {
-                con.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                string sql = "UPDATE Colours SET Colours='" + newname + "', Dyeing_Rate=" + dyeing_rate + " , Quality='" + quality + "' WHERE Colours= '" + oldname + "' AND Quality='" + old_quality + "'";
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                adapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not edit colour (editColour) " + e.Message, "Exception");
-            }
-
-            finally
-            {
-                con.Close();
-            }
+            string sql = "UPDATE Colours SET Colours='" + newname + "', Dyeing_Rate=" + dyeing_rate + " , Quality='" + quality + "' WHERE Colours= '" + oldname + "' AND Quality='" + old_quality + "'";
+            this.runQuery(sql, "Could not edit colour (editColour)");
         }
         public DataTable getQC(char c)
         {
@@ -1278,22 +878,9 @@ namespace Factory_Inventory.Factory_Classes
                 tablename = "Fiscal_Year";
             else if (c == 'n')      //Cone
                 tablename = "Cones";
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM " + tablename + " ", con);
-                sda.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getQC) " + e.Message +"\n"+tablename, "Exception");
-            }
-            finally
-            {
-                con.Close();
 
-            }
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            dt = this.runQuery("SELECT * FROM " + tablename + " ", "Could not connect to database (getQC) "+tablename);
             return dt;
         }
         public float getDyeingRate(string colour, string quality)
@@ -1301,24 +888,10 @@ namespace Factory_Inventory.Factory_Classes
             //returns -1F if no rate found
             DataTable dt = new DataTable(); //this is creating a virtual table
             float ans = -1F;
-            try
+            dt=this.runQuery("SELECT Dyeing_Rate FROM Colours WHERE Colours='" + colour + "' AND Quality='" + quality + "'", "Could not connect to database (getDyeingRate)");
+            if (dt.Rows.Count != 0)
             {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Dyeing_Rate FROM Colours WHERE Colours='" + colour + "' AND Quality='" + quality + "'", con);
-                sda.Fill(dt);
-                if (dt.Rows.Count != 0)
-                {
-                    ans = float.Parse(dt.Rows[0][0].ToString());
-                }
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getDyeingRate) " + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-
+                ans = float.Parse(dt.Rows[0][0].ToString());
             }
             return ans;
         }
@@ -1327,24 +900,10 @@ namespace Factory_Inventory.Factory_Classes
             //returns -1F if no rate found
             DataTable dt = new DataTable(); //this is creating a virtual table
             float ans = -1F;
-            try
+            dt = this.runQuery("SELECT Spring_Weight FROM Spring WHERE Spring='" + spring + "'", "Could not connect to database (getSpringWeight)");
+            if (dt.Rows.Count != 0)
             {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Spring_Weight FROM Spring WHERE Spring='" + spring + "'", con);
-                sda.Fill(dt);
-                if (dt.Rows.Count != 0)
-                {
-                    ans = float.Parse(dt.Rows[0][0].ToString());
-                }
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getSpringWeight) " + e.Message, "Exception");
-            }
-            finally
-            {
-                con.Close();
-
+                ans = float.Parse(dt.Rows[0][0].ToString());
             }
             return ans;
         }
@@ -1353,105 +912,41 @@ namespace Factory_Inventory.Factory_Classes
             //returns -1F if no rate found
             DataTable dt = new DataTable(); //this is creating a virtual table
             string ans = "";
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Print_Colour FROM Quality WHERE Quality='" + quality + "'", con);
-                sda.Fill(dt);
-                if (dt.Rows.Count > 0) ans = dt.Rows[0][0].ToString();
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getDyeingRate) " + e.Message, "Exception");
-                con.Close();
-                return ans;
-            }
-            finally
-            {
-                con.Close();
-
-            }
+            string sql= "SELECT Print_Colour FROM Quality WHERE Quality='" + quality + "'";
+            dt = this.runQuery(sql, "Could not connect to database (getDyeingRate) ");
+            if (dt.Rows.Count > 0) ans = dt.Rows[0][0].ToString();
             return ans;
         }
         public string getBeforeQuality(string new_quality)
         {
             string ans = "";
-            try
+            string sql="SELECT Quality_Before_Twist FROM Quality WHERE Quality='" + new_quality + "'";
+            DataTable dt = this.runQuery(sql, "Could not connect to database (getBeforeQuality)");
+            if (dt.Rows.Count != 0)
             {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Quality_Before_Twist FROM Quality WHERE Quality='" + new_quality + "'", con);
-                DataTable dt = new DataTable(); //this is creating a virtual table
-                sda.Fill(dt);
-                if (dt.Rows.Count != 0)
-                {
-                    ans = dt.Rows[0][0].ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getBeforeQuality) " + e.Message, "Exception");
-                con.Close();
-                return ans;
-            }
-            finally
-            {
-                con.Close();
-
+                ans = dt.Rows[0][0].ToString();
             }
             return ans;
         }
         public DataTable getTableRows(string tablename, string where)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table
-            try
-            {
-                con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM " + tablename + " WHERE " + where, con);
-                sda.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                this.ErrorBox("Could not connect to database (getTableRow) " + tablename + " where " + where + " \n" + e.Message, "Exception");
-                con.Close();
-                return new DataTable();
-            }
-            finally
-            {
-                con.Close();
-            }
+            dt = this.runQuery("SELECT * FROM " + tablename + " WHERE " + where, "Could not connect to database (getTableRow) " + tablename);
             return dt;
         }
         public DataTable getTableData(string tablename, string cols, string where)
         {
             DataTable dt = new DataTable(); //this is creating a virtual table
-            try
+            string sql;
+            if (string.IsNullOrEmpty(where))
             {
-                Console.WriteLine(con.ConnectionString);
-                con.Open();
-                string sql;
-                if(string.IsNullOrEmpty(where))
-                {
-                    sql = "SELECT " + cols + " FROM " + tablename;
-                }
-                else
-                {
-                    sql = "SELECT " + cols + " FROM " + tablename + " WHERE " + where;
-                }
-                SqlDataAdapter sda = new SqlDataAdapter(sql, con);
-                Console.WriteLine(sql);
-                sda.Fill(dt);
+                sql = "SELECT " + cols + " FROM " + tablename;
             }
-            catch (Exception e)
+            else
             {
-                this.ErrorBox("Could not connect to database (getTableData) " + tablename + " where " + where + " \n" + e.Message, "Exception");
-                con.Close();
-                return new DataTable();
+                sql = "SELECT " + cols + " FROM " + tablename + " WHERE " + where;
             }
-            finally
-            {
-                con.Close();
-
-            }
+            dt = this.runQuery(sql, "Could not connect to database (getTableData) " + tablename);
             return dt;
         }
 
@@ -1493,13 +988,8 @@ namespace Factory_Inventory.Factory_Classes
                 string[] buy_cost = this.csvToArray(cost);
 
                 
-                con.Open();
                 string sql = "INSERT INTO Carton_Voucher (Date_Of_Input, Date_Of_Billing, Bill_No, Quality, Quality_Arr, Company_Name, Number_of_Cartons, Carton_No_Arr, Carton_Weight_Arr, Net_Weight, Buy_Cost, Fiscal_Year) VALUES ('" + inputDate + "','" + billDate + "', '" + billNumber + "','" + quality + "', '" + quality_arr + "', '" + company + "', " + number + ", '" + cartonno + "', '" + weights + "', " + netweight + " , '" + cost + "', '" + financialyear + "'); SELECT SCOPE_IDENTITY();";
-                Console.WriteLine(sql);
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                con.Close();
+                DataTable dt = this.runQuery(sql);
                 
                 bool flag = false; //to check errors in adding carton;
                 int index = 0;
