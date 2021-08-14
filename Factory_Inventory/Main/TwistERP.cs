@@ -143,6 +143,8 @@ namespace Factory_Inventory
         }
         private void attendanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            mc.ErrorBox("Work under progress");
+            return;
             //main form is always open
             foreach (Form f in this.MdiChildren)
             {

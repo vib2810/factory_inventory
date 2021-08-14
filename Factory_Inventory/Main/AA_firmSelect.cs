@@ -96,10 +96,10 @@ namespace Factory_Inventory.Factory_Classes
                 //open all 3 main forms
                 A_1_MainS attendance = new A_1_MainS();
                 Global.background.show_form(attendance, 2, true);
-                M_1_MainS ms = new M_1_MainS();
-                Global.background.show_form(ms, 0, true);
                 T_Main trade = new T_Main();
                 Global.background.show_form(trade, 1, true);
+                M_1_MainS ms = new M_1_MainS();
+                Global.background.show_form(ms, 0, true);
                 //show the background form, runtime stops till the dialouge is closed
                 Global.background.ShowDialog();
 
@@ -121,6 +121,11 @@ namespace Factory_Inventory.Factory_Classes
             }
             this.fillfirms();
             dataGridView1.Rows[0].Selected = true;
+            for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
+            {
+                if (Application.OpenForms[i].Name != this.Name)
+                    Application.OpenForms[i].Close();
+            }
             this.Show();
         }
 
