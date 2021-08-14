@@ -291,6 +291,7 @@ namespace Factory_Inventory
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             this.cartonweight.Text = CellSum1(6).ToString("F3");
             //checks
             if (dataGridView1.Rows[0].Cells[1].Value==null)
@@ -594,6 +595,7 @@ namespace Factory_Inventory
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {

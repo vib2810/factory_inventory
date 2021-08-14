@@ -563,7 +563,6 @@ namespace Factory_Inventory
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lockCartonsCK.Checked == true) return;
             if (this.edit_form == false)
             {
                 int count = dataGridView1.SelectedRows.Count;
@@ -612,6 +611,7 @@ namespace Factory_Inventory
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             //checks
             if (billNumberTextboxTB.Text == "")
             {
@@ -870,6 +870,7 @@ namespace Factory_Inventory
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {

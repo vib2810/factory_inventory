@@ -722,6 +722,7 @@ namespace Factory_Inventory
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             this.cartonweight.Text = CellSum1(7).ToString("F3");
             this.batchnwtTextbox.Text = CellSum2(2).ToString("F3");
             //checks
@@ -1004,6 +1005,7 @@ namespace Factory_Inventory
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {

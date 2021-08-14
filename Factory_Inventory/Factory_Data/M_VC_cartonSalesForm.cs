@@ -545,6 +545,7 @@ namespace Factory_Inventory
         //Clicks
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             //checks
             if (typeCB.Text == "---Select---")
             {
@@ -721,6 +722,7 @@ namespace Factory_Inventory
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            if (c.check_login_val() == false) return;
             DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
