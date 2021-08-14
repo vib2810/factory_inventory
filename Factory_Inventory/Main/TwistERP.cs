@@ -294,6 +294,11 @@ namespace Factory_Inventory
             }
             if (Global.access == 1 && this.editAccessButton.Text=="No Edit Access")
             {
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to gain access forcefully?\nSomeone may have not logged out.", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
                 //update token in firms table
                 sql = "update Firms_List set Active_User = '" + Global.accessToken + "' where firm_id = " + Global.firmid;
                 dt= mc.runQuery(sql);

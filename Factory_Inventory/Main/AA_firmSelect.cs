@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -101,7 +102,7 @@ namespace Factory_Inventory.Factory_Classes
                 Global.background.show_form(trade, 1, true);
                 //show the background form, runtime stops till the dialouge is closed
                 Global.background.ShowDialog();
-                
+
                 //logout
                 if (Global.background.logout == true)
                 {
