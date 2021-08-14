@@ -289,16 +289,29 @@ namespace Factory_Inventory.Factory_Classes
         }
         public bool check_login_val()
         {
+            //Returns true if the user has edit access
             MainConnect mc = new MainConnect(Global.con_start);
             string sql = "select Active_User from firms_list where Firm_ID = " + Global.firmid;
             DataTable dt = mc.runQuery(sql);
             if(dt==null)
             {
-                mc.ErrorBox("Could not connect to database");
+                mc.ErrorBox("Could not connect to database check edit access");
                 return false;
             }
             if (dt.Rows[0][0].ToString()==Global.accessToken)
             {
+                return true;
+            }
+            else if(dt.Rows[0][0].ToString() == "")
+            {
+                //No one is having edit access, claim it
+                sql= "update Firms_List set Active_User = '" + Global.accessToken + "' where firm_id = " + Global.firmid;
+                dt= mc.runQuery(sql);
+                if(dt==null)
+                {
+                    mc.ErrorBox("Couldn't connect to database and claim edit access");
+                    return false;
+                }
                 return true;
             }
             else

@@ -287,6 +287,23 @@ namespace Factory_Inventory
                 editAccessButton.BackColor = Color.LawnGreen;
                 editAccessButton.Text = "Edit Access";
             }
+            else if (dt.Rows[0][0].ToString() == "")
+            {
+                //No one is having edit access, claim it
+                sql = "update Firms_List set Active_User = '" + Global.accessToken + "' where firm_id = " + Global.firmid;
+                dt = mc.runQuery(sql);
+                if (dt == null)
+                {
+                    mc.ErrorBox("Couldn't connect to database and claim edit access");
+                    editAccessButton.BackColor = Color.OrangeRed;
+                    editAccessButton.Text = "No Edit Access";
+                }
+                else
+                {
+                    editAccessButton.BackColor = Color.LawnGreen;
+                    editAccessButton.Text = "Edit Access";
+                }
+            }
             else
             {
                 editAccessButton.BackColor = Color.OrangeRed;
