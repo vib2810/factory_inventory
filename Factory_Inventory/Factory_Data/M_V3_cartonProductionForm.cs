@@ -415,6 +415,10 @@ namespace Factory_Inventory
             //    this.label14.Text = "This batches cannot be edited or deleted as some cartons have already been sold. Delete sale DO to edit it";
             //    this.deleteButton.Enabled = false;
             //}
+            if(flag==true)
+            {
+                this.coneComboboxCB.Enabled = false;
+            }
             this.cartonweight.Text = CellSum1(7).ToString("F3");
             
             //Adding batch numbers to datagridview 2
