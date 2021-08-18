@@ -287,7 +287,7 @@ namespace Factory_Inventory
                 sql += select_function("count", "Voucher_ID", "Number_Of_Cartons");
                 sql += "into #tt\n";
                 sql += "from #temp t order by Voucher_ID DESC;\n";
-                if (!searching) sql += "select * from #tt;\n";
+                if (!searching) sql += "select * from #tt order by Voucher_ID DESC;\n";
                 else sql += search;
                 sql += "drop table #temp;\n";
                 sql += "drop table #tt;\n";
@@ -334,7 +334,7 @@ namespace Factory_Inventory
 
                 sql += "into #tt\n";
                 sql += "from #temp t order by Voucher_ID DESC;\n";                
-                if (!searching) sql += "select * from #tt;\n";
+                if (!searching) sql += "select * from #tt order by Voucher_ID DESC;\n";
                 else sql += search;
                 sql += "drop table #temp;\n";
                 sql += "drop table #tt;\n";
@@ -358,7 +358,7 @@ namespace Factory_Inventory
 
                 sql += "select * into #tt\n";
                 sql += "from #temp t ORDER BY Voucher_ID DESC\n";
-                if (!searching) sql += "select * from #tt;\n";
+                if (!searching) sql += "select * from #tt order by Voucher_ID DESC;\n";
                 else sql += search;
                 sql += "drop table #temp;\n";
                 sql += "drop table #tt;\n";
@@ -385,7 +385,7 @@ namespace Factory_Inventory
                 sql += "    ,t.Date_Of_Input, t.Quality_Before_Job, t.Customer_Name, t.DO_Fiscal_Year, t.Type_Of_Sale, t.Sale_Bill_Amount, t.Sale_Bill_Date, t.Sale_Bill_No, t.Sale_Bill_Weight, CONVERT(VARCHAR, t.Narration) Narration, t.Sale_Bill_Amount_Calc, t.Sale_Bill_Weight_Calc\n";
                 sql += "into #tt\n";
                 sql += "from #temp t order by Voucher_ID DESC;\n";
-                if (!searching) sql += "select * from #tt;\n";
+                if (!searching) sql += "select * from #tt order by Voucher_ID DESC;\n";
                 else sql += search;
                 sql += "drop table #temp;\n";
                 sql += "drop table #tt;\n";
