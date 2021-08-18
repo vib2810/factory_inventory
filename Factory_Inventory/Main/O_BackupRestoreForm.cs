@@ -26,6 +26,11 @@ namespace Factory_Inventory
             InitializeComponent();
             c = new DbConnect(); 
             this.backupLoactionTB.Text = @"D:\Backups\";
+            if(Global.access==2)
+            {
+                this.restoreButton.Enabled = false;
+                this.browseRestoreButton.Enabled = false;
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
