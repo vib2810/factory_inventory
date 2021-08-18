@@ -23,14 +23,16 @@ namespace Factory_Inventory
         private int topmargin;
         private int lrmargin;
         private string where;
+        private string font_name;
         int type = -1;
         M_V4_printDO parent;
         T_V5_printDO parent1;
         Dictionary<string, string> firmDetails = new Dictionary<string, string>();
 
-        public printDO(DataRow row, M_V4_printDO f, T_V5_printDO f1)
+        public printDO(DataRow row, M_V4_printDO f, T_V5_printDO f1, string fontname= "generic sans serif")
         {
             InitializeComponent();
+            this.font_name = fontname;
             this.c = new DbConnect();
             if (f != null) this.parent = f;
             else this.parent1 = f1;
@@ -289,6 +291,7 @@ namespace Factory_Inventory
         }
         private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr = 'c', int bold = 0, int drawrect = 0)
         {
+            Console.WriteLine(this.font_name);
             Graphics g = e.Graphics;
             StringFormat format = new StringFormat();
             format.LineAlignment = StringAlignment.Center;
@@ -313,11 +316,11 @@ namespace Factory_Inventory
             Font newFont;
             if (bold == 1)
             {
-                newFont = new Font(dataGridView1.Font.FontFamily, size, FontStyle.Bold);
+                newFont = new Font(this.font_name, size, FontStyle.Bold);
             }
             else
             {
-                newFont = new Font(dataGridView1.Font.FontFamily, size, dataGridView1.Font.Style);
+                newFont = new Font(this.font_name, size, FontStyle.Regular);
             }
             if (width == 0) width = e.PageBounds.Width - 2 * lrmargin;
             g.DrawString(text, newFont, myBrush, new RectangleF(x, y, width, newFont.Height + 5), format);

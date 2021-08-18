@@ -399,6 +399,7 @@ namespace Factory_Inventory
         }
         private void M_V2_trayInputForm_Load(object sender, EventArgs e)
         {
+            if (Global.access == 2) this.deleteButton.Visible = false;
             var comboBoxes = this.Controls
                   .OfType<ComboBox>()
                   .Where(x => x.Name.EndsWith("CB"));

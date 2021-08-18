@@ -239,6 +239,7 @@ namespace Factory_Inventory
         }
         private void M_V3_issueToReDyeingForm_Load(object sender, EventArgs e)
         {
+            if (Global.access == 2) this.deleteButton.Visible = false;
             this.Location = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Width/16, Screen.PrimaryScreen.Bounds.Height/8);
 
 

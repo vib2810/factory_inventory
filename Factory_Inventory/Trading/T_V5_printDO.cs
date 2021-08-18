@@ -251,7 +251,7 @@ namespace Factory_Inventory
             {
                 return;
             }
-            printDO f = new printDO(row, null, this);
+            printDO f = new printDO(row, null, this, "Cascadia Mono");
             f.Show();
         }
         private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)

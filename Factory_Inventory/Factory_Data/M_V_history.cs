@@ -89,11 +89,6 @@ namespace Factory_Inventory
             loadData();
 
             dataGridView1.VisibleChanged += DataGridView1_VisibleChanged;
-            if (Global.access == 2 && (this.vno != 8 ||  this.vno!=14))
-            {
-                this.editDetailsButton.Visible = false;
-                this.label2.Visible = false;
-            }
         }
         private void M_V_history_Load(object sender, EventArgs e)
         {

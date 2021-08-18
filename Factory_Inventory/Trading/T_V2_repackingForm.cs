@@ -499,6 +499,7 @@ namespace Factory_Inventory
         }
         private void M_V3_cartonProductionForm_Load(object sender, EventArgs e)
         {
+            if (Global.access == 2) this.deleteButton.Visible = false;
             dtp.Format = DateTimePickerFormat.Short;
             dtp.Visible = false;
             dtp.Width = 100;
