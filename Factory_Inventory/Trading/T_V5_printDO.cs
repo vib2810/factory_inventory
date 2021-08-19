@@ -75,21 +75,7 @@ namespace Factory_Inventory
             dataGridView1.DataSource = DO_Nos;
             
             this.set_columns(dataGridView1);
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                if (dataGridView1.Rows[i].Cells["Printed"].Value.ToString() == "1")
-                {
-                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
-                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
-                }
-                else
-                {
-                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
-                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Color.White;
-                }
-            }
-            this.dataGridView1.Visible = false;
-            this.dataGridView1.Visible = true;
+            this.load_color_all();
         }
         private void M_V4_printDO_Load(object sender, EventArgs e)
         {
@@ -151,6 +137,8 @@ namespace Factory_Inventory
             d.Columns["Sale_Rate"].DisplayIndex = 10;
             d.Columns["Fiscal_Year"].Visible = true;
             d.Columns["Fiscal_Year"].DisplayIndex = 12;
+            d.Columns["Printed"].Visible = true;
+            d.Columns["Printed"].DisplayIndex = 14;
 
             //d.Columns["Carton_No_Arr"].Width = 125;
             d.Columns["Customer"].Width = 125;
@@ -214,7 +202,47 @@ namespace Factory_Inventory
                 dataGridView2.Rows[dgv2_print_index].DefaultCellStyle.SelectionBackColor = Global.printedColor;
             }
         }
+        public void load_color_all()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells["Printed"].Value.ToString() == "1")
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                }
+                else
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Color.White;
+                }
+            }
+            if(dataGridView1.Rows.Count>0)
+            {
+                this.dataGridView1.Visible = false;
+                this.dataGridView1.Visible = true;
+            }
 
+            for (int i = 0; i < dataGridView2.Rows.Count; i++)
+            {
+                if (dataGridView2.Rows[i].Cells["Printed"].Value.ToString() == "1")
+                {
+                    c.SuccessBox("setting for i " + i.ToString());
+                    dataGridView2.Rows[i].DefaultCellStyle.BackColor = Global.printedColor;
+                    dataGridView2.Rows[i].DefaultCellStyle.SelectionBackColor = Global.printedColor;
+                }
+                else
+                {
+                    dataGridView2.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView2.Rows[i].DefaultCellStyle.SelectionBackColor = Color.White;
+                }
+            }
+            if(dataGridView2.Rows.Count>0)
+            {
+                this.dataGridView2.Visible = false;
+                this.dataGridView2.Visible = true;
+            }
+        }
         private void searchButton_Click(object sender, EventArgs e)
         {
             search_DO();
@@ -271,6 +299,7 @@ namespace Factory_Inventory
             DataTable dt= c.runQuery(sql);
             dataGridView1.DataSource = dt;
             this.set_columns(dataGridView1);
+            this.load_color_all();
         }
 
 

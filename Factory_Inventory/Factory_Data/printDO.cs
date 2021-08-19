@@ -22,7 +22,7 @@ namespace Factory_Inventory
         private DbConnect c;
         private int topmargin;
         private int lrmargin;
-        private string where;
+        private string where; //voucher ID=<> is saved
         private string font_name;
         int type = -1;
         M_V4_printDO parent;
@@ -44,14 +44,14 @@ namespace Factory_Inventory
                 label6.Visible = false;
                 this.label7.Location = new System.Drawing.Point(268, 48);
             }
-            // Load default firm details
+            // Load default firm details from defaults
             DataTable dt10 = c.runQuery("SELECT * FROM Defaults WHERE Default_Type= 'Print' and default_name = 'Default Print Type'");
             string default_print_type_id = dt10.Rows[0]["Default_Value"].ToString();
 
             DataTable dt_printTypes = c.runQuery("select * from Print_Types where Print_Type_ID=" + default_print_type_id);
             if (dt_printTypes == null)
             {
-                c.WarningBox("Print->Default Print Type is set as " + default_print_type_id + ", not found in Default Print_Type_IDs Table, " +
+                c.WarningBox("(Print:Default Print Type) is set as " + default_print_type_id + ", not found in Default Print_Type_IDs Table, " +
                     "defaulting to first entry in Print_Types table");
                 dt_printTypes = c.runQuery("select * from Print_Types");
             }
@@ -137,7 +137,7 @@ namespace Factory_Inventory
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(t => t.SortMode = DataGridViewColumnSortMode.NotSortable);
             dataGridView1.Columns["Sl NO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             c.set_dgv_column_sort_state(dataGridView1, DataGridViewColumnSortMode.NotSortable);
-            this.where = "Voucher_ID=" + int.Parse(row["Voucher_ID"].ToString()) + "";
+            this.where = "Voucher_ID=" + int.Parse(row["Voucher_ID"].ToString());
 
             this.label3.Text = firmDetails["Firm_Name"];
             this.label5.Text = firmDetails["Address"];
@@ -150,9 +150,16 @@ namespace Factory_Inventory
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            c.setPrint("Sales_Voucher", this.where, 1);
-            if (this.parent != null) parent.load_color();
-            else parent1.load_color();
+            if (this.parent != null)
+            {
+                c.setPrint("Sales_Voucher", this.where, 1);
+                parent.load_color();
+            }
+            else
+            {
+                c.setPrint("T_Sales_Voucher", this.where, 1);
+                parent1.load_color();
+            }
             using (var dlg = new CoolPrintPreviewDialog())
             {
                 dlg.Document = this.printDocument1;
@@ -175,7 +182,6 @@ namespace Factory_Inventory
             int slip_height = (e.PageBounds.Height - 2 * topmargin) / 2;
             write_slip(e, lrmargin-5, topmargin-5, slip_width, slip_height);
             write_slip(e, lrmargin + 5 + slip_width, topmargin-5  , slip_width, slip_height);
-
         }
         
         //print
@@ -206,7 +212,7 @@ namespace Factory_Inventory
             x = x + 5;
             width = width - 10;
             List<string> a = new List<string>() { "DO No.", donoTextbox.Text, "Date of Sale", saleDateTextbox.Text};
-            List<double> r = new List<double>() { 0.15, 0.25, 0.20, 0.40};
+            List<double> r = new List<double>() { 0.15, 0.25, 0.30, 0.30};
             write_height = write_row(e, x, write_height, width, basic_size, a, r) + gap;
             
             write(e, x + (int)(0.00 * width), write_height, (int)(0.30 * width), "Customer Name", basic_size, 'l', 1, 0);
@@ -291,7 +297,6 @@ namespace Factory_Inventory
         }
         private int write(System.Drawing.Printing.PrintPageEventArgs e, int x, int y, int width, string text, int size, char lr = 'c', int bold = 0, int drawrect = 0)
         {
-            Console.WriteLine(this.font_name);
             Graphics g = e.Graphics;
             StringFormat format = new StringFormat();
             format.LineAlignment = StringAlignment.Center;
