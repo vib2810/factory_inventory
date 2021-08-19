@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class M_BackupRestore
+    partial class O_BackupRestoreForm
     {
         /// <summary> 
         /// Required designer variable.
@@ -216,7 +216,7 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Restore";
             // 
-            // M_BackupRestore
+            // O_BackupRestoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -240,7 +240,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.backupButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "M_BackupRestore";
+            this.Name = "O_BackupRestoreForm";
+            this.Load += new System.EventHandler(this.O_BackupRestoreForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

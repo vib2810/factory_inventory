@@ -170,7 +170,7 @@ namespace Factory_Inventory
         private void backupAndRestoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool backup = false;
-            M_BackupRestore frm = new M_BackupRestore();
+            O_BackupRestoreForm frm = new O_BackupRestoreForm();
             //check if the form is already open but hidden
             foreach (Form f in this.MdiChildren)
             {

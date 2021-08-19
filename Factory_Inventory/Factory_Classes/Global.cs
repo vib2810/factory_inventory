@@ -57,24 +57,25 @@ namespace Factory_Inventory
             set { _constart = value; }
         }
 
-        public static string getconnectionstring(string database)
-        {
-            Console.WriteLine("Input: " + database);
-            int start = 0, end = 0;
-            int count = 0;
-            for (int i = 0; i < _connectionstring.Length; i++)
-            {
-                if (_connectionstring[i] == '=') start = i;
-                if (_connectionstring[i] == ';') 
-                { 
-                    end = i;
-                    count++;
-                    if(count==2) break; 
-                }
-            }
-            Console.WriteLine("se:" + start.ToString() + " " + end.ToString() + _connectionstring.Substring(start + 1, end - start - 1));
-            return _connectionstring.Replace(_connectionstring.Substring(start+1, end-start-1), database);
-        }
+        //public static string getconnectionstring(string database)
+        //{
+        //    Console.WriteLine("Input: " + database);
+        //    int start = 0, end = 0;
+        //    int count = 0;
+        //    for (int i = 0; i < _connectionstring.Length; i++)
+        //    {
+        //        if (_connectionstring[i] == '=') start = i;
+        //        if (_connectionstring[i] == ';') 
+        //        { 
+        //            end = i;
+        //            count++;
+        //            if(count==2) break; 
+        //        }
+        //    }
+        //    Console.WriteLine(_connectionstring);
+        //    Console.WriteLine("se:" + start.ToString() + " " + end.ToString() + _connectionstring.Substring(start + 1, end - start - 1));
+        //    return _connectionstring.Replace(_connectionstring.Substring(start+1, end-start-1), database);
+        //}
         public static string getconnectionstring(string con_start, string database)
         {
             return con_start + "Initial Catalog=" + database + ";Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;";
