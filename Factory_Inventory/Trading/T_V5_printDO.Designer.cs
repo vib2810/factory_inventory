@@ -216,7 +216,7 @@
             this.search1Button.UseVisualStyleBackColor = true;
             this.search1Button.Click += new System.EventHandler(this.button2_Click);
             // 
-            // M_V4_printDO
+            // T_V5_printDO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
