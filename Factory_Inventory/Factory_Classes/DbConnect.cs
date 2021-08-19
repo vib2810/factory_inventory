@@ -750,13 +750,13 @@ namespace Factory_Inventory.Factory_Classes
             string sql;
             if (password == "")
             {
-                sql = "UPDATE Users AccessLevel = " + access + "  WHERE Username='" + username + "'";
+                sql = "UPDATE Users AccessLevel = '" + access + "'  WHERE Username='" + username + "'";
                 DataTable dt= this.runQuery(sql, "Could not edit user (updateUser)");
                 if (dt!=null) this.SuccessBox("Access Level Updated");
             }
             else
             {
-                sql = "UPDATE Users SET PasswordHash = HASHBYTES('SHA', '" + password + "') , AccessLevel = " + access + "  WHERE Username='" + username + "'";
+                sql = "UPDATE Users SET PasswordHash = HASHBYTES('SHA', '" + password + "') , AccessLevel = '" + access + "'  WHERE Username='" + username + "'";
                 DataTable dt = this.runQuery(sql, "Could not edit user (updateUser)");
                 if (dt != null) this.SuccessBox("Password/Access Level Updated");
             }

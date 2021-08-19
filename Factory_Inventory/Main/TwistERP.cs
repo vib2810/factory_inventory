@@ -30,7 +30,11 @@ namespace Factory_Inventory
             this.DoubleBuffered = true;
             string access_type = "";
             if (access == 1) access_type = "Super User";
-            else if (access == 2) access_type = "User";
+            else if (access == 2)
+            {
+                access_type = "User";
+                manageUsersToolStripMenuItem.Visible = false;
+            }
             this.usertoolStripButton1.Text = "Logged in as " + user + ": " + access_type;
             this.firmtoolStripButton2.Text = firmname;
         }

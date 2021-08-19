@@ -603,9 +603,9 @@ namespace Factory_Inventory
         }
         int write_slip(System.Drawing.Printing.PrintPageEventArgs e, int x, int write_height, int width, int height, string carton_id)
         {
-            string sql = "SELECT temp3.Repacking_Voucher_ID, temp3.Quality_Before_Job, temp3.Grade, temp3.Carton_ID, temp3.Colour, temp3.Number_Of_Cones, temp3.Date_Of_Production, temp3.Carton_No, temp3.Fiscal_Year, temp3.Gross_Weight, temp3.Carton_Weight, temp3.Net_Weight, T_M_Cones.Cone_Weight\n";
+            string sql = "SELECT temp3.Repacking_Voucher_ID, temp3.Quality_ID, temp3.Quality_Before_Job, temp3.Grade, temp3.Carton_ID, temp3.Colour, temp3.Number_Of_Cones, temp3.Date_Of_Production, temp3.Carton_No, temp3.Fiscal_Year, temp3.Gross_Weight, temp3.Carton_Weight, temp3.Net_Weight, T_M_Cones.Cone_Weight\n";
             sql += "    FROM(SELECT temp2.*, T_Repacking_Voucher.Cone_ID\n";
-            sql += "        FROM(SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
+            sql += "        FROM(SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job, T_M_Quality_Before_Job.Quality_Before_Job_ID\n";
             sql += "            FROM(SELECT T_Repacked_Cartons.*, T_M_Colours.Colour\n";
             sql += "            FROM T_Repacked_Cartons\n";
             sql += "            LEFT OUTER JOIN T_M_Colours ON T_M_Colours.Colour_ID = T_Repacked_Cartons.Colour_ID) as temp1\n";
@@ -675,7 +675,9 @@ namespace Factory_Inventory
                 write(e, x + (int)(0.02 * width), write_height, (int)(0.23 * width), "Net Wt", basic_size + 3, 'l', 0, 0);
                 write_height += write(e, x + (int)(0.25 * width), write_height - 2, (int)(0.25 * width), ": " + float.Parse(carton_data["Net_Weight"].ToString()).ToString("F3"), basic_size + 5, 'l', 1, 0);
 
-                string hatch = c.getQualityColour(carton_data["Quality_Before_Job"].ToString());
+                sql = "SELECT Print_Pattern FROM T_M_Quality_Before_Job WHERE Quality_Before_Job_ID='" + carton_data["Quality_ID"] + "'";
+                dt = c.runQuery(sql);
+                string hatch = dt.Rows[0][0].ToString();
                 if (hatch != "")
                 {
                     HatchStyle hs = (HatchStyle)Enum.Parse(typeof(HatchStyle), hatch, true);
