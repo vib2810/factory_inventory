@@ -71,11 +71,6 @@ namespace Factory_Inventory
                 c.ErrorBox("Please select backup loaction", "Error");
                 return;
             }
-            if(!(checkedListBox1.CheckedIndices.Contains(0) || checkedListBox1.CheckedIndices.Contains(1)))
-            {
-                c.ErrorBox("Please select atleast one database");
-                return;
-            }
             string path = this.backupLoactionTB.Text + DateTime.Now.Date.ToString().Substring(0,10).Replace(":", "-").Replace('/', '-');
             Console.WriteLine(path);
             progressBar1.Value = 0;
