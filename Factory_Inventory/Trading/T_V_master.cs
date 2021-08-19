@@ -31,7 +31,7 @@ namespace Factory_Inventory
         }
         public void hide_all_UCs()
         {
-            m_V_editQBTUC1.Hide();
+            t_V_editQBJMasterUC1.Hide();
             m_V_editQBTUC2.Hide();
             m_V_editQBTUC3.Hide();
             t_V_customerMasterUC1.Hide();
@@ -89,10 +89,10 @@ namespace Factory_Inventory
         private void qbtButton_Click(object sender, EventArgs e)
         {
             hide_all_UCs();
-            m_V_editQBTUC1.Show();
-            m_V_editQBTUC1.BringToFront();
-            m_V_editQBTUC1.loadDatabase();
-            m_V_editQBTUC1.Focus();
+            t_V_editQBJMasterUC1.Show();
+            t_V_editQBJMasterUC1.BringToFront();
+            t_V_editQBJMasterUC1.loadDatabase();
+            t_V_editQBJMasterUC1.Focus();
             this.decolour_all_buttons();
             Button b = sender as Button;
             b.BackColor = select;

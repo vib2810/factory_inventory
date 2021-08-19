@@ -708,6 +708,8 @@ GO
 CREATE TABLE [dbo].[T_M_Quality_Before_Job](
 	[Quality_Before_Job_ID] [int] IDENTITY(1,1) NOT NULL,
 	[Quality_Before_Job] [varchar](30) NOT NULL,
+	Print_Pattern varchar(50) NOT NULL,
+	HSN_Number varchar(50) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Quality_Before_Job_ID] ASC
