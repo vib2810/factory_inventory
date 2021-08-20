@@ -115,8 +115,9 @@ namespace Factory_Inventory.Factory_Classes
                 temp.Open();
                 temp.Close();
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
             return true;

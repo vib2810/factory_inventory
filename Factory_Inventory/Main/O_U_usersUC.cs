@@ -88,6 +88,7 @@ namespace Factory_Inventory
         }
         private void userDataView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             usernameTextbox.Text = userDataView.Rows[e.RowIndex].Cells[1].Value.ToString();
             if(this.currentUser==usernameTextbox.Text)
             {

@@ -181,8 +181,12 @@ namespace Factory_Inventory.Factory_Classes
             if (f.comboBox1.SelectedIndex > 0) soursedb = "FactoryData_"+dt.Rows[f.comboBox1.SelectedIndex - 1]["Firm_ID"].ToString();
 
             //Create Database
-            dt = mc.runQuery("SELECT MAX(Firm_ID) FROM Firms_List WHERE Deleted is NULL");
-            int firm_id = int.Parse(dt.Rows[0][0].ToString()) + 1;
+            dt = mc.runQuery("SELECT MAX(Firm_ID), COUNT(Firm_ID) FROM Firms_List WHERE Deleted is NULL");
+            int firm_id=1;
+            if (dt.Rows[0][1].ToString() != "0")
+            {
+                firm_id = int.Parse(dt.Rows[0][0].ToString()) + 1;
+            }
             string replace = "FactoryData_" + firm_id.ToString();
             dt=mc.runQuery("USE [master]; CREATE DATABASE[" + replace + "]");
             if (dt == null)
