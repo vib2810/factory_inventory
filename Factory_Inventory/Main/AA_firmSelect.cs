@@ -244,7 +244,7 @@ namespace Factory_Inventory.Factory_Classes
             //Fill Defaults
             sql = "INSERT INTO Defaults VALUES ('Print', 'Default Print Type', " + ds.Rows[0][0].ToString() + ");\n";
             sql += "INSERT INTO Defaults VALUES ('Default', 'Cone', 80);\n";
-            sql += @"INSERT INTO Defaults VALUES ('Default', 'Backup Path', 'D:\Backups\TwistERP');\n";
+            sql += @"INSERT INTO Defaults VALUES ('Default', 'Backup Path', 'D:\Backups\TwistERP\');";
             sql += "INSERT INTO Defaults VALUES ('Print:Carton_Slip', 'Default Print Type', " + ds.Rows[0][0].ToString() + ");\n";
             dt = c.runQuery(sql);
             if (dt == null)

@@ -1,0 +1,22 @@
+Copy from FactoryData to FactoryData_3
+DO NOT COPY MASTER FROM ANY DATABASE WHILE CREATING FactoryData_3
+
+//First set identity insert on for all tables of FactoryData_3 
+	use FactoryData_3
+	EXEC sp_MSforeachtable @command1="PRINT '?'; SET IDENTITY_INSERT ? ON",
+	@whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'
+
+//Generate Data query
+	Right Click on FactoryData-> Tasks -> Generate Scripts
+	Next-> Select Tables -> Select Open in Query Window, Click on Advanced set "Types of Data to script": Data only
+
+This will generate a query containing all data
+RUN this after setting identity insert on
+
+//Manually fill fiscal year
+	Manually copy the fiscal_year table entries from FactoryData to FactoryData_3
+
+//Set Identity_Insert off
+	use FactoryData_3
+	EXEC sp_MSforeachtable @command1="PRINT '?'; SET IDENTITY_INSERT ? OFF",
+	@whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'

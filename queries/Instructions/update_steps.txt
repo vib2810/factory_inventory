@@ -1,0 +1,5 @@
+1) Create 2 empty databases
+2) Create main database
+3) Get old database queries by from teamviewer (Both 1 and 2)
+4) Copy data onto empty databases
+
