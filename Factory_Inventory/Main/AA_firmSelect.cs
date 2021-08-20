@@ -134,7 +134,7 @@ namespace Factory_Inventory.Factory_Classes
             mc = new MainConnect(con_start);
 
             dataGridView1.Rows.Clear();
-            string sql = "use main; SELECT * FROM Firms_List";
+            string sql = "use main; SELECT * FROM Firms_List WHERE Deleted IS NULL";
             DataTable dt = mc.runQuery(sql);
             this.firmdata = dt;
             if (dt == null) return;
@@ -173,7 +173,7 @@ namespace Factory_Inventory.Factory_Classes
         private void createButton_Click(object sender, EventArgs e)
         {
             //Get data from form
-            DataTable dt = mc.runQuery("SELECT Firm_ID, Firm_Name FROM Firms_List");
+            DataTable dt = mc.runQuery("SELECT Firm_ID, Firm_Name FROM Firms_List WHERE Deleted is NULL");
             FirmCreate f = new FirmCreate(dt, mc);
             f.ShowDialog();
             if (f.values_set == false) return;
@@ -181,7 +181,7 @@ namespace Factory_Inventory.Factory_Classes
             if (f.comboBox1.SelectedIndex > 0) soursedb = "FactoryData_"+dt.Rows[f.comboBox1.SelectedIndex - 1]["Firm_ID"].ToString();
 
             //Create Database
-            dt = mc.runQuery("SELECT MAX(Firm_ID) FROM Firms_List");
+            dt = mc.runQuery("SELECT MAX(Firm_ID) FROM Firms_List WHERE Deleted is NULL");
             int firm_id = int.Parse(dt.Rows[0][0].ToString()) + 1;
             string replace = "FactoryData_" + firm_id.ToString();
             dt=mc.runQuery("USE [master]; CREATE DATABASE[" + replace + "]");
@@ -275,7 +275,7 @@ namespace Factory_Inventory.Factory_Classes
             }
 
             //Enter in Firm_List Table
-            dt = mc.runQuery("INSERT INTO Firms_List VALUES ('" + f.firmnameTB.Text + "', NULL, " + firm_id.ToString() + ")");
+            dt = mc.runQuery("INSERT INTO Firms_List VALUES ('" + f.firmnameTB.Text + "', NULL, " + firm_id.ToString() + ", NULL)");
             if (dt == null)
             {
                 c.ErrorBox("Error in creating database (Firms List)");
@@ -286,6 +286,36 @@ namespace Factory_Inventory.Factory_Classes
             fillfirms();
             mc.SuccessBox("New Firm Created Successfully!\nMaster imported from " + f.comboBox1.SelectedItem.ToString());
             
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to DELETE the firm?", "Delete Firm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                string firmID = this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_ID"].ToString();
+                string dbname = "FactoryData";
+                Global.defaultconnectionstring = Global.getconnectionstring(this.con_start, dbname + "_" + firmID);
+                Global.firmid = firmID;
+                Login l = new Login();
+                l.button1.Text = "Enter";
+                l.setfirmtb(this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString() + "(Enter Your Credentials)");
+                l.ShowDialog();
+                if (l.access == 1)
+                {
+                    DataTable dt = mc.runQuery("UPDATE Firms_List SET Deleted = '1' WHERE Firm_ID = '" + firmID + "'");
+                    if (dt != null)
+                    {
+                        mc.SuccessBox("Firm Deleted Successfully");
+                        fillfirms();
+                    }
+                    else mc.ErrorBox("Could not delete the Firm");
+                }
+                else
+                {
+                    mc.ErrorBox("You do not have access to DELETE the Firm");
+                }
+            }
         }
     }
 }

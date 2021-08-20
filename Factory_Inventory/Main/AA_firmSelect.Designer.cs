@@ -65,7 +65,7 @@
             this.Firm_Name,
             this.Current_User});
             this.dataGridView1.Location = new System.Drawing.Point(9, 98);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -95,7 +95,7 @@
             // 
             this.localButton.BackColor = System.Drawing.Color.Silver;
             this.localButton.Location = new System.Drawing.Point(182, 30);
-            this.localButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.localButton.Margin = new System.Windows.Forms.Padding(2);
             this.localButton.Name = "localButton";
             this.localButton.Size = new System.Drawing.Size(406, 45);
             this.localButton.TabIndex = 4;
@@ -106,7 +106,7 @@
             // enterButton
             // 
             this.enterButton.Location = new System.Drawing.Point(476, 391);
-            this.enterButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.enterButton.Margin = new System.Windows.Forms.Padding(2);
             this.enterButton.Name = "enterButton";
             this.enterButton.Size = new System.Drawing.Size(112, 49);
             this.enterButton.TabIndex = 8;
@@ -118,18 +118,19 @@
             // 
             this.deleteButton.BackColor = System.Drawing.Color.Tomato;
             this.deleteButton.Location = new System.Drawing.Point(125, 391);
-            this.deleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(112, 49);
             this.deleteButton.TabIndex = 10;
             this.deleteButton.Text = "Delete Firm";
             this.deleteButton.UseVisualStyleBackColor = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // createButton
             // 
             this.createButton.BackColor = System.Drawing.Color.GreenYellow;
             this.createButton.Location = new System.Drawing.Point(9, 391);
-            this.createButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.createButton.Margin = new System.Windows.Forms.Padding(2);
             this.createButton.Name = "createButton";
             this.createButton.Size = new System.Drawing.Size(112, 49);
             this.createButton.TabIndex = 11;
@@ -152,7 +153,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(9, 10);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(155, 65);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -200,7 +201,7 @@
             this.Controls.Add(this.enterButton);
             this.Controls.Add(this.localButton);
             this.Controls.Add(this.dataGridView1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AA_firmSelect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select Firm";
