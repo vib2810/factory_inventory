@@ -34,9 +34,13 @@ namespace Factory_Inventory.Factory_Classes
         public SqlConnection con;
         public DateTime loginTime;
         private string useractive;
-        public DbConnect()
+        public DbConnect(string con_string = null)
         {
-            this.con = new SqlConnection(Global.defaultconnectionstring); // making connection   
+            if(con_string==null)
+            {
+                con_string = Global.defaultconnectionstring;
+            }
+            this.con = new SqlConnection(con_string); // making connection   
         }
 
         //Sql Update

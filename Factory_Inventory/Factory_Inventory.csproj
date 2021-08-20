@@ -324,6 +324,12 @@
     <Compile Include="Factory_Data\M_I2_TablesUC.Designer.cs">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\BackupAll.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\BackupAll.Designer.cs">
+      <DependentUpon>BackupAll.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main\O_S_printUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -831,6 +837,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_I2_TablesUC.resx">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\BackupAll.resx">
+      <DependentUpon>BackupAll.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main\O_S_printUC.resx">
       <DependentUpon>O_S_printUC.cs</DependentUpon>

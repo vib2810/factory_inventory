@@ -61,8 +61,7 @@ namespace Factory_Inventory.Factory_Classes
         {
             this.Hide();
             string firmID = this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_ID"].ToString();
-            string dbname = "FactoryData";
-            Global.defaultconnectionstring = Global.getconnectionstring(this.con_start, dbname+"_" + firmID);
+            Global.defaultconnectionstring = Global.getconnectionstring(this.con_start, "FactoryData_" + firmID);
             Global.firmid = firmID;
             Login l = new Login();
             l.setfirmtb(this.firmdata.Rows[dataGridView1.SelectedRows[0].Index]["Firm_Name"].ToString());
@@ -146,7 +145,8 @@ namespace Factory_Inventory.Factory_Classes
         }
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-
+            BackupAll f = new BackupAll(mc);
+            f.ShowDialog();
         }
         private void AA_firmSelect_Load(object sender, EventArgs e)
         {
@@ -244,6 +244,7 @@ namespace Factory_Inventory.Factory_Classes
             //Fill Defaults
             sql = "INSERT INTO Defaults VALUES ('Print', 'Default Print Type', " + ds.Rows[0][0].ToString() + ");\n";
             sql += "INSERT INTO Defaults VALUES ('Default', 'Cone', 80);\n";
+            sql += @"INSERT INTO Defaults VALUES ('Default', 'Backup Path', 'D:\Backups\TwistERP');\n";
             sql += "INSERT INTO Defaults VALUES ('Print:Carton_Slip', 'Default Print Type', " + ds.Rows[0][0].ToString() + ");\n";
             dt = c.runQuery(sql);
             if (dt == null)

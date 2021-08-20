@@ -16,21 +16,14 @@ using System.IO;
 
 namespace Factory_Inventory
 {
-    public partial class M_BackupRestore : Form
+    public partial class O_BackupRestoreForm : Form
     {
         public bool wait = false;
         public string backupname;
-        public DbConnect c;
-        public M_BackupRestore()
+        public DbConnect c = new DbConnect();
+        public O_BackupRestoreForm()
         {
             InitializeComponent();
-            c = new DbConnect(); 
-            this.backupLoactionTB.Text = @"D:\Backups\";
-            if(Global.access==2)
-            {
-                this.restoreButton.Enabled = false;
-                this.browseRestoreButton.Enabled = false;
-            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -42,28 +35,20 @@ namespace Factory_Inventory
                                          Color.Black, 10, ButtonBorderStyle.Inset,
                                          Color.Black, 10, ButtonBorderStyle.Inset);
         }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.restoreLocationTB.Text = "";
-        }
-        private void backup(string path, string database)
+        public Tuple<Server, Backup> backup(string backup_location, string database, string firmid)
         {
             try
-            { 
-                Console.WriteLine(Global.getconnectionstring(database));
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database + "_" + Global.firmid))));
-                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database + "_" + Global.firmid };
-                string backup_location = path + @"\" + this.fileNameTB.Text + database + "_" + Global.firmid + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
+            {
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(Global.con_start, database + "_" + firmid))));
+                Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database + "_" + firmid };
                 dbBackup.Devices.AddDevice(backup_location, DeviceType.File);
                 dbBackup.Initialize = true;
-                dbBackup.PercentComplete += DbBackup_PercentComplete;
-                dbBackup.Complete += DbBackup_Complete;
-                dbBackup.SqlBackupAsync(dbServer);
-                this.backupLoactionLabel.Text += "Backup stored as: " + backup_location + "\n";
+                return new Tuple<Server, Backup>(dbServer, dbBackup);
             }
             catch (Exception ex)
             {
-                c.ErrorBox(ex.Message, "Error");
+                c.ErrorBox("Error in backup function\n"+ex.Message, "Error");
+                return null;
             }
         }
         
@@ -76,12 +61,9 @@ namespace Factory_Inventory
                 c.ErrorBox("Please select backup loaction", "Error");
                 return;
             }
-            if(!(checkedListBox1.CheckedIndices.Contains(0) || checkedListBox1.CheckedIndices.Contains(1)))
-            {
-                c.ErrorBox("Please select atleast one database");
-                return;
-            }
-            string path = this.backupLoactionTB.Text + DateTime.Now.Date.ToString().Substring(0,10).Replace(":", "-").Replace('/', '-');
+            string path = this.backupLoactionTB.Text + @"\FactoryData_" + Global.firmid + @"\";
+            System.IO.Directory.CreateDirectory(path);
+            if (!string.IsNullOrWhiteSpace(fileNameTB.Text))  path += DateTime.Now.Date.ToString().Substring(0,10).Replace(":", "-").Replace('/', '-') + @"\";
             Console.WriteLine(path);
             progressBar1.Value = 0;
             try
@@ -89,21 +71,27 @@ namespace Factory_Inventory
                 if (!Directory.Exists(path))
                 {
                     DirectoryInfo di = Directory.CreateDirectory(path);
-
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Backup failed\n" + ex.ToString());
+                MessageBox.Show("Backup failed, couldnt create directory\n" + ex.ToString());
                 return;
             }
-            if (checkedListBox1.CheckedIndices.Contains(0))
+            string backup_location = "";
+            if (string.IsNullOrEmpty(fileNameTB.Text)) backup_location = path + "FactoryData_" + Global.firmid + ".bak";
+            else backup_location = path + this.fileNameTB.Text + "FactoryData_" + Global.firmid + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + ".bak";
+            Tuple< Server, Backup > ret = this.backup(backup_location, "FactoryData", Global.firmid);
+            try
             {
-                this.backup(path, "FactoryData");
+                ret.Item2.PercentComplete += DbBackup_PercentComplete;
+                ret.Item2.Complete += DbBackup_Complete;
+                ret.Item2.SqlBackupAsync(ret.Item1);
+                this.backupLoactionLabel.Text += "Backup stored as: " + backup_location + "\n";
             }
-            if (checkedListBox1.CheckedIndices.Contains(1))
+            catch (Exception ex)
             {
-                this.backup(path, "FactoryAttendance");
+                c.ErrorBox("Couldnt Finish Backup\n"+ex.Message);
             }
         }
         private void browseButton_Click(object sender, EventArgs e)
@@ -153,7 +141,7 @@ namespace Factory_Inventory
             string database = "FactoryData_" + Global.firmid;
             try
             {
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(Global.con_start, database))));
                 Backup dbBackup = new Backup() { Action = BackupActionType.Database, Database = database };
                 string s = this.restoreLocationTB.Text;
                 string backup_location = s.Substring(0, s.Length - 4) + "(" + DateTime.Now.ToString().Replace(":", "-").Replace('/', '-') + ")" + "restorebackup.bak";
@@ -171,7 +159,7 @@ namespace Factory_Inventory
             progressBar2.Value = 0;
             try
             {
-                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(database))));
+                Server dbServer = new Server(new ServerConnection(new SqlConnection(Global.getconnectionstring(Global.con_start, database))));
                 Database db = dbServer.Databases[database];
                 dbServer.KillAllProcesses(db.Name);
                 db.DatabaseOptions.UserAccess = DatabaseUserAccess.Multiple;
@@ -201,6 +189,16 @@ namespace Factory_Inventory
                 backupStatusLabel.Text = $"{e.Percent}%";
             });
         }
+        private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                backupStatusLabel.Invoke((MethodInvoker)delegate
+                {
+                    backupStatusLabel.Text = e.Error.Message;
+                });
+            }
+        }
         private void DbRestore_PercentComplete(object sender, PercentCompleteEventArgs e)
         {
             progressBar2.Invoke((MethodInvoker)delegate
@@ -223,14 +221,16 @@ namespace Factory_Inventory
                 });
             }
         }
-        private void DbBackup_Complete(object sender, ServerMessageEventArgs e)
+       
+
+        private void O_BackupRestoreForm_Load(object sender, EventArgs e)
         {
-            if (e.Error != null)
+            DataTable dt = c.runQuery("SELECT Default_Value FROM Defaults WHERE Default_Name = 'Backup Location'");
+            this.backupLoactionTB.Text = @dt.Rows[0][0].ToString();
+            if (Global.access == 2)
             {
-                backupStatusLabel.Invoke((MethodInvoker)delegate
-                {
-                    backupStatusLabel.Text = e.Error.Message;
-                });
+                this.restoreButton.Enabled = false;
+                this.browseRestoreButton.Enabled = false;
             }
         }
     }

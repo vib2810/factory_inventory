@@ -1,6 +1,6 @@
 ﻿namespace Factory_Inventory
 {
-    partial class M_BackupRestore
+    partial class O_BackupRestoreForm
     {
         /// <summary> 
         /// Required designer variable.
@@ -43,10 +43,8 @@
             this.browseRestoreButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.backupLoactionLabel = new System.Windows.Forms.Label();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.fileNameTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -172,23 +170,6 @@
             this.backupLoactionLabel.Size = new System.Drawing.Size(0, 17);
             this.backupLoactionLabel.TabIndex = 12;
             // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.checkedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.checkedListBox1.CheckOnClick = true;
-            this.checkedListBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "Factory Data",
-            "Factory Attendance"});
-            this.checkedListBox1.Location = new System.Drawing.Point(105, 80);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(174, 57);
-            this.checkedListBox1.TabIndex = 0;
-            this.checkedListBox1.TabStop = false;
-            this.checkedListBox1.UseTabStops = false;
-            // 
             // fileNameTB
             // 
             this.fileNameTB.Location = new System.Drawing.Point(643, 81);
@@ -205,15 +186,6 @@
             this.label2.Size = new System.Drawing.Size(131, 17);
             this.label2.TabIndex = 0;
             this.label2.Text = "Save File Name As:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(102, 61);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 17);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Database";
             // 
             // pictureBox1
             // 
@@ -238,13 +210,13 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(99, 299);
+            this.label7.Location = new System.Drawing.Point(99, 298);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(121, 32);
             this.label7.TabIndex = 0;
             this.label7.Text = "Restore";
             // 
-            // M_BackupRestore
+            // O_BackupRestoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -252,10 +224,8 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.fileNameTB);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.backupLoactionLabel);
             this.Controls.Add(this.browseRestoreButton);
             this.Controls.Add(this.restoreStatusLabel);
@@ -270,7 +240,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.backupButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "M_BackupRestore";
+            this.Name = "O_BackupRestoreForm";
+            this.Load += new System.EventHandler(this.O_BackupRestoreForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -294,10 +265,8 @@
         private System.Windows.Forms.Button browseRestoreButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label backupLoactionLabel;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
         public System.Windows.Forms.TextBox fileNameTB;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
