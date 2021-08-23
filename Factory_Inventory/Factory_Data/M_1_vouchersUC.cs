@@ -49,10 +49,6 @@ namespace Factory_Inventory
             this.c = new DbConnect();
             hide_all_UCs();
             Console.WriteLine("Access is :" + Global.access);
-            if (Global.access == 2)
-            {
-                this.masterButton.Visible = false;
-            }
         }
         public void decolour_all_buttons()
         {
