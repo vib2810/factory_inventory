@@ -8,7 +8,7 @@ DO NOT COPY MASTER FROM ANY DATABASE WHILE CREATING FactoryData_3
 
 //Generate Data query
 	Right Click on FactoryData-> Tasks -> Generate Scripts
-	Next-> Select Tables -> Select Open in Query Window, Click on Advanced set "Types of Data to script": Data only
+	Next-> Select Tables (Except Defaluts) -> Select Open in Query Window, Click on Advanced set "Types of Data to script": Data only
 
 This will generate a query containing all data
 RUN this after setting identity insert on

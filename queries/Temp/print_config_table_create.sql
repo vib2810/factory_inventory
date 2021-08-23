@@ -8,6 +8,7 @@ CREATE TABLE Print_Types (
 	GSTIN varchar(20) NOT NULL,
 	Phone_Number varchar(15) NOT NULL,
 	Email_ID varchar(25) NOT NULL,
+	--Print_Form_Type int NOT NULL,
 	Print_Type_ID int NOT NULL Primary Key Identity(1,1),
 );
 end
