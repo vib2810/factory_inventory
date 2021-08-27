@@ -17,6 +17,7 @@ namespace Factory_Inventory
         //dynamic lists which keep adding names of all the forms of various types which have opened atleast once
         Dictionary<string, int> form_group = new Dictionary<string, int>();
         MainConnect mc;
+        DbConnect c;
         //List<string> attendance_forms = new List<string>();
         //List<string> backup_form = new List<string>();
         //List<string> trading_forms = new List<string>();
@@ -25,6 +26,7 @@ namespace Factory_Inventory
         public TwistERP(string user, int access, string firmname, MainConnect mc)
         {
             this.mc = mc;
+            c = new DbConnect();
             InitializeComponent();
             Global.access = access;
             this.DoubleBuffered = true;
@@ -315,8 +317,15 @@ namespace Factory_Inventory
                 editAccessButton.BackColor = Color.OrangeRed;
                 editAccessButton.Text = "No Edit Access";
             }
-            if (Global.access == 1 && this.editAccessButton.Text=="No Edit Access")
+            if (this.editAccessButton.Text=="No Edit Access")
             {
+                if(Global.access==2)
+                {
+                    string username = dt.Rows[0][0].ToString().Substring(0, dt.Rows[0][0].ToString().Length - 5);
+                    sql = "SELECT AccessLevel FROM Users WHERE Username = '" + username + "'";
+                    DataTable d = c.runQuery(sql);
+                    if (d.Rows[0][0].ToString() == "1") return;
+                }
                 DialogResult dialogResult = MessageBox.Show("Are you sure you want to gain access forcefully?\nSomeone may have not logged out.", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.No)
                 {
