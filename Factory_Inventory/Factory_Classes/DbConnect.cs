@@ -699,7 +699,7 @@ namespace Factory_Inventory.Factory_Classes
             //cmd.Parameters.AddWithValue("@value1", this.loginTime);
             //cmd.Parameters.AddWithValue("@value2", logoutTime);
             //string sql = "insert Log (Username, LoginTime, LogoutTime) values ('" + this.useractive + "', convert(datetime, '" + this.loginTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5), convert(datetime, '" + logoutTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5))";
-            string sql = "insert Log (Username, LoginTime, LogoutTime, TimeDuration) values ('" + this.useractive + "', convert(datetime, '" + this.loginTime.ToString("dd-MM-yy hh:mm:ss tt") + "', 5), convert(datetime, '" + logoutTime.ToString("dd-MM-yy hh:mm:ss tt") + "',5), '" + value.ToString(@"hh\:mm\:ss") + ".0000000')";
+            string sql = "insert Log (Username, LoginTime, LogoutTime, TimeDuration) values ('" + this.useractive + "', convert(datetime, '" + this.loginTime.ToString("dd-MM-yy hh:mm:ss tt").Replace('.',':') + "', 5), convert(datetime, '" + logoutTime.ToString("dd-MM-yy hh:mm:ss tt").Replace('.', ':') + "',5), '" + value.ToString(@"hh\:mm\:ss") + ".0000000')";
             this.runQuery(sql);
             this.useractive = null;
         }
