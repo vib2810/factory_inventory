@@ -148,7 +148,7 @@ namespace Factory_Inventory
             #endregion //combobox
 
             //DatagridView
-            dataGridView1.Columns.Add("Sl_No", "Sl_No");
+            dataGridView1.Columns.Add("Sl_No", "Sl. No");
             dataGridView1.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
             for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i].Item1 + " (" + this.carton_data[i].Item2 + ")");
@@ -157,13 +157,15 @@ namespace Factory_Inventory
             dgvCmb.HeaderText = "Carton Number";
             dataGridView1.Columns.Insert(1, dgvCmb);
             dataGridView1.Columns[1].Width = 250;
-            dataGridView1.Columns.Add("Weight", "Weight");
-            dataGridView1.Columns[2].ReadOnly = true;
-            dataGridView1.Columns.Add("Shade", "Shade");
+            dataGridView1.Columns.Add("Selling Weight", "Selling Weight");
+            dataGridView1.Columns.Add("Available Weight", "Available Weight");
             dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.Columns.Add("Shade", "Shade");
+            dataGridView1.Columns[4].ReadOnly = true;
             dataGridView1.Columns.Add("Comments", "Comments");
             dataGridView1.RowCount = 10;
-
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold);
+            dataGridView1.RowHeadersWidth = 20;
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
         public T_V3_cartonSalesForm(DataRow row, bool isEditable, M_V_history v1_history)
@@ -251,7 +253,7 @@ namespace Factory_Inventory
             #endregion //dropdown
 
             //DatagridView
-            dataGridView1.Columns.Add("Sl_No", "Sl_No");
+            dataGridView1.Columns.Add("Sl. No", "Sl. No");
             dataGridView1.Columns[0].ReadOnly = true;
 
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
@@ -259,11 +261,19 @@ namespace Factory_Inventory
             for (int i = 0; i < this.carton_data.Count; i++) dgvCmb.Items.Add(this.carton_data[i].Item1 + " (" + this.carton_data[i].Item2 + ")");
             //dgvCmb.DataSource = this.carton_data;
             dataGridView1.Columns.Insert(1, dgvCmb);
-            dataGridView1.Columns.Add("Weight", "Weight");
+            dataGridView1.Columns.Add("Selling Weight", "Selling Weight");
+            dataGridView1.Columns.Add("Available Weight", "Available Weight");
             dataGridView1.Columns.Add("Shade", "Shade");
             dataGridView1.Columns[3].ReadOnly = true;
-            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[4].ReadOnly = true;
             dataGridView1.Columns.Add("Comments", "Comments");
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold);
+
+            dataGridView1.Columns.Add("Sl_No", "Sl. No");
+            dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.RowHeadersWidth = 20;
+
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
             if (isEditable == false)
             {
@@ -318,34 +328,44 @@ namespace Factory_Inventory
 
 
             DataTable d1 = new DataTable();
-            string sql = "SELECT temp2.*, T_Carton_Inward_Voucher.Date_Of_Billing\n";
-            sql += "FROM\n";
-            sql += "    (SELECT temp1.*, T_Sales_Voucher.Date_Of_Sale\n";
+            string sql = "SELECT temp3.*, T_Carton_Inward_Voucher.Date_Of_Billing\n";
+            sql+= "FROM\n";
+            sql += "    (SELECT temp2.*, T_M_Colours.Colour\n";
             sql += "    FROM\n";
-            sql += "        (SELECT T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Net_Weight, T_Inward_Carton.Fiscal_Year, T_Inward_Carton.Colour_ID, T_Inward_Carton.Inward_Voucher_ID, T_M_Colours.Colour, T_Inward_Carton.Sale_Voucher_ID, T_Inward_Carton.Sale_Comments, T_Inward_Carton.Sale_Display_Order\n";
-            sql += "        FROM T_Inward_Carton\n";
-            sql += "        LEFT OUTER JOIN T_M_Colours\n";
-            sql += "        ON T_Inward_Carton.Colour_ID = T_M_Colours.Colour_ID\n";
-            sql += "        WHERE Sale_Voucher_ID = " + this.voucher_id.ToString() + ") as temp1\n";
-            sql += "    LEFT OUTER JOIN T_Sales_Voucher\n";
-            sql += "    ON temp1.Sale_Voucher_ID = T_Sales_Voucher.Voucher_ID\n";
-            sql += "    WHERE T_Sales_Voucher.Date_Of_Sale IS NOT NULL) as temp2\n";
+            sql += "        (SELECT temp1.*, T_Inward_Carton.Carton_No, T_Inward_Carton.Carton_State, T_Inward_Carton.Net_Weight, T_Inward_Carton.Fiscal_Year, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Colour_ID\n";
+            sql += "        FROM\n";
+            sql += "            (SELECT T_Carton_Sales.Carton_ID, T_Carton_Sales.Sales_Voucher_ID, T_Carton_Sales.Sale_Comments, T_Carton_Sales.Sale_Display_Order, T_Carton_Sales.Sold_Weight, T_Sales_Voucher.Date_Of_Sale\n";
+            sql += "            FROM T_Carton_Sales\n";
+            sql += "            LEFT OUTER JOIN T_Sales_Voucher\n";
+            sql += "            ON T_Sales_Voucher.Voucher_ID = T_Carton_Sales.Sales_Voucher_ID\n";
+            sql += "            WHERE T_Sales_Voucher.Voucher_ID = '" + this.voucher_id + "' AND T_Carton_Sales.Carton_ID like 'IN%') as temp1\n";
+            sql += "        LEFT OUTER JOIN T_Inward_Carton\n";
+            sql += "        ON T_Inward_Carton.Carton_ID = temp1.Carton_ID) as temp2\n";
+            sql += "    LEFT OUTER JOIN T_M_Colours\n";
+            sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
             sql += "LEFT OUTER JOIN T_Carton_Inward_Voucher\n";
-            sql += "ON temp2.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID\n";
-            sql += "ORDER BY temp2.Sale_Display_Order\n";
+            sql += "ON T_Carton_Inward_Voucher.Voucher_ID = temp3.Inward_Voucher_ID\n";
+            sql += "ORDER BY Sale_Display_Order ASC\n;";
             d1 = c.runQuery(sql);
 
-            sql = "SELECT temp1.*, T_Sales_Voucher.Date_Of_Sale\n";
+            sql = "SELECT temp3.*, T_Sales_Voucher.Date_Of_Sale\n";
             sql += "FROM\n";
-            sql += "    (SELECT T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Carton_No, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Fiscal_Year, T_Repacked_Cartons.Colour_ID, T_Repacked_Cartons.Date_Of_Production, T_M_Colours.Colour, T_Repacked_Cartons.Sale_Voucher_ID, T_Repacked_Cartons.Sale_Comments, T_Repacked_Cartons.Sale_Display_Order\n";
-            sql += "    FROM T_Repacked_Cartons\n";
+            sql += "    (SELECT temp2.*, T_M_Colours.Colour\n";
+            sql += "    FROM\n";
+            sql += "        (SELECT temp1.*, T_Repacked_Cartons.Carton_No, T_Repacked_Cartons.Carton_State, T_Repacked_Cartons.Date_Of_Production, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Fiscal_Year, T_Repacked_Cartons.Repacking_Voucher_ID, T_Repacked_Cartons.Colour_ID\n";
+            sql += "        FROM\n";
+            sql += "            (SELECT T_Carton_Sales.Carton_ID, T_Carton_Sales.Sales_Voucher_ID, T_Carton_Sales.Sale_Comments, T_Carton_Sales.Sale_Display_Order, T_Carton_Sales.Sold_Weight, T_Sales_Voucher.Date_Of_Sale\n";
+            sql += "            FROM T_Carton_Sales\n";
+            sql += "            LEFT OUTER JOIN T_Sales_Voucher\n";
+            sql += "            ON T_Sales_Voucher.Voucher_ID = T_Carton_Sales.Sales_Voucher_ID\n";
+            sql += "            WHERE T_Sales_Voucher.Voucher_ID = '" + this.voucher_id + "' AND T_Carton_Sales.Carton_ID like 'RP%') as temp1\n";
+            sql += "        LEFT OUTER JOIN T_Repacked_Cartons\n";
+            sql += "        ON T_Repacked_Cartons.Carton_ID = temp1.Carton_ID) as temp2\n";
             sql += "    LEFT OUTER JOIN T_M_Colours\n";
-            sql += "    ON T_Repacked_Cartons.Colour_ID = T_M_Colours.Colour_ID\n";
-            sql += "    WHERE Sale_Voucher_ID = " + this.voucher_id.ToString() + ") as temp1\n";
+            sql += "    ON T_M_Colours.Colour_ID = temp2.Colour_ID) as temp3\n";
             sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
-            sql += "ON temp1.Sale_Voucher_ID = T_Sales_Voucher.Voucher_ID\n";
-            sql += "WHERE T_Sales_Voucher.Date_Of_Sale IS NOT NULL\n";
-            sql += "ORDER BY temp1.Sale_Display_Order\n";
+            sql += "ON T_Sales_Voucher.Voucher_ID = temp3.Repacking_Voucher_ID\n";
+            sql += "ORDER BY Sale_Display_Order ASC\n;";
             DataTable d2 = c.runQuery(sql);
 
 
@@ -491,9 +511,10 @@ namespace Factory_Inventory
         }
         private void loadData()
         {
-            DataTable d1 = c.runQuery("SELECT T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Net_Weight, T_Inward_Carton.Fiscal_Year, T_Inward_Carton.Colour_ID, T_Carton_Inward_Voucher.Date_Of_Billing FROM T_Inward_Carton INNER JOIN T_Carton_Inward_Voucher ON T_Inward_Carton.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID WHERE T_Inward_Carton.Quality_ID = " + quality_dict[comboBox1CB.Text] + " and T_Inward_Carton.Company_ID = " + company_dict[comboBox2CB.Text] + " and T_Inward_Carton.Carton_State = 0");
-            DataTable d2 = c.runQuery("SELECT Carton_ID, Carton_No, Net_Weight, Fiscal_Year, Colour_ID, Date_Of_Production FROM T_Repacked_Cartons WHERE Quality_ID = " + quality_dict[comboBox1CB.Text] + " and Company_ID = " + company_dict[comboBox2CB.Text] + " and Carton_State = 0");
+            DataTable d1 = c.runQuery("SELECT T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Net_Weight, T_Inward_Carton.Fiscal_Year, T_Inward_Carton.Colour_ID, T_Carton_Inward_Voucher.Date_Of_Billing FROM T_Inward_Carton INNER JOIN T_Carton_Inward_Voucher ON T_Inward_Carton.Inward_Voucher_ID = T_Carton_Inward_Voucher.Voucher_ID WHERE T_Inward_Carton.Quality_ID = " + quality_dict[comboBox1CB.Text] + " and T_Inward_Carton.Company_ID = " + company_dict[comboBox2CB.Text] + " and (T_Inward_Carton.Carton_State = 0 OR T_Inward_Carton.Carton_State = 2)");
+            DataTable d2 = c.runQuery("SELECT Carton_ID, Carton_No, Net_Weight, Fiscal_Year, Colour_ID, Date_Of_Production FROM T_Repacked_Cartons WHERE Quality_ID = " + quality_dict[comboBox1CB.Text] + " and Company_ID = " + company_dict[comboBox2CB.Text] + " and (Carton_State = 0 OR Carton_State = 1)");
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns[1];
+            if (this.edit_form == false) d1.Columns.Add("Sold_Weight");
             for (int i = 0; i < d1.Rows.Count; i++)
             {
                 string cartonno = d1.Rows[i]["Carton_No"].ToString();
@@ -503,8 +524,15 @@ namespace Factory_Inventory
                 //Tuple<Carton No, Colour ID, Net Weight, Fiscal Year>
                 Tuple<string, float, string> temp = new Tuple<string, float, string>(cartonno, float.Parse(d1.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year);
                 this.carton_data.Add(temp);
-                this.carton_fetch_data[new Tuple<string, float, string>(cartonno, float.Parse(d1.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year)] = d1.Rows[i];
+                if (this.edit_form == false)
+                {
+                    DataTable dt = c.runQuery("SELECT SUM(Sold_Weight) FROM T_Carton_Sales WHERE Carton_ID='" + d1.Rows[i]["Carton_ID"].ToString() + "'");
+                    d1.Rows[i]["Sold_Weight"] = dt.Rows[0][0].ToString();
+                }
+                if(carton_fetch_data.ContainsKey(new Tuple<string, float, string>(cartonno, float.Parse(d1.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year)) == false)
+                    this.carton_fetch_data[new Tuple<string, float, string>(cartonno, float.Parse(d1.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year)] = d1.Rows[i];
             }
+            if (this.edit_form == false) d2.Columns.Add("Sold_Weight");
             for (int i = 0; i < d2.Rows.Count; i++)
             {
                 string cartonno = d2.Rows[i]["Carton_No"].ToString();
@@ -514,7 +542,13 @@ namespace Factory_Inventory
                 //Tuple<Carton No, Colour ID, Net Weight, Fiscal Year>
                 Tuple<string, float, string> temp = new Tuple<string, float, string>(cartonno, float.Parse(d2.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year);
                 this.carton_data_repack.Add(temp);
-                this.carton_fetch_data_repack[new Tuple<string, float, string>(cartonno, float.Parse(d2.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year)] = d2.Rows[i];
+                if (this.edit_form == false)
+                {
+                    DataTable dt = c.runQuery("SELECT SUM(Sold_Weight) FROM T_Carton_Sales WHERE Carton_ID='" + d2.Rows[i]["Carton_ID"].ToString() + "'");
+                    d2.Rows[i]["Sold_Weight"] = dt.Rows[0][0].ToString();
+                }
+                if (carton_fetch_data_repack.ContainsKey(new Tuple<string, float, string>(cartonno, float.Parse(d2.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year)) == false)
+                    this.carton_fetch_data_repack[new Tuple<string, float, string>(cartonno, float.Parse(d2.Rows[i]["Net_Weight"].ToString()), carton_fiscal_year)] = d2.Rows[i];
             }
             
         }
@@ -628,6 +662,18 @@ namespace Factory_Inventory
                 }
                 else
                 {
+                    float selling_weight = float.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString());
+                    if(selling_weight==0F)
+                    {
+                        c.ErrorBox("Selling Weight in row " + (i + 1) + "should be more than 0kg");
+                        return;
+                    }
+                    float current_weight = float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString());
+                    if(current_weight - selling_weight < 0F)
+                    {
+                        c.ErrorBox("Selling more weight than available in row " + (i + 1));
+                        return;
+                    }
                     List<string> carton = this.split_catron_data(dataGridView1.Rows[i].Cells[1].Value.ToString());
                     if (carton.Count == 3)
                     {
@@ -711,14 +757,24 @@ namespace Factory_Inventory
                 for (int i = 0; i < cartonno.Count; i++)
                 {
                     string comments = "";
-                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments")) comments = dataGridView1.Rows[cartonno[i].Item2].Cells["Comments"].Value.ToString();
-                    sql += "UPDATE T_Inward_Carton SET Carton_State = 2, Sale_Voucher_ID = @voucherID, Sale_Comments = '" + comments + "', Sale_Display_Order = " + cartonno[i].Item2 + " WHERE Carton_ID = '" + carton_fetch_data[cartonno[i].Item1]["Carton_ID"].ToString() + "';\n";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, cartonno[i].Item2, -1, "Comments")) comments = dataGridView1.Rows[cartonno[i].Item2].Cells["Comments"].Value.ToString();
+                    sql += "INSERT INTO T_Carton_Sales VALUES ('" + carton_fetch_data[cartonno[i].Item1]["Carton_ID"].ToString() + "', @voucherID, '" + comments + "', " + cartonno[i].Item2 + "," + dataGridView1.Rows[cartonno[i].Item2].Cells[2].Value.ToString() + " );\n";
+                    float selling_weight = float.Parse(dataGridView1.Rows[cartonno[i].Item2].Cells[2].Value.ToString());
+                    float current_weight = float.Parse(dataGridView1.Rows[cartonno[i].Item2].Cells[3].Value.ToString());
+                    int state = 2;
+                    if (current_weight - selling_weight == 0F) state = 3;
+                    sql += "UPDATE T_Inward_Carton SET Carton_State = " + state.ToString() + " WHERE Carton_ID = '" + carton_fetch_data[cartonno[i].Item1]["Carton_ID"].ToString() + "';\n";
                 }
                 for (int i = 0; i < cartonno_repack.Count; i++)
                 {
                     string comments = "";
-                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments")) comments = dataGridView1.Rows[cartonno_repack[i].Item2].Cells["Comments"].Value.ToString();
-                    sql += "UPDATE T_Repacked_Cartons SET Carton_State = 1, Sale_Voucher_ID = @voucherID, Sale_Comments = '" + comments + "', Sale_Display_Order = " + cartonno_repack[i].Item2 + " WHERE Carton_ID = '" + carton_fetch_data_repack[cartonno_repack[i].Item1]["Carton_ID"].ToString() + "';\n";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, cartonno_repack[i].Item2, -1, "Comments")) comments = dataGridView1.Rows[cartonno_repack[i].Item2].Cells["Comments"].Value.ToString();
+                    sql += "INSERT INTO T_Carton_Sales VALUES ('" + carton_fetch_data_repack[cartonno_repack[i].Item1]["Carton_ID"].ToString() + "', @voucherID, '" + comments + "', " + cartonno_repack[i].Item2 + "," + dataGridView1.Rows[cartonno_repack[i].Item2].Cells[2].Value.ToString() + " );\n";
+                    float selling_weight = float.Parse(dataGridView1.Rows[cartonno_repack[i].Item2].Cells[2].Value.ToString());
+                    float current_weight = float.Parse(dataGridView1.Rows[cartonno_repack[i].Item2].Cells[3].Value.ToString());
+                    int state = 1;
+                    if (current_weight - selling_weight == 0F) state = 2;
+                    sql += "UPDATE T_Repacked_Cartons SET Carton_State = " + state.ToString() + " WHERE Carton_ID = '" + carton_fetch_data_repack[cartonno_repack[i].Item1]["Carton_ID"].ToString() + "';\n";
                 }
 
                 //Enter DO number in Fiscal Year Table
@@ -803,12 +859,22 @@ namespace Factory_Inventory
                 for(int i=0;i<to_delete.Count;i++)
                 {
                     string carton_id = carton_fetch_data[to_delete[i]]["Carton_ID"].ToString();
-                    sql += "UPDATE T_Inward_Carton SET Carton_State = 1, Sale_Voucher_ID = NULL, Sale_Comments = NULL, Sale_Display_Order = NULL WHERE Carton_ID = '" + carton_id + "';\n";
+                    float sold_weight = float.Parse(carton_fetch_data[to_delete[i]]["Sold_Weight"].ToString());
+                    DataTable dt = c.runQuery("SELECT SUM(Sold_Weight) FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "'");
+                    float sold_weight_all = float.Parse(dt.Rows[0][0].ToString());
+                    sql += "DELETE FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "' AND Sales_Voucher_ID = '" + this.voucher_id + "';\n";
+                    if (sold_weight == sold_weight_all) sql += "UPDATE T_Inward_Carton SET Carton_State = 0 WHERE Carton_ID = '" + carton_id + "';\n";   //Unsold
+                    else sql += "UPDATE T_Inward_Carton SET Carton_State = 2 WHERE Carton_ID = '" + carton_id + "';\n"; //Partially Sold
                 }
                 for (int i = 0; i < to_delete_repack.Count; i++)
                 {
                     string carton_id = carton_fetch_data_repack[to_delete_repack[i]]["Carton_ID"].ToString();
-                    sql += "UPDATE T_Repacked_Cartons SET Carton_State = 0, Sale_Voucher_ID = NULL, Sale_Comments = NULL, Sale_Display_Order = NULL WHERE Carton_ID = '" + carton_id + "';\n";
+                    float sold_weight = float.Parse(carton_fetch_data_repack[to_delete_repack[i]]["Sold_Weight"].ToString());
+                    DataTable dt = c.runQuery("SELECT SUM(Sold_Weight) FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "'");
+                    float sold_weight_all = float.Parse(dt.Rows[0][0].ToString());
+                    sql += "DELETE FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "' AND Sales_Voucher_ID = '" + this.voucher_id + "';\n";
+                    if (sold_weight == sold_weight_all) sql += "UPDATE T_Repacked_Cartons SET Carton_State = 0 WHERE Carton_ID = '" + carton_id + "';\n";   //Unsold
+                    else sql += "UPDATE T_Repacked_Cartons SET Carton_State = 1 WHERE Carton_ID = '" + carton_id + "';\n"; //Partially Sold
                 }
 
                 //Add all New Cartons
@@ -816,13 +882,32 @@ namespace Factory_Inventory
                 {
                     string comments = "";
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments")) comments = dataGridView1.Rows[to_update[i].Item2].Cells["Comments"].Value.ToString();
-                    sql += "UPDATE T_Inward_Carton SET Carton_State = 2, Sale_Voucher_ID = " + this.voucher_id + ", Sale_Comments = '" + comments + "', Sale_Display_Order = " + to_update[i].Item2 + " WHERE Carton_ID = '" + carton_fetch_data[to_update[i].Item1]["Carton_ID"].ToString() + "';\n";
+                    DataTable dt = c.runQuery("SELECT * FROM T_Carton_Sales WHERE Carton_ID = '" + carton_fetch_data[to_update[i].Item1]["Carton_ID"].ToString() + "' AND Sales_Voucher_ID = '" + this.voucher_id + "'");
+                    
+                    if (dt.Rows.Count == 0) sql += "INSERT INTO T_Carton_Sales VALUES ('" + carton_fetch_data[to_update[i].Item1]["Carton_ID"].ToString() + "', '" + this.voucher_id + "', '" + comments + "', '" + to_update[i].Item2 + "','" + dataGridView1.Rows[to_update[i].Item2].Cells[2].Value.ToString() + "' );\n";
+                    else sql += "UPDATE T_Carton_Sales SET Sale_Comments = '" + comments + "', Sale_Display_Order = '" + to_update[i].Item2 + "', Sold_Weight = '" + dataGridView1.Rows[to_update[i].Item2].Cells[2].Value.ToString() + "' WHERE Carton_ID = '" + carton_fetch_data[to_update[i].Item1]["Carton_ID"].ToString() + "' AND Sales_Voucher_ID = '" + this.voucher_id + "';\n";
+                    
+                    float selling_weight = float.Parse(dataGridView1.Rows[to_update[i].Item2].Cells[2].Value.ToString());
+                    float current_weight = float.Parse(dataGridView1.Rows[to_update[i].Item2].Cells[3].Value.ToString());
+                    int state = 2;
+                    if (current_weight - selling_weight == 0F) state = 3;
+                    sql += "UPDATE T_Inward_Carton SET Carton_State = " + state.ToString() + " WHERE Carton_ID = '" + carton_fetch_data[to_update[i].Item1]["Carton_ID"].ToString() + "';\n";
                 }
                 for (int i = 0; i < to_update_repack.Count; i++)
                 {
                     string comments = "";
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "Comments")) comments = dataGridView1.Rows[to_update_repack[i].Item2].Cells["Comments"].Value.ToString();
-                    sql += "UPDATE T_Repacked_Cartons SET Carton_State = 1, Sale_Voucher_ID = " + this.voucher_id + ", Sale_Comments = '" + comments + "', Sale_Display_Order = " + to_update_repack[i].Item2 + " WHERE Carton_ID = '" + carton_fetch_data_repack[to_update_repack[i].Item1]["Carton_ID"].ToString() + "';\n";
+
+                    DataTable dt = c.runQuery("SELECT * FROM T_Carton_Sales WHERE Carton_ID = '" + carton_fetch_data_repack[to_update_repack[i].Item1]["Carton_ID"].ToString() + "' AND Sales_Voucher_ID = '" + this.voucher_id + "'");
+
+                    if (dt.Rows.Count == 0) sql += "INSERT INTO T_Carton_Sales VALUES ('" + carton_fetch_data_repack[to_update_repack[i].Item1]["Carton_ID"].ToString() + "', '" + this.voucher_id + "', '" + comments + "', '" + to_update_repack[i].Item2 + "','" + dataGridView1.Rows[to_update_repack[i].Item2].Cells[2].Value.ToString() + "' );\n";
+                    else sql += "UPDATE T_Carton_Sales SET Sale_Comments = '" + comments + "', Sale_Display_Order = '" + to_update_repack[i].Item2 + "', Sold_Weight = '" + dataGridView1.Rows[to_update_repack[i].Item2].Cells[2].Value.ToString() + "' WHERE Carton_ID = '" + carton_fetch_data_repack[to_update_repack[i].Item1]["Carton_ID"].ToString() + "' AND Sales_Voucher_ID = '" + this.voucher_id + "';\n";
+
+                    float selling_weight = float.Parse(dataGridView1.Rows[to_update_repack[i].Item2].Cells[2].Value.ToString());
+                    float current_weight = float.Parse(dataGridView1.Rows[to_update_repack[i].Item2].Cells[3].Value.ToString());
+                    int state = 1;
+                    if (current_weight - selling_weight == 0F) state = 2;
+                    sql += "UPDATE T_Repacked_Cartons SET Carton_State = " + state.ToString() + " WHERE Carton_ID = '" + carton_fetch_data_repack[to_update_repack[i].Item1]["Carton_ID"].ToString() + "';\n";
                 }
 
                 sql += "UPDATE T_Sales_Voucher SET Date_Of_Sale='" + issueDate + "', Sale_Rate=" + float.Parse(rateTextboxTB.Text).ToString() + ", Fiscal_Year='" + fiscal_year + "', Type_Of_Sale = " + int.Parse(typeCB.Text).ToString() + ", Net_Weight=" + float.Parse(this.totalWeightTB.Text).ToString() + ", Narration = '" + narrationTB.Text + "' WHERE Voucher_ID='" + this.voucher_id + "';\n";
@@ -908,10 +993,42 @@ namespace Factory_Inventory
                 
                 //Delete all cartons
                 string sql = "begin transaction; begin try;\n";
-                sql += "UPDATE T_Inward_Carton SET Carton_State = 1, Sale_Voucher_ID = NULL, Sale_Comments = NULL, Sale_Display_Order = NULL WHERE Sale_Voucher_ID = '" + this.voucher_id + "';\n";
-                sql += "UPDATE T_Repacked_Cartons SET Carton_State = 0, Sale_Voucher_ID = NULL, Sale_Comments = NULL, Sale_Display_Order = NULL WHERE Sale_Voucher_ID = '" + this.voucher_id + "';\n";
                 sql += "UPDATE T_Sales_Voucher SET Deleted = 1  WHERE Voucher_ID='" + this.voucher_id + "';\n";
-                
+
+                List<Tuple<Tuple<string, float, string>, int>> cartonno = new List<Tuple<Tuple<string, float, string>, int>>();
+                List<Tuple<Tuple<string, float, string>, int>> cartonno_repack = new List<Tuple<Tuple<string, float, string>, int>>();
+                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+                {
+                    if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, 1)) continue;
+                    else
+                    {
+                        List<string> carton = this.split_catron_data(dataGridView1.Rows[i].Cells[1].Value.ToString());
+                        if (carton.Count == 3) cartonno.Add(new Tuple<Tuple<string, float, string>, int>(new Tuple<string, float, string>(carton[0], float.Parse(carton[1]), carton[2]), i));
+                        if (carton.Count == 4) cartonno_repack.Add(new Tuple<Tuple<string, float, string>, int>(new Tuple<string, float, string>(carton[0], float.Parse(carton[1]), carton[2]), i));
+                    }
+                }
+
+                for (int i = 0; i < cartonno.Count; i++)
+                {
+                    string carton_id = carton_fetch_data[cartonno[i].Item1]["Carton_ID"].ToString();
+                    float sold_weight = float.Parse(carton_fetch_data[cartonno[i].Item1]["Sold_Weight"].ToString());
+                    DataTable dt = c.runQuery("SELECT SUM(Sold_Weight) FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "'");
+                    float sold_weight_all = float.Parse(dt.Rows[0][0].ToString());
+                    sql += "DELETE FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "' AND Sales_Voucher_ID = '" + this.voucher_id + "';\n";
+                    if (sold_weight == sold_weight_all) sql += "UPDATE T_Inward_Carton SET Carton_State = 0 WHERE Carton_ID = '" + carton_id + "';\n";   //Unsold
+                    else sql += "UPDATE T_Inward_Carton SET Carton_State = 2 WHERE Carton_ID = '" + carton_id + "';\n"; //Partially Sold
+                }
+                for (int i = 0; i < cartonno_repack.Count; i++)
+                {
+                    string carton_id = carton_fetch_data_repack[cartonno_repack[i].Item1]["Carton_ID"].ToString();
+                    float sold_weight = float.Parse(carton_fetch_data_repack[cartonno_repack[i].Item1]["Sold_Weight"].ToString());
+                    DataTable dt = c.runQuery("SELECT SUM(Sold_Weight) FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "'");
+                    float sold_weight_all = float.Parse(dt.Rows[0][0].ToString());
+                    sql += "DELETE FROM T_Carton_Sales WHERE Carton_ID = '" + carton_id + "' AND Sales_Voucher_ID = '" + this.voucher_id + "';\n";
+                    if (sold_weight == sold_weight_all) sql += "UPDATE T_Repacked_Cartons SET Carton_State = 0 WHERE Carton_ID = '" + carton_id + "';\n";   //Unsold
+                    else sql += "UPDATE T_Repacked_Cartons SET Carton_State = 1 WHERE Carton_ID = '" + carton_id + "';\n"; //Partially Sold
+                }
+
                 //catch
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
                 sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
@@ -997,7 +1114,35 @@ namespace Factory_Inventory
                 DataRow dr;
                 if (carton_data_changed.Count==3) this.carton_fetch_data.TryGetValue(new Tuple<string, float, string>(carton_data_changed[0], float.Parse(carton_data_changed[1]), carton_data_changed[2]), out dr);
                 else this.carton_fetch_data_repack.TryGetValue(new Tuple<string, float, string>(carton_data_changed[0], float.Parse(carton_data_changed[1]), carton_data_changed[2]), out dr);
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = float.Parse(carton_data_changed[1]).ToString("F3");
+                float net_weight = float.Parse(dr["Net_Weight"].ToString());
+                float sold_weight;
+                try
+                {
+                    sold_weight = float.Parse(dr["Sold_Weight"].ToString());
+                }
+                catch
+                {
+                    sold_weight = 0F;
+                }
+                float total_sold = 0F;
+                if(this.edit_form==true)
+                {
+                    DataTable dt = c.runQuery("SELECT SUM(Sold_Weight) FROM T_Carton_Sales WHERE Carton_ID = '" + dr["Carton_ID"].ToString() + "'");
+                    try
+                    {
+                        total_sold = float.Parse(dt.Rows[0][0].ToString());
+                    }
+                    catch { }
+                }
+                float current_weight = net_weight - sold_weight;
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = current_weight.ToString("F3");
+                if (this.edit_form == true)
+                {
+                    if (sold_weight != 0F) dataGridView1.Rows[e.RowIndex].Cells[2].Value = sold_weight.ToString("F3");
+                    else dataGridView1.Rows[e.RowIndex].Cells[2].Value = (net_weight - total_sold + sold_weight).ToString("F3");
+                }
+                dataGridView1.Rows[e.RowIndex].Cells[3].Value = current_weight.ToString("F3");
+                if (this.edit_form == true) dataGridView1.Rows[e.RowIndex].Cells[3].Value = (net_weight - total_sold + sold_weight).ToString("F3");
                 dataGridView1.Rows[e.RowIndex].Cells["Shade"].Value = colour_dict_reverse[int.Parse(dr["Colour_ID"].ToString())];
                 this.totalWeightTB.Text = CellSum().ToString("F3");
             }

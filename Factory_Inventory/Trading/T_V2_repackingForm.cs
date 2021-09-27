@@ -1879,5 +1879,9 @@ namespace Factory_Inventory
         {
 
         }
+
+        private void companyComboboxCB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
     }
 }
