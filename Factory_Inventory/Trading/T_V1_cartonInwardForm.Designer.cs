@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,11 +79,12 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView1.Location = new System.Drawing.Point(573, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(430, 0);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(807, 713);
+            this.dataGridView1.Size = new System.Drawing.Size(605, 579);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.TabStop = false;
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
@@ -100,81 +101,89 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 28);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 26);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 19);
+            this.label1.Location = new System.Drawing.Point(7, 15);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 17);
+            this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Input Date";
             // 
             // inputDate
             // 
             this.inputDate.Enabled = false;
-            this.inputDate.Location = new System.Drawing.Point(12, 39);
+            this.inputDate.Location = new System.Drawing.Point(9, 32);
+            this.inputDate.Margin = new System.Windows.Forms.Padding(2);
             this.inputDate.Name = "inputDate";
-            this.inputDate.Size = new System.Drawing.Size(200, 22);
+            this.inputDate.Size = new System.Drawing.Size(151, 20);
             this.inputDate.TabIndex = 0;
             this.inputDate.TabStop = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 120);
+            this.label2.Location = new System.Drawing.Point(7, 98);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 17);
+            this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Bill Date";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 173);
+            this.label3.Location = new System.Drawing.Point(9, 141);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 17);
+            this.label3.Size = new System.Drawing.Size(60, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "Bill Number";
             // 
             // billDateDTP
             // 
             this.billDateDTP.CustomFormat = " ";
-            this.billDateDTP.Location = new System.Drawing.Point(12, 140);
+            this.billDateDTP.Location = new System.Drawing.Point(9, 114);
+            this.billDateDTP.Margin = new System.Windows.Forms.Padding(2);
             this.billDateDTP.Name = "billDateDTP";
-            this.billDateDTP.Size = new System.Drawing.Size(200, 22);
+            this.billDateDTP.Size = new System.Drawing.Size(151, 20);
             this.billDateDTP.TabIndex = 1;
             this.billDateDTP.ValueChanged += new System.EventHandler(this.billDate_ValueChanged);
             // 
             // billNumberTextboxTB
             // 
-            this.billNumberTextboxTB.Location = new System.Drawing.Point(12, 193);
+            this.billNumberTextboxTB.Location = new System.Drawing.Point(9, 157);
+            this.billNumberTextboxTB.Margin = new System.Windows.Forms.Padding(2);
             this.billNumberTextboxTB.Name = "billNumberTextboxTB";
-            this.billNumberTextboxTB.Size = new System.Drawing.Size(200, 22);
+            this.billNumberTextboxTB.Size = new System.Drawing.Size(151, 20);
             this.billNumberTextboxTB.TabIndex = 3;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 229);
+            this.label5.Location = new System.Drawing.Point(7, 186);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(67, 17);
+            this.label5.Size = new System.Drawing.Size(51, 13);
             this.label5.TabIndex = 0;
             this.label5.Text = "Company";
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(105, 661);
+            this.saveButton.Location = new System.Drawing.Point(79, 537);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(144, 57);
+            this.saveButton.Size = new System.Drawing.Size(108, 46);
             this.saveButton.TabIndex = 9;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -184,27 +193,30 @@
             // 
             this.totalWeightLabel.AutoSize = true;
             this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(101, 583);
+            this.totalWeightLabel.Location = new System.Drawing.Point(76, 474);
+            this.totalWeightLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.totalWeightLabel.Name = "totalWeightLabel";
-            this.totalWeightLabel.Size = new System.Drawing.Size(121, 20);
+            this.totalWeightLabel.Size = new System.Drawing.Size(105, 17);
             this.totalWeightLabel.TabIndex = 0;
             this.totalWeightLabel.Text = "Total Weight ";
             // 
             // comboBox2CB
             // 
             this.comboBox2CB.FormattingEnabled = true;
-            this.comboBox2CB.Location = new System.Drawing.Point(12, 249);
+            this.comboBox2CB.Location = new System.Drawing.Point(9, 202);
+            this.comboBox2CB.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2CB.Name = "comboBox2CB";
-            this.comboBox2CB.Size = new System.Drawing.Size(200, 24);
+            this.comboBox2CB.Size = new System.Drawing.Size(151, 21);
             this.comboBox2CB.TabIndex = 5;
             // 
             // costLabel
             // 
             this.costLabel.AutoSize = true;
             this.costLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.costLabel.Location = new System.Drawing.Point(8, 283);
+            this.costLabel.Location = new System.Drawing.Point(6, 230);
+            this.costLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.costLabel.Name = "costLabel";
-            this.costLabel.Size = new System.Drawing.Size(95, 20);
+            this.costLabel.Size = new System.Drawing.Size(80, 17);
             this.costLabel.TabIndex = 0;
             this.costLabel.Text = "Cost per kg";
             // 
@@ -215,14 +227,14 @@
             this.dataGridView2.AllowUserToResizeColumns = false;
             this.dataGridView2.AllowUserToResizeRows = false;
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Quality,
@@ -230,12 +242,13 @@
             this.Cost,
             this.Weight,
             this.Total_Price});
-            this.dataGridView2.Location = new System.Drawing.Point(12, 306);
+            this.dataGridView2.Location = new System.Drawing.Point(9, 249);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersVisible = false;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(542, 265);
+            this.dataGridView2.Size = new System.Drawing.Size(406, 215);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.TabStop = false;
             this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
@@ -298,9 +311,10 @@
             // lockCartonsCK
             // 
             this.lockCartonsCK.AutoSize = true;
-            this.lockCartonsCK.Location = new System.Drawing.Point(337, 218);
+            this.lockCartonsCK.Location = new System.Drawing.Point(253, 177);
+            this.lockCartonsCK.Margin = new System.Windows.Forms.Padding(2);
             this.lockCartonsCK.Name = "lockCartonsCK";
-            this.lockCartonsCK.Size = new System.Drawing.Size(113, 21);
+            this.lockCartonsCK.Size = new System.Drawing.Size(89, 17);
             this.lockCartonsCK.TabIndex = 10;
             this.lockCartonsCK.Text = "Lock Cartons";
             this.lockCartonsCK.UseVisualStyleBackColor = true;
@@ -310,17 +324,19 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(101, 610);
+            this.label6.Location = new System.Drawing.Point(76, 496);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(96, 20);
+            this.label6.Size = new System.Drawing.Size(84, 17);
             this.label6.TabIndex = 0;
             this.label6.Text = "Total Rate";
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(307, 661);
+            this.deleteButton.Location = new System.Drawing.Point(230, 537);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(144, 57);
+            this.deleteButton.Size = new System.Drawing.Size(108, 46);
             this.deleteButton.TabIndex = 11;
             this.deleteButton.TabStop = false;
             this.deleteButton.Text = "Delete Voucher";
@@ -330,19 +346,21 @@
             // 
             // dynamicWeightTB
             // 
-            this.dynamicWeightTB.Location = new System.Drawing.Point(251, 581);
+            this.dynamicWeightTB.Location = new System.Drawing.Point(188, 472);
+            this.dynamicWeightTB.Margin = new System.Windows.Forms.Padding(2);
             this.dynamicWeightTB.Name = "dynamicWeightTB";
             this.dynamicWeightTB.ReadOnly = true;
-            this.dynamicWeightTB.Size = new System.Drawing.Size(200, 22);
+            this.dynamicWeightTB.Size = new System.Drawing.Size(151, 20);
             this.dynamicWeightTB.TabIndex = 0;
             this.dynamicWeightTB.TabStop = false;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(251, 610);
+            this.label4.Location = new System.Drawing.Point(188, 496);
+            this.label4.Margin = new System.Windows.Forms.Padding(2);
             this.label4.Name = "label4";
             this.label4.ReadOnly = true;
-            this.label4.Size = new System.Drawing.Size(200, 22);
+            this.label4.Size = new System.Drawing.Size(151, 20);
             this.label4.TabIndex = 0;
             this.label4.TabStop = false;
             // 
@@ -350,9 +368,10 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(8, 773);
+            this.label7.Location = new System.Drawing.Point(6, 628);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(79, 20);
+            this.label7.Size = new System.Drawing.Size(69, 17);
             this.label7.TabIndex = 12;
             this.label7.Text = "{label 7}";
             // 
@@ -362,25 +381,28 @@
             this.typeCB.Items.AddRange(new object[] {
             "0",
             "1"});
-            this.typeCB.Location = new System.Drawing.Point(12, 91);
+            this.typeCB.Location = new System.Drawing.Point(9, 74);
+            this.typeCB.Margin = new System.Windows.Forms.Padding(2);
             this.typeCB.Name = "typeCB";
-            this.typeCB.Size = new System.Drawing.Size(200, 24);
+            this.typeCB.Size = new System.Drawing.Size(151, 21);
             this.typeCB.TabIndex = 14;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 71);
+            this.label8.Location = new System.Drawing.Point(7, 58);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(40, 17);
+            this.label8.Size = new System.Drawing.Size(31, 13);
             this.label8.TabIndex = 13;
             this.label8.Text = "Type";
             // 
             // narrationTB
             // 
-            this.narrationTB.Location = new System.Drawing.Point(105, 738);
+            this.narrationTB.Location = new System.Drawing.Point(79, 600);
+            this.narrationTB.Margin = new System.Windows.Forms.Padding(2);
             this.narrationTB.Name = "narrationTB";
-            this.narrationTB.Size = new System.Drawing.Size(1275, 22);
+            this.narrationTB.Size = new System.Drawing.Size(957, 20);
             this.narrationTB.TabIndex = 15;
             this.narrationTB.TabStop = false;
             // 
@@ -388,17 +410,18 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(12, 740);
+            this.label9.Location = new System.Drawing.Point(3, 601);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(87, 20);
+            this.label9.Size = new System.Drawing.Size(76, 17);
             this.label9.TabIndex = 16;
             this.label9.Text = "Narration";
             // 
             // T_V1_cartonInwardForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1382, 826);
+            this.ClientSize = new System.Drawing.Size(1028, 649);
             this.Controls.Add(this.narrationTB);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.typeCB);
@@ -423,6 +446,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "T_V1_cartonInwardForm";
             this.Text = "Voucher - Carton Inward";
             this.Load += new System.EventHandler(this.M_V1_cartonInwardForm_Load);

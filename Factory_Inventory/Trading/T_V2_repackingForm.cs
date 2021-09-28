@@ -439,7 +439,18 @@ namespace Factory_Inventory
                     r.DefaultCellStyle.BackColor = Color.LightGreen;
                     r.DefaultCellStyle.SelectionBackColor = Color.LightGreen;
                     this.deleteButton.Enabled = false;
-                    this.label16.Text = "This voucher cannot be deleted as some cartons have been sold";
+                    this.label16.Text = "This voucher cannot be deleted as some cartons have been sold\nPartially Sold: Yellow    Fully Sold: Light Green";
+                }
+                else if (carton_row["Carton_State"].ToString() == "2")
+                {
+                    flag = true;
+                    this.carton_editable[repacking_carton_id] = false;
+                    DataGridViewRow r = (DataGridViewRow)dataGridView1.Rows[i];
+                    dataGridView1.Rows[i].ReadOnly = true;
+                    r.DefaultCellStyle.BackColor = Color.Yellow;
+                    r.DefaultCellStyle.SelectionBackColor = Color.DarkGoldenrod;
+                    this.deleteButton.Enabled = false;
+                    this.label16.Text = "This voucher cannot be deleted as some cartons have been sold\nPartially Sold: Yellow    Fully Sold: Light Green";
                 }
             }
             //if(flag == true)

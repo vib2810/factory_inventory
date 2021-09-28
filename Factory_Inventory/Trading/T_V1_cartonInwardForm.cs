@@ -347,15 +347,15 @@ namespace Factory_Inventory
                     }
                     else if (carton_state == 2)
                     {
-                        //Sold
-                        r.DefaultCellStyle.BackColor = Color.LightGreen;
-                        r.DefaultCellStyle.SelectionBackColor = Color.Green;
+                        //Partially Sold
+                        r.DefaultCellStyle.BackColor = Color.Yellow;
+                        r.DefaultCellStyle.SelectionBackColor = Color.DarkGoldenrod;
                     }
                     else if (carton_state == 3)
                     {
-                        //Sent to Job
-                        r.DefaultCellStyle.BackColor = Color.Yellow;
-                        r.DefaultCellStyle.SelectionBackColor = Color.DarkGoldenrod;
+                        //Fully Sold
+                        r.DefaultCellStyle.BackColor = Color.LightGreen;
+                        r.DefaultCellStyle.SelectionBackColor = Color.Green;
                     }
                 }
             }
@@ -363,7 +363,7 @@ namespace Factory_Inventory
             {
                 comboBox2CB.Enabled = false;
                 this.deleteButton.Enabled = false;
-                this.label7.Text = "This carton cannot be edited as some cartons have been sold or sent for repacking/job.\nRepacking: Light Gray    Sold: Light Green    Job: Yellow";
+                this.label7.Text = "This carton cannot be edited as some cartons have been sold or sent for repacking/job.\nRepacking: Light Gray    Partially Sold: Yellow    Sold: Light Green";
             }
             else if(isEditable==false)
             {
