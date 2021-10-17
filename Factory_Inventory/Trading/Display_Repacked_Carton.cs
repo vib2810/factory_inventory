@@ -15,6 +15,7 @@ namespace Factory_Inventory
     {
         DbConnect c = new DbConnect();
         int repacking_voucher_id = -1, sales_voucher_id = -1;
+        DataTable dt;
         public Display_Repacked_Carton(DataRow Carton)
         {
             InitializeComponent();
@@ -22,15 +23,12 @@ namespace Factory_Inventory
             if (Carton == null) return;
             this.textBox17.Text = Carton["Carton_No"].ToString();
             this.textBox6.Text = Carton["Quality_Before_job"].ToString();
-            this.textBox7.Text = Carton["Customer_Name"].ToString();
             this.textBox3.Text = Carton["Number_of_Cones"].ToString();
             this.textBox12.Text = Carton["Cone_Weight"].ToString();
             this.textBox15.Text = Carton["Colour"].ToString();
             
             string prod = Carton["Date_Of_Production"].ToString();
             if (prod != "") this.textBox8.Text = prod.Substring(0, 10);
-            string dyeing_out = Carton["Date_Of_Sale"].ToString();
-            if (dyeing_out != "") this.textBox9.Text = dyeing_out.Substring(0, 10);
             string sdop = Carton["Start_Date_Of_Production"].ToString();
             if (sdop != "") this.textBox1.Text = sdop.Substring(0,10);
             this.textBox18.Text = Carton["Carton_State"].ToString();
@@ -38,14 +36,30 @@ namespace Factory_Inventory
             this.textBox5.Text = Carton["Gross_Weight"].ToString();
             this.textBox2.Text = Carton["Carton_Weight"].ToString();
             this.textBox10.Text = Carton["Net_Weight"].ToString();
+            this.textBox4.Text = Carton["Sold_Weight"].ToString();
             this.textBox20.Text = Carton["Grade"].ToString();
             this.textBox19.Text = Carton["Printed"].ToString();
             this.textBox14.Text = Carton["Fiscal_Year"].ToString();
-            this.textBox24.Text = Carton["Sale_Rate"].ToString();
-            this.textBox21.Text = Carton["Sale_DO_No"].ToString();
             //this.textBox23.Text = Carton["Sale_Bill_No"].ToString();
             if (string.IsNullOrEmpty(Carton["Repacking_Voucher_ID"].ToString()) == false) repacking_voucher_id = int.Parse(Carton["Repacking_Voucher_ID"].ToString());
-            if (string.IsNullOrEmpty(Carton["Sale_Voucher_ID"].ToString()) == false) sales_voucher_id = int.Parse(Carton["Sale_Voucher_ID"].ToString());
+            if (string.IsNullOrEmpty(Carton["Sold_Weight"].ToString()) == false)
+            {
+                sales_voucher_id = 1;
+                string carton_id = Carton["Carton_ID"].ToString();
+                string sql = "SELECT T_Sales_Voucher.Sale_DO_No, T_Carton_Sales.Sales_Voucher_ID\n";
+                sql += "FROM T_Carton_Sales\n";
+                sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
+                sql += "ON T_Sales_Voucher.Voucher_ID = T_Carton_Sales.Sales_Voucher_ID\n";
+                sql += "WHERE T_Carton_Sales.Carton_ID = '" + carton_id + "'\n";
+                this.dt = c.runQuery(sql);
+                List<string> l = new List<string>();
+                for (int i = 0; i < this.dt.Rows.Count; i++) l.Add(this.dt.Rows[i]["Sale_DO_No"].ToString());
+                this.comboBox1.DataSource = l;
+                this.comboBox1.DisplayMember = "Company_Name";
+                this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;//Create a drop-down list
+                this.comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
+                this.comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            }
         }
         private void Display_Carton_Produced_Load(object sender, EventArgs e)
         {
@@ -59,6 +73,7 @@ namespace Factory_Inventory
                 return;
             }
             M_V_history h = new M_V_history(15);
+            sales_voucher_id = int.Parse(dt.Rows[comboBox1.SelectedIndex]["Sales_Voucher_ID"].ToString());
             string sql = h.getTradingQuery("", false, sales_voucher_id);
             DataTable table = c.runQuery(sql);
             DataRow voucher = table.Rows[0];
