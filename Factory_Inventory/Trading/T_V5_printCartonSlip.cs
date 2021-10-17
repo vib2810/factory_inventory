@@ -264,13 +264,28 @@ namespace Factory_Inventory
                 return;
             }
             fiscal_year = fiscalCombobox.Text;
-            DataTable result = c.getBatchTable_BatchNoState(batch_no, 3, fiscal_year);
+            string sql = "SELECT temp2.*, T_Repacking_Voucher.Date_Of_Production, T_Repacking_Voucher.Voucher_ID, T_Repacking_Voucher.Carton_Fiscal_Year\n";
+            sql += "FROM\n";
+            sql += "    (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
+            sql += "    FROM\n";
+            sql += "        (SELECT T_Inward_Carton.Carton_No, T_Inward_Carton.Carton_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Carton_State, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Repacking_Voucher_ID, T_Inward_Carton.Fiscal_Year, T_M_Colours.Colour\n";
+            sql += "        FROM T_Inward_Carton\n";
+            sql += "        LEFT OUTER JOIN T_M_Colours\n";
+            sql += "    ON T_M_Colours.Colour_ID = T_Inward_Carton.Colour_ID) as temp1\n";
+            sql += "    LEFT OUTER JOIN T_M_Quality_Before_Job\n";
+            sql += "ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
+            sql += "LEFT OUTER JOIN T_Repacking_Voucher\n";
+            sql += "ON T_Repacking_Voucher.Voucher_ID = temp2.Repacking_Voucher_ID\n";
+            sql += "WHERE Carton_No = '" + batch_no + "' AND temp2.Fiscal_Year = '" + fiscal_year + "' AND Carton_State = '1'\n";
+            DataTable result = c.runQuery(sql);
+
+            //DataTable result = c.getBatchTable_BatchNoState(batch_no, 3, fiscal_year);
             if (result.Rows.Count == 0)
             {
                 this.dt2.Clear();
                 this.dt2.Columns.Clear();
                 this.dt2.Columns.Add("Not Found");
-                this.dt2.Rows.Add("No Conned Batch Found with the following details: Batch Number=" + batch_no + " and Financial Year=" + fiscal_year);
+                this.dt2.Rows.Add("No Inward Carton with the following details: Carton Number=" + batch_no + " and Financial Year=" + fiscal_year);
                 this.dataGridView2.Columns[0].Width = 800;
                 this.dataGridView2.DataSource = dt2;
                 dataGridView2.Columns["Not Found"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -281,21 +296,18 @@ namespace Factory_Inventory
                 this.dt2 = result;
                 this.dataGridView2.DataSource = dt2;
                 dataGridView2.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
-                this.dataGridView2.Columns["Batch_No"].Visible = true;
+                this.dataGridView2.Columns["Carton_No"].Visible = true;
                 this.dataGridView2.Columns["Colour"].Visible = true;
-                this.dataGridView2.Columns["Quality"].Visible = true;
+                this.dataGridView2.Columns["Quality_Before_Job"].Visible = true;
                 this.dataGridView2.Columns["Date_Of_Production"].Visible = true;
                 this.dataGridView2.Columns["Net_Weight"].Visible = true;
-                this.dataGridView2.Columns["Number_Of_Trays"].Visible = true;
                 this.dataGridView2.Columns["Fiscal_Year"].Visible = true;
 
                 this.dataGridView2.Columns["Fiscal_Year"].HeaderText = "Financial Year";
-                this.dataGridView2.Columns["Number_Of_Trays"].HeaderText = "Number of Trays";
-                this.dataGridView2.Columns["Batch_No"].HeaderText = "Batch Number";
+                this.dataGridView2.Columns["Carton_No"].HeaderText = "Carton Number";
                 this.dataGridView2.Columns["Date_Of_Production"].HeaderText = "Date of Production";
 
-                this.dataGridView2.Columns["Batch_No"].Width = 70;
-                this.dataGridView2.Columns["Number_Of_Trays"].Width = 80;
+                this.dataGridView2.Columns["Carton_No"].Width = 70;
 
                 dataGridView2.Columns["Fiscal_Year"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
