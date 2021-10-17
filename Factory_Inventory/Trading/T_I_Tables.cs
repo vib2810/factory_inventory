@@ -55,21 +55,17 @@ namespace Factory_Inventory
             l.Add("Quality_Before_Job");
             l.Add("Company_Name");
             l.Add("Net_Weight");
+            l.Add("Sold_Weight");
             l.Add("Fiscal_Year");
             l.Add("Bill_No");
-            l.Add("Sale_DO_No");
-            l.Add("DO_Fiscal_Year");
             l.Add("Buy_Cost");
-            l.Add("Sale_Rate");
-            l.Add("Comments");
+            l.Add("Inward_Comments");
             l.Add("Grade");
-            l.Add("Sale_Comments");
             l.Add("Date_Of_Billing");
             l.Add("Date_Of_Production");
             l.Add("Start_Date_Of_Production");
-            l.Add("Date_Of_Sale");
             l.Add("Carton_State");
-            int date_cols = 5, normal_cols = 14;
+            int date_cols = 4, normal_cols = 10;
 
             c.printDGVSort(l, this.dataGridView1, date_cols);
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
@@ -104,6 +100,13 @@ namespace Factory_Inventory
                     }
                 }
                 else if (dt.Rows[i]["Carton_State"].ToString() == "2")
+                {
+                    row.DefaultCellStyle.SelectionBackColor = Color.Orange;
+                    row.DefaultCellStyle.SelectionForeColor = Color.Blue;
+                    row.DefaultCellStyle.BackColor = Color.Orange;
+                    this.dataGridView1.Rows[i].Cells["Carton State"].Value = "Partially Sold";
+                }
+                else if (dt.Rows[i]["Carton_State"].ToString() == "3")
                 {
                     row.DefaultCellStyle.SelectionBackColor = Color.LawnGreen;
                     row.DefaultCellStyle.SelectionForeColor = Color.Blue;
