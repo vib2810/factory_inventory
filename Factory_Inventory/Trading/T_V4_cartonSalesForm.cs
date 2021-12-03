@@ -784,7 +784,7 @@ namespace Factory_Inventory
                 }
                 else if (typeCB.Text == "1")
                 {
-                    sql = "UPDATE Fiscal_Year SET Highest_Trading_0_DO_No = '" + this.saleDONoTB.Text + "' WHERE Fiscal_Year='" + fiscal_year + "';\n";
+                    sql = "UPDATE Fiscal_Year SET Highest_Trading_1_DO_No = '" + this.saleDONoTB.Text + "' WHERE Fiscal_Year='" + fiscal_year + "';\n";
                 }
 
                 //catch
