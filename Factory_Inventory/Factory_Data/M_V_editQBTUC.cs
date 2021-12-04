@@ -28,11 +28,15 @@ namespace Factory_Inventory
             }
             if(mode == 3)
             {
+                newPasswordLabel.Text = "Company Name";
+                newConfirmPasswordLabel.Text = "Company Name";
                 userLabel.Text = "Edit Company\nNames";
                 label1.Text = "Add Company\nNames";
             }
             else if(mode==4)
             {
+                newPasswordLabel.Text = "Colour";
+                newConfirmPasswordLabel.Text = "Colour";
                 userLabel.Text = "Edit Colours";
                 label1.Text = "Add Colours";
             }
@@ -49,6 +53,12 @@ namespace Factory_Inventory
             dataGridView1.Columns[1].Name = "Quality_Before_Twist";
             dataGridView1.Columns[0].Name = "Quality_Before_Twist_ID";
             dataGridView1.Columns["Quality_Before_Twist"].Visible = true;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, FontStyle.Bold);
+
+
+            if (mode == 1) dataGridView1.Columns["Quality_Before_Twist"].HeaderText = "Quality Before Twist";
+            else if (mode == 3) dataGridView1.Columns["Quality_Before_Twist"].HeaderText = "Company Name";
+
         }
 
         //clicks

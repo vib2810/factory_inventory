@@ -110,7 +110,10 @@ namespace Factory_Inventory
             DataTable d = c.runQuery("SELECT * FROM T_M_Quality_Before_Job");
             dataGridView1.DataSource = d;
             dataGridView1.Columns[0].Visible = false;
-            this.dataGridView1.Columns[3].HeaderText = "Print Pattern";
+            dataGridView1.Columns["Quality_Before_Job"].HeaderText = "Quality Before Job";
+            dataGridView1.Columns["Print_Pattern"].HeaderText = "Print Pattern";
+            dataGridView1.Columns["HSN_Number"].HeaderText = "HSN Number";
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, FontStyle.Bold);
             c.auto_adjust_dgv(dataGridView1);
         }
         private void confirmButton_Click_1(object sender, EventArgs e)  
@@ -146,7 +149,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Enter all values", "Error");
                 return;
             }
-            string sql = "INSERT INTO T_M_Quality_Before_Job VALUES ('" + this.newQualityTextboxTB.Text + "', '" + addHSNNoTB.Text + "', '" + this.hsComboBox2.SelectedItem.ToString() + "') ";
+            string sql = "INSERT INTO T_M_Quality_Before_Job VALUES ('" + this.newQualityTextboxTB.Text + "', '" + this.hsComboBox2.SelectedItem.ToString() + "', '" + addHSNNoTB.Text + "') ";
             c.runQuery(sql);
             this.newQualityTextboxTB.Text = "";
             this.addHSNNoTB.Text = "";
@@ -203,8 +206,8 @@ namespace Factory_Inventory
             if (RowIndex >= 0)
             {
                 editedQualityTextboxTB.Text = dataGridView1.Rows[RowIndex].Cells[1].Value.ToString();
-                editHSNNoTB.Text = dataGridView1.Rows[RowIndex].Cells[2].Value.ToString();
-                hsComboBox3.SelectedIndex = this.hsComboBox3.FindStringExact(this.dataGridView1.Rows[RowIndex].Cells[3].Value.ToString());
+                editHSNNoTB.Text = dataGridView1.Rows[RowIndex].Cells[3].Value.ToString();
+                hsComboBox3.SelectedIndex = this.hsComboBox3.FindStringExact(this.dataGridView1.Rows[RowIndex].Cells[2].Value.ToString());
             }
         }
     }

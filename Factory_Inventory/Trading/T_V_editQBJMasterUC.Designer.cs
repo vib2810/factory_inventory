@@ -69,7 +69,7 @@ namespace Factory_Inventory
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(172, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -91,7 +91,7 @@ namespace Factory_Inventory
             // addQualityButton
             // 
             this.addQualityButton.Location = new System.Drawing.Point(8, 539);
-            this.addQualityButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addQualityButton.Margin = new System.Windows.Forms.Padding(2);
             this.addQualityButton.Name = "addQualityButton";
             this.addQualityButton.Size = new System.Drawing.Size(56, 23);
             this.addQualityButton.TabIndex = 21;
@@ -102,18 +102,18 @@ namespace Factory_Inventory
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(8, 348);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 20);
+            this.label1.Size = new System.Drawing.Size(101, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Add Quality";
             // 
             // editedQualityTextboxTB
             // 
             this.editedQualityTextboxTB.Location = new System.Drawing.Point(11, 38);
-            this.editedQualityTextboxTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editedQualityTextboxTB.Margin = new System.Windows.Forms.Padding(2);
             this.editedQualityTextboxTB.Name = "editedQualityTextboxTB";
             this.editedQualityTextboxTB.Size = new System.Drawing.Size(109, 20);
             this.editedQualityTextboxTB.TabIndex = 1;
@@ -121,7 +121,7 @@ namespace Factory_Inventory
             // newQualityTextboxTB
             // 
             this.newQualityTextboxTB.Location = new System.Drawing.Point(10, 385);
-            this.newQualityTextboxTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.newQualityTextboxTB.Margin = new System.Windows.Forms.Padding(2);
             this.newQualityTextboxTB.Name = "newQualityTextboxTB";
             this.newQualityTextboxTB.Size = new System.Drawing.Size(113, 20);
             this.newQualityTextboxTB.TabIndex = 13;
@@ -129,7 +129,7 @@ namespace Factory_Inventory
             // newConfirmPasswordLabel
             // 
             this.newConfirmPasswordLabel.AutoSize = true;
-            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(9, 368);
+            this.newConfirmPasswordLabel.Location = new System.Drawing.Point(9, 370);
             this.newConfirmPasswordLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.newConfirmPasswordLabel.Name = "newConfirmPasswordLabel";
             this.newConfirmPasswordLabel.Size = new System.Drawing.Size(39, 13);
@@ -149,7 +149,7 @@ namespace Factory_Inventory
             // confirmButton
             // 
             this.confirmButton.Location = new System.Drawing.Point(11, 190);
-            this.confirmButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.confirmButton.Margin = new System.Windows.Forms.Padding(2);
             this.confirmButton.Name = "confirmButton";
             this.confirmButton.Size = new System.Drawing.Size(56, 25);
             this.confirmButton.TabIndex = 9;
@@ -160,18 +160,18 @@ namespace Factory_Inventory
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userLabel.Location = new System.Drawing.Point(8, 4);
             this.userLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(89, 20);
+            this.userLabel.Size = new System.Drawing.Size(101, 20);
             this.userLabel.TabIndex = 0;
             this.userLabel.Text = "Edit Quality";
             // 
             // addHSNNoTB
             // 
             this.addHSNNoTB.Location = new System.Drawing.Point(10, 421);
-            this.addHSNNoTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addHSNNoTB.Margin = new System.Windows.Forms.Padding(2);
             this.addHSNNoTB.Name = "addHSNNoTB";
             this.addHSNNoTB.Size = new System.Drawing.Size(111, 20);
             this.addHSNNoTB.TabIndex = 15;
@@ -179,7 +179,7 @@ namespace Factory_Inventory
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 405);
+            this.label4.Location = new System.Drawing.Point(8, 407);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 13);
@@ -189,7 +189,7 @@ namespace Factory_Inventory
             // editHSNNoTB
             // 
             this.editHSNNoTB.Location = new System.Drawing.Point(11, 75);
-            this.editHSNNoTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editHSNNoTB.Margin = new System.Windows.Forms.Padding(2);
             this.editHSNNoTB.Name = "editHSNNoTB";
             this.editHSNNoTB.Size = new System.Drawing.Size(111, 20);
             this.editHSNNoTB.TabIndex = 3;
@@ -197,7 +197,7 @@ namespace Factory_Inventory
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 58);
+            this.label5.Location = new System.Drawing.Point(9, 60);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 13);
@@ -207,7 +207,7 @@ namespace Factory_Inventory
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 95);
+            this.label3.Location = new System.Drawing.Point(9, 97);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
@@ -217,7 +217,7 @@ namespace Factory_Inventory
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 441);
+            this.label6.Location = new System.Drawing.Point(9, 443);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(65, 13);
@@ -226,8 +226,8 @@ namespace Factory_Inventory
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(11, 134);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Location = new System.Drawing.Point(11, 136);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(157, 48);
             this.pictureBox1.TabIndex = 27;
@@ -911,9 +911,121 @@ namespace Factory_Inventory
             "SmallCheckerBoard",
             "LargeCheckerBoard",
             "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
             "SolidDiamond"});
-            this.hsComboBox3.Location = new System.Drawing.Point(11, 110);
-            this.hsComboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.hsComboBox3.Location = new System.Drawing.Point(11, 112);
+            this.hsComboBox3.Margin = new System.Windows.Forms.Padding(2);
             this.hsComboBox3.Name = "hsComboBox3";
             this.hsComboBox3.Size = new System.Drawing.Size(111, 21);
             this.hsComboBox3.TabIndex = 5;
@@ -1596,9 +1708,121 @@ namespace Factory_Inventory
             "SmallCheckerBoard",
             "LargeCheckerBoard",
             "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
+            "SolidDiamond",
+            "Horizontal",
+            "Min",
+            "Vertical",
+            "ForwardDiagonal",
+            "BackwardDiagonal",
+            "Cross",
+            "LargeGrid",
+            "Max",
+            "DiagonalCross",
+            "Percent05",
+            "Percent10",
+            "Percent20",
+            "Percent25",
+            "Percent30",
+            "Percent40",
+            "Percent50",
+            "Percent60",
+            "Percent70",
+            "Percent75",
+            "Percent80",
+            "Percent90",
+            "LightDownwardDiagonal",
+            "LightUpwardDiagonal",
+            "DarkDownwardDiagonal",
+            "DarkUpwardDiagonal",
+            "WideDownwardDiagonal",
+            "WideUpwardDiagonal",
+            "LightVertical",
+            "LightHorizontal",
+            "NarrowVertical",
+            "NarrowHorizontal",
+            "DarkVertical",
+            "DarkHorizontal",
+            "DashedDownwardDiagonal",
+            "DashedUpwardDiagonal",
+            "DashedHorizontal",
+            "DashedVertical",
+            "SmallConfetti",
+            "LargeConfetti",
+            "ZigZag",
+            "Wave",
+            "DiagonalBrick",
+            "HorizontalBrick",
+            "Weave",
+            "Plaid",
+            "Divot",
+            "DottedGrid",
+            "DottedDiamond",
+            "Shingle",
+            "Trellis",
+            "Sphere",
+            "SmallGrid",
+            "SmallCheckerBoard",
+            "LargeCheckerBoard",
+            "OutlinedDiamond",
             "SolidDiamond"});
             this.hsComboBox2.Location = new System.Drawing.Point(9, 458);
-            this.hsComboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.hsComboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.hsComboBox2.Name = "hsComboBox2";
             this.hsComboBox2.Size = new System.Drawing.Size(113, 21);
             this.hsComboBox2.TabIndex = 17;
@@ -1607,7 +1831,7 @@ namespace Factory_Inventory
             // pictureBox2
             // 
             this.pictureBox2.Location = new System.Drawing.Point(8, 485);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(157, 48);
             this.pictureBox2.TabIndex = 28;
@@ -1637,7 +1861,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.confirmButton);
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.dataGridView1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "T_V_editQBJMasterUC";
             this.Size = new System.Drawing.Size(600, 569);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.editQuality_Paint);

@@ -1,0 +1,6 @@
+Date: 04-12-2021
+1) Remove Identity(1,1) from Firms_List Table in Main Database
+
+TODO:
+1. Manage Users Table
+2. Trading Master Open in Center. Reduce its size from right

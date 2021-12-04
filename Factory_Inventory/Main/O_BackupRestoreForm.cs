@@ -225,8 +225,12 @@ namespace Factory_Inventory
 
         private void O_BackupRestoreForm_Load(object sender, EventArgs e)
         {
-            DataTable dt = c.runQuery("SELECT Default_Value FROM Defaults WHERE Default_Name = 'Backup Location'");
-            this.backupLoactionTB.Text = @dt.Rows[0][0].ToString();
+            try
+            {
+                DataTable dt = c.runQuery("SELECT Default_Value FROM Defaults WHERE Default_Name = 'Backup Location'");
+                this.backupLoactionTB.Text = @dt.Rows[0][0].ToString();
+            }
+            catch { }
             if (Global.access == 2)
             {
                 this.restoreButton.Enabled = false;

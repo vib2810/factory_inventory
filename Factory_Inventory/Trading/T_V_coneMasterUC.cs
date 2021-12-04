@@ -25,6 +25,9 @@ namespace Factory_Inventory
             DataTable d = c.runQuery("SELECT * FROM T_M_Cones");
             dataGridView1.DataSource = d;
             dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns["Cone_Name"].HeaderText = "Cone Name";
+            dataGridView1.Columns["Cone_Weight"].HeaderText = "Cone Weight";
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, FontStyle.Bold);
         }
         private void confirmButton_Click(object sender, EventArgs e)
         {
@@ -37,21 +40,22 @@ namespace Factory_Inventory
                 int row = dataGridView1.SelectedRows[0].Index;
                 try
                 {
-                    float.Parse(this.editedQualityTextbox.Text);
+                    float.Parse(this.editConeWeightTB.Text);
                 }
                 catch
                 {
                     c.ErrorBox("Cone weight should be numerical", "Error");
                     return;
                 }
-                if(string.IsNullOrWhiteSpace(this.editConeNameTB.Text) || string.IsNullOrWhiteSpace(this.editedQualityTextbox.Text))
+                if(string.IsNullOrWhiteSpace(this.editConeNameTB.Text) || string.IsNullOrWhiteSpace(this.editConeWeightTB.Text))
                 {
                     c.ErrorBox("Please enter all the values", "Error");
                     return;
                 }
-                c.runQuery("UPDATE T_M_Cones SET Cone_Name = '" + editConeNameTB.Text + "', Cone_Weight = " + editedQualityTextbox.Text + "  WHERE Cone_ID = " + dataGridView1.Rows[row].Cells[0].Value.ToString() + "");
+                c.runQuery("UPDATE T_M_Cones SET Cone_Name = '" + editConeNameTB.Text + "', Cone_Weight = " + editConeWeightTB.Text + "  WHERE Cone_ID = " + dataGridView1.Rows[row].Cells[0].Value.ToString() + "");
                 //this.selectedRowIndex = -1;
-                this.editedQualityTextbox.Text = "";
+                this.editConeWeightTB.Text = "";
+                this.editConeNameTB.Text = "";
                 loadDatabase();
                 if (RowIndex >= 0 && RowIndex<=dataGridView1.Rows.Count-1)
                 {
@@ -64,20 +68,21 @@ namespace Factory_Inventory
         {
             try
             {
-                float.Parse(this.newQualityTextbox.Text);
+                float.Parse(this.addConeWeightTB.Text);
             }
             catch
             {
                 c.ErrorBox("Cone weight should be numerical", "Error");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(this.editConeNameTB.Text) || string.IsNullOrWhiteSpace(this.editedQualityTextbox.Text))
+            if (string.IsNullOrWhiteSpace(this.addConeNameTB.Text) || string.IsNullOrWhiteSpace(this.addConeWeightTB.Text))
             {
                 c.ErrorBox("Please enter all the values", "Error");
                 return;
             }
-            c.runQuery("INSERT INTO T_M_Cones VALUES ('" + addConeNameTB.Text + "', " + newQualityTextbox.Text + ")");
-            this.newQualityTextbox.Text = "";
+            c.runQuery("INSERT INTO T_M_Cones VALUES ('" + addConeNameTB.Text + "', " + addConeWeightTB.Text + ")");
+            this.addConeWeightTB.Text = "";
+            this.addConeNameTB.Text = "";
             loadDatabase();
 
         }
@@ -92,7 +97,7 @@ namespace Factory_Inventory
             if (RowIndex >= 0)
             {
                 editConeNameTB.Text = dataGridView1.Rows[RowIndex].Cells[1].Value.ToString();
-                editedQualityTextbox.Text = dataGridView1.Rows[RowIndex].Cells[2].Value.ToString();
+                editConeWeightTB.Text = dataGridView1.Rows[RowIndex].Cells[2].Value.ToString();
             }
         }
 

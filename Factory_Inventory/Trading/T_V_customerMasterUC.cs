@@ -25,6 +25,9 @@ namespace Factory_Inventory
             DataTable d = c.runQuery("SELECT * FROM T_M_Customers");
             dataGridView1.DataSource = d;
             dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns["Customer_Name"].HeaderText = "Customer Name";
+            dataGridView1.Columns["Customer_Address"].HeaderText = "Customer Address";
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, FontStyle.Bold);
         }
         private void confirmButton_Click(object sender, EventArgs e)
         {
@@ -35,16 +38,16 @@ namespace Factory_Inventory
             if (dialogResult == DialogResult.Yes)
             {
                 int row = dataGridView1.SelectedRows[0].Index;
-                if(editedQualityTextbox.Text=="" || editGSTINTextbox.Text=="" || editAddressTextbox.Text=="")
+                if(editCustomerNameTB.Text=="" || editGSTINTB.Text=="" || editAddressTB.Text=="")
                 {
                     c.ErrorBox("Enter all the values", "Error");
                     return;
                 }
-                c.runQuery("UPDATE T_M_Customers SET Customer_Name ='" + editedQualityTextbox.Text + "', GSTIN='" + editGSTINTextbox.Text + "', Customer_Address = '" + editAddressTextbox.Text + "' WHERE Customer_ID= " + dataGridView1.Rows[row].Cells[0].Value.ToString() + "");
+                c.runQuery("UPDATE T_M_Customers SET Customer_Name ='" + editCustomerNameTB.Text + "', GSTIN='" + editGSTINTB.Text + "', Customer_Address = '" + editAddressTB.Text + "' WHERE Customer_ID= " + dataGridView1.Rows[row].Cells[0].Value.ToString() + "");
                 //this.selectedRowIndex = -1;
-                this.editedQualityTextbox.Text = "";
-                this.editGSTINTextbox.Text = "";
-                this.editAddressTextbox.Text = "";
+                this.editCustomerNameTB.Text = "";
+                this.editGSTINTB.Text = "";
+                this.editAddressTB.Text = "";
                 loadDatabase();
                 if (RowIndex >= 0 && RowIndex<=dataGridView1.Rows.Count-1)
                 {
@@ -54,15 +57,15 @@ namespace Factory_Inventory
         }
         private void addQualityButton_Click(object sender, EventArgs e)
         {
-            if (newQualityTextbox.Text == "" || addGSTINTextbox.Text == "" || addAddressTextbox.Text == "")
+            if (addCustomerTB.Text == "" || addGSTINTB.Text == "" || addAddressTB.Text == "")
             {
                 c.ErrorBox("Enter all the values", "Error");
                 return;
             }
-            c.runQuery("INSERT INTO T_M_Customers VALUES ('" + newQualityTextbox.Text + "', '" + addGSTINTextbox.Text + "', '" + addAddressTextbox.Text + "') ");
-            this.newQualityTextbox.Text = "";
-            this.addGSTINTextbox.Text = "";
-            this.addAddressTextbox.Text = "";
+            c.runQuery("INSERT INTO T_M_Customers VALUES ('" + addCustomerTB.Text + "', '" + addGSTINTB.Text + "', '" + addAddressTB.Text + "') ");
+            this.addCustomerTB.Text = "";
+            this.addGSTINTB.Text = "";
+            this.addAddressTB.Text = "";
             loadDatabase();
 
         }
@@ -73,9 +76,9 @@ namespace Factory_Inventory
             int RowIndex = dataGridView1.SelectedRows[0].Index;
             if (RowIndex >= 0)
             {
-                editedQualityTextbox.Text = dataGridView1.Rows[RowIndex].Cells[1].Value.ToString();
-                editGSTINTextbox.Text = dataGridView1.Rows[RowIndex].Cells[2].Value.ToString();
-                editAddressTextbox.Text = dataGridView1.Rows[RowIndex].Cells[3].Value.ToString();
+                editCustomerNameTB.Text = dataGridView1.Rows[RowIndex].Cells[1].Value.ToString();
+                editGSTINTB.Text = dataGridView1.Rows[RowIndex].Cells[2].Value.ToString();
+                editAddressTB.Text = dataGridView1.Rows[RowIndex].Cells[3].Value.ToString();
             }
         }
     }
