@@ -44,7 +44,7 @@ namespace Factory_Inventory
         private DbConnect c;
         private bool edit_cmd_send = false;
         private bool edit_form = false;
-        private List<string> tray_no;
+        private List<string> tray_details;  //Tray_No (TrayID)
         private string[] tray_no_this, tray_id_this;
         private M_V_history v1_history;
         private int voucherID;
@@ -55,23 +55,21 @@ namespace Factory_Inventory
             public float net_wt;
             public string mno;
             public string grade;
-            public int tray_id;
-            public fetch_data(float net_wt, string mno, string grade, int tray_id)
+            public fetch_data(float net_wt, string mno, string grade)
             {
                 this.net_wt = net_wt;
                 this.mno = mno;
                 this.grade = grade;
-                this.tray_id = tray_id;
             }
         }
-        Dictionary<string, fetch_data> tray_fetch_data = new Dictionary<string, fetch_data>();
+        Dictionary<string, fetch_data> tray_fetch_data = new Dictionary<string, fetch_data>(); //"Tray_No (Tray_ID)" -> fetch_data
 
         public M_V2_dyeingIssueForm()
         {
             InitializeComponent();
             this.c = new DbConnect();
-            this.tray_no = new List<string>();
-            this.tray_no.Add("");
+            this.tray_details = new List<string>();
+            this.tray_details.Add("");
             this.saveButton.Enabled = false;
 
             //Create drop-down Quality lists
@@ -144,7 +142,7 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
             dataGridView1.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            dgvCmb.DataSource = this.tray_no;
+            dgvCmb.DataSource = this.tray_details;
 
             dgvCmb.HeaderText = "Tray Number";
             dataGridView1.Columns.Insert(1, dgvCmb);
@@ -155,6 +153,8 @@ namespace Factory_Inventory
             dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.Columns.Add("Grade", "Grade");
             dataGridView1.Columns[4].ReadOnly = true;
+            dataGridView1.Columns.Add("Tray_ID", "Tray ID");
+            dataGridView1.Columns[5].Visible = false;
             dataGridView1.RowCount = 10;
 
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
@@ -167,8 +167,8 @@ namespace Factory_Inventory
             this.edit_form = true;
             this.v1_history = v1_history;
             this.c = new DbConnect();
-            this.tray_no = new List<string>();
-            this.tray_no.Add("");
+            this.tray_details = new List<string>();
+            this.tray_details.Add("");
             this.saveButton.Enabled = false;
 
             //Create drop-down Quality lists
@@ -240,7 +240,7 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Sl_No", "Sl_No");
             dataGridView1.Columns[0].ReadOnly = true;
             DataGridViewComboBoxColumn dgvCmb = new DataGridViewComboBoxColumn();
-            dgvCmb.DataSource = this.tray_no;
+            dgvCmb.DataSource = this.tray_details;
 
             dgvCmb.HeaderText = "Tray Number";
             dataGridView1.Columns.Insert(1, dgvCmb);
@@ -251,6 +251,8 @@ namespace Factory_Inventory
             dataGridView1.Columns["Machine_Number"].ReadOnly = true;
             dataGridView1.Columns.Add("Grade", "Grade");
             dataGridView1.Columns[4].ReadOnly = true;
+            dataGridView1.Columns.Add("Tray_ID", "Tray ID");
+            dataGridView1.Columns[5].Visible = false;
             dataGridView1.RowCount = 10;
 
             bool invalid_edit= false;
@@ -310,19 +312,19 @@ namespace Factory_Inventory
             
             for (int i=0; i< tray_no_this.Length; i++)
             {
-                this.tray_no.Add(tray_no_this[i]);
+                this.tray_details.Add(tray_no_this[i] + " (" + tray_id_this[i] + ")");
             }
             DataTable tray_data = c.getTrayDataBothTables("Tray_No, Net_Weight, Machine_No, Grade, Tray_ID", "Tray_ID IN (" + c.removecom(row["Tray_ID_Arr"].ToString()) + ")");
             for (int i = 0; i < tray_data.Rows.Count; i++)
             {
-                this.tray_fetch_data[tray_data.Rows[i]["Tray_No"].ToString()] = new fetch_data(float.Parse(tray_data.Rows[i]["Net_Weight"].ToString()), tray_data.Rows[i]["Machine_No"].ToString(), tray_data.Rows[i]["Grade"].ToString(), int.Parse(tray_data.Rows[i]["Tray_ID"].ToString()));
+                this.tray_fetch_data[tray_data.Rows[i]["Tray_No"].ToString() + " (" + tray_data.Rows[i]["Tray_ID"].ToString() + ")"] = new fetch_data(float.Parse(tray_data.Rows[i]["Net_Weight"].ToString()), tray_data.Rows[i]["Machine_No"].ToString(), tray_data.Rows[i]["Grade"].ToString());
             }
             this.loadData(row["Quality"].ToString(), row["Company_Name"].ToString());
             dataGridView1.RowCount = tray_no_this.Length + 1;
 
             for (int i = 0; i < tray_no_this.Length; i++)
             {
-                dataGridView1.Rows[i].Cells[1].Value = tray_no_this[i];
+                dataGridView1.Rows[i].Cells[1].Value = tray_no_this[i] + " (" + tray_id_this[i] + ")";
             }
 
             string voucher_fiscal_year = c.getFinancialYear(this.issueDateDTP.Value);
@@ -448,8 +450,9 @@ namespace Factory_Inventory
             for (int i = 0; i < d.Rows.Count; i++)
             {
                 string trayno = d.Rows[i]["Tray_No"].ToString();
-                this.tray_no.Add(trayno);
-                this.tray_fetch_data[trayno] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), d.Rows[i]["Machine_No"].ToString(), d.Rows[i]["Grade"].ToString(), int.Parse(d.Rows[i]["Tray_ID"].ToString()));   
+                int trayid = int.Parse(d.Rows[i]["Tray_ID"].ToString());
+                this.tray_details.Add(trayno + " (" + trayid.ToString() + ")");
+                this.tray_fetch_data[trayno + " (" + trayid.ToString() + ")"] = new fetch_data(float.Parse(d.Rows[i]["Net_Weight"].ToString()), d.Rows[i]["Machine_No"].ToString(), d.Rows[i]["Grade"].ToString());   
             }
         }
 
@@ -538,8 +541,10 @@ namespace Factory_Inventory
                 }
                 else
                 {
-                    trayno += dataGridView1.Rows[i].Cells[1].Value.ToString() + ",";
-                    trayid += tray_fetch_data[dataGridView1.Rows[i].Cells[1].Value.ToString()].tray_id.ToString()+',';
+                    string tray_details = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    string[] split = tray_details.Split(' ');
+                    trayno += split[0] + ",";
+                    trayid += split[1].Substring(1, split[1].Length - 2) + ',';
                     number++;
                     //to check for all different tray_nos
                     temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
@@ -602,7 +607,7 @@ namespace Factory_Inventory
                 }
             }
             this.loadData(this.comboBox1CB.SelectedItem.ToString(), this.comboBox2CB.SelectedItem.ToString());
-            if (this.tray_no.Count - 1 == 0)
+            if (this.tray_details.Count - 1 == 0)
             {
                 c.WarningBox("No Trays Loaded");
                 return;
@@ -611,7 +616,7 @@ namespace Factory_Inventory
             {
                 if (this.edit_form == false)
                 {
-                    c.SuccessBox("Loaded " + (this.tray_no.Count - 1).ToString() + " Trays");
+                    c.SuccessBox("Loaded " + (this.tray_details.Count - 1).ToString() + " Trays");
                 }
             }
             this.saveButton.Enabled = true;
@@ -688,9 +693,10 @@ namespace Factory_Inventory
                     dynamicWeightLabel.Text = CellSum().ToString("F3");
                     return;
                 }
-                fetch_data temp = new fetch_data(-1F, "", "",-1);
-                string trayno = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                this.tray_fetch_data.TryGetValue(trayno, out temp);
+                fetch_data temp = new fetch_data(-1F, "", "");
+                string traydetails = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
+                this.tray_fetch_data.TryGetValue(traydetails, out temp);
                 dataGridView1.Rows[e.RowIndex].Cells[2].Value = temp.net_wt;
                 this.dataGridView1.Rows[e.RowIndex].Cells[3].Value = temp.mno;
                 this.dataGridView1.Rows[e.RowIndex].Cells[4].Value = temp.grade;

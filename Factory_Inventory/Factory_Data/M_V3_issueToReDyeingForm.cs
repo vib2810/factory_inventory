@@ -169,6 +169,18 @@ namespace Factory_Inventory
                 this.dataGridView1.SelectedRows[0].Selected = false;
             }
 
+            if (isEditable == false)
+            {
+                this.Text += "(View Only)";
+                this.disable_form_edit();
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
+            }
+            else
+            {
+                this.Text += "(Edit)";
+            }
+
             if (int.Parse(redyeing_batch["Batch_State"].ToString()) > 1)
             {
                 string prefix = "This voucher is not editable/deletable as batch " + this.redyeingBatchNoTB.Text + " has ";
@@ -224,18 +236,6 @@ namespace Factory_Inventory
                     disable_form_edit();
                 }
             }
-            if (isEditable==false)
-            {
-                this.Text += "(View Only)";
-                this.disable_form_edit();
-                this.deleteButton.Visible = true;
-                this.deleteButton.Enabled = true;
-            }
-            else
-            {
-                this.Text += "(Edit)";
-            }
-
         }
         private void M_V3_issueToReDyeingForm_Load(object sender, EventArgs e)
         {

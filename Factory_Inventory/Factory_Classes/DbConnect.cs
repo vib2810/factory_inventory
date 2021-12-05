@@ -4171,7 +4171,7 @@ namespace Factory_Inventory.Factory_Classes
                 }
                 else
                 {
-                    this.runQuery("UPDATE Carton_Produced SET Batch_No_Arr = '" + batches_to_add + "', Net_Weight = " + float.Parse(netWeights[i]) + ", Cone_Weight = " + float.Parse(cone_weight) + ", Batch_Fiscal_Year_Arr = '" + batches_fiscal_years + "' WHERE Carton_No = '" + carton_no[i] + "' AND Fiscal_Year = '" + cartonfinancialYear + "'");
+                    this.runQuery("UPDATE Carton_Produced SET Batch_No_Arr = '" + batches_to_add + "', Net_Weight = " + float.Parse(netWeights[i]) + ", Cone_Weight = " + float.Parse(cone_weight) / 1000F+ ", Batch_Fiscal_Year_Arr = '" + batches_fiscal_years + "' WHERE Carton_No = '" + carton_no[i] + "' AND Fiscal_Year = '" + cartonfinancialYear + "'");
                 }
             }
 

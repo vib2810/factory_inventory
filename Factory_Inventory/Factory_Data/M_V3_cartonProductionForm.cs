@@ -186,6 +186,7 @@ namespace Factory_Inventory
             dataGridView1.Columns[7].ReadOnly = true;
             dataGridView1.RowCount = 10;
             dataGridView1.Enabled = false;
+            c.auto_adjust_dgv(dataGridView1);
 
 
             //Datagridview 2
@@ -200,6 +201,7 @@ namespace Factory_Inventory
             dataGridView2.Columns[0].Width = 50;
             dataGridView2.Columns[1].Width = 150;
             dataGridView2.Columns.Add("Weight", "Weight");
+            c.auto_adjust_dgv(dataGridView2);
 
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
             c.set_dgv_column_sort_state(this.dataGridView2, DataGridViewColumnSortMode.NotSortable);
@@ -312,6 +314,7 @@ namespace Factory_Inventory
             dataGridView1.Columns.Add("Net_Weight", "Net Weight");
             dataGridView1.Columns["Net_Weight"].ReadOnly = true;
             dataGridView1.RowCount = 10;
+            c.auto_adjust_dgv(dataGridView1);
 
             //Datagridview 2
             dataGridView2.Columns.Add("Sl_No", "Sl No");
@@ -324,7 +327,8 @@ namespace Factory_Inventory
             dataGridView2.Columns[0].Width = 50;
             dataGridView2.Columns[1].Width = 150;
             dataGridView2.Columns.Add("Weight", "Weight");
-            
+            c.auto_adjust_dgv(dataGridView2);
+
             this.colourComboboxCB.Enabled = false;
             this.qualityComboboxCB.Enabled = false;
             this.dyeingCompanyComboboxCB.Enabled = false;

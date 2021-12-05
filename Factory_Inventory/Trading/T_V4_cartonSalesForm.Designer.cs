@@ -76,7 +76,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView1.Location = new System.Drawing.Point(188, 28);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -110,7 +110,7 @@
             // 
             this.comboBox2CB.FormattingEnabled = true;
             this.comboBox2CB.Location = new System.Drawing.Point(18, 193);
-            this.comboBox2CB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox2CB.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2CB.Name = "comboBox2CB";
             this.comboBox2CB.Size = new System.Drawing.Size(151, 21);
             this.comboBox2CB.TabIndex = 7;
@@ -130,7 +130,7 @@
             // 
             this.saveButton.Enabled = false;
             this.saveButton.Location = new System.Drawing.Point(50, 479);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(83, 44);
             this.saveButton.TabIndex = 15;
@@ -151,7 +151,7 @@
             // saleDateDTP
             // 
             this.saleDateDTP.Location = new System.Drawing.Point(18, 57);
-            this.saleDateDTP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saleDateDTP.Margin = new System.Windows.Forms.Padding(2);
             this.saleDateDTP.Name = "saleDateDTP";
             this.saleDateDTP.Size = new System.Drawing.Size(151, 20);
             this.saleDateDTP.TabIndex = 1;
@@ -159,7 +159,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 41);
+            this.label1.Location = new System.Drawing.Point(16, 42);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
@@ -174,7 +174,7 @@
             // 
             this.comboBox1CB.FormattingEnabled = true;
             this.comboBox1CB.Location = new System.Drawing.Point(18, 154);
-            this.comboBox1CB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1CB.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1CB.Name = "comboBox1CB";
             this.comboBox1CB.Size = new System.Drawing.Size(151, 21);
             this.comboBox1CB.TabIndex = 5;
@@ -192,7 +192,7 @@
             // loadCartonButton
             // 
             this.loadCartonButton.Location = new System.Drawing.Point(18, 218);
-            this.loadCartonButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadCartonButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadCartonButton.Name = "loadCartonButton";
             this.loadCartonButton.Size = new System.Drawing.Size(150, 31);
             this.loadCartonButton.TabIndex = 9;
@@ -223,7 +223,7 @@
             // rateTextboxTB
             // 
             this.rateTextboxTB.Location = new System.Drawing.Point(18, 356);
-            this.rateTextboxTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rateTextboxTB.Margin = new System.Windows.Forms.Padding(2);
             this.rateTextboxTB.Name = "rateTextboxTB";
             this.rateTextboxTB.Size = new System.Drawing.Size(151, 20);
             this.rateTextboxTB.TabIndex = 13;
@@ -233,7 +233,7 @@
             // 
             this.comboBox3CB.FormattingEnabled = true;
             this.comboBox3CB.Location = new System.Drawing.Point(18, 316);
-            this.comboBox3CB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox3CB.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox3CB.Name = "comboBox3CB";
             this.comboBox3CB.Size = new System.Drawing.Size(151, 21);
             this.comboBox3CB.TabIndex = 11;
@@ -242,7 +242,7 @@
             // 
             this.inputDate.Enabled = false;
             this.inputDate.Location = new System.Drawing.Point(18, 20);
-            this.inputDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inputDate.Margin = new System.Windows.Forms.Padding(2);
             this.inputDate.Name = "inputDate";
             this.inputDate.Size = new System.Drawing.Size(151, 20);
             this.inputDate.TabIndex = 42;
@@ -262,7 +262,7 @@
             // 
             this.typeCB.FormattingEnabled = true;
             this.typeCB.Location = new System.Drawing.Point(18, 93);
-            this.typeCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.typeCB.Margin = new System.Windows.Forms.Padding(2);
             this.typeCB.Name = "typeCB";
             this.typeCB.Size = new System.Drawing.Size(151, 21);
             this.typeCB.TabIndex = 2;
@@ -270,7 +270,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 77);
+            this.label6.Location = new System.Drawing.Point(16, 78);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(31, 13);
@@ -280,7 +280,7 @@
             // saleDONoTB
             // 
             this.saleDONoTB.Location = new System.Drawing.Point(18, 392);
-            this.saleDONoTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saleDONoTB.Margin = new System.Windows.Forms.Padding(2);
             this.saleDONoTB.Name = "saleDONoTB";
             this.saleDONoTB.ReadOnly = true;
             this.saleDONoTB.Size = new System.Drawing.Size(151, 20);
@@ -300,7 +300,7 @@
             // totalWeightTB
             // 
             this.totalWeightTB.Location = new System.Drawing.Point(16, 550);
-            this.totalWeightTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.totalWeightTB.Margin = new System.Windows.Forms.Padding(2);
             this.totalWeightTB.Name = "totalWeightTB";
             this.totalWeightTB.ReadOnly = true;
             this.totalWeightTB.Size = new System.Drawing.Size(138, 20);
@@ -311,7 +311,7 @@
             // amountTB
             // 
             this.amountTB.Location = new System.Drawing.Point(16, 587);
-            this.amountTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.amountTB.Margin = new System.Windows.Forms.Padding(2);
             this.amountTB.Name = "amountTB";
             this.amountTB.ReadOnly = true;
             this.amountTB.Size = new System.Drawing.Size(138, 20);
@@ -333,7 +333,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(2, 588);
+            this.label8.Location = new System.Drawing.Point(-2, 591);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(16, 13);
@@ -344,7 +344,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(153, 552);
+            this.label9.Location = new System.Drawing.Point(158, 553);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(19, 13);
@@ -364,7 +364,7 @@
             // deleteButton
             // 
             this.deleteButton.Location = new System.Drawing.Point(50, 424);
-            this.deleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(83, 43);
             this.deleteButton.TabIndex = 0;
@@ -378,7 +378,7 @@
             // 
             this.shadeCB.FormattingEnabled = true;
             this.shadeCB.Location = new System.Drawing.Point(226, 4);
-            this.shadeCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shadeCB.Margin = new System.Windows.Forms.Padding(2);
             this.shadeCB.Name = "shadeCB";
             this.shadeCB.Size = new System.Drawing.Size(151, 21);
             this.shadeCB.TabIndex = 0;
@@ -396,16 +396,16 @@
             // 
             // narrationTB
             // 
-            this.narrationTB.Location = new System.Drawing.Point(69, 649);
-            this.narrationTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.narrationTB.Location = new System.Drawing.Point(68, 620);
+            this.narrationTB.Margin = new System.Windows.Forms.Padding(2);
             this.narrationTB.Name = "narrationTB";
-            this.narrationTB.Size = new System.Drawing.Size(606, 20);
+            this.narrationTB.Size = new System.Drawing.Size(837, 20);
             this.narrationTB.TabIndex = 47;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 649);
+            this.label4.Location = new System.Drawing.Point(14, 623);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(50, 13);
@@ -416,7 +416,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(816, 609);
+            this.ClientSize = new System.Drawing.Size(906, 657);
             this.Controls.Add(this.narrationTB);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label11);
@@ -448,7 +448,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1CB);
             this.Controls.Add(this.label2);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "T_V3_cartonSalesForm";
             this.Text = "Voucher - Carton Sale";
             this.Load += new System.EventHandler(this.M_V1_cartonSalesForm_Load);
