@@ -530,7 +530,7 @@ namespace Factory_Inventory
                 }
             }
 
-            List<int> temp = new List<int>();
+            List<string> temp = new List<string>();
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
 
@@ -547,8 +547,8 @@ namespace Factory_Inventory
                     trayid += split[1].Substring(1, split[1].Length - 2) + ',';
                     number++;
                     //to check for all different tray_nos
-                    temp.Add(int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()));
-                    var distinctBytes = new HashSet<int>(temp);
+                    temp.Add(dataGridView1.Rows[i].Cells[1].Value.ToString());
+                    var distinctBytes = new HashSet<string>(temp);
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
