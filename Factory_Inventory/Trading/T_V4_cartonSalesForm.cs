@@ -297,6 +297,7 @@ namespace Factory_Inventory
             }
 
             this.saleDateDTP.Value = Convert.ToDateTime(row["Date_Of_Sale"].ToString());
+            this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
             this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
             //if (this.comboBox1CB.FindStringExact(row["Quality_Before_Job"].ToString()) == -1)
             //{
@@ -409,7 +410,10 @@ namespace Factory_Inventory
         }
         private void M_V1_cartonSalesForm_Load(object sender, EventArgs e)
         {
-            if (Global.access == 2) this.deleteButton.Visible = false;
+            if (Global.access == 2)
+            {
+                if ((DateTime.Now.Date - inputDate.Value.Date).TotalDays > 1) this.deleteButton.Visible = false;
+            }
             var comboBoxes = this.Controls
                   .OfType<ComboBox>()
                   .Where(x => x.Name.EndsWith("CB"));
@@ -448,10 +452,6 @@ namespace Factory_Inventory
             }
 
             this.saleDateDTP.Focus();
-            if (Global.access == 2)
-            {
-                this.deleteButton.Visible = false;
-            }
             dataGridView1.Columns[1].Width = 200;
             this.saleDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
             this.saleDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
@@ -910,7 +910,7 @@ namespace Factory_Inventory
                     sql += "UPDATE T_Repacked_Cartons SET Carton_State = " + state.ToString() + " WHERE Carton_ID = '" + carton_fetch_data_repack[to_update_repack[i].Item1]["Carton_ID"].ToString() + "';\n";
                 }
 
-                sql += "UPDATE T_Sales_Voucher SET Date_Of_Sale='" + issueDate + "', Sale_Rate=" + float.Parse(rateTextboxTB.Text).ToString() + ", Fiscal_Year='" + fiscal_year + "', Type_Of_Sale = " + int.Parse(typeCB.Text).ToString() + ", Net_Weight=" + float.Parse(this.totalWeightTB.Text).ToString() + ", Narration = '" + narrationTB.Text + "' WHERE Voucher_ID='" + this.voucher_id + "';\n";
+                sql += "UPDATE T_Sales_Voucher SET Date_Of_Sale='" + issueDate + "', Sale_Rate=" + float.Parse(rateTextboxTB.Text).ToString() + ", Fiscal_Year='" + fiscal_year + "', Type_Of_Sale = " + int.Parse(typeCB.Text).ToString() + ", Net_Weight=" + float.Parse(this.totalWeightTB.Text).ToString() + ", Narration = '" + narrationTB.Text + "', Customer_ID = '" + customer_dict[comboBox3CB.SelectedItem.ToString()] + "' WHERE Voucher_ID='" + this.voucher_id + "';\n";
 
                 //catch
                 sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";

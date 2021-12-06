@@ -644,8 +644,13 @@ namespace Factory_Inventory
                 c.ErrorBox("Bill Date is in the future", "Error");
                 return;
             }
-
-            Console.WriteLine(dataGridView2.Rows.Count);
+            //Check for same bill number and company
+            DataTable temp = c.runQuery("SELECT * FROM T_Carton_Inward_Voucher WHERE Company_ID = '" + company_dict[comboBox2CB.SelectedItem.ToString()] + "' AND Bill_No = '" + billNumberTextboxTB.Text + "'");
+            if(temp.Rows.Count != 0)
+            {
+                c.ErrorBox("Voucher with same Bill Number and Company Name already exists");
+                return;
+            }
 
             //Check if all rates are entered in DGV2
             Dictionary<Tuple<string, string>, float> rate = new Dictionary<Tuple<string, string>, float>();

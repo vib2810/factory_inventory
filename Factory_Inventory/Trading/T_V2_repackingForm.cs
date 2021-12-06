@@ -1368,6 +1368,7 @@ namespace Factory_Inventory
             this.qualityComboboxCB.Enabled = false;
             this.financialYearComboboxCB.Enabled = false;
             this.companyComboboxCB.Enabled = false;
+            this.typeCB.Enabled = false;
             this.saveButton.Enabled = true;
             this.dataGridView1.Enabled = true;
         }

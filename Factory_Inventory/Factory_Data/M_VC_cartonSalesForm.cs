@@ -331,6 +331,7 @@ namespace Factory_Inventory
             }
 
             this.saleDateDTP.Value = Convert.ToDateTime(row["Date_Of_Sale"].ToString());
+            this.inputDate.Value = Convert.ToDateTime(row["Date_Of_Input"].ToString());
             this.typeCB.SelectedIndex = this.typeCB.FindStringExact(row["Type_Of_Sale"].ToString());
             if (this.comboBox1CB.FindStringExact(row["Quality"].ToString()) == -1)
             {
@@ -391,7 +392,10 @@ namespace Factory_Inventory
         }
         private void M_V1_cartonSalesForm_Load(object sender, EventArgs e)
         {
-            if (Global.access == 2) this.deleteButton.Visible = false;
+            if (Global.access == 2)
+            {
+                if ((DateTime.Now.Date - inputDate.Value.Date).TotalDays > 1) this.deleteButton.Visible = false;
+            }
             var comboBoxes = this.Controls
                   .OfType<ComboBox>()
                   .Where(x => x.Name.EndsWith("CB"));
@@ -430,10 +434,6 @@ namespace Factory_Inventory
             }
 
             this.saleDateDTP.Focus();
-            if (Global.access == 2)
-            {
-                this.deleteButton.Visible = false;
-            }
             dataGridView1.Columns[1].Width = 200;
             this.saleDateDTP.MinDate = this.inputDate.Value.Date.AddDays(-2);
             this.saleDateDTP.MaxDate = this.inputDate.Value.Date.AddDays(2);
