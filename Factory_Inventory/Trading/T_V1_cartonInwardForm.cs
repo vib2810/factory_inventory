@@ -646,7 +646,13 @@ namespace Factory_Inventory
             }
             //Check for same bill number and company
             DataTable temp = c.runQuery("SELECT * FROM T_Carton_Inward_Voucher WHERE Company_ID = '" + company_dict[comboBox2CB.SelectedItem.ToString()] + "' AND Bill_No = '" + billNumberTextboxTB.Text + "'");
-            if(temp.Rows.Count != 0)
+            int temp_vouvherid = -1;
+            try
+            {
+                temp_vouvherid = int.Parse(temp.Rows[0]["Voucher_ID"].ToString());
+            }
+            catch { }
+            if(temp.Rows.Count != 0 && temp_vouvherid != this.voucher_id)
             {
                 c.ErrorBox("Voucher with same Bill Number and Company Name already exists");
                 return;
