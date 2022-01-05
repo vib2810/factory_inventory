@@ -824,7 +824,8 @@ namespace Factory_Inventory
                     
 
                 }
-                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
+                dynamicRateLabel.Text = CellSum(5).ToString("F3");
+                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
             }
             else
             {
@@ -838,7 +839,8 @@ namespace Factory_Inventory
                     }
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                 }
-                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
+                dynamicRateLabel.Text = CellSum(5).ToString("F3");
+                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
             }
 
         }
@@ -922,7 +924,8 @@ namespace Factory_Inventory
                     dataGridView1.Rows[e.RowIndex].Cells[4].Value = null;
                     dataGridView1.Rows[e.RowIndex].Cells[5].Value = null;
                     if (this.addBill == false) dataGridView1.Rows[e.RowIndex].Cells[6].Value = null;
-                    dynamicWeightLabel.Text = CellSum(5).ToString("F2");
+                    dynamicRateLabel.Text = CellSum(5).ToString("F2");
+                    dynamicWeightLabel.Text = CellSum(2).ToString("F3");
                     return;
                 }
                 string batch_no = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
@@ -936,7 +939,8 @@ namespace Factory_Inventory
                 {
                     dataGridView1.Rows[e.RowIndex].Cells[6].Value = value.slip_no;
                 }
-                dynamicWeightLabel.Text = CellSum(5).ToString("F3");
+                dynamicRateLabel.Text = CellSum(5).ToString("F3");
+                dynamicWeightLabel.Text = CellSum(2).ToString("F3");
             }
         }
         private void dataGridView1_RowPostPaint_1(object sender, DataGridViewRowPostPaintEventArgs e)

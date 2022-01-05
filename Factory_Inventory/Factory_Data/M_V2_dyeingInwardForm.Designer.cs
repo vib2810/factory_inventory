@@ -32,7 +32,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dynamicWeightLabel = new System.Windows.Forms.Label();
+            this.dynamicRateLabel = new System.Windows.Forms.Label();
             this.totalWeightLabel = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.inwardDateDTP = new System.Windows.Forms.DateTimePicker();
@@ -53,6 +53,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.dynamicWeightLabel = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cartonVoucherBindingSource)).BeginInit();
@@ -64,7 +66,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView1.Location = new System.Drawing.Point(188, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -94,25 +96,25 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // dynamicWeightLabel
+            // dynamicRateLabel
             // 
-            this.dynamicWeightLabel.AutoSize = true;
-            this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dynamicWeightLabel.Location = new System.Drawing.Point(14, 337);
-            this.dynamicWeightLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.dynamicWeightLabel.Name = "dynamicWeightLabel";
-            this.dynamicWeightLabel.Size = new System.Drawing.Size(34, 20);
-            this.dynamicWeightLabel.TabIndex = 0;
-            this.dynamicWeightLabel.Text = "0.0";
+            this.dynamicRateLabel.AutoSize = true;
+            this.dynamicRateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dynamicRateLabel.Location = new System.Drawing.Point(112, 312);
+            this.dynamicRateLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.dynamicRateLabel.Name = "dynamicRateLabel";
+            this.dynamicRateLabel.Size = new System.Drawing.Size(28, 16);
+            this.dynamicRateLabel.TabIndex = 0;
+            this.dynamicRateLabel.Text = "0.0";
             // 
             // totalWeightLabel
             // 
             this.totalWeightLabel.AutoSize = true;
-            this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWeightLabel.Location = new System.Drawing.Point(14, 317);
+            this.totalWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalWeightLabel.Location = new System.Drawing.Point(15, 312);
             this.totalWeightLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.totalWeightLabel.Name = "totalWeightLabel";
-            this.totalWeightLabel.Size = new System.Drawing.Size(98, 20);
+            this.totalWeightLabel.Size = new System.Drawing.Size(85, 16);
             this.totalWeightLabel.TabIndex = 0;
             this.totalWeightLabel.Text = "Total Rate ";
             // 
@@ -120,7 +122,7 @@
             // 
             this.saveButton.Enabled = false;
             this.saveButton.Location = new System.Drawing.Point(49, 426);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(83, 42);
             this.saveButton.TabIndex = 15;
@@ -131,7 +133,7 @@
             // inwardDateDTP
             // 
             this.inwardDateDTP.Location = new System.Drawing.Point(18, 79);
-            this.inwardDateDTP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inwardDateDTP.Margin = new System.Windows.Forms.Padding(2);
             this.inwardDateDTP.Name = "inwardDateDTP";
             this.inwardDateDTP.Size = new System.Drawing.Size(151, 20);
             this.inwardDateDTP.TabIndex = 1;
@@ -153,7 +155,7 @@
             // loadBatchButton
             // 
             this.loadBatchButton.Location = new System.Drawing.Point(16, 273);
-            this.loadBatchButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadBatchButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadBatchButton.Name = "loadBatchButton";
             this.loadBatchButton.Size = new System.Drawing.Size(150, 31);
             this.loadBatchButton.TabIndex = 7;
@@ -165,7 +167,7 @@
             // 
             this.inputDate.Enabled = false;
             this.inputDate.Location = new System.Drawing.Point(18, 34);
-            this.inputDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inputDate.Margin = new System.Windows.Forms.Padding(2);
             this.inputDate.Name = "inputDate";
             this.inputDate.Size = new System.Drawing.Size(151, 20);
             this.inputDate.TabIndex = 0;
@@ -195,7 +197,7 @@
             // billNumberTextboxTB
             // 
             this.billNumberTextboxTB.Location = new System.Drawing.Point(475, 370);
-            this.billNumberTextboxTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.billNumberTextboxTB.Margin = new System.Windows.Forms.Padding(2);
             this.billNumberTextboxTB.Name = "billNumberTextboxTB";
             this.billNumberTextboxTB.ReadOnly = true;
             this.billNumberTextboxTB.Size = new System.Drawing.Size(83, 20);
@@ -217,7 +219,7 @@
             // 
             this.dyeingCompanyCB.FormattingEnabled = true;
             this.dyeingCompanyCB.Location = new System.Drawing.Point(18, 241);
-            this.dyeingCompanyCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dyeingCompanyCB.Margin = new System.Windows.Forms.Padding(2);
             this.dyeingCompanyCB.Name = "dyeingCompanyCB";
             this.dyeingCompanyCB.Size = new System.Drawing.Size(151, 21);
             this.dyeingCompanyCB.TabIndex = 5;
@@ -246,7 +248,7 @@
             // 
             this.comboBox3CB.FormattingEnabled = true;
             this.comboBox3CB.Location = new System.Drawing.Point(18, 202);
-            this.comboBox3CB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox3CB.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox3CB.Name = "comboBox3CB";
             this.comboBox3CB.Size = new System.Drawing.Size(151, 21);
             this.comboBox3CB.TabIndex = 4;
@@ -255,7 +257,7 @@
             // 
             this.billDateDTP.Enabled = false;
             this.billDateDTP.Location = new System.Drawing.Point(475, 347);
-            this.billDateDTP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.billDateDTP.Margin = new System.Windows.Forms.Padding(2);
             this.billDateDTP.Name = "billDateDTP";
             this.billDateDTP.Size = new System.Drawing.Size(151, 20);
             this.billDateDTP.TabIndex = 0;
@@ -276,7 +278,7 @@
             // deleteButton
             // 
             this.deleteButton.Location = new System.Drawing.Point(49, 375);
-            this.deleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(83, 38);
             this.deleteButton.TabIndex = 44;
@@ -296,11 +298,35 @@
             this.label5.Size = new System.Drawing.Size(0, 17);
             this.label5.TabIndex = 0;
             // 
+            // dynamicWeightLabel
+            // 
+            this.dynamicWeightLabel.AutoSize = true;
+            this.dynamicWeightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dynamicWeightLabel.Location = new System.Drawing.Point(112, 335);
+            this.dynamicWeightLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.dynamicWeightLabel.Name = "dynamicWeightLabel";
+            this.dynamicWeightLabel.Size = new System.Drawing.Size(28, 16);
+            this.dynamicWeightLabel.TabIndex = 45;
+            this.dynamicWeightLabel.Text = "0.0";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(15, 335);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(100, 16);
+            this.label9.TabIndex = 46;
+            this.label9.Text = "Total Weight ";
+            // 
             // M_V2_dyeingInwardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(808, 490);
+            this.Controls.Add(this.dynamicWeightLabel);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.billDateDTP);
@@ -316,12 +342,12 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.loadBatchButton);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.dynamicWeightLabel);
+            this.Controls.Add(this.dynamicRateLabel);
             this.Controls.Add(this.totalWeightLabel);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.inwardDateDTP);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "M_V2_dyeingInwardForm";
             this.Text = "Voucher - Dyeing Inward";
             this.Load += new System.EventHandler(this.M_V2_dyeingInwardForm_Load);
@@ -338,7 +364,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.Label dynamicWeightLabel;
+        private System.Windows.Forms.Label dynamicRateLabel;
         private System.Windows.Forms.Label totalWeightLabel;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.DateTimePicker inwardDateDTP;
@@ -359,5 +385,7 @@
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label dynamicWeightLabel;
+        private System.Windows.Forms.Label label9;
     }
 }
