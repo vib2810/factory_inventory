@@ -2727,7 +2727,7 @@ namespace Factory_Inventory.Factory_Classes
                 {
                     con.Open();
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    sql = "INSERT INTO Fiscal_Year VALUES ('" + financialyear + "', 0 ,'0', 'BB0', 'RR0', '0', 'BB0', 'RR0')";
+                    sql = "INSERT INTO Fiscal_Year VALUES ('" + financialyear + "', 0 ,'0', 'BB0', 'RR0', '0', 'TB0', 'TR0')";
                     adapter.InsertCommand = new SqlCommand(sql, con);
                     adapter.InsertCommand.ExecuteNonQuery();
 
