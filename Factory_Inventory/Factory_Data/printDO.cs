@@ -101,9 +101,9 @@ namespace Factory_Inventory
             else
             {
                 //THESE CARTONS ARE FROM T_Inward_Cartons TABLE AS WELL. INCLUDE THEM AS WELL
-                string sql = "SELECT temp1.*, T_Carton_Sales.Sales_Voucher_ID\n";
+                string sql = "SELECT temp1.*, T_Carton_Sales.Sales_Voucher_ID, T_Carton_Sales.Sold_Weight as 'Net_Weight'\n";
                 sql += "FROM\n";
-                sql += "(SELECT T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Carton_No, T_M_Colours.Colour\n";
+                sql += "(SELECT T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Carton_No, T_M_Colours.Colour\n";
                 sql += "FROM T_Repacked_Cartons\n";
                 sql += "LEFT OUTER JOIN T_M_Colours\n";
                 sql += "ON T_Repacked_Cartons.Colour_ID = T_M_Colours.Colour_ID) as temp1\n";
@@ -111,9 +111,9 @@ namespace Factory_Inventory
                 sql += "ON T_Carton_Sales.Carton_ID = temp1.Carton_ID\n";
                 sql += "WHERE Sales_Voucher_ID = " + row["Voucher_ID"].ToString() + "\n";
                 sql += "UNION ALL\n";
-                sql += "SELECT temp2.*, T_Carton_Sales.Sales_Voucher_ID\n";
+                sql += "SELECT temp2.*, T_Carton_Sales.Sales_Voucher_ID, T_Carton_Sales.Sold_Weight as 'Net_Weight'\n";
                 sql += "FROM\n";
-                sql += "(SELECT T_Inward_Carton.Carton_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Carton_No, T_M_Colours.Colour\n";
+                sql += "(SELECT T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_M_Colours.Colour\n";
                 sql += "FROM T_Inward_Carton\n";
                 sql += "LEFT OUTER JOIN T_M_Colours\n";
                 sql += "ON T_Inward_Carton.Colour_ID = T_M_Colours.Colour_ID) as temp2\n";
