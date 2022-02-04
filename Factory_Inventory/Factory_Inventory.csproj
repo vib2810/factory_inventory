@@ -68,7 +68,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>icon_new.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BarcodeStandard, Version=2.2.5.0, Culture=neutral, processorArchitecture=MSIL">
@@ -1141,7 +1141,7 @@
     <None Include="rightarrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon.ico" />
+    <Content Include="icon_new.ico" />
     <Content Include="Queries\Create Main DB.sql" />
     <Content Include="Queries\Database_Create_Full.sql" />
     <Content Include="Queries\tables_data_transfer.sql" />
