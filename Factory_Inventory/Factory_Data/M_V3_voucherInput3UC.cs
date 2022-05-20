@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Factory_Data;
 
 namespace Factory_Inventory
 {
@@ -57,11 +58,24 @@ namespace Factory_Inventory
 
             if (keyData == (Keys.D4) || keyData == (Keys.NumPad4))
             {
+                this.paymentButton.Focus();
+                this.paymentButton.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D4 | Keys.Shift))
+            {
+                this.button9.Focus();
+                this.button9.PerformClick();
+                return false;
+            }
+
+            if (keyData == (Keys.D5) || keyData == (Keys.NumPad5))
+            {
                 this.button4.Focus();
                 this.button4.PerformClick();
                 return false;
             }
-            if (keyData == (Keys.D4 | Keys.Shift))
+            if (keyData == (Keys.D5 | Keys.Shift))
             {
                 this.button3.Focus();
                 this.button3.PerformClick();
@@ -154,6 +168,22 @@ namespace Factory_Inventory
                 M_V_history f = new M_V_history(12);
                 Global.background.show_form(f);
             }
+        }
+
+        private void paymentButton_Click(object sender, EventArgs e)
+        {
+            if (c.check_login_val() == false) return;
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_VC_cartonSalesForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
+            M_VC_paymentForm f = new M_VC_paymentForm();
+            Global.background.show_form(f);
         }
     }
 }

@@ -335,6 +335,12 @@
     <Compile Include="Factory_Data\M_I2_TablesUC.Designer.cs">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factory_Data\M_VC_paymentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factory_Data\M_VC_paymentForm.Designer.cs">
+      <DependentUpon>M_VC_paymentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main\BackupAll.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -848,6 +854,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Factory_Data\M_I2_TablesUC.resx">
       <DependentUpon>M_I2_TablesUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_VC_paymentForm.resx">
+      <DependentUpon>M_VC_paymentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main\BackupAll.resx">
       <DependentUpon>BackupAll.cs</DependentUpon>
