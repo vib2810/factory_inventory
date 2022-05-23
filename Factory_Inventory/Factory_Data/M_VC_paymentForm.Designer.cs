@@ -29,9 +29,17 @@ namespace Factory_Inventory.Factory_Data
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.inputDateDTP = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.sl_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.do_no = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.total_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pending_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.payment_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.payment_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.close_do = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.saveButton = new System.Windows.Forms.Button();
             this.customerCB = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,14 +48,10 @@ namespace Factory_Inventory.Factory_Data
             this.paymentLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.narrationTB = new System.Windows.Forms.TextBox();
-            this.sl_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.do_no = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.total_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pending_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.payment_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.payment_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.close_do = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.deleteMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.deleteMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // inputDateDTP
@@ -81,15 +85,68 @@ namespace Factory_Inventory.Factory_Data
             this.payment_date,
             this.payment_amount,
             this.close_do});
+            this.dataGridView1.ContextMenuStrip = this.deleteMenuStrip1;
             this.dataGridView1.Location = new System.Drawing.Point(154, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(803, 426);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
+            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            // 
+            // sl_no
+            // 
+            this.sl_no.HeaderText = "Sl. No.";
+            this.sl_no.Name = "sl_no";
+            this.sl_no.ReadOnly = true;
+            this.sl_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.sl_no.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // do_no
+            // 
+            this.do_no.HeaderText = "DO No.";
+            this.do_no.MaxDropDownItems = 100;
+            this.do_no.Name = "do_no";
+            this.do_no.ReadOnly = true;
+            this.do_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // total_amount
+            // 
+            this.total_amount.HeaderText = "Total Amount";
+            this.total_amount.Name = "total_amount";
+            this.total_amount.ReadOnly = true;
+            this.total_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // pending_amount
+            // 
+            this.pending_amount.HeaderText = "Pending Amount";
+            this.pending_amount.Name = "pending_amount";
+            this.pending_amount.ReadOnly = true;
+            this.pending_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // payment_date
+            // 
+            this.payment_date.HeaderText = "Payment Date";
+            this.payment_date.Name = "payment_date";
+            this.payment_date.ReadOnly = true;
+            this.payment_date.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // payment_amount
+            // 
+            this.payment_amount.HeaderText = "Payment Amount";
+            this.payment_amount.Name = "payment_amount";
+            this.payment_amount.ReadOnly = true;
+            this.payment_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // close_do
+            // 
+            this.close_do.HeaderText = "Close DO";
+            this.close_do.Name = "close_do";
+            this.close_do.ReadOnly = true;
+            this.close_do.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // saveButton
             // 
@@ -163,56 +220,19 @@ namespace Factory_Inventory.Factory_Data
             this.narrationTB.Size = new System.Drawing.Size(888, 20);
             this.narrationTB.TabIndex = 10;
             // 
-            // sl_no
+            // deleteMenuStrip1
             // 
-            this.sl_no.HeaderText = "Sl. No.";
-            this.sl_no.Name = "sl_no";
-            this.sl_no.ReadOnly = true;
-            this.sl_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.sl_no.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.deleteMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.deleteMenuStrip1.Name = "deleteMenuStrip1";
+            this.deleteMenuStrip1.Size = new System.Drawing.Size(108, 26);
             // 
-            // do_no
+            // deleteToolStripMenuItem
             // 
-            this.do_no.HeaderText = "DO No.";
-            this.do_no.MaxDropDownItems = 100;
-            this.do_no.Name = "do_no";
-            this.do_no.ReadOnly = true;
-            this.do_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // total_amount
-            // 
-            this.total_amount.HeaderText = "Total Amount";
-            this.total_amount.Name = "total_amount";
-            this.total_amount.ReadOnly = true;
-            this.total_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // pending_amount
-            // 
-            this.pending_amount.HeaderText = "Pending Amount";
-            this.pending_amount.Name = "pending_amount";
-            this.pending_amount.ReadOnly = true;
-            this.pending_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // payment_date
-            // 
-            this.payment_date.HeaderText = "Payment Date";
-            this.payment_date.Name = "payment_date";
-            this.payment_date.ReadOnly = true;
-            this.payment_date.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // payment_amount
-            // 
-            this.payment_amount.HeaderText = "Payment Amount";
-            this.payment_amount.Name = "payment_amount";
-            this.payment_amount.ReadOnly = true;
-            this.payment_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // close_do
-            // 
-            this.close_do.HeaderText = "Close DO";
-            this.close_do.Name = "close_do";
-            this.close_do.ReadOnly = true;
-            this.close_do.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // M_VC_paymentForm
             // 
@@ -233,6 +253,7 @@ namespace Factory_Inventory.Factory_Data
             this.Name = "M_VC_paymentForm";
             this.Text = "M_VC_paymentForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.deleteMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -258,5 +279,7 @@ namespace Factory_Inventory.Factory_Data
         private System.Windows.Forms.DataGridViewTextBoxColumn payment_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn payment_amount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn close_do;
+        private System.Windows.Forms.ContextMenuStrip deleteMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

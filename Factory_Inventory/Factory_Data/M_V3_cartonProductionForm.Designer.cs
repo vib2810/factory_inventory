@@ -84,7 +84,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView1.Location = new System.Drawing.Point(290, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -110,14 +110,14 @@
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // saveButton
             // 
             this.saveButton.Location = new System.Drawing.Point(10, 535);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(158, 38);
             this.saveButton.TabIndex = 15;
@@ -132,7 +132,7 @@
             // loadDataButton
             // 
             this.loadDataButton.Location = new System.Drawing.Point(10, 226);
-            this.loadDataButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadDataButton.Name = "loadDataButton";
             this.loadDataButton.Size = new System.Drawing.Size(157, 31);
             this.loadDataButton.TabIndex = 11;
@@ -144,7 +144,7 @@
             // 
             this.inputDate.Enabled = false;
             this.inputDate.Location = new System.Drawing.Point(10, 24);
-            this.inputDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inputDate.Margin = new System.Windows.Forms.Padding(2);
             this.inputDate.Name = "inputDate";
             this.inputDate.Size = new System.Drawing.Size(158, 20);
             this.inputDate.TabIndex = 36;
@@ -183,7 +183,7 @@
             // 
             this.batchnwtTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.batchnwtTextbox.Location = new System.Drawing.Point(89, 407);
-            this.batchnwtTextbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.batchnwtTextbox.Margin = new System.Windows.Forms.Padding(2);
             this.batchnwtTextbox.Name = "batchnwtTextbox";
             this.batchnwtTextbox.ReadOnly = true;
             this.batchnwtTextbox.Size = new System.Drawing.Size(167, 23);
@@ -219,7 +219,7 @@
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.ContextMenuStrip = this.contextMenuStrip2;
             this.dataGridView2.Location = new System.Drawing.Point(9, 262);
-            this.dataGridView2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
@@ -252,7 +252,7 @@
             // 
             this.colourComboboxCB.FormattingEnabled = true;
             this.colourComboboxCB.Location = new System.Drawing.Point(10, 69);
-            this.colourComboboxCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.colourComboboxCB.Margin = new System.Windows.Forms.Padding(2);
             this.colourComboboxCB.Name = "colourComboboxCB";
             this.colourComboboxCB.Size = new System.Drawing.Size(158, 21);
             this.colourComboboxCB.TabIndex = 1;
@@ -261,7 +261,7 @@
             // 
             this.dyeingCompanyComboboxCB.FormattingEnabled = true;
             this.dyeingCompanyComboboxCB.Location = new System.Drawing.Point(10, 154);
-            this.dyeingCompanyComboboxCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dyeingCompanyComboboxCB.Margin = new System.Windows.Forms.Padding(2);
             this.dyeingCompanyComboboxCB.Name = "dyeingCompanyComboboxCB";
             this.dyeingCompanyComboboxCB.Size = new System.Drawing.Size(158, 21);
             this.dyeingCompanyComboboxCB.TabIndex = 5;
@@ -270,7 +270,7 @@
             // 
             this.qualityComboboxCB.FormattingEnabled = true;
             this.qualityComboboxCB.Location = new System.Drawing.Point(10, 111);
-            this.qualityComboboxCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.qualityComboboxCB.Margin = new System.Windows.Forms.Padding(2);
             this.qualityComboboxCB.Name = "qualityComboboxCB";
             this.qualityComboboxCB.Size = new System.Drawing.Size(158, 21);
             this.qualityComboboxCB.TabIndex = 3;
@@ -279,7 +279,7 @@
             // 
             this.coneComboboxCB.FormattingEnabled = true;
             this.coneComboboxCB.Location = new System.Drawing.Point(10, 464);
-            this.coneComboboxCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.coneComboboxCB.Margin = new System.Windows.Forms.Padding(2);
             this.coneComboboxCB.Name = "coneComboboxCB";
             this.coneComboboxCB.Size = new System.Drawing.Size(158, 21);
             this.coneComboboxCB.TabIndex = 13;
@@ -299,7 +299,7 @@
             // 
             this.closedCheckboxCK.AutoSize = true;
             this.closedCheckboxCK.Location = new System.Drawing.Point(183, 557);
-            this.closedCheckboxCK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.closedCheckboxCK.Margin = new System.Windows.Forms.Padding(2);
             this.closedCheckboxCK.Name = "closedCheckboxCK";
             this.closedCheckboxCK.Size = new System.Drawing.Size(100, 17);
             this.closedCheckboxCK.TabIndex = 0;
@@ -346,7 +346,7 @@
             this.cartonweight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cartonweight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cartonweight.Location = new System.Drawing.Point(850, 588);
-            this.cartonweight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cartonweight.Margin = new System.Windows.Forms.Padding(2);
             this.cartonweight.Name = "cartonweight";
             this.cartonweight.ReadOnly = true;
             this.cartonweight.Size = new System.Drawing.Size(167, 23);
@@ -370,7 +370,7 @@
             // 
             this.financialYearComboboxCB.FormattingEnabled = true;
             this.financialYearComboboxCB.Location = new System.Drawing.Point(10, 200);
-            this.financialYearComboboxCB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.financialYearComboboxCB.Margin = new System.Windows.Forms.Padding(2);
             this.financialYearComboboxCB.Name = "financialYearComboboxCB";
             this.financialYearComboboxCB.Size = new System.Drawing.Size(158, 21);
             this.financialYearComboboxCB.TabIndex = 7;
@@ -389,7 +389,7 @@
             // 
             this.oilGainTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oilGainTextbox.Location = new System.Drawing.Point(68, 592);
-            this.oilGainTextbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.oilGainTextbox.Margin = new System.Windows.Forms.Padding(2);
             this.oilGainTextbox.Name = "oilGainTextbox";
             this.oilGainTextbox.ReadOnly = true;
             this.oilGainTextbox.Size = new System.Drawing.Size(126, 23);
@@ -432,7 +432,7 @@
             // deleteButton
             // 
             this.deleteButton.Location = new System.Drawing.Point(10, 492);
-            this.deleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(158, 38);
             this.deleteButton.TabIndex = 0;
@@ -456,7 +456,7 @@
             // 
             this.nextcartonnoTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nextcartonnoTB.Location = new System.Drawing.Point(183, 200);
-            this.nextcartonnoTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nextcartonnoTB.Margin = new System.Windows.Forms.Padding(2);
             this.nextcartonnoTB.Name = "nextcartonnoTB";
             this.nextcartonnoTB.ReadOnly = true;
             this.nextcartonnoTB.Size = new System.Drawing.Size(89, 19);
@@ -511,7 +511,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.saveButton);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "M_V3_cartonProductionForm";
             this.Text = "Voucher - Carton Production";
             this.Load += new System.EventHandler(this.M_V3_cartonProductionForm_Load);
