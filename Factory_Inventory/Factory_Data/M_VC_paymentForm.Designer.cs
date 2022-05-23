@@ -32,19 +32,21 @@ namespace Factory_Inventory.Factory_Data
             this.inputDateDTP = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dono = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.total_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pending_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.payment_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.payment_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.close = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.saveButton = new System.Windows.Forms.Button();
             this.customerCB = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.loadDataButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.paymentLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.narrationTB = new System.Windows.Forms.TextBox();
+            this.sl_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.do_no = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.total_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pending_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.payment_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.payment_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.close_do = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,71 +74,22 @@ namespace Factory_Inventory.Factory_Data
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.slno,
-            this.dono,
+            this.sl_no,
+            this.do_no,
             this.total_amount,
             this.pending_amount,
             this.payment_date,
             this.payment_amount,
-            this.close});
+            this.close_do});
             this.dataGridView1.Location = new System.Drawing.Point(154, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(634, 426);
+            this.dataGridView1.Size = new System.Drawing.Size(803, 426);
             this.dataGridView1.TabIndex = 2;
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
-            // 
-            // slno
-            // 
-            this.slno.HeaderText = "Sl. No.";
-            this.slno.Name = "slno";
-            this.slno.ReadOnly = true;
-            this.slno.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.slno.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dono
-            // 
-            this.dono.HeaderText = "DO No.";
-            this.dono.MaxDropDownItems = 100;
-            this.dono.Name = "dono";
-            this.dono.ReadOnly = true;
-            this.dono.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // total_amount
-            // 
-            this.total_amount.HeaderText = "Total Amount";
-            this.total_amount.Name = "total_amount";
-            this.total_amount.ReadOnly = true;
-            this.total_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // pending_amount
-            // 
-            this.pending_amount.HeaderText = "Pending Amount";
-            this.pending_amount.Name = "pending_amount";
-            this.pending_amount.ReadOnly = true;
-            this.pending_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // payment_date
-            // 
-            this.payment_date.HeaderText = "Payment Date";
-            this.payment_date.Name = "payment_date";
-            this.payment_date.ReadOnly = true;
-            this.payment_date.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // payment_amount
-            // 
-            this.payment_amount.HeaderText = "Payment Amount";
-            this.payment_amount.Name = "payment_amount";
-            this.payment_amount.ReadOnly = true;
-            this.payment_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // close
-            // 
-            this.close.HeaderText = "Close DO";
-            this.close.Name = "close";
-            this.close.ReadOnly = true;
-            this.close.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // saveButton
             // 
@@ -194,11 +147,80 @@ namespace Factory_Inventory.Factory_Data
             this.paymentLabel.TabIndex = 8;
             this.paymentLabel.Text = "paymentLabel";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 464);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Narration:";
+            // 
+            // narrationTB
+            // 
+            this.narrationTB.Location = new System.Drawing.Point(69, 461);
+            this.narrationTB.Name = "narrationTB";
+            this.narrationTB.Size = new System.Drawing.Size(888, 20);
+            this.narrationTB.TabIndex = 10;
+            // 
+            // sl_no
+            // 
+            this.sl_no.HeaderText = "Sl. No.";
+            this.sl_no.Name = "sl_no";
+            this.sl_no.ReadOnly = true;
+            this.sl_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.sl_no.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // do_no
+            // 
+            this.do_no.HeaderText = "DO No.";
+            this.do_no.MaxDropDownItems = 100;
+            this.do_no.Name = "do_no";
+            this.do_no.ReadOnly = true;
+            this.do_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // total_amount
+            // 
+            this.total_amount.HeaderText = "Total Amount";
+            this.total_amount.Name = "total_amount";
+            this.total_amount.ReadOnly = true;
+            this.total_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // pending_amount
+            // 
+            this.pending_amount.HeaderText = "Pending Amount";
+            this.pending_amount.Name = "pending_amount";
+            this.pending_amount.ReadOnly = true;
+            this.pending_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // payment_date
+            // 
+            this.payment_date.HeaderText = "Payment Date";
+            this.payment_date.Name = "payment_date";
+            this.payment_date.ReadOnly = true;
+            this.payment_date.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // payment_amount
+            // 
+            this.payment_amount.HeaderText = "Payment Amount";
+            this.payment_amount.Name = "payment_amount";
+            this.payment_amount.ReadOnly = true;
+            this.payment_amount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // close_do
+            // 
+            this.close_do.HeaderText = "Close DO";
+            this.close_do.Name = "close_do";
+            this.close_do.ReadOnly = true;
+            this.close_do.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
             // M_VC_paymentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(961, 491);
+            this.Controls.Add(this.narrationTB);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.paymentLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.loadDataButton);
@@ -225,14 +247,16 @@ namespace Factory_Inventory.Factory_Data
         private System.Windows.Forms.ComboBox customerCB;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button loadDataButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn slno;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dono;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label paymentLabel;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox narrationTB;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sl_no;
+        private System.Windows.Forms.DataGridViewComboBoxColumn do_no;
         private System.Windows.Forms.DataGridViewTextBoxColumn total_amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn pending_amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn payment_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn payment_amount;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn close;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label paymentLabel;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn close_do;
     }
 }
