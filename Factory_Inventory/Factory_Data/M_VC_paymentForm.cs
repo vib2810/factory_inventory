@@ -219,6 +219,21 @@ namespace Factory_Inventory.Factory_Data
                 }
             }
 
+            //Iterate to check for mistakes in dataGridView2
+            for (int i = 0; i < dataGridView2.Rows.Count; i++)
+            {
+                if (float.Parse(dataGridView2.Rows[i].Cells["pending_amount"].Value.ToString()) < 0F)
+                {
+                    c.ErrorBox("Pending Amount at row " + (i + 1).ToString() + " is negative", "Error");
+                    return;
+                }
+                if (float.Parse(dataGridView2.Rows[i].Cells["pending_amount"].Value.ToString()) > 0F)
+                {
+                    c.WarningBox("Discount of ₹" + dataGridView2.Rows[i].Cells["pending_amount"].Value.ToString() + " at row " + (i + 1).ToString(), "Error");
+                    return;
+                }
+            }
+
             if (this.edit_form == false)
             {
                 string input_date = inputDateDTP.Value.ToString("yyyy-MM-dd");
@@ -482,7 +497,13 @@ namespace Factory_Inventory.Factory_Data
                 {
                     try
                     {
-                        float.Parse(dataGridView1.Rows[e.RowIndex].Cells["payment_amount"].Value.ToString());
+                        float amount = float.Parse(dataGridView1.Rows[e.RowIndex].Cells["payment_amount"].Value.ToString());
+                        if(amount <= 0F)
+                        {
+                            c.ErrorBox("Negative amount entered", "Error");
+                            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                            return;
+                        }
                     }
                     catch
                     {

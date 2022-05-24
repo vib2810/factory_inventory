@@ -320,7 +320,7 @@ namespace Factory_Inventory.Factory_Data
             this.Controls.Add(this.label1);
             this.Controls.Add(this.inputDateDTP);
             this.Name = "M_VC_paymentForm";
-            this.Text = "M_VC_paymentForm";
+            this.Text = "Voucher - Payment";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.deleteMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
