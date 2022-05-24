@@ -33,7 +33,7 @@ namespace Factory_Inventory.Factory_Data
                 msg.HWnd == dataGridView1.EditingControl.Handle &&
                 dataGridView1.SelectedCells
                     .Cast<DataGridViewCell>()
-                    .Any(x => x.ColumnIndex == 5))
+                    .Any(x => x.ColumnIndex == 3))
             {
                 this.edit_cmd_send = true;
                 int rowtab_index = dataGridView1.SelectedCells[0].RowIndex;
@@ -42,7 +42,6 @@ namespace Factory_Inventory.Factory_Data
                 {
                     dataGridView1.Rows[rowtab_index + 1].Cells["payment_date"].Value = dataGridView1.Rows[rowtab_index].Cells["payment_date"].Value;
                 }
-                SendKeys.Send("{Tab}");
                 SendKeys.Send("{Tab}");
                 return false;
             }
@@ -64,7 +63,9 @@ namespace Factory_Inventory.Factory_Data
         public M_VC_paymentForm()
         {
             InitializeComponent();
-            this.paymentLabel.Text = "0.00";
+            this.Name = "Payment Voucher";
+
+            this.totalPaymentTB.Text = "0.00";
 
             this.customerCB.DisplayMember = "Customers";
             this.customerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
@@ -73,7 +74,7 @@ namespace Factory_Inventory.Factory_Data
             
             dataGridView1.Rows[0].Cells["payment_date"].Value = DateTime.Today.Date.ToString().Substring(0,10);
             dataGridView1.Rows[0].Cells["sl_no"].Value = 1;
-            dataGridView1.Rows[0].Cells["close_do"].Value = false;
+            //dataGridView2.Rows[0].Cells["close_do"].Value = false;
             
             DataTable d = c.runQuery("SELECT Customers FROM Customers");
             List<string> datasource = new List<string>();
@@ -111,6 +112,39 @@ namespace Factory_Inventory.Factory_Data
             ret.Add(do_no_fiscal_year_split[1].Substring(0, 9));
             return ret;
         }
+        private void edit_pending_amount(string do_string)
+        {
+            float sum = 0;
+            for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+            {
+                if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "payment_amount"))
+                {
+                    if (dataGridView1.Rows[i].Cells["do_no"].Value.ToString() == do_string)
+                    {
+                        try
+                        {
+                            sum += float.Parse(dataGridView1.Rows[i].Cells["payment_amount"].Value.ToString());
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+            List<string> split_do_no = this.split_do_no(do_string);
+            DataRow do_data_row = this.do_data[new Tuple<string, string>(split_do_no[0], split_do_no[1])];
+            int index = -1;
+            for(int i=0;i<dataGridView2.Rows.Count;i++)
+            {
+                if(dataGridView2.Rows[i].Cells["do_no_2"].Value.ToString() == do_string)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            dataGridView2.Rows[index].Cells["pending_amount"].Value = (float.Parse(dataGridView2.Rows[index].Cells["total_amount"].Value.ToString()) - float.Parse(do_data_row["Paid_Amount"].ToString()) - sum).ToString("F2");
+        }
 
         //buttons
         private void button1_Click(object sender, EventArgs e)
@@ -127,8 +161,11 @@ namespace Factory_Inventory.Factory_Data
             for (int i = 0; i < data.Rows.Count; i++)
             {
                 if (string.IsNullOrEmpty(data.Rows[i]["Paid_Amount"].ToString())) data.Rows[i]["Paid_Amount"] = 0F;
-                do_no_col.Items.Add(data.Rows[i]["Sale_DO_No"].ToString() + " (" + data.Rows[i]["Fiscal_Year"].ToString() + ")");
-                this.do_data[new Tuple<string, string>(data.Rows[i]["Sale_DO_No"].ToString(), data.Rows[i]["Fiscal_Year"].ToString())] = data.Rows[i];
+                string do_no_show = data.Rows[i]["Sale_DO_No"].ToString() + " (" + data.Rows[i]["Fiscal_Year"].ToString() + ")";
+                do_no_col.Items.Add(do_no_show);
+                do_data[new Tuple<string, string>(data.Rows[i]["Sale_DO_No"].ToString(), data.Rows[i]["Fiscal_Year"].ToString())] = data.Rows[i];
+                float total_amount = float.Parse(data.Rows[i]["Sale_Rate"].ToString()) * float.Parse(data.Rows[i]["Net_Weight"].ToString());
+                dataGridView2.Rows.Add(do_no_show, total_amount.ToString(), (total_amount - float.Parse(data.Rows[i]["Paid_Amount"].ToString())).ToString(), false);
             }
 
             if (data.Rows.Count == 0) c.WarningBox("No pending DOs found");
@@ -148,12 +185,11 @@ namespace Factory_Inventory.Factory_Data
             {
                 return;
             }
-            if (e.KeyCode == Keys.Enter && dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 4))
+            if (e.KeyCode == Keys.Enter && dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2))
             {
                 try
                 {
-                    if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 4
-                        )
+                    if (dataGridView1.Focused && dataGridView1.CurrentCell.ColumnIndex == 2)
                     {
                         DateTime d;
                         if (string.IsNullOrEmpty(dataGridView1.CurrentCell.Value.ToString()) == false)
@@ -195,7 +231,6 @@ namespace Factory_Inventory.Factory_Data
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
-                    dataGridView1.Rows[rowindex_tab + 1].Cells["close_do"].Value = false;
                 }
                 if (edit_cmd_local == false)
                 {
@@ -203,42 +238,16 @@ namespace Factory_Inventory.Factory_Data
                 }
             }
             if (e.KeyCode == Keys.Tab &&
-               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2)))
-            {
-                int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                if (rowindex_tab < 0)
-                {
-                    SendKeys.Send("{tab}");
-                    SendKeys.Send("{tab}");
-                    return;
-                }
-                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
-                {
-                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
-                    dataGridView1.Rows.Add(row);
-                    dataGridView1.Rows[rowindex_tab + 1].Cells["close_do"].Value = false;
-                }
-                SendKeys.Send("{tab}");
-                SendKeys.Send("{tab}");
-            }
-            if (e.KeyCode == Keys.Tab &&
-               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 5) || this.edit_cmd_send == true))
+               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 3) || this.edit_cmd_send == true))
             {
                 Console.WriteLine("last column");
                 bool edit_cmd_local = this.edit_cmd_send;
                 this.edit_cmd_send = false;
                 int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                //if (rowindex_tab < 0)
-                //{
-                //    SendKeys.Send("{tab}");
-                //    SendKeys.Send("{tab}");
-                //    return;         
-                //}
                 if (dataGridView1.Rows.Count - 2 == rowindex_tab)
                 {
                     DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
                     dataGridView1.Rows.Add(row);
-                    dataGridView1.Rows[rowindex_tab + 1].Cells["close_do"].Value = false;
                 }
                 if (dataGridView1.Rows.Count - 1 == rowindex_tab)
                 {
@@ -255,7 +264,6 @@ namespace Factory_Inventory.Factory_Data
                 if (edit_cmd_local == false)
                 {
                     SendKeys.Send("{tab}");
-                    SendKeys.Send("{tab}");
                 }
             }
             if (e.KeyCode == Keys.Enter &&
@@ -266,17 +274,6 @@ namespace Factory_Inventory.Factory_Data
                 if (c != null) c.DroppedDown = true;
                 e.Handled = true;
             }
-            if (e.KeyCode == Keys.Enter &&
-               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 6)))
-            {
-                int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                if (dataGridView1.Rows.Count - 1 == rowindex_tab) return;
-
-                if ((bool)dataGridView1.Rows[rowindex_tab].Cells["close_do"].Value == true) dataGridView1.Rows[rowindex_tab].Cells["close_do"].Value = false;
-                else dataGridView1.Rows[rowindex_tab].Cells["close_do"].Value = true;
-
-                
-            }
         }
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
@@ -285,48 +282,26 @@ namespace Factory_Inventory.Factory_Data
                 dataGridView1.Rows[e.RowIndex].Cells[0].Value = e.RowIndex + 1;
             }
         }
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 1 && e.RowIndex >= 0)
-            {
-                if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
-                {
-                    for (int i = 2; i <= 5; i++) dataGridView1.Rows[e.RowIndex].Cells[i].Value = null;
-                    dataGridView1.Rows[e.RowIndex].Cells["close_do"].Value = false;
-                    this.paymentLabel.Text = CellSum().ToString("F2");
-                    return;
-                }
-                Console.WriteLine("CVC");
-                List<string> split_do_no = this.split_do_no(dataGridView1.Rows[e.RowIndex].Cells["do_no"].Value.ToString());
-                Console.WriteLine("--" + split_do_no[0] + "--" + split_do_no[1] + "--");
-                DataRow do_data_row = this.do_data[new Tuple<string, string>(split_do_no[0], split_do_no[1])];
-                dataGridView1.Rows[e.RowIndex].Cells["total_amount"].Value = (float.Parse(do_data_row["Sale_Rate"].ToString())*float.Parse(do_data_row["Net_Weight"].ToString())).ToString("F2");
-                dataGridView1.Rows[e.RowIndex].Cells["pending_amount"].Value = (float.Parse(dataGridView1.Rows[e.RowIndex].Cells["total_amount"].Value.ToString()) - float.Parse(do_data_row["Paid_Amount"].ToString())).ToString("F2");
-            }
-        }
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 5 && e.RowIndex >= 0)
+            if (e.ColumnIndex == 3 && e.RowIndex >= 0)
             {
-                try
+                if (c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
                 {
-                    if (c.Cell_Not_NullOrEmpty(this.dataGridView1, e.RowIndex, e.ColumnIndex))
+                    try
                     {
-                        float payment_amount = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                        List<string> split_do_no = this.split_do_no(dataGridView1.Rows[e.RowIndex].Cells["do_no"].Value.ToString());
-                        DataRow do_data_row = this.do_data[new Tuple<string, string>(split_do_no[0], split_do_no[1])];
-                        dataGridView1.Rows[e.RowIndex].Cells["pending_amount"].Value = (float.Parse(dataGridView1.Rows[e.RowIndex].Cells["total_amount"].Value.ToString()) - float.Parse(do_data_row["Paid_Amount"].ToString()) - payment_amount).ToString("F2");
+                        float.Parse(dataGridView1.Rows[e.RowIndex].Cells["payment_amount"].Value.ToString());
                     }
+                    catch
+                    {
+                        c.ErrorBox("Please Enter Decimal Payment", "Error");
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                        return;
+                    }
+                    edit_pending_amount(dataGridView1.Rows[e.RowIndex].Cells["do_no"].Value.ToString());
+                    this.totalPaymentTB.Text = CellSum().ToString("F2");
                 }
-                catch
-                {
-                    c.ErrorBox("Please Enter Decimal Payment", "Error");
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
-                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Selected = true;
-                    //SendKeys.Send("{Left}");
-                    return;
-                }
-                this.paymentLabel.Text = CellSum().ToString("F2");
+
             }
         }
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -348,7 +323,7 @@ namespace Factory_Inventory.Factory_Data
                 }
                 dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             }
-            this.paymentLabel.Text = CellSum().ToString("F2");
+            this.totalPaymentTB.Text = CellSum().ToString("F2");
         }
     }
 }
