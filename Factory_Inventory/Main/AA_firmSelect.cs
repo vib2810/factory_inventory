@@ -42,6 +42,7 @@ namespace Factory_Inventory.Factory_Classes
                 con_start = "Data Source = " + Properties.Settings.Default.LastIP + ", 1433;";
             }
             Global.con_start = this.con_start;
+            this.toolStripLabel1.Text = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         //callbacks
