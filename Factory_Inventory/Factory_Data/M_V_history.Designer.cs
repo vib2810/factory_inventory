@@ -56,7 +56,7 @@ namespace Factory_Inventory
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(7, 34);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
@@ -71,7 +71,7 @@ namespace Factory_Inventory
             // 
             this.viewDetailsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.viewDetailsButton.Location = new System.Drawing.Point(768, 174);
-            this.viewDetailsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.viewDetailsButton.Margin = new System.Windows.Forms.Padding(2);
             this.viewDetailsButton.Name = "viewDetailsButton";
             this.viewDetailsButton.Size = new System.Drawing.Size(80, 38);
             this.viewDetailsButton.TabIndex = 1;
@@ -83,7 +83,7 @@ namespace Factory_Inventory
             // 
             this.editDetailsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editDetailsButton.Location = new System.Drawing.Point(768, 272);
-            this.editDetailsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editDetailsButton.Margin = new System.Windows.Forms.Padding(2);
             this.editDetailsButton.Name = "editDetailsButton";
             this.editDetailsButton.Size = new System.Drawing.Size(80, 38);
             this.editDetailsButton.TabIndex = 2;
@@ -127,7 +127,7 @@ namespace Factory_Inventory
             // searchButton
             // 
             this.searchButton.Location = new System.Drawing.Point(248, 6);
-            this.searchButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.searchButton.Margin = new System.Windows.Forms.Padding(2);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(92, 24);
             this.searchButton.TabIndex = 9;
@@ -138,8 +138,8 @@ namespace Factory_Inventory
             // searchTB
             // 
             this.searchTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.searchTB.Location = new System.Drawing.Point(64, 6);
-            this.searchTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.searchTB.Location = new System.Drawing.Point(64, 5);
+            this.searchTB.Margin = new System.Windows.Forms.Padding(2);
             this.searchTB.Name = "searchTB";
             this.searchTB.Size = new System.Drawing.Size(180, 26);
             this.searchTB.TabIndex = 8;
@@ -158,8 +158,8 @@ namespace Factory_Inventory
             // 
             // searchByDateButton
             // 
-            this.searchByDateButton.Location = new System.Drawing.Point(567, 6);
-            this.searchByDateButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.searchByDateButton.Location = new System.Drawing.Point(660, 6);
+            this.searchByDateButton.Margin = new System.Windows.Forms.Padding(2);
             this.searchByDateButton.Name = "searchByDateButton";
             this.searchByDateButton.Size = new System.Drawing.Size(92, 24);
             this.searchByDateButton.TabIndex = 12;
@@ -171,7 +171,7 @@ namespace Factory_Inventory
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(368, 8);
+            this.label5.Location = new System.Drawing.Point(428, 7);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 20);
@@ -181,10 +181,10 @@ namespace Factory_Inventory
             // dateTimePicker1
             // 
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(412, 6);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dateTimePicker1.Location = new System.Drawing.Point(476, 5);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(151, 26);
+            this.dateTimePicker1.Size = new System.Drawing.Size(180, 26);
             this.dateTimePicker1.TabIndex = 10;
             // 
             // M_V_history
@@ -204,7 +204,7 @@ namespace Factory_Inventory
             this.Controls.Add(this.editDetailsButton);
             this.Controls.Add(this.viewDetailsButton);
             this.Controls.Add(this.dataGridView1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "M_V_history";
             this.Text = "History";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.M_V_history_FormClosing);

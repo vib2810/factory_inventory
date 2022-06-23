@@ -80,7 +80,7 @@ namespace Factory_Inventory
             if (repack == 1)
             {
                 M_V_history h = new M_V_history(14);
-                string sql = h.getTradingQuery("", false, repacking_voucher_id);
+                string sql = h.getHistoryQuery("", false, repacking_voucher_id);
                 DataTable table = c.runQuery(sql);
                 DataRow voucher = table.Rows[0];
                 T_V2_repackingForm f = new T_V2_repackingForm(voucher, false, h);
@@ -92,7 +92,7 @@ namespace Factory_Inventory
             {
                 M_V_history h = new M_V_history(15);
                 int sale_voucher_id = int.Parse(dt.Rows[comboBox1.SelectedIndex]["Sales_Voucher_ID"].ToString());
-                string sql = h.getTradingQuery("", false, sale_voucher_id);
+                string sql = h.getHistoryQuery("", false, sale_voucher_id);
                 DataTable table = c.runQuery(sql);
                 DataRow voucher = table.Rows[0];
                 T_V3_cartonSalesForm f = new T_V3_cartonSalesForm(voucher, false, h);
@@ -110,7 +110,7 @@ namespace Factory_Inventory
                 return;
             }
             M_V_history h = new M_V_history(13);
-            string sql = h.getTradingQuery("", false, inward_voucher_id);
+            string sql = h.getHistoryQuery("", false, inward_voucher_id);
             DataTable table = c.runQuery(sql);
             DataRow voucher = table.Rows[0];
             T_V1_cartonInwardForm f = new T_V1_cartonInwardForm(voucher, false, h);

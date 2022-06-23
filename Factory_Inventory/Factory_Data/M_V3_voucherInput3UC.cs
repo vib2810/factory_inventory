@@ -185,5 +185,14 @@ namespace Factory_Inventory
             M_VC_paymentForm f = new M_VC_paymentForm();
             Global.background.show_form(f);
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (c.isHistoryFormOpen(17) == false)
+            {
+                M_V_history f = new M_V_history(17);
+                Global.background.show_form(f);
+            }
+        }
     }
 }

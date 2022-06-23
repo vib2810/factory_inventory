@@ -64,6 +64,8 @@ namespace Factory_Inventory.Factory_Data
         Dictionary<Tuple<string,string>, DataRow> do_data = new Dictionary<Tuple<string,string>, DataRow>();
         private bool edit_cmd_send = false;
         private bool edit_form = false;
+        private M_V_history v1_history;
+        private int voucher_id;
         public M_VC_paymentForm()
         {
             InitializeComponent();
@@ -83,6 +85,98 @@ namespace Factory_Inventory.Factory_Data
             List<string> datasource = new List<string>();
             for (int i = 0; i < d.Rows.Count; i++) datasource.Add(d.Rows[i][0].ToString());
             customerCB.DataSource = datasource;
+        }
+        public M_VC_paymentForm(DataRow row, bool isEditable, M_V_history v1_history)
+        {
+            InitializeComponent();
+            this.edit_form = true;
+            this.v1_history = v1_history;
+            this.c = new DbConnect();
+
+            this.Name = "Payment Voucher";
+
+            this.totalPaymentTB.Text = "0.00";
+
+            this.customerCB.DisplayMember = "Customers";
+            this.customerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.customerCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.customerCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            dataGridView1.Rows[0].Cells["payment_date"].Value = DateTime.Today.Date.ToString().Substring(0, 10);
+            dataGridView1.Rows[0].Cells["sl_no"].Value = 1;
+
+            DataTable d = c.runQuery("SELECT Customers FROM Customers");
+            List<string> datasource = new List<string>();
+            for (int i = 0; i < d.Rows.Count; i++) datasource.Add(d.Rows[i][0].ToString());
+            customerCB.DataSource = datasource;
+
+            if (isEditable == false)
+            {
+                this.Text += "(View Only)";
+                this.saveButton.Enabled = false;
+                //this.deleteButton.Visible = true;
+                //this.deleteButton.Enabled = true;
+                this.disable_form_edit();
+            }
+            else
+            {
+                //this.Text += "(Edit)";
+                //this.saleDateDTP.Enabled = true;
+                //this.comboBox1CB.Enabled = false;
+                //this.comboBox2CB.Enabled = false;
+                //this.saveButton.Enabled = true;
+                //this.dataGridView1.ReadOnly = false;
+                //this.saleDONoTB.ReadOnly = true;
+                //this.loadCartonButton.Enabled = false;
+                //this.typeCB.Enabled = false;
+            }
+
+            this.inputDateDTP.Value = Convert.ToDateTime(row["Date_of_Input"].ToString());
+            this.customerCB.SelectedIndex = this.customerCB.FindStringExact(row["Customer"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
+            this.narrationTB.Text = row["Narration"].ToString();
+
+            DataTable data = new DataTable();
+            string sql = "SELECT Voucher_ID, Sale_Rate, Fiscal_Year, Sale_DO_No, Net_Weight, Payment_Closed, Payments.*\n";
+            sql += "FROM Sales_Voucher\n";
+            sql += "LEFT JOIN Payments\n";
+            sql += "ON Sales_Voucher.Voucher_ID = Payments.Sales_Voucher_ID\n";
+            sql += "WHERE Payments.Payment_Voucher_ID = " + this.voucher_id.ToString() + "\n";
+            data = c.runQuery(sql);
+
+            dataGridView1.RowCount = data.Rows.Count + 1;
+            data.Columns.Add("Paid_Amount");
+            Dictionary<string, Tuple<float, int>> paid_amount = new Dictionary<string, Tuple<float, int>>();    //DO_No (Fiscal_Year) -> <Paid_Amount, Index_In_DGV2>
+            int index = 0;
+            for (int i = 0; i < data.Rows.Count; i++)
+            {
+                string do_no_show = data.Rows[i]["Sale_DO_No"].ToString() + " (" + data.Rows[i]["Fiscal_Year"].ToString() + ")";
+                if (!paid_amount.ContainsKey(do_no_show))
+                {
+                    paid_amount[do_no_show] = new Tuple<float, int>(0F, index++);
+                    float total_amount = float.Parse(data.Rows[i]["Sale_Rate"].ToString()) * float.Parse(data.Rows[i]["Net_Weight"].ToString());
+                    dataGridView2.Rows.Add(do_no_show, total_amount.ToString(), (total_amount - float.Parse(data.Rows[i]["Paid_Amount"].ToString())).ToString(), false);
+                }
+                paid_amount[do_no_show] = new Tuple<float, int>(paid_amount[do_no_show].Item1 + float.Parse(data.Rows[i]["Payment_Amount"].ToString()), paid_amount[do_no_show].Item2);
+
+            }
+
+            DataGridViewComboBoxColumn do_no_col = (DataGridViewComboBoxColumn)this.dataGridView1.Columns["do_no"];
+            for (int i = 0; i < data.Rows.Count; i++)
+            {
+                string do_no_show = data.Rows[i]["Sale_DO_No"].ToString() + " (" + data.Rows[i]["Fiscal_Year"].ToString() + ")";
+                float amount = paid_amount[do_no_show].Item1;
+                data.Rows[i]["Paid_Amount"] = amount;
+
+                do_no_col.Items.Add(do_no_show);
+                do_data[new Tuple<string, string>(data.Rows[i]["Sale_DO_No"].ToString(), data.Rows[i]["Fiscal_Year"].ToString())] = data.Rows[i];
+                float total_amount = float.Parse(data.Rows[i]["Sale_Rate"].ToString()) * float.Parse(data.Rows[i]["Net_Weight"].ToString());
+                dataGridView2.Rows.Add(do_no_show, total_amount.ToString(), (total_amount - float.Parse(data.Rows[i]["Paid_Amount"].ToString())).ToString(), false);
+            }
+
+            this.loadData();
+
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
 
         //helpers
@@ -157,10 +251,7 @@ namespace Factory_Inventory.Factory_Data
             saveButton.Enabled = false;
             narrationTB.Enabled = false;
         }
-
-
-        //buttons
-        private void button1_Click(object sender, EventArgs e)
+        private DataTable loadData()
         {
             this.customer = customerCB.SelectedItem.ToString();
             string query = "SELECT Voucher_ID, Sale_Rate, Fiscal_Year, Sale_DO_No, Net_Weight, SUM(Payments.Payment_Amount) Paid_Amount\n";
@@ -180,6 +271,15 @@ namespace Factory_Inventory.Factory_Data
                 float total_amount = float.Parse(data.Rows[i]["Sale_Rate"].ToString()) * float.Parse(data.Rows[i]["Net_Weight"].ToString());
                 dataGridView2.Rows.Add(do_no_show, total_amount.ToString(), (total_amount - float.Parse(data.Rows[i]["Paid_Amount"].ToString())).ToString(), false);
             }
+
+            return data;
+        }
+
+
+        //buttons
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DataTable data = loadData();
 
             if (data.Rows.Count == 0) c.WarningBox("No pending DOs found");
             else

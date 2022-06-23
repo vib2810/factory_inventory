@@ -1,4 +1,5 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Factory_Data;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using System;
@@ -82,6 +83,7 @@ namespace Factory_Inventory
             vno_table_map[14] = "T_Repacking_Voucher";
             vno_table_map[15] = "T_Sales_Voucher";
             vno_table_map[16] = "T_SalesBillNos_Voucher";
+            vno_table_map[17] = "Payment_Voucher";
 
             //Opening
             vno_table_map[100] = "Carton Production";
@@ -245,7 +247,7 @@ namespace Factory_Inventory
             return ",(Select " + function + "(" + column + ") from ((select " + column + " from #temp where [Voucher_ID] = t.[Voucher_ID] )) t1) " + column_name + "\n";
         }
 
-        public string getTradingQuery(string search, bool searching, int voucher_id)
+        public string getHistoryQuery(string search, bool searching, int voucher_id)
         {
             string sql = "";
             if (this.vno == 13)
@@ -385,6 +387,31 @@ namespace Factory_Inventory
                 sql += "drop table #temp;\n";
                 sql += "drop table #tt;\n";
             }
+            else if (this.vno == 17)
+            {
+                sql += "SELECT temp1.*, Sales_Voucher.Sale_DO_No into #temp\n";
+                sql += "FROM\n";
+                sql += "    (SELECT Voucher_ID, Date_of_Input, Customer, Narration, Payments.Sales_Voucher_ID, Payments.Comments, Payments.Payment_Amount\n";
+                sql += "    FROM Payment_Voucher\n";
+                sql += "    LEFT OUTER JOIN Payments\n";
+                sql += "    ON Payment_Voucher.Voucher_ID = Payments.Payment_Voucher_ID) as temp1\n";
+                sql += "LEFT OUTER JOIN Sales_Voucher\n";
+                sql += "ON temp1.Sales_Voucher_ID = Sales_Voucher.Voucher_ID\n";
+
+                if (voucher_id > 0) sql += "WHERE Voucher_ID = " + voucher_id.ToString() + "\n";
+                
+                sql += "select distinct t.[Voucher_ID]\n";
+                sql += select_stuff("", "CONVERT(VARCHAR, t1.Comments)", "Comments_Arr");
+                sql += select_stuff("", "t1.Sale_DO_No", "Sale_DO_No_Arr");
+                sql += "    ,t.Date_of_Input, t.Customer, CONVERT(VARCHAR, t.Narration) Narration\n";
+                sql += ",(Select sum(Payment_Amount) from((select Payment_Amount from #temp where [Voucher_ID] = t.[Voucher_ID] )) t1) Total_Payment_Amount\n";
+                sql += "into #tt\n";
+                sql += "from #temp t order by Voucher_ID DESC;\n";
+                if (!searching) sql += "select * from #tt order by Voucher_ID DESC;\n";
+                else sql += search;
+                sql += "drop table #temp;\n";
+                sql += "drop table #tt;\n";
+            }
             return sql;
         }
         private string getSearchString(string searchText, bool date)
@@ -430,24 +457,9 @@ namespace Factory_Inventory
         public void loadData()
         {
             //Get dt
-            if(this.vno==13)
+            if(this.vno >= 13 && this.vno <= 17)
             {
-                string sql = this.getTradingQuery("", false, 0);
-                this.dt = c.runQuery(sql);
-            }
-            else if(this.vno==14)
-            {
-                string sql = this.getTradingQuery("", false, 0);
-                this.dt = c.runQuery(sql);
-            }
-            else if(this.vno==15)
-            {
-                string sql = this.getTradingQuery("", false, 0);
-                this.dt = c.runQuery(sql);
-            }
-            else if(this.vno==16)
-            {
-                string sql = this.getTradingQuery("", false, 0);
+                string sql = this.getHistoryQuery("", false, 0);
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno<100)
@@ -502,7 +514,7 @@ namespace Factory_Inventory
                 else
                 {
                     string search_string = this.getSearchString(to_search, date);
-                    string sql = this.getTradingQuery(search_string, true, 0);
+                    string sql = this.getHistoryQuery(search_string, true, 0);
                     this.dt = c.runQuery(sql);
                 }
                 this.dataGridView1.DataSource = this.dt;
@@ -1080,6 +1092,31 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["DO_Fiscal_Year"].HeaderText = "DO Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Bill to Colour Sale
+            if (this.vno == 17)
+            {
+                int i = 0;
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Date_Of_Input"].Visible = true;
+                this.dataGridView1.Columns["Date_Of_Input"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Date_Of_Input"].HeaderText = "Input Date";
+                this.dataGridView1.Columns["Sale_DO_No_Arr"].Visible = true;
+                this.dataGridView1.Columns["Sale_DO_No_Arr"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Sale_DO_No_Arr"].HeaderText = "DO Numbers";
+                this.dataGridView1.Columns["Customer"].Visible = true;
+                this.dataGridView1.Columns["Customer"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Customer"].HeaderText = "Customer Name";
+                this.dataGridView1.Columns["Total_Payment_Amount"].Visible = true;
+                this.dataGridView1.Columns["Total_Payment_Amount"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Total_Payment_Amount"].HeaderText = "Total Payment Amount";
+                this.dataGridView1.Columns["Comments_Arr"].Visible = true;
+                this.dataGridView1.Columns["Comments_Arr"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Comments_Arr"].HeaderText = "Comments";
+                this.dataGridView1.Columns["Narration"].Visible = true;
+                this.dataGridView1.Columns["Narration"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }      //Payment
             if (this.vno == 100)
             {
                 this.dataGridView1.ReadOnly = true;
@@ -1306,6 +1343,15 @@ namespace Factory_Inventory
                 if (this.vno == 16)
                 {
                     T_V3_addBill f = new T_V3_addBill(row, false, this);
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
+                    }
+                }
+                if (this.vno == 17)
+                {
+                    M_VC_paymentForm f = new M_VC_paymentForm(row, false, this);
                     if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
