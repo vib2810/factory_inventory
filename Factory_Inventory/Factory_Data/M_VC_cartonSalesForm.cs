@@ -392,10 +392,10 @@ namespace Factory_Inventory
         }
         private void M_V1_cartonSalesForm_Load(object sender, EventArgs e)
         {
-            if (Global.access == 2)
-            {
-                if ((DateTime.Now.Date - inputDate.Value.Date).TotalDays > 1) this.deleteButton.Visible = false;
-            }
+            //if (Global.access == 2)
+            //{
+            //    if ((DateTime.Now.Date - inputDate.Value.Date).TotalDays > 1) this.deleteButton.Visible = false;
+            //}
             var comboBoxes = this.Controls
                   .OfType<ComboBox>()
                   .Where(x => x.Name.EndsWith("CB"));
