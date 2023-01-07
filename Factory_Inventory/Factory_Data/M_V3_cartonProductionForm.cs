@@ -657,8 +657,7 @@ namespace Factory_Inventory
         }
         private void oilGainButton_Calculate()
         {
-            float net_weight, batch_weight;
-            Console.WriteLine(batchnwtTextbox.Text);
+            float net_weight, batch_weight, wastage;
             try
             {
                 batch_weight = float.Parse(batchnwtTextbox.Text);
@@ -677,12 +676,21 @@ namespace Factory_Inventory
                 oilGainTextbox.Text = "Incorrect Net Carton Weight";
                 return;
             }
-            if (net_weight - batch_weight < 0F)
+            try
             {
-                oilGainTextbox.Text = "Net Carton Wt < Net Batch Wt";
+                wastage = float.Parse(this.wastageTB.Text);
+            }
+            catch
+            {
+                oilGainTextbox.Text = "Incorrect Wastage";
                 return;
             }
-            oilGainTextbox.Text = ((net_weight - batch_weight) / batch_weight * 100F).ToString("F2");
+            if (net_weight - (batch_weight - wastage) < 0F)
+            {
+                oilGainTextbox.Text = "Net Carton Wt < Net Batch Wt - Wastage";
+                return;
+            }
+            oilGainTextbox.Text = ((net_weight - (batch_weight - wastage)) / (batch_weight - wastage) * 100F).ToString("F2");
         }
         public void calculate_net_wt(int row_index)
         {
@@ -755,7 +763,7 @@ namespace Factory_Inventory
                 c.ErrorBox("Please enter carton/batch numbers");
                 return;
             }
-            if ((float.Parse(cartonweight.Text) - float.Parse(batchnwtTextbox.Text) < 0F) && closedCheckboxCK.Checked==true)
+            if ((float.Parse(cartonweight.Text) - (float.Parse(batchnwtTextbox.Text) - float.Parse(this.wastageTB.Text)) < 0F) && closedCheckboxCK.Checked==true)
             {
                 c.ErrorBox("Net Carton Weight should be greater than or equal to Net Batch Weight", "Error");
                 return;
@@ -789,7 +797,7 @@ namespace Factory_Inventory
             }
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
-                int sum = 0, sum1 = 0;
+                int sum = 0;
                 for(int j=1; j<=7;j++)
                 {
                     if(dataGridView1.Rows[i].Cells[j].Value==null)
@@ -864,12 +872,12 @@ namespace Factory_Inventory
             if (this.edit_form == false)
             {
                 Console.WriteLine("Batch Nos: " + batch_nos);
-                bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), grades, batch_data);
+                bool added= c.addCartonProductionVoucher(inputDate.Value, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), float.Parse(this.wastageTB.Text), grades, batch_data);
                 if (added == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
                     disable_form_edit();
-                }
+                }   
                 else return;
             }
             else
@@ -1406,6 +1414,22 @@ namespace Factory_Inventory
             //{
             //    Console.WriteLine("DTP2 Exception " + ex.Message);
             //}
+        }
+
+        private void wastageTB_TextChanged(object sender, EventArgs e)
+        {
+            float wastage = 0f;
+            try
+            {
+                wastage = float.Parse(this.wastageTB.Text.ToString());
+            }
+            catch
+            {
+                c.ErrorBox("Wastage should be a number");
+                return;
+            }
+
+            this.oilGainButton_Calculate();
         }
     }
 }
