@@ -761,6 +761,9 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Oil_Gain"].Visible = true;
                 this.dataGridView1.Columns["Oil_Gain"].DisplayIndex = 10;
                 this.dataGridView1.Columns["Oil_Gain"].HeaderText = "Oil Gain";
+                this.dataGridView1.Columns["Wastage"].Visible = true;
+                this.dataGridView1.Columns["Wastage"].DisplayIndex = 11;
+                this.dataGridView1.Columns["Wastage"].HeaderText = "Wastage";
                 this.dataGridView1.Columns["Voucher_Closed"].Visible = true;
                 this.dataGridView1.Columns["Voucher_Closed"].DisplayIndex = 12;
                 this.dataGridView1.Columns["Voucher_Closed"].HeaderText = "Batches Closed";

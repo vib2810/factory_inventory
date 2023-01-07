@@ -360,6 +360,7 @@ namespace Factory_Inventory
             this.dyeingCompanyComboboxCB.SelectedIndex = this.dyeingCompanyComboboxCB.FindStringExact(row["Dyeing_Company_Name"].ToString());
             this.financialYearComboboxCB.SelectedIndex = this.financialYearComboboxCB.FindStringExact(row["Carton_Fiscal_Year"].ToString());
             this.coneComboboxCB.SelectedIndex = this.coneComboboxCB.FindStringExact((float.Parse(row["Cone_Weight"].ToString())*1000F).ToString());
+            this.wastageTB.Text = row["Wastage"].ToString();
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
 
             if(row["Voucher_Closed"].ToString()=="0")
@@ -563,6 +564,7 @@ namespace Factory_Inventory
             this.financialYearComboboxCB.Enabled = false;
             this.coneComboboxCB.Enabled = false;
             this.closedCheckboxCK.Enabled = false;
+            this.wastageTB.Enabled = false;
         }
         private bool loadData(string today_fiscal_year, List<int> minmax_years)
         {
