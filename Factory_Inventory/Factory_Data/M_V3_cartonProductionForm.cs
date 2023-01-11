@@ -759,10 +759,11 @@ namespace Factory_Inventory
             {
                 float.Parse(cartonweight.Text);
                 float.Parse(batchnwtTextbox.Text);
+                float.Parse(wastageTB.Text);
             }
             catch
             {
-                c.ErrorBox("Please enter carton/batch numbers");
+                c.ErrorBox("Please enter carton/batch/wastage numbers");
                 return;
             }
             if ((float.Parse(cartonweight.Text) - (float.Parse(batchnwtTextbox.Text) - float.Parse(this.wastageTB.Text)) < 0F) && closedCheckboxCK.Checked==true)
@@ -884,7 +885,7 @@ namespace Factory_Inventory
             }
             else
             {
-                bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text),grades, this.carton_editable, batch_data);
+                bool edited=c.editCartonProductionVoucher(this.voucher_id, colourComboboxCB.Text, qualityComboboxCB.Text, dyeingCompanyComboboxCB.Text, financialYearComboboxCB.Text, coneComboboxCB.Text, production_dates, carton_nos, gross_weights, carton_weights, number_of_cones, net_weights, batch_nos, closed, float.Parse(batchnwtTextbox.Text), float.Parse(cartonweight.Text), float.Parse(this.wastageTB.Text), grades, this.carton_editable, batch_data);
                 if (edited == true)
                 {
                     dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;

@@ -391,11 +391,11 @@
             // oilGainTextbox
             // 
             this.oilGainTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oilGainTextbox.Location = new System.Drawing.Point(67, 633);
+            this.oilGainTextbox.Location = new System.Drawing.Point(71, 633);
             this.oilGainTextbox.Margin = new System.Windows.Forms.Padding(2);
             this.oilGainTextbox.Name = "oilGainTextbox";
             this.oilGainTextbox.ReadOnly = true;
-            this.oilGainTextbox.Size = new System.Drawing.Size(126, 23);
+            this.oilGainTextbox.Size = new System.Drawing.Size(185, 23);
             this.oilGainTextbox.TabIndex = 0;
             this.oilGainTextbox.TabStop = false;
             this.oilGainTextbox.TextChanged += new System.EventHandler(this.oilGainTextbox_TextChanged);
@@ -415,7 +415,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(195, 639);
+            this.label10.Location = new System.Drawing.Point(260, 633);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(20, 17);

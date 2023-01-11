@@ -4014,7 +4014,7 @@ namespace Factory_Inventory.Factory_Classes
             }
             return dt;
         }
-        public bool editCartonProductionVoucher(int voucherID, string colour, string quality, string dyeing_company_name, string cartonfinancialYear, string cone_weight, string production_dates_arr, string carton_nos_arr, string gross_weights_arr, string carton_weights_arr, string number_of_cones_arr, string net_weights_arr, string batch_nos_arr, int closed, float net_batch_weight, float net_carton_weight, string grades_arr, Dictionary<string, bool> carton_editable, Dictionary<Tuple<string, string>, DataRow> batch_data)
+        public bool editCartonProductionVoucher(int voucherID, string colour, string quality, string dyeing_company_name, string cartonfinancialYear, string cone_weight, string production_dates_arr, string carton_nos_arr, string gross_weights_arr, string carton_weights_arr, string number_of_cones_arr, string net_weights_arr, string batch_nos_arr, int closed, float net_batch_weight, float net_carton_weight, float wastage, string grades_arr, Dictionary<string, bool> carton_editable, Dictionary<Tuple<string, string>, DataRow> batch_data)
         {
             //Dictionary carton_editable contains entries for carton_nos with state =2 or state=3
             Dictionary<string, bool> old_cartons_hash = new Dictionary<string, bool>();
@@ -4225,13 +4225,13 @@ namespace Factory_Inventory.Factory_Classes
                 string sql;
                 if (closed == 1)
                 {
-                    float oil_gain = (net_carton_weight - net_batch_weight) / net_batch_weight * 100F;
+                    float oil_gain = (net_carton_weight - (net_batch_weight - wastage)) / (net_batch_weight - wastage) * 100F;
                     string max_date = max.Date.ToString("MM-dd-yyyy").Substring(0, 10);
-                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr = '" + batches_to_add + "', Carton_No_Production_Arr = '" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Oil_Gain=" + oil_gain + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + ", Date_Of_Production='" + max_date + "', Start_Date_Of_Production= '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
+                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr = '" + batches_to_add + "', Carton_No_Production_Arr = '" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Oil_Gain=" + oil_gain + ", Wastage = " + wastage + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + ", Date_Of_Production='" + max_date + "', Start_Date_Of_Production= '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
                 }
                 else
                 {
-                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr='" + batches_to_add + "', Carton_No_Production_Arr='" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + ", Start_Date_Of_Production = '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
+                    sql = "UPDATE Carton_Production_Voucher SET Batch_No_Arr='" + batches_to_add + "', Carton_No_Production_Arr='" + carton_nos_arr + "', Net_Batch_Weight=" + net_batch_weight + ", Net_Carton_Weight=" + net_carton_weight + ", Wastage = " + wastage + ", Voucher_Closed=" + closed + ", Batch_Fiscal_Year_Arr='" + batches_fiscal_years + "', Cone_Weight=" + float.Parse(cone_weight) / 1000F + ", Start_Date_Of_Production = '" + min_date + "' WHERE Voucher_ID = " + voucherID + "";
                 }
                 adapter.InsertCommand = new SqlCommand(sql, con);
                 adapter.InsertCommand.ExecuteNonQuery();
