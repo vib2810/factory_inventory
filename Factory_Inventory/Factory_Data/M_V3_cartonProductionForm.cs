@@ -481,6 +481,8 @@ namespace Factory_Inventory
             dtp.Visible = false;
             dtp.Width = 100;
             dataGridView1.Controls.Add(dtp);
+            label14.Text = "";
+            label16.Text = "";
 
             var comboBoxes = this.Controls
                  .OfType<ComboBox>()
