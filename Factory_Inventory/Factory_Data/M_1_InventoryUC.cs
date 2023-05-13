@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Factory_Data;
 
 namespace Factory_Inventory
 {
@@ -72,7 +73,8 @@ namespace Factory_Inventory
         {
             m_I1_Tables1.Hide();
             //M_I1_FromToDate f = new M_I1_FromToDate();
-            //Global.background.show_form(f);
+            M_I3_FromToDate f = new M_I3_FromToDate();
+            Global.background.show_form(f);
             this.decolour_all_buttons();
             this.fromtoButton.BackColor = Color.Orange;
         }

@@ -11,32 +11,24 @@ namespace Factory_Inventory.Factory_Classes
 {
     class moduleExcel
     {
-        public void ToCsV(DataGridView dgv, string name, string age, string address, string title, string filename)
+        public void ToCsV(System.Data.DataTable dt, string title, string filename)
         {
             //========Data from textbox==========//        
             string stOutput = "";
             string stTitle = "";
             string sHeaders = "";
-            string stName = "";
-            string stAge = "";
-            string stAdrress = "";
+            
             stTitle = "\r\n" + title + "\r\n\n";
-            stName = "\n" + name + "\r";
-            stAdrress = "\n" + address + "\r";
-            stAge = "\n" + age + "\r";
-            stOutput += title;
-            stOutput += stName;
-            stOutput += stAdrress;
-            stOutput += stAge;
-            for (int j = 0; j < dgv.Columns.Count; j++)
-                sHeaders = sHeaders.ToString() + Convert.ToString(dgv.Columns[j].HeaderText) + "\t";
+
+            for (int j = 0; j < dt.Columns.Count; j++)
+                sHeaders = sHeaders.ToString() + Convert.ToString(dt.Columns[j].ColumnName) + "\t";
             stOutput += sHeaders + "\r\n";
             // Export data.  
-            for (int i = 0; i < dgv.RowCount - 1; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
                 string stLine = "";
-                for (int j = 0; j < dgv.Rows[i].Cells.Count; j++)
-                    stLine = stLine.ToString() + Convert.ToString(dgv.Rows[i].Cells[j].Value) + "\t";
+                for (int j = 0; j < dt.Columns.Count; j++)
+                    stLine = stLine.ToString() + Convert.ToString(dt.Rows[i][j]) + "\t";
                 stOutput += stLine + "\r\n";
             }
             Encoding utf16 = Encoding.GetEncoding(1254);
