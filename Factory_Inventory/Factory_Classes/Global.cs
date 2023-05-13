@@ -78,7 +78,7 @@ namespace Factory_Inventory
         //}
         public static string getconnectionstring(string con_start, string database)
         {
-            return con_start + "Initial Catalog=" + database + ";Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;";
+            return con_start + "Initial Catalog=" + database + ";Persist Security Info=True;User ID=sa;Password=Kdvghr2810@;TrustServerCertificate=True";
         }
 
         public static void ErrorBox(string message, string title = "Error")

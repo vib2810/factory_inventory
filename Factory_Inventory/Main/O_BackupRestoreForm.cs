@@ -11,7 +11,7 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using MyCoolCompany.Shuriken;
 using Factory_Inventory.Factory_Classes;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.IO;
 
 namespace Factory_Inventory
