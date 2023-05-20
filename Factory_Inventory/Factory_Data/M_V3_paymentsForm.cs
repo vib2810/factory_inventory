@@ -16,5 +16,10 @@ namespace Factory_Inventory.Factory_Data
         {
             InitializeComponent();
         }
+
+        private void M_V3_paymentsForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

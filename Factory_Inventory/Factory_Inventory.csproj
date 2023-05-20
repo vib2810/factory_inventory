@@ -1002,6 +1002,9 @@
     <EmbeddedResource Include="Factory_Data\M_I3_FromToDate.resx">
       <DependentUpon>M_I3_FromToDate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Factory_Data\M_V3_paymentsForm.resx">
+      <DependentUpon>M_V3_paymentsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main\BackupAll.resx">
       <DependentUpon>BackupAll.cs</DependentUpon>
     </EmbeddedResource>
