@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Factory_Data;
 
 namespace Factory_Inventory
 {
@@ -56,6 +57,19 @@ namespace Factory_Inventory
             }
 
             if (keyData == (Keys.D4) || keyData == (Keys.NumPad4))
+            {
+                this.paymentsButton.Focus();
+                this.paymentsButton.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D4 | Keys.Shift))
+            {
+                this.paymentsHistoryButton.Focus();
+                this.paymentsHistoryButton.PerformClick();
+                return false;
+            }
+
+            if (keyData == (Keys.D5) || keyData == (Keys.NumPad5))
             {
                 this.button4.Focus();
                 this.button4.PerformClick();
@@ -154,6 +168,22 @@ namespace Factory_Inventory
                 M_V_history f = new M_V_history(12);
                 Global.background.show_form(f);
             }
+        }
+
+        private void paymentsButton_Click(object sender, EventArgs e)
+        {
+            if (c.check_login_val() == false) return;
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(M_V3_paymentsForm))
+                {
+                    form.WindowState = FormWindowState.Normal;
+                    form.Activate();
+                    return;
+                }
+            }
+            M_V3_paymentsForm f = new M_V3_paymentsForm();
+            Global.background.show_form(f);
         }
     }
 }
