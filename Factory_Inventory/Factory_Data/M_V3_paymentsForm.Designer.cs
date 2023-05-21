@@ -29,6 +29,7 @@ namespace Factory_Inventory.Factory_Data
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.inputDateDTP = new System.Windows.Forms.DateTimePicker();
             this.paymentDateDTP = new System.Windows.Forms.DateTimePicker();
             this.cusotmerCB = new System.Windows.Forms.ComboBox();
@@ -44,6 +45,11 @@ namespace Factory_Inventory.Factory_Data
             this.deleteButton = new System.Windows.Forms.Button();
             this.narrationTB = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.slNoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,11 +94,33 @@ namespace Factory_Inventory.Factory_Data
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.slNoCol,
+            this.doNoCol,
+            this.amountReceivedCol,
+            this.amountPendingCol,
+            this.totalAmountCol});
+            this.dataGridView1.Enabled = false;
             this.dataGridView1.Location = new System.Drawing.Point(184, 25);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.Size = new System.Drawing.Size(604, 333);
             this.dataGridView1.TabIndex = 5;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged_1);
+            this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
+            this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
             // label2
             // 
@@ -129,6 +157,7 @@ namespace Factory_Inventory.Factory_Data
             this.loadDOButton.TabIndex = 9;
             this.loadDOButton.Text = "Load Pending DOs";
             this.loadDOButton.UseVisualStyleBackColor = true;
+            this.loadDOButton.Click += new System.EventHandler(this.loadDOButton_Click);
             // 
             // saveButton
             // 
@@ -172,6 +201,34 @@ namespace Factory_Inventory.Factory_Data
             this.label6.Size = new System.Drawing.Size(50, 13);
             this.label6.TabIndex = 15;
             this.label6.Text = "Narration";
+            // 
+            // slNoCol
+            // 
+            this.slNoCol.HeaderText = "Sl No.";
+            this.slNoCol.Name = "slNoCol";
+            this.slNoCol.ReadOnly = true;
+            // 
+            // doNoCol
+            // 
+            this.doNoCol.HeaderText = "DO No.";
+            this.doNoCol.Name = "doNoCol";
+            // 
+            // amountReceivedCol
+            // 
+            this.amountReceivedCol.HeaderText = "Amount Received";
+            this.amountReceivedCol.Name = "amountReceivedCol";
+            // 
+            // amountPendingCol
+            // 
+            this.amountPendingCol.HeaderText = "Amount Pending";
+            this.amountPendingCol.Name = "amountPendingCol";
+            this.amountPendingCol.ReadOnly = true;
+            // 
+            // totalAmountCol
+            // 
+            this.totalAmountCol.HeaderText = "Total Amount";
+            this.totalAmountCol.Name = "totalAmountCol";
+            this.totalAmountCol.ReadOnly = true;
             // 
             // M_V3_paymentsForm
             // 
@@ -219,5 +276,10 @@ namespace Factory_Inventory.Factory_Data
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.TextBox narrationTB;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn slNoCol;
+        private System.Windows.Forms.DataGridViewComboBoxColumn doNoCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn amountReceivedCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn amountPendingCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalAmountCol;
     }
 }

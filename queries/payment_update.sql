@@ -17,3 +17,8 @@ CREATE TABLE Payments (
     Sales_Voucher_ID int FOREIGN KEY REFERENCES Sales_Voucher(Voucher_ID),
     Payment_Amount decimal(18,2)
 );
+
+ALTER TABLE Sales_Voucher
+ADD DO_Payment_Closed bit;
+
+UPDATE Sales_Voucher SET DO_Payment_Closed = 0;
