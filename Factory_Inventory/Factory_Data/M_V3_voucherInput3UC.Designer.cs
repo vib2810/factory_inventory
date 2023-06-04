@@ -57,7 +57,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.Gainsboro;
             this.button1.Location = new System.Drawing.Point(40, 25);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(134, 51);
             this.button1.TabIndex = 5;
@@ -69,7 +69,7 @@
             // 
             this.button2.BackColor = System.Drawing.Color.Gainsboro;
             this.button2.Location = new System.Drawing.Point(180, 25);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(134, 51);
             this.button2.TabIndex = 7;
@@ -103,7 +103,7 @@
             // 
             this.button5.BackColor = System.Drawing.Color.Gainsboro;
             this.button5.Location = new System.Drawing.Point(179, 99);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(134, 51);
             this.button5.TabIndex = 11;
@@ -115,7 +115,7 @@
             // 
             this.button6.BackColor = System.Drawing.Color.Gainsboro;
             this.button6.Location = new System.Drawing.Point(41, 99);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(134, 51);
             this.button6.TabIndex = 9;
@@ -127,7 +127,7 @@
             // 
             this.button7.BackColor = System.Drawing.Color.Gainsboro;
             this.button7.Location = new System.Drawing.Point(180, 155);
-            this.button7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button7.Margin = new System.Windows.Forms.Padding(2);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(134, 51);
             this.button7.TabIndex = 15;
@@ -139,7 +139,7 @@
             // 
             this.button8.BackColor = System.Drawing.Color.Gainsboro;
             this.button8.Location = new System.Drawing.Point(40, 155);
-            this.button8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button8.Margin = new System.Windows.Forms.Padding(2);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(134, 51);
             this.button8.TabIndex = 13;
@@ -162,7 +162,7 @@
             // 
             this.button3.BackColor = System.Drawing.Color.Gainsboro;
             this.button3.Location = new System.Drawing.Point(180, 284);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(134, 51);
             this.button3.TabIndex = 19;
@@ -174,7 +174,7 @@
             // 
             this.button4.BackColor = System.Drawing.Color.Gainsboro;
             this.button4.Location = new System.Drawing.Point(40, 284);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(134, 51);
             this.button4.TabIndex = 17;
@@ -288,6 +288,7 @@
             this.paymentsHistoryButton.TabIndex = 30;
             this.paymentsHistoryButton.Text = "History";
             this.paymentsHistoryButton.UseVisualStyleBackColor = false;
+            this.paymentsHistoryButton.Visible = false;
             // 
             // paymentsButton
             // 
@@ -299,6 +300,7 @@
             this.paymentsButton.TabIndex = 29;
             this.paymentsButton.Text = "Add Payment";
             this.paymentsButton.UseVisualStyleBackColor = false;
+            this.paymentsButton.Visible = false;
             this.paymentsButton.Click += new System.EventHandler(this.paymentsButton_Click);
             // 
             // label12
@@ -312,6 +314,7 @@
             this.label12.Size = new System.Drawing.Size(33, 9);
             this.label12.TabIndex = 32;
             this.label12.Text = "Shift + 4";
+            this.label12.Visible = false;
             // 
             // label13
             // 
@@ -324,6 +327,7 @@
             this.label13.Size = new System.Drawing.Size(9, 9);
             this.label13.TabIndex = 31;
             this.label13.Text = "4";
+            this.label13.Visible = false;
             // 
             // M_V3_voucherInput3UC
             // 
@@ -354,7 +358,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "M_V3_voucherInput3UC";
             this.Size = new System.Drawing.Size(386, 340);
             this.ResumeLayout(false);

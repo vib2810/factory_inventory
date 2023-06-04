@@ -46,30 +46,71 @@ namespace Factory_Inventory.Factory_Data
 
             if (mode==1)
             {
-                sql = "SELECT Date_of_Issue, Batch_No, Quality, Colour, Dyeing_Company_Name, Net_Weight FROM Dyeing_Issue_Voucher WHERE Date_Of_Issue BETWEEN '" + start_date_string + "' AND '" + end_date_string + "' ORDER BY 'Date_of_Issue' ASC";
-                filename = "Issue_" + start_date_string + "_" + end_date_string + ".xls";
+                sql = "SELECT Date_of_Issue AS 'Date of Issue', Batch_No AS 'Batch Number', Quality, Colour, Dyeing_Company_Name AS 'Dyeing Company Name', Net_Weight AS 'Net Weight' FROM Dyeing_Issue_Voucher WHERE Date_Of_Issue BETWEEN '" + start_date_string + "' AND '" + end_date_string + "' ORDER BY 'Date of Issue' ASC";
+                filename = "Issue_" + start_date_string + "_" + end_date_string + ".xlsx";
             }
             else if (mode == 2)
             {
-                sql = "SELECT Dyeing_In_Date, Batch_No, Quality, Colour, Dyeing_Company_Name, Net_Weight FROM Batch WHERE Dyeing_In_Date BETWEEN '" + start_date_string + "' AND '" + end_date_string + "' AND Dyeing_In_Voucher_ID IS NOT NULL AND Redyeing_Voucher_ID IS NULL ORDER BY 'Dyeing_In_Date' ASC";
-                filename = "Receive_" + start_date_string + "_" + end_date_string + ".xls";
+                sql = "SELECT Dyeing_In_Date AS 'Dyeing Inward Date', Batch_No AS 'Batches', Quality, Colour, Dyeing_Company_Name AS 'Dyeing Company Name', Net_Weight AS 'Net Weight' FROM Batch WHERE Dyeing_In_Date BETWEEN '" + start_date_string + "' AND '" + end_date_string + "' AND Dyeing_In_Voucher_ID IS NOT NULL AND Redyeing_Voucher_ID IS NULL ORDER BY 'Dyeing Inward Date' ASC";
+                filename = "Receive_" + start_date_string + "_" + end_date_string + ".xlsx";
             }
             else if (mode == 3)
             {
-                sql = "SELECT Date_Of_Production, Batch_No, Quality, Colour, Net_Weight FROM Batch WHERE Date_Of_Production BETWEEN '" + start_date_string + "' AND '" + end_date_string + "' AND Production_Voucher_ID IS NOT NULL AND Redyeing_Voucher_ID IS NULL ORDER BY 'Date_Of_Production' ASC";
-                filename = "Production_" + start_date_string + "_" + end_date_string + ".xls";
+                sql = "SELECT Date_Of_Production AS 'Date of Production', Batch_No_Arr AS 'Batches', Quality, Colour, Net_Carton_Weight AS 'Net Weight' FROM Carton_Production_Voucher WHERE Date_Of_Production BETWEEN '" + start_date_string + "' AND '" + end_date_string + "' ORDER BY 'Date Of Production' ASC";
+                filename = "Production_" + start_date_string + "_" + end_date_string + ".xlsx";
             }
 
             DataTable dt = c.runQuery(sql);
-
-            string title = " Excel Export";
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Excel Documents (*.xls)|*.xls";
-            sfd.FileName = filename;
-            if (sfd.ShowDialog() == DialogResult.OK)
+            if (dt == null) return;
+            if(dt.Rows.Count == 0)
             {
-                excelImp.ToCsV(dt, title, sfd.FileName);
-                MessageBox.Show("Finished Export");
+                c.WarningBox("No record exists for the given dates");
+                return;
+            }
+
+            string dateColumnName = dt.Columns[0].ColumnName;
+            DataColumn newColumn = new DataColumn(dateColumnName + ".", typeof(string));
+            dt.Columns.Add(newColumn);
+            newColumn.SetOrdinal(1);
+
+            for (int i = 0; i < dt.Rows.Count; i++) dt.Rows[i][1] = DateTime.Parse(dt.Rows[i][0].ToString()).ToString("dd-MM-yyyy");
+            //Convert.ToDateTime(dt.Rows[0][0]).ToString().Remove(Convert.ToDateTime(dt.Rows[0][0]).ToString().Length - 9);
+
+            dt.Columns.Remove(dateColumnName);
+            dt.Columns[0].ColumnName = dateColumnName;
+
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Excel Files|*.xlsx";
+            saveFileDialog.FileName = filename;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var excelApp = new Microsoft.Office.Interop.Excel.Application();
+                var workbook = excelApp.Workbooks.Add();
+                var worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1];
+                
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    worksheet.Cells[1, i + 1] = dt.Columns[i].ColumnName;
+                    worksheet.Cells[1, i + 1].Font.Bold = true;
+                }
+
+                int dateColumnIndex = 0;
+                // Set the NumberFormat property of the cells in the date column to "text"
+                worksheet.Range[worksheet.Cells[2, dateColumnIndex + 1], worksheet.Cells[dt.Rows.Count + 1, dateColumnIndex + 1]].NumberFormat = "@";
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        worksheet.Cells[i + 2, j + 1] = dt.Rows[i][j];
+                    }
+                }
+
+                worksheet.Columns.AutoFit();
+
+                workbook.SaveAs(saveFileDialog.FileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+                excelApp.Quit();
+                c.SuccessBox("Finished Export");
             }
         }
 
