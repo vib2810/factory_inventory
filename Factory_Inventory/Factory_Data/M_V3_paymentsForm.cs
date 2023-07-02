@@ -13,47 +13,9 @@ namespace Factory_Inventory.Factory_Data
 {
     public partial class M_V3_paymentsForm : Form
     {
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == Keys.Tab &&
-                dataGridView1.EditingControl != null &&
-                //msg.HWnd == dataGridView1.EditingControl.Handle &&
-                dataGridView1.SelectedCells
-                    .Cast<DataGridViewCell>()
-                    .Any(x => x.ColumnIndex == 1))
-            {
-                Console.WriteLine("Inside process cmd key tab 1");
-                this.edit_cmd_send = true;
-                SendKeys.Send("{Tab}");
-                return false;
-            }
-            if (keyData == Keys.Tab &&
-                dataGridView1.EditingControl != null &&
-                //msg.HWnd == dataGridView1.EditingControl.Handle &&
-                dataGridView1.SelectedCells
-                    .Cast<DataGridViewCell>()
-                    .Any(x => x.ColumnIndex == 2))
-            {
-                Console.WriteLine("Inside process cmd key tab 2");
-                this.edit_cmd_send = true;
-                SendKeys.Send("{Tab}");
-                SendKeys.Send("{Tab}");
-                return false;
-            }
-            if (keyData == Keys.F2)
-            {
-                Console.WriteLine("dgv1");
-                this.dataGridView1.Focus();
-                this.ActiveControl = dataGridView1;
-                this.dataGridView1.CurrentCell = dataGridView1[0, 0];
-                return false;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
 
         DbConnect c = new DbConnect();
-        Dictionary<string, Tuple<DataRow,float>> do_dict = new Dictionary<string, Tuple<DataRow, float>>();
-        private bool edit_cmd_send = false;
+        Dictionary<string, Tuple<DataRow, float>> do_dict = new Dictionary<string, Tuple<DataRow, float>>();
         public M_V3_paymentsForm()
         {
             InitializeComponent();
@@ -68,14 +30,29 @@ namespace Factory_Inventory.Factory_Data
             this.cusotmerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
             this.cusotmerCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.cusotmerCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            
+
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
 
+        }
+
+        private float CellSum()
+        {
+            float receivedAmountSum = 0F;
+            for (int i = 0; i < dataGridView1.Rows.Count-1; i++)
+            {
+                try
+                {
+                    receivedAmountSum += float.Parse(dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString());
+                }
+                catch { }
+            }
+            return receivedAmountSum;
         }
 
         private void M_V3_paymentsForm_Load(object sender, EventArgs e)
         {
             this.Text = "Payments Voucher";
+            dataGridView1.Rows[0].Cells["doPaymentClosedCol"].Value = false;
         }
 
         private void loadDOButton_Click(object sender, EventArgs e)
@@ -96,7 +73,7 @@ namespace Factory_Inventory.Factory_Data
                 DataTable dt2 = new DataTable();
                 float total_payment = 0F;
                 dgvCmb.Items.Add(dt.Rows[i]["Sale_Do_No"].ToString() + " (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")");
-                dt2 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM Payments WHERE Sales_Voucher_ID = " + dt.Rows[i]["Vooucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
+                dt2 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM Payments WHERE Sales_Voucher_ID = " + dt.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
                 if (dt2.Rows.Count > 0) total_payment = float.Parse(dt2.Rows[0]["Total_Payment"].ToString());
                 do_dict[dt.Rows[i]["Sale_Do_No"].ToString() + " (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")"] = new Tuple<DataRow, float>(dt.Rows[i], total_payment);
             }
@@ -104,6 +81,7 @@ namespace Factory_Inventory.Factory_Data
 
             this.cusotmerCB.Enabled = false;
             this.dataGridView1.Enabled = true;
+            this.saveButton.Enabled = true;
             c.SuccessBox("Loaded " + dt.Rows.Count.ToString() + " DOs");
         }
 
@@ -123,60 +101,54 @@ namespace Factory_Inventory.Factory_Data
                 ((ComboBox)e.Control).AutoCompleteSource = AutoCompleteSource.ListItems;
                 ((ComboBox)e.Control).AutoCompleteMode = AutoCompleteMode.Append;
             }
+            if (dataGridView1.CurrentCell.ColumnIndex == 2) // Amount Received column
+            {
+                e.Control.PreviewKeyDown += new PreviewKeyDownEventHandler(Control_PreviewKeyDown);
+            }
+        }
+
+        private void Control_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                int col = dataGridView1.CurrentCell.ColumnIndex;
+                int row = dataGridView1.CurrentCell.RowIndex;
+
+                if (col == 2) // Amount Received column
+                {
+                    dataGridView1.CurrentCell = dataGridView1.Rows[row + 1].Cells[1]; // DO No column of next row
+                    e.IsInputKey = true;
+                }
+            }
         }
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (dataGridView1.Enabled == false || dataGridView1.ReadOnly == true) return;
-            if (e.KeyCode == Keys.Tab &&
-            (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
+            if (e.KeyCode == Keys.Enter)
             {
-                bool edit_cmd_local = this.edit_cmd_send;
-                this.edit_cmd_send = false;
-                int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                //if (edit_cmd_local == true) rowindex_tab--;
-                Console.WriteLine("row index " + rowindex_tab);
+                int col = dataGridView1.CurrentCell.ColumnIndex;
+                int row = dataGridView1.CurrentCell.RowIndex;
 
-                if (rowindex_tab < 0)
+                if (col == 1) // DO No column
                 {
-                    SendKeys.Send("{tab}");
-                    return;
+                    DataGridViewComboBoxCell cell = (DataGridViewComboBoxCell)dataGridView1.Rows[row].Cells[col];
+                    cell.ReadOnly = false;
+                    dataGridView1.BeginEdit(true);
+                    ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
+                    comboBox.DroppedDown = true;
+                    e.Handled = true;
                 }
-                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
-                {
-                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
-                    dataGridView1.Rows.Add(row);
-                }
-                //if (edit_cmd_local == false)
-                //{
-                //    SendKeys.Send("{tab}");
-                //}
             }
-            if (e.KeyCode == Keys.Tab &&    
-               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 2))) 
+            else if (e.KeyCode == Keys.Tab)
             {
-                int rowindex_tab = dataGridView1.SelectedCells[0].RowIndex;
-                if (rowindex_tab < 0)
+                int col = dataGridView1.CurrentCell.ColumnIndex;
+                int row = dataGridView1.CurrentCell.RowIndex;
+
+                if (col == 2) // Amount Received column
                 {
-                    SendKeys.Send("{tab}");
-                    SendKeys.Send("{tab}");
-                    return;
+                    dataGridView1.CurrentCell = dataGridView1.Rows[row + 1].Cells[1]; // DO No column of next row
+                    e.Handled = true;
                 }
-                if (dataGridView1.Rows.Count - 2 == rowindex_tab)
-                {
-                    DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[rowindex_tab].Clone();
-                    dataGridView1.Rows.Add(row);
-                }
-                SendKeys.Send("{tab}");
-                SendKeys.Send("{tab}");
-            }
-            if (e.KeyCode == Keys.Enter &&
-               (dataGridView1.SelectedCells.Cast<DataGridViewCell>().Any(x => x.ColumnIndex == 1) || this.edit_cmd_send == true))
-            {
-                dataGridView1.BeginEdit(true);
-                ComboBox c = (ComboBox)dataGridView1.EditingControl;
-                if (c != null) c.DroppedDown = true;
-                e.Handled = true;
             }
         }
 
@@ -190,22 +162,148 @@ namespace Factory_Inventory.Factory_Data
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex == 1)
+            if (e.ColumnIndex == 1 && e.RowIndex >= 0)
             {
                 string do_;
                 float total_amount, total_payment;
                 DataRow dr;
-                
+
                 do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
                 dr = do_dict[do_].Item1;
                 total_payment = do_dict[do_].Item2;
                 total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
 
-                dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = total_amount - total_payment;
+                dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
                 dataGridView1.Rows[e.RowIndex].Cells["totalAmountCol"].Value = total_amount;
-
-
             }
+            else if(e.ColumnIndex == 2 && e.RowIndex >= 0)
+            {
+                try
+                {
+                    string do_;
+                    float total_amount, amountReceived;
+                    DataRow dr;
+
+                    do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
+                    dr = do_dict[do_].Item1;
+                    total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
+                    amountReceived = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+
+                    if (total_amount - amountReceived < 0F)
+                    {
+                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString() + " at row " + (e.RowIndex + 1).ToString() + " cannot be less than 0 (" + (total_amount - amountReceived).ToString() + ")", "Negative Amound Pending Error");
+                        return;
+                    }
+
+                    dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - amountReceived).ToString("F2");
+
+                    amountTB.Text = CellSum().ToString("F2");
+                }
+                catch
+                {
+                    c.ErrorBox("The value 'Amount Received' should be a number");
+                    return;
+                }
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (c.check_login_val() == false) return;
+            if (dataGridView1.Rows[0].Cells[1].Value == null)
+            {
+                c.ErrorBox("Please enter Payment Details", "Error");
+                return;
+            }
+            if (inputDateDTP.Value.Date < paymentDateDTP.Value.Date)
+            {
+                c.ErrorBox("Payment Date is in the future", "Error");
+                return;
+            }
+            List<string> temp = new List<string>();
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+                if (!c.Cell_Not_NullOrEmpty(this.dataGridView1, i, -1, "doNoCol"))
+                {
+                    continue;
+                }
+                else
+                {
+                    temp.Add(dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString());
+
+                    var distinctBytes = new HashSet<string>(temp);
+                    bool allDifferent = distinctBytes.Count == temp.Count;
+                    if (allDifferent == false)
+                    {
+                        c.ErrorBox("Please Enter DO No. at Row: " + (i + 1).ToString(), "Error");
+                        return;
+                    }
+
+                }
+            }
+
+            string sql = "begin transaction; begin try; DECLARE @voucherID int;\n";
+            sql += "INSERT INTO Payments_Voucher (Payment_Date,Input_Date, Customers, Narration) VALUES ('" + inputDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "' ,'" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', '" + cusotmerCB.SelectedItem.ToString() + "', '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
+            for (int i = 0; i < dataGridView1.Rows.Count-1; i++)
+            {
+                // Check if amount pending is 0 for the DOs that are being closed
+                float amount_pending = float.Parse(dataGridView1.Rows[i].Cells["amountPendingCol"].Value.ToString());
+                if (amount_pending != 0F && (bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true)
+                {
+                    c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " should be 0", "DO Close Error");
+                    return;
+                }
+                string comments = "";
+                if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
+                sql += "INSERT INTO Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments) VALUES (@voucherID, " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "');\n";
+                // Check and Set DO Closed State
+                if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+            }
+            //catch
+            sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
+            sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
+            sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
+            DataTable add = c.runQuery(sql);
+
+            if (add != null)
+            {
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                c.SuccessBox("Voucher Added Successfully");
+                disable_form_edit();
+            }
+            else return;
+        }
+
+        private void disable_form_edit()
+        {
+            this.paymentDateDTP.Enabled = false;
+            this.cusotmerCB.Enabled = false;
+            this.loadDOButton.Enabled = false;
+            this.saveButton.Enabled = false;
+            this.deleteButton.Enabled = false;
+            this.dataGridView1.Enabled = false;
+            this.narrationTB.ReadOnly = true;
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int count = dataGridView1.SelectedRows.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (dataGridView1.SelectedRows[0].Index == dataGridView1.Rows.Count - 1)
+                {
+                    dataGridView1.SelectedRows[0].Selected = false;
+                    continue;
+                }
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+            }
+            this.amountTB.Text = CellSum().ToString("F3");
+        }
+
+        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            // Set the default value for the DataGridViewCheckBoxCell
+            dataGridView1.Rows[e.RowIndex].Cells["doPaymentClosedCol"].Value = false;
         }
     }
 }

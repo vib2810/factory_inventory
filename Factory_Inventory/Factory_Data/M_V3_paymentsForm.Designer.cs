@@ -29,6 +29,7 @@ namespace Factory_Inventory.Factory_Data
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.inputDateDTP = new System.Windows.Forms.DateTimePicker();
             this.paymentDateDTP = new System.Windows.Forms.DateTimePicker();
@@ -36,6 +37,13 @@ namespace Factory_Inventory.Factory_Data
             this.amountTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.slNoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.doPaymentClosedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.commentsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,12 +53,10 @@ namespace Factory_Inventory.Factory_Data
             this.deleteButton = new System.Windows.Forms.Button();
             this.narrationTB = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.slNoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // inputDateDTP
@@ -80,6 +86,7 @@ namespace Factory_Inventory.Factory_Data
             // 
             this.amountTB.Location = new System.Drawing.Point(23, 233);
             this.amountTB.Name = "amountTB";
+            this.amountTB.ReadOnly = true;
             this.amountTB.Size = new System.Drawing.Size(127, 20);
             this.amountTB.TabIndex = 3;
             // 
@@ -109,7 +116,9 @@ namespace Factory_Inventory.Factory_Data
             this.doNoCol,
             this.amountReceivedCol,
             this.amountPendingCol,
-            this.totalAmountCol});
+            this.totalAmountCol,
+            this.doPaymentClosedCol,
+            this.commentsCol});
             this.dataGridView1.Enabled = false;
             this.dataGridView1.Location = new System.Drawing.Point(184, 25);
             this.dataGridView1.Name = "dataGridView1";
@@ -120,7 +129,46 @@ namespace Factory_Inventory.Factory_Data
             this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged_1);
             this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            // 
+            // slNoCol
+            // 
+            this.slNoCol.HeaderText = "Sl No.";
+            this.slNoCol.Name = "slNoCol";
+            this.slNoCol.ReadOnly = true;
+            // 
+            // doNoCol
+            // 
+            this.doNoCol.HeaderText = "DO No.";
+            this.doNoCol.Name = "doNoCol";
+            // 
+            // amountReceivedCol
+            // 
+            this.amountReceivedCol.HeaderText = "Amount Received";
+            this.amountReceivedCol.Name = "amountReceivedCol";
+            // 
+            // amountPendingCol
+            // 
+            this.amountPendingCol.HeaderText = "Amount Pending";
+            this.amountPendingCol.Name = "amountPendingCol";
+            this.amountPendingCol.ReadOnly = true;
+            // 
+            // totalAmountCol
+            // 
+            this.totalAmountCol.HeaderText = "Total Amount";
+            this.totalAmountCol.Name = "totalAmountCol";
+            this.totalAmountCol.ReadOnly = true;
+            // 
+            // doPaymentClosedCol
+            // 
+            this.doPaymentClosedCol.HeaderText = "DO Payment Closed";
+            this.doPaymentClosedCol.Name = "doPaymentClosedCol";
+            // 
+            // commentsCol
+            // 
+            this.commentsCol.HeaderText = "Comments";
+            this.commentsCol.Name = "commentsCol";
             // 
             // label2
             // 
@@ -161,12 +209,14 @@ namespace Factory_Inventory.Factory_Data
             // 
             // saveButton
             // 
+            this.saveButton.Enabled = false;
             this.saveButton.Location = new System.Drawing.Point(12, 272);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(138, 40);
             this.saveButton.TabIndex = 10;
             this.saveButton.Text = "Save Voucher";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // label5
             // 
@@ -185,6 +235,7 @@ namespace Factory_Inventory.Factory_Data
             this.deleteButton.TabIndex = 13;
             this.deleteButton.Text = "Delete Voucher";
             this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
             // 
             // narrationTB
             // 
@@ -202,33 +253,19 @@ namespace Factory_Inventory.Factory_Data
             this.label6.TabIndex = 15;
             this.label6.Text = "Narration";
             // 
-            // slNoCol
+            // contextMenuStrip1
             // 
-            this.slNoCol.HeaderText = "Sl No.";
-            this.slNoCol.Name = "slNoCol";
-            this.slNoCol.ReadOnly = true;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 26);
             // 
-            // doNoCol
+            // deleteToolStripMenuItem
             // 
-            this.doNoCol.HeaderText = "DO No.";
-            this.doNoCol.Name = "doNoCol";
-            // 
-            // amountReceivedCol
-            // 
-            this.amountReceivedCol.HeaderText = "Amount Received";
-            this.amountReceivedCol.Name = "amountReceivedCol";
-            // 
-            // amountPendingCol
-            // 
-            this.amountPendingCol.HeaderText = "Amount Pending";
-            this.amountPendingCol.Name = "amountPendingCol";
-            this.amountPendingCol.ReadOnly = true;
-            // 
-            // totalAmountCol
-            // 
-            this.totalAmountCol.HeaderText = "Total Amount";
-            this.totalAmountCol.Name = "totalAmountCol";
-            this.totalAmountCol.ReadOnly = true;
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // M_V3_paymentsForm
             // 
@@ -254,6 +291,7 @@ namespace Factory_Inventory.Factory_Data
             this.Text = "M_V3_paymentsForm";
             this.Load += new System.EventHandler(this.M_V3_paymentsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,5 +319,9 @@ namespace Factory_Inventory.Factory_Data
         private System.Windows.Forms.DataGridViewTextBoxColumn amountReceivedCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountPendingCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn totalAmountCol;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn doPaymentClosedCol;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commentsCol;
     }
 }

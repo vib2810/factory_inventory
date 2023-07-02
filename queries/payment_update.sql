@@ -15,7 +15,8 @@ CREATE TABLE Payments (
     Payment_ID int IDENTITY(1,1) PRIMARY KEY,
     Payment_Voucher_ID int FOREIGN KEY REFERENCES Payments_Voucher(Voucher_ID),
     Sales_Voucher_ID int FOREIGN KEY REFERENCES Sales_Voucher(Voucher_ID),
-    Payment_Amount decimal(18,2)
+    Payment_Amount decimal(18,2),
+	Comments text
 );
 
 ALTER TABLE Sales_Voucher

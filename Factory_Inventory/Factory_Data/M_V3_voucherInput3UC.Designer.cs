@@ -288,7 +288,6 @@
             this.paymentsHistoryButton.TabIndex = 30;
             this.paymentsHistoryButton.Text = "History";
             this.paymentsHistoryButton.UseVisualStyleBackColor = false;
-            this.paymentsHistoryButton.Visible = false;
             // 
             // paymentsButton
             // 
@@ -300,7 +299,6 @@
             this.paymentsButton.TabIndex = 29;
             this.paymentsButton.Text = "Add Payment";
             this.paymentsButton.UseVisualStyleBackColor = false;
-            this.paymentsButton.Visible = false;
             this.paymentsButton.Click += new System.EventHandler(this.paymentsButton_Click);
             // 
             // label12
