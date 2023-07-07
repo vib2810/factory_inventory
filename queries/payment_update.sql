@@ -5,8 +5,8 @@ use FactoryData_1
 
 CREATE TABLE Payments_Voucher (
     Voucher_ID int IDENTITY(1,1) PRIMARY KEY,
-    Payment_Date datetime,
-    Input_Date datetime,
+    Payment_Date date,
+    Input_Date date,
     Customers varchar(50),
 	Narration text
 );

@@ -82,6 +82,7 @@ namespace Factory_Inventory
             vno_table_map[14] = "T_Repacking_Voucher";
             vno_table_map[15] = "T_Sales_Voucher";
             vno_table_map[16] = "T_SalesBillNos_Voucher";
+            vno_table_map[17] = "Payments_Form";
 
             //Opening
             vno_table_map[100] = "Carton Production";
@@ -450,6 +451,15 @@ namespace Factory_Inventory
                 string sql = this.getTradingQuery("", false, 0);
                 this.dt = c.runQuery(sql);
             }
+            else if(this.vno == 17)
+            {
+                string sql = "SELECT TOP 200 Payments_Voucher.Voucher_ID, Payments_Voucher.Input_Date, Payments_Voucher.Payment_Date, Payments_Voucher.Customers, SUM(Payments.Payment_Amount) as Payment_Amount, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration\n";
+                sql += "FROM Payments_Voucher\n";
+                sql += "JOIN Payments ON Payments_Voucher.Voucher_ID = Payments.Payment_Voucher_ID\n";
+                sql += "GROUP BY Voucher_ID, Input_Date, Payment_Date, Customers, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX))";
+                sql += "ORDER BY Voucher_ID DESC;";
+                this.dt = c.runQuery(sql);
+            }
             else if(this.vno<100)
             {
                 this.dt = c.getVoucherHistories(vno_table_map[this.vno]);
@@ -498,6 +508,51 @@ namespace Factory_Inventory
                     string prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=0";
                     if (date == true) prod = "@tableName = '" + vno_table_map[this.vno] + "', @searchText = '" + to_search + "', @date=1";
                     this.dt = c.runProcedure("SearchInTable", prod);
+                }
+                else if(this.vno == 17)
+                {
+                    string sql = "SELECT Payments_Voucher.Voucher_ID, Payments_Voucher.Input_Date, Payments_Voucher.Payment_Date, Payments_Voucher.Customers, SUM(Payments.Payment_Amount) as Payment_Amount, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration into #temp\n";
+                    sql += "FROM Payments_Voucher\n";
+                    sql += "JOIN Payments ON Payments_Voucher.Voucher_ID = Payments.Payment_Voucher_ID\n";
+                    sql += "GROUP BY Voucher_ID, Input_Date, Payment_Date, Customers, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX))\n";
+                    sql += "ORDER BY Voucher_ID DESC\n";
+                    sql += "SET NOCOUNT ON;\n";
+                    sql += "DECLARE @columnName NVARCHAR(100)\n";
+                    sql += "DECLARE @sql NVARCHAR(1000) = 'SELECT * FROM #temp WHERE '\n";
+                    sql += "DECLARE @searchText nvarchar(50) = '" + to_search + "';\n";
+                    if(date == false) sql += "DECLARE @date tinyint = 0;\n";
+                    else sql += "DECLARE @date tinyint = 1;\n";
+                    sql += "DECLARE columns CURSOR FOR\n";
+                    sql += "SELECT name\n";
+                    sql += "FROM tempdb.sys.columns\n";
+                    sql += "WHERE  object_id = Object_id('tempdb..#temp')\n";
+                    sql += "OPEN columns\n";
+                    sql += "FETCH NEXT FROM columns\n";
+                    sql += "INTO @columnName\n";
+                    sql += "WHILE @@FETCH_STATUS = 0\n";
+                    sql += "BEGIN\n";
+                    sql += "    if (@columnName not like '%voucher%') and(@columnName not like '%fiscal%') and(@columnName not like '%deleted%')\n";
+                    sql += "    begin\n";
+                    sql += "        if (@date = 1)\n";
+                    sql += "        begin\n";
+                    sql += "            if @columnName like '%date%'\n";
+                    sql += "            begin SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR ' end\n";
+                    sql += "        end\n";
+                    sql += "        else\n";
+                    sql += "        begin\n";
+                    sql += "            if @columnName not like '%date%'\n";
+                    sql += "            begin SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR ' end\n";
+                    sql += "        end\n";
+                    sql += "    end\n";
+                    sql += "FETCH NEXT FROM columns\n";
+                    sql += "INTO @columnName\n";
+                    sql += "END\n";
+                    sql += "CLOSE columns;\n";
+                    sql += "DEALLOCATE columns;\n";
+                    sql += "SET @sql = LEFT(RTRIM(@sql), LEN(@sql) - 2)\n";
+                    sql += "EXEC(@sql)\n";
+                    sql += "drop table #temp;\n";
+                    this.dt = c.runQuery(sql);
                 }
                 else
                 {
@@ -1083,6 +1138,28 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["DO_Fiscal_Year"].HeaderText = "DO Fiscal Year";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Bill to Colour Sale
+            if (this.vno == 17)
+            {
+                int i = 0;
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Input_Date"].Visible = true;
+                this.dataGridView1.Columns["Input_Date"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Input_Date"].HeaderText = "Input Date";
+                this.dataGridView1.Columns["Payment_Date"].Visible = true;
+                this.dataGridView1.Columns["Payment_Date"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Payment_Date"].HeaderText = "Payment Date";
+                this.dataGridView1.Columns["Customers"].Visible = true;
+                this.dataGridView1.Columns["Customers"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Customers"].HeaderText = "Customer";
+                this.dataGridView1.Columns["Payment_Amount"].Visible = true;
+                this.dataGridView1.Columns["Payment_Amount"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Payment_Amount"].HeaderText = "Payment Amount";
+                this.dataGridView1.Columns["Narration"].Visible = true;
+                this.dataGridView1.Columns["Narration"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }      //Payments
             if (this.vno == 100)
             {
                 this.dataGridView1.ReadOnly = true;

@@ -288,6 +288,7 @@
             this.paymentsHistoryButton.TabIndex = 30;
             this.paymentsHistoryButton.Text = "History";
             this.paymentsHistoryButton.UseVisualStyleBackColor = false;
+            this.paymentsHistoryButton.Click += new System.EventHandler(this.paymentsHistoryButton_Click);
             // 
             // paymentsButton
             // 
@@ -312,7 +313,6 @@
             this.label12.Size = new System.Drawing.Size(33, 9);
             this.label12.TabIndex = 32;
             this.label12.Text = "Shift + 4";
-            this.label12.Visible = false;
             // 
             // label13
             // 
@@ -325,7 +325,6 @@
             this.label13.Size = new System.Drawing.Size(9, 9);
             this.label13.TabIndex = 31;
             this.label13.Text = "4";
-            this.label13.Visible = false;
             // 
             // M_V3_voucherInput3UC
             // 
