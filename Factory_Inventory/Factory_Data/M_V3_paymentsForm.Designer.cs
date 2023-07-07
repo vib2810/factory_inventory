@@ -33,7 +33,7 @@ namespace Factory_Inventory.Factory_Data
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.inputDateDTP = new System.Windows.Forms.DateTimePicker();
             this.paymentDateDTP = new System.Windows.Forms.DateTimePicker();
-            this.cusotmerCB = new System.Windows.Forms.ComboBox();
+            this.customerCB = new System.Windows.Forms.ComboBox();
             this.amountTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -74,13 +74,13 @@ namespace Factory_Inventory.Factory_Data
             this.paymentDateDTP.Size = new System.Drawing.Size(138, 20);
             this.paymentDateDTP.TabIndex = 1;
             // 
-            // cusotmerCB
+            // customerCB
             // 
-            this.cusotmerCB.FormattingEnabled = true;
-            this.cusotmerCB.Location = new System.Drawing.Point(12, 132);
-            this.cusotmerCB.Name = "cusotmerCB";
-            this.cusotmerCB.Size = new System.Drawing.Size(138, 21);
-            this.cusotmerCB.TabIndex = 2;
+            this.customerCB.FormattingEnabled = true;
+            this.customerCB.Location = new System.Drawing.Point(12, 132);
+            this.customerCB.Name = "customerCB";
+            this.customerCB.Size = new System.Drawing.Size(138, 21);
+            this.customerCB.TabIndex = 2;
             // 
             // amountTB
             // 
@@ -284,7 +284,7 @@ namespace Factory_Inventory.Factory_Data
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.amountTB);
-            this.Controls.Add(this.cusotmerCB);
+            this.Controls.Add(this.customerCB);
             this.Controls.Add(this.paymentDateDTP);
             this.Controls.Add(this.inputDateDTP);
             this.Name = "M_V3_paymentsForm";
@@ -301,7 +301,7 @@ namespace Factory_Inventory.Factory_Data
 
         private System.Windows.Forms.DateTimePicker inputDateDTP;
         private System.Windows.Forms.DateTimePicker paymentDateDTP;
-        private System.Windows.Forms.ComboBox cusotmerCB;
+        private System.Windows.Forms.ComboBox customerCB;
         private System.Windows.Forms.TextBox amountTB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;

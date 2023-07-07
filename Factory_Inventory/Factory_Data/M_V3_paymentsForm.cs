@@ -16,22 +16,85 @@ namespace Factory_Inventory.Factory_Data
 
         DbConnect c = new DbConnect();
         Dictionary<string, Tuple<DataRow, float>> do_dict = new Dictionary<string, Tuple<DataRow, float>>();
+        private M_V_history v1_history;
+        private bool edit_form = false;               //True if form is being edited
+        private int voucher_id;
         public M_V3_paymentsForm()
         {
             InitializeComponent();
+
             DataTable dt = new DataTable();
             List<string> customers = new List<string>();
 
             // Read Customer Names from the database and store them in the combobox
             dt = c.runQuery("SELECT Customers FROM Customers");
             for (int i = 0; i < dt.Rows.Count; i++) customers.Add(dt.Rows[i]["Customers"].ToString());
-            this.cusotmerCB.DataSource = customers;
-            this.cusotmerCB.DisplayMember = "Customers";
-            this.cusotmerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
-            this.cusotmerCB.AutoCompleteSource = AutoCompleteSource.ListItems;
-            this.cusotmerCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.customerCB.DataSource = customers;
+            this.customerCB.DisplayMember = "Customers";
+            this.customerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.customerCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.customerCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+        }
+
+        public M_V3_paymentsForm(DataRow row, bool isEditable, M_V_history v1_history)
+        {
+            InitializeComponent(); 
+            this.edit_form = true;
+            this.v1_history = v1_history;
+
+            DataTable dt = new DataTable();
+            List<string> customers = new List<string>();
+
+            // Read Customer Names from the database and store them in the combobox
+            dt = c.runQuery("SELECT Customers FROM Customers");
+            for (int i = 0; i < dt.Rows.Count; i++) customers.Add(dt.Rows[i]["Customers"].ToString());
+            this.customerCB.DataSource = customers;
+            this.customerCB.DisplayMember = "Customers";
+            this.customerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
+            this.customerCB.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.customerCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
+
+            if (isEditable == false)
+            {
+                this.Text += "(View Only)";
+                this.saveButton.Enabled = false;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
+                this.disable_form_edit();
+            }
+            else
+            {
+                this.Text += "(Edit)";
+                this.paymentDateDTP.Enabled = true;
+                this.customerCB.Enabled = false;
+                this.saveButton.Enabled = true;
+                this.dataGridView1.ReadOnly = false;
+                this.loadDOButton.Enabled = false;
+            }
+
+            this.paymentDateDTP.Value = Convert.ToDateTime(row["Payment_Date"].ToString());
+            this.inputDateDTP.Value = Convert.ToDateTime(row["Input_Date"].ToString());
+            this.customerCB.SelectedIndex = this.customerCB.FindStringExact(row["Customers"].ToString());
+            this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
+            this.narrationTB.Text = row["Narration"].ToString();
+
+            string sql = "SELECT Payments.Payment_Amount, Payments.Comments, Payments.Payment_ID, Sales_Voucher.Sale_DO_No, Sales_Voucher.Fiscal_Year, Payments.Display_Order FROM Payments\n";
+            sql += "JOIN Sales_Voucher ON Sales_Voucher.Voucher_ID = Payments.Sales_Voucher_ID\n";
+            sql += "WHERE Payments.Payment_Voucher_ID = " + this.voucher_id + "\n";
+            DataTable d1 = c.runQuery(sql);
+
+            DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
+            for (int i = 0; i < d1.Rows.Count; i++)
+            {
+                float amount_received = float.Parse(d1.Rows[i]["Payment_Amount"].ToString());
+                dgvCmb.Items.Add(dt.Rows[i]["Sale_Do_No"].ToString() + " (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")");
+                //dataGridView1.Rows[int.Parse(d1.Rows[i]["Sale_Display_Order"].ToString())].Cells[1].Value = carton_no + " ; " + net_weight.ToString() + " ; " + fiscal_year;
+                //dataGridView1.Rows[int.Parse(d1.Rows[i]["Sale_Display_Order"].ToString())].Cells["Comments"].Value = d1.Rows[i]["Sale_Comments"].ToString();
+            }
 
         }
 
@@ -60,11 +123,11 @@ namespace Factory_Inventory.Factory_Data
             DataTable dt = new DataTable();
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
 
-            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight FROM Sales_Voucher WHERE DO_Payment_Closed = 0 AND Customer = '" + this.cusotmerCB.SelectedItem.ToString() + "'");
+            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight FROM Sales_Voucher WHERE DO_Payment_Closed = 0 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "'");
 
             if (dt.Rows.Count == 0)
             {
-                c.WarningBox("No Pending DOs exist for " + this.cusotmerCB.SelectedItem.ToString());
+                c.WarningBox("No Pending DOs exist for " + this.customerCB.SelectedItem.ToString());
                 return;
             }
 
@@ -79,9 +142,10 @@ namespace Factory_Inventory.Factory_Data
             }
 
 
-            this.cusotmerCB.Enabled = false;
+            this.customerCB.Enabled = false;
             this.dataGridView1.Enabled = true;
             this.saveButton.Enabled = true;
+            this.loadDOButton.Enabled = false;
             c.SuccessBox("Loaded " + dt.Rows.Count.ToString() + " DOs");
         }
 
@@ -181,21 +245,31 @@ namespace Factory_Inventory.Factory_Data
                 try
                 {
                     string do_;
-                    float total_amount, amountReceived;
+                    float total_amount, total_payment, amountReceived = 0F;
                     DataRow dr;
 
                     do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
                     dr = do_dict[do_].Item1;
+                    total_payment = do_dict[do_].Item2;
                     total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
-                    amountReceived = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-
-                    if (total_amount - amountReceived < 0F)
+                    try
                     {
-                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString() + " at row " + (e.RowIndex + 1).ToString() + " cannot be less than 0 (" + (total_amount - amountReceived).ToString() + ")", "Negative Amound Pending Error");
+                        amountReceived = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                    }
+                    catch 
+                    {
                         return;
                     }
 
-                    dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - amountReceived).ToString("F2");
+                    if (total_amount - total_payment - amountReceived < 0F)
+                    {
+                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString() + " at row " + (e.RowIndex + 1).ToString() + " cannot be less than 0 (" + (total_amount - total_payment - amountReceived).ToString() + ")", "Negative Amound Pending Error");
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                        dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
+                        return;
+                    }
+
+                    dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment - amountReceived).ToString("F2");
 
                     amountTB.Text = CellSum().ToString("F2");
                 }
@@ -243,7 +317,7 @@ namespace Factory_Inventory.Factory_Data
             }
 
             string sql = "begin transaction; begin try; DECLARE @voucherID int;\n";
-            sql += "INSERT INTO Payments_Voucher (Payment_Date,Input_Date, Customers, Narration) VALUES ('" + inputDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "' ,'" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', '" + cusotmerCB.SelectedItem.ToString() + "', '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
+            sql += "INSERT INTO Payments_Voucher (Payment_Date,Input_Date, Customers, Narration) VALUES ('" + inputDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "' ,'" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', '" + customerCB.SelectedItem.ToString() + "', '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
             for (int i = 0; i < dataGridView1.Rows.Count-1; i++)
             {
                 // Check if amount pending is 0 for the DOs that are being closed
@@ -255,7 +329,7 @@ namespace Factory_Inventory.Factory_Data
                 }
                 string comments = "";
                 if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
-                sql += "INSERT INTO Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments) VALUES (@voucherID, " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "');\n";
+                sql += "INSERT INTO Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments, Display_Order) VALUES (@voucherID, " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "', " + i.ToString() + ");\n";
                 // Check and Set DO Closed State
                 if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
             }
@@ -277,7 +351,7 @@ namespace Factory_Inventory.Factory_Data
         private void disable_form_edit()
         {
             this.paymentDateDTP.Enabled = false;
-            this.cusotmerCB.Enabled = false;
+            this.customerCB.Enabled = false;
             this.loadDOButton.Enabled = false;
             this.saveButton.Enabled = false;
             this.deleteButton.Enabled = false;

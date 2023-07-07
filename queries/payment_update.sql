@@ -16,6 +16,7 @@ CREATE TABLE Payments (
     Payment_Voucher_ID int FOREIGN KEY REFERENCES Payments_Voucher(Voucher_ID),
     Sales_Voucher_ID int FOREIGN KEY REFERENCES Sales_Voucher(Voucher_ID),
     Payment_Amount decimal(18,2),
+	Display_Order int,
 	Comments text
 );
 

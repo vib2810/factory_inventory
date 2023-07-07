@@ -1,4 +1,5 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Factory_Data;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using System;
@@ -1386,6 +1387,15 @@ namespace Factory_Inventory
                 if (this.vno == 16)
                 {
                     T_V3_addBill f = new T_V3_addBill(row, false, this);
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
+                    }
+                }
+                if (this.vno == 17)
+                {
+                    M_V3_paymentsForm f = new M_V3_paymentsForm(row, false, this);
                     if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
                     {
                         Global.background.show_form(f);
