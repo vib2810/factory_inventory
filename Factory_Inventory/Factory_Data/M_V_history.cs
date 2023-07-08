@@ -1572,6 +1572,15 @@ namespace Factory_Inventory
                         this.child_forms.Add(new form_data(f, 1, voucher_id));
                     }
                 }
+                if (this.vno == 17)
+                {
+                    M_V3_paymentsForm f = new M_V3_paymentsForm(row, true, this);
+                    if (this.check_not_showing(new form_data(f, 0, voucher_id)) == true)
+                    {
+                        Global.background.show_form(f);
+                        this.child_forms.Add(new form_data(f, 0, voucher_id));
+                    }
+                }
                 if (this.vno == 100)
                 {
                     M_V5_cartonProductionOpeningForm f = new M_V5_cartonProductionOpeningForm(row, true, this);

@@ -19,6 +19,7 @@ namespace Factory_Inventory.Factory_Data
         private M_V_history v1_history;
         private bool edit_form = false;               //True if form is being edited
         private int voucher_id;
+        private bool populating_dgv_edit_state = false; //Prevents the datagridview to amount pending column to go negative while populating the dgv during view/edit
         public M_V3_paymentsForm()
         {
             InitializeComponent();
@@ -73,6 +74,7 @@ namespace Factory_Inventory.Factory_Data
                 this.customerCB.Enabled = false;
                 this.saveButton.Enabled = true;
                 this.dataGridView1.ReadOnly = false;
+                this.dataGridView1.Enabled = true;
                 this.loadDOButton.Enabled = false;
             }
 
@@ -81,20 +83,36 @@ namespace Factory_Inventory.Factory_Data
             this.customerCB.SelectedIndex = this.customerCB.FindStringExact(row["Customers"].ToString());
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             this.narrationTB.Text = row["Narration"].ToString();
+            this.loadData();
 
-            string sql = "SELECT Payments.Payment_Amount, Payments.Comments, Payments.Payment_ID, Sales_Voucher.Sale_DO_No, Sales_Voucher.Fiscal_Year, Payments.Display_Order FROM Payments\n";
+            string sql = "SELECT Payments.Payment_Amount, Payments.Comments, Payments.Payment_ID, Sales_Voucher.Sale_DO_No, Sales_Voucher.Fiscal_Year, Payments.Display_Order, Sales_Voucher.Sale_Rate*Sales_Voucher.Net_Weight as Total_Amount, Sales_Voucher.DO_Payment_Closed, Sales_Voucher.Voucher_ID FROM Payments\n";
             sql += "JOIN Sales_Voucher ON Sales_Voucher.Voucher_ID = Payments.Sales_Voucher_ID\n";
             sql += "WHERE Payments.Payment_Voucher_ID = " + this.voucher_id + "\n";
             DataTable d1 = c.runQuery(sql);
 
+            dataGridView1.RowCount = d1.Rows.Count + 1;
+
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
+            this.populating_dgv_edit_state = true;
             for (int i = 0; i < d1.Rows.Count; i++)
             {
-                float amount_received = float.Parse(d1.Rows[i]["Payment_Amount"].ToString());
-                dgvCmb.Items.Add(dt.Rows[i]["Sale_Do_No"].ToString() + " (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")");
-                //dataGridView1.Rows[int.Parse(d1.Rows[i]["Sale_Display_Order"].ToString())].Cells[1].Value = carton_no + " ; " + net_weight.ToString() + " ; " + fiscal_year;
-                //dataGridView1.Rows[int.Parse(d1.Rows[i]["Sale_Display_Order"].ToString())].Cells["Comments"].Value = d1.Rows[i]["Sale_Comments"].ToString();
+                if ((bool)d1.Rows[i]["DO_Payment_Closed"] == true)  //Closed DOs
+                {
+                    float total_payment = 0F;
+                    DataTable d2 = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight FROM Sales_Voucher WHERE DO_Payment_Closed = 1 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "' AND Sale_DO_No = '" + d1.Rows[i]["Sale_DO_No"].ToString() + "' AND Fiscal_Year = '" + d1.Rows[i]["Fiscal_Year"].ToString() + "'");
+                    DataTable d3 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM Payments WHERE Sales_Voucher_ID = " + d1.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
+                    if (d3.Rows.Count > 0) total_payment = float.Parse(d3.Rows[0]["Total_Payment"].ToString());
+                    do_dict[d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")"] = new Tuple<DataRow, float>(d2.Rows[0], total_payment);
+                    dgvCmb.Items.Add(d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")");
+                    dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["doPaymentClosedCol"].Value = true;
+                }
+                else dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["doPaymentClosedCol"].Value = false;
+                dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["doNoCol"].Value = d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")";
+                //dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["totalAmountCol"].Value =  float.Parse(d1.Rows[i]["Total_Amount"].ToString()).ToString("F2");
+                dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["amountReceivedCol"].Value = d1.Rows[i]["Payment_Amount"].ToString();
+                dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["commentsCol"].Value = d1.Rows[i]["Comments"].ToString();
             }
+            this.populating_dgv_edit_state = false;
 
         }
 
@@ -105,7 +123,7 @@ namespace Factory_Inventory.Factory_Data
             {
                 try
                 {
-                    receivedAmountSum += float.Parse(dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString());
+                    if(dataGridView1.Rows[i].Cells["amountReceivedCol"].Value != null) receivedAmountSum += float.Parse(dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString());
                 }
                 catch { }
             }
@@ -117,8 +135,7 @@ namespace Factory_Inventory.Factory_Data
             this.Text = "Payments Voucher";
             dataGridView1.Rows[0].Cells["doPaymentClosedCol"].Value = false;
         }
-
-        private void loadDOButton_Click(object sender, EventArgs e)
+        private int loadData()
         {
             DataTable dt = new DataTable();
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
@@ -128,7 +145,7 @@ namespace Factory_Inventory.Factory_Data
             if (dt.Rows.Count == 0)
             {
                 c.WarningBox("No Pending DOs exist for " + this.customerCB.SelectedItem.ToString());
-                return;
+                return 0;
             }
 
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -140,13 +157,19 @@ namespace Factory_Inventory.Factory_Data
                 if (dt2.Rows.Count > 0) total_payment = float.Parse(dt2.Rows[0]["Total_Payment"].ToString());
                 do_dict[dt.Rows[i]["Sale_Do_No"].ToString() + " (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")"] = new Tuple<DataRow, float>(dt.Rows[i], total_payment);
             }
+            return dt.Rows.Count;
+        }
 
+        private void loadDOButton_Click(object sender, EventArgs e)
+        {
+
+            int success = loadData();
 
             this.customerCB.Enabled = false;
             this.dataGridView1.Enabled = true;
             this.saveButton.Enabled = true;
             this.loadDOButton.Enabled = false;
-            c.SuccessBox("Loaded " + dt.Rows.Count.ToString() + " DOs");
+            if(success > 0) c.SuccessBox("Loaded " + success.ToString() + " DOs");
         }
 
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -244,33 +267,35 @@ namespace Factory_Inventory.Factory_Data
             {
                 try
                 {
-                    string do_;
-                    float total_amount, total_payment, amountReceived = 0F;
-                    DataRow dr;
-
-                    do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
-                    dr = do_dict[do_].Item1;
-                    total_payment = do_dict[do_].Item2;
-                    total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
-                    try
+                    if(!this.populating_dgv_edit_state)
                     {
-                        amountReceived = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                    }
-                    catch 
-                    {
-                        return;
-                    }
+                        string do_;
+                        float total_amount, total_payment, amountReceived = 0F;
+                        DataRow dr;
 
-                    if (total_amount - total_payment - amountReceived < 0F)
-                    {
-                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString() + " at row " + (e.RowIndex + 1).ToString() + " cannot be less than 0 (" + (total_amount - total_payment - amountReceived).ToString() + ")", "Negative Amound Pending Error");
-                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
-                        dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
-                        return;
+                        do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
+                        dr = do_dict[do_].Item1;
+                        total_payment = do_dict[do_].Item2;
+                        total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
+                        try
+                        {
+                            amountReceived = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                        }
+                        catch
+                        {
+                            return;
+                        }
+
+                        if (total_amount - total_payment - amountReceived < 0F)
+                        {
+                            c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString() + " at row " + (e.RowIndex + 1).ToString() + " cannot be less than 0 (" + (total_amount - total_payment - amountReceived).ToString() + ")", "Negative Amound Pending Error");
+                            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                            dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
+                            return;
+                        }
+
+                        dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment - amountReceived).ToString("F2");
                     }
-
-                    dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment - amountReceived).ToString("F2");
-
                     amountTB.Text = CellSum().ToString("F2");
                 }
                 catch
@@ -309,7 +334,7 @@ namespace Factory_Inventory.Factory_Data
                     bool allDifferent = distinctBytes.Count == temp.Count;
                     if (allDifferent == false)
                     {
-                        c.ErrorBox("Please Enter DO No. at Row: " + (i + 1).ToString(), "Error");
+                        c.ErrorBox("Repeated DO No. at Row: " + (i + 1).ToString(), "Error");
                         return;
                     }
 
