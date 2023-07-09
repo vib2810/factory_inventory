@@ -16,6 +16,9 @@ namespace Factory_Inventory.Factory_Data
 
         DbConnect c = new DbConnect();
         Dictionary<string, Tuple<DataRow, float>> do_dict = new Dictionary<string, Tuple<DataRow, float>>();
+        HashSet<string> do_set_edit = new HashSet<string>();    //used to see which DOs are added, edited or deleted during edit mode
+        List<string> do_to_delete = new List<string>();    //stores which DOs are to be deleted during edit mode
+        Dictionary<string, float> amount_received_this_voucher = new Dictionary<string, float>();
         private M_V_history v1_history;
         private bool edit_form = false;               //True if form is being edited
         private int voucher_id;
@@ -108,12 +111,13 @@ namespace Factory_Inventory.Factory_Data
                 }
                 else dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["doPaymentClosedCol"].Value = false;
                 dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["doNoCol"].Value = d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")";
-                //dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["totalAmountCol"].Value =  float.Parse(d1.Rows[i]["Total_Amount"].ToString()).ToString("F2");
                 dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["amountReceivedCol"].Value = d1.Rows[i]["Payment_Amount"].ToString();
                 dataGridView1.Rows[int.Parse(d1.Rows[i]["Display_Order"].ToString())].Cells["commentsCol"].Value = d1.Rows[i]["Comments"].ToString();
+                do_set_edit.Add(d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")");
+                do_to_delete.Add(d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")");
+                amount_received_this_voucher[d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")"] = float.Parse(d1.Rows[i]["Payment_Amount"].ToString());
             }
             this.populating_dgv_edit_state = false;
-
         }
 
         private float CellSum()
@@ -133,7 +137,7 @@ namespace Factory_Inventory.Factory_Data
         private void M_V3_paymentsForm_Load(object sender, EventArgs e)
         {
             this.Text = "Payments Voucher";
-            dataGridView1.Rows[0].Cells["doPaymentClosedCol"].Value = false;
+            if(this.edit_form == false) dataGridView1.Rows[0].Cells["doPaymentClosedCol"].Value = false;
         }
         private int loadData()
         {
@@ -276,9 +280,15 @@ namespace Factory_Inventory.Factory_Data
                         do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
                         dr = do_dict[do_].Item1;
                         total_payment = do_dict[do_].Item2;
+                        if (amount_received_this_voucher.ContainsKey(dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString())) total_payment -= amount_received_this_voucher[dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString()];
                         total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
                         try
                         {
+                            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null)
+                            {
+                                dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
+                                return;
+                            }
                             amountReceived = float.Parse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
                         }
                         catch
@@ -286,21 +296,32 @@ namespace Factory_Inventory.Factory_Data
                             return;
                         }
 
-                        if (total_amount - total_payment - amountReceived < 0F)
+                       if (Math.Round(total_amount - total_payment - amountReceived) < 0F)
                         {
-                            c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString() + " at row " + (e.RowIndex + 1).ToString() + " cannot be less than 0 (" + (total_amount - total_payment - amountReceived).ToString() + ")", "Negative Amound Pending Error");
+                            c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString() + " at row " + (e.RowIndex + 1).ToString() + " cannot be less than 0 (" + (total_amount - total_payment - amountReceived).ToString() + ")", "Negative Amount Pending Error");
                             dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                             dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
                             return;
                         }
 
-                        dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment - amountReceived).ToString("F2");
+                     dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment - amountReceived).ToString("F2");
                     }
                     amountTB.Text = CellSum().ToString("F2");
                 }
                 catch
                 {
                     c.ErrorBox("The value 'Amount Received' should be a number");
+                    string do_;
+                    float total_amount, total_payment;
+                    DataRow dr;
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+
+                    do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
+                    dr = do_dict[do_].Item1;
+                    total_payment = do_dict[do_].Item2;
+                    total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
+
+                    dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
                     return;
                 }
             }
@@ -314,7 +335,7 @@ namespace Factory_Inventory.Factory_Data
                 c.ErrorBox("Please enter Payment Details", "Error");
                 return;
             }
-            if (inputDateDTP.Value.Date < paymentDateDTP.Value.Date)
+            if ((inputDateDTP.Value.Date < paymentDateDTP.Value.Date && this.edit_form == false) || paymentDateDTP.Value.Date > DateTime.Now.Date)
             {
                 c.ErrorBox("Payment Date is in the future", "Error");
                 return;
@@ -341,36 +362,92 @@ namespace Factory_Inventory.Factory_Data
                 }
             }
 
-            string sql = "begin transaction; begin try; DECLARE @voucherID int;\n";
-            sql += "INSERT INTO Payments_Voucher (Payment_Date,Input_Date, Customers, Narration) VALUES ('" + inputDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "' ,'" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', '" + customerCB.SelectedItem.ToString() + "', '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
-            for (int i = 0; i < dataGridView1.Rows.Count-1; i++)
+            if(this.edit_form == false)
             {
-                // Check if amount pending is 0 for the DOs that are being closed
-                float amount_pending = float.Parse(dataGridView1.Rows[i].Cells["amountPendingCol"].Value.ToString());
-                if (amount_pending != 0F && (bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true)
+                string sql = "begin transaction; begin try; DECLARE @voucherID int;\n";
+                sql += "INSERT INTO Payments_Voucher (Payment_Date,Input_Date, Customers, Narration) VALUES ('" + inputDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "' ,'" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', '" + customerCB.SelectedItem.ToString() + "', '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
+                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
                 {
-                    c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " should be 0", "DO Close Error");
-                    return;
+                    // Check if amount pending is 0 for the DOs that are being closed
+                    float amount_pending = float.Parse(dataGridView1.Rows[i].Cells["amountPendingCol"].Value.ToString());
+                    if (amount_pending != 0F && (bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true)
+                    {
+                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " should be 0", "DO Close Error");
+                        return;
+                    }
+                    string comments = "";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
+                    sql += "INSERT INTO Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments, Display_Order) VALUES (@voucherID, " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "', " + i.ToString() + ");\n";
+                    // Check and Set DO Closed State
+                    if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
                 }
-                string comments = "";
-                if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
-                sql += "INSERT INTO Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments, Display_Order) VALUES (@voucherID, " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "', " + i.ToString() + ");\n";
-                // Check and Set DO Closed State
-                if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
-            }
-            //catch
-            sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
-            sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
-            sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
-            DataTable add = c.runQuery(sql);
+                //catch
+                sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
+                sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
+                sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
+                DataTable add = c.runQuery(sql);
 
-            if (add != null)
-            {
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
-                c.SuccessBox("Voucher Added Successfully");
-                disable_form_edit();
+                if (add != null)
+                {
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    c.SuccessBox("Voucher Added Successfully");
+                    disable_form_edit();
+                }
+                else return;
             }
-            else return;
+            else
+            {
+                string sql = "begin transaction; begin try;\n";
+                sql += "UPDATE Payments_Voucher SET Payment_Date = '" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', Narration = '" + narrationTB.Text + "' WHERE Voucher_ID = " + this.voucher_id.ToString() + ";\n";
+                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+                {
+                    // Check if amount pending is 0 for the DOs that are being closed
+                    float amount_pending = float.Parse(dataGridView1.Rows[i].Cells["amountPendingCol"].Value.ToString());
+                    if (dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == null) dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value = false;
+                    if (amount_pending != 0F && (bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true)
+                    {
+                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " should be 0", "DO Close Error");
+                        return;
+                    }
+                    string comments = "";
+                    if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
+                    if (do_set_edit.Contains(dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()))   //Update the DO
+                    {
+                        sql += "UPDATE Payments SET Payment_Amount = " + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", Comments = '" + comments + "', Display_Order = " + i.ToString() + " WHERE Sales_Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + " AND Payment_Voucher_ID = " + this.voucher_id.ToString() + "\n";
+                        if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                        else sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                        do_to_delete.Remove(dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString());
+                    }
+                    else    //Add a new DO
+                    {
+                        sql += "INSERT INTO Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments, Display_Order) VALUES (" + this.voucher_id.ToString() + ", " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "', " + i.ToString() + ");\n";
+                        // Check and Set DO Closed State
+                        if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                        do_to_delete.Remove(dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString());
+                    }
+                }
+                for(int i = 0; i < do_to_delete.Count; i++) //Deleted DOs
+                {
+                    sql += "DELETE FROM Payments WHERE Sales_Voucher_ID = '" + do_dict[do_to_delete[i].ToString()].Item1["Voucher_ID"].ToString() + "' AND Payment_Voucher_ID = " + this.voucher_id.ToString() + "\n";
+                    sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[do_to_delete[i].ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                }
+                
+                //catch
+                sql += "commit transaction; end try BEGIN CATCH rollback transaction; \n";
+                sql += "DECLARE @ErrorMessage NVARCHAR(4000); DECLARE @ErrorSeverity INT; DECLARE @ErrorState INT; SELECT @ErrorMessage = ERROR_MESSAGE(), @ErrorSeverity = ERROR_SEVERITY(), @ErrorState = ERROR_STATE(); \n";
+                sql += "RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState); END CATCH; \n";
+                DataTable edited = c.runQuery(sql);
+                if (edited != null)
+                {
+                    c.SuccessBox("Voucher Edited Successfully");
+                    disable_form_edit();
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LawnGreen;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
 
         private void disable_form_edit()
@@ -403,6 +480,15 @@ namespace Factory_Inventory.Factory_Data
         {
             // Set the default value for the DataGridViewCheckBoxCell
             dataGridView1.Rows[e.RowIndex].Cells["doPaymentClosedCol"].Value = false;
+        }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView1.Rows[e.RowIndex].Selected = true;
+                contextMenuStrip1.Show(Cursor.Position);
+            }
         }
     }
 }
