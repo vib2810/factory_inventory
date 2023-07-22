@@ -266,7 +266,7 @@ namespace Factory_Inventory.Factory_Data
                 total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
                 date_of_sale = dr["Date_Of_Sale"].ToString().Substring(0, 10);
 
-                if (this.edit_form == true) dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
+                if (this.populating_dgv_edit_state) dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
                 else
                 {
                     dataGridView1.Rows[e.RowIndex].Cells["amountReceivedCol"].Value = (total_amount - total_payment).ToString("F2");
