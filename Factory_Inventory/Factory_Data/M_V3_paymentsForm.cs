@@ -264,6 +264,7 @@ namespace Factory_Inventory.Factory_Data
                 total_payment = do_dict[do_].Item2;
                 total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
 
+                dataGridView1.Rows[e.RowIndex].Cells["amountReceivedCol"].Value = (total_amount - total_payment).ToString("F2");
                 dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
                 dataGridView1.Rows[e.RowIndex].Cells["totalAmountCol"].Value = total_amount;
             }
