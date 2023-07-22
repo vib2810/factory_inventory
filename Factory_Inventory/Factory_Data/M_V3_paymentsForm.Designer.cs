@@ -48,13 +48,14 @@ namespace Factory_Inventory.Factory_Data
             this.label6 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.commentsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.doPaymentClosedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.slNoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateOfSaleCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.doPaymentClosedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.commentsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -117,13 +118,14 @@ namespace Factory_Inventory.Factory_Data
             this.amountReceivedCol,
             this.amountPendingCol,
             this.totalAmountCol,
+            this.dateOfSaleCol,
             this.doPaymentClosedCol,
             this.commentsCol});
             this.dataGridView1.Enabled = false;
             this.dataGridView1.Location = new System.Drawing.Point(184, 25);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(604, 333);
+            this.dataGridView1.Size = new System.Drawing.Size(718, 333);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
@@ -230,24 +232,24 @@ namespace Factory_Inventory.Factory_Data
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // commentsCol
+            // slNoCol
             // 
-            this.commentsCol.FillWeight = 87.05582F;
-            this.commentsCol.HeaderText = "Comments";
-            this.commentsCol.Name = "commentsCol";
+            this.slNoCol.FillWeight = 87.05582F;
+            this.slNoCol.HeaderText = "Sl No.";
+            this.slNoCol.Name = "slNoCol";
+            this.slNoCol.ReadOnly = true;
             // 
-            // doPaymentClosedCol
+            // doNoCol
             // 
-            this.doPaymentClosedCol.FillWeight = 87.05582F;
-            this.doPaymentClosedCol.HeaderText = "DO Payment Closed";
-            this.doPaymentClosedCol.Name = "doPaymentClosedCol";
+            this.doNoCol.FillWeight = 177.665F;
+            this.doNoCol.HeaderText = "DO No.";
+            this.doNoCol.Name = "doNoCol";
             // 
-            // totalAmountCol
+            // amountReceivedCol
             // 
-            this.totalAmountCol.FillWeight = 87.05582F;
-            this.totalAmountCol.HeaderText = "Total Amount";
-            this.totalAmountCol.Name = "totalAmountCol";
-            this.totalAmountCol.ReadOnly = true;
+            this.amountReceivedCol.FillWeight = 87.05582F;
+            this.amountReceivedCol.HeaderText = "Amount Received";
+            this.amountReceivedCol.Name = "amountReceivedCol";
             // 
             // amountPendingCol
             // 
@@ -256,30 +258,36 @@ namespace Factory_Inventory.Factory_Data
             this.amountPendingCol.Name = "amountPendingCol";
             this.amountPendingCol.ReadOnly = true;
             // 
-            // amountReceivedCol
+            // totalAmountCol
             // 
-            this.amountReceivedCol.FillWeight = 87.05582F;
-            this.amountReceivedCol.HeaderText = "Amount Received";
-            this.amountReceivedCol.Name = "amountReceivedCol";
+            this.totalAmountCol.FillWeight = 87.05582F;
+            this.totalAmountCol.HeaderText = "Total Amount";
+            this.totalAmountCol.Name = "totalAmountCol";
+            this.totalAmountCol.ReadOnly = true;
             // 
-            // doNoCol
+            // dateOfSaleCol
             // 
-            this.doNoCol.FillWeight = 177.665F;
-            this.doNoCol.HeaderText = "DO No.";
-            this.doNoCol.Name = "doNoCol";
+            this.dateOfSaleCol.HeaderText = "Date of Sale";
+            this.dateOfSaleCol.Name = "dateOfSaleCol";
+            this.dateOfSaleCol.ReadOnly = true;
             // 
-            // slNoCol
+            // doPaymentClosedCol
             // 
-            this.slNoCol.FillWeight = 87.05582F;
-            this.slNoCol.HeaderText = "Sl No.";
-            this.slNoCol.Name = "slNoCol";
-            this.slNoCol.ReadOnly = true;
+            this.doPaymentClosedCol.FillWeight = 87.05582F;
+            this.doPaymentClosedCol.HeaderText = "DO Payment Closed";
+            this.doPaymentClosedCol.Name = "doPaymentClosedCol";
+            // 
+            // commentsCol
+            // 
+            this.commentsCol.FillWeight = 87.05582F;
+            this.commentsCol.HeaderText = "Comments";
+            this.commentsCol.Name = "commentsCol";
             // 
             // M_V3_paymentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 405);
+            this.ClientSize = new System.Drawing.Size(914, 405);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.narrationTB);
             this.Controls.Add(this.deleteButton);
@@ -329,6 +337,7 @@ namespace Factory_Inventory.Factory_Data
         private System.Windows.Forms.DataGridViewTextBoxColumn amountReceivedCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountPendingCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn totalAmountCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateOfSaleCol;
         private System.Windows.Forms.DataGridViewCheckBoxColumn doPaymentClosedCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentsCol;
     }

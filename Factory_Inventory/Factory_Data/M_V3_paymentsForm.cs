@@ -88,7 +88,7 @@ namespace Factory_Inventory.Factory_Data
             this.narrationTB.Text = row["Narration"].ToString();
             this.loadData();
 
-            string sql = "SELECT Payments.Payment_Amount, Payments.Comments, Payments.Payment_ID, Sales_Voucher.Sale_DO_No, Sales_Voucher.Fiscal_Year, Payments.Display_Order, Sales_Voucher.Sale_Rate*Sales_Voucher.Net_Weight as Total_Amount, Sales_Voucher.DO_Payment_Closed, Sales_Voucher.Voucher_ID FROM Payments\n";
+            string sql = "SELECT Payments.Payment_Amount, Payments.Comments, Payments.Payment_ID, Sales_Voucher.Sale_DO_No, Sales_Voucher.Fiscal_Year, Payments.Display_Order, Sales_Voucher.Sale_Rate*Sales_Voucher.Net_Weight as Total_Amount, Sales_Voucher.DO_Payment_Closed, Sales_Voucher.Voucher_ID, Sales_Voucher.Date_Of_Sale FROM Payments\n";
             sql += "JOIN Sales_Voucher ON Sales_Voucher.Voucher_ID = Payments.Sales_Voucher_ID\n";
             sql += "WHERE Payments.Payment_Voucher_ID = " + this.voucher_id + "\n";
             DataTable d1 = c.runQuery(sql);
@@ -102,7 +102,7 @@ namespace Factory_Inventory.Factory_Data
                 if ((bool)d1.Rows[i]["DO_Payment_Closed"] == true)  //Closed DOs
                 {
                     float total_payment = 0F;
-                    DataTable d2 = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight FROM Sales_Voucher WHERE DO_Payment_Closed = 1 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "' AND Sale_DO_No = '" + d1.Rows[i]["Sale_DO_No"].ToString() + "' AND Fiscal_Year = '" + d1.Rows[i]["Fiscal_Year"].ToString() + "'");
+                    DataTable d2 = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM Sales_Voucher WHERE DO_Payment_Closed = 1 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "' AND Sale_DO_No = '" + d1.Rows[i]["Sale_DO_No"].ToString() + "' AND Fiscal_Year = '" + d1.Rows[i]["Fiscal_Year"].ToString() + "'");
                     DataTable d3 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM Payments WHERE Sales_Voucher_ID = " + d1.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
                     if (d3.Rows.Count > 0) total_payment = float.Parse(d3.Rows[0]["Total_Payment"].ToString());
                     do_dict[d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")"] = new Tuple<DataRow, float>(d2.Rows[0], total_payment);
@@ -144,7 +144,7 @@ namespace Factory_Inventory.Factory_Data
             DataTable dt = new DataTable();
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
 
-            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight FROM Sales_Voucher WHERE DO_Payment_Closed = 0 AND Type_Of_Sale = 0 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "'");
+            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM Sales_Voucher WHERE DO_Payment_Closed = 0 AND Type_Of_Sale = 0 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "'");
 
             if (dt.Rows.Count == 0)
             {
@@ -257,12 +257,14 @@ namespace Factory_Inventory.Factory_Data
             {
                 string do_;
                 float total_amount, total_payment;
+                string date_of_sale;
                 DataRow dr;
 
                 do_ = dataGridView1.Rows[e.RowIndex].Cells["doNoCol"].Value.ToString();
                 dr = do_dict[do_].Item1;
                 total_payment = do_dict[do_].Item2;
                 total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
+                date_of_sale = dr["Date_Of_Sale"].ToString().Substring(0, 10);
 
                 if (this.edit_form == true) dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
                 else
@@ -271,6 +273,7 @@ namespace Factory_Inventory.Factory_Data
                     dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = 0F;
                 }
                 dataGridView1.Rows[e.RowIndex].Cells["totalAmountCol"].Value = total_amount;
+                dataGridView1.Rows[e.RowIndex].Cells["dateOfSaleCol"].Value = date_of_sale;
             }
             else if(e.ColumnIndex == 2 && e.RowIndex >= 0)
             {
