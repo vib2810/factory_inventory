@@ -48,13 +48,13 @@ namespace Factory_Inventory.Factory_Data
             this.label6 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.slNoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.doPaymentClosedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.commentsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.doPaymentClosedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.slNoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -230,31 +230,17 @@ namespace Factory_Inventory.Factory_Data
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // slNoCol
+            // commentsCol
             // 
-            this.slNoCol.FillWeight = 87.05582F;
-            this.slNoCol.HeaderText = "Sl No.";
-            this.slNoCol.Name = "slNoCol";
-            this.slNoCol.ReadOnly = true;
+            this.commentsCol.FillWeight = 87.05582F;
+            this.commentsCol.HeaderText = "Comments";
+            this.commentsCol.Name = "commentsCol";
             // 
-            // doNoCol
+            // doPaymentClosedCol
             // 
-            this.doNoCol.FillWeight = 177.665F;
-            this.doNoCol.HeaderText = "DO No.";
-            this.doNoCol.Name = "doNoCol";
-            // 
-            // amountReceivedCol
-            // 
-            this.amountReceivedCol.FillWeight = 87.05582F;
-            this.amountReceivedCol.HeaderText = "Amount Received";
-            this.amountReceivedCol.Name = "amountReceivedCol";
-            // 
-            // amountPendingCol
-            // 
-            this.amountPendingCol.FillWeight = 87.05582F;
-            this.amountPendingCol.HeaderText = "Amount Pending";
-            this.amountPendingCol.Name = "amountPendingCol";
-            this.amountPendingCol.ReadOnly = true;
+            this.doPaymentClosedCol.FillWeight = 87.05582F;
+            this.doPaymentClosedCol.HeaderText = "DO Payment Closed";
+            this.doPaymentClosedCol.Name = "doPaymentClosedCol";
             // 
             // totalAmountCol
             // 
@@ -263,17 +249,31 @@ namespace Factory_Inventory.Factory_Data
             this.totalAmountCol.Name = "totalAmountCol";
             this.totalAmountCol.ReadOnly = true;
             // 
-            // doPaymentClosedCol
+            // amountPendingCol
             // 
-            this.doPaymentClosedCol.FillWeight = 87.05582F;
-            this.doPaymentClosedCol.HeaderText = "DO Payment Closed";
-            this.doPaymentClosedCol.Name = "doPaymentClosedCol";
+            this.amountPendingCol.FillWeight = 87.05582F;
+            this.amountPendingCol.HeaderText = "Amount Pending";
+            this.amountPendingCol.Name = "amountPendingCol";
+            this.amountPendingCol.ReadOnly = true;
             // 
-            // commentsCol
+            // amountReceivedCol
             // 
-            this.commentsCol.FillWeight = 87.05582F;
-            this.commentsCol.HeaderText = "Comments";
-            this.commentsCol.Name = "commentsCol";
+            this.amountReceivedCol.FillWeight = 87.05582F;
+            this.amountReceivedCol.HeaderText = "Amount Received";
+            this.amountReceivedCol.Name = "amountReceivedCol";
+            // 
+            // doNoCol
+            // 
+            this.doNoCol.FillWeight = 177.665F;
+            this.doNoCol.HeaderText = "DO No.";
+            this.doNoCol.Name = "doNoCol";
+            // 
+            // slNoCol
+            // 
+            this.slNoCol.FillWeight = 87.05582F;
+            this.slNoCol.HeaderText = "Sl No.";
+            this.slNoCol.Name = "slNoCol";
+            this.slNoCol.ReadOnly = true;
             // 
             // M_V3_paymentsForm
             // 

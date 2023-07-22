@@ -137,7 +137,7 @@ namespace Factory_Inventory.Factory_Data
         private void M_V3_paymentsForm_Load(object sender, EventArgs e)
         {
             this.Text = "Payments Voucher";
-            if(this.edit_form == false) dataGridView1.Rows[0].Cells["doPaymentClosedCol"].Value = false;
+            if(this.edit_form == false) dataGridView1.Rows[0].Cells["doPaymentClosedCol"].Value = true;
         }
         private int loadData()
         {
@@ -264,8 +264,12 @@ namespace Factory_Inventory.Factory_Data
                 total_payment = do_dict[do_].Item2;
                 total_amount = float.Parse(dr["Sale_Rate"].ToString()) * float.Parse(dr["Net_Weight"].ToString());
 
-                dataGridView1.Rows[e.RowIndex].Cells["amountReceivedCol"].Value = (total_amount - total_payment).ToString("F2");
-                dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
+                if (this.edit_form == true) dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = (total_amount - total_payment).ToString("F2");
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells["amountReceivedCol"].Value = (total_amount - total_payment).ToString("F2");
+                    dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = 0F;
+                }
                 dataGridView1.Rows[e.RowIndex].Cells["totalAmountCol"].Value = total_amount;
             }
             else if(e.ColumnIndex == 2 && e.RowIndex >= 0)
@@ -373,8 +377,8 @@ namespace Factory_Inventory.Factory_Data
                     float amount_pending = float.Parse(dataGridView1.Rows[i].Cells["amountPendingCol"].Value.ToString());
                     if (amount_pending != 0F && (bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true)
                     {
-                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " should be 0", "DO Close Error");
-                        return;
+                        DialogResult dialogResult = MessageBox.Show("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " is not 0.\nDiscount per kg = " + float.Parse(dataGridView1.Rows[i].Cells["amountPendingCol"].Value.ToString()) / float.Parse(do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Net_Weight"].ToString()) + "\nDo you want to Continue?", "Discount Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (dialogResult == DialogResult.No) return;
                     }
                     string comments = "";
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
@@ -407,8 +411,8 @@ namespace Factory_Inventory.Factory_Data
                     if (dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == null) dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value = false;
                     if (amount_pending != 0F && (bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true)
                     {
-                        c.ErrorBox("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " should be 0", "DO Close Error");
-                        return;
+                        DialogResult dialogResult = MessageBox.Show("Amount Pending for DO No. " + dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString() + " at row " + (i + 1).ToString() + " is not 0.\nDiscount per kg = " + float.Parse(dataGridView1.Rows[i].Cells["amountPendingCol"].Value.ToString()) / float.Parse(do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Net_Weight"].ToString()) + "\nDo you want to Continue?", "Discount Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (dialogResult == DialogResult.No) return;
                     }
                     string comments = "";
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
@@ -480,7 +484,7 @@ namespace Factory_Inventory.Factory_Data
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             // Set the default value for the DataGridViewCheckBoxCell
-            dataGridView1.Rows[e.RowIndex].Cells["doPaymentClosedCol"].Value = false;
+            dataGridView1.Rows[e.RowIndex].Cells["doPaymentClosedCol"].Value = true;
         }
 
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
