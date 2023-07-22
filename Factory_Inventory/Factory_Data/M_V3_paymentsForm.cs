@@ -144,7 +144,7 @@ namespace Factory_Inventory.Factory_Data
             DataTable dt = new DataTable();
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
 
-            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight FROM Sales_Voucher WHERE DO_Payment_Closed = 0 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "'");
+            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight FROM Sales_Voucher WHERE DO_Payment_Closed = 0 AND Type_Of_Sale = 0 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "'");
 
             if (dt.Rows.Count == 0)
             {
