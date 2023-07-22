@@ -66,8 +66,8 @@ namespace Factory_Inventory.Factory_Data
             {
                 this.Text += "(View Only)";
                 this.saveButton.Enabled = false;
-                this.deleteButton.Visible = true;
-                this.deleteButton.Enabled = true;
+                //this.deleteButton.Visible = true;
+                //this.deleteButton.Enabled = true;
                 this.disable_form_edit();
             }
             else
