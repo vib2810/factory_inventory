@@ -749,6 +749,12 @@
     <Compile Include="Trading\Display_Inward_Carton.Designer.cs">
       <DependentUpon>Display_Inward_Carton.cs</DependentUpon>
     </Compile>
+    <Compile Include="Trading\T_V4_paymentsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trading\T_V4_paymentsForm.Designer.cs">
+      <DependentUpon>T_V4_paymentsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Trading\T_V_editQBJMasterUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1136,6 +1142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\Display_Inward_Carton.resx">
       <DependentUpon>Display_Inward_Carton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trading\T_V4_paymentsForm.resx">
+      <DependentUpon>T_V4_paymentsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trading\T_V_editQBJMasterUC.resx">
       <DependentUpon>T_V_editQBJMasterUC.cs</DependentUpon>

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Trading;
 
 namespace Factory_Inventory
 {
@@ -40,6 +41,18 @@ namespace Factory_Inventory
             {
                 this.button7.Focus();
                 this.button7.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D3) || keyData == (Keys.NumPad3))
+            {
+                this.addPaymentsVoucherButton.Focus();
+                this.addPaymentsVoucherButton.PerformClick();
+                return false;
+            }
+            if (keyData == (Keys.D3 | Keys.Shift))
+            {
+                this.paymentsHistoryButton.Focus();
+                this.paymentsHistoryButton.PerformClick();
                 return false;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -88,6 +101,13 @@ namespace Factory_Inventory
                 M_V_history f = new M_V_history(16);
                 Global.background.show_form(f);
             }
+        }
+
+        private void addPaymentsVoucherButton_Click(object sender, EventArgs e)
+        {
+            if (c.check_login_val() == false) return;
+            T_V4_paymentsForm f = new T_V4_paymentsForm();
+            Global.background.show_form(f);
         }
     }
 }
