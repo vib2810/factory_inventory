@@ -52,6 +52,7 @@ namespace Factory_Inventory.Factory_Data
             this.doNoCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.amountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountPendingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalAmountReceivedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.totalAmountCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateOfSaleCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.doPaymentClosedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -117,6 +118,7 @@ namespace Factory_Inventory.Factory_Data
             this.doNoCol,
             this.amountReceivedCol,
             this.amountPendingCol,
+            this.totalAmountReceivedCol,
             this.totalAmountCol,
             this.dateOfSaleCol,
             this.doPaymentClosedCol,
@@ -125,7 +127,7 @@ namespace Factory_Inventory.Factory_Data
             this.dataGridView1.Location = new System.Drawing.Point(184, 25);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(718, 333);
+            this.dataGridView1.Size = new System.Drawing.Size(829, 333);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
@@ -206,7 +208,7 @@ namespace Factory_Inventory.Factory_Data
             // 
             this.narrationTB.Location = new System.Drawing.Point(65, 377);
             this.narrationTB.Name = "narrationTB";
-            this.narrationTB.Size = new System.Drawing.Size(723, 20);
+            this.narrationTB.Size = new System.Drawing.Size(901, 20);
             this.narrationTB.TabIndex = 14;
             // 
             // label6
@@ -234,52 +236,60 @@ namespace Factory_Inventory.Factory_Data
             // 
             // slNoCol
             // 
-            this.slNoCol.FillWeight = 87.05582F;
+            this.slNoCol.FillWeight = 91.37056F;
             this.slNoCol.HeaderText = "Sl No.";
             this.slNoCol.Name = "slNoCol";
             this.slNoCol.ReadOnly = true;
             // 
             // doNoCol
             // 
-            this.doNoCol.FillWeight = 177.665F;
+            this.doNoCol.FillWeight = 176.722F;
             this.doNoCol.HeaderText = "DO No.";
             this.doNoCol.Name = "doNoCol";
             // 
             // amountReceivedCol
             // 
-            this.amountReceivedCol.FillWeight = 87.05582F;
+            this.amountReceivedCol.FillWeight = 86.59376F;
             this.amountReceivedCol.HeaderText = "Amount Received";
             this.amountReceivedCol.Name = "amountReceivedCol";
             // 
             // amountPendingCol
             // 
-            this.amountPendingCol.FillWeight = 87.05582F;
+            this.amountPendingCol.FillWeight = 86.59376F;
             this.amountPendingCol.HeaderText = "Amount Pending";
             this.amountPendingCol.Name = "amountPendingCol";
             this.amountPendingCol.ReadOnly = true;
             // 
+            // totalAmountReceivedCol
+            // 
+            this.totalAmountReceivedCol.FillWeight = 99.46924F;
+            this.totalAmountReceivedCol.HeaderText = "Total Amount Receieved (Till Date)";
+            this.totalAmountReceivedCol.Name = "totalAmountReceivedCol";
+            this.totalAmountReceivedCol.ReadOnly = true;
+            // 
             // totalAmountCol
             // 
-            this.totalAmountCol.FillWeight = 87.05582F;
+            this.totalAmountCol.FillWeight = 86.59376F;
             this.totalAmountCol.HeaderText = "Total Amount";
             this.totalAmountCol.Name = "totalAmountCol";
             this.totalAmountCol.ReadOnly = true;
             // 
             // dateOfSaleCol
             // 
+            this.dateOfSaleCol.FillWeight = 99.46924F;
             this.dateOfSaleCol.HeaderText = "Date of Sale";
             this.dateOfSaleCol.Name = "dateOfSaleCol";
             this.dateOfSaleCol.ReadOnly = true;
             // 
             // doPaymentClosedCol
             // 
-            this.doPaymentClosedCol.FillWeight = 87.05582F;
+            this.doPaymentClosedCol.FillWeight = 86.59376F;
             this.doPaymentClosedCol.HeaderText = "DO Payment Closed";
             this.doPaymentClosedCol.Name = "doPaymentClosedCol";
             // 
             // commentsCol
             // 
-            this.commentsCol.FillWeight = 87.05582F;
+            this.commentsCol.FillWeight = 86.59376F;
             this.commentsCol.HeaderText = "Comments";
             this.commentsCol.Name = "commentsCol";
             // 
@@ -287,7 +297,7 @@ namespace Factory_Inventory.Factory_Data
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(914, 405);
+            this.ClientSize = new System.Drawing.Size(1024, 405);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.narrationTB);
             this.Controls.Add(this.deleteButton);
@@ -336,6 +346,7 @@ namespace Factory_Inventory.Factory_Data
         private System.Windows.Forms.DataGridViewComboBoxColumn doNoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountReceivedCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountPendingCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalAmountReceivedCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn totalAmountCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn dateOfSaleCol;
         private System.Windows.Forms.DataGridViewCheckBoxColumn doPaymentClosedCol;

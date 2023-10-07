@@ -272,6 +272,7 @@ namespace Factory_Inventory.Factory_Data
                     dataGridView1.Rows[e.RowIndex].Cells["amountReceivedCol"].Value = (total_amount - total_payment).ToString("F2");
                     dataGridView1.Rows[e.RowIndex].Cells["amountPendingCol"].Value = 0F;
                 }
+                dataGridView1.Rows[e.RowIndex].Cells["totalamountReceivedCol"].Value = total_payment;
                 dataGridView1.Rows[e.RowIndex].Cells["totalAmountCol"].Value = total_amount;
                 dataGridView1.Rows[e.RowIndex].Cells["dateOfSaleCol"].Value = date_of_sale;
             }
