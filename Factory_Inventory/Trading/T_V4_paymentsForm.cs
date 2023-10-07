@@ -23,6 +23,8 @@ namespace Factory_Inventory.Trading
         private bool edit_form = false;               //True if form is being edited
         private int voucher_id;
         private bool populating_dgv_edit_state = false; //Prevents the datagridview to amount pending column to go negative while populating the dgv during view/edit
+        Dictionary<string, int> customerDict = new Dictionary<string, int>();
+
         public T_V4_paymentsForm()
         {
             InitializeComponent();
@@ -31,8 +33,12 @@ namespace Factory_Inventory.Trading
             List<string> customers = new List<string>();
 
             // Read Customer Names from the database and store them in the combobox
-            dt = c.runQuery("SELECT Customers FROM Customers");
-            for (int i = 0; i < dt.Rows.Count; i++) customers.Add(dt.Rows[i]["Customers"].ToString());
+            dt = c.runQuery("SELECT Customer_Name, Customer_ID FROM T_M_Customers");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                customers.Add(dt.Rows[i]["Customer_Name"].ToString());
+                customerDict[dt.Rows[i]["Customer_Name"].ToString()] = int.Parse(dt.Rows[i]["Customer_ID"].ToString());
+            }
             this.customerCB.DataSource = customers;
             this.customerCB.DisplayMember = "Customers";
             this.customerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
@@ -136,7 +142,7 @@ namespace Factory_Inventory.Trading
 
         private void M_V3_paymentsForm_Load(object sender, EventArgs e)
         {
-            this.Text = "Payments Voucher";
+            this.Text = "Trading - Payments Voucher";
             if(this.edit_form == false) dataGridView1.Rows[0].Cells["doPaymentClosedCol"].Value = true;
         }
         private int loadData()
@@ -144,7 +150,7 @@ namespace Factory_Inventory.Trading
             DataTable dt = new DataTable();
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
 
-            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM Sales_Voucher WHERE DO_Payment_Closed = 0 AND Type_Of_Sale = 0 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "'");
+            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM T_Sales_Voucher WHERE DO_Payment_Closed = 0 AND Type_Of_Sale = 0 AND Customer_ID = '" + customerDict[this.customerCB.SelectedItem.ToString()] + "'");
 
             if (dt.Rows.Count == 0)
             {
@@ -168,12 +174,13 @@ namespace Factory_Inventory.Trading
         {
 
             int success = loadData();
-
+            if (success > 0) c.SuccessBox("Loaded " + success.ToString() + " DOs");
+            else return;
             this.customerCB.Enabled = false;
             this.dataGridView1.Enabled = true;
             this.saveButton.Enabled = true;
             this.loadDOButton.Enabled = false;
-            if(success > 0) c.SuccessBox("Loaded " + success.ToString() + " DOs");
+            
         }
 
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
