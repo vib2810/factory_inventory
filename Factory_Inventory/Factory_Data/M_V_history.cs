@@ -454,11 +454,10 @@ namespace Factory_Inventory
             }
             else if(this.vno == 17)
             {
-                string sql = "SELECT TOP 200 Payments_Voucher.Voucher_ID, Payments_Voucher.Input_Date, Payments_Voucher.Payment_Date, Payments_Voucher.Customers, SUM(Payments.Payment_Amount) as Payment_Amount, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration\n";
+                string sql = "SELECT TOP 200 Payments_Voucher.Voucher_ID, Payments_Voucher.Deleted, Payments_Voucher.Input_Date, Payments_Voucher.Payment_Date, Payments_Voucher.Customers, SUM(Payments.Payment_Amount) as Payment_Amount, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration\n";
                 sql += "FROM Payments_Voucher\n";
-                sql += "JOIN Payments ON Payments_Voucher.Voucher_ID = Payments.Payment_Voucher_ID\n";
-                sql += "GROUP BY Voucher_ID, Input_Date, Payment_Date, Customers, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX))";
-                sql += "ORDER BY Voucher_ID DESC;";
+                sql += "LEFT JOIN Payments ON Payments_Voucher.Voucher_ID = Payments.Payment_Voucher_ID\n";
+                sql += "GROUP BY Voucher_ID, Input_Date, Payment_Date, Customers, Deleted, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX))ORDER BY Voucher_ID DESC;\n";
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno<100)

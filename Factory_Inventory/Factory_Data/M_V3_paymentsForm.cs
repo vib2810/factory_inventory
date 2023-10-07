@@ -66,8 +66,8 @@ namespace Factory_Inventory.Factory_Data
             {
                 this.Text += "(View Only)";
                 this.saveButton.Enabled = false;
-                //this.deleteButton.Visible = true;
-                //this.deleteButton.Enabled = true;
+                this.deleteButton.Visible = true;
+                this.deleteButton.Enabled = true;
                 this.disable_form_edit();
             }
             else
@@ -465,7 +465,6 @@ namespace Factory_Inventory.Factory_Data
             this.customerCB.Enabled = false;
             this.loadDOButton.Enabled = false;
             this.saveButton.Enabled = false;
-            this.deleteButton.Enabled = false;
             this.dataGridView1.Enabled = false;
             this.narrationTB.ReadOnly = true;
         }
@@ -497,6 +496,40 @@ namespace Factory_Inventory.Factory_Data
             {
                 dataGridView1.Rows[e.RowIndex].Selected = true;
                 contextMenuStrip1.Show(Cursor.Position);
+            }
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (c.check_login_val() == false) return;
+            DialogResult dialogResult = MessageBox.Show("Confirm Delete", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                string sql = "--**********************DELETE PAYMENT VOUCHER******************************\n";
+                //delete all rows from carton voucher
+                sql += "DELETE FROM Payments WHERE Payment_Voucher_ID = " + this.voucher_id + ";\n";
+
+                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+                {
+                    if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                }
+
+                //update deleted column in carton_voucher
+                sql += "UPDATE Payments_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucher_id + ";\n";
+
+                DataTable del = c.runQuery(sql);
+                if (del != null)
+                {
+                    c.SuccessBox("Voucher Deleted Successfully");
+                    dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
+                    this.deleteButton.Enabled = false;
+                    this.v1_history.loadData();
+                }
+                else return;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
             }
         }
     }
