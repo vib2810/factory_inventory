@@ -566,6 +566,54 @@ namespace Factory_Inventory
                     sql += "drop table #temp;\n";
                     this.dt = c.runQuery(sql);
                 }
+                else if (this.vno == 18)
+                {
+                    string sql = "SELECT temp1.*, T_M_Customers.Customer_Name into #temp\n";
+                    sql += "FROM\n";
+                    sql += "    (SELECT TOP 200 T_Payments_Voucher.Voucher_ID, T_Payments_Voucher.Deleted, T_Payments_Voucher.Input_Date, T_Payments_Voucher.Payment_Date, T_Payments_Voucher.Customer_ID, SUM(T_Payments.Payment_Amount) as Payment_Amount, CAST(T_Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration\n";
+                    sql += "    FROM T_Payments_Voucher\n";
+                    sql += "    LEFT JOIN T_Payments ON T_Payments_Voucher.Voucher_ID = T_Payments.Payment_Voucher_ID\n";
+                    sql += "    GROUP BY Voucher_ID, Input_Date, Payment_Date, Customer_ID, Deleted, CAST(T_Payments_Voucher.Narration AS NVARCHAR(MAX))ORDER BY Voucher_ID DESC) as temp1\n";
+                    sql += "JOIN T_M_Customers ON temp1.Customer_ID = T_M_Customers.Customer_ID\n";
+                    sql += "ORDER BY Voucher_ID DESC\n";
+                    sql += "SET NOCOUNT ON;\n";
+                    sql += "DECLARE @columnName NVARCHAR(100)\n";
+                    sql += "DECLARE @sql NVARCHAR(1000) = 'SELECT * FROM #temp WHERE '\n";
+                    sql += "DECLARE @searchText nvarchar(50) = '" + to_search + "';\n";
+                    if (date == false) sql += "DECLARE @date tinyint = 0;\n";
+                    else sql += "DECLARE @date tinyint = 1;\n";
+                    sql += "DECLARE columns CURSOR FOR\n";
+                    sql += "SELECT name\n";
+                    sql += "FROM tempdb.sys.columns\n";
+                    sql += "WHERE  object_id = Object_id('tempdb..#temp')\n";
+                    sql += "OPEN columns\n";
+                    sql += "FETCH NEXT FROM columns\n";
+                    sql += "INTO @columnName\n";
+                    sql += "WHILE @@FETCH_STATUS = 0\n";
+                    sql += "BEGIN\n";
+                    sql += "    if (@columnName not like '%voucher%') and(@columnName not like '%fiscal%') and(@columnName not like '%deleted%')\n";
+                    sql += "    begin\n";
+                    sql += "        if (@date = 1)\n";
+                    sql += "        begin\n";
+                    sql += "            if @columnName like '%date%'\n";
+                    sql += "            begin SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR ' end\n";
+                    sql += "        end\n";
+                    sql += "        else\n";
+                    sql += "        begin\n";
+                    sql += "            if @columnName not like '%date%'\n";
+                    sql += "            begin SET @sql = @sql + @columnName + ' LIKE ''%' + @searchText + '%'' OR ' end\n";
+                    sql += "        end\n";
+                    sql += "    end\n";
+                    sql += "FETCH NEXT FROM columns\n";
+                    sql += "INTO @columnName\n";
+                    sql += "END\n";
+                    sql += "CLOSE columns;\n";
+                    sql += "DEALLOCATE columns;\n";
+                    sql += "SET @sql = LEFT(RTRIM(@sql), LEN(@sql) - 2)\n";
+                    sql += "EXEC(@sql)\n";
+                    sql += "drop table #temp;\n";
+                    this.dt = c.runQuery(sql);
+                }
                 else
                 {
                     string search_string = this.getSearchString(to_search, date);
