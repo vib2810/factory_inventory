@@ -96,7 +96,7 @@ namespace Factory_Inventory
 
         private void button7_Click(object sender, EventArgs e)
         {
-            if (c.isHistoryFormOpen(11) == false)
+            if (c.isHistoryFormOpen(16) == false)
             {
                 M_V_history f = new M_V_history(16);
                 Global.background.show_form(f);
@@ -108,6 +108,15 @@ namespace Factory_Inventory
             if (c.check_login_val() == false) return;
             T_V4_paymentsForm f = new T_V4_paymentsForm();
             Global.background.show_form(f);
+        }
+
+        private void paymentsHistoryButton_Click(object sender, EventArgs e)
+        {
+            if (c.isHistoryFormOpen(18) == false)
+            {
+                M_V_history f = new M_V_history(18);
+                Global.background.show_form(f);
+            }
         }
     }
 }

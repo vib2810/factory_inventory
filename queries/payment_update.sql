@@ -37,8 +37,9 @@ use FactoryData_1
 --    Voucher_ID int IDENTITY(1,1) PRIMARY KEY,
 --    Payment_Date date,
 --    Input_Date date,
---    Customers varchar(50),
---	Narration text
+--    Customer_ID int FOREIGN KEY REFERENCES T_M_Customers(Customer_ID),
+--	Narration text,
+--	Deleted int
 --);
 
 --CREATE TABLE T_Payments (
@@ -50,5 +51,6 @@ use FactoryData_1
 --	Comments text
 --);
 
-UPDATE T_Sales_Voucher SET DO_Payment_Closed = 0;
+--UPDATE T_Sales_Voucher SET DO_Payment_Closed = 0;
+
 

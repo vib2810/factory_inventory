@@ -59,7 +59,7 @@
             // 
             this.button5.BackColor = System.Drawing.Color.Gainsboro;
             this.button5.Location = new System.Drawing.Point(181, 61);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(134, 51);
             this.button5.TabIndex = 11;
@@ -71,7 +71,7 @@
             // 
             this.button6.BackColor = System.Drawing.Color.Gainsboro;
             this.button6.Location = new System.Drawing.Point(43, 61);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(134, 51);
             this.button6.TabIndex = 9;
@@ -83,7 +83,7 @@
             // 
             this.button7.BackColor = System.Drawing.Color.Gainsboro;
             this.button7.Location = new System.Drawing.Point(182, 117);
-            this.button7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button7.Margin = new System.Windows.Forms.Padding(2);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(134, 51);
             this.button7.TabIndex = 15;
@@ -95,7 +95,7 @@
             // 
             this.button8.BackColor = System.Drawing.Color.Gainsboro;
             this.button8.Location = new System.Drawing.Point(42, 117);
-            this.button8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button8.Margin = new System.Windows.Forms.Padding(2);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(134, 51);
             this.button8.TabIndex = 13;
@@ -196,6 +196,7 @@
             this.paymentsHistoryButton.TabIndex = 28;
             this.paymentsHistoryButton.Text = "History";
             this.paymentsHistoryButton.UseVisualStyleBackColor = false;
+            this.paymentsHistoryButton.Click += new System.EventHandler(this.paymentsHistoryButton_Click);
             // 
             // addPaymentsVoucherButton
             // 
@@ -229,7 +230,7 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button6);
             this.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "T_voucherInput4UC";
             this.Size = new System.Drawing.Size(386, 351);
             this.ResumeLayout(false);

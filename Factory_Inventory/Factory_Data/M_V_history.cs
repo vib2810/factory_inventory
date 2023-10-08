@@ -84,6 +84,7 @@ namespace Factory_Inventory
             vno_table_map[15] = "T_Sales_Voucher";
             vno_table_map[16] = "T_SalesBillNos_Voucher";
             vno_table_map[17] = "Payments_Form";
+            vno_table_map[18] = "T_Payments_Form";
 
             //Opening
             vno_table_map[100] = "Carton Production";
@@ -458,6 +459,17 @@ namespace Factory_Inventory
                 sql += "FROM Payments_Voucher\n";
                 sql += "LEFT JOIN Payments ON Payments_Voucher.Voucher_ID = Payments.Payment_Voucher_ID\n";
                 sql += "GROUP BY Voucher_ID, Input_Date, Payment_Date, Customers, Deleted, CAST(Payments_Voucher.Narration AS NVARCHAR(MAX))ORDER BY Voucher_ID DESC;\n";
+                this.dt = c.runQuery(sql);
+            }
+            else if (this.vno == 18)
+            {
+                string sql = "SELECT temp.*, T_M_Customers.Customer_Name\n";
+                sql += "FROM\n";
+                sql += "    (SELECT TOP 200 T_Payments_Voucher.Voucher_ID, T_Payments_Voucher.Deleted, T_Payments_Voucher.Input_Date, T_Payments_Voucher.Payment_Date, T_Payments_Voucher.Customer_ID, SUM(T_Payments.Payment_Amount) as Payment_Amount, CAST(T_Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration\n";
+                sql += "    FROM T_Payments_Voucher\n";
+                sql += "    LEFT JOIN T_Payments ON T_Payments_Voucher.Voucher_ID = T_Payments.Payment_Voucher_ID\n";
+                sql += "    GROUP BY Voucher_ID, Input_Date, Payment_Date, Customer_ID, Deleted, CAST(T_Payments_Voucher.Narration AS NVARCHAR(MAX))ORDER BY Voucher_ID DESC) as temp\n";
+                sql += "JOIN T_M_Customers ON temp.Customer_ID = T_M_Customers.Customer_ID\n";
                 this.dt = c.runQuery(sql);
             }
             else if(this.vno<100)
@@ -1160,6 +1172,28 @@ namespace Factory_Inventory
                 this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
                 c.auto_adjust_dgv(this.dataGridView1);
             }      //Payments
+            if (this.vno == 18)
+            {
+                int i = 0;
+                this.dataGridView1.ReadOnly = true;
+                this.dataGridView1.Columns.OfType<DataGridViewColumn>().ToList().ForEach(col => col.Visible = false);
+                this.dataGridView1.Columns["Input_Date"].Visible = true;
+                this.dataGridView1.Columns["Input_Date"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Input_Date"].HeaderText = "Input Date";
+                this.dataGridView1.Columns["Payment_Date"].Visible = true;
+                this.dataGridView1.Columns["Payment_Date"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Payment_Date"].HeaderText = "Payment Date";
+                this.dataGridView1.Columns["Customer_Name"].Visible = true;
+                this.dataGridView1.Columns["Customer_Name"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Customer_Name"].HeaderText = "Customer";
+                this.dataGridView1.Columns["Payment_Amount"].Visible = true;
+                this.dataGridView1.Columns["Payment_Amount"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Payment_Amount"].HeaderText = "Payment Amount";
+                this.dataGridView1.Columns["Narration"].Visible = true;
+                this.dataGridView1.Columns["Narration"].DisplayIndex = i++;
+                this.dataGridView1.Columns["Narration"].HeaderText = "Narration";
+                c.auto_adjust_dgv(this.dataGridView1);
+            }      //Trading Payments
             if (this.vno == 100)
             {
                 this.dataGridView1.ReadOnly = true;
