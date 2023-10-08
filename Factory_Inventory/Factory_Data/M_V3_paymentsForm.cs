@@ -339,7 +339,7 @@ namespace Factory_Inventory.Factory_Data
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (c.check_login_val() == false) return;
-            if (dataGridView1.Rows[0].Cells[1].Value == null)
+            if (dataGridView1.Rows[0].Cells["doNoCol"].Value == null)
             {
                 c.ErrorBox("Please enter Payment Details", "Error");
                 return;
