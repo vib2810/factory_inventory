@@ -58,8 +58,12 @@ namespace Factory_Inventory.Trading
             List<string> customers = new List<string>();
 
             // Read Customer Names from the database and store them in the combobox
-            dt = c.runQuery("SELECT Customers FROM Customers");
-            for (int i = 0; i < dt.Rows.Count; i++) customers.Add(dt.Rows[i]["Customers"].ToString());
+            dt = c.runQuery("SELECT Customer_Name, Customer_ID FROM T_M_Customers");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                customers.Add(dt.Rows[i]["Customer_Name"].ToString());
+                customerDict[dt.Rows[i]["Customer_Name"].ToString()] = int.Parse(dt.Rows[i]["Customer_ID"].ToString());
+            }
             this.customerCB.DataSource = customers;
             this.customerCB.DisplayMember = "Customers";
             this.customerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
@@ -89,14 +93,14 @@ namespace Factory_Inventory.Trading
 
             this.paymentDateDTP.Value = Convert.ToDateTime(row["Payment_Date"].ToString());
             this.inputDateDTP.Value = Convert.ToDateTime(row["Input_Date"].ToString());
-            this.customerCB.SelectedIndex = this.customerCB.FindStringExact(row["Customers"].ToString());
+            this.customerCB.SelectedIndex = this.customerCB.FindStringExact(row["Customer_Name"].ToString());
             this.voucher_id = int.Parse(row["Voucher_ID"].ToString());
             this.narrationTB.Text = row["Narration"].ToString();
             this.loadData();
 
-            string sql = "SELECT Payments.Payment_Amount, Payments.Comments, Payments.Payment_ID, Sales_Voucher.Sale_DO_No, Sales_Voucher.Fiscal_Year, Payments.Display_Order, Sales_Voucher.Sale_Rate*Sales_Voucher.Net_Weight as Total_Amount, Sales_Voucher.DO_Payment_Closed, Sales_Voucher.Voucher_ID, Sales_Voucher.Date_Of_Sale FROM Payments\n";
-            sql += "JOIN Sales_Voucher ON Sales_Voucher.Voucher_ID = Payments.Sales_Voucher_ID\n";
-            sql += "WHERE Payments.Payment_Voucher_ID = " + this.voucher_id + "\n";
+            string sql = "SELECT T_Payments.Payment_Amount, T_Payments.Comments, T_Payments.Payment_ID, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Fiscal_Year, T_Payments.Display_Order, T_Sales_Voucher.Sale_Rate*T_Sales_Voucher.Net_Weight as Total_Amount, T_Sales_Voucher.DO_Payment_Closed, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Date_Of_Sale FROM T_Payments\n";
+            sql += "JOIN T_Sales_Voucher ON T_Sales_Voucher.Voucher_ID = T_Payments.Sales_Voucher_ID\n";
+            sql += "WHERE T_Payments.Payment_Voucher_ID = " + this.voucher_id + "\n";
             DataTable d1 = c.runQuery(sql);
 
             dataGridView1.RowCount = d1.Rows.Count + 1;
@@ -108,8 +112,8 @@ namespace Factory_Inventory.Trading
                 if ((bool)d1.Rows[i]["DO_Payment_Closed"] == true)  //Closed DOs
                 {
                     float total_payment = 0F;
-                    DataTable d2 = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM Sales_Voucher WHERE DO_Payment_Closed = 1 AND Customer = '" + this.customerCB.SelectedItem.ToString() + "' AND Sale_DO_No = '" + d1.Rows[i]["Sale_DO_No"].ToString() + "' AND Fiscal_Year = '" + d1.Rows[i]["Fiscal_Year"].ToString() + "'");
-                    DataTable d3 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM Payments WHERE Sales_Voucher_ID = " + d1.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
+                    DataTable d2 = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM T_Sales_Voucher WHERE DO_Payment_Closed = 1 AND Customer_ID = '" + customerDict[this.customerCB.SelectedItem.ToString()] + "' AND Sale_DO_No = '" + d1.Rows[i]["Sale_DO_No"].ToString() + "' AND Fiscal_Year = '" + d1.Rows[i]["Fiscal_Year"].ToString() + "'");
+                    DataTable d3 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM T_Payments WHERE Sales_Voucher_ID = " + d1.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
                     if (d3.Rows.Count > 0) total_payment = float.Parse(d3.Rows[0]["Total_Payment"].ToString());
                     do_dict[d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")"] = new Tuple<DataRow, float>(d2.Rows[0], total_payment);
                     dgvCmb.Items.Add(d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")");
