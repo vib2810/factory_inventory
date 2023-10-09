@@ -418,7 +418,7 @@ namespace Factory_Inventory.Trading
             else
             {
                 string sql = "begin transaction; begin try;\n";
-                sql += "UPDATE Payments_Voucher SET Payment_Date = '" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', Narration = '" + narrationTB.Text + "' WHERE Voucher_ID = " + this.voucher_id.ToString() + ";\n";
+                sql += "UPDATE T_Payments_Voucher SET Payment_Date = '" + paymentDateDTP.Value.Date.ToString("MM-dd-yyyy").Substring(0, 10) + "', Narration = '" + narrationTB.Text + "' WHERE Voucher_ID = " + this.voucher_id.ToString() + ";\n";
                 for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
                 {
                     // Check if amount pending is 0 for the DOs that are being closed
@@ -433,23 +433,23 @@ namespace Factory_Inventory.Trading
                     if (c.Cell_Not_NullOrEmpty(dataGridView1, i, -1, "commentsCol")) comments = dataGridView1.Rows[i].Cells["commentsCol"].Value.ToString();
                     if (do_set_edit.Contains(dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()))   //Update the DO
                     {
-                        sql += "UPDATE Payments SET Payment_Amount = " + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", Comments = '" + comments + "', Display_Order = " + i.ToString() + " WHERE Sales_Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + " AND Payment_Voucher_ID = " + this.voucher_id.ToString() + "\n";
-                        if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
-                        else sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                        sql += "UPDATE T_Payments SET Payment_Amount = " + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", Comments = '" + comments + "', Display_Order = " + i.ToString() + " WHERE Sales_Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + " AND Payment_Voucher_ID = " + this.voucher_id.ToString() + "\n";
+                        if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE T_Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                        else sql += "UPDATE T_Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
                         do_to_delete.Remove(dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString());
                     }
                     else    //Add a new DO
                     {
-                        sql += "INSERT INTO Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments, Display_Order) VALUES (" + this.voucher_id.ToString() + ", " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "', " + i.ToString() + ");\n";
+                        sql += "INSERT INTO T_Payments (Payment_Voucher_ID, Sales_Voucher_ID, Payment_Amount, Comments, Display_Order) VALUES (" + this.voucher_id.ToString() + ", " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + "," + dataGridView1.Rows[i].Cells["amountReceivedCol"].Value.ToString() + ", '" + comments + "', " + i.ToString() + ");\n";
                         // Check and Set DO Closed State
-                        if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                        if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE T_Sales_Voucher SET DO_Payment_Closed = 1 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
                         do_to_delete.Remove(dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString());
                     }
                 }
                 for(int i = 0; i < do_to_delete.Count; i++) //Deleted DOs
                 {
-                    sql += "DELETE FROM Payments WHERE Sales_Voucher_ID = '" + do_dict[do_to_delete[i].ToString()].Item1["Voucher_ID"].ToString() + "' AND Payment_Voucher_ID = " + this.voucher_id.ToString() + "\n";
-                    sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[do_to_delete[i].ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                    sql += "DELETE FROM T_Payments WHERE Sales_Voucher_ID = '" + do_dict[do_to_delete[i].ToString()].Item1["Voucher_ID"].ToString() + "' AND Payment_Voucher_ID = " + this.voucher_id.ToString() + "\n";
+                    sql += "UPDATE T_Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[do_to_delete[i].ToString()].Item1["Voucher_ID"].ToString() + ";\n";
                 }
                 
                 //catch
