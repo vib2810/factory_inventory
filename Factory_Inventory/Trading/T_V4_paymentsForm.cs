@@ -518,15 +518,15 @@ namespace Factory_Inventory.Trading
             {
                 string sql = "--**********************DELETE PAYMENT VOUCHER******************************\n";
                 //delete all rows from carton voucher
-                sql += "DELETE FROM Payments WHERE Payment_Voucher_ID = " + this.voucher_id + ";\n";
+                sql += "DELETE FROM T_Payments WHERE Payment_Voucher_ID = " + this.voucher_id + ";\n";
 
                 for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
                 {
-                    if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
+                    if ((bool)dataGridView1.Rows[i].Cells["doPaymentClosedCol"].Value == true) sql += "UPDATE T_Sales_Voucher SET DO_Payment_Closed = 0 WHERE Voucher_ID = " + do_dict[dataGridView1.Rows[i].Cells["doNoCol"].Value.ToString()].Item1["Voucher_ID"].ToString() + ";\n";
                 }
 
                 //update deleted column in carton_voucher
-                sql += "UPDATE Payments_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucher_id + ";\n";
+                sql += "UPDATE T_Payments_Voucher SET Deleted=1 WHERE Voucher_ID=" + voucher_id + ";\n";
 
                 DataTable del = c.runQuery(sql);
                 if (del != null)
