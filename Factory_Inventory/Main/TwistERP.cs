@@ -1,4 +1,5 @@
 ﻿using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Main;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -346,6 +347,13 @@ namespace Factory_Inventory
                     return;
                 }
             }
+        }
+
+        private void customerwiseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CR_P_CustomerSelect f = new CR_P_CustomerSelect();
+            f.Show();
+            f.StartPosition = FormStartPosition.CenterScreen; 
         }
     }
 }

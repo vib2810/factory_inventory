@@ -491,6 +491,12 @@
     <Compile Include="Main\BackupAll.Designer.cs">
       <DependentUpon>BackupAll.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\CR_P_CustomerSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\CR_P_CustomerSelect.Designer.cs">
+      <DependentUpon>CR_P_CustomerSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main\O_S_printUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1013,6 +1019,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main\BackupAll.resx">
       <DependentUpon>BackupAll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\CR_P_CustomerSelect.resx">
+      <DependentUpon>CR_P_CustomerSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main\O_S_printUC.resx">
       <DependentUpon>O_S_printUC.cs</DependentUpon>
