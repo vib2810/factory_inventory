@@ -58,9 +58,9 @@ namespace Factory_Inventory.Main
             string customer = this.customerCB.Text;
             string sql = "";
             DataTable dt = new DataTable();
-            if (twistCustomers.Contains(customer) && !tradingCustomers.ContainsKey(customer))
+            if (twistCustomers.Contains(customer))
             {
-                sql = "SELECT Sales_Voucher.Date_Of_Sale as 'Date of Sale',\n";
+                sql += "(SELECT Sales_Voucher.Date_Of_Sale as 'Date of Sale',\n";
                 sql += "Sales_Voucher.Sale_DO_No as 'DO Number',\n";
                 sql += "Sales_Voucher.Quality as Quality,\n";
                 sql += "Sales_Voucher.Sale_Rate as Rate,\n";
@@ -70,11 +70,12 @@ namespace Factory_Inventory.Main
                 sql += "FROM Sales_Voucher\n";
                 sql += "LEFT JOIN Payments ON Sales_Voucher.Voucher_ID = Payments.Sales_Voucher_ID\n";
                 sql += "WHERE DO_Payment_Closed = 0 AND Customer = '" + customer + "'\n";
-                sql += "GROUP BY Date_Of_Sale, Sale_Rate* Net_Weight, Fiscal_Year, Sale_DO_No, Quality, Sale_Rate\n";
+                sql += "GROUP BY Date_Of_Sale, Sale_Rate* Net_Weight, Fiscal_Year, Sale_DO_No, Quality, Sale_Rate)\n";
             }
-            else if (!twistCustomers.Contains(customer) && tradingCustomers.ContainsKey(customer))
+            if (twistCustomers.Contains(customer) && tradingCustomers.ContainsKey(customer)) sql += "UNION\n";
+            if (tradingCustomers.ContainsKey(customer))
             {
-                sql = "SELECT temp.Date_Of_Sale as 'Date of Sale', temp.Sale_DO_No as 'DO Number', T_M_Quality_Before_Job.Quality_Before_Job as Quality, temp.Sale_Rate as Rate, temp.Total_Amount as 'Total Amount', temp.Pending_Amount as 'Pending Amount', temp.Fiscal_Year\n";
+                sql += "(SELECT temp.Date_Of_Sale as 'Date of Sale', temp.Sale_DO_No as 'DO Number', T_M_Quality_Before_Job.Quality_Before_Job as Quality, temp.Sale_Rate as Rate, temp.Total_Amount as 'Total Amount', temp.Pending_Amount as 'Pending Amount', temp.Fiscal_Year\n";
                 sql += "FROM\n";
                 sql += "    (SELECT T_Sales_Voucher.Date_Of_Sale,\n";
                 sql += "    T_Sales_Voucher.Sale_DO_No,\n";
@@ -88,14 +89,10 @@ namespace Factory_Inventory.Main
                 sql += "    WHERE DO_Payment_Closed = 0 AND Customer_ID = " + tradingCustomers[customer].ToString() + "\n";
                 sql += "    GROUP BY Date_Of_Sale, Sale_Rate * Net_Weight, Fiscal_Year, Sale_DO_No, Quality_ID, Sale_Rate\n";
                 sql += "    ) as temp\n";
-                sql += "LEFT JOIN T_M_Quality_Before_Job ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp.Quality_ID\n";
-                sql += "ORDER BY Date_Of_Sale DESC\n";
-            }
-            else if (twistCustomers.Contains(customer) && tradingCustomers.ContainsKey(customer))
-            {
-
+                sql += "LEFT JOIN T_M_Quality_Before_Job ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp.Quality_ID)\n";
             }
 
+            sql += "ORDER BY Date_Of_Sale DESC\n";
             dt = c.runQuery(sql);
 
             // Export to excel
