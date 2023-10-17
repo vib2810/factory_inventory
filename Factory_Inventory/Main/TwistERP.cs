@@ -352,8 +352,9 @@ namespace Factory_Inventory
         private void customerwiseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CR_P_CustomerSelect f = new CR_P_CustomerSelect();
+            f.MdiParent = Global.background;
+            f.StartPosition = FormStartPosition.CenterScreen;
             f.Show();
-            f.StartPosition = FormStartPosition.CenterScreen; 
         }
     }
 }
