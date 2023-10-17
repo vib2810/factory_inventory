@@ -16,6 +16,15 @@ namespace Factory_Inventory.Main
         DbConnect c = new DbConnect();
         HashSet<string> twistCustomers = new HashSet<string>();
         Dictionary<string, int> tradingCustomers = new Dictionary<string, int>();
+        DataTable dt = new DataTable();
+        struct progressWork
+        {
+            public string customer;
+            public Microsoft.Office.Interop.Excel.Application excelApp;
+            public Microsoft.Office.Interop.Excel.Workbook workbook;
+            public Microsoft.Office.Interop.Excel.Worksheet worksheet;
+            public SaveFileDialog saveFileDialog;
+        }
         public CR_P_CustomerSelect()
         {
             InitializeComponent();
@@ -41,6 +50,8 @@ namespace Factory_Inventory.Main
             this.customerCB.DropDownStyle = ComboBoxStyle.DropDown;//Create a drop-down list
             this.customerCB.AutoCompleteSource = AutoCompleteSource.ListItems;
             this.customerCB.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            label3.Text = "";
         }
 
         private void addBorders(Microsoft.Office.Interop.Excel.Range range, List<bool> edge)
@@ -57,7 +68,6 @@ namespace Factory_Inventory.Main
         {
             string customer = this.customerCB.Text;
             string sql = "";
-            DataTable dt = new DataTable();
             if (twistCustomers.Contains(customer))
             {
                 sql += "(SELECT Sales_Voucher.Date_Of_Sale as 'Date of Sale',\n";
@@ -98,96 +108,214 @@ namespace Factory_Inventory.Main
             // Export to excel
             for (int i = 0; i < dt.Rows.Count; i++) dt.Rows[i]["Date of Sale"] = DateTime.Parse(dt.Rows[i]["Date of Sale"].ToString()).ToString("dd-MM-yyyy");
 
+
             var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Excel Files|*.xlsx";
             saveFileDialog.FileName = "test";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
+                progressWork progressWorkObj = new progressWork();
                 var excelApp = new Microsoft.Office.Interop.Excel.Application();
                 var workbook = excelApp.Workbooks.Add();
                 var worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1];
+                progressWorkObj.customer = customer;
+                progressWorkObj.worksheet = worksheet;
+                progressWorkObj.excelApp = excelApp;
+                progressWorkObj.workbook = workbook;
+                progressWorkObj.saveFileDialog = saveFileDialog;
 
-                // Report Heading
-                worksheet.Cells[1, 1] = "Outstanding Report for " + customer;
-                worksheet.Cells[1, 1].Font.Bold = true;
-                worksheet.Cells[1, 1].Font.Size = 18;
+                backgroundWorker1.RunWorkerAsync(progressWorkObj);
 
-                Microsoft.Office.Interop.Excel.Range range;
-                range = worksheet.get_Range("A1", "H1");
-                range.Merge(Type.Missing);
-                range.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                //    // Report Heading
+                //    worksheet.Cells[1, 1] = "Outstanding Report for " + customer;
+                //    worksheet.Cells[1, 1].Font.Bold = true;
+                //    worksheet.Cells[1, 1].Font.Size = 18;
 
-                // Column Headers
-                worksheet.Cells[2, 1] = "Fiscal Year";
-                worksheet.Cells[2, 1].Font.Bold = true;
-                for (int i = 0; i < dt.Columns.Count - 1; i++)
-                {
-                    worksheet.Cells[2, i + 2] = dt.Columns[i].ColumnName;
-                    worksheet.Cells[2, i + 2].Font.Bold = true;
-                }
-                worksheet.Cells[2, dt.Columns.Count + 1] = "Total Amount for Fiscal Year";
-                worksheet.Cells[2, dt.Columns.Count + 1].Font.Bold = true;
-                range = worksheet.get_Range("A2", "H2");
-                addBorders(range, new List<bool> { true, true, true, true });
+                //    Microsoft.Office.Interop.Excel.Range range;
+                //    range = worksheet.get_Range("A1", "H1");
+                //    range.Merge(Type.Missing);
+                //    range.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
-                // Filling the rows
-                string financialYear = dt.Rows[0]["Fiscal_Year"].ToString();
-                worksheet.Cells[3, 1] = financialYear;
-                worksheet.Cells[3, 1].Font.Bold = true;
+                //    // Column Headers
+                //    worksheet.Cells[2, 1] = "Fiscal Year";
+                //    worksheet.Cells[2, 1].Font.Bold = true;
+                //    for (int i = 0; i < dt.Columns.Count - 1; i++)
+                //    {
+                //        worksheet.Cells[2, i + 2] = dt.Columns[i].ColumnName;
+                //        worksheet.Cells[2, i + 2].Font.Bold = true;
+                //    }
+                //    worksheet.Cells[2, dt.Columns.Count + 1] = "Total Amount for Fiscal Year";
+                //    worksheet.Cells[2, dt.Columns.Count + 1].Font.Bold = true;
+                //    range = worksheet.get_Range("A2", "H2");
+                //    addBorders(range, new List<bool> { true, true, true, true });
 
-                float financialYearPending = 0F;
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    if (dt.Rows[i]["Fiscal_Year"].ToString() != financialYear)
-                    {
-                        financialYear = dt.Rows[i]["Fiscal_Year"].ToString();
-                        worksheet.Cells[i + 3, 1] = financialYear;
-                        worksheet.Cells[i + 3, 1].Font.Bold = true;
+                //    // Filling the rows
+                //    string financialYear = dt.Rows[0]["Fiscal_Year"].ToString();
+                //    worksheet.Cells[3, 1] = financialYear;
+                //    worksheet.Cells[3, 1].Font.Bold = true;
 
-                        worksheet.Cells[i + 2, dt.Columns.Count + 1] = financialYearPending;
-                        worksheet.Cells[i + 2, dt.Columns.Count + 1].Font.Bold = true;
-                        financialYearPending = 0F;
-                        range = worksheet.get_Range("A" + (i + 2).ToString(), "H" + (i + 2).ToString());
-                        addBorders(range, new List<bool> { false, false, false, true });
-                    }
-                    for (int j = 0; j < dt.Columns.Count - 1; j++)
-                    {
-                        worksheet.Cells[i + 3, j + 2] = dt.Rows[i][j];
-                    }
-                    financialYearPending += float.Parse(dt.Rows[i]["Pending Amount"].ToString());
-                }
-                worksheet.Cells[dt.Rows.Count + 2, dt.Columns.Count + 1] = financialYearPending;
-                worksheet.Cells[dt.Rows.Count + 2, dt.Columns.Count + 1].Font.Bold = true;
-                range = worksheet.get_Range("A" + (dt.Rows.Count + 2).ToString(), "H" + (dt.Rows.Count + 2).ToString());
-                addBorders(range, new List<bool> { false, false, false, true });
+                //    float financialYearPending = 0F;
+                //    for (int i = 0; i < dt.Rows.Count; i++)
+                //    {
+                //        if (dt.Rows[i]["Fiscal_Year"].ToString() != financialYear)
+                //        {
+                //            financialYear = dt.Rows[i]["Fiscal_Year"].ToString();
+                //            worksheet.Cells[i + 3, 1] = financialYear;
+                //            worksheet.Cells[i + 3, 1].Font.Bold = true;
 
-                worksheet.Cells[dt.Rows.Count + 3, dt.Columns.Count + 1] = Convert.ToDouble(dt.Compute("Sum([Pending Amount])", ""));
-                worksheet.Cells[dt.Rows.Count + 3, dt.Columns.Count + 1].Font.Bold = true;
-                range = worksheet.get_Range("H" + (dt.Rows.Count + 3).ToString(), "H" + (dt.Rows.Count + 3).ToString());
-                addBorders(range, new List<bool> { true, true, true, true });
+                //            worksheet.Cells[i + 2, dt.Columns.Count + 1] = financialYearPending;
+                //            worksheet.Cells[i + 2, dt.Columns.Count + 1].Font.Bold = true;
+                //            financialYearPending = 0F;
+                //            range = worksheet.get_Range("A" + (i + 2).ToString(), "H" + (i + 2).ToString());
+                //            addBorders(range, new List<bool> { false, false, false, true });
+                //        }
+                //        for (int j = 0; j < dt.Columns.Count - 1; j++)
+                //        {
+                //            worksheet.Cells[i + 3, j + 2] = dt.Rows[i][j];
+                //        }
+                //        financialYearPending += float.Parse(dt.Rows[i]["Pending Amount"].ToString());
+                //    }
+                //    worksheet.Cells[dt.Rows.Count + 2, dt.Columns.Count + 1] = financialYearPending;
+                //    worksheet.Cells[dt.Rows.Count + 2, dt.Columns.Count + 1].Font.Bold = true;
+                //    range = worksheet.get_Range("A" + (dt.Rows.Count + 2).ToString(), "H" + (dt.Rows.Count + 2).ToString());
+                //    addBorders(range, new List<bool> { false, false, false, true });
 
-                worksheet.Cells[dt.Rows.Count + 3, 1] = "Total Pending Till Date";
-                worksheet.Cells[dt.Rows.Count + 3, 1].Font.Bold = true;
+                //    worksheet.Cells[dt.Rows.Count + 3, dt.Columns.Count + 1] = Convert.ToDouble(dt.Compute("Sum([Pending Amount])", ""));
+                //    worksheet.Cells[dt.Rows.Count + 3, dt.Columns.Count + 1].Font.Bold = true;
+                //    range = worksheet.get_Range("H" + (dt.Rows.Count + 3).ToString(), "H" + (dt.Rows.Count + 3).ToString());
+                //    addBorders(range, new List<bool> { true, true, true, true });
 
-                range = worksheet.get_Range("A" + (dt.Rows.Count + 3).ToString(), "G" + (dt.Rows.Count + 3).ToString());
-                range.Merge(Type.Missing);
-                range.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                //    worksheet.Cells[dt.Rows.Count + 3, 1] = "Total Pending Till Date";
+                //    worksheet.Cells[dt.Rows.Count + 3, 1].Font.Bold = true;
 
-                for (char column = 'A'; column <= 'H'; column++)
-                {
-                    string cellName1 = string.Format("{0}{1}", column, 2);
-                    string cellName2 = string.Format("{0}{1}", column, dt.Rows.Count + 2);
-                    range = worksheet.get_Range(cellName1, cellName2);
-                    addBorders(range, new List<bool> { true, true, true, true });
-                }
-                range = worksheet.get_Range("A2", "H" + (dt.Rows.Count + 3).ToString());
-                addBorders(range, new List<bool> { true, true, true, true });
+                //    range = worksheet.get_Range("A" + (dt.Rows.Count + 3).ToString(), "G" + (dt.Rows.Count + 3).ToString());
+                //    range.Merge(Type.Missing);
+                //    range.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
-                worksheet.Columns.AutoFit();
-                workbook.SaveAs(saveFileDialog.FileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
-                excelApp.Quit();
-                c.SuccessBox("Finished Export");
+                //    for (char column = 'A'; column <= 'H'; column++)
+                //    {
+                //        string cellName1 = string.Format("{0}{1}", column, 2);
+                //        string cellName2 = string.Format("{0}{1}", column, dt.Rows.Count + 2);
+                //        range = worksheet.get_Range(cellName1, cellName2);
+                //        addBorders(range, new List<bool> { true, true, true, true });
+                //    }
+                //    range = worksheet.get_Range("A2", "H" + (dt.Rows.Count + 3).ToString());
+                //    addBorders(range, new List<bool> { true, true, true, true });
+
+                //worksheet.Columns.AutoFit();
+                //workbook.SaveAs(saveFileDialog.FileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+                //excelApp.Quit();
+                //c.SuccessBox("Finished Export");
             }
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string customer = ((progressWork)e.Argument).customer;
+            var worksheet = ((progressWork)e.Argument).worksheet;
+
+            // Report Heading
+            worksheet.Cells[1, 1] = "Outstanding Report for " + customer;
+            worksheet.Cells[1, 1].Font.Bold = true;
+            worksheet.Cells[1, 1].Font.Size = 18;
+
+            Microsoft.Office.Interop.Excel.Range range;
+            range = worksheet.get_Range("A1", "H1");
+            range.Merge(Type.Missing);
+            range.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            // Column Headers
+            worksheet.Cells[2, 1] = "Fiscal Year";
+            worksheet.Cells[2, 1].Font.Bold = true;
+            for (int i = 0; i < dt.Columns.Count - 1; i++)
+            {
+                worksheet.Cells[2, i + 2] = dt.Columns[i].ColumnName;
+                worksheet.Cells[2, i + 2].Font.Bold = true;
+            }
+            worksheet.Cells[2, dt.Columns.Count + 1] = "Total Amount for Fiscal Year";
+            worksheet.Cells[2, dt.Columns.Count + 1].Font.Bold = true;
+            range = worksheet.get_Range("A2", "H2");
+            addBorders(range, new List<bool> { true, true, true, true });
+
+            // Filling the rows
+            string financialYear = dt.Rows[0]["Fiscal_Year"].ToString();
+            worksheet.Cells[3, 1] = financialYear;
+            worksheet.Cells[3, 1].Font.Bold = true;
+
+            float financialYearPending = 0F;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (dt.Rows[i]["Fiscal_Year"].ToString() != financialYear)
+                {
+                    financialYear = dt.Rows[i]["Fiscal_Year"].ToString();
+                    worksheet.Cells[i + 3, 1] = financialYear;
+                    worksheet.Cells[i + 3, 1].Font.Bold = true;
+
+                    worksheet.Cells[i + 2, dt.Columns.Count + 1] = financialYearPending;
+                    worksheet.Cells[i + 2, dt.Columns.Count + 1].Font.Bold = true;
+                    financialYearPending = 0F;
+                    range = worksheet.get_Range("A" + (i + 2).ToString(), "H" + (i + 2).ToString());
+                    addBorders(range, new List<bool> { false, false, false, true });
+                }
+                for (int j = 0; j < dt.Columns.Count - 1; j++)
+                {
+                    worksheet.Cells[i + 3, j + 2] = dt.Rows[i][j];
+                }
+                financialYearPending += float.Parse(dt.Rows[i]["Pending Amount"].ToString());
+                backgroundWorker1.ReportProgress((int)((float)(i+1) / dt.Rows.Count * 100));
+            }
+            worksheet.Cells[dt.Rows.Count + 2, dt.Columns.Count + 1] = financialYearPending;
+            worksheet.Cells[dt.Rows.Count + 2, dt.Columns.Count + 1].Font.Bold = true;
+            range = worksheet.get_Range("A" + (dt.Rows.Count + 2).ToString(), "H" + (dt.Rows.Count + 2).ToString());
+            addBorders(range, new List<bool> { false, false, false, true });
+
+            worksheet.Cells[dt.Rows.Count + 3, dt.Columns.Count + 1] = Convert.ToDouble(dt.Compute("Sum([Pending Amount])", ""));
+            worksheet.Cells[dt.Rows.Count + 3, dt.Columns.Count + 1].Font.Bold = true;
+            range = worksheet.get_Range("H" + (dt.Rows.Count + 3).ToString(), "H" + (dt.Rows.Count + 3).ToString());
+            addBorders(range, new List<bool> { true, true, true, true });
+
+            worksheet.Cells[dt.Rows.Count + 3, 1] = "Total Pending Till Date";
+            worksheet.Cells[dt.Rows.Count + 3, 1].Font.Bold = true;
+
+            range = worksheet.get_Range("A" + (dt.Rows.Count + 3).ToString(), "G" + (dt.Rows.Count + 3).ToString());
+            range.Merge(Type.Missing);
+            range.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+            for (char column = 'A'; column <= 'H'; column++)
+            {
+                string cellName1 = string.Format("{0}{1}", column, 2);
+                string cellName2 = string.Format("{0}{1}", column, dt.Rows.Count + 2);
+                range = worksheet.get_Range(cellName1, cellName2);
+                addBorders(range, new List<bool> { true, true, true, true });
+            }
+            range = worksheet.get_Range("A2", "H" + (dt.Rows.Count + 3).ToString());
+            addBorders(range, new List<bool> { true, true, true, true });
+
+            worksheet.Columns.AutoFit();
+            e.Result = e.Argument;
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+            label3.Text = "Generating Report ..." + e.ProgressPercentage.ToString() + "%";
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Microsoft.Office.Interop.Excel.Workbook workbook = ((progressWork)e.Result).workbook;
+            Microsoft.Office.Interop.Excel.Application excelApp = ((progressWork)e.Result).excelApp;
+            SaveFileDialog saveFileDialog = ((progressWork)e.Result).saveFileDialog;
+            workbook.SaveAs(saveFileDialog.FileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook);
+            excelApp.Quit();
+            c.SuccessBox("Finished Export");
+            progressBar1.Value = 0;
+            label3.Text = "";
         }
     }
 }
