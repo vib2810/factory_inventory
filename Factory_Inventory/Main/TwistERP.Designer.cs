@@ -37,6 +37,8 @@
             this.openWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eRPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tradingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.combinedReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.outstandingPaymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripSeparator();
@@ -47,10 +49,6 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.editAccessButton = new System.Windows.Forms.Button();
-            this.combinedReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.outstandingPaymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.entireFirmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.customerwiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -138,6 +136,21 @@
             this.tradingToolStripMenuItem.Text = "&Trading";
             this.tradingToolStripMenuItem.Click += new System.EventHandler(this.tradingToolStripMenuItem_Click);
             // 
+            // combinedReportsToolStripMenuItem
+            // 
+            this.combinedReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.outstandingPaymentToolStripMenuItem});
+            this.combinedReportsToolStripMenuItem.Name = "combinedReportsToolStripMenuItem";
+            this.combinedReportsToolStripMenuItem.Size = new System.Drawing.Size(135, 23);
+            this.combinedReportsToolStripMenuItem.Text = "Combined Reports";
+            // 
+            // outstandingPaymentToolStripMenuItem
+            // 
+            this.outstandingPaymentToolStripMenuItem.Name = "outstandingPaymentToolStripMenuItem";
+            this.outstandingPaymentToolStripMenuItem.Size = new System.Drawing.Size(213, 24);
+            this.outstandingPaymentToolStripMenuItem.Text = "Outstanding Payment";
+            this.outstandingPaymentToolStripMenuItem.Click += new System.EventHandler(this.outstandingPaymentToolStripMenuItem_Click);
+            // 
             // attendanceToolStripMenuItem
             // 
             this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
@@ -217,43 +230,13 @@
             this.editAccessButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.editAccessButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editAccessButton.Location = new System.Drawing.Point(0, 560);
-            this.editAccessButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editAccessButton.Margin = new System.Windows.Forms.Padding(2);
             this.editAccessButton.Name = "editAccessButton";
             this.editAccessButton.Size = new System.Drawing.Size(736, 20);
             this.editAccessButton.TabIndex = 10;
             this.editAccessButton.Text = "Edit Access";
             this.editAccessButton.UseVisualStyleBackColor = false;
             this.editAccessButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // combinedReportsToolStripMenuItem
-            // 
-            this.combinedReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.outstandingPaymentToolStripMenuItem});
-            this.combinedReportsToolStripMenuItem.Name = "combinedReportsToolStripMenuItem";
-            this.combinedReportsToolStripMenuItem.Size = new System.Drawing.Size(135, 23);
-            this.combinedReportsToolStripMenuItem.Text = "Combined Reports";
-            // 
-            // outstandingPaymentToolStripMenuItem
-            // 
-            this.outstandingPaymentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.entireFirmToolStripMenuItem,
-            this.customerwiseToolStripMenuItem});
-            this.outstandingPaymentToolStripMenuItem.Name = "outstandingPaymentToolStripMenuItem";
-            this.outstandingPaymentToolStripMenuItem.Size = new System.Drawing.Size(213, 24);
-            this.outstandingPaymentToolStripMenuItem.Text = "Outstanding Payment";
-            // 
-            // entireFirmToolStripMenuItem
-            // 
-            this.entireFirmToolStripMenuItem.Name = "entireFirmToolStripMenuItem";
-            this.entireFirmToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.entireFirmToolStripMenuItem.Text = "Entire Firm";
-            // 
-            // customerwiseToolStripMenuItem
-            // 
-            this.customerwiseToolStripMenuItem.Name = "customerwiseToolStripMenuItem";
-            this.customerwiseToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.customerwiseToolStripMenuItem.Text = "Customer-wise";
-            this.customerwiseToolStripMenuItem.Click += new System.EventHandler(this.customerwiseToolStripMenuItem_Click);
             // 
             // TwistERP
             // 
@@ -266,7 +249,7 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.IsMdiContainer = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "TwistERP";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TwistERP";
@@ -304,7 +287,5 @@
         public System.Windows.Forms.Button editAccessButton;
         private System.Windows.Forms.ToolStripMenuItem combinedReportsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outstandingPaymentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem entireFirmToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customerwiseToolStripMenuItem;
     }
 }

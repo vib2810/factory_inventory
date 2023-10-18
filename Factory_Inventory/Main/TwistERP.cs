@@ -349,9 +349,9 @@ namespace Factory_Inventory
             }
         }
 
-        private void customerwiseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void outstandingPaymentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CR_P_CustomerSelect f = new CR_P_CustomerSelect();
+            CR_P_outstandingPaymentReport f = new CR_P_outstandingPaymentReport(this.mc);
             f.MdiParent = Global.background;
             f.StartPosition = FormStartPosition.CenterScreen;
             f.Show();
