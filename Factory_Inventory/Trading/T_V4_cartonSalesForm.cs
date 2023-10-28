@@ -753,7 +753,7 @@ namespace Factory_Inventory
                 }
 
                 string sql = "begin transaction; begin try; DECLARE @voucherID int;\n";
-                sql += "INSERT INTO T_Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality_ID, Company_ID, Customer_ID, Sale_Rate, Fiscal_Year, Type_Of_Sale, Sale_DO_No, Net_Weight, Narration) VALUES ('" + inputdate + "' ,'" + issueDate + "','" + quality_dict[comboBox1CB.SelectedItem.ToString()] + "', '" + company_dict[comboBox2CB.SelectedItem.ToString()] + "', '" + customer_dict[comboBox3CB.SelectedItem.ToString()] + "', " + float.Parse(rateTextboxTB.Text).ToString("F3") + " , '" + fiscal_year + "', '" + int.Parse(typeCB.Text) + "', '" + this.saleDONoTB.Text + "', " + float.Parse(this.totalWeightTB.Text).ToString("F3") + ", '" + narrationTB.Text + "'); SELECT @voucherID = SCOPE_IDENTITY();\n";
+                sql += "INSERT INTO T_Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality_ID, Company_ID, Customer_ID, Sale_Rate, Fiscal_Year, Type_Of_Sale, Sale_DO_No, Net_Weight, Narration, DO_Payment_Closed) VALUES ('" + inputdate + "' ,'" + issueDate + "','" + quality_dict[comboBox1CB.SelectedItem.ToString()] + "', '" + company_dict[comboBox2CB.SelectedItem.ToString()] + "', '" + customer_dict[comboBox3CB.SelectedItem.ToString()] + "', " + float.Parse(rateTextboxTB.Text).ToString("F3") + " , '" + fiscal_year + "', '" + int.Parse(typeCB.Text) + "', '" + this.saleDONoTB.Text + "', " + float.Parse(this.totalWeightTB.Text).ToString("F3") + ", '" + narrationTB.Text + "', 0); SELECT @voucherID = SCOPE_IDENTITY();\n";
                 for (int i = 0; i < cartonno.Count; i++)
                 {
                     string comments = "";

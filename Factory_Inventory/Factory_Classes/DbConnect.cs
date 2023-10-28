@@ -1639,7 +1639,7 @@ namespace Factory_Inventory.Factory_Classes
             try
             {
                 con.Open();
-                string sql = "INSERT INTO Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality, Company_Name, Customer, Sale_Rate, Fiscal_Year, Type_Of_Sale, Tablename, Sale_DO_No, Net_Weight, Printed) VALUES ('" + inputDate + "' ,'" + issueDate + "','" + quality + "', '" + company + "', '" + customer + "', " + sell_cost + " , '" + fiscal_year + "', '" + int.Parse(type) + "', '" + tablename + "', '" + sale_do_no + "', " + net_weight + ", 0); SELECT SCOPE_IDENTITY()";
+                string sql = "INSERT INTO Sales_Voucher (Date_Of_Input,Date_Of_Sale, Quality, Company_Name, Customer, Sale_Rate, Fiscal_Year, Type_Of_Sale, Tablename, Sale_DO_No, Net_Weight, Printed, DO_Payment_Closed) VALUES ('" + inputDate + "' ,'" + issueDate + "','" + quality + "', '" + company + "', '" + customer + "', " + sell_cost + " , '" + fiscal_year + "', '" + int.Parse(type) + "', '" + tablename + "', '" + sale_do_no + "', " + net_weight + ", 0, 0); SELECT SCOPE_IDENTITY()";
                 Console.WriteLine(sql);
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
                 DataTable dtt = new DataTable();
