@@ -98,9 +98,13 @@ namespace Factory_Inventory.Trading
             this.narrationTB.Text = row["Narration"].ToString();
             this.loadData();
 
-            string sql = "SELECT T_Payments.Payment_Amount, T_Payments.Comments, T_Payments.Payment_ID, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Fiscal_Year, T_Payments.Display_Order, T_Sales_Voucher.Sale_Rate*T_Sales_Voucher.Net_Weight as Total_Amount, T_Sales_Voucher.DO_Payment_Closed, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Date_Of_Sale FROM T_Payments\n";
+            string sql = "SELECT temp.*, SUM(T_Carton_Sales.Sold_Weight)*temp.Sale_Rate as Total_Amount\n";
+            sql += "FROM\n";
+            sql += "(SELECT T_Payments.Payment_Amount, CAST(T_Payments.Comments AS NVARCHAR(MAX)) as Comments, T_Payments.Payment_ID, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Fiscal_Year, T_Payments.Display_Order, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.DO_Payment_Closed, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Date_Of_Sale FROM T_Payments\n";
             sql += "JOIN T_Sales_Voucher ON T_Sales_Voucher.Voucher_ID = T_Payments.Sales_Voucher_ID\n";
-            sql += "WHERE T_Payments.Payment_Voucher_ID = " + this.voucher_id + "\n";
+            sql += "WHERE T_Payments.Payment_Voucher_ID = " + this.voucher_id + ") as temp\n";
+            sql += "JOIN T_Carton_Sales ON temp.Voucher_ID = T_Carton_Sales.Sales_Voucher_ID\n";
+            sql += "GROUP BY temp.Payment_Amount, temp.Comments, temp.Comments, temp.Date_Of_Sale, temp.Display_Order, temp.DO_Payment_Closed, temp.Fiscal_Year, temp.Payment_ID, temp.Sale_DO_No, temp.Sale_Rate, temp.Voucher_ID\n";
             DataTable d1 = c.runQuery(sql);
 
             dataGridView1.RowCount = d1.Rows.Count + 1;
@@ -112,7 +116,13 @@ namespace Factory_Inventory.Trading
                 if ((bool)d1.Rows[i]["DO_Payment_Closed"] == true)  //Closed DOs
                 {
                     float total_payment = 0F;
-                    DataTable d2 = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM T_Sales_Voucher WHERE DO_Payment_Closed = 1 AND Customer_ID = '" + customerDict[this.customerCB.SelectedItem.ToString()] + "' AND Sale_DO_No = '" + d1.Rows[i]["Sale_DO_No"].ToString() + "' AND Fiscal_Year = '" + d1.Rows[i]["Fiscal_Year"].ToString() + "'");
+                    sql = "SELECT T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Fiscal_Year, SUM(T_Carton_Sales.Sold_Weight) as Net_Weight, T_Sales_Voucher.Date_Of_Sale\n";
+                    sql += "FROM T_Sales_Voucher\n";
+                    sql += "LEFT JOIN T_Carton_Sales\n";
+                    sql += "ON T_Sales_Voucher.Voucher_ID = T_Carton_Sales.Sales_Voucher_ID\n";
+                    sql += "WHERE DO_Payment_Closed = 1 AND Customer_ID = '" + customerDict[this.customerCB.SelectedItem.ToString()] + "' AND Sale_DO_No = '" + d1.Rows[i]["Sale_DO_No"].ToString() + "' AND Fiscal_Year = '" + d1.Rows[i]["Fiscal_Year"].ToString() + "'\n";
+                    sql += "GROUP BY T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Date_Of_Sale;";
+                    DataTable d2 = c.runQuery(sql);
                     DataTable d3 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM T_Payments WHERE Sales_Voucher_ID = " + d1.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
                     if (d3.Rows.Count > 0) total_payment = float.Parse(d3.Rows[0]["Total_Payment"].ToString());
                     do_dict[d1.Rows[i]["Sale_DO_No"].ToString() + " (" + d1.Rows[i]["Fiscal_Year"].ToString() + ")"] = new Tuple<DataRow, float>(d2.Rows[0], total_payment);
@@ -154,7 +164,13 @@ namespace Factory_Inventory.Trading
             DataTable dt = new DataTable();
             DataGridViewComboBoxColumn dgvCmb = (DataGridViewComboBoxColumn)dataGridView1.Columns["doNoCol"];
 
-            dt = c.runQuery("SELECT Voucher_ID, Sale_DO_No, Sale_Rate, Fiscal_Year, Net_Weight, Date_Of_Sale FROM T_Sales_Voucher WHERE DO_Payment_Closed = 0 AND Customer_ID = '" + customerDict[this.customerCB.SelectedItem.ToString()] + "'");
+            string sql = "SELECT T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Date_Of_Sale, SUM(T_Carton_Sales.Sold_Weight) as Net_Weight\n";
+            sql += " FROM T_Sales_Voucher\n";
+            sql += "LEFT JOIN T_Carton_Sales\n";
+            sql += "ON T_Sales_Voucher.Voucher_ID = T_Carton_Sales.Sales_Voucher_ID\n";
+            sql += "WHERE DO_Payment_Closed = 0 AND Customer_ID = '" + customerDict[this.customerCB.SelectedItem.ToString()] + "'\n";
+            sql += "GROUP BY T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Net_Weight, T_Sales_Voucher.Date_Of_Sale;\n";
+            dt = c.runQuery(sql);
 
             if (dt.Rows.Count == 0)
             {
@@ -167,7 +183,7 @@ namespace Factory_Inventory.Trading
                 DataTable dt2 = new DataTable();
                 float total_payment = 0F;
                 dgvCmb.Items.Add(dt.Rows[i]["Sale_Do_No"].ToString() + " (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")");
-                dt2 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM Payments WHERE Sales_Voucher_ID = " + dt.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
+                dt2 = c.runQuery("SELECT Sales_Voucher_ID, SUM(Payment_Amount) as Total_Payment FROM T_Payments WHERE Sales_Voucher_ID = " + dt.Rows[i]["Voucher_ID"].ToString() + " GROUP BY Sales_Voucher_ID");
                 if (dt2.Rows.Count > 0) total_payment = float.Parse(dt2.Rows[0]["Total_Payment"].ToString());
                 do_dict[dt.Rows[i]["Sale_Do_No"].ToString() + " (" + dt.Rows[i]["Fiscal_Year"].ToString() + ")"] = new Tuple<DataRow, float>(dt.Rows[i], total_payment);
             }
