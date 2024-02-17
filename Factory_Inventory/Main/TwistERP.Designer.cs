@@ -49,6 +49,7 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.editAccessButton = new System.Windows.Forms.Button();
+            this.salesReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -139,7 +140,8 @@
             // combinedReportsToolStripMenuItem
             // 
             this.combinedReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.outstandingPaymentToolStripMenuItem});
+            this.outstandingPaymentToolStripMenuItem,
+            this.salesReportToolStripMenuItem});
             this.combinedReportsToolStripMenuItem.Name = "combinedReportsToolStripMenuItem";
             this.combinedReportsToolStripMenuItem.Size = new System.Drawing.Size(135, 23);
             this.combinedReportsToolStripMenuItem.Text = "Combined Reports";
@@ -238,6 +240,13 @@
             this.editAccessButton.UseVisualStyleBackColor = false;
             this.editAccessButton.Click += new System.EventHandler(this.button1_Click);
             // 
+            // salesReportToolStripMenuItem
+            // 
+            this.salesReportToolStripMenuItem.Name = "salesReportToolStripMenuItem";
+            this.salesReportToolStripMenuItem.Size = new System.Drawing.Size(213, 24);
+            this.salesReportToolStripMenuItem.Text = "Sales Report";
+            this.salesReportToolStripMenuItem.Click += new System.EventHandler(this.salesReportToolStripMenuItem_Click);
+            // 
             // TwistERP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -287,5 +296,6 @@
         public System.Windows.Forms.Button editAccessButton;
         private System.Windows.Forms.ToolStripMenuItem combinedReportsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outstandingPaymentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salesReportToolStripMenuItem;
     }
 }

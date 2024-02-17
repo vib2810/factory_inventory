@@ -356,5 +356,13 @@ namespace Factory_Inventory
             f.StartPosition = FormStartPosition.CenterScreen;
             f.Show();
         }
+
+        private void salesReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CR_S_salesReport f = new CR_S_salesReport(this.mc);
+            f.MdiParent = Global.background;
+            f.StartPosition = FormStartPosition.CenterScreen;
+            f.Show();
+        }
     }
 }
