@@ -48,7 +48,7 @@ namespace Factory_Inventory.Trading
             c.set_dgv_column_sort_state(this.dataGridView1, DataGridViewColumnSortMode.NotSortable);
         }
 
-        public T_V4_paymentsForm(DataRow row, bool isEditable, M_V_history v1_history)
+        public T_V4_paymentsForm(DataRow row, bool isEditable, M_V_history v1_history   )
         {
             InitializeComponent(); 
             this.edit_form = true;

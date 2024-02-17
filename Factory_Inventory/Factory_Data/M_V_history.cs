@@ -260,10 +260,11 @@ namespace Factory_Inventory
                 sql += "    FROM\n";
                 sql += "        (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
                 sql += "        FROM\n";
-                sql += "            (SELECT T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Inward_Type, T_Inward_Carton.Grade\n";
+                sql += "            (SELECT TOP 200 T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Inward_Type, T_Inward_Carton.Grade\n";
                 sql += "            FROM T_Carton_Inward_Voucher\n";
                 sql += "            FULL OUTER JOIN T_Inward_Carton\n";
-                sql += "            ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID) as temp1\n";
+                sql += "            ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID\n";
+                sql += "            ORDER BY T_Carton_Inward_Voucher.Voucher_ID DESC) as temp1\n";
                 sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
                 sql += "        ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
                 sql += "    LEFT OUTER JOIN T_M_Colours\n";
