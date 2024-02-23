@@ -252,6 +252,8 @@ namespace Factory_Inventory
         public string getTradingQuery(string search, bool searching, int voucher_id)
         {
             string sql = "";
+            string selectAmount = "200";
+            if (searching) selectAmount = "100 PERCENT";
             if (this.vno == 13)
             {
                 sql += "SELECT temp3.*, T_M_Company_Names.Company_Name into #temp\n";
@@ -260,7 +262,7 @@ namespace Factory_Inventory
                 sql += "    FROM\n";
                 sql += "        (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
                 sql += "        FROM\n";
-                sql += "            (SELECT TOP 200 T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Inward_Type, T_Inward_Carton.Grade\n";
+                sql += "            (SELECT TOP " + selectAmount + " T_Carton_Inward_Voucher.*, T_Inward_Carton.Carton_ID, T_Inward_Carton.Carton_No, T_Inward_Carton.Quality_ID, T_Inward_Carton.Colour_ID, T_Inward_Carton.Net_Weight, T_Inward_Carton.Buy_Cost, T_Inward_Carton.Inward_Voucher_ID, T_Inward_Carton.Comments, T_Inward_Carton.Inward_Type, T_Inward_Carton.Grade\n";
                 sql += "            FROM T_Carton_Inward_Voucher\n";
                 sql += "            FULL OUTER JOIN T_Inward_Carton\n";
                 sql += "            ON T_Carton_Inward_Voucher.Voucher_ID = T_Inward_Carton.Inward_Voucher_ID\n";
@@ -304,10 +306,10 @@ namespace Factory_Inventory
                 sql += "            FROM\n";
                 sql += "                (SELECT temp1.*, T_M_Quality_Before_Job.Quality_Before_Job\n";
                 sql += "                FROM\n";
-                sql += "                    (SELECT T_Repacking_Voucher.*, T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Carton_No, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Repack_Comments, T_Repacked_Cartons.Grade\n";
+                sql += "                    (SELECT TOP " + selectAmount + " T_Repacking_Voucher.*, T_Repacked_Cartons.Carton_ID, T_Repacked_Cartons.Carton_No, T_Repacked_Cartons.Net_Weight, T_Repacked_Cartons.Repack_Comments, T_Repacked_Cartons.Grade\n";
                 sql += "                    FROM T_Repacking_Voucher\n";
                 sql += "                    FULL OUTER JOIN T_Repacked_Cartons\n";
-                sql += "                    ON T_Repacking_Voucher.Voucher_ID = T_Repacked_Cartons.Repacking_Voucher_ID) as temp1\n";
+                sql += "                    ON T_Repacking_Voucher.Voucher_ID = T_Repacked_Cartons.Repacking_Voucher_ID ORDER BY Voucher_ID DESC) as temp1\n";
                 sql += "                LEFT OUTER JOIN T_M_Quality_Before_Job\n";
                 sql += "                ON T_M_Quality_Before_Job.Quality_Before_Job_ID = temp1.Quality_ID) as temp2\n";
                 sql += "            LEFT OUTER JOIN T_M_Colours\n";
@@ -345,10 +347,10 @@ namespace Factory_Inventory
                 sql += "FROM\n";
                 sql += "    (SELECT temp1.*, T_M_Company_Names.Company_Name\n";
                 sql += "    FROM\n";
-                sql += "        (SELECT T_Sales_Voucher.Date_Of_Sale, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Date_Of_Input, T_Sales_Voucher.Net_Weight, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Sale_Bill_Date, T_Sales_Voucher.Sale_Bill_No, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Company_ID, T_Sales_Voucher.Customer_ID, T_Sales_Voucher.Type_Of_Sale, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Narration, T_Sales_Voucher.Deleted, T_M_Quality_Before_Job.Quality_Before_Job\n";
+                sql += "        (SELECT TOP " + selectAmount + " T_Sales_Voucher.Date_Of_Sale, T_Sales_Voucher.Sale_DO_No, T_Sales_Voucher.Date_Of_Input, T_Sales_Voucher.Net_Weight, T_Sales_Voucher.Sale_Rate, T_Sales_Voucher.Sale_Bill_Date, T_Sales_Voucher.Sale_Bill_No, T_Sales_Voucher.Fiscal_Year, T_Sales_Voucher.Company_ID, T_Sales_Voucher.Customer_ID, T_Sales_Voucher.Type_Of_Sale, T_Sales_Voucher.Voucher_ID, T_Sales_Voucher.Narration, T_Sales_Voucher.Deleted, T_M_Quality_Before_Job.Quality_Before_Job\n";
                 sql += "        FROM T_Sales_Voucher\n";
                 sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
-                sql += "        ON T_Sales_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "        ON T_Sales_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID ORDER BY Voucher_ID DESC) as temp1\n";
                 sql += "    LEFT OUTER JOIN T_M_Company_Names\n";
                 sql += "    ON T_M_Company_Names.Company_ID = temp1.Company_ID) as temp2\n";
                 sql += "LEFT OUTER JOIN T_M_Customers\n";
@@ -369,10 +371,10 @@ namespace Factory_Inventory
                 sql += "FROM\n";
                 sql += "    (SELECT temp1.*, T_M_Customers.Customer_Name\n";
                 sql += "    FROM\n";
-                sql += "        (SELECT T_SalesBillNos_Voucher.Sale_Bill_Date, T_SalesBillNos_Voucher.Date_Of_Input, T_SalesBillNos_Voucher.Sale_Bill_No, T_SalesBillNos_Voucher.Sale_Bill_Weight, T_SalesBillNos_Voucher.Sale_Bill_Amount, T_M_Quality_Before_Job.Quality_Before_Job, T_SalesBillNos_Voucher.Voucher_ID, T_SalesBillNos_Voucher.Narration, T_SalesBillNos_Voucher.Bill_Customer_ID, T_SalesBillNos_Voucher.DO_Fiscal_Year, T_SalesBillNos_Voucher.Type_Of_Sale, T_SalesBillNos_Voucher.Sale_Bill_Weight_Calc, T_SalesBillNos_Voucher.Sale_Bill_Amount_Calc\n";
+                sql += "        (SELECT TOP " + selectAmount + " T_SalesBillNos_Voucher.Sale_Bill_Date, T_SalesBillNos_Voucher.Date_Of_Input, T_SalesBillNos_Voucher.Sale_Bill_No, T_SalesBillNos_Voucher.Sale_Bill_Weight, T_SalesBillNos_Voucher.Sale_Bill_Amount, T_M_Quality_Before_Job.Quality_Before_Job, T_SalesBillNos_Voucher.Voucher_ID, T_SalesBillNos_Voucher.Narration, T_SalesBillNos_Voucher.Bill_Customer_ID, T_SalesBillNos_Voucher.DO_Fiscal_Year, T_SalesBillNos_Voucher.Type_Of_Sale, T_SalesBillNos_Voucher.Sale_Bill_Weight_Calc, T_SalesBillNos_Voucher.Sale_Bill_Amount_Calc\n";
                 sql += "        FROM T_SalesBillNos_Voucher\n";
                 sql += "        LEFT OUTER JOIN T_M_Quality_Before_Job\n";
-                sql += "        ON T_SalesBillNos_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID) as temp1\n";
+                sql += "        ON T_SalesBillNos_Voucher.Quality_ID = T_M_Quality_Before_Job.Quality_Before_Job_ID ORDER BY Voucher_ID DESC) as temp1\n";
                 sql += "    LEFT OUTER JOIN T_M_Customers\n";
                 sql += "    ON temp1.Bill_Customer_ID = T_M_Customers.Customer_ID) as temp2\n";
                 sql += "LEFT OUTER JOIN T_Sales_Voucher\n";
@@ -572,7 +574,7 @@ namespace Factory_Inventory
                 {
                     string sql = "SELECT temp1.*, T_M_Customers.Customer_Name into #temp\n";
                     sql += "FROM\n";
-                    sql += "    (SELECT TOP 200 T_Payments_Voucher.Voucher_ID, T_Payments_Voucher.Deleted, T_Payments_Voucher.Input_Date, T_Payments_Voucher.Payment_Date, T_Payments_Voucher.Customer_ID, SUM(T_Payments.Payment_Amount) as Payment_Amount, CAST(T_Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration\n";
+                    sql += "    (SELECT TOP 100 PERCENT T_Payments_Voucher.Voucher_ID, T_Payments_Voucher.Deleted, T_Payments_Voucher.Input_Date, T_Payments_Voucher.Payment_Date, T_Payments_Voucher.Customer_ID, SUM(T_Payments.Payment_Amount) as Payment_Amount, CAST(T_Payments_Voucher.Narration AS NVARCHAR(MAX)) AS Narration\n";
                     sql += "    FROM T_Payments_Voucher\n";
                     sql += "    LEFT JOIN T_Payments ON T_Payments_Voucher.Voucher_ID = T_Payments.Payment_Voucher_ID\n";
                     sql += "    GROUP BY Voucher_ID, Input_Date, Payment_Date, Customer_ID, Deleted, CAST(T_Payments_Voucher.Narration AS NVARCHAR(MAX))ORDER BY Voucher_ID DESC) as temp1\n";

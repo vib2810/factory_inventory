@@ -359,6 +359,8 @@ namespace Factory_Inventory
 
         private void salesReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            c.ErrorBox("Work Under Progress");
+            return;
             CR_S_salesReport f = new CR_S_salesReport(this.mc);
             f.MdiParent = Global.background;
             f.StartPosition = FormStartPosition.CenterScreen;
