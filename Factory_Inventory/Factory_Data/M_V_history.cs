@@ -429,6 +429,7 @@ namespace Factory_Inventory
             search_string += "CLOSE columns;\n";
             search_string += "DEALLOCATE columns;\n";
             search_string += "SET @sql = LEFT(RTRIM(@sql), LEN(@sql) - 2)\n";
+            search_string += "SET @sql = @sql + ' ORDER BY Voucher_ID DESC\'\n";
             search_string += "EXEC(@sql)\n";
 
             return search_string;
@@ -566,6 +567,7 @@ namespace Factory_Inventory
                     sql += "CLOSE columns;\n";
                     sql += "DEALLOCATE columns;\n";
                     sql += "SET @sql = LEFT(RTRIM(@sql), LEN(@sql) - 2)\n";
+                    sql += "SET @sql = @sql + ' ORDER BY Voucher_ID DESC\'\n";
                     sql += "EXEC(@sql)\n";
                     sql += "drop table #temp;\n";
                     this.dt = c.runQuery(sql);
@@ -614,6 +616,7 @@ namespace Factory_Inventory
                     sql += "CLOSE columns;\n";
                     sql += "DEALLOCATE columns;\n";
                     sql += "SET @sql = LEFT(RTRIM(@sql), LEN(@sql) - 2)\n";
+                    sql += "SET @sql = @sql + ' ORDER BY Voucher_ID DESC\'\n";
                     sql += "EXEC(@sql)\n";
                     sql += "drop table #temp;\n";
                     this.dt = c.runQuery(sql);
