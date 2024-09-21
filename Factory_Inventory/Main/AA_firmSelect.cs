@@ -26,6 +26,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 //previously local was checked
                 string localstring = Properties.Settings.Default.LocalConnectionString;
+                //localstring = "Data Source = 192.168.1.7;";
                 if (string.IsNullOrEmpty(localstring) != true)
                 {
                     this.localButton.Text = "Local Server: " + localstring.Substring(0, localstring.Length - 1);

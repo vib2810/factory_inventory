@@ -94,6 +94,7 @@ namespace Factory_Inventory.Factory_Classes
 
             //test if the server exists
             bool result = this.TestForServer(Global.getconnectionstring(this.final_string, "Main"));
+            //bool result = true;
             if (result == false)
             {
                 Global.ErrorBox("Server Doesnt Exist\nConnection String: "+ this.final_string);
