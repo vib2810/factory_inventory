@@ -41,7 +41,7 @@ namespace Factory_Inventory.Factory_Classes
             {
                 this.localButton.Text = "Remote Server: Data Source = " + Properties.Settings.Default.LastIP;
                 con_start = "Data Source = " + Properties.Settings.Default.LastIP + ", 1433;";
-                con_start = "Data Source = localhost;";
+                //con_start = "Data Source = localhost;";   // uncomment if database is in the same laptop
             }
             Global.con_start = this.con_start;
             this.toolStripLabel1.Text = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
