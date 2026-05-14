@@ -1,4 +1,4 @@
-﻿using Factory_Inventory.Main;
+using Factory_Inventory.Main;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,9 +26,17 @@ namespace Factory_Inventory.Factory_Classes
             {
                 //previously local was checked
                 string localstring = Properties.Settings.Default.LocalConnectionString;
-                //localstring = "Data Source = 192.168.1.7;";
-                if (string.IsNullOrEmpty(localstring) != true)
+                if (!string.IsNullOrEmpty(localstring))
                 {
+                    if (!localstring.Trim().StartsWith("Data Source", StringComparison.OrdinalIgnoreCase))
+                    {
+                        localstring = "Data Source=" + localstring;
+                    }
+                    if (!localstring.Trim().EndsWith(";"))
+                    {
+                        localstring = localstring + ";";
+                    }
+
                     this.localButton.Text = "Local Server: " + localstring.Substring(0, localstring.Length - 1);
                     con_start = localstring;
                 }
@@ -154,6 +162,34 @@ namespace Factory_Inventory.Factory_Classes
         private void AA_firmSelect_Load(object sender, EventArgs e)
         {
             fillfirms();
+            RunAutoBackupIfRequired();
+        }
+
+        private void RunAutoBackupIfRequired()
+        {
+            if (Properties.Settings.Default.localState == true && this.mc != null)
+            {
+                try
+                {
+                    // Check if server is actually running on this machine
+                    string machineName = this.mc.runQuery("SELECT SERVERPROPERTY('MachineName')").Rows[0][0].ToString();
+                    if (machineName.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        string lastBackup = Properties.Settings.Default.LastBackupDate;
+                        string today = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                        
+                        if (lastBackup != today)
+                        {
+                            AutoBackupForm f = new AutoBackupForm(this.mc);
+                            f.ShowDialog();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Auto backup check failed: " + ex.Message);
+                }
+            }
         }
 
         private void AA_firmSelect_FormClosing(object sender, FormClosingEventArgs e)
