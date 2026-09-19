@@ -707,7 +707,7 @@ namespace Factory_Inventory
             }
             else if(this.printFormatCB.SelectedItem.ToString()=="2")
             {
-                this.font_name = "Cascadia Mono";
+                this.font_name = Global.monoPrintFont;
                 int y = write_height;
                 const int basic_size = 9;
                 int gap = 5;

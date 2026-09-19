@@ -279,7 +279,7 @@ namespace Factory_Inventory
             {
                 return;
             }
-            printDO f = new printDO(row, null, this, "Cascadia Mono");
+            printDO f = new printDO(row, null, this, Global.monoPrintFont);
             f.Show();
         }
         private void batchnoTextbox_KeyDown(object sender, KeyEventArgs e)

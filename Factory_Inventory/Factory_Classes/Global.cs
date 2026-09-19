@@ -19,6 +19,12 @@ namespace Factory_Inventory
         private static string _firmid = "";
         private static string _accessToken = "";
         private static string _constart = "";
+        // Monospace font used by the Trading print-outs (DO and carton slip format 2).
+        // Was "Cascadia Mono". Newer Cascadia builds are variable fonts, which GDI
+        // print drivers (e.g. EPSON M2170) render as garbled glyphs even though the
+        // on-screen preview looks fine. Consolas ships with Windows as a static
+        // TrueType font with a real Bold face, so it prints reliably.
+        public static string monoPrintFont = "Consolas";
 
 
         public static TwistERP background
