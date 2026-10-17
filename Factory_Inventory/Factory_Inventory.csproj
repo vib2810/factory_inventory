@@ -33,7 +33,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.2.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1343,6 +1343,14 @@
       <ReferenceDependencyPaths Condition="$([System.String]::Copy('%(FullPath)').ToLower().StartsWith('$(_WindowsDotNetDir)')) or $(_InboxFacades.Contains(';%(Filename);'))">
         <CopyLocal>false</CopyLocal>
       </ReferenceDependencyPaths>
+    </ItemGroup>
+  </Target>
+  <!-- For the same reason every framework assembly (some with processorArchitecture=amd64) ends up listed as a
+       ClickOnce prerequisite, which makes activation fail with "Value does not fall within the expected range".
+       A Visual Studio build lists none of them, so drop them from the application manifest. -->
+  <Target Name="DropFrameworkPrerequisitesFromManifest" AfterTargets="_DeploymentComputeClickOnceManifestInfo">
+    <ItemGroup>
+      <_DeploymentManifestDependencies Remove="@(_DeploymentManifestDependencies)" Condition="'%(_DeploymentManifestDependencies.DependencyType)' == 'Prerequisite'" />
     </ItemGroup>
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
