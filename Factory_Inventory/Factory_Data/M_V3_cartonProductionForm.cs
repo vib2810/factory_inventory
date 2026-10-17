@@ -1,4 +1,4 @@
-﻿using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Factory_Classes;
 using Factory_Inventory.Properties;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 using System;
@@ -390,7 +390,7 @@ namespace Factory_Inventory
                 {
                     continue;
                 }
-                string correctformat = Convert.ToDateTime(carton_row["Date_Of_Production"].ToString()).Date.ToString().Substring(0, 10);
+                string correctformat = c.parseDate(carton_row["Date_Of_Production"]).ToString("dd-MM-yyyy");
                 dataGridView1.Rows[i].Cells[1].Value = correctformat;
                 dataGridView1.Rows[i].Cells[2].Value = produced_cartons[i];
                 dataGridView1.Rows[i].Cells[3].Value = carton_row["Grade"].ToString();
@@ -540,7 +540,7 @@ namespace Factory_Inventory
                     //c.SuccessBox("Changed dtp");
                     Console.WriteLine("SETTING is " + dtp.Value.Date.ToString().Substring(0, 10));
 
-                    dataGridView1.CurrentCell.Value = dtp.Value.Date.ToString().Substring(0, 10);
+                    dataGridView1.CurrentCell.Value = dtp.Value.Date.ToString("dd-MM-yyyy");
                 }
             }
             catch (Exception ex)
@@ -990,7 +990,7 @@ namespace Factory_Inventory
             string current_fiscal_year = c.getFinancialYear(DateTime.Now);
             if(current_fiscal_year==financialYearComboboxCB.Text)
             {
-                dataGridView1.Rows[0].Cells[1].Value = DateTime.Now.Date.ToString().Substring(0, 10);
+                dataGridView1.Rows[0].Cells[1].Value = DateTime.Now.Date.ToString("dd-MM-yyyy");
             }
             else
             {
@@ -1176,7 +1176,7 @@ namespace Factory_Inventory
                         setDate f = new setDate(d);
                         f.setMinMax(dtp.MinDate, dtp.MaxDate);
                         f.ShowDialog();
-                        dataGridView1.CurrentCell.Value = f.result.Date.ToString().Substring(0, 10);
+                        dataGridView1.CurrentCell.Value = f.result.Date.ToString("dd-MM-yyyy");
                         e.Handled = true;
                     }
                     else
@@ -1230,7 +1230,7 @@ namespace Factory_Inventory
                     }
                     setDate f = new setDate(d);
                     f.ShowDialog();
-                    dataGridView1.CurrentCell.Value = f.dateTimePicker1.Value.Date.ToString().Substring(0, 10);
+                    dataGridView1.CurrentCell.Value = f.dateTimePicker1.Value.Date.ToString("dd-MM-yyyy");
                 }
             }
             catch (Exception ex)

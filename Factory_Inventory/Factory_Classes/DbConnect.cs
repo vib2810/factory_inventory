@@ -1,4 +1,4 @@
-﻿using Factory_Inventory.Properties;
+using Factory_Inventory.Properties;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 using System;
 using System.Collections;
@@ -468,6 +468,57 @@ namespace Factory_Inventory.Factory_Classes
             ans.Add(int.Parse(years[0]));
             ans.Add(int.Parse(years[1]));
             return ans;
+        }
+        public DateTime parseDate(object dateObj)
+        {
+            if (dateObj == null || dateObj == DBNull.Value || string.IsNullOrWhiteSpace(dateObj.ToString()))
+            {
+                return DateTime.MinValue;
+            }
+            if (dateObj is DateTime)
+            {
+                return (DateTime)dateObj;
+            }
+            string s = dateObj.ToString().Trim();
+            DateTime dt;
+            if (DateTime.TryParse(s, CultureInfo.CurrentCulture, DateTimeStyles.None, out dt))
+            {
+                return dt;
+            }
+            if (DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            {
+                return dt;
+            }
+            string[] formats = new string[] {
+                "dd-MM-yyyy", "dd/MM/yyyy", "d-M-yyyy", "d/M/yyyy",
+                "MM-dd-yyyy", "MM/dd/yyyy", "M-d-yyyy", "M/d/yyyy",
+                "yyyy-MM-dd", "yyyy/MM/dd", "yyyy-M-d", "yyyy/M/d",
+                "dd-MMM-yy", "d-MMM-yy", "dd-MMM-yyyy", "d-MMM-yyyy",
+                "dd-MM-yyyy HH:mm:ss", "dd-MM-yyyy hh:mm:ss tt",
+                "dd/MM/yyyy HH:mm:ss", "dd/MM/yyyy hh:mm:ss tt",
+                "dd-MMM-yy hh:mm:ss tt", "d-MMM-yy hh:mm:ss tt",
+                "yyyy-MM-dd HH:mm:ss", "yyyy-MM-ddTHH:mm:ss"
+            };
+            if (DateTime.TryParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            {
+                return dt;
+            }
+            if (DateTime.TryParseExact(s, formats, CultureInfo.CurrentCulture, DateTimeStyles.None, out dt))
+            {
+                return dt;
+            }
+            if (s.Length >= 10 && DateTime.TryParseExact(s.Substring(0, 10).Replace('/', '-'), formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            {
+                return dt;
+            }
+            try
+            {
+                return Convert.ToDateTime(dateObj);
+            }
+            catch
+            {
+                return DateTime.MinValue;
+            }
         }
         public DataTable getDataIn_FinancialYear(string tablename, string financialyear, string quantitycolumn, string in_column, string quantities, string company_name = "")
         {
@@ -2131,24 +2182,16 @@ namespace Factory_Inventory.Factory_Classes
                     int trayid = int.Parse(dt.Rows[i]["Tray_ID"].ToString());
 
                     //Change date in correct format
-                    string productiondate = dt.Rows[i]["Tray_Production_Date"].ToString().Substring(0, 10);
-                    productiondate = productiondate.Replace('/', '-');
-                    Console.WriteLine(productiondate);
-                    DateTime d = DateTime.ParseExact(productiondate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    productiondate = d.ToString("MM-dd-yyyy");
+                    DateTime d = this.parseDate(dt.Rows[i]["Tray_Production_Date"]);
+                    string productiondate = d.ToString("MM-dd-yyyy");
 
                     //Change date in correct format
-                    string Dyeing_In_Date = dt.Rows[i]["Dyeing_In_Date"].ToString().Substring(0, 10);
-                    Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
-                    Console.WriteLine(Dyeing_In_Date);
-                    d = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    Dyeing_In_Date = d.ToString("MM-dd-yyyy");
+                    d = this.parseDate(dt.Rows[i]["Dyeing_In_Date"]);
+                    string Dyeing_In_Date = d.ToString("MM-dd-yyyy");
 
                     //Change date in correct format
-                    string Dyeing_Out_Date = dt.Rows[i]["Dyeing_Out_Date"].ToString().Substring(0, 10);
-                    Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
-                    d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
+                    d = this.parseDate(dt.Rows[i]["Dyeing_Out_Date"]);
+                    string Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
 
                     string trayno = dt.Rows[i]["Tray_No"].ToString();
                     string spring = dt.Rows[i]["Spring"].ToString();
@@ -2217,16 +2260,12 @@ namespace Factory_Inventory.Factory_Classes
                     int trayid = int.Parse(dt.Rows[i]["Tray_ID"].ToString());
 
                     //Change date in correct format
-                    string productiondate = dt.Rows[i]["Tray_Production_Date"].ToString().Substring(0, 10);
-                    productiondate = productiondate.Replace('/', '-');
-                    DateTime d = DateTime.ParseExact(productiondate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    productiondate = d.ToString("MM-dd-yyyy");
+                    DateTime d = this.parseDate(dt.Rows[i]["Tray_Production_Date"]);
+                    string productiondate = d.ToString("MM-dd-yyyy");
 
                     //Change date in correct format
-                    string Dyeing_Out_Date = dt.Rows[i]["Dyeing_Out_Date"].ToString().Substring(0, 10);
-                    Dyeing_Out_Date = Dyeing_Out_Date.Replace('/', '-');
-                    d = DateTime.ParseExact(Dyeing_Out_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
+                    d = this.parseDate(dt.Rows[i]["Dyeing_Out_Date"]);
+                    string Dyeing_Out_Date = d.ToString("MM-dd-yyyy");
 
                     string trayno = dt.Rows[i]["Tray_No"].ToString();
                     string spring = dt.Rows[i]["Spring"].ToString();
@@ -3823,14 +3862,12 @@ namespace Factory_Inventory.Factory_Classes
                 batches_fiscal_years += batch_info[1]+ ",";
                 Tuple<string, string> temp = new Tuple<string, string>(batch_info[0], batch_info[1]);
                 batches.Add(temp);
-                Dyeing_In_Date = batch_data[temp]["Dyeing_In_Date"].ToString().Substring(0, 10);
-                Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
-                Console.WriteLine(Dyeing_In_Date);
-                DateTime dyeing_inward_date = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime dyeing_inward_date = this.parseDate(batch_data[temp]["Dyeing_In_Date"]);
                 if (dyeing_inward_date < min_dyeing_inward)
                 {
                     min_dyeing_inward = dyeing_inward_date;
                     batch_index = index;
+                    Dyeing_In_Date = dyeing_inward_date.Date.ToString("dd-MM-yyyy");
                 }
             }
             
@@ -4092,13 +4129,12 @@ namespace Factory_Inventory.Factory_Classes
                 batches_to_add += thisbatch[0] + ",";
                 batches_fiscal_years += thisbatch[1] + ",";
                 batches.Add(temp);
-                Dyeing_In_Date = batch_data[temp]["Dyeing_In_Date"].ToString().Substring(0, 10);
-                Dyeing_In_Date = Dyeing_In_Date.Replace('/', '-');
-                DateTime dyeing_inward_date = DateTime.ParseExact(Dyeing_In_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime dyeing_inward_date = this.parseDate(batch_data[temp]["Dyeing_In_Date"]);
                 if (dyeing_inward_date > max_dyeing_inward)
                 {
                     max_dyeing_inward = dyeing_inward_date;
                     batch_index = i;
+                    Dyeing_In_Date = dyeing_inward_date.Date.ToString("dd-MM-yyyy");
                 }
             }
 

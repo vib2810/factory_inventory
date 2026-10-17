@@ -1,4 +1,4 @@
-﻿using Factory_Inventory.Factory_Classes;
+using Factory_Inventory.Factory_Classes;
 using Factory_Inventory.Properties;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 using System;
@@ -419,7 +419,7 @@ namespace Factory_Inventory
                 {
                     continue;
                 }
-                string correctformat = Convert.ToDateTime(carton_row["Date_Of_Production"].ToString()).Date.ToString().Substring(0, 10);
+                string correctformat = c.parseDate(carton_row["Date_Of_Production"]).ToString("dd-MM-yyyy");
                 dataGridView1.Rows[i].Cells[1].Value = correctformat;
                 dataGridView1.Rows[i].Cells[2].Value = carton_row["Carton_No"].ToString();
                 dataGridView1.Rows[i].Cells[3].Value = carton_row["Grade"].ToString();
