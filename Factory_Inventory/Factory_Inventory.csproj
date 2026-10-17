@@ -33,7 +33,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>15</ApplicationRevision>
+    <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>1.2.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1325,6 +1325,26 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Data.SqlClient.SNI.5.0.1\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('packages\Microsoft.Data.SqlClient.SNI.5.0.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
+  <!-- Without the .NET 4.7.2 targeting pack (e.g. building with the plain .NET 4.0 MSBuild), framework files
+       (mscorlib, *.nlp, ...) from the Windows .NET folder and the NuGet System.* facades that 4.7.2 already
+       provides get resolved as copy-local. Shipping them in the ClickOnce package makes the app fail to launch,
+       so treat them like a Visual Studio build does: not copy-local. -->
+  <Target Name="DontCopyFrameworkFiles" AfterTargets="ResolveAssemblyReferences">
+    <PropertyGroup>
+      <_WindowsDotNetDir>$([System.String]::Copy('$(WINDIR)\Microsoft.NET\').ToLower())</_WindowsDotNetDir>
+      <_InboxFacades>;System.IO;System.Net.Http;System.Runtime;System.Runtime.Extensions;System.Runtime.InteropServices.RuntimeInformation;System.Security.Cryptography.Algorithms;System.Security.Cryptography.Encoding;System.Security.Cryptography.Primitives;System.Security.Cryptography.X509Certificates;</_InboxFacades>
+    </PropertyGroup>
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="$([System.String]::Copy('%(FullPath)').ToLower().StartsWith('$(_WindowsDotNetDir)')) or $(_InboxFacades.Contains(';%(Filename);'))" />
+      <_ReferenceScatterPaths Remove="@(_ReferenceScatterPaths)" Condition="$([System.String]::Copy('%(FullPath)').ToLower().StartsWith('$(_WindowsDotNetDir)'))" />
+      <ReferencePath Condition="$([System.String]::Copy('%(FullPath)').ToLower().StartsWith('$(_WindowsDotNetDir)')) or $(_InboxFacades.Contains(';%(Filename);'))">
+        <CopyLocal>false</CopyLocal>
+      </ReferencePath>
+      <ReferenceDependencyPaths Condition="$([System.String]::Copy('%(FullPath)').ToLower().StartsWith('$(_WindowsDotNetDir)')) or $(_InboxFacades.Contains(';%(Filename);'))">
+        <CopyLocal>false</CopyLocal>
+      </ReferenceDependencyPaths>
+    </ItemGroup>
+  </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
